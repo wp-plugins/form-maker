@@ -65,3 +65,13 @@ After downloading the ZIP file
 5.   Once it is complete, activate the plugin.  
 
 Once the plugin is activated, you'll notice a menu on the left called "Form Maker".  Here you can manage forms and submissions.  
+
+== Screenshots ==
+1.  Sample RSVP  
+2.  Sample contact form  
+3.  Manage forms  
+4.  Creating a new form  
+5.  Text input field type  
+6.  Captcha field type  
+7.  Manage submissions
+8.  Select Columns  
