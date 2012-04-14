@@ -23,18 +23,18 @@ You can add Google map (*commercial version*) to your forms using a simple user-
 All modern browsers are supported.
 
 
-Features:  
+##Features:  
 -Ten main elements for creating new form  
---Custom HTML  
---Text Input  
---Time and Date  
---Select  
---Checkbox  
---Radio  
---File upload(*commercial version*)  
---Captcha  
---Map(*commercial version*)  
---Buttons  
+   * Custom HTML  
+   * Text Input  
+   * Time and Date  
+   * Select  
+   * Checkbox  
+   * Radio  
+   * File upload(*commercial version*)  
+   * Captcha  
+   * Map(*commercial version*)  
+   * Buttons  
 
 -Unlimited fields (*commercial version*), 5 fields (free version)  
 -Custom CSS and Java script in your form  
@@ -52,6 +52,57 @@ Features:
 -Hidden Fields in forms  
 -A form Submit Button Customization  
 
+##Languages 
+ If you need language which is not included in this list, please contact us and we will do the translation within 3 days. If you find some mistakes in the translation, please contact us and we will correct it within 3 days.
+ 
+###Supported languages
+Afrikaans (af)  
+Albanian (sq)  
+Arabic (ar)  
+Armenian (hy_AM)  
+Belarusian (be_BY)  
+Bulgarian (bg_BG)  
+Catalan (ca)  
+Chinese, Simplified (zh_CN)  
+Croatian (hr)  
+Czech (cs_CZ)  
+Danish (da_DK)  
+Dutch (nl_NL)  
+Esperanto (eo_EO)  
+Estonian (et)  
+Finnish (fi)  
+French (fr_FR)  
+Galician (gl_ES)  
+Georgian (ka_GE)  
+German (de_DE)  
+Greek (el)  
+Hebrew (he_IL)  
+Hindi (hi_IN)  
+Hungarian (hu_HU)  
+Indonesian (id_ID)  
+Italian (it_IT)  
+Japanese (ja)  
+Korean (ko_KR)  
+Latvian (lv)  
+Lithuanian (lt_LT)  
+Macedonian (mk_MK)  
+Malay (ms_MY)  
+Maltese (mt_MT)  
+Norwegian (nb_NO)  
+Persian (Farsi; fa_IR)  
+Polish (pl_PL)  
+Portuguese (pt_PT)  
+Russian (ru_RU)  
+Romanian (ro_RO)  
+Serbian (sr_RS)  
+Slovak (sk_SK)  
+Spanish (es_ES)  
+Swedish (sv_SE)  
+Tamil (ta)  
+Thai (th)  
+Turkish (tr_TR)  
+Ukrainian (uk_UA)  
+Vietnamese (vi)  
 
 == Installation ==
 
