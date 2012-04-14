@@ -23,7 +23,8 @@ You can add Google map (*commercial version*) to your forms using a simple user-
 All modern browsers are supported.
 
 
-##Features:  
+###Features:  
+
 -Ten main elements for creating new form  
    * Custom HTML  
    * Text Input  
@@ -52,7 +53,7 @@ All modern browsers are supported.
 -Hidden Fields in forms  
 -A form Submit Button Customization  
 
-##Languages 
+####Languages 
  If you need language which is not included in this list, please contact us and we will do the translation within 3 days. If you find some mistakes in the translation, please contact us and we will correct it within 3 days.
  
 ###Supported languages
@@ -89,7 +90,7 @@ Macedonian (mk_MK)
 Malay (ms_MY)  
 Maltese (mt_MT)  
 Norwegian (nb_NO)  
-Persian (Farsi; fa_IR)  
+Persian (fa_IR)  
 Polish (pl_PL)  
 Portuguese (pt_PT)  
 Russian (ru_RU)  
