@@ -53,11 +53,12 @@ All modern browsers are supported.
 -Hidden Fields in forms  
 -A form Submit Button Customization  
 
-####Languages 
- If you need language which is not included in this list, please contact us and we will do the translation within 3 days. If you find some mistakes in the translation, please contact us and we will correct it within 3 days.
  
-###Supported languages
-Afrikaans (af)  
+### Supported languages
+
+ *If you need language which is not included in this list, please contact us and we will do the translation within 3 days. If you find some mistakes in the translation, please contact us and we will correct it within 3 days.*
+
+ Afrikaans (af)  
 Albanian (sq)  
 Arabic (ar)  
 Armenian (hy_AM)  
