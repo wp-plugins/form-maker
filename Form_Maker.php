@@ -2,7 +2,7 @@
 /*
 Plugin Name: Form Maker Lite
 Plugin URI: http://web-dorado.com/
-Version: 1.0
+Version: 1.1
 Author: http://web-dorado.com/
 License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
 */
