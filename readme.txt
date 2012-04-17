@@ -20,7 +20,7 @@ The [Form Maker](http://web-dorado.com/products/form-maker-wordpress.html) is on
 [Form Maker](http://web-dorado.com/products/form-maker-wordpress.html) handles small forms to complex form applications. That is why [Form Maker](http://web-dorado.com/products/form-maker-wordpress.html) is ideally suited for beginners and also meets the needs of designers and experts. [Form Maker](http://web-dorado.com/products/form-maker-wordpress.html) can be used for creating contact, mailing list, survey, application, event registration and party invitation forms.   
 You can add Google map (*commercial version*) to your forms using a simple user-friendly interface of the [Form Maker](http://web-dorado.com/products/form-maker-wordpress.html). Also the desired address can be added in a few seconds using the address searching interface, or by filling in geographical coordinates (longitude and latitude). You can also drag the marker on the map using only the mouse.  
 
-###IMPORTANT: If you think you found a bug in Form Maker or have any problem or question concerning Form Maker, do not hesitate to contact us at [info@web-dorado.com][mailto:info@web-dorado.com].
+###IMPORTANT: If you think you found a bug in Form Maker or have any problem or question concerning Form Maker, do not hesitate to contact us at [info@web-dorado.com](mailto:info@web-dorado.com).
 
 
 ###Features:  
