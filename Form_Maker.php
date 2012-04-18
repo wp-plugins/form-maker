@@ -2,7 +2,7 @@
 /*
 Plugin Name: Form Maker Lite
 Plugin URI: http://web-dorado.com/
-Version: 1.1
+Version: 1.2
 Author: http://web-dorado.com/
 License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -32,7 +32,7 @@ function form_shotrcode($atts) {
      ), $atts));
      return front_end_Form_Maker($id);
 }
-add_shortcode('', 'form_shotrcode');
+add_shortcode('Form', 'form_shotrcode');
 
 
 function my_scripts_method() {
