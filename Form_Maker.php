@@ -2,17 +2,10 @@
 /*
 Plugin Name: Form Maker
 Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
-Version: 1.2
+Version: 1.2.1
 Author: http://web-dorado.com/
 License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
 */
-
-
-
-
-
-
-
 
 //// load languages
 add_action( 'init', 'form_maker_language_load' );
@@ -89,7 +82,6 @@ add_filter('the_content', 'print_massage');
 function front_end_Form_Maker($id)  
 {
 				global $wpdb;
-
 				@session_start();
 				$_SESSION['wd_captcha_code'];	
 				$FC_frontend="";
@@ -101,11 +93,8 @@ function front_end_Form_Maker($id)
 					$b=true;
 				}
 				if(!$b)
-				return "";
-				
-				$ok		= savedata($id,&$FC_frontend);
-
-				
+				return "";				
+				$ok		= savedata($id,&$FC_frontend);				
 				if(is_numeric($ok))	
 				{	
 						remove($ok);
@@ -122,11 +111,12 @@ function front_end_Form_Maker($id)
 				if(!$if_id_exisst)
 				{
 					return;
-				}
-				
+				}				
 				$row=$wpdb->get_row("SELECT * FROM  ".$wpdb->prefix."formmaker WHERE id='".$id."'",0);
-					$FC_frontend.='<script type="text/javascript">'.$row->javascript.'</script>';
-					$FC_frontend.='<style>'.$row->css.'</style>';
+					$FC_frontend.='<script type="text/javascript">'.str_replace ("
+"," ",$row->javascript).'</script>';
+					$FC_frontend.='<style>'.str_replace ("
+"," ",$row->css ).'</style>';
 					$FC_frontend.="<form name=\"form\" action=\"".$_SERVER['REQUEST_URI']."\" method=\"post\" id=\"form\" enctype=\"multipart/form-data\">
 									<input type=\"hidden\" id=\"counter\" value=\"".$row->counter."\" name=\"counter\" />
 									<input type=\"hidden\" id=\"Itemid\" value=\"".$Itemid."\" name=\"Itemid\" />";
@@ -192,24 +182,20 @@ function front_end_Form_Maker($id)
 							{
 								if(document.getElementById(\"wd_captcha_input\"))
 									captcha_refresh('wd_captcha');
-							}
-							
+							}							
 							function formAddToOnload()
 							{ 
 								if(formOldFunctionOnLoad){ formOldFunctionOnLoad(); }
 								formOnload();
-							}
-							
+							}							
 							function formLoadBody()
 							{
 								formOldFunctionOnLoad = window.onload;
 								window.onload = formAddToOnload;
-							}
-							
+							}							
 							var formOldFunctionOnLoad = null;
 							formLoadBody();
-							";
-							
+							";							
 				if(isset($_POST["captcha_input"]))
 				{						
 					$captcha_input=$_POST["captcha_input"];
@@ -218,8 +204,6 @@ function front_end_Form_Maker($id)
 				{						
 					$counter=$_POST["counter"];
 				}
-				
-				
 				if(isset($counter))
 				if (isset($captcha_input) or is_numeric($ok))
 				{
@@ -257,13 +241,12 @@ function front_end_Form_Maker($id)
 					document.getElementById('".$i."_element"."').style.fontStyle='normal';
 				}
 				";
-											break;
+									break;
 										}
 						case "type_password":{
 											 $FC_frontend.= 
 				"document.getElementById('".$i."_element"."').value='';
-				";
-											break;
+				";						break;
 										}
 						case "type_name":{
 											if(isset($_POST[$i."_element_title"]))
@@ -280,8 +263,7 @@ function front_end_Form_Maker($id)
 											 $FC_frontend.= 
 				"document.getElementById('".$i."_element_first"."').value='".addslashes($_POST[$i."_element_first"])."';
 				document.getElementById('".$i."_element_last"."').value='".addslashes($_POST[$i."_element_last"])."';
-				";
-											}
+				";						}
 											break;
 										}
 						case "type_checkbox":{
@@ -289,16 +271,13 @@ function front_end_Form_Maker($id)
 				"for(k=0; k<20; k++)
 					if(document.getElementById('".$i."_element'+k))
 						document.getElementById('".$i."_element'+k).removeAttribute('checked');
-					else break;
-				";
-											for($j=0; $j<100; $j++)
+					else break;	";			for($j=0; $j<100; $j++)
 											{
 												if(isset($_POST[$i."_element".$j]))
 															{
 															 $FC_frontend.=
 				"document.getElementById('".$i."_element".$j."').setAttribute('checked', 'checked');
-				";
-															}
+				";									}
 											}
 											break;
 											}
@@ -312,8 +291,7 @@ function front_end_Form_Maker($id)
 							document.getElementById('".$i."_element'+k).setAttribute('checked', 'checked');
 					}
 					else break;
-				";
-									break;
+				";						break;
 										}
 						case "type_time":{
 											if(isset($_POST[$i."_ss"]))
@@ -322,8 +300,7 @@ function front_end_Form_Maker($id)
 				"document.getElementById('".$i."_hh"."').value='".$_POST[$i."_hh"]."';
 				document.getElementById('".$i."_mm"."').value='".$_POST[$i."_mm"]."';
 				document.getElementById('".$i."_ss"."').value='".$_POST[$i."_ss"]."';
-				";
-											}
+				";					}
 											else
 											{
 												 $FC_frontend.= 
@@ -334,45 +311,32 @@ function front_end_Form_Maker($id)
 											if(isset($_POST[$i."_am_pm"]))
 												 $FC_frontend.= 
 				"document.getElementById('".$i."_am_pm').value='".$_POST[$i."_am_pm"]."';
-				";
-											break;
-										}
-										
-						case "type_date":{
-												 $FC_frontend.= 
-				"document.getElementById('".$i."_element"."').value='".$_POST[$i."_element"]."';
-				";
-										break;
-										}
-										
+				";						break;
+										}										
+						case "type_date":{	 $FC_frontend.="document.getElementById('".$i."_element"."').value='".$_POST[$i."_element"]."';
+				";						break;
+										}										
 						case "type_date_fields":{
 							$date_fields=explode('-',$_POST[$i."_element"]);
 												 $FC_frontend.= 
 				"document.getElementById('".$i."_day"."').value='".$date_fields[0]."';
 				document.getElementById('".$i."_month"."').value='".$date_fields[1]."';
 				document.getElementById('".$i."_year"."').value='".$date_fields[2]."';
-				";
-										break;
-										}
-										
+				";						break;
+										}										
 					case "type_country":{
-												 $FC_frontend.=
-				"document.getElementById('".$i."_element').value='".addslashes($_POST[$i."_element"])."';
-				";
-										break;
-										}
-									
+											$FC_frontend.="document.getElementById('".$i."_element').value='".addslashes($_POST[$i."_element"])."';
+				";						break;
+										}									
 						case "type_own_select":{
 												 $FC_frontend.=
 				"document.getElementById('".$i."_element').value='".addslashes($_POST[$i."_element"])."';
 				";
-										break;
-										}
-										
+								break;
+										}										
 						case "type_file":{
 										break;
-									}
-				
+									}				
 						}
 					}
 				}
@@ -386,11 +350,9 @@ function front_end_Form_Maker($id)
 		{	
 			for(z=0; z<document.getElementById(i).childNodes.length; z++)
 				if(document.getElementById(i).childNodes[z].nodeType==3)
-					document.getElementById(i).removeChild(document.getElementById(i).childNodes[z]);
-		
+					document.getElementById(i).removeChild(document.getElementById(i).childNodes[z]);		
 			if(document.getElementById(i).childNodes[7])
-			{
-			
+			{			
 				document.getElementById(i).removeChild(document.getElementById(i).childNodes[2]);
 				document.getElementById(i).removeChild(document.getElementById(i).childNodes[2]);
 				document.getElementById(i).removeChild(document.getElementById(i).childNodes[2]);
@@ -408,16 +370,14 @@ function front_end_Form_Maker($id)
 				document.getElementById(i).removeChild(document.getElementById(i).childNodes[1]);
 			}
 		}
-	}
-	
+	}	
 	for(i=0; i<=n; i++)
 	{	
 		if(document.getElementById(i))
 		{
 			type=document.getElementById(i).getAttribute(\"type\");
 				switch(type)
-				{
-					case \"type_text\":
+				{	case \"type_text\":
 					case \"type_password\":
 					case \"type_submitter_mail\":
 					case \"type_own_select\":
@@ -427,28 +387,22 @@ function front_end_Form_Maker($id)
 					{
 						remove_add_(i+\"_element\");
 						break;
-					}
-					
+					}					
 					case \"type_submit_reset\":
 					{
 						remove_add_(i+\"_element_submit\");
 						if(document.getElementById(i+\"_element_reset\"))
 							remove_add_(i+\"_element_reset\");
 						break;
-					}
-					
+					}					
 					case \"type_captcha\":
-					{
-						remove_add_(\"wd_captcha\");
+					{	remove_add_(\"wd_captcha\");
 						remove_add_(\"element_refresh\");
 						remove_add_(\"wd_captcha_input\");
 						break;
-					}
-						
+					}						
 					case \"type_file_upload\":
-						{
-							remove_add_(i+\"_element\");
-							
+						{	remove_add_(i+\"_element\");
 							if(document.getElementById(i+\"_element\").value==\"\")
 							{	
 								seted=false;
@@ -456,23 +410,17 @@ function front_end_Form_Maker($id)
 							}
 							ext_available=getfileextension(i);
 							if(!ext_available)
-								seted=false;
-										
+								seted=false;										
 								break;
-						}
-						
+						}						
 					case \"type_textarea\":
 						{
-						remove_add_(i+\"_element\");
-
-							if(document.getElementById(i+\"_element\").innerHTML==document.getElementById(i+\"_element\").title || document.getElementById(i+\"_element\").innerHTML==\"\")
+						remove_add_(i+\"_element\");							if(document.getElementById(i+\"_element\").innerHTML==document.getElementById(i+\"_element\").title || document.getElementById(i+\"_element\").innerHTML==\"\")
 								seted=false;
 								break;
-						}
-						
+						}						
 					case \"type_name\":
-						{
-						
+						{						
 						if(document.getElementById(i+\"_element_title\"))
 							{
 							remove_add_(i+\"_element_title\");
@@ -486,18 +434,14 @@ function front_end_Form_Maker($id)
 							{
 							remove_add_(i+\"_element_first\");
 							remove_add_(i+\"_element_last\");
-
 								if(document.getElementById(i+\"_element_first\").value==\"\" || document.getElementById(i+\"_element_last\").value==\"\")
 									seted=false;
 							}
 							break;
-
-						}
-						
+						}						
 					case \"type_checkbox\":
 					case \"type_radio\":
-						{
-							is=true;
+						{	is=true;
 							for(j=0; j<100; j++)
 								if(document.getElementById(i+\"_element\"+j))
 								{
@@ -511,8 +455,7 @@ function front_end_Form_Maker($id)
 							if(is)
 							seted=false;
 							break;
-						}
-						
+						}						
 					case \"type_button\":
 						{
 							for(j=0; j<100; j++)
@@ -521,8 +464,7 @@ function front_end_Form_Maker($id)
 									remove_add_(i+\"_element\"+j);
 								}
 							break;
-						}
-						
+						}						
 					case \"type_time\":
 						{	
 						if(document.getElementById(i+\"_ss\"))
@@ -537,19 +479,15 @@ function front_end_Form_Maker($id)
 							{
 							remove_add_(i+\"_mm\");
 							remove_add_(i+\"_hh\");
-
 								if(document.getElementById(i+\"_mm\").value==\"\" || document.getElementById(i+\"_hh\").value==\"\")
 									seted=false;
 							}
 							break;
-
-						}
-						
+						}						
 					case \"type_date\":
 						{	
 						remove_add_(i+\"_element\");
-						remove_add_(i+\"_button\");
-						
+						remove_add_(i+\"_button\");						
 							if(document.getElementById(i+\"_element\").value==\"\")
 								seted=false;
 							break;
@@ -563,28 +501,20 @@ function front_end_Form_Maker($id)
 							seted=false;
 								break;
 					}
-				}	
-					
+				}						
 		}
-	}
-	
-	
+	}	
 function check_year2(id)
 {
-	year=document.getElementById(id).value;
-	
-	from=parseFloat(document.getElementById(id).getAttribute('from'));
-	
-	year=parseFloat(year);
-	
+	year=document.getElementById(id).value;	
+	from=parseFloat(document.getElementById(id).getAttribute('from'));	
+	year=parseFloat(year);	
 	if(year<from)
 	{
 		document.getElementById(id).value='';
 		alert('".addslashes(__('The value of year is not valid','form_maker'))."');
 	}
 }	
-	
-	
 function remove_add_(id)
 {
 attr_name= new Array();
@@ -606,9 +536,7 @@ for(v=0;v<attr_name.length; v++)
 {
 	input.setAttribute(attr_name[v],attr_value[v])
 }
-
-}
-	
+}	
 function getfileextension(id) 
 { 
  var fileinput = document.getElementById(id+\"_element\"); 
@@ -618,8 +546,7 @@ function getfileextension(id)
  var dot = filename.lastIndexOf(\".\"); 
  var extension = filename.substr(dot+1,filename.length); 
  var exten = document.getElementById(id+\"_extension\").value.replace(\"***extensionverj\"+id+\"***\", \"\").replace(\"***extensionskizb\"+id+\"***\", \"\");
- exten=exten.split(',');
- 
+ exten=exten.split(','); 
  for(x=0 ; x<exten.length; x++)
  {
   exten[x]=exten[x].replace(/\./g,'');
@@ -629,23 +556,20 @@ function getfileextension(id)
  }
  return false; 
 } 
-
 function check_required(but_type)
 {
 	if(but_type=='reset')
 	{
 	window.location.reload( true );
 	return;
-	}
-	
+	}	
 	n=".$row->counter.";
 	ext_available=true;
 	seted=true;
 	for(i=0; i<=n; i++)
 	{	
 		if(seted)
-		{
-		
+		{		
 			if(document.getElementById(i))
 			    if(document.getElementById(i+\"_required\"))
 				if(document.getElementById(i+\"_required\").value==\"yes\")
@@ -662,8 +586,7 @@ function check_required(but_type)
 								if(document.getElementById(i+\"_element\").value==document.getElementById(i+\"_element\").title || document.getElementById(i+\"_element\").value==\"\")
 									seted=false;
 									break;
-							}
-							
+							}							
 						case \"type_file_upload\":
 							{
 								if(document.getElementById(i+\"_element\").value==\"\")
@@ -673,18 +596,15 @@ function check_required(but_type)
 								}
 								ext_available=getfileextension(i);
 								if(!ext_available)
-									seted=false;
-											
+									seted=false;											
 									break;
-							}
-							
+							}							
 						case \"type_textarea\":
 							{
 								if(document.getElementById(i+\"_element\").innerHTML==document.getElementById(i+\"_element\").title || document.getElementById(i+\"_element\").innerHTML==\"\")
 									seted=false;
 									break;
-							}
-							
+							}							
 						case \"type_name\":
 							{	
 							if(document.getElementById(i+\"_element_title\"))
@@ -697,10 +617,8 @@ function check_required(but_type)
 									if(document.getElementById(i+\"_element_first\").value==\"\" || document.getElementById(i+\"_element_last\").value==\"\")
 										seted=false;
 								}
-								break;
-	
-							}
-							
+								break;	
+							}							
 						case \"type_checkbox\":
 						case \"type_radio\":
 							{
@@ -715,8 +633,7 @@ function check_required(but_type)
 								if(is)
 								seted=false;
 								break;
-							}
-							
+							}					
 						case \"type_time\":
 							{	
 							if(document.getElementById(i+\"_ss\"))
@@ -729,10 +646,8 @@ function check_required(but_type)
 									if(document.getElementById(i+\"_mm\").value==\"\" || document.getElementById(i+\"_hh\").value==\"\")
 										seted=false;
 								}
-								break;
-	
-							}
-							
+								break;	
+							}							
 						case \"type_date\":
 							{	
 								if(document.getElementById(i+\"_element\").value==\"\")
@@ -745,8 +660,7 @@ function check_required(but_type)
 									seted=false;
 								break;
 							}
-					}	
-					
+							}						
 				}
 				else
 				{	
@@ -754,79 +668,73 @@ function check_required(but_type)
 					if(type==\"type_file_upload\")
 						ext_available=getfileextension(i);
 							if(!ext_available)
-							seted=false;
-											
+							seted=false;											
 				}
 		}
 		else
-		{
-		
+		{		
 			if(!ext_available)
 				{alert('".addslashes(__('Sorry, you are not allowed to upload this type of file','form_maker'))."');
-				break;}
-			
+				break;}			
 			x=document.getElementById(i-1+'_element_label');
 			while(x.firstChild)
 			{
 				x=x.firstChild;
 			}
 			alert(x.nodeValue+' ".addslashes(__('field is required','form_maker'))."');
-			
 			break;
-		}
-		
+		}		
 	}
 	if(seted)
 	for(i=0; i<=n; i++)
 	{	
 		if(document.getElementById(i))
 			if(document.getElementById(i).getAttribute(\"type\")==\"type_submitter_mail\")
-				if (document.getElementById(i+\"_element\").value!='' && document.getElementById(i+\"_element\").value.search(/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/) == -1)
-				{
-							alert( \"".addslashes(__('This is not a valid email address','form_maker'))."\" );	
+				if (document.getElementById(i+\"_element\").value!='')	if(document.getElementById(i+\"_element\").value.search(/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/) == -1)
+				{		alert( \"".addslashes(__('This is not a valid email address','form_maker'))."\" );	
 							return;
-				}		
-
+				}	
 	}
-
 	if(seted)
 		create_headers();
-	
 }	
-	
 function create_headers()
-{
-	form_=document.getElementById('form');
+{	form_=document.getElementById('form');
 	n=".$row->counter.";
 	for(i=0; i<n; i++)
-	{
-		if(document.getElementById(i))
-		{
-		if(document.getElementById(i).getAttribute(\"type\")!=\"type_map\" && document.getElementById(i).getAttribute(\"type\")!=\"type_captcha\" && document.getElementById(i).getAttribute(\"type\")!=\"type_submit_reset\" && document.getElementById(i).getAttribute(\"type\")!=\"type_button\")
+	{	if(document.getElementById(i))
+		{if(document.getElementById(i).getAttribute(\"type\")!=\"type_map\")
+		if(document.getElementById(i).getAttribute(\"type\")!=\"type_captcha\")
+		if(document.getElementById(i).getAttribute(\"type\")!=\"type_submit_reset\")
+		if(document.getElementById(i).getAttribute(\"type\")!=\"type_button\")
 			if(document.getElementById(i+'_element_label'))
-			{
-				var input = document.createElement('input');
+			{	var input = document.createElement('input');
 				input.setAttribute(\"type\", 'hidden');
 				input.setAttribute(\"name\", i+'_element_label');
 				input.value=i;
 				form_.appendChild(input);
 				if(document.getElementById(i).getAttribute(\"type\")==\"type_date_fields\")
-				{	
-					var input = document.createElement('input');
+				{		var input = document.createElement('input');
 						input.setAttribute(\"type\", 'hidden');
-						input.setAttribute(\"name\", i+'_element');
-						input.value=document.getElementById(i+'_day').value+'-'+document.getElementById(i+'_month').value+'-'+document.getElementById(i+'_year').value;
+						input.setAttribute(\"name\", i+'_element');					input.value=document.getElementById(i+'_day').value+'-'+document.getElementById(i+'_month').value+'-'+document.getElementById(i+'_year').value;
 					form_.appendChild(input);
 				}
 			}
 		}
 	}
 form_.submit();
-}
-	
+}	
 </script>
 </form>";
+
+/*for($i=0;$i<5;$i++)
+$FC_frontend=str_replace ("
+
+" , "
+", $FC_frontend);*/
+
 return  $FC_frontend;
+
 }
 
 
@@ -983,6 +891,11 @@ case 'Edit_CSS':
 		$max_id=$wpdb->get_col($max_id);
 		$id=$max_id[0];
 		}
+		else
+		{
+			apply($id);
+		}
+
 		edit_css($id);
 		
 		break;
@@ -994,6 +907,11 @@ case 'Edit_JavaScript':
 		$max_id=$wpdb->get_col($max_id);
 		$id=$max_id[0];
 		}
+		else
+		{
+			apply($id);
+		}
+
 		Edit_JavaScript($id);
 		
 		break;
@@ -1005,6 +923,11 @@ case 'Custom_text_in_email':
 		$max_id=$wpdb->get_col($max_id);
 		$id=$max_id[0];
 		}
+		else
+		{
+			apply($id);
+		}
+
 		text_in_email($id);
 		
 		break;

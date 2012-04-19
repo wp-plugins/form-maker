@@ -3063,7 +3063,7 @@ function save_javascript($id)
 		}
 
 		$wpdb->update($wpdb->prefix."formmaker", array(
-             'javascript'=>$_POST["javascript"],
+             'javascript'=>stripslashes ($_POST["javascript"]),
               ), 
               array('id'=>$id),
 			  array('%s')
