@@ -2,7 +2,7 @@
 /*
 Plugin Name: Form Maker
 Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
-Version: 1.2.1
+Version: 1.2.2
 Author: http://web-dorado.com/
 License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -33,7 +33,7 @@ function my_scripts_method() {
 				wp_enqueue_script("Gmap","http://maps.google.com/maps/api/js?sensor=false",false);
 				wp_enqueue_script("Calendar",plugins_url("js/calendar.js",__FILE__),false);
  			    wp_enqueue_script("calendar-setup",plugins_url("js/calendar-setup.js",__FILE__),false);
-				wp_enqueue_script("gago",plugins_url("js/calendar_function.js",__FILE__),false);
+				wp_enqueue_script("calendar_function",plugins_url("js/calendar_function.js",__FILE__),false);
 				wp_enqueue_style("Css",plugins_url("js/calendar-jos.css",__FILE__),false); 
 				wp_enqueue_style("gmap_styles_",plugins_url("style.css",__FILE__),false);         
 }    
@@ -182,6 +182,7 @@ function front_end_Form_Maker($id)
 							{
 								if(document.getElementById(\"wd_captcha_input\"))
 									captcha_refresh('wd_captcha');
+									
 							}							
 							function formAddToOnload()
 							{ 

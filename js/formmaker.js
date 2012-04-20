@@ -3485,7 +3485,7 @@ function type_textarea(i, w_field_label, w_field_label_pos, w_size_w, w_size_h, 
       	var label = document.createElement('span');
 		label.setAttribute("id", i+"_element_label");
 		label.innerHTML = w_field_label;
-		label.style.cssText = 'border:none; vertical-align:top';
+		label.setAttribute("class", "label");	
 	    
       	var required = document.createElement('span');
 			required.setAttribute("id", i+"_required_element");
