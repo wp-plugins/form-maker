@@ -490,12 +490,17 @@ function submitbutton(pressbutton)
 		for (y=0; y < tbody.childNodes.length; y++)
 		{
 			tr=tbody.childNodes[y];
-			tox=tox+tr.id+'#**id**#'+document.getElementById( tr.id+'_element_label').innerHTML+'#**label**#'+tr.getAttribute('type')+'#****#';
+			l_label=str_replace("\n", "", document.getElementById( tr.id+'_element_label').innerHTML);
+			tox=tox+tr.id+'#**id**#'+l_label+'#**label**#'+tr.getAttribute('type')+'#****#';
 		}
 	}
 	document.getElementById('label_order').value=tox;
 	submit_in( pressbutton );
 }
+function str_replace(haystack, needle, replacement) { 
+	var temp = haystack.split(needle); 
+	return temp.join(replacement); 
+} 
 
 </script>
 
@@ -2051,7 +2056,8 @@ function submitbutton(pressbutton)
 			l_id_removed[x]=true;
 		}
 
-	l_label_array=[<?php echo $labels['label']?>];
+	l_label_array=[<?php echo str_replace("
+","",$labels['label'])?>];
 	l_type_array=[<?php echo $labels['type']?>];
 	for (x=0; x < GLOBAL_tr.childNodes.length; x++)
 	{
@@ -2062,8 +2068,7 @@ function submitbutton(pressbutton)
 			is_in_old=false;
 			tr=tbody.childNodes[y];
 			l_id=tr.id;
-
-			l_label=document.getElementById( tr.id+'_element_label').innerHTML;
+			l_label=str_replace("\n", "", document.getElementById( tr.id+'_element_label').innerHTML);
 			l_type=tr.getAttribute('type');
 			for(z=0; z< l_id_array.length; z++)
 			{
@@ -2081,6 +2086,10 @@ function submitbutton(pressbutton)
 	document.getElementById('label_order').value=tox;
 		submit_in( pressbutton );
 }
+function str_replace(haystack, needle, replacement) { 
+	var temp = haystack.split(needle); 
+	return temp.join(replacement); 
+} 
 
 </script>
 
