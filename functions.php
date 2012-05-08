@@ -490,7 +490,8 @@ function submitbutton(pressbutton)
 		for (y=0; y < tbody.childNodes.length; y++)
 		{
 			tr=tbody.childNodes[y];
-			l_label=str_replace("\n", "", document.getElementById( tr.id+'_element_label').innerHTML);
+			l_label = document.getElementById( tr.id+'_element_label').innerHTML;
+			l_label = l_label.replace(/(\r\n|\n|\r)/gm," ");
 			tox=tox+tr.id+'#**id**#'+l_label+'#**label**#'+tr.getAttribute('type')+'#****#';
 		}
 	}
@@ -2068,7 +2069,9 @@ function submitbutton(pressbutton)
 			is_in_old=false;
 			tr=tbody.childNodes[y];
 			l_id=tr.id;
-			l_label=str_replace("\n", "", document.getElementById( tr.id+'_element_label').innerHTML);
+			
+			l_label = document.getElementById( tr.id+'_element_label').innerHTML;
+			l_label = l_label.replace(/(\r\n|\n|\r)/gm," ");
 			l_type=tr.getAttribute('type');
 			for(z=0; z< l_id_array.length; z++)
 			{
@@ -3490,6 +3493,7 @@ function update_custom_text($id)
 					{
 						$cc=array();
 						$label_order_original= array();
+						$label_order_ids= array();
 						
 						$label_all	= explode('#****#',$row->label_order);
 						$label_all 	= array_slice($label_all,0, count($label_all)-1);   
@@ -3497,15 +3501,16 @@ function update_custom_text($id)
 						{
 							$label_id_each=explode('#**id**#',$label_each);
 							$label_id=$label_id_each[0];
+							array_push($label_order_ids,$label_id);
 							
-							$label_oder_each=explode('#**label**#', $label_id_each[1]);
-							
+							$label_oder_each=explode('#**label**#', $label_id_each[1]);							
 							$label_order_original[$label_id]=$label_oder_each[0];
 						}
 					
 						$list='<table border="0" cellpadding="3" cellspacing="0" style="width:600px; border-top:1px solid #888888; border-left:1px solid #888888;">';
-						for($i=0; $i<$counter; $i++)
+						foreach($label_order_ids as $key => $label_order_id)
 						{
+							$i=$label_order_id;
 							if(isset($_POST[$i."_element_label"]))
 							{
 							$element_label=$_POST[$i."_element_label"];

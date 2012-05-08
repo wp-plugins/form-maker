@@ -2,7 +2,7 @@
 /*
 Plugin Name: Form Maker
 Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
-Version: 1.2.2
+Version: 1.2.3
 Author: http://web-dorado.com/
 License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -1723,10 +1723,10 @@ Select Columns
  <?php
 
   $row_fields=$wpdb->get_col("SELECT element_label FROM  ".$wpdb->prefix."formmaker_submits  ".$sql_text." group by element_label");
- 		foreach($row_fields as $row_field )
+ 		foreach($labels_id as $label_id )
 		{
 		?>
-        <th scope="col"  class="<?php  if($_POST['asc_or_desc_by']==$row_field){echo $custom_style." ".$row_field."_fc";}else {echo $defult_class." ".$row_field."_fc"; } ?>" style="" ><a href="javascript:ordering('<?php echo $row_field ?>',<?php if($_POST['asc_or_desc_by']==$row_field){echo $custom_orderr;} else {echo $defult_orderr; } ?>)"><span><?php echo $labelll[$row_field]; ?></span><span class="sorting-indicator"></span></a></th>
+        <th scope="col"  class="<?php  if($_POST['asc_or_desc_by']==$label_id){echo $custom_style." ".$label_id."_fc";}else {echo $defult_class." ".$label_id."_fc"; } ?>" style="" ><a href="javascript:ordering('<?php echo $label_id ?>',<?php if($_POST['asc_or_desc_by']==$label_id){echo $custom_orderr;} else {echo $defult_orderr; } ?>)"><span><?php echo $labelll[$label_id]; ?></span><span class="sorting-indicator"></span></a></th>
  
  
  <?php }?>
@@ -1750,11 +1750,11 @@ Select Columns
  <td class="submitterip_fc"><?php echo  $row1->ip;  ?></td>
  
  <?php
-  foreach($row_fields as $row_field )
+  foreach($labels_id as $label_id )
   { 
- $element_value=$wpdb->get_var("SELECT element_value FROM  ".$wpdb->prefix."formmaker_submits WHERE element_label='".$row_field."' AND group_id='".$id_Form_grup_id."'");	
+ $element_value=$wpdb->get_var("SELECT element_value FROM  ".$wpdb->prefix."formmaker_submits WHERE element_label='".$label_id."' AND group_id='".$id_Form_grup_id."'");	
   ?>
-     <td class="<?php echo $row_field."_fc" ?>"><?php
+     <td class="<?php echo $label_id."_fc" ?>"><?php
 	 if(strpos($element_value,"*@@url@@*"))
 					{
 						$new_file=str_replace("*@@url@@*",'', $element_value);
