@@ -1185,7 +1185,6 @@ word-spacing: 0px;
     <input type="hidden" name="task" value="" />
     </form>
     <link type="text/css" rel="stylesheet" href="<?php echo plugins_url("js/calendar-jos.css",__FILE__) ?>" />
-	  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 	  <script type="text/javascript" src="<?php echo plugins_url("js/formmaker.js",__FILE__) ?>"></script>
 	  <script type="text/javascript" src="<?php echo plugins_url("js/calendar_function.js",__FILE__) ?>"></script>
 	  <script type="text/javascript" src="<?php echo plugins_url("js/calendar.js",__FILE__) ?>"></script>
@@ -1999,6 +1998,17 @@ function edit($id)
 }
 function submit_in(pressbutton)
 {
+	if(!document.getElementById('load_or_no'))
+	{
+		alert('Please wait while page loading');
+		return;
+	}
+	else
+		if(document.getElementById('load_or_no').value=='0')
+		{
+			alert('Please wait while page loading');
+			return;
+		}
 	document.getElementById('all_Form_Maker').action="admin.php?page=Form_maker&task="+pressbutton+'&id=<?php echo $row->id; ?>';
 	document.getElementById('all_Form_Maker').submit();
 }
@@ -2386,6 +2396,7 @@ wp_reset_query();
 
     <input type="hidden" id="label_order" name="label_order" value="<?php echo $row->label_order;?>" />
     <input type="hidden" name="counter" id="counter" value="<?php echo $row->counter;?>">
+    <input type="hidden"  value="0" id="load_or_no" />
     </form>
    <script type="text/javascript">
 
@@ -2405,7 +2416,8 @@ for(t=0; t<<?php echo $row->counter;?>; t++)
 						});
 
 	}
-
+	
+document.getElementById("load_or_no").value=1;
 document.getElementById('form').value=document.getElementById('take').innerHTML;
 
 }
@@ -2429,7 +2441,6 @@ formLoadBody();
 
 </script>
  <link type="text/css" rel="stylesheet" href="<?php echo plugins_url("js/calendar-jos.css",__FILE__) ?>" />
-	  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 	  <script type="text/javascript" src="<?php echo plugins_url("js/formmaker.js",__FILE__) ?>"></script>
 	  <script type="text/javascript" src="<?php echo plugins_url("js/calendar_function.js",__FILE__) ?>"></script>
 	  <script type="text/javascript" src="<?php echo plugins_url("js/calendar.js",__FILE__) ?>"></script>
