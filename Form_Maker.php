@@ -182,7 +182,6 @@ function front_end_Form_Maker($id)
 							{
 								if(document.getElementById(\"wd_captcha_input\"))
 									captcha_refresh('wd_captcha');
-									
 							}							
 							function formAddToOnload()
 							{ 
