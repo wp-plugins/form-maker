@@ -644,7 +644,7 @@ margin-top:40px;
 
 <tr>
     <td width="400" align="right" valign="top" style="padding-top:7px">
-    <span style="font-size:16.76pt; font-family:BauhausItcTEEMed; color:#FFFFFF; vertical-align:middle;">The Post, which apears after submition:&nbsp;&nbsp;</span>
+    <span style="font-size:16.76pt; font-family:BauhausItcTEEMed; color:#FFFFFF; vertical-align:middle;">The Post, which appears after submission:&nbsp;&nbsp;</span>
     </td>
 <td class="paramlist_value" width="153" valign="middle" align="left" style="padding-top:7px">
 
@@ -2241,7 +2241,7 @@ margin-top:40px;
 
 <tr>
     <td width="400" align="right" valign="top" style="padding-top:7px">
-    <span style="font-size:16.76pt; font-family:BauhausItcTEEMed; color:#FFFFFF; vertical-align:middle;">The Post, which apears after submition:&nbsp;&nbsp;</span>
+    <span style="font-size:16.76pt; font-family:BauhausItcTEEMed; color:#FFFFFF; vertical-align:middle;">The Post, which appears after submission:&nbsp;&nbsp;</span>
     </td>
 <td class="paramlist_value" width="153" valign="middle" align="left" style="padding-top:7px">
 
@@ -3635,6 +3635,9 @@ function update_custom_text($id)
 							$attachments[$k] = dirname(__FILE__). '/uploads/'.$all_files[$k]['name'];
 							}
 							array_push($cc,$row->mail);
+							
+							$body = wordwrap($body, 70, "\n", true);
+							
 							$send =wp_mail( $cc, $row->title, $body,"",$attachments);
 								if ( $send != true ) 
 								{								  
