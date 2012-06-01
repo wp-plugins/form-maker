@@ -1091,10 +1091,12 @@ enable();
 document.getElementById('edit_table').innerHTML="";
 document.getElementById('show_table').innerHTML="";
 document.getElementById('main_editor').style.display="none";
+if(document.getElementsByTagName("iframe")[0])
+{
 ifr_id=document.getElementsByTagName("iframe")[0].id;
 ifr=getIFrameDocument(ifr_id)
-
 ifr.body.innerHTML="";
+}
 document.getElementById('editor').value="";
 document.getElementById('editing_id').value="";
 document.getElementById('element_type').value="";
@@ -1313,11 +1315,12 @@ return rv;
 }
 function delete_last_child()
 {
+	if(document.getElementsByTagName("iframe")[0]){
 ifr_id=document.getElementsByTagName("iframe")[0].id;
 ifr=getIFrameDocument(ifr_id);
-
+ifr.body.innerHTML="";
+	}
 	document.getElementById('main_editor').style.display="none";
-	ifr.body.innerHTML="";
 	document.getElementById('editor').value="";
 	if(document.getElementById('show_table').lastChild)
 	{
@@ -1494,11 +1497,12 @@ function type_editor(i, w_editor){
 		document.getElementById('main_editor').style.left=iReturnLeft+195+"px";
 		document.getElementById('main_editor').style.top=iReturnTop+70+"px";
 		
-		ifr_id=document.getElementsByTagName("iframe")[0].id;
-		ifr=getIFrameDocument(ifr_id);
+		
 		
 		if(document.getElementById('editor').style.display=="none")
 		{
+			ifr_id=document.getElementsByTagName("iframe")[0].id;
+			ifr=getIFrameDocument(ifr_id);
 			ifr.body.innerHTML=w_editor;
 		}
 		else
@@ -8986,10 +8990,11 @@ function add(key)
 					in_editor.setAttribute("valign", "top");
 					in_editor.setAttribute("colspan", "2");
 					
-	ifr_id=document.getElementsByTagName("iframe")[0].id;
-	ifr=getIFrameDocument(ifr_id);
+	
 		if(document.getElementById('editor').style.display=="none")
 		{
+			ifr_id=document.getElementsByTagName("iframe")[0].id;
+				ifr=getIFrameDocument(ifr_id);
 				in_editor.innerHTML=ifr.body.innerHTML;
 		}
 		else
@@ -9109,12 +9114,18 @@ function add(key)
          				in_editor.setAttribute("align", 'left');
 					in_editor.setAttribute("valign", "top");
 					in_editor.setAttribute("colspan", "2");
+					if(document.getElementsByTagName("iframe")[0])
+					{
 ifr_id=document.getElementsByTagName("iframe")[0].id;
 ifr=getIFrameDocument(ifr_id)
+					}
 
 		if(document.getElementById('editor').style.display=="none")
 		{
+			if(document.getElementsByTagName("iframe")[0])
 				in_editor.innerHTML=ifr.body.innerHTML;
+				else
+				in_editor.innerHTML=document.getElementById('editor').value;
 		}
 		else
 		{

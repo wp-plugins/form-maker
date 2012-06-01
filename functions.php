@@ -509,7 +509,6 @@ function str_replace(haystack, needle, replacement) {
     gen=1;//add main form  id
        function enable()
 	{
-		switchEditors.go('editor', 'tinymce');
 		document.getElementById('formmakerDiv').style.display	=(document.getElementById('formmakerDiv').style.display=='block'?'none':'block');
 		document.getElementById('formmakerDiv1').style.display	=(document.getElementById('formmakerDiv1').style.display=='block'?'none':'block');
 		if(document.getElementById('formmakerDiv').offsetWidth)
@@ -518,7 +517,6 @@ function str_replace(haystack, needle, replacement) {
 	}
 	 function enable2()
 	{
-		switchEditors.go('editor', 'tinymce');
 		document.getElementById('formmakerDiv').style.display	=(document.getElementById('formmakerDiv').style.display=='block'?'none':'block');
 		document.getElementById('formmakerDiv1').style.display	=(document.getElementById('formmakerDiv1').style.display=='block'?'none':'block');
 		if(document.getElementById('formmakerDiv').offsetWidth)
@@ -2517,13 +2515,20 @@ function apply($id)
 	?>
 	<div class="updated"><p><strong><?php _e('Item Saved' ); ?></strong></p></div>
 	<?php
-	
+	if($_POST["post_name"]=='- Select Menu -')
+	{
+		$article=0;
+	}
+	else
+	{
+		$article=$_POST["post_name"];
+	}
 		$savedd=$wpdb->update($wpdb->prefix."formmaker", array(
              'title'=>$_POST["title"],
              'mail'=>$_POST["mail"],
              'form'=>$form_no_slash,
 			 'counter'=>$_POST["counter"],
-			 'article_id'=>$_POST["post_name"],
+			 'article_id'=>$article,
 			 'label_order'=>$_POST["label_order"]
               ), 
               array('id'=>$id),
