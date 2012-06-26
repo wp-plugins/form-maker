@@ -3,16 +3,19 @@ Contributors: webdorado
 Donate link: http://web-dorado.com/products/form-maker-wordpress.html
 Tags:  Form, Form maker, form creator, wordpress form, form builder, contact, contact form, submission, submit
 Requires at least: 3.0
-Tested up to: 3.3.1
+Tested up to: 3.4
 Stable tag: trunk
 
 Form Maker is a modern and advanced tool for creating WordPress forms easily and fast.
 == Description ==
 
-####[Form Maker](http://web-dorado.com/products/form-maker-wordpress.html)
+### [Form Maker](http://web-dorado.com/products/form-maker-wordpress.html)
 
 
 [Demo](http://wpdemo.web-dorado.com/form-maker/)  
+[Demo Admin](http://wpdemo.web-dorado.com/wp-admin/admin.php?page=Form_maker)  
+[User Manual](http://web-dorado.com/wordpress-form-maker-guide-1.html)  
+[Frequently Asked Questions](http://web-dorado.com/forum/form-maker/316-form-maker-faq.html)  
 [Support Forum](http://web-dorado.com/forum/form-maker.html)  
 
 The [Form Maker](http://web-dorado.com/products/form-maker-wordpress.html) is one of the best form creators in WordPress Plugin Directory.  [Form Maker](http://web-dorado.com/products/form-maker-wordpress.html) allows you to set all the parameters such as colors and fonts. The size of each element of the form can be set as well.
@@ -118,6 +121,11 @@ After downloading the ZIP file
 5.   Once it is complete, activate the plugin.  
 
 Once the plugin is activated, you'll notice a menu on the left called "Form Maker".  Here you can manage forms and submissions.  
+
+== Frequently Asked Questions ==
+
+[Click here to see the Form Maker Frequently Asked Questions](http://web-dorado.com/forum/form-maker/316-form-maker-faq.html)  
+
 
 == Screenshots ==
 1.  Sample RSVP  
