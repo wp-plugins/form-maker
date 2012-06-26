@@ -124,7 +124,7 @@ Once the plugin is activated, you'll notice a menu on the left called "Form Make
 
 == Frequently Asked Questions ==
 
-[Click here to see the Form Maker Frequently Asked Questions](http://web-dorado.com/forum/form-maker/316-form-maker-faq.html)  
+## [Click here to see the Form Maker Frequently Asked Questions](http://web-dorado.com/forum/form-maker/316-form-maker-faq.html)  
 
 
 == Screenshots ==
