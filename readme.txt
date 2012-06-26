@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: webdorado
 Donate link: http://web-dorado.com/products/form-maker-wordpress.html
-Tags:  Form, Form maker, form creator, wordpress form, form builder, contact, contact form, submission, submit
+Tags:  form, forms,  contact form, wordpress form, form maker, contact form plugin, contact form builder, feedback form, feedback forms, custom forms
 Requires at least: 3.0
 Tested up to: 3.4
 Stable tag: trunk
