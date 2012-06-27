@@ -1,10 +1,12 @@
 === Plugin Name ===
 Contributors: webdorado
 Donate link: http://web-dorado.com/products/form-maker-wordpress.html
-Tags: form, forms,  contact form, wordpress form, form maker
+Tags: form, forms,  contact form, wordpress form, form maker, contact form plugin, contact form builder, feedback form, feedback forms, custom forms
 Requires at least: 3.0
 Tested up to: 3.4
 Stable tag: trunk
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Form Maker is a modern and advanced tool for creating WordPress forms easily and fast.
 == Description ==
