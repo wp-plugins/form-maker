@@ -1,4 +1,4 @@
-=== Plugin Name ===
+=== Form Maker ===
 Contributors: webdorado
 Donate link: http://web-dorado.com/products/form-maker-wordpress.html
 Tags: form, forms,  contact form, wordpress form, form maker, contact form plugin, contact form builder, feedback form, feedback forms, custom forms
