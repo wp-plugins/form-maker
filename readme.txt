@@ -220,11 +220,11 @@ We did our best to have a universal Form Maker which will work on any browser, t
 -	The Post, which appears after submission of a form: You can select a post which the user will see after the form is submitted.    
     
     
-2.4   Add new fields to your form by clicking on the ADD A NEW FIELDbutton (see the next step).    
+2.4   Add new fields to your form by clicking on the ADD A NEW FIELD button (see the next step).    
 
-== Form Maker Step by step guide Step 1 ==        
+== Form Maker Step by step guide Step 3 ==        
     
-Step 3:Description of the form fields.     
+= Description of the form fields =     
     
 3.1 Custom HTML:An HTML editor. You can insert your own HTML content to your form.    
     
@@ -359,9 +359,9 @@ Class Name: You can define new CSS classes in the Edit CSS page and use those cl
 Additional Attributes: You can use this option to customize the specific properties for the field of the form. For example typing    
     
     
-== Form Maker Step by step guide Step 1 ==        
+== Form Maker Step by step guide Step 4 ==        
     
-Step 4: Publishing the created form.    
+= Publishing the created form =    
 To insert a form into a Page or a Post.    
     
     
@@ -375,9 +375,9 @@ To insert a form into a Page or a Post.
   4.3. Save the page or the post.     
     
 Alternatively, you can use Form Maker without the button on the toolbar: Add the shortcode [Form id="N"] (where N is the id of the form, for the form with id=2, the shortcode must be [Form id="2"]) to the pages and posts, where you want the form to appear.    
-== Form Maker Step by step guide Step 1 ==        
+== Form Maker Step by step guide Step 5 ==        
     
-Step 5: Managing submissions of a form    
+= Managing submissions of a form =    
     
 5.1 On the top menu select Components > FormMaker > Submissions    
     
