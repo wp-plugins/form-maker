@@ -193,9 +193,9 @@ We did our best to have a universal Form Maker which will work on any browser, t
     
 1.	Log in to the administrator panel.    
 2.	Go to Plugins Add > New > Upload.    
-3.	Click “Choose file” (“Browse”) and select the Form Maker zip file.    
-4.	Click “Install Now” button.    
+3.	Click **Choose file** (**Browse**) and select the Form Maker zip file.    
+4.	Click **Install Now** button.    
 5.	If the installation of form maker succeeded you will see the message in the picture. If any problem occurs with the form maker, please contact us info@web-dorado.com.    
-6.	Click “Activate Plugin” button for activating the form maker.    
+6.	Click **Activate Plugin** button for activating the form maker.    
 
 
