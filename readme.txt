@@ -180,23 +180,22 @@ We did our best to have a universal Form Maker which will work on any browser, t
 7.  Manage submissions
 8.  Select Columns  
 
-== Manual ==
+== Form Maker Step by step guide ==    
+= Step 1:  Installing form maker. =    
+    
+1.1 Minimum requirements of form maker.    
+    
+-	Wordpress 3.0+    
+-	PHP 5.x    
+-	MySQL 5.x    
+    
+1.2 Perform a new installation of form maker.    
+    
+1.	Log in to the administrator panel.    
+2.	Go to Plugins Add > New > Upload.    
+3.	Click “Choose file” (“Browse”) and select the Form Maker zip file.    
+4.	Click “Install Now” button.    
+5.	If the installation of form maker succeeded you will see the message in the picture. If any problem occurs with the form maker, please contact us info@web-dorado.com.    
+6.	Click “Activate Plugin” button for activating the form maker.    
 
-Form Maker 
-Step by step guide of form maker
-Step 1:  Installing form maker.
 
-1.1 Minimum requirements of form maker.
-
-•	Wordpress 3.0+
-•	PHP 5.x
-•	MySQL 5.x
-
-1.2 Perform a new installation of form maker.
-
-1.	Log in to the administrator panel.
-2.	Go to Plugins Add > New > Upload.
-3.	Click “Choose file” (“Browse”) and select the Form Maker zip file.
-4.	Click “Install Now” button.
-5.	If the installation of form maker succeeded you will see the message in the picture. If any problem occurs with the form maker, please contact us info@web-dorado.com.
-6.	Click “Activate Plugin” button for activating the form maker.
