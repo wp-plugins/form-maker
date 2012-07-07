@@ -136,17 +136,17 @@ Form Maker is a brilliant extension for creating online forms for your WordPress
 = 2. What can I build with Form Maker? =
 
 Generally the possibilities of creating different new amazing forms are limited only by your will or imagination. See below the several examples of usage of Form Maker.
-• Contact form
-• Mailing list form
-• Survey form 
-• Job application form
-• Workshop registration form
-• Bug tracker form
-• Wedding planner form
-• Quizzes/Testes form
-• Real estate applications form
-• Invitation/RSVP form add invitation to the product demo form
-• Online orders form
+- Contact form    
+- Mailing list form    
+- Survey form     
+- Job application form    
+- Workshop registration form    
+- Bug tracker form    
+- Wedding planner form    
+- Quizzes/Testes form    
+- Real estate applications form    
+- Invitation/RSVP form add invitation to the product demo form    
+- Online orders form    
 
 
 = 3. Why would I want to use Form Maker =
