@@ -378,8 +378,6 @@ To insert a form into a Page or a Post.
     
   4.2. Select a form from the list.    
     
-    
-    
   4.3. Save the page or the post.     
     
 Alternatively, you can use Form Maker without the button on the toolbar: Add the shortcode [Form id="N"] (where N is the id of the form, for the form with id=2, the shortcode must be [Form id="2"]) to the pages and posts, where you want the form to appear.    
@@ -392,13 +390,8 @@ Alternatively, you can use Form Maker without the button on the toolbar: Add the
 5.2 In order to manage a form's submissions, select the form from the list.    
     
     
-     
-    
 You can filter the submissions by the date filter. You can add/remove any column of the submissions by **Add/Remove Columns** button.     
-    
-     
     
     
 The submissions of a form can be exported to the CSV and XML formats. You can delete any of submissions by selecting them and pressing the **Delete** button on the top of the page. Submissions can be sorted by any of the fields of the form by clicking the labels.    
     
-
