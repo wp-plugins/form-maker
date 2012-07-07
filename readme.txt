@@ -115,14 +115,22 @@ Vietnamese (vi)
 
 ####Thank you for your interest in [Form Maker](http://web-dorado.com/products/form-maker-wordpress.html).
 
+Minimum requirements of form maker.    
+    
+-	Wordpress 3.0+    
+-	PHP 5.x    
+-	MySQL 5.x    
+
 After downloading the ZIP file  
-1.   Login to your WordPress site and head over the 'Plugins' menu  
-2.   Click 'Add New'  
-3.   Choose the 'Upload' option  
-4.   Upload the downloaded ZIP file.  
-5.   Once it is complete, activate the plugin.  
+1.    Login to your WordPress site administrator panel and head over the 'Plugins' menu  
+2.    Click 'Add New'  
+3.    Choose the 'Upload' option
+4.    Click **Choose file** (**Browse**) and select the Form Maker zip file.   
+5.    Click **Install Now** button.    
+6.    Once it is complete, activate the plugin.    
 
 Once the plugin is activated, you'll notice a menu on the left called "Form Maker".  Here you can manage forms and submissions.  
+If any problem occurs with the form maker, please contact us info@web-dorado.com.    
 
 == Frequently Asked Questions ==
 
@@ -171,14 +179,14 @@ We did our best to have a universal Form Maker which will work on any browser, t
 
 
 == Screenshots ==
-1.  Sample RSVP  
-2.  Sample contact form  
-3.  Manage forms  
-4.  Creating a new form  
-5.  Text input field type  
-6.  Captcha field type  
-7.  Manage submissions
-8.  Select Columns  
+1.  Form Maker - Sample RSVP  
+2.  Form Maker - Sample contact form  
+3.  Form Maker - Manage forms  
+4.  Form Maker - Creating a new form  
+5.  Form Maker - Text input field type  
+6.  Form Maker - Captcha field type  
+7.  Form Maker - Manage submissions
+8.  Form Maker - Select Columns  
 
 == Form Maker Step by step guide Step 1 ==    
 = Installing Form Maker =    
@@ -195,7 +203,7 @@ We did our best to have a universal Form Maker which will work on any browser, t
 2.	Go to Plugins Add > New > Upload.    
 3.	Click **Choose file** (**Browse**) and select the Form Maker zip file.    
 4.	Click **Install Now** button.    
-5.	If the installation of form maker succeeded you will see the message in the picture. If any problem occurs with the form maker, please contact us info@web-dorado.com.    
+5.	If any problem occurs with the form maker, please contact us info@web-dorado.com.    
 6.	Click **Activate Plugin** button for activating the form maker.    
 
 == Form Maker Step by step guide Step 2 ==        
