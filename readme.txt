@@ -204,7 +204,7 @@ We did our best to have a universal Form Maker which will work on any browser, t
     
 2.1  On the left menu select FormMaker > Manager    
     
-2.2  In the upper left corner click on the “Add a form” button.     
+2.2  In the upper left corner click on the **Add a form** button.     
     
 2.3   On the top of the page you can find several buttons:    
      
@@ -216,7 +216,7 @@ We did our best to have a universal Form Maker which will work on any browser, t
     
 2.3   On the right side you will see three fields:    
 -	Form Title: In this field type a title for your form. You can have an unlimited number of forms. This is a required field for a form.    
--	Email to send submissions of a form to: Here you type e-mails to which submitted form information will be sent. If you need more than one e-mail address to send the submissions of a form you must separate them by commas. This field is not required for a form. In any case the submitted information is stored in“Submissions” part of the form maker, where it could be managed easily.     
+-	Email to send submissions of a form to: Here you type e-mails to which submitted form information will be sent. If you need more than one e-mail address to send the submissions of a form you must separate them by commas. This field is not required for a form. In any case the submitted information is stored in**Submissions** part of the form maker, where it could be managed easily.     
 -	The Post, which appears after submission of a form: You can select a post which the user will see after the form is submitted.    
     
     
@@ -264,7 +264,7 @@ Value If Empty: The text typed here will be displayed in the corresponding field
 Class Name : You can define new CSS classes in the Edit CSS page and use those classes here to design the form more properly.    
 Required: The field of the form can be set as required for the submission by this checkbox.    
  Additional Attributes: You can use this option to customize the specific properties for the field of the form.    
-E-mail:This field can be used for typing the submitter’s e-mail. The submitted e-mail validation is checked. It has several attributes:    
+E-mail:This field can be used for typing the submitter's e-mail. The submitted e-mail validation is checked. It has several attributes:    
 Field Label: Type the name of the field of the form.    
 Field Label Position: Field label of the form can be set in two positions: top and left    
 Field Size: Type the size of the field of the form in pixels.    
@@ -386,11 +386,11 @@ Alternatively, you can use Form Maker without the button on the toolbar: Add the
     
      
     
-You can filter the submissions by the date filter. You can add/remove any column of the submissions by “Add/Remove Columns” button.     
+You can filter the submissions by the date filter. You can add/remove any column of the submissions by **Add/Remove Columns** button.     
     
      
     
     
-The submissions of a form can be exported to the CSV and XML formats. You can delete any of submissions by selecting them and pressing the “Delete” button on the top of the page. Submissions can be sorted by any of the fields of the form by clicking the labels.    
+The submissions of a form can be exported to the CSV and XML formats. You can delete any of submissions by selecting them and pressing the **Delete** button on the top of the page. Submissions can be sorted by any of the fields of the form by clicking the labels.    
     
 
