@@ -128,6 +128,47 @@ Once the plugin is activated, you'll notice a menu on the left called "Form Make
 
 ## [Click here to see the Form Maker Frequently Asked Questions](http://web-dorado.com/forum/form-maker/316-form-maker-faq.html)  
 
+= 1. What is Form Maker? =
+
+Form Maker is a brilliant extension for creating online forms for your WordPress site. When you create a form with Form Maker, it automatically builds the forms database and scripts needed for the form. So you can create forms without the knowledge of HTML, CSS or any programming language.
+
+
+= 2. What can I build with Form Maker? =
+
+Generally the possibilities of creating different new amazing forms are limited only by your will or imagination. See below the several examples of usage of Form Maker.
+• Contact form
+• Mailing list form
+• Survey form 
+• Job application form
+• Workshop registration form
+• Bug tracker form
+• Wedding planner form
+• Quizzes/Testes form
+• Real estate applications form
+• Invitation/RSVP form add invitation to the product demo form
+• Online orders form
+
+
+= 3. Why would I want to use Form Maker =
+
+Any site administrator aims to collect as more information and feedback from the site user as it is possible. The most effective mechanism for collecting data from people is forms. The process of creating a form and related databases is complicated, resource and time consuming. The whole process of creating a form may last days, if no weeks. The Form Maker is best choice for skipping all these steps effectively.
+
+
+= 4. I bought Form Maker, but I have not received an email for confirmation and for downloading.  =
+
+Usually confirmation e-mail of purchasing Form Maker arrives during a minute after the purchase of Form Maker. You can also check spam and junk folders to find out the Form Maker. If the e-mail of purchasing Form Maker does not arrive during half an hour, please contact us to manually receive the Form Maker. We will do our best to solve the problem as soon as possible and will also send the form maker by e-mail.
+
+
+= 5. Does the Form Maker work on the localhost. =
+
+Yes, Form Maker works in any server where MYSQL and PHP are supported.
+
+
+= 6. Form Maker does not work or works in an improper way. What should I do to solve the problem connected with Form Maker? =
+
+We did our best to have a universal Form Maker which will work on any browser, template and will not conflict with other extensions. As any case of such kind of a problem is unique, please contact us giving the link of the website where the problem with Form Maker has occurred. We will try to answer within 24 hours and solve the problem with Form Maker.
+
+
 
 == Screenshots ==
 1.  Sample RSVP  
