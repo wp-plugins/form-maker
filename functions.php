@@ -9,18 +9,12 @@ function show_forms()
 	global $wpdb;
 	?>
     <form method="post" action="admin.php?page=Form_maker" id="main_show_form">
-	<table cellspacing="10" width="100%">
+	<table>
     <tr>
-    <td style="width:130px; height:50px; padding-left:65px; background:url('<?php echo plugins_url( 'images/formmakerLogo-48.png' , __FILE__ ); ?>') no-repeat;">
+    <td style="min-width:170px;">
     <?php $Forms_title='Form Maker'; echo "<h2>".__('Form Maker'). "</h2>"; ?>
     </td>
-    <td  style="width:90px; text-align:right;"><p class="submit" style="padding:0px;"><input type="button" value="Add a Form" name="custom_parametrs" onclick="window.location.href='admin.php?page=Form_maker&task=add'" /></p></td>
-<td style="text-align:right;font-size:16px;padding:20px; padding-right:50px">
-		<a href="http://web-dorado.com/files/fromFormMaker.php" target="_blank" style="color:red; text-decoration:none;">
-		<img src="<?php echo plugins_url( 'images/header.png' , __FILE__ ); ?>" border="0" alt="www.web-dorado.com" width="215"><br>
-		Get the full version&nbsp;&nbsp;&nbsp;&nbsp;
-		</a>
-	</td>
+    <td  style="width:90px; text-align:right;"><p class="submit"><input type="button" value="Add a Form" name="custom_parametrs" onclick="window.location.href='admin.php?page=Form_maker&task=add'" /></p></td>
     </tr>
     </table>
     <?php
@@ -387,12 +381,6 @@ function add()
 
   ?>
   <table width="95%">
-  <tr><td colspan="7" align="right" style="font-size:16px;">
-  		<a href="http://web-dorado.com/files/fromFormMaker.php" target="_blank" style="color:red; text-decoration:none;">
-		<img src="<?php echo plugins_url( 'images/header.png' , __FILE__ ); ?>" border="0" alt="www.web-dorado.com" width="215"><br>
-		Get the full version&nbsp;&nbsp;&nbsp;&nbsp;
-		</a>
-  </td></tr>
   <tr>
   <td width="100%"><?php echo "<h2>".__($Forms_title). "</h2>"; ?></td>
   <td><input type="button" onclick="submitbutton('Edit_JavaScript')" value="Edit JavaScript" class="button-primary" /> </td>
@@ -498,16 +486,12 @@ function submitbutton(pressbutton)
 	document.getElementById('label_order').value=tox;
 	submit_in( pressbutton );
 }
-function str_replace(haystack, needle, replacement) { 
-	var temp = haystack.split(needle); 
-	return temp.join(replacement); 
-} 
 
 </script>
 
     <script type="text/javascript">
     gen=1;//add main form  id
-       function enable()
+       function form_maker_enable()
 	{
 		document.getElementById('formmakerDiv').style.display	=(document.getElementById('formmakerDiv').style.display=='block'?'none':'block');
 		document.getElementById('formmakerDiv1').style.display	=(document.getElementById('formmakerDiv1').style.display=='block'?'none':'block');
@@ -680,12 +664,12 @@ wp_reset_query();
   <tr>
   <td align="left" colspan="3">
   
-  <img src="<?php echo plugins_url('images/addanewfield.png',__FILE__) ?>" onclick="enable()" style="cursor:pointer;margin:10px;">
+  <img src="<?php echo plugins_url('images/addanewfield.png',__FILE__) ?>" onclick="form_maker_enable()" style="cursor:pointer;margin:10px;">
 
   </td>
   </tr>
   </tbody></table>
-  <div id="formmakerDiv" onclick="enable()"></div>
+  <div id="formmakerDiv" onclick="form_maker_enable()"></div>
   <div id="formmakerDiv1" align="center">
     
 <table border="0" width="100%" cellpadding="0" cellspacing="0" height="100%" style="border:6px #00aeef solid; background-color:#FFF; font-size:10px">
@@ -733,7 +717,7 @@ wp_reset_query();
                   At The End
                   <input type="radio" value="begin" name="el_pos" id="pos_begin" onclick="Disable()" style=""/>
                   At The Beginning
-                  <input type="radio" value="before" name="el_pos" id="pos_before" onclick="Enable()"/>
+                  <input type="radio" value="before" name="el_pos" id="pos_before" onclick="form_Enable()"/>
                   Before
                   <select style="width:100px; margin-left:5px" id="sel_el_pos" disabled="disabled">
                   </select>
@@ -1183,10 +1167,12 @@ word-spacing: 0px;
     <input type="hidden" name="task" value="" />
     </form>
     <link type="text/css" rel="stylesheet" href="<?php echo plugins_url("js/calendar-jos.css",__FILE__) ?>" />
-	  <script type="text/javascript" src="<?php echo plugins_url("js/formmaker.js",__FILE__) ?>"></script>
+	  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+	  <script type="text/javascript" src="<?php echo plugins_url("js/formmaker_pro.js",__FILE__) ?>"></script>
 	  <script type="text/javascript" src="<?php echo plugins_url("js/calendar_function.js",__FILE__) ?>"></script>
 	  <script type="text/javascript" src="<?php echo plugins_url("js/calendar.js",__FILE__) ?>"></script>
 	  <script type="text/javascript" src="<?php echo plugins_url("js/calendar-setup.js",__FILE__) ?>"></script>
+      <script type="text/javascript" src="<?php echo plugins_url("js/if_gmap.js",__FILE__) ?>"></script>
 <?php
 
 
@@ -2065,8 +2051,7 @@ function submitbutton(pressbutton)
 			l_id_removed[x]=true;
 		}
 
-	l_label_array=[<?php echo str_replace("
-","",$labels['label'])?>];
+	l_label_array=[<?php echo $labels['label']?>];
 	l_type_array=[<?php echo $labels['type']?>];
 	for (x=0; x < GLOBAL_tr.childNodes.length; x++)
 	{
@@ -2077,7 +2062,7 @@ function submitbutton(pressbutton)
 			is_in_old=false;
 			tr=tbody.childNodes[y];
 			l_id=tr.id;
-			
+
 			l_label = document.getElementById( tr.id+'_element_label').innerHTML;
 			l_label = l_label.replace(/(\r\n|\n|\r)/gm," ");
 			l_type=tr.getAttribute('type');
@@ -2097,16 +2082,12 @@ function submitbutton(pressbutton)
 	document.getElementById('label_order').value=tox;
 		submit_in( pressbutton );
 }
-function str_replace(haystack, needle, replacement) { 
-	var temp = haystack.split(needle); 
-	return temp.join(replacement); 
-} 
 
 </script>
 
     <script language='javascript'>
     gen=<?php echo $row->counter;?>;
-       function enable()
+       function form_maker_enable()
 	{
 		document.getElementById('formmakerDiv').style.display	=(document.getElementById('formmakerDiv').style.display=='block'?'none':'block');
 		document.getElementById('formmakerDiv1').style.display	=(document.getElementById('formmakerDiv1').style.display=='block'?'none':'block');
@@ -2276,12 +2257,12 @@ wp_reset_query();
   <tr>
   <td align="left" colspan="3">
   
-  <img src="<?php echo plugins_url('images/addanewfield.png',__FILE__) ?>" onclick="enable()" style="cursor:pointer;margin:10px;">
+  <img src="<?php echo plugins_url('images/addanewfield.png',__FILE__) ?>" onclick="form_maker_enable()" style="cursor:pointer;margin:10px;">
 
   </td>
   </tr>
   </tbody></table>
-  <div id="formmakerDiv" onclick="enable()"></div>
+  <div id="formmakerDiv" onclick="form_maker_enable()"></div>
   <div id="formmakerDiv1" align="center">
     
 <table border="0" width="100%" cellpadding="0" cellspacing="0" height="100%" style="border:6px #00aeef solid; background-color:#FFF; font-size:10px">
@@ -2329,7 +2310,7 @@ wp_reset_query();
                   At The End
                   <input type="radio" value="begin" name="el_pos" id="pos_begin" onclick="Disable()" style=""/>
                   At The Beginning
-                  <input type="radio" value="before" name="el_pos" id="pos_before" onclick="Enable()"/>
+                  <input type="radio" value="before" name="el_pos" id="pos_before" onclick="form_Enable()"/>
                   Before
                   <select style="width:100px; margin-left:5px" id="sel_el_pos" disabled="disabled">
                   </select>
@@ -2395,14 +2376,28 @@ wp_reset_query();
     <input type="hidden" id="label_order" name="label_order" value="<?php echo $row->label_order;?>" />
     <input type="hidden" name="counter" id="counter" value="<?php echo $row->counter;?>">
     <input type="hidden"  value="0" id="load_or_no" />
-    </form>
+    </form> 
+    
+    
+    
+    
+    
+    <link type="text/css" rel="stylesheet" href="<?php echo plugins_url("js/calendar-jos.css",__FILE__) ?>" />
+	  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+	  <script type="text/javascript" src="<?php echo plugins_url("js/formmaker_pro.js",__FILE__) ?>"></script>
+	  <script type="text/javascript" src="<?php echo plugins_url("js/calendar_function.js",__FILE__) ?>"></script>
+	  <script type="text/javascript" src="<?php echo plugins_url("js/calendar.js",__FILE__) ?>"></script>
+	  <script type="text/javascript" src="<?php echo plugins_url("js/calendar-setup.js",__FILE__) ?>"></script>
+        <script type="text/javascript" src="<?php echo plugins_url("js/if_gmap.js",__FILE__) ?>"></script>
    <script type="text/javascript">
 
 function formOnload()
 {
 for(t=0; t<<?php echo $row->counter;?>; t++)
 	if(document.getElementById(t+"_type"))
-	{
+	{if(document.getElementById(t+"_type").value=="type_map")
+			if_gmap_init(t+"_element",false);
+		else
 		if(document.getElementById(t+"_type").value=="type_date")
 				Calendar.setup({
 						inputField: t+"_element",
@@ -2414,7 +2409,6 @@ for(t=0; t<<?php echo $row->counter;?>; t++)
 						});
 
 	}
-	
 document.getElementById("load_or_no").value=1;
 document.getElementById('form').value=document.getElementById('take').innerHTML;
 
@@ -2438,11 +2432,7 @@ formLoadBody();
 
 
 </script>
- <link type="text/css" rel="stylesheet" href="<?php echo plugins_url("js/calendar-jos.css",__FILE__) ?>" />
-	  <script type="text/javascript" src="<?php echo plugins_url("js/formmaker.js",__FILE__) ?>"></script>
-	  <script type="text/javascript" src="<?php echo plugins_url("js/calendar_function.js",__FILE__) ?>"></script>
-	  <script type="text/javascript" src="<?php echo plugins_url("js/calendar.js",__FILE__) ?>"></script>
-	  <script type="text/javascript" src="<?php echo plugins_url("js/calendar-setup.js",__FILE__) ?>"></script>
+
 
 
 <?php
@@ -2503,32 +2493,14 @@ function apply($id)
 {
 	global $wpdb;
 	$form_no_slash=stripslashes($_POST["form"]);
-
-		$count_words_in_form =count(explode("_element_section",$_POST["form"]))-count(explode("and_element_section",$_POST["form"]));
-		if($count_words_in_form>5)
-		{
-			?>
-			<div class="updated"><p><strong>The free version is limited up to 5 fields to add. If you need this functionality, you need to buy the commercial version</strong></p></div>
-            <?php 
-			return false;
-		}
-	?>
-	<div class="updated"><p><strong><?php _e('Item Saved' ); ?></strong></p></div>
-	<?php
-	if($_POST["post_name"]=='- Select Menu -')
-	{
-		$article=0;
-	}
-	else
-	{
-		$article=$_POST["post_name"];
-	}
+	
+	
 		$savedd=$wpdb->update($wpdb->prefix."formmaker", array(
              'title'=>$_POST["title"],
              'mail'=>$_POST["mail"],
              'form'=>$form_no_slash,
 			 'counter'=>$_POST["counter"],
-			 'article_id'=>$article,
+			 'article_id'=>$_POST["post_name"],
 			 'label_order'=>$_POST["label_order"]
               ), 
               array('id'=>$id),
@@ -2541,7 +2513,9 @@ function apply($id)
 			  
   );		
 
-	
+	?>
+	<div class="updated"><p><strong><?php _e('Item Saved' ); ?></strong></p></div>
+	<?php
 	return true;
 
 }
@@ -2956,16 +2930,7 @@ word-spacing: 0px;
 }  
 ';
 if(isset($_POST["label_order"]) && isset($_POST["title"]) && isset($_POST["form"])){
-	$no_slash_form = stripslashes($_POST['form']);
-	 $count_words_in_form = count(explode("_element_section",$_POST["form"]))-count(explode("and_element_section",$_POST["form"]));	 
-	if($count_words_in_form>5)
-	{
-		?>
-		<div class="updated"><p><strong>The free version is limited up to 5 fields to add. If you need this functionality, you need to buy the commercial version.</strong></p></div>
-        <?php
-		return false;
-	}
-	
+	$no_slash_form = stripslashes($_POST['form']);	
 	 $save_or_no= $wpdb->insert($wpdb->prefix.'formmaker', array(
 		'id'	=> NULL,
         'title'     => $_POST["title"],
@@ -3398,7 +3363,7 @@ function update_custom_text($id)
 											 
 											if ($extOk == false) 
 											{
-												$front_end.="<script> alert(".addslashes(__('Sorry, you are not allowed to upload this type of file','form_maker','form_maker')).");</script>";
+												$front_end.="<script> alert('".addslashes(__('Sorry, you are not allowed to upload this type of file','form_maker','form_maker'))."');</script>";
 												return ($max+1);
 											}
 											
@@ -3412,7 +3377,7 @@ function update_custom_text($id)
 											}
 											if(!move_uploaded_file($fileTemp, $destination."/".$fileName)) 
 											{	
-												$front_end.="<script> alert(".addslashes(__('Error, file cannot be moved','form_maker')).";</script>";
+												$front_end.="<script> alert('".addslashes(__('Error, file cannot be moved','form_maker'))."');</script>";
 												return ($max+1);
 											}
 
@@ -3504,10 +3469,10 @@ function update_custom_text($id)
 	function sendmail($counter, $all_files,$id,&$front_end)
 	{
 		global $wpdb;
+		$cc="";
 				$row=$wpdb->get_row("SELECT * FROM  ".$wpdb->prefix."formmaker WHERE id='".$id."'",0);
 					if($row->mail)
 					{
-						$cc=array();
 						$label_order_original= array();
 						$label_order_ids= array();
 						
@@ -3538,7 +3503,7 @@ function update_custom_text($id)
 								$type=$_POST[$i."_type"];
 								if($type=="type_submitter_mail")
 									if($_POST[$i."_send"]=="yes")
-											array_push($cc, $_POST[$i."_element"]);
+									$cc.= $_POST[$i."_element"].",";
 							if(isset($_POST[$i."_element"]))
 							{
 								$element=$_POST[$i."_element"];
@@ -3637,13 +3602,11 @@ function update_custom_text($id)
 							add_filter('wp_mail_content_type',create_function('', 'return "text/html";'));
 							for($k=0;$k<count($all_files);$k++)
 							{
-							$attachments[$k] = dirname(__FILE__). '/uploads/'.$all_files[$k]['name'];
+							$attachments[$k] = $all_files[$k]['tmp_name'];
 							}
 							array_push($cc,$row->mail);
-							
 							$body = wordwrap($body, 70, "\n", true);
-							
-							$send =wp_mail( $cc, $row->title, $body,"",$attachments);
+							$send =wp_mail( $cc.$row->mail, $row->title, $body,"",$attachments);
 								if ( $send != true ) 
 								{								  
 										  if($row->article_id)
