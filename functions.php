@@ -3178,7 +3178,7 @@ function update_custom_text($id)
 
 
 
-	function savedata($id,&$front_end)
+	function savedata($id,$front_end)
 	{
 		global $wpdb;
 		$all_files=array();
@@ -3201,12 +3201,12 @@ function update_custom_text($id)
 
 				if($captcha_input==$session_wd_captcha_code)
 				{
-					$all_files=save_db($counter,$id,&$front_end);
+					$all_files=save_db($counter,$id,$front_end);
 					if(is_numeric($all_files))		
 						remove($all_files);
 					else
 						if(isset($counter))
-							sendmail($counter, $all_files,$id,&$front_end);
+							sendmail($counter, $all_files,$id,$front_end);
 
 				}
 				else
@@ -3217,12 +3217,12 @@ function update_custom_text($id)
 			}	
 			else	
 			{
-				$all_files=save_db($counter,$id,&$front_end);
+				$all_files=save_db($counter,$id,$front_end);
 				if(is_numeric($all_files))		
 					remove($all_files);
 				else
 					if(isset($counter))
-						sendmail($counter, $all_files,$id,&$front_end);
+						sendmail($counter, $all_files,$id,$front_end);
 	
 			}
 
@@ -3265,7 +3265,7 @@ function update_custom_text($id)
 	
 	
 	
-	function save_db($counter,$id,&$front_end)
+	function save_db($counter,$id,$front_end)
 	{
 
 		$chgnac=true;	
@@ -3501,7 +3501,7 @@ function update_custom_text($id)
 
 	}
 	
-	function sendmail($counter, $all_files,$id,&$front_end)
+	function sendmail($counter, $all_files,$id,$front_end)
 	{
 		global $wpdb;
 				$row=$wpdb->get_row("SELECT * FROM  ".$wpdb->prefix."formmaker WHERE id='".$id."'",0);

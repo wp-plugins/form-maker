@@ -94,7 +94,7 @@ function front_end_Form_Maker($id)
 				}
 				if(!$b)
 				return "";				
-				$ok		= savedata($id,&$FC_frontend);				
+				$ok		= savedata($id,$FC_frontend);				
 				if(is_numeric($ok))	
 				{	
 						remove($ok);
