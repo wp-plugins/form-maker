@@ -11,7 +11,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Form Maker is a modern and advanced tool for creating WordPress forms easily and fast.
 == Description ==
 
-### [WordPress Form] Maker(http://web-dorado.com/products/wordpress-form.html)
+### [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker
 
 
 [Demo](http://wpdemo.web-dorado.com/form-maker/)  
@@ -113,7 +113,7 @@ Vietnamese (vi)
 
 == Installation ==
 
-####Thank you for your interest in [WordPress Form](http://web-dorado.com/products/wordpress-form.html)Maker.
+####Thank you for your interest in [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker.
 
 Minimum requirements of form maker.    
     
@@ -136,14 +136,14 @@ If any problem occurs with the form maker, please contact us info@web-dorado.com
 
 ## [Click here to see the Form Maker Frequently Asked Questions](http://web-dorado.com/forum/form-maker/316-form-maker-faq.html)  
 
-= 1. What is [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker? =
+= 1. What is Form Maker? =
 
-Form Maker is a brilliant extension for creating online forms for your WordPress site. When you create a form with Form Maker, it automatically builds the forms database and scripts needed for the form. So you can create forms without the knowledge of HTML, CSS or any programming language.
+[WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker is a brilliant extension for creating online forms for your WordPress site. When you create a form with Form Maker, it automatically builds the forms database and scripts needed for the form. So you can create forms without the knowledge of HTML, CSS or any programming language.
 
 
-= 2. What can I build with [WordPress Form builder](http://web-dorado.com/products/wordpress-form.html)? =
+= 2. What can I build with Form Maker? =
 
-Generally the possibilities of creating different new amazing forms are limited only by your will or imagination. See below the several examples of usage of Form Maker.
+Generally the possibilities of creating different new amazing forms are limited only by your will or imagination. See below the several examples of usage of [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker.
 - Contact form    
 - Mailing list form    
 - Survey form     
@@ -167,9 +167,9 @@ Any site administrator aims to collect as more information and feedback from the
 Usually confirmation e-mail of purchasing Form Maker arrives during a minute after the purchase of Form Maker. You can also check spam and junk folders to find out the Form Maker. If the e-mail of purchasing Form Maker does not arrive during half an hour, please contact us to manually receive the Form Maker. We will do our best to solve the problem as soon as possible and will also send the form maker by e-mail.
 
 
-= 5. Does the [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker work on the localhost. =
+= 5. Does the Form Maker work on the localhost. =
 
-Yes, Form Maker works in any server where MYSQL and PHP are supported.
+Yes, [WordPress Form](http://web-dorado.com/products/wordpress-form.html)  Maker works in any server where MYSQL and PHP are supported.
 
 
 = 6. Form Maker does not work or works in an improper way. What should I do to solve the problem connected with Form Maker? =
@@ -367,14 +367,14 @@ Class Name: You can define new CSS classes in the Edit CSS page and use those cl
 Additional Attributes: You can use this option to customize the specific properties for the field of the contact form. For example typing    
     
     
-== [WordPress Form Creator](http://web-dorado.com/products/wordpress-form.html) Step by step guide Step 4 ==        
+== Form Maker: Step by step guide Step 4 ==        
     
 = Publishing the created contact form =    
 To insert a contact form into a Page or a Post.    
     
     
     
-  4.1. Press the button named Insert Contact form Maker in a post or a page you want to show the contact form.    
+  4.1. Press the button named Insert [WordPress Form Creator](http://web-dorado.com/products/wordpress-form.html) in a post or a page you want to show the contact form.    
     
   4.2. Select a contact form from the list.    
     
@@ -383,14 +383,14 @@ To insert a contact form into a Page or a Post.
 Alternatively, you can use Contact form Maker without the button on the toolbar: Add the shortcode [Contact form id="N"] (where N is the id of the contact form, for the contact form with id=2, the shortcode must be [Contact form id="2"]) to the pages and posts, where you want the contact form to appear.    
 == Contact form Maker Step by step guide Step 5 ==        
     
-= Managing submissions of a [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker =    
+= Managing submissions of a Form Maker=    
     
 5.1 On the top menu select Components > Contact formMaker > Submissions    
     
 5.2 In order to manage a contact form's submissions, select the contact form from the list.    
     
     
-You can filter the submissions by the date filter. You can add/remove any column of the submissions by **Add/Remove Columns** button.     
+You can filter [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker*ssubmissions by the date filter. You can add/remove any column of the submissions by **Add/Remove Columns** button.     
     
     
 The submissions of a contact form can be exported to the CSV and XML contact formats. You can delete any of submissions by selecting them and pressing the **Delete** button on the top of the page. Submissions can be sorted by any of the fields of the contact form by clicking the labels.    
