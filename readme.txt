@@ -11,7 +11,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Form Maker is a modern and advanced tool for creating WordPress forms easily and fast.
 == Description ==
 
-### [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker
+### [WordPress Form Maker](http://web-dorado.com/products/wordpress-form.html)
 
 
 [Demo](http://wpdemo.web-dorado.com/form-maker/)  
@@ -390,7 +390,7 @@ Alternatively, you can use Contact form Maker without the button on the toolbar:
 5.2 In order to manage a contact form's submissions, select the contact form from the list.    
     
     
-You can filter [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker*ssubmissions by the date filter. You can add/remove any column of the submissions by **Add/Remove Columns** button.     
+You can filter [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Makers submissions by the date filter. You can add/remove any column of the submissions by **Add/Remove Columns** button.     
     
     
 The submissions of a contact form can be exported to the CSV and XML contact formats. You can delete any of submissions by selecting them and pressing the **Delete** button on the top of the page. Submissions can be sorted by any of the fields of the contact form by clicking the labels.    
