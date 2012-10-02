@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-12 19:58+0400\n"
-"PO-Revision-Date: 2012-04-13 16:50+0400\n"
+"PO-Revision-Date: 2012-10-02 13:42+0400\n"
 "Last-Translator: Web-Dorado.com <info@web-dorado.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -20,11 +20,11 @@ msgstr "Tittel"
 
 #: C:\wamp\www\wordpress\wp-content\plugins\form-maker/Form_Maker.php:163
 msgid "First"
-msgstr "første"
+msgstr "Fornavn"
 
 #: C:\wamp\www\wordpress\wp-content\plugins\form-maker/Form_Maker.php:164
 msgid "Last"
-msgstr "Siste"
+msgstr "Etternavn"
 
 #: C:\wamp\www\wordpress\wp-content\plugins\form-maker/Form_Maker.php:165
 msgid "Middle"
@@ -121,7 +121,7 @@ msgstr "Ingenting ble sendt"
 #: C:\wamp\www\wordpress\wp-content\plugins\form-maker/functions.php:3655
 #: C:\wamp\www\wordpress\wp-content\plugins\form-maker/functions.php:3661
 msgid "Your form was successfully submitted"
-msgstr "Din skjema ble sendt inn"
+msgstr "Ditt skjema har blitt sendt."
 
 #: C:\wamp\www\wordpress\wp-content\plugins\form-maker/functions.php:3625
 msgid "Error, email was not sent"
