@@ -61,7 +61,7 @@ You can add Google map (*commercial version*) to your forms using a simple user-
  
 ### Supported languages
 
- *If you need language which is not included in this list, please contact us and we will do the translation within 3 days. If you find some mistakes in the translation, please contact us and we will correct it within 3 days.*
+ *If you need language of the Form Maker which is not included in this list, please contact us and we will do the translation within 3 days. If you find some mistakes in the translation of the Form Maker, please contact us and we will correct it within 3 days.*
 
  Afrikaans (af)  
 Albanian (sq)  
@@ -111,7 +111,7 @@ Turkish (tr_TR)
 Ukrainian (uk_UA)  
 Vietnamese (vi)  
 
-== Installation ==
+== Installation of the Form Maker ==
 
 ####Thank you for your interest in [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker.
 
@@ -121,16 +121,16 @@ Minimum requirements of form maker.
 -	PHP 5.x    
 -	MySQL 5.x    
 
-After downloading the ZIP file  
+After downloading the ZIP file of the Form Maker 
 1.    Login to your WordPress site administrator panel and head over the 'Plugins' menu  
-2.    Click 'Add New'  
+2.    Click 'Add New'(in order to add the plugin of the Form Maker)  
 3.    Choose the 'Upload' option
 4.    Click **Choose file** (**Browse**) and select the Form Maker zip file.   
-5.    Click **Install Now** button.    
-6.    Once it is complete, activate the plugin.    
+5.    Click **Install Now** button to install the Form Maker.    
+6.    Once it is complete, activate the plugin of the Form Maker.    
 
-Once the plugin is activated, you'll notice a menu on the left called "Form Maker".  Here you can manage forms and submissions.  
-If any problem occurs with the form maker, please contact us info@web-dorado.com.    
+Once the plugin of the Form Maker is activated, you'll notice a menu on the left called "Form Maker".  Here you can manage forms and submissions of the Form Maker.  
+If any problem occurs with the form maker, please contact us info@web-dorado.com in order to correct the mistakes of the Form Maker plugin.    
 
 == Frequently Asked Questions ==
 
@@ -159,10 +159,10 @@ Generally the possibilities of creating different new amazing forms are limited 
 
 = 3. Why would I want to use Form Maker =
 
-Any site administrator aims to collect as more information and feedback from the site user as it is possible. The most effective mechanism for collecting data from people is forms. The process of creating a form and related databases is complicated, resource and time consuming. The whole process of creating a form may last days, if no weeks. The Form Maker is best choice for skipping all these steps effectively.
+Any site administrator aims to collect as more information and feedback from the site user as it is possible. The most effective mechanism for collecting data from people are forms. The process of creating a form and related databases is complicated, resource and time consuming. The whole process of creating a form may last days, if no weeks. The Form Maker is best choice for skipping all these steps effectively and creating great forms.
 
 
-= 4. I bought Form Maker, but I have not received an email for confirmation and for downloading.  =
+= 4. I bought Form Maker, but I have not received an email for confirmation and for downloading Form Maker plugin.  =
 
 Usually confirmation e-mail of purchasing Form Maker arrives during a minute after the purchase of Form Maker. You can also check spam and junk folders to find out the Form Maker. If the e-mail of purchasing Form Maker does not arrive during half an hour, please contact us to manually receive the Form Maker. We will do our best to solve the problem as soon as possible and will also send the form maker by e-mail.
 
