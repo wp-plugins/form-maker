@@ -141,7 +141,7 @@ If any problem occurs with the form maker, please contact us info@web-dorado.com
 [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker is a brilliant extension for creating online forms for your WordPress site. When you create a form with Form Maker, it automatically builds the forms database and scripts needed for the form. So you can create forms without the knowledge of HTML, CSS or any programming language.
 
 
-= 2. What can I build with Form Maker? =
+= 2. What can I build with [Form Maker](http://wordpress.org/extend/plugins/form-maker) ? =
 
 Generally the possibilities of creating different new amazing forms are limited only by your will or imagination. See below the several examples of usage of [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker.
 - Contact form    
@@ -157,7 +157,7 @@ Generally the possibilities of creating different new amazing forms are limited 
 - Online orders form    
 
 
-= 3. Why would I want to use Form Maker =
+= 3. Why would I want to use [Form Maker](http://wordpress.org/extend/plugins/form-maker) ? =
 
 Any site administrator aims to collect as more information and feedback from the site user as it is possible. The most effective mechanism for collecting data from people are forms. The process of creating a form and related databases is complicated, resource and time consuming. The whole process of creating a form may last days, if no weeks. The Form Maker is best choice for skipping all these steps effectively and creating great forms.
 
@@ -201,7 +201,7 @@ We did our best to have a universal Form Maker which will work on any browser, t
     
 1.	Log in to the administrator panel.    
 2.	Go to Plugins Add > New > Upload.    
-3.	Click **Choose file** (**Browse**) and select the Form Maker zip file.    
+3.	Click **Choose file** (**Browse**) and select the [Form Maker](http://wordpress.org/extend/plugins/form-maker) zip file.    
 4.	Click **Install Now** button.    
 5.	If any problem occurs with the form maker, please contact us info@web-dorado.com and we will try to help you with the issues with the form maker.    
 6.	Click **Activate Plugin** button for activating the form maker.    
@@ -380,7 +380,7 @@ To insert a contact form into a Page or a Post.
     
   4.3. Save the page or the post.     
     
-Alternatively, you can use Contact form Maker without the button on the toolbar: Add the shortcode [Contact form id="N"] (where N is the id of the contact form, for the contact form with id=2, the shortcode must be [Contact form id="2"]) to the pages and posts, where you want the contact form to appear.    
+Alternatively, you can use [Contact Form Maker](http://wordpress.org/extend/plugins/form-maker) without the button on the toolbar: Add the shortcode [Contact form id="N"] (where N is the id of the contact form, for the contact form with id=2, the shortcode must be [Contact form id="2"]) to the pages and posts, where you want the contact form to appear.    
 == Contact form Maker Step by step guide Step 5 ==        
     
 = Managing submissions of a Form Maker=    
