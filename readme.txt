@@ -111,7 +111,7 @@ Turkish (tr_TR)
 Ukrainian (uk_UA)  
 Vietnamese (vi)  
 
-== Installation of the Form Maker ==
+== Installation ==
 
 ####Thank you for your interest in [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker.
 
@@ -230,7 +230,7 @@ We did our best to have a universal Form Maker which will work on any browser, t
     
 2.4   Add new fields to your contact form by clicking on the ADD A NEW FIELD button (see the next step).    
 
-== [WordPress Form Builder](http://web-dorado.com/products/wordpress-form.html) Step by step guide for Form Maker Step 3 ==        
+== Form Maker Step by step guide for Form Maker Step 3 ==        
     
 = Description of the contact form fields =     
     
@@ -383,7 +383,7 @@ To insert a contact form into a Page or a Post.
 Alternatively, you can use [Contact Form Maker](http://wordpress.org/extend/plugins/form-maker) without the button on the toolbar: Add the shortcode [Contact form id="N"] (where N is the id of the contact form, for the contact form with id=2, the shortcode must be [Contact form id="2"]) to the pages and posts, where you want the contact form to appear.    
 == Contact form Maker Step by step guide Step 5 ==        
     
-= Managing submissions of a Form Maker=    
+####Managing submissions of a [Form Maker](http://web-dorado.com/products/wordpress-form.html)    
     
 5.1 On the top menu select Components > Contact formMaker > Submissions    
     
