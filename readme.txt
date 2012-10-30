@@ -18,7 +18,7 @@ Form Maker is a modern and advanced tool for creating WordPress forms easily and
 [Demo Admin](http://wpdemo.web-dorado.com/wp-admin/admin.php?page=Form_maker)  
 [User Manual](http://web-dorado.com/wordpress-form-maker-guide-1.html)  
 [Frequently Asked Questions](http://web-dorado.com/forum/form-maker/316-form-maker-faq.html)  
-[Support Forum](http://web-dorado.com/forum/form-maker.html)  
+[Support Forum](http://web-dorado.com/forum/26-form-maker.html)  
 
 The [Form Maker](http://web-dorado.com/products/wordpress-form.html) is one of the best form creators in WordPress Plugin Directory.  [WordPres Form Builder](http://web-dorado.com/products/wordpress-form.html) allows you to set all the parameters such as colors and fonts. The size of each element of the form can be set as well.
 [Form Maker](http://web-dorado.com/products/wordpress-form.html) is a modern and advanced tool for creating WordPress forms easily and fast. The back end interface of the [Form Maker](http://web-dorado.com/products/wordpress-form.html) is intuitive and user friendly which allows users far from scripting and programming to create forms.  
