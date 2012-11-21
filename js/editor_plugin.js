@@ -6,8 +6,8 @@
 			ed.addCommand('mceForm_Maker_mce', function() {
 				ed.windowManager.open({
 					file : url + '/../window.php',
-					width : 300 + ed.getLang('Form_Maker_mce.delta_width', 0),
-					height : 150 + ed.getLang('Form_Maker_mce.delta_height', 0),
+					width : 400 + ed.getLang('Form_Maker_mce.delta_width', 0),
+					height : 250 + ed.getLang('Form_Maker_mce.delta_height', 0),
 					inline : 1
 				}, {
 					plugin_url : url // Plugin absolute URL

@@ -1,41 +1,43 @@
 <?php 
   
  /**
- * @package Form Creator
+ * @package Form Maker
  * @author Web-Dorado
  * @copyright (C) 2011 Web-Dorado. All rights reserved.
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  **/
 
  // This php file returnes Captcha image in image/jpeg format therefore direct access must be allowed
-if(isset($_GET['digit']))
-{
-$cap_width=$_GET['digit']*10+15;
-}
+ if(isset($_GET["i"]))
+$i=$_GET["i"];
+else
+$i='';
+if(isset($_GET['r2']))
+$r2=$_GET['r2'];
+else
+$r2=0;
+if(isset($_GET['r']))
+$rrr=$_GET['r'];
+else
+$rrr=0;
+$randNum=0+$r2+$rrr;
+
+if(isset($_GET["digit"]))
+$cap_width=$_GET["digit"]*10+15;
 else
 {
 	$cap_width=6*10+15;
 }
 $cap_height=30;
 $cap_quality=100;
-if(isset($_GET['digit']))
-{
-$cap_length_min=$_GET['digit'];
-}
+if(isset($_GET["digit"]))
+$cap_length_min=$_GET["digit"];
 else
-{
-	$cap_length_min=6;
-}
-
-
-if(isset($_GET['digit']))
-{
-$cap_length_max=$_GET['digit'];
-}
+$cap_length_min=6;
+if(isset($_GET["digit"]))
+$cap_length_max=$_GET["digit"];
 else
-{
-	$cap_length_max=6;
-}
+$cap_length_max=6;
 $cap_digital=1;
 $cap_latin_char=1;
 
@@ -57,7 +59,8 @@ return $pass;
 $l=rand($cap_length_min,$cap_length_max);
 $code=code_generic($l,$cap_digital,$cap_latin_char);
 @session_start();
-$_SESSION['wd_captcha_code']=$code;
+
+$_SESSION[$i.'_wd_captcha_code']=$code;
 $canvas=imagecreatetruecolor($cap_width,$cap_height);
 $c=imagecolorallocate($canvas,rand(150,255),rand(150,255),rand(150,255));
 imagefilledrectangle($canvas,0,0,$cap_width,$cap_height,$c);
