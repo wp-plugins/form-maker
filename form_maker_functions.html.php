@@ -464,6 +464,7 @@ for(t=1;t<=form_view_max;t++)
 		break;
 		}
 	}
+	}
 	alltypes=Array('customHTML','text','checkbox','radio','time_and_date','select','file_upload','captcha','map','button','page_break','section_break');
 	for(x=0; x<12;x++)
 	{
@@ -814,12 +815,12 @@ function formAddToOnload()
 
 function formLoadBody()
 {
+
 	formOldFunctionOnLoad = window.onload;
 	window.onload = formAddToOnload;
 }
 
 var formOldFunctionOnLoad = null;
-
 formLoadBody();
 
 function add_new_field(id)
