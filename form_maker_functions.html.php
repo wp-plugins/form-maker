@@ -1,4 +1,4 @@
-<?php
+enblw<?php
 
 
 
@@ -456,6 +456,14 @@ for(t=1;t<=form_view_max;t++)
 
     function enable2()
 	{
+	for(iiiii=0; iiiii<1000;iiiii++)
+	{
+	if(document.getElementsByTagName("iframe")[iiiii]){
+		if(document.getElementsByTagName("iframe")[iiiii].id=='form_maker_editor_ifr'){
+		id_ifr_editor=iiiii;
+		break;
+		}
+	}
 	alltypes=Array('customHTML','text','checkbox','radio','time_and_date','select','file_upload','captcha','map','button','page_break','section_break');
 	for(x=0; x<12;x++)
 	{
