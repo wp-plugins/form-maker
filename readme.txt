@@ -212,23 +212,36 @@ We did our best to have a universal Form Maker which will work on any browser, t
     
 2.1  On the left menu select [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker > Manager    
     
-2.2  In the upper left corner click on the **Add a contact form** button.     
+2.2  In the upper left corner click on the **Add a form** button.     
     
 2.3   On the top of the page you can find several buttons:    
      
     
--	Edit JavaScript: Here you can define new JavaScript functions which can be used in the contact form creation.    
--	Edit CSS: Here you can edit the CSS of the contact form. You can also define new CSS classes which can be used in the contact form creation. You can restore the CSS of the contact form to the default version.    
--	Custom text in the e-mail of the contact form: Here you can add custom texts, images and Custom HTML to the e-mail message of the filled contact form.    
+Preview: Using this button, you can preview the form in the form's current state to see how it will appear on the website.
+Actions after Submission: Here you can select the action that takes place after form submission. Following options after form submission are available:   
+-	Stay on form: The user stays on the form page after the form submission.   
+-	Article: The user is redirected to the selected article after the form submission.   
+-	Custom text: Custom text is displayed on the screen after the form submission.   
+-	URL: The user is redirected to the provided URL after the form submission.   
+Edit JavaScript: Here you can define new JavaScript functions, which can be applied to the form. Three empty event functions are included in the form maker:   
+-	before_load(): before the form is loaded   
+-	before_submit(): before the form is submitted   
+-	before_reset(): before the form is reset   
+	Custom text in e-mail for administrator: Here you can add custom texts, images, and custom HTML to the e-mail message that is sent to the administrator after the form submission.   
+	Custom text in e-mail for user: Here you can add custom texts, images, and custom HTML to the e-mail message that is sent to the users after the form submission.    
+	Save as Copy: The button allows you to save a copy of the current form, which you can later find in the “Forms” section.“   
     
     
-2.3   On the right side you will see three fields of the contact form:    
+2.4   On the right side you will see three fields of the contact form:    
 -	Contact form Title: In this field type a title for your contact form. You can have an unlimited number of contact forms. This is a required field for a contact form.    
 -	Email to send submissions of a contact form to: Here you type e-mails to which submitted contact form incontact formation will be sent. If you need more than one e-mail address to send the submissions of a contact form you must separate them by commas. This field is not required for a contact form. In any case the submitted incontact formation is stored in**Submissions** part of the contact form maker, where it could be managed easily.     
--	The Post, which appears after submission of a contact form: You can select a post which the user will see after the contact form is submitted.    
+-	Theme. A distinct theme can be applied to each new form. The themes can be accessed by selecting Form Maker > Themes on the left menu. 43 themes are available for selection for each. There is an option for creating new themes for a form, which you can access by clicking “New” on the upper right corner of the section.which you can later find in the “Forms” section.    
     
     
-2.4   Add new fields to your contact form by clicking on the ADD A NEW FIELD button (see the next step).    
+2.5   Add new fields to your contact form by clicking on the ADD A NEW FIELD button (see the next step).    
+    
+     
+2.6   To update the Form Maker plugin while keeping your existing forms, you need to deactivate and delete the Form Maker from the list of installed plugins (do not uninstall it using the Uninstall Form Maker option of the plugin) and install the new plugin. Afterwards, go to Form Maker>Manager and on the upper hand of the screen click on the “Update Forms” button. If the update is successful, you will see a notification message, “All forms are updated!”
 
 == Form Maker Step by step guide for Form Maker Step 3 ==        
     
