@@ -1,7 +1,7 @@
 === Form Maker ===
 Contributors: webdorado
 Donate link: http://web-dorado.com/products/wordpress-form.html
-Tags: form, forms,  contact form, wordpress form, form maker, contact form plugin, contact form builder, feedback form, feedback forms, custom forms
+Tags: form, forms,   form, wordpress form, form maker,  form plugin,  form builder, feedback form, feedback forms, custom forms
 Requires at least: 3.0
 Tested up to: 3.4
 Stable tag: trunk
@@ -22,10 +22,10 @@ Form Maker is a modern and advanced tool for creating WordPress forms easily and
 
 The [Form Maker](http://web-dorado.com/products/wordpress-form.html) is one of the best form creators in WordPress Plugin Directory.  [WordPres Form Builder](http://web-dorado.com/products/wordpress-form.html) allows you to set all the parameters such as colors and fonts. The size of each element of the form can be set as well.
 [Form Maker](http://web-dorado.com/products/wordpress-form.html) is a modern and advanced tool for creating WordPress forms easily and fast. The back end interface of the [Form Maker](http://web-dorado.com/products/wordpress-form.html) is intuitive and user friendly which allows users far from scripting and programming to create forms.  
-[WordPress Form](http://web-dorado.com/products/wordpress-form.html) handles small forms to complex form applications. That is why [Form Maker](http://web-dorado.com/products/wordpress-form.html) is ideally suited for beginners and also meets the needs of designers and experts. [WordPress Form  Maker](http://web-dorado.com/products/wordpress-form.html) can be used for creating contact, mailing list, survey, application, event registration and party invitation forms.   
+[WordPress Form](http://web-dorado.com/products/wordpress-form.html) handles small forms to complex form applications. That is why [Form Maker](http://web-dorado.com/products/wordpress-form.html) is ideally suited for beginners and also meets the needs of designers and experts. [WordPress Form  Maker](http://web-dorado.com/products/wordpress-form.html) can be used for creating , mailing list, survey, application, event registration and party invitation forms.   
 You can add Google map (*commercial version*) to your form using a simple user-friendly interface of the [Form Maker](http://web-dorado.com/products/wordpress-form.html). Also the desired address can be added in a few seconds using the address searching interface, or by filling in geographical coordinates (longitude and latitude). You can also drag the marker on the map using only the mouse.  
 
-###IMPORTANT: If you think you found a bug in Form Maker or have any problem or question concerning Form Maker, do not hesitate to contact us at [info@web-dorado.com](mailto:info@web-dorado.com).
+###IMPORTANT: If you think you found a bug in Form Maker or have any problem or question concerning Form Maker, do not hesitate to  us at [info@web-dorado.com](mailto:info@web-dorado.com).
 
 
 ###Features:  
@@ -61,7 +61,7 @@ You can add Google map (*commercial version*) to your form using a simple user-f
  
 ### Supported languages
 
- *If you need language of the Form Maker which is not included in this list, please contact us and we will do the translation of the Form Maker within 3 days. If you find some mistakes in the translation of the Form Maker, please contact us and we will correct it within 3 days.*
+ *If you need language of the Form Maker which is not included in this list, please  us and we will do the translation of the Form Maker within 3 days. If you find some mistakes in the translation of the Form Maker, please  us and we will correct it within 3 days.*
 
  Afrikaans (af)  
 Albanian (sq)  
@@ -130,7 +130,7 @@ After downloading the ZIP file of the Form Maker
 6.    Once it is complete, activate the plugin of the Form Maker.    
 
 Once the plugin of the Form Maker is activated, you'll notice a menu on the left called "Form Maker".  Here you can manage forms and submissions of the Form Maker.  
-If any problem occurs with the form maker, please contact us info@web-dorado.com in order to correct the mistakes of the Form Maker plugin.    
+If any problem occurs with the form maker, please  us info@web-dorado.com in order to correct the mistakes of the Form Maker plugin.    
 
 == Frequently Asked Questions ==
 
@@ -144,7 +144,7 @@ If any problem occurs with the form maker, please contact us info@web-dorado.com
 = 2. What can I build with [Form Maker](http://wordpress.org/extend/plugins/form-maker) ? =
 
 Generally the possibilities of creating different new amazing forms are limited only by your will or imagination. See below the several examples of usage of [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker.
-- Contact form    
+-  form    
 - Mailing list form    
 - Survey form     
 - Job application form    
@@ -164,7 +164,7 @@ Any site administrator aims to collect as more information and feedback from the
 
 = 4. I bought Form Maker, but I have not received an email for confirmation and for downloading Form Maker plugin.  =
 
-Usually confirmation e-mail of purchasing Form Maker arrives during a minute after the purchase of Form Maker. You can also check spam and junk folders to find out the Form Maker. If the e-mail of purchasing Form Maker does not arrive during half an hour, please contact us to manually receive the Form Maker. We will do our best to solve the problems connected with th Form Maker as soon as possible and will also send the form maker by e-mail.
+Usually confirmation e-mail of purchasing Form Maker arrives during a minute after the purchase of Form Maker. You can also check spam and junk folders to find out the Form Maker. If the e-mail of purchasing Form Maker does not arrive during half an hour, please  us to manually receive the Form Maker. We will do our best to solve the problems connected with th Form Maker as soon as possible and will also send the form maker by e-mail.
 
 
 = 5. Does the Form Maker work on the localhost. =
@@ -174,13 +174,13 @@ Yes, [WordPress Form](http://web-dorado.com/products/wordpress-form.html)  Maker
 
 = 6. Form Maker does not work or works in an improper way. What should I do to solve the problem connected with Form Maker? =
 
-We did our best to have a universal Form Maker which will work on any browser, template and will not conflict with other extensions. As any case of such kind of a problem is unique, please contact us giving the link of the website where the problem with Form Maker has occurred. We will try to answer within 24 hours and solve the problem with Form Maker.
+We did our best to have a universal Form Maker which will work on any browser, template and will not conflict with other extensions. As any case of such kind of a problem is unique, please  us giving the link of the website where the problem with Form Maker has occurred. We will try to answer within 24 hours and solve the problem with Form Maker.
 
 
 
 == Screenshots ==
 1.  Form Maker - Sample RSVP  
-2.  Form Maker - Sample contact form  
+2.  Form Maker - Sample  form  
 3.  Form Maker - Manage forms  
 4.  Form Maker - Creating a new form  
 5.  Form Maker - Text input field type  
@@ -203,7 +203,7 @@ We did our best to have a universal Form Maker which will work on any browser, t
 2.	Go to Plugins Add > New > Upload.    
 3.	Click **Choose file** (**Browse**) and select the [Form Maker](http://wordpress.org/extend/plugins/form-maker) zip file.    
 4.	Click **Install Now** button.    
-5.	If any problem occurs with the form maker, please contact us info@web-dorado.com and we will try to help you with the issues with the form maker.    
+5.	If any problem occurs with the form maker, please  us info@web-dorado.com and we will try to help you with the issues with the form maker.    
 6.	Click **Activate Plugin** button for activating the form maker.    
 
 == Form Maker Step by step guide Step 2 ==        
@@ -229,184 +229,193 @@ Edit JavaScript: Here you can define new JavaScript functions, which can be appl
 -	before_reset(): before the form is reset   
 	Custom text in e-mail for administrator: Here you can add custom texts, images, and custom HTML to the e-mail message that is sent to the administrator after the form submission.   
 	Custom text in e-mail for user: Here you can add custom texts, images, and custom HTML to the e-mail message that is sent to the users after the form submission.    
-	Save as Copy: The button allows you to save a copy of the current form, which you can later find in the “Forms” section.“   
+	Save as Copy: The button allows you to save a copy of the current form, which you can later find in the "Forms section."   
     
     
-2.4   On the right side you will see three fields of the contact form:    
--	Contact form Title: In this field type a title for your contact form. You can have an unlimited number of contact forms. This is a required field for a contact form.    
--	Email to send submissions of a contact form to: Here you type e-mails to which submitted contact form incontact formation will be sent. If you need more than one e-mail address to send the submissions of a contact form you must separate them by commas. This field is not required for a contact form. In any case the submitted incontact formation is stored in**Submissions** part of the contact form maker, where it could be managed easily.     
--	Theme. A distinct theme can be applied to each new form. The themes can be accessed by selecting Form Maker > Themes on the left menu. 43 themes are available for selection for each. There is an option for creating new themes for a form, which you can access by clicking “New” on the upper right corner of the section.which you can later find in the “Forms” section.    
+2.4   On the right side you will see three fields of the  form:    
+-	 form Title: In this field type a title for your  form. You can have an unlimited number of  forms. This is a required field for a  form.    
+-	Email to send submissions of a  form to: Here you type e-mails to which submitted  form in formation will be sent. If you need more than one e-mail address to send the submissions of a  form you must separate them by commas. This field is not required for a  form. In any case the submitted in formation is stored in**Submissions** part of the  form maker, where it could be managed easily.     
+-	Theme. A distinct theme can be applied to each new form. The themes can be accessed by selecting Form Maker > Themes on the left menu. 43 themes are available for selection for each. There is an option for creating new themes for a form, which you can access by clicking "New" on the upper right corner of the section.which you can later find in the "Forms" section.    
     
     
-2.5   Add new fields to your contact form by clicking on the ADD A NEW FIELD button (see the next step).    
+2.5   Add new fields to your  form by clicking on the ADD A NEW FIELD button (see the next step).    
     
      
-2.6   To update the Form Maker plugin while keeping your existing forms, you need to deactivate and delete the Form Maker from the list of installed plugins (do not uninstall it using the Uninstall Form Maker option of the plugin) and install the new plugin. Afterwards, go to Form Maker>Manager and on the upper hand of the screen click on the “Update Forms” button. If the update is successful, you will see a notification message, “All forms are updated!”
+2.6   To update the Form Maker plugin while keeping your existing forms, you need to deactivate and delete the Form Maker from the list of installed plugins (do not uninstall it using the Uninstall Form Maker option of the plugin) and install the new plugin. Afterwards, go to Form Maker>Manager and on the upper hand of the screen click on the "Update Forms" button. If the update is successful, you will see a notification message, "All forms are updated!"
 
 == Form Maker Step by step guide for Form Maker Step 3 ==        
     
-= Description of the contact form fields =     
+= Description of the  form fields =     
     
-3.1 Custom HTML:An HTML editor. You can insert your own HTML content to your contact form.    
+3.1 Custom HTML:An HTML editor. You can insert your own HTML content to your  form.    
     
-3.2 Text Input: At first choose the Field Type of the contact form according to your preference. There are several options:    
+3.2 Text Input: At first choose the Field Type of the  form according to your preference. There are several options:    
 -	Simple Text: This can be used for typing some text. It has several attributes:     
-Field Label: Type the name of the field of the contact form.    
-Field Label Position: Field label of the contact form can be set in two positions on the form: top and left    
-Field Size: Type the size of the field of the contact form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the contact form and disappeared when the form user enters the incontact formation.    
-Class Name : You can define new CSS classes in the Edit CSS page and use those classes here to design the contact form more properly.    
+Field Label: Type the name of the field of the  form.    
+Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Size: Type the size of the field of the  form in pixels.    
+Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappeared when the form user enters the in formation.    
+Class Name : You can define new CSS classes in the Edit CSS page and use those classes here to design the  form more properly.    
     
-Required: The field of the contact form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this option of the contact form to customize the specific properties for the field of the contact form.    
-Password: This field of the contact form can be used for adding a password field to your contact form. It has several attributes:     
-Field Label: Type the name of the field of the contact form.    
-Field Label Position: Field label of the contact form can be set in two positions on the form: top and left    
-Field Size: Type the size of the field of the contact form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the contact form and disappeared when the user of form enters the incontact formation.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the contact form more properly.    
-Required: The field of the contact form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this option of the contact form to customize the specific properties for the field of the contact form.    
+Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
+ Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
+Password: This field of the  form can be used for adding a password field to your  form. It has several attributes:     
+Field Label: Type the name of the field of the  form.    
+Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Size: Type the size of the field of the  form in pixels.    
+Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappeared when the user of form enters the in formation.    
+Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
+Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
+ Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
      
 Text Area: This field of the conatct form can be used for typing some text. The difference between Text Area and Simple Text is that Simple Text has only one row while Text Area can have several rows. It has several attributes:     
-Field Label: Type the name of the field of the contact form.    
-Field Label Position: Field label of the contact form can be set in two positions on the form: top and left    
-Field Size: Type the size of the field of the contact form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the contact form and disappeared when the user of the form enters the incontact formation.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the contact form more properly.    
+Field Label: Type the name of the field of the  form.    
+Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Size: Type the size of the field of the  form in pixels.    
+Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappeared when the user of the form enters the in formation.    
+Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
     
-Required: The field of the contact form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this form option to customize the specific properties for the field of the contact form.    
+Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
+ Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.    
      
-Name: This can be used for typing a name. It has several attributes: Field Label: Type the name of the field of the contact form.    
-Field Label Position: Field label of the contact form can be set in two positions on the form: top and left    
-Field Size: Type the size of the field of the contact form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the contact form and disappeared when the user of the form enters the incontact formation.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the contact form more properly.    
-Required: The field of the contact form can be set as required for the submission on th form by this checkbox.    
- Additional Attributes: You can use this form option to customize the specific properties for the field of the contact form.    
+Name: This can be used for typing a name. It has several attributes: Field Label: Type the name of the field of the  form.    
+Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Size: Type the size of the field of the  form in pixels.    
+Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappeared when the user of the form enters the in formation.    
+Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
+Required: The field of the  form can be set as required for the submission on th form by this checkbox.    
+ Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.    
+ Address: This field can be used for adding an address. It has several attributes:
+ Field Label: Type the name of the field of the  form.    
+Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Size: Type the size of the field of the  form in pixels.    
+Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappeared when the user of the form enters the in formation.    
+Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
+Send mail to the submitter: The submitted in formation of the  form will be sent to the submitter if this box is checked.    
+Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
+ Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.    
 E-mail:This form field can be used for typing the submitter's e-mail. The submitted e-mail validation is checked. It has several attributes:    
-Field Label: Type the name of the field of the contact form.    
-Field Label Position: Field label of the contact form can be set in two positions on the form: top and left    
-Field Size: Type the size of the field of the contact form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the contact form and disappeared when the user of the form enters the incontact formation.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the contact form more properly.    
-Send mail to the submitter: The submitted incontact formation of the contact form will be sent to the submitter if this box is checked.    
-Required: The field of the contact form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this form option to customize the specific properties for the field of the contact form.    
+Field Label: Type the name of the field of the  form.    
+Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Size: Type the size of the field of the  form in pixels.    
+Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappeared when the user of the form enters the in formation.    
+Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
+Send mail to the submitter: The submitted in formation of the  form will be sent to the submitter if this box is checked.    
+Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
+ Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.    
     
--	Hidden Field: This field oof the contact form can be used to store additional incontact formation that does not need to be displayed on the form. It has several attributes :Field ld,Field Name, Field Value, Additional Attributes.    
+-	Hidden Field: This field oof the  form can be used to store additional in formation that does not need to be displayed on the form. It has several attributes :Field ld,Field Name, Field Value, Additional Attributes.    
 3.3 Time and Date: At first choose the form Field Type according to your preference. There are several options:    
-Date (single field with a picker): This field of the contact form can be used for typing a date or choosing by the picker. It has several attributes:     
-Field Label: Type the name of the field of the contact form.    
-Field Label Position: Field label of the contact form can be set in two positions on the form: top and left    
-Date contact format: Here you can define the date contact format for the date picker of the contact form.    
-Date picker label: Type the label of the date picker button of the contact form.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the contact form more properly.    
-Required: The field of the contact form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this option of the form to customize the specific properties for the field of the contact form.     
-Date (3 separate fields): This field of the form can be used for typing a date in 3 field contact format(day, month, year). Each of the 3 form fields can be set as text input or select list.  Each of the 3 form fields has the attributes Field Size and Field Label.  For year field the select list interval can be defined. These 3 form fields can be separated in the contact format set by the fields separator attribute. The field has several attributes:     
-Field Label: Type the name of the field of the contact form.    
-Field Label Position: Field label of the contact form can be set in two positions on the form: top and left    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the contact form more properly.    
-Required: The field of the contact form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this option of the form to customize the specific properties for the field of the contact form.      
-Time: This field of the form can be used for typing a time. Time can be shown in 24 hour or 12 hour contact formats by setting the time contact format attribute. The seconds preview can be enabled/disabled by setting the Display Seconds attribute. The field of the form has several standard attributes:     
-Field Label: Type the name of the field of the contact form.    
-Field Label Position: Field label of the contact form can be set in two positions on the form: top and left    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the contact form more properly.    
-Required: The field of the contact form can be set as required for the submission on the form by this checkbox.    
-Additional Attributes: You can use this option of the form to customize the specific properties for the field of the contact form.    
+Date (single field with a picker): This field of the  form can be used for typing a date or choosing by the picker. It has several attributes:     
+Field Label: Type the name of the field of the  form.    
+Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Date  format: Here you can define the date  format for the date picker of the  form.    
+Date picker label: Type the label of the date picker button of the  form.    
+Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
+Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
+ Additional Attributes: You can use this option of the form to customize the specific properties for the field of the  form.     
+Date (3 separate fields): This field of the form can be used for typing a date in 3 field  format(day, month, year). Each of the 3 form fields can be set as text input or select list.  Each of the 3 form fields has the attributes Field Size and Field Label.  For year field the select list interval can be defined. These 3 form fields can be separated in the  format set by the fields separator attribute. The field has several attributes:     
+Field Label: Type the name of the field of the  form.    
+Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
+Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
+ Additional Attributes: You can use this option of the form to customize the specific properties for the field of the  form.      
+Time: This field of the form can be used for typing a time. Time can be shown in 24 hour or 12 hour  formats by setting the time  format attribute. The seconds preview can be enabled/disabled by setting the Display Seconds attribute. The field of the form has several standard attributes:     
+Field Label: Type the name of the field of the  form.    
+Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
+Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
+Additional Attributes: You can use this option of the form to customize the specific properties for the field of the  form.    
     
 3.4 Select: At first choose the form Field Type according to your preference. There are several options:    
 Custom select: This field of the form can be used for selecting the values from a list. The list can be defined by Options attribute. You can easily add and remove list items. The checked items are considered as empty values. The form field has several attributes:    
- Field Label: Type the name of the field of the contact form.    
-Field Label Position: Field label of the contact form can be set in two positions on the form: top and left    
-Field Size: Type the size of the field of the contact form in pixels.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the contact form more properly.    
-Required: The field of the contact form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this option of the contact form to customize the specific properties for the field of the contact form.    
+ Field Label: Type the name of the field of the  form.    
+Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Size: Type the size of the field of the  form in pixels.    
+Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
+Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
+ Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
 Country list: This field of the form can be used for selecting a country from a list. It has several attributes:     
-Field Label: Type the name of the field of the contact form.    
-Field Label Position: Field label of the contact form can be set in two positions on the form: top and left    
-Field Size: Type the size of the field of the contact form in pixels.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the contact form more properly.    
-Required: The field of the contact form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this option of the contact form to customize the specific properties for the field of the contact form.    
-3.5 Checkbox: This field of the contact form can be used for selecting the values from a list of checkboxes. The list can be defined by Options attribute. You can easily add and remove list items. The list can be displayed in horizontal/vertical positions by setting the Relative Position attribute.The field of the form has several attributes:     
-Field Label: Type the name of the field of the contact form.    
-Field Label Position: Field label of the contact form can be set in two positions on the form: top and left    
-Field Size: Type the size of the field of the contact form in pixels.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the contact form more properly.    
-Required: The field of the contact form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this option of the contact form to customize the specific properties for the field of the contact form.    
+Field Label: Type the name of the field of the  form.    
+Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Size: Type the size of the field of the  form in pixels.    
+Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
+Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
+ Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
+3.5 Checkbox: This field of the  form can be used for selecting the values from a list of checkboxes. The list can be defined by Options attribute. You can easily add and remove list items. The list can be displayed in horizontal/vertical positions by setting the Relative Position attribute.The field of the form has several attributes:     
+Field Label: Type the name of the field of the  form.    
+Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Size: Type the size of the field of the  form in pixels.    
+Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
+Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
+ Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
     
-3.6Radio:This field of the contact form can be used for selecting the values from a list of radio buttons. The list can be defined by Options attribute. You can easily add and remove list items. The list can be displayed in horizontal/vertical in the contact form positions by setting the Relative Position attribute.The field of the contact form has several attributes: Field Label: Type the name of the field of the contact form.    
-Field Label Position: Field label of the contact form can be set in two positions on the form: top and left    
-Field Size: Type the size of the field of the contact form in pixels.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the contact form more properly.    
-Required: The field of the contact form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this option of the contact form to customize the specific properties for the field of the contact form.    
+3.6Radio:This field of the  form can be used for selecting the values from a list of radio buttons. The list can be defined by Options attribute. You can easily add and remove list items. The list can be displayed in horizontal/vertical in the  form positions by setting the Relative Position attribute.The field of the  form has several attributes: Field Label: Type the name of the field of the  form.    
+Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Size: Type the size of the field of the  form in pixels.    
+Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
+Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
+ Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
     
      
-3.7 File Upload: This field of the contact form can be used for uploading a file. The size of the uploaded file can be limited by setting the value of Maximum Size attribute in KB. The upload folder can be mentioned by setting the Destinationattribute. Only files with extensions listed in Allowed file extensionsattribute can be uploaded. The form field has several attributes: Field Label: Type the name of the field of the contact form.    
+3.7 File Upload: This field of the  form can be used for uploading a file. The size of the uploaded file can be limited by setting the value of Maximum Size attribute in KB. The upload folder can be mentioned by setting the Destinationattribute. Only files with extensions listed in Allowed file extensionsattribute can be uploaded. The form field has several attributes: Field Label: Type the name of the field of the  form.    
     
-Field Label Position: Field label of the contact form can be set in two positions on the form: top and left    
-Field Size: Type the size of the field of the contact form in pixels.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the contact form more properly.    
-Required: The field of the contact form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this option of the contact form to customize the specific properties for the field of the contact form.    
+Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Size: Type the size of the field of the  form in pixels.    
+Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
+Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
+ Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
       
     
-3.8 Captcha: This field of the contact form can be used for the ensuring that the submission is generated by a person. The number of randomly generated symbols can be set by the value of Captcha size attribute. The field of the contact form has several attributes:     
-Field Label: Type the name of the field of the contact form.    
-Field Label Position: Field label of the contact form can be set in two positions on the form: top and left    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the contact form more properly.    
-Required: The field of the contact form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this option of the contact form to customize the specific properties for the field of the contact form.    
+3.8 Captcha: This field of the  form can be used for the ensuring that the submission is generated by a person. The number of randomly generated symbols can be set by the value of Captcha size attribute. The field of the  form has several attributes:     
+Field Label: Type the name of the field of the  form.    
+Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
+Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
+ Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
      
     
-3.9 Map: This field of the contact form can be used for pointing out some position on the map. The position of the marker is fixed at the front end. The field of the contact form  has several attributes:Location, Map Size, Marker Info, Class Name, Additional Attributes.     
+3.9 Map: This field of the  form can be used for pointing out some position on the map. The position of the marker is fixed at the front end. The field of the  form  has several attributes:Location, Map Size, Marker Info, Class Name, Additional Attributes.     
     
     
-3.10 Button: At first choose the Field Type of the contact form according to your preference. There are several options:    
--	Submit and Reset: This field of the contact form can be used for inserting a submit/reset button into the contact form. You can display reset button by checking the box called Display reset button. Type the name of the submit and reset buttons in Submit button label and Reset button label. The field of the form also has several attributes:     
-Class Name: You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the contact form more properly.    
+3.10 Button: At first choose the Field Type of the  form according to your preference. There are several options:    
+-	Submit and Reset: This field of the  form can be used for inserting a submit/reset button into the  form. You can display reset button by checking the box called Display reset button. Type the name of the submit and reset buttons in Submit button label and Reset button label. The field of the form also has several attributes:     
+Class Name: You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
      
-Additional Attributes: You can use this option of the form to customize the specific properties for the field of the contact form. For example typing    
-Custom: This field of the contact form can be used for inserting custom buttons into the contact form. Type the name of each button in button name field. You can define click functions for each button. The field of the contact form also has several attributes:     
-Class Name: You can define new CSS classes in the Edit CSS page and use those classes here to design the contact form more properly.    
+Additional Attributes: You can use this option of the form to customize the specific properties for the field of the  form. For example typing    
+Custom: This field of the  form can be used for inserting custom buttons into the  form. Type the name of each button in button name field. You can define click functions for each button. The field of the  form also has several attributes:     
+Class Name: You can define new CSS classes in the Edit CSS page and use those classes here to design the  form more properly.    
      
-Additional Attributes: You can use this option of the contact form to customize the specific properties for the field of the contact form. For example typing    
+Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form. For example typing    
     
     
 == Form Maker: Step by step guide Step 4 ==        
     
-= Publishing the created contact form =    
-To insert a contact form into a Page or a Post.    
+= Publishing the created  form =    
+To insert a  form into a Page or a Post.    
     
     
     
-  4.1. Press the button named Insert [WordPress Form Creator](http://web-dorado.com/products/wordpress-form.html) in a post or a page you want to show the contact form.    
+  4.1. Press the button named Insert [WordPress Form Creator](http://web-dorado.com/products/wordpress-form.html) in a post or a page you want to show the  form.    
     
-  4.2. Select a contact form from the list.    
+  4.2. Select a  form from the list.    
     
   4.3. Save the page or the post.     
     
-Alternatively, you can use [Contact Form Maker](http://wordpress.org/extend/plugins/form-maker) without the button on the toolbar: Add the shortcode [Contact form id="N"] (where N is the id of the contact form, for the contact form with id=2, the shortcode must be [Contact form id="2"]) to the pages and posts, where you want the contact form to appear.    
-== Contact form Maker Step by step guide Step 5 ==        
+Alternatively, you can use [ Form Maker](http://wordpress.org/extend/plugins/form-maker) without the button on the toolbar: Add the shortcode [ form id="N"] (where N is the id of the  form, for the  form with id=2, the shortcode must be [ form id="2"]) to the pages and posts, where you want the  form to appear.    
+==  form Maker Step by step guide Step 5 ==        
     
 ####Managing submissions of a [Form Maker](http://web-dorado.com/products/wordpress-form.html)    
     
-5.1 On the top menu select Components > Contact formMaker > Submissions    
+5.1 On the top menu select Components >  formMaker > Submissions    
     
-5.2 In order to manage a contact form's submissions, select the contact form from the list.    
+5.2 In order to manage a  form's submissions, select the  form from the list.    
     
     
 You can filter [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Makers submissions by the date filter. You can add/remove any column of the submissions by **Add/Remove Columns** button.     
     
     
-The submissions of a contact form can be exported to the CSV and XML contact formats. You can delete any of submissions by selecting them and pressing the **Delete** button on the top of the page. Submissions can be sorted by any of the fields of the contact form by clicking the labels.    
+The submissions of a  form can be exported to the CSV and XML  formats. You can delete any of submissions by selecting them and pressing the **Delete** button on the top of the page. Submissions can be sorted by any of the fields of the  form by clicking the labels.    
     
 
  
