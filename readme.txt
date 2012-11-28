@@ -256,10 +256,10 @@ Field Label Position: Field label of the  form can be set in two positions on th
 Field Size: Type the size of the field of the  form in pixels.    
 Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappeared when the form user enters the in formation.    
 Class Name : You can define new CSS classes in the Edit CSS page and use those classes here to design the  form more properly.    
-    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
-Password: This field of the  form can be used for adding a password field to your  form. It has several attributes:     
+    
+	Password: This field of the  form can be used for adding a password field to your  form. It has several attributes:     
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
 Field Size: Type the size of the field of the  form in pixels.    
@@ -268,25 +268,25 @@ Class Name : You can define new CSS classes for the form in the Edit CSS page an
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
      
-Text Area: This field of the conatct form can be used for typing some text. The difference between Text Area and Simple Text is that Simple Text has only one row while Text Area can have several rows. It has several attributes:     
+	Text Area: This field of the conatct form can be used for typing some text. The difference between Text Area and Simple Text is that Simple Text has only one row while Text Area can have several rows. It has several attributes:     
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
 Field Size: Type the size of the field of the  form in pixels.    
 Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappeared when the user of the form enters the in formation.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
-    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.    
      
-Name: This can be used for typing a name. It has several attributes: Field Label: Type the name of the field of the  form.    
+	Name: This can be used for typing a name. It has several attributes: Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
 Field Size: Type the size of the field of the  form in pixels.    
 Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappeared when the user of the form enters the in formation.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on th form by this checkbox.    
  Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.    
- Address: This field can be used for adding an address. It has several attributes:
- Field Label: Type the name of the field of the  form.    
+     
+	Address: This field can be used for adding an address. It has several attributes:
+Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
 Field Size: Type the size of the field of the  form in pixels.    
 Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappeared when the user of the form enters the in formation.    
@@ -294,7 +294,8 @@ Class Name : You can define new CSS classes for the form in the Edit CSS page an
 Send mail to the submitter: The submitted in formation of the  form will be sent to the submitter if this box is checked.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.    
-E-mail:This form field can be used for typing the submitter's e-mail. The submitted e-mail validation is checked. It has several attributes:    
+     
+	E-mail:This form field can be used for typing the submitter's e-mail. The submitted e-mail validation is checked. It has several attributes:    
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
 Field Size: Type the size of the field of the  form in pixels.    
@@ -304,7 +305,25 @@ Send mail to the submitter: The submitted in formation of the  form will be sent
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.    
     
--	Hidden Field: This field oof the  form can be used to store additional in formation that does not need to be displayed on the form. It has several attributes :Field ld,Field Name, Field Value, Additional Attributes.    
+	Number: This field can be used to provide numbers for different purposes (e.g. serial number). It has several attributes:
+Field Label: Type the name of the field of the  form.    
+Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Size: Type the size of the field of the  form in pixels.    
+Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappeared when the user of the form enters the in formation.    
+Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
+Send mail to the submitter: The submitted in formation of the  form will be sent to the submitter if this box is checked.    
+Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
+ Additional Attributes: You can use this form option to customize the specific properties for the field of the  form. 
+      
+	Hidden Field: This field oof the  form can be used to store additional in formation that does not need to be displayed on the form. 
+Field Label: Type the name of the field of the  form.    
+Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Size: Type the size of the field of the  form in pixels.    
+Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappeared when the user of the form enters the in formation.    
+Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
+Send mail to the submitter: The submitted in formation of the  form will be sent to the submitter if this box is checked.    
+Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
+ Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.    	
 3.3 Time and Date: At first choose the form Field Type according to your preference. There are several options:    
 Date (single field with a picker): This field of the  form can be used for typing a date or choosing by the picker. It has several attributes:     
 Field Label: Type the name of the field of the  form.    
