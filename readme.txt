@@ -295,6 +295,16 @@ Send mail to the submitter: The submitted in formation of the  form will be sent
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.    
      
+	 Address (Mark on Map):This filed can be used for adding an address by directly marking it on the map. It has several attributes:
+Field Label: Type the name of the field of the  form.    
+Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Size: Type the size of the field of the  form in pixels.    
+Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappeared when the user of the form enters the in formation.    
+Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
+Send mail to the submitter: The submitted in formation of the  form will be sent to the submitter if this box is checked.    
+Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
+ Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.   
+      
 	E-mail:This form field can be used for typing the submitter's e-mail. The submitted e-mail validation is checked. It has several attributes:    
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
@@ -315,6 +325,16 @@ Send mail to the submitter: The submitted in formation of the  form will be sent
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this form option to customize the specific properties for the field of the  form. 
       
+	  Phone: This field can be used to provide a phone number. It has several attributes:
+Field Label: Type the name of the field of the  form.    
+Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Size: Type the size of the field of the  form in pixels.    
+Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappeared when the user of the form enters the in formation.    
+Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
+Send mail to the submitter: The submitted in formation of the  form will be sent to the submitter if this box is checked.    
+Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
+ Additional Attributes: You can use this form option to customize the specific properties for the field of the  form. 
+     
 	Hidden Field: This field oof the  form can be used to store additional in formation that does not need to be displayed on the form. 
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
