@@ -190,7 +190,7 @@ We did our best to have a universal Form Maker which will work on any browser, t
 
 
 == Changelog ==
-
+ 
 = Form Maker 1.3.0 =
 * Actions after form Submission: 
 -	Stay on form:   
