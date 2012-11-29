@@ -188,6 +188,21 @@ We did our best to have a universal Form Maker which will work on any browser, t
 7.  Form Maker - Manage submissions
 8.  Form Maker - Select Columns  
 
+
+== Changelog ==
+
+= Form Maker 1.3.0 =
+* Actions after form Submission: 
+-	Stay on form:   
+-	To go to Post,Page after the form submission:  
+-	Custom text after the form submission:   
+-	URL: The user is redirected to the provided URL after the form submission. 
+
+
+
+
+
+
 == Form Maker Step by step guide Step 1 ==    
 = Installing Form Maker =    
     
