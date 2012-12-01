@@ -197,10 +197,21 @@ We did our best to have a universal Form Maker which will work on any browser, t
 -	To go to Post,Page after the form submission:  
 -	Custom text after the form submission:   
 -	URL: The user is redirected to the provided URL after the form submission. 
-
-
-
-
+* Edit javascript of the form:
+* Save as the copy of the form:
+* Themes: There are 43 standard themes included in Form Maker
+* New form fields: 
+-	Address form field
+-	Address mark on map form field
+-	Number form field
+-	Phone form field
+-	Address form field
+-	Date 3 different form field
+-	Time form field
+-	Country list form field
+-	Recapthca form field
+* Pagebreak: This can be used to break the form into distinct pages. 
+* Section Break: This option allows adding a section break to the form page. 
 
 
 == Form Maker Step by step guide Step 1 ==    
