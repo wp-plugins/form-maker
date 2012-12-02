@@ -212,7 +212,10 @@ We did our best to have a universal Form Maker which will work on any browser, t
 -	Recapthca form field
 * Pagebreak: This can be used to break the form into distinct pages. 
 * Section Break: This option allows adding a section break to the form page. 
-
+* For each form certain types of statistical data are available:
+* Entries: The number of submitted forms.
+* Views: The number of times the form has been viewed.
+* Conversion Rate: The percentage of submitted forms to the overall number of views.
 
 == Form Maker Step by step guide Step 1 ==    
 = Installing Form Maker =    
@@ -439,11 +442,31 @@ Class Name : You can define new CSS classes for the form in the Edit CSS page an
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
      
+	 Recaptcha This is an alternative option for Captcha that uses Public and Private Keys for creating forms. You will need to create reCaptcha keys with the help of a dedicated tool for Form Maker.     
+Field Label: Type the name of the field of the  form.    
+Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
+Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
+ Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.
     
-3.9 Map: This field of the  form can be used for pointing out some position on the map. The position of the marker is fixed at the front end. The field of the  form  has several attributes:Location, Map Size, Marker Info, Class Name, Additional Attributes.     
+	3.9 Page Break of a form: This can be used to break the form into distinct pages. Use Page Title of a form to provide a title for the given page. Furthermore, the following parameters of the “Next” and “Previous” navigation buttons can be customized for the Form Maker. The field of the  form has several attributes: Field Label: Type the name of the field of the  form.    
+Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Size: Type the size of the field of the  form in pixels.    
+Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
+Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
+ Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
+      
+	3.10 Section Break: This option allows adding a section break to the form page.  The field of the  form has several attributes: Field Label: Type the name of the field of the  form.    
+Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Size: Type the size of the field of the  form in pixels.    
+Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
+Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
+ Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
+     
+	3.11 Map: This field of the  form can be used for pointing out some position on the map. The position of the marker is fixed at the front end. The field of the  form  has several attributes:Location, Map Size, Marker Info, Class Name, Additional Attributes.     
     
     
-3.10 Button: At first choose the Field Type of the  form according to your preference. There are several options:    
+3.12 Button: At first choose the Field Type of the  form according to your preference. There are several options:    
 -	Submit and Reset: This field of the  form can be used for inserting a submit/reset button into the  form. You can display reset button by checking the box called Display reset button. Type the name of the submit and reset buttons in Submit button label and Reset button label. The field of the form also has several attributes:     
 Class Name: You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
      
@@ -482,5 +505,23 @@ You can filter [WordPress Form](http://web-dorado.com/products/wordpress-form.ht
     
 The submissions of a  form can be exported to the CSV and XML  formats. You can delete any of submissions by selecting them and pressing the **Delete** button on the top of the page. Submissions can be sorted by any of the fields of the  form by clicking the labels.    
     
-
- 
+     
+5.3  For each form certain types of statistical data are available:
+- Entries: The number of submitted forms.
+- Views: The number of times the form has been viewed.
+- Conversion Rate: The percentage of submitted forms to the overall number of views.
+    
+    
+5.4 For the forms that contain checkboxes or radio buttons a separate statistics is available. It shows how many times a particular checkbox/radio button has been checked in the form submissions, and what is the ratio of that number to the overall number of checks.
+     
+    
+5.5 There is a possibility to search the submissions database by all the relevant fields of the given form. Submissions can be sorted by any of the fields of the form by clicking the labels.
+    
+     
+5.6 You can delete any of submissions of a form by selecting them and pressing the “Delete” button on the top of the page of the Form Maker.
+     
+     
+5.7 It is also possible to edit the submissions of a form by clicking on the “Edit” icon on the upper right corner of the “Submissions” section.
+    
+    
+5.8 You can add/remove any column of the submissions of a form by “Add/Remove Columns” button. 
