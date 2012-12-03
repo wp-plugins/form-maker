@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: form_maker\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-08-15 16:12+0400\n"
-"PO-Revision-Date: 2012-09-11 21:24+0400\n"
+"PO-Revision-Date: 2012-12-03 14:25+0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -11,8 +11,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: _;gettext;gettext_noop;__\n"
 "X-Poedit-Basepath: .\n"
-"X-Poedit-Language: Russian\n"
-"X-Poedit-SearchPath-0: C:\\wamp\\www\\wordpress3\\wp-content\\plugins\\Form_Maker\n"
+"Language: ru\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SearchPath-0: C:\\wamp\\www\\wordpress3\\wp-content\\plugins"
+"\\Form_Maker\n"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:69
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:92
@@ -34,8 +36,10 @@ msgstr "Ошибка, файл не может быть перемещен."
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:407
 #, php-format
-msgid "This field %s requires a unique entry and this value was already submitted."
-msgstr "Это поле %s требует уникальную запись, и эта величина уже представлены."
+msgid ""
+"This field %s requires a unique entry and this value was already submitted."
+msgstr ""
+"Это поле %s требует уникальную запись, и эта величина уже представлены."
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:442
 msgid "Nothing was submitted."
@@ -52,19 +56,19 @@ msgstr "Ваша форма была успешно представлена."
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:942
 msgid "Title"
-msgstr "Тема исследования"
+msgstr "Обращения"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:943
 msgid "First"
-msgstr "первый"
+msgstr "Имя"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:944
 msgid "Last"
-msgstr "Последний"
+msgstr "Фамилия"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:945
 msgid "Middle"
-msgstr "Середина урока"
+msgstr "Отчество "
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:946
 msgid "January"
@@ -76,7 +80,7 @@ msgstr "Февраль"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:948
 msgid "March"
-msgstr "Марта"
+msgstr "Март"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:949
 msgid "April"
@@ -92,15 +96,15 @@ msgstr "Июнь"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:952
 msgid "July"
-msgstr "Июля"
+msgstr "Июль"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:953
 msgid "August"
-msgstr "Августа"
+msgstr "Август"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:954
 msgid "September"
-msgstr "Сентября"
+msgstr "Сентябрь"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:955
 msgid "October"
@@ -122,7 +126,7 @@ msgstr "Улица"
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:959
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/Submissions.html.php:319
 msgid "Street Address Line 2"
-msgstr "Адрес строка 2"
+msgstr "Улица (доп.)"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:960
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/Submissions.html.php:320
@@ -132,21 +136,21 @@ msgstr "Город"
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:961
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/Submissions.html.php:321
 msgid "State / Province / Region"
-msgstr "Штат / Область / регион"
+msgstr "Штат / Область / Регион"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:962
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/Submissions.html.php:322
 msgid "Postal / Zip Code"
-msgstr "Почтовый / Индекс"
+msgstr "Почтовый  Индекс"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:963
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/Submissions.html.php:323
 msgid "Country"
-msgstr "СТРАНА"
+msgstr "Страна"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:964
 msgid "Area Code"
-msgstr "код города"
+msgstr "Код города"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:965
 msgid "Phone Number"
@@ -158,5 +162,4 @@ msgstr "Это не адрес электронной почты."
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:989
 msgid "field is required."
-msgstr "поле обязательно для заполнения."
-
+msgstr "Поле обязательно для заполнения."
