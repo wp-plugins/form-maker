@@ -2,7 +2,7 @@ j=2;//choices id
 var c;
 var a=new Array();
 var plugin_url="";
-var id_ifr_editor=0;
+var id_ifr_editor=500;
 var count_of_filds_form=5;
 
 function active_reset(val, id)
