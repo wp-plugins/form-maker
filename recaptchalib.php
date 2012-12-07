@@ -44,6 +44,7 @@ define("RECAPTCHA_VERIFY_SERVER", "www.google.com");
  * @param $data - array of string elements to be encoded
  * @return string - encoded request
  */
+  if(!function_exists(_recaptcha_qsencode)){
 function _recaptcha_qsencode ($data) {
         $req = "";
         foreach ( $data as $key => $value )
@@ -273,5 +274,5 @@ function recaptcha_mailhide_html($pubkey, $privkey, $email) {
 
 }
 
-
+}
 ?>
