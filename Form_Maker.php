@@ -2,7 +2,7 @@
 /*
 Plugin Name: Form Maker
 Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
-Version: 1.3.0
+Version: 1.3.1
 Author: http://web-dorado.com/
 License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -255,7 +255,7 @@ add_shortcode('Form', 'form_shotrcode');
 
 function form_maker_scripts_method() {
 				wp_enqueue_style("gmap_styles_",plugins_url("css/style_for_map.css",__FILE__),false); 
-				wp_enqueue_script("mootools",plugins_url("js/mootools.js",__FILE__));
+				//wp_enqueue_script("mootools",plugins_url("js/mootools.js",__FILE__));
     			wp_enqueue_script("main_g_js",plugins_url("js/main_front_end.js",__FILE__),false);
 				wp_enqueue_script("Calendar",plugins_url("js/calendar.js",__FILE__),false);
  			  	wp_enqueue_script("calendar-setup",plugins_url("js/calendar-setup.js",__FILE__),false);
