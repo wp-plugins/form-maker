@@ -424,7 +424,15 @@ function before_reset()
 		'public_key'	 	=> $_POST["public_key"],
 		'private_key'	 	=> $_POST["private_key"],
 		'recaptcha_theme'	=> $_POST["recaptcha_theme"],
-		'javascript'		=> $javascript
+		'javascript'		=> $javascript,
+		'script1'			=>'',
+		'script2'			=>'',
+		'script_user1'		=>'',
+		'script_user2'		=>'',
+		'submit_text'		=>'',
+		'url'				=>'',
+		'article_id'		=>0,		
+		'submit_text_type'  =>0
 		
                 ),
 				array(
@@ -442,7 +450,15 @@ function before_reset()
 				'%s',
 				'%s',
 				'%s',
-				'%s'	
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%d'
 				)
                 );
 
@@ -520,6 +536,7 @@ function save_as_copy(){
 		'submit_text'		=> $row_for_sav_as_copy->submit_text,
 		'url'				=> $row_for_sav_as_copy->url,
 		'article_id'		=> $row_for_sav_as_copy->article_id,		
+		'submit_text_type'  => $row_for_sav_as_copy->submit_text_type
                 ),
 				array(
 				'%d',
@@ -544,7 +561,8 @@ function save_as_copy(){
 				'%s',
 				'%s',
 				'%s',
-				'%s'	
+				'%s',
+				'%d'
 				)
                 );
 

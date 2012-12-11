@@ -2,7 +2,7 @@
 /*
 Plugin Name: Form Maker
 Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
-Version: 1.3.1
+Version: 1.3.2
 Author: http://web-dorado.com/
 License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -732,7 +732,7 @@ function Manage_Form_maker()
 		break;
 		case "save_as_copy":
 		save_as_copy();
-		
+		display_form_lists();
 		break;
 		default:
 		display_form_lists();
