@@ -724,7 +724,7 @@
 										 $recipient = $c;
 										 $subject   = $row->title;
 										 $body      = $row->script_user1.'<br>'.$list.'<br>'.$row->script_user2; 
-										 $send=wp_mail($recipient, $subject, $body, "",$attachment);  
+										 $send=wp_mail($recipient, $subject, stripslashes($body), "",$attachment);  
 									}	
 									
 									
@@ -745,7 +745,7 @@
 											 $body      = $row->script1.'<br>'.$list.'<br>'.$row->script2;
 											 $mode      = 1; 
 
-										$send=wp_mail($recipient, $subject, $body, $headers_form_mail,$attachment); 
+										$send=wp_mail($recipient, $subject, stripslashes($body), $headers_form_mail,$attachment); 
 										$row_mail_one_time=0;
 										}
 									}
@@ -760,7 +760,7 @@
 								 $body      = $row->script1.'<br>'.$list.'<br>'.$row->script2;
 								 $mode        = 1; 
             
-								 $send=wp_mail($recipient, $subject, $body, "",$attachment);  
+								 $send=wp_mail($recipient, $subject, stripslashes($body), "",$attachment);  
 								} 
 							}
 		if($row->mail)
