@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: form_maker\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-08-15 15:42+0400\n"
-"PO-Revision-Date: 2012-08-15 18:16+0400\n"
+"PO-Revision-Date: 2012-12-24 14:58+0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -11,152 +11,154 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: _;gettext;gettext_noop;__\n"
 "X-Poedit-Basepath: .\n"
-"X-Poedit-Language: Arabic\n"
-"X-Poedit-SearchPath-0: C:\\wamp\\www\\wordpress3\\wp-content\\plugins\\Form_Maker\n"
+"Language: ar\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SearchPath-0: C:\\wamp\\www\\wordpress3\\wp-content\\plugins"
+"\\Form_Maker\n"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:69
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:92
 msgid "Error, incorrect Security code."
-msgstr "Gabim, Kodi i gabuar i Sigurimit."
+msgstr "خطأ، غير صحيح رمز الحماية."
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:239
 msgid "The file exceeds the allowed size of"
-msgstr "Dosja e tejkalon madhësinë e lejuar të"
+msgstr "ملف يتجاوز حجم المسموح به من"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:261
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:986
 msgid "Sorry, you are not allowed to upload this type of file."
-msgstr "Na vjen keq, ju nuk jeni i lejuar të ngarkoni këtë lloj file."
+msgstr "عذرا، لا يسمح لك لتحميل هذا النوع من الملفات."
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:277
 msgid "Error, file cannot be moved."
-msgstr "Gabim, skedari nuk mund të zhvendoset."
+msgstr "خطأ، لا يمكن أن يتم نقل ملف."
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:407
 #, php-format
-msgid "This field %s requires a unique entry and this value was already submitted."
-msgstr "Kjo fushë %s kërkon një hyrje të veçantë dhe kjo vlerë është dorëzuar tashmë."
+msgid ""
+"This field %s requires a unique entry and this value was already submitted."
+msgstr "هذا الحقل يتطلب٪ %s إدخال فريدة من نوعها، وقدم بالفعل هذه القيمة."
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:442
 msgid "Nothing was submitted."
-msgstr "Asgjë nuk është dorëzuar."
+msgstr "وقدم شيئا."
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:723
 msgid "Error, email was not sent."
-msgstr "Gabim, e-mail nuk u dërgua."
+msgstr "خطأ، لم يتم إرسال البريد الإلكتروني."
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:725
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:728
 msgid "Your form was successfully submitted."
-msgstr "Forma juaj u dërgua me sukses."
+msgstr "وقدم النموذج الخاص بك بنجاح."
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:942
 msgid "Title"
-msgstr "Titulli"
+msgstr "لقب"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:943
 msgid "First"
-msgstr "I parë"
+msgstr "الأول"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:944
 msgid "Last"
-msgstr "I fundit"
+msgstr "آخر"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:945
 msgid "Middle"
-msgstr "Mes"
+msgstr "وسط"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:946
 msgid "January"
-msgstr "Janar"
+msgstr "يناير"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:947
 msgid "February"
-msgstr "Shkurt"
+msgstr "فبراير"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:948
 msgid "March"
-msgstr "Mars"
+msgstr "مسيرة"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:949
 msgid "April"
-msgstr "Prill"
+msgstr "أبريل"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:950
 msgid "May"
-msgstr "Maj"
+msgstr "قد"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:951
 msgid "June"
-msgstr "Qershor"
+msgstr "يونيو"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:952
 msgid "July"
-msgstr "Korrik"
+msgstr "يوليو"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:953
 msgid "August"
-msgstr "Gusht"
+msgstr "أغسطس"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:954
 msgid "September"
-msgstr "Shtator"
+msgstr "سبتمبر"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:955
 msgid "October"
-msgstr "Tetor"
+msgstr "أكتوبر"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:956
 msgid "November"
-msgstr "Nëntor"
+msgstr "نوفمبر"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:957
 msgid "December"
-msgstr "Dhjetor"
+msgstr "ديسمبر"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:958
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/Submissions.html.php:318
 msgid "Street Address"
-msgstr "Adresa Rruga"
+msgstr "عنوان الشارع"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:959
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/Submissions.html.php:319
 msgid "Street Address Line 2"
-msgstr "Line Rruga Adresa 2"
+msgstr "الشارع سطر العنوان 2"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:960
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/Submissions.html.php:320
 msgid "City"
-msgstr "Qytet"
+msgstr "مدينة"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:961
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/Submissions.html.php:321
 msgid "State / Province / Region"
-msgstr "Shteti / Provinca / Rajoni"
+msgstr "الدولة / الإقليم / المنطقة"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:962
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/Submissions.html.php:322
 msgid "Postal / Zip Code"
-msgstr "Postal / Zip Code"
+msgstr "البريدي / الرمز البريدي"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:963
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/Submissions.html.php:323
 msgid "Country"
-msgstr "Vend"
+msgstr "بلد"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:964
 msgid "Area Code"
-msgstr "Prefiks i rrethit"
+msgstr "كود المنطقة"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:965
 msgid "Phone Number"
-msgstr "Numri i telefonit"
+msgstr "رقم الهاتف"
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:987
 msgid "This is not a valid email address."
-msgstr "Kjo nuk është një adresë e vlefshme email."
+msgstr "هذا ليس عنوان بريد إلكتروني صالح."
 
 #: C:\wamp\www\wordpress3\wp-content\plugins\Form_Maker/front_end_form_maker.php:989
 msgid "field is required."
-msgstr "fushë është e nevojshme."
-
+msgstr "مطلوب الميدان."
