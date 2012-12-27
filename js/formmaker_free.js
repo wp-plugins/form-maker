@@ -6386,7 +6386,7 @@ function type_address(i, w_field_label, w_field_label_pos, w_size, w_required, w
 
 	var el_size_label = document.createElement('label');
 	        el_size_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
-		el_size_label.innerHTML = "Obshii size(px) ";
+		el_size_label.innerHTML = "Overall size(px) ";
 	var el_size = document.createElement('input');
 		   el_size.setAttribute("id", "edit_for_input_size");
 		   el_size.setAttribute("type", "text");
