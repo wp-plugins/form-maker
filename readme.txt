@@ -44,13 +44,13 @@ You can add Google map (*commercial version*) to your form using a simple user-f
 
 -Unlimited fields of the Form Maker(*commercial version*), 5 fields (*free version*)  
 -Custom CSS and Java script in your form  
--Includes additional attributes, where you can customize the specific properties for the fields of the form using Java Script.  
--Ability to receive the filled forms on defined emails, the submitted information also could be sent to the submitter (parameter)  
+-Includes additional attributes for each element of the form, where you can customize the specific properties for the fields of the form using Java Script.  
+-Ability to receive the filled forms on defined emails, the submitted information also could be sent to the submitter of the form(parameter)  
 -Ability to create menu items and connect with the form  
--[WordPress Form Creator](http://web-dorado.com/products/wordpress-form.html) integrated with the standard WordPress editor  
+-WordPress Form Maker integrated with the standard WordPress editor  
 -Various parameter for every element of the form  
 -Data validation during the submitting the form  
--Ability to keep the form filled information in the database  
+-Ability to keep the form filled information in the database of the form maker 
 -Ability to restrict preferred file extensions in file upload(*commercial version*)  
 -[WordPress Form] Maker(http://web-dorado.com/products/wordpress-form.html) is integrated with Google Maps API(*commercial version*)  
 -Field Instructions for the User  
