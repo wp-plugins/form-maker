@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: Form Maker
-Plugin URI: http://webdorado.org/products/form-maker-wordpress.html
+Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
 Version: 1.3.4
-Author: http://webdorado.org/
+Author: http://web-dorado.com/
 License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
 */
 

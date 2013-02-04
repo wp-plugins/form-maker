@@ -1,6 +1,6 @@
 === Form Maker ===
 Contributors: webdorado
-Donate link: http://webdorado.org/products/wordpress-form.html
+Donate link: http://web-dorado.com/products/wordpress-form.html
 Tags: form, forms,   form, wordpress form, form maker,  form plugin,  form builder, feedback form, feedback forms, custom forms
 Requires at least: 3.0
 Tested up to: 3.5
@@ -11,21 +11,21 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Form Maker is a modern and advanced tool for creating WordPress forms easily and fast.
 == Description ==
 
-### [WordPress Form](http://webdorado.org/products/wordpress-form.html)  Maker
+### [WordPress Form](http://web-dorado.com/products/wordpress-form.html)  Maker
 
 
-[Demo](http://wpdemo.webdorado.org/form-maker/)  
-[Demo Admin](http://wpdemo.webdorado.org/wp-admin/admin.php?page=Form_maker)  
-[User Manual](http://webdorado.org/wordpress-form-maker-guide-1.html)  
-[Frequently Asked Questions](http://webdorado.org/forum/form-maker/316-form-maker-faq.html)  
-[Support Forum](http://webdorado.org/forum/26-form-maker.html)  
+[Demo](http://wpdemo.web-dorado.com/form-maker/)  
+[Demo Admin](http://wpdemo.web-dorado.com/wp-admin/admin.php?page=Form_maker)  
+[User Manual](http://web-dorado.com/wordpress-form-maker-guide-1.html)  
+[Frequently Asked Questions](http://web-dorado.com/forum/form-maker/316-form-maker-faq.html)  
+[Support Forum](http://web-dorado.com/forum/26-form-maker.html)  
 
-The [Form Maker](http://webdorado.org/products/wordpress-form.html) is one of the best form creators in WordPress Plugin Directory.  [WordPres Form Builder](http://webdorado.org/products/wordpress-form.html) allows you to set all the parameters such as colors and fonts. The size of each element of the form can be set as well.
-[Form Maker](http://webdorado.org/products/wordpress-form.html) is a modern and advanced tool for creating WordPress forms easily and fast. The back end interface of the [Form Maker](http://webdorado.org/products/wordpress-form.html) is intuitive and user friendly which allows users far from scripting and programming to create forms.  
-[WordPress Form](http://webdorado.org/products/wordpress-form.html) handles small forms to complex form applications. That is why [Form Maker](http://webdorado.org/products/wordpress-form.html) is ideally suited for beginners and also meets the needs of designers and experts. [WordPress Form  Maker](http://webdorado.org/products/wordpress-form.html) can be used for creating , mailing list, survey, application, event registration and party invitation forms.   
-You can add Google map (*commercial version*) to your form using a simple user-friendly interface of the [Form Maker](http://webdorado.org/products/wordpress-form.html). Also the desired address can be added in a few seconds using the address searching interface, or by filling in geographical coordinates (longitude and latitude). You can also drag the marker on the map using only the mouse.  
+The [Form Maker](http://web-dorado.com/products/wordpress-form.html) is one of the best form creators in WordPress Plugin Directory.  [WordPres Form Builder](http://web-dorado.com/products/wordpress-form.html) allows you to set all the parameters such as colors and fonts. The size of each element of the form can be set as well.
+[Form Maker](http://web-dorado.com/products/wordpress-form.html) is a modern and advanced tool for creating WordPress forms easily and fast. The back end interface of the [Form Maker](http://web-dorado.com/products/wordpress-form.html) is intuitive and user friendly which allows users far from scripting and programming to create forms.  
+[WordPress Form](http://web-dorado.com/products/wordpress-form.html) handles small forms to complex form applications. That is why [Form Maker](http://web-dorado.com/products/wordpress-form.html) is ideally suited for beginners and also meets the needs of designers and experts. [WordPress Form  Maker](http://web-dorado.com/products/wordpress-form.html) can be used for creating , mailing list, survey, application, event registration and party invitation forms.   
+You can add Google map (*commercial version*) to your form using a simple user-friendly interface of the [Form Maker](http://web-dorado.com/products/wordpress-form.html). Also the desired address can be added in a few seconds using the address searching interface, or by filling in geographical coordinates (longitude and latitude). You can also drag the marker on the map using only the mouse.  
 
-###IMPORTANT: If you think you found a bug in Form Maker or have any problem or question concerning Form Maker, do not hesitate to  us at [info@webdorado.org](mailto:info@webdorado.org).
+###IMPORTANT: If you think you found a bug in Form Maker or have any problem or question concerning Form Maker, do not hesitate to  us at [info@web-dorado.com](mailto:info@web-dorado.com).
 
 
 ###Features:  
@@ -47,12 +47,12 @@ You can add Google map (*commercial version*) to your form using a simple user-f
 -Includes additional attributes, where you can customize the specific properties for the fields of the form using Java Script.  
 -Ability to receive the filled forms on defined emails, the submitted information also could be sent to the submitter (parameter)  
 -Ability to create menu items and connect with the form  
--[WordPress Form Creator](http://webdorado.org/products/wordpress-form.html) integrated with the standard WordPress editor  
+-[WordPress Form Creator](http://web-dorado.com/products/wordpress-form.html) integrated with the standard WordPress editor  
 -Various parameter for every element of the form  
 -Data validation during the submitting the form  
 -Ability to keep the form filled information in the database  
 -Ability to restrict preferred file extensions in file upload(*commercial version*)  
--[WordPress Form] Maker(http://webdorado.org/products/wordpress-form.html) is integrated with Google Maps API(*commercial version*)  
+-[WordPress Form] Maker(http://web-dorado.com/products/wordpress-form.html) is integrated with Google Maps API(*commercial version*)  
 -Field Instructions for the User  
 -Required Fields in form  
 -Hidden Fields in form  
@@ -113,7 +113,7 @@ Vietnamese (vi)
 
 == Installation ==
 
-####Thank you for your interest in [WordPress Form](http://webdorado.org/products/wordpress-form.html) Maker.
+####Thank you for your interest in [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker.
 
 Minimum requirements of form maker.    
     
@@ -130,20 +130,20 @@ After downloading the ZIP file of the Form Maker
 6.    Once it is complete, activate the plugin of the Form Maker.    
 
 Once the plugin of the Form Maker is activated, you'll notice a menu on the left called "Form Maker".  Here you can manage forms and submissions of the Form Maker.  
-If any problem occurs with the form maker, please  us info@webdorado.org in order to correct the mistakes of the Form Maker plugin.    
+If any problem occurs with the form maker, please  us info@web-dorado.com in order to correct the mistakes of the Form Maker plugin.    
 
 == Frequently Asked Questions ==
 
-## [Click here to see the Form Maker Frequently Asked Questions](http://webdorado.org/forum/form-maker/316-form-maker-faq.html)  
+## [Click here to see the Form Maker Frequently Asked Questions](http://web-dorado.com/forum/form-maker/316-form-maker-faq.html)  
 
 = 1. What is Form Maker? =
 
-[WordPress Form](http://webdorado.org/products/wordpress-form.html) Maker is a brilliant extension for creating online forms for your WordPress site. When you create a form with Form Maker, it automatically builds the forms database and scripts needed for the form. So you can create forms without the knowledge of HTML, CSS or any programming language.
+[WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker is a brilliant extension for creating online forms for your WordPress site. When you create a form with Form Maker, it automatically builds the forms database and scripts needed for the form. So you can create forms without the knowledge of HTML, CSS or any programming language.
 
 
 = 2. What can I build with [Form Maker](http://wordpress.org/extend/plugins/form-maker) ? =
 
-Generally the possibilities of creating different new amazing forms are limited only by your will or imagination. See below the several examples of usage of [WordPress Form](http://webdorado.org/products/wordpress-form.html) Maker.
+Generally the possibilities of creating different new amazing forms are limited only by your will or imagination. See below the several examples of usage of [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker.
 -  form    
 - Mailing list form    
 - Survey form     
@@ -169,7 +169,7 @@ Usually confirmation e-mail of purchasing Form Maker arrives during a minute aft
 
 = 5. Does the Form Maker work on the localhost. =
 
-Yes, [WordPress Form](http://webdorado.org/products/wordpress-form.html)  Maker works in any server where MYSQL and PHP are supported.
+Yes, [WordPress Form](http://web-dorado.com/products/wordpress-form.html)  Maker works in any server where MYSQL and PHP are supported.
 
 
 = 6. Form Maker does not work or works in an improper way. What should I do to solve the problem connected with Form Maker? =
@@ -232,14 +232,14 @@ We did our best to have a universal Form Maker which will work on any browser, t
 2.	Go to Plugins Add > New > Upload.    
 3.	Click **Choose file** (**Browse**) and select the [Form Maker](http://wordpress.org/extend/plugins/form-maker) zip file.    
 4.	Click **Install Now** button.    
-5.	If any problem occurs with the form maker, please  us info@webdorado.org and we will try to help you with the issues with the form maker.    
+5.	If any problem occurs with the form maker, please  us info@web-dorado.com and we will try to help you with the issues with the form maker.    
 6.	Click **Activate Plugin** button for activating the form maker.    
 
 == Form Maker Step by step guide Step 2 ==        
     
 = Creating a new form =    
     
-2.1  On the left menu select [WordPress Form](http://webdorado.org/products/wordpress-form.html) Maker > Manager    
+2.1  On the left menu select [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker > Manager    
     
 2.2  In the upper left corner click on the **Add a form** button.     
     
@@ -484,7 +484,7 @@ To insert a  form into a Page or a Post.
     
     
     
-  4.1. Press the button named Insert [WordPress Form Creator](http://webdorado.org/products/wordpress-form.html) in a post or a page you want to show the  form.    
+  4.1. Press the button named Insert [WordPress Form Creator](http://web-dorado.com/products/wordpress-form.html) in a post or a page you want to show the  form.    
     
   4.2. Select a  form from the list.    
     
@@ -493,14 +493,14 @@ To insert a  form into a Page or a Post.
 Alternatively, you can use [ Form Maker](http://wordpress.org/extend/plugins/form-maker) without the button on the toolbar: Add the shortcode [ form id="N"] (where N is the id of the  form, for the  form with id=2, the shortcode must be [ form id="2"]) to the pages and posts, where you want the  form to appear.    
 ==  form Maker Step by step guide Step 5 ==        
     
-####Managing submissions of a [Form Maker](http://webdorado.org/products/wordpress-form.html)    
+####Managing submissions of a [Form Maker](http://web-dorado.com/products/wordpress-form.html)    
     
 5.1 On the top menu select Components >  formMaker > Submissions    
     
 5.2 In order to manage a  form's submissions, select the  form from the list.    
     
     
-You can filter [WordPress Form](http://webdorado.org/products/wordpress-form.html) Makers submissions by the date filter. You can add/remove any column of the submissions by **Add/Remove Columns** button.     
+You can filter [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Makers submissions by the date filter. You can add/remove any column of the submissions by **Add/Remove Columns** button.     
     
     
 The submissions of a  form can be exported to the CSV and XML  formats. You can delete any of submissions by selecting them and pressing the **Delete** button on the top of the page. Submissions can be sorted by any of the fields of the  form by clicking the labels.    
