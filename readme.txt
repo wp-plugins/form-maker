@@ -122,12 +122,12 @@ Minimum requirements of form maker.
 -	MySQL 5.x    
 
 After downloading the ZIP file of the Form Maker 
-1.    Login to your WordPress site administrator panel and head over the 'Plugins' menu  
+1.    Login to your WordPress site administrator panel and head over the 'Plugins' menu  in order to install Form Maker 
 2.    Click 'Add New'(in order to add the plugin of the Form Maker)  
-3.    Choose the 'Upload' option
-4.    Click **Choose file** (**Browse**) and select the Form Maker zip file.   
+3.    Choose the 'Upload' option in order to install Form Maker
+4.    Click **Choose file** (**Browse**) and select the Form Maker zip file in order to install Form Maker.   
 5.    Click **Install Now** button to install the Form Maker.    
-6.    Once it is complete, activate the plugin of the Form Maker.    
+6.    Once it is complete, activate the plugin of the Form Maker in order to use Form Maker.    
 
 Once the plugin of the Form Maker is activated, you'll notice a menu on the left called "Form Maker".  Here you can manage forms and submissions of the Form Maker.  
 If any problem occurs with the form maker, please  us info@web-dorado.com in order to correct the mistakes of the Form Maker plugin.    
@@ -192,7 +192,7 @@ We did our best to have a universal Form Maker which will work on any browser, t
 == Changelog ==
  
 = Form Maker 1.3.0 =
-* Actions after form Submission: 
+* Actions after form Submission of the Form Maker: 
 -	Stay on form:   
 -	To go to Post,Page after the form submission:  
 -	Custom text after the form submission:   
@@ -210,12 +210,12 @@ We did our best to have a universal Form Maker which will work on any browser, t
 -	Time form field
 -	Country list form field
 -	Recapthca form field
-* Pagebreak: This can be used to break the form into distinct pages. 
-* Section Break: This option allows adding a section break to the form page. 
-* For each form certain types of statistical data are available:
-* Entries: The number of submitted forms.
-* Views: The number of times the form has been viewed.
-* Conversion Rate: The percentage of submitted forms to the overall number of views.
+* Pagebreak of the Form Maker: This can be used to break the form into distinct pages. 
+* Section Break of the Form Maker: This option allows adding a section break to the form page. 
+* For each form certain types of statistical data are available in the Form Maker:
+* Entries of a form: The number of submitted forms in the Form Maker.
+* Views of a form: The number of times the form has been viewed.
+* Conversion Rate of a form: The percentage of submitted forms to the overall number of views.
 
 == Form Maker Step by step guide Step 1 ==    
 = Installing Form Maker =    
@@ -228,10 +228,10 @@ We did our best to have a universal Form Maker which will work on any browser, t
     
 1.2 Perform a new installation of form maker of the site where you want to install the form maker.   
     
-1.	Log in to the administrator panel.    
-2.	Go to Plugins Add > New > Upload.    
-3.	Click **Choose file** (**Browse**) and select the [Form Maker](http://wordpress.org/extend/plugins/form-maker) zip file.    
-4.	Click **Install Now** button.    
+1.	Log in to the administrator panel to install the form maker.    
+2.	Go to Plugins Add > New > Upload to install the form maker.    
+3.	Click **Choose file** (**Browse**) and select the [Form Maker](http://wordpress.org/extend/plugins/form-maker) zip file to install the form maker.    
+4.	Click **Install Now** button to install the form maker.    
 5.	If any problem occurs with the form maker, please  us info@web-dorado.com and we will try to help you with the issues with the form maker.    
 6.	Click **Activate Plugin** button for activating the form maker.    
 
@@ -246,8 +246,8 @@ We did our best to have a universal Form Maker which will work on any browser, t
 2.3   On the top of the page you can find several buttons:    
      
     
-Preview: Using this button, you can preview the form in the form's current state to see how it will appear on the website.
-Actions after Submission: Here you can select the action that takes place after form submission. Following options after form submission are available:   
+Preview of a form: Using this button, you can preview the form in the form's current state to see how it will appear on the website.
+Actions after Submission of a form: Here you can select the action that takes place after form submission. Following options after form submission are available:   
 -	Stay on form: The user stays on the form page after the form submission.   
 -	Article: The user is redirected to the selected article after the form submission.   
 -	Custom text: Custom text is displayed on the screen after the form submission.   
@@ -261,13 +261,13 @@ Edit JavaScript: Here you can define new JavaScript functions, which can be appl
 	Save as Copy: The button allows you to save a copy of the current form, which you can later find in the "Forms section."   
     
     
-2.4   On the right side you will see three fields of the  form:    
+2.4   On the of the Form Maker right side you will see three fields of the  form:    
 -	 form Title: In this field type a title for your  form. You can have an unlimited number of  forms. This is a required field for a  form.    
 -	Email to send submissions of a  form to: Here you type e-mails to which submitted  form in formation will be sent. If you need more than one e-mail address to send the submissions of a  form you must separate them by commas. This field is not required for a  form. In any case the submitted in formation is stored in**Submissions** part of the  form maker, where it could be managed easily.     
--	Theme. A distinct theme can be applied to each new form. The themes can be accessed by selecting Form Maker > Themes on the left menu. 43 themes are available for selection for each. There is an option for creating new themes for a form, which you can access by clicking "New" on the upper right corner of the section.which you can later find in the "Forms" section.    
+-	Theme of a form. A distinct theme can be applied to each new form. The themes can be accessed by selecting Form Maker > Themes on the left menu. 43 themes are available for selection for each. There is an option for creating new themes for a form, which you can access by clicking "New" on the upper right corner of the section.which you can later find in the "Forms" section.    
     
     
-2.5   Add new fields to your  form by clicking on the ADD A NEW FIELD button (see the next step).    
+2.5   Add new fields to your  form by clicking on the ADD A NEW FIELD button (see the next step of Form Maker manual).    
     
      
 2.6   To update the Form Maker plugin while keeping your existing forms, you need to deactivate and delete the Form Maker from the list of installed plugins (do not uninstall it using the Uninstall Form Maker option of the plugin) and install the new plugin. Afterwards, go to Form Maker>Manager and on the upper hand of the screen click on the "Update Forms" button. If the update is successful, you will see a notification message, "All forms are updated!"
