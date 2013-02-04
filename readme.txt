@@ -42,7 +42,7 @@ You can add Google map (*commercial version*) to your form using a simple user-f
    * Map(*commercial version*)  
    * Buttons  
 
--Unlimited fields (*commercial version*), 5 fields (*free version*)  
+-Unlimited fields of the Form Maker(*commercial version*), 5 fields (*free version*)  
 -Custom CSS and Java script in your form  
 -Includes additional attributes, where you can customize the specific properties for the fields of the form using Java Script.  
 -Ability to receive the filled forms on defined emails, the submitted information also could be sent to the submitter (parameter)  
