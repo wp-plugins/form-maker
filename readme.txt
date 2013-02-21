@@ -176,6 +176,38 @@ Yes, [WordPress Form](http://web-dorado.com/products/wordpress-form.html)  Maker
 
 We did our best to have a universal Form Maker which will work on any browser, template and will not conflict with other extensions. As any case of such kind of a problem is unique, please  us giving the link of the website where the problem with Form Maker has occurred. We will try to answer within 24 hours and solve the problem with Form Maker.
 
+= 7. How can I install the pro version of the Form Maker without losing created forms? =	
+You should download pro version of Form Maker from "Thank You for buying our products" email, after that just Deactivate Form Maker, Delete Form Maker, and then Reinstall Form Maker pro from the downloaded file.
+If you just Deactivate Form Maker, Delete Form Maker, and then Reinstall Form Maker, you will keep your data of the form submissions.
+You will lose your forms data only if you uninstall Form Maker using the Uninstall Form Maker menu item.
+
+= 8. How can I translate the Form Maker? = 	
+
+You can set language of the Form Maker by setting define('WPLANG',[lang_code]); in wp_config.php config file. The language of front-end interface of the Form Maker should be changed automatically. The back-end interface of Form Maker can not be changed.  You can modify the translations of the Form Maker from wp-content/plugins/form-maker/languages. (you will need POEdit http://www.poedit.net/download.php).
+
+= 9. How does Form Maker saves data after submitting? = 	
+
+Form Maker stores the form filled information in the database. Administrator can manage (sort, search, edit, delete) the form submissions as well as view statistics and export to XML and CSV. The form submissions can be (optionally) sent to administrator of the form and the submitter.
+
+= 10. What can I do if I do not receive email after submitting a form? =	
+
+First of all please make sure the email is not filtered to the spam or junk email folder. 
+- Try using another email address for receiving form submissions
+- Wordpress uses PHP mail. Probably, your hosting does not have the send mail function enabled, in this case, please contact your hosting provider for receiving form submissions.
+- You can use SMTP, which works always properly. 
+
+For example, this plugin. http://wordpress.org/extend/plugins/configure-smtp/.
+In this case, you have to know your SMTP parameters.
+For Setting an external SMTP server, such as GMail should work. But Gmail, the authentication is required.
+
+
+= 11. What can I do, if my downloaded installation package of Form Maker is not a ZIP file? =	
+
+The downloaded file should be zipped. In case, you have downloaded a file from our website, which is not zipped, then you probably are using the Safari browser, which does not allow you to download ZIP files. Please try different browser.
+
+Read more here: http://web-dorado.com/wordpress-form-maker-guide-1.html
+
+
 
 
 == Screenshots ==
