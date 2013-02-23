@@ -196,14 +196,14 @@ First of all please make sure the email is not filtered to the spam or junk emai
 - Wordpress uses PHP mail. Probably, your hosting does not have the send mail function enabled, in this case, please contact your hosting provider for receiving form submissions.
 - You can use SMTP, which works always properly. 
 
-For example, this plugin. http://wordpress.org/extend/plugins/configure-smtp/.
-In this case, you have to know your SMTP parameters.
-For Setting an external SMTP server, such as GMail should work. But Gmail, the authentication is required.
+For example, this plugin. http://wordpress.org/extend/plugins/configure-smtp is great for Form Maker.
+In this case, you have to know your SMTP parameters. to configure the mails of the form of the Form Maker
+For Setting an external SMTP server form mails of the Form Maker, such as GMail should work. But Gmail, the authentication is required for the Form Maker mail settings.
 
 
 = 11. What can I do, if my downloaded installation package of Form Maker is not a ZIP file? =	
 
-The downloaded file should be zipped. In case, you have downloaded a file from our website, which is not zipped, then you probably are using the Safari browser, which does not allow you to download ZIP files. Please try different browser.
+The downloaded file of the Form Maker should be zipped. In case, you have downloaded a file of the Form Maker from our website, which is not zipped, then you probably are using the Safari browser, which does not allow you to download ZIP files. Please try different browser to download zip files of the Form Maker.
 
 Read more here: http://web-dorado.com/wordpress-form-maker-guide-1.html
 
