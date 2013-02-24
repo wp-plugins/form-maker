@@ -1,7 +1,7 @@
 === Form Maker ===
 Contributors: webdorado
 Donate link: http://web-dorado.com/products/wordpress-form.html
-Tags: form, forms,   form, wordpress form, form maker,  form plugin,  form builder, feedback form, feedback forms, custom forms
+Tags: contact form, contact forms, contact form plugin,  contact form manager, contact, contact page,  multiple contact forms, custom contact form, contact form with auto reply, contact form with recaptcha, contact form builder, contact us,  contact manager, wordpress contact, TinyMCE form editor
 Requires at least: 3.0
 Tested up to: 3.5
 Stable tag: trunk
@@ -144,7 +144,7 @@ If any problem occurs with the form maker, please  us info@web-dorado.com in ord
 = 2. What can I build with [Form Maker](http://wordpress.org/extend/plugins/form-maker) ? =
 
 Generally the possibilities of creating different new amazing forms are limited only by your will or imagination. See below the several examples of usage of [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker.
--  form    
+- Form    
 - Mailing list form    
 - Survey form     
 - Job application form    
@@ -159,7 +159,7 @@ Generally the possibilities of creating different new amazing forms are limited 
 
 = 3. Why would I want to use [Form Maker](http://wordpress.org/extend/plugins/form-maker) ? =
 
-Any site administrator aims to collect as more information and feedback from the site user as it is possible. The most effective mechanism for collecting data from people are forms. The process of creating a form and related databases is complicated, resource and time consuming. The whole process of creating a form may last days, if no weeks. The Form Maker is best choice for skipping all these steps effectively and creating great forms.
+Any site administrator aims to collect as more information and feedback from the site user as it is possible through a form. The most effective mechanism for collecting data from people is a form. The process of creating a form and related databases is complicated, resource and time consuming. The whole process of creating a form may last days, if no weeks. The Form Maker is best choice for skipping all these steps effectively and creating a great form.
 
 
 = 4. I bought Form Maker, but I have not received an email for confirmation and for downloading Form Maker plugin.  =
@@ -302,7 +302,7 @@ Edit JavaScript: Here you can define new JavaScript functions, which can be appl
 2.5   Add new fields to your  form by clicking on the ADD A NEW FIELD button (see the next step of Form Maker manual).    
     
      
-2.6   To update the Form Maker plugin while keeping your existing forms, you need to deactivate and delete the Form Maker from the list of installed plugins (do not uninstall it using the Uninstall Form Maker option of the plugin) and install the new plugin. Afterwards, go to Form Maker>Manager and on the upper hand of the screen click on the "Update Forms" button. If the update is successful, you will see a notification message, "All forms are updated!"
+2.6   To update the Form Maker plugin while keeping your existing forms, you need to deactivate and delete the Form Maker from the list of installed plugins (do not uninstall it using the Uninstall Form Maker option of the plugin) and install the new plugin. Afterwards, go to Form Maker>Manager and on the upper hand of the screen click on the "Update Form" button. If the update is successful, you will see a notification message, "All form are updated!"
 
 == Form Maker Step by step guide for Form Maker Step 3 ==        
     
@@ -474,7 +474,7 @@ Class Name : You can define new CSS classes for the form in the Edit CSS page an
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
      
-	 Recaptcha This is an alternative option for Captcha that uses Public and Private Keys for creating forms. You will need to create reCaptcha keys with the help of a dedicated tool for Form Maker.     
+	 Recaptcha This is an alternative option for Captcha that uses Public and Private Keys for creating a form. You will need to create reCaptcha keys with the help of a dedicated tool for Form Maker.     
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
