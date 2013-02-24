@@ -1,7 +1,7 @@
 === Form Maker ===
 Contributors: webdorado
 Donate link: http://web-dorado.com/products/wordpress-form.html
-Tags: contact form, contact forms, contact form plugin,  contact form manager, contact, contact page,  multiple contact forms, custom contact form, contact form with auto reply, contact form with recaptcha, contact form builder, contact us,  contact manager, wordpress contact, TinyMCE form editor
+Tags:  form,  forms,  contact form, contact forms,  form plugin, forms plugin, forms plugin, form builder,    form manager, multiple forms, custom  form, form maker form with recaptcha,  form with google map, feedback form, feedback forms,contact us
 Requires at least: 3.0
 Tested up to: 3.5
 Stable tag: trunk
