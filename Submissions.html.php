@@ -2,7 +2,7 @@
 	if(!current_user_can('manage_options')) {
 	die('Access Denied');
 }
-function html_show_submits($rows, $forms, $lists, $pageNav, $labels, $label_titles, $rows_ord, $filter_order_Dir,$form_id, $labels_id, $sorted_labels_type, $total_entries, $total_views, $where,$sort)
+function html_show_submits($rows, $forms, $lists, $pageNav, $labels, $label_titles, $rows_ord, $filter_order_Dir,$form_id, $labels_id, $sorted_labels_type, $total_entries, $total_views, $where, $where_choices, $sort)
 {	
 	$label_titles_copy=$label_titles;
 	global $wpdb;
@@ -628,7 +628,7 @@ foreach($sorted_labels_type as $key => $label_type)
 
     <?php
 
-		$query = "SELECT element_value FROM ".$wpdb->prefix."formmaker_submits ".$where." AND element_label='".$labels_id[$key]."'";
+		$query = "SELECT element_value FROM ".$wpdb->prefix."formmaker_submits ".$where_choices." AND element_label='".$labels_id[$key]."'";
 		$choices = $wpdb->get_results($query);	
 	$colors=array('#2CBADE','#FE6400');
 	$choices_labels=array();

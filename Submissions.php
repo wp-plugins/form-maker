@@ -94,7 +94,7 @@ function show_submits(){
 	$ip_search = strtolower( $ip_search );
 	$where = array();
 
-	$where = array();
+	$where_choices = array();
 	if(isset($_POST['startdate']))
 	{
 		$lists['startdate']= $_POST['startdate'];
@@ -266,6 +266,8 @@ function show_submits(){
 	
 	
 	$where2 = array();
+	$where_choices=$where;
+	
 	
 	for($i=$limit; $i<$limit+20; $i++)
 	{
@@ -299,7 +301,7 @@ $lists['ip_search']=$ip_search;
 	if(count($rows_ord)==0)
 		$rows_ord=$rows;
     // display function
-	html_show_submits($rows, $forms, $lists, $pageNav, $sorted_labels, $label_titles, $rows_ord, $filter_order_Dir,$form_id, $sorted_labels_id, $sorted_labels_type, $total_entries, $total_views,$where,$sort);
+	html_show_submits($rows, $forms, $lists, $pageNav, $sorted_labels, $label_titles, $rows_ord, $filter_order_Dir,$form_id, $sorted_labels_id, $sorted_labels_type, $total_entries, $total_views,$where, $where_choices, $sort);
 
 
 }
