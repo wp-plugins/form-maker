@@ -9,12 +9,19 @@
 
 	function showform($id)
 	{	
+		
 		global $wpdb;
 		$row=$wpdb->get_row($wpdb->prepare("SELECT * FROM ".$wpdb->prefix."formmaker WHERE id=%d",$id )); 	
 		
 		if(!$row)
 			return false;
 			
+			if(isset($_POST['Itemid'])){
+				$Itemid=$_POST["Itemid".$id];
+			}
+			else{
+				$Itemid="";
+			}
 			
 		$form_theme=$wpdb->get_var($wpdb->prepare("SELECT css FROM ".$wpdb->prefix."formmaker_themes WHERE id=%d",$row->theme )); 		
 		if(!$form_theme)
@@ -45,9 +52,12 @@
 	
 		$all_files=array();
 		@session_start();
-
+        if(isset($_POST["captcha_input"])){  
 		$captcha_input=$_POST["captcha_input"];
+		}
+		if(isset($_POST["recaptcha_response_field"])){ 
 		$recaptcha_response_field=$_POST["recaptcha_response_field"];
+		}
 		$id_for_old=$id;
 		if(!$form->form_front)
 		$id='';
@@ -903,15 +913,13 @@
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
+
 	
 function form_maker_front_end($id){
+
+    global $wp_filter;
+
+
 	$form_maker_front_end="";
 $result =showform($id);
 			if(!$result)
@@ -969,7 +977,7 @@ if(isset($_SESSION['show_submit_text'.$id]))
 				
 				
 				
-			$form_maker_front_end.='<script type="text/javascript">'.$row->javascript.'</script>';
+			$form_maker_front_end.='<div><script type="text/javascript">'.$row->javascript.'</script>';
 						$new_form_theme=explode('{',$form_theme);
 			$count_after_explod_theme=count($new_form_theme);
 			for($i=0;$i<$count_after_explod_theme;$i++){
@@ -1190,10 +1198,15 @@ var formOldFunctionOnLoad'.$id.' = null;
 formLoadBody'.$id.'();';
 
 
-
+if(isset($_POST["captcha_input"])){
 $captcha_input=$_POST["captcha_input"];
+}
+if(isset($_POST["recaptcha_response_field"])){
 $recaptcha_response_field=$_POST["recaptcha_response_field"];
+}
+if(isset($_POST["counter"])){
 $counter=$_POST["counter".$id];
+}
 $old_key=-1;
 if(isset($counter))
 {
@@ -2153,7 +2166,7 @@ function create_headers()
 form_.submit();
 }	
 </script>
-</form>";
+</form></div>";
 				
 				
 				

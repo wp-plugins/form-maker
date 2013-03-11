@@ -3,7 +3,7 @@ var c;
 var a=new Array();
 var plugin_url="";
 var id_ifr_editor=500;
-var count_of_filds_form=5;
+var count_of_filds_form=7;
 
 function active_reset(val, id)
 {
@@ -1137,13 +1137,13 @@ function change_captcha_digit(digit)
 	{	
 		captcha.setAttribute("digit", digit);
 	
-		captcha.setAttribute("src", plugin_url+"/wd_captcha.php?digit="+digit+"&i=form_id_temp");
+		captcha.setAttribute("src", location.origin+ajaxurl+"?action=formmakerwdcaptcha"+"&digit="+digit+"&i=form_id_temp");
 		document.getElementById('_wd_captcha_inputform_id_temp').style.width=(document.getElementById('captcha_digit').value*10+15)+"px";
 	}
 	else
 	{
 		captcha.setAttribute("digit", "6");
-		captcha.setAttribute("src", plugin_url+"/wd_captcha.php?digit=6"+"&i=form_id_temp");
+		captcha.setAttribute("src", location.origin+ajaxurl+"?action=formmakerwdcaptcha"+"&digit=6"+"&i=form_id_temp");
 		document.getElementById('_wd_captcha_inputform_id_temp').style.width=(6*10+15)+"px";
 	}
 }
@@ -1963,6 +1963,7 @@ document.getElementById('element_type').value="";
 	alltypes=Array('customHTML','text','checkbox','radio','time_and_date','select','file_upload','captcha','map','button','page_break','section_break');
 	for(x=0; x<12;x++)
 	{
+	if(alltypes[x]!='file_upload' && alltypes[x]!='map')
 		document.getElementById('img_'+alltypes[x]).parentNode.style.backgroundColor='';
 	}
 
@@ -10959,9 +10960,8 @@ function type_country(i, w_field_label, w_countries, w_field_label_pos, w_size, 
 	var el_edit_list = document.createElement('a');
 	    el_edit_list.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px; font-style:italic; cursor:pointer";
 		el_edit_list.innerHTML = "Edit country list";
-		el_edit_list.setAttribute("rel", "{handler: 'iframe', size: {x: 650, y: 375}}"	);
-		el_edit_list.setAttribute("href","index.php?option=com_formmaker&task=country_list&field_id="+i+"&tmpl=component");
-		el_edit_list.setAttribute("class","modal");
+		el_edit_list.setAttribute("href",location.origin+ajaxurl+"?action=fromeditcountryinpopup&field_id="+i+"&TB_iframe=1");
+		el_edit_list.setAttribute("class","thickbox-preview11");
 		
 	var el_style_label = document.createElement('label');
 	        el_style_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
@@ -11227,6 +11227,61 @@ function type_country(i, w_field_label, w_countries, w_field_label_pos, w_size, 
 	
 	if(w_field_label_pos=="top")
 				label_top(i);
+var thickDims, tbWidth, tbHeight;
+jQuery(document).ready(function($) {
+
+        thickDims = function() {
+                var tbWindow = $('#TB_window'), H = $(window).height(), W = $(window).width(), w, h;
+
+                w = (tbWidth && tbWidth < W - 90) ? tbWidth : W - 40;
+                h = (tbHeight && tbHeight < H - 60) ? tbHeight : H - 40;
+
+                if ( tbWindow.size() ) {
+                        tbWindow.width(w).height(h);
+                        $('#TB_iframeContent').width(w).height(h - 27);
+                        tbWindow.css({'margin-left': '-' + parseInt((w / 2),10) + 'px'});
+                        if ( typeof document.body.style.maxWidth != 'undefined' )
+                                tbWindow.css({'top':(H-h)/2,'margin-top':'0'});
+                }
+        };
+
+        thickDims();
+        $(window).resize( function() { thickDims() } );
+
+        $('a.thickbox-preview11').click( function() {
+                tb_click.call(this);
+
+                var alink = $(this).parents('.available-theme').find('.activatelink'), link = '', href = $(this).attr('href'), url, text;
+
+                if ( tbWidth = href.match(/&tbWidth=[0-9]+/) )
+                        tbWidth = parseInt(tbWidth[0].replace(/[^0-9]+/g, ''), 10);
+                else
+                        tbWidth = $(window).width() - 120;
+
+                if ( tbHeight = href.match(/&tbHeight=[0-9]+/) )
+                        tbHeight = parseInt(tbHeight[0].replace(/[^0-9]+/g, ''), 10);
+                else
+                        tbHeight = $(window).height() - 120;
+
+                if ( alink.length ) {
+                        url = alink.attr('href') || '';
+                        text = alink.attr('title') || '';
+                        link = '&nbsp; <a href="' + url + '" target="_top" class="tb-theme-preview-link">' + text + '</a>';
+                } else {
+                        text = $(this).attr('title') || '';
+                        link = '&nbsp; <span class="tb-theme-preview-link">' + text + '</span>';
+                }
+
+                $('#TB_title').css({'background-color':'#222','color':'#dfdfdf'});
+                $('#TB_closeAjaxWindow').css({'float':'left'});
+                $('#TB_ajaxWindowTitle').css({'float':'right'}).html(link);
+
+                $('#TB_iframeContent').width('100%');
+                thickDims();
+
+                return false;
+        } );
+});
 
 change_class(w_class, i);
 refresh_attr(i, 'type_text');
@@ -11933,7 +11988,7 @@ function type_captcha(i,w_field_label, w_field_label_pos, w_digit, w_class, w_at
 	var adding = document.createElement(element);
            	adding.setAttribute("type", type);
            	adding.setAttribute("digit", w_digit);
-           	adding.setAttribute("src", plugin_url+"/wd_captcha.php?digit="+w_digit+"&i=form_id_temp");
+           	adding.setAttribute("src", location.origin+ajaxurl+"?action=formmakerwdcaptcha"+"&digit="+w_digit+"&i=form_id_temp");
 			adding.setAttribute("id", "_wd_captchaform_id_temp");
 			adding.setAttribute("class", "captcha_img");
 			adding.setAttribute("onClick", "captcha_refresh('_wd_captcha','form_id_temp')");
@@ -13265,6 +13320,7 @@ function addRow(b)
 	alltypes=Array('customHTML','text','checkbox','radio','time_and_date','select','file_upload','captcha','map','button','page_break','section_break');
 	for(x=0; x<12;x++)
 	{
+	if(alltypes[x]!='file_upload' && alltypes[x]!='map')
 		document.getElementById('img_'+alltypes[x]).parentNode.style.backgroundColor='';
 	}
 	
@@ -13519,7 +13575,7 @@ var el_type_radio_mark_map = document.createElement('input');
 				el_type_radio_mark_map.style.cssText = "margin-left:15px";
                 el_type_radio_mark_map.setAttribute("value", "mark_map");
                 el_type_radio_mark_map.setAttribute("name", "el_type");
-                el_type_radio_mark_map.setAttribute("onchange", "alert('This field type is disabled in free version. If you need this functionality, you need to buy the commercial version.')");
+                el_type_radio_mark_map.setAttribute("onmousedown", "alert('This field type is disabled in free version. If you need this functionality, you need to buy the commercial version.'); return false;");
 		Mark_map = document.createTextNode("Address(mark on map)");
 	
 	
@@ -14778,8 +14834,15 @@ function add(key)
 		askofeny=0;
 		if(kz6>(count_of_filds_form+askofeny))
 		{
-		alert("The free version is limited up to 5 fields to add. If you need this functionality, you need to buy the commercial version.");
+		alert("The free version is limited up to 7 fields to add. If you need this functionality, you need to buy the commercial version.");
 		return;
+		}
+		else
+		{
+		if(count_of_filds_form>7){
+		alert("The free version is limited up to 7 fields to add. If you need this functionality, you need to buy the commercial version.");
+		return;
+		}
 		}
 	}
 	if(document.getElementById("element_type").value=="type_section_break")

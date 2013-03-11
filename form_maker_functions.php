@@ -8,7 +8,7 @@ function update_form_maker(){
 	
 global $wpdb;
 	
-	$query="SELECT id, form FROM ".$wpdb->prefix."formmaker";
+	$query="SELECT id, form FROM ".$wpdb->prefix."formmaker WHERE `id` NOT IN(".get_option('contact_form_forms',0).")";
 
 	$forms=$wpdb->get_results($query);
 	
@@ -92,7 +92,7 @@ document.getElementById('adminForm').submit();
 	$labels['label']='"'.implode('","',$label_order_original).'"';
 	$labels['type']='"'.implode('","',$label_type).'"';
 	
-	$query = "SELECT * FROM ".$wpdb->prefix."formmaker_themes ORDER BY title";
+	$query = "SELECT * FROM ".$wpdb->prefix."formmaker_themes WHERE `id` NOT IN(".get_option('contact_form_forms',0).") ORDER BY title";
 	
 	$themes = $wpdb->get_results($query);
 
@@ -170,7 +170,10 @@ $savedd=$wpdb->update($wpdb->prefix."formmaker", array(
 function display_form_lists(){
 	
 	global $wpdb;
+	$where= '';
+	$order="";
 	$sort["default_style"]="manage-column column-autor sortable desc";
+	$sort["sortid_by"]="";
 	if(isset($_POST['page_number']))
 	{
 			
@@ -216,7 +219,13 @@ function display_form_lists(){
 		$where= ' WHERE title LIKE "%'.$search_tag.'%"';
 	}
 	
-	
+	if($where){
+		$where.=" AND `id` NOT IN(".get_option('contact_form_forms',0).")";
+	}
+	else
+	{
+		$where=" WHERE `id` NOT IN(".get_option('contact_form_forms',0).")";
+	}
 	
 	// get the total number of records
 	$query = "SELECT COUNT(*) FROM ".$wpdb->prefix."formmaker". $where;
@@ -295,7 +304,7 @@ function display_form_lists(){
 function add_form()
 {
 	global $wpdb;
-	$query = "SELECT * FROM ".$wpdb->prefix."formmaker_themes ORDER BY title";
+	$query = "SELECT * FROM ".$wpdb->prefix."formmaker_themes WHERE `id` NOT IN(".get_option('contact_form_themes',0).") ORDER BY title";
 	$themes =$wpdb->get_results($query);
 	html_add_form($themes);
 		
@@ -335,8 +344,13 @@ function edit_form_maker($id)
 {
 	global $wpdb;
 	// load the row from the db table
-	$row=$wpdb->get_row("SELECT * FROM ".$wpdb->prefix."formmaker WHERE id='".$id."'");
-		
+	if(get_option('contact_form_forms',false)){
+	$row=$wpdb->get_row("SELECT * FROM ".$wpdb->prefix."formmaker WHERE id='".$id."' AND `id` NOT IN(".get_option('contact_form_forms').")");
+	}
+	else
+	{
+		$row=$wpdb->get_row("SELECT * FROM ".$wpdb->prefix."formmaker WHERE id='".$id."'");
+	}
 		$labels= array();
 		
 		$label_id= array();
@@ -365,7 +379,7 @@ function edit_form_maker($id)
 	$labels['label']='"'.implode('","',$label_order_original).'"';
 	$labels['type']='"'.implode('","',$label_type).'"';
 	
-	$query = "SELECT * FROM ".$wpdb->prefix."formmaker_themes ORDER BY title";
+	$query = "SELECT * FROM ".$wpdb->prefix."formmaker_themes WHERE `id` NOT IN(".get_option('contact_form_themes',0).") ORDER BY title";
 	$themes = $wpdb->get_results($query);
 	
 
@@ -384,7 +398,7 @@ function edit_form_maker($id)
 function  save_form()
 {
 	$count_words_in_form = count(explode("_element_section",$_POST["form"]))-count(explode("and_element_section",$_POST["form"]))+count(explode("wdform_table1",$_POST["form"]));	 
-	if($count_words_in_form>7)
+	if($count_words_in_form>9)
 	{
 		?>
 		<div class="updated"><p><strong>The free version is limited up to 5 fields to add. If you need this functionality, you need to buy the commercial version.</strong></p></div>
@@ -611,7 +625,7 @@ global $wpdb;
 
 
 	$count_words_in_form = count(explode("_element_section",$_POST["form"]))-count(explode("and_element_section",$_POST["form"]))+count(explode("wdform_table1",$_POST["form"]));	 
-	if($count_words_in_form>7)
+	if($count_words_in_form>9)
 	{
 		?>
 		<div class="updated"><p><strong>The free version is limited up to 5 fields to add. If you need this functionality, you need to buy the commercial version.</strong></p></div>

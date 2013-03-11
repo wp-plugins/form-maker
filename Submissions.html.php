@@ -2,7 +2,7 @@
 	if(!current_user_can('manage_options')) {
 	die('Access Denied');
 }
-function html_show_submits($rows, $forms, $lists, $pageNav, $labels, $label_titles, $rows_ord, $filter_order_Dir,$form_id, $labels_id, $sorted_labels_type, $total_entries, $total_views, $where, $where_choices, $sort)
+function html_show_submits($rows, $forms, $lists, $pageNav, $labels, $label_titles, $rows_ord, $filter_order_Dir,$form_id, $labels_id, $sorted_labels_type, $total_entries, $total_views, $where,$where_choices,$sort)
 {	
 	$label_titles_copy=$label_titles;
 	global $wpdb;
@@ -28,7 +28,12 @@ function html_show_submits($rows, $forms, $lists, $pageNav, $labels, $label_titl
 	}
 
 	?>
-
+<style>
+.calendar .button
+{
+display:table-cell !important;
+}
+</style>
 <script type="text/javascript">
 function tableOrdering( order, dir, task ) 
 {
@@ -321,11 +326,11 @@ if(isset($labels))
 
 <?php } ?>
 
-<form action="admin.php?page=Form_maker_Submits" method="post" id="admin_form" name="admin_form">
+<form action="admin.php?page=Form_maker_Submits" style="overflow-x: scroll;" method="post" id="admin_form" name="admin_form">
     <input type="hidden" name="option" value="com_formmaker">
     <input type="hidden" name="task" value="submits">
-    <input type="hidden" name="asc_or_desc" id="asc_or_desc" value="<?php echo $_POST['asc_or_desc'] ?>">
-    <input type="hidden" name="order_by" id="order_by" value="<?php echo $_POST['order_by'] ?>">
+    <input type="hidden" name="asc_or_desc" id="asc_or_desc" value="<?php if(isset($_POST['asc_or_desc'])){ echo $_POST['asc_or_desc'];} ?>">
+    <input type="hidden" name="order_by" id="order_by" value="<?php if(isset($_POST['order_by'])){ echo $_POST['order_by']; } ?>">
 <br />
     <table width="95%">
 
@@ -373,8 +378,8 @@ if(isset($labels))
 			</td>
 			<td style="text-align:right;" width="300">
                 Export to
-                <input type="button" value="CSV" onclick="window.location='<?php echo plugins_url("generate_csv.php",__FILE__); ?>?form_id=<?php echo $form_id; ?>'" />&nbsp;
-                <input type="button" value="XML" onclick="window.location='<?php echo plugins_url("generate_xml.php",__FILE__); ?>?form_id=<?php echo $form_id; ?>'" />
+                <input type="button" value="CSV" onclick="window.location='<?php echo admin_url( 'admin-ajax.php?action=formmakergeneretecsv' ); ?>&form_id=<?php echo $form_id; ?>'" />&nbsp;
+                <input type="button" value="XML" onclick="window.location='<?php echo admin_url( 'admin-ajax.php?action=formmakergeneretexml' ); ?>&form_id=<?php echo $form_id; ?>'" />
             </td>
 			
         </tr>
@@ -396,7 +401,7 @@ if(isset($labels))
 
 		<?php else: echo '<td><br /><br /><br /></td></tr>'; endif; ?>
     </table>
-     <?php print_html_nav($pageNav['total'],$pageNav['limit'], $serch_filds); 
+     <?php print_html_nav($pageNav['total'],$pageNav['limit']); 
 ?>
     <table class="wp-list-table widefat fixed posts"  style="width:95%; table-layout: inherit !important;" >
         <thead>
@@ -407,7 +412,7 @@ if(isset($labels))
 				 <?php
 				 
 
-				?>	<th width="4%" scope="col"  id="submitid_fc" class="submitid_fc <?php if($sort["sortid_by"]=="group_id") echo $sort["custom_style"]; else echo $sort["default_style"]; ?>" <?php if(!(strpos($lists['hide_label_list'],'@submitid@')===false)) echo 'style="display:none;"';?>><a href="javascript:ordering('group_id',<?php if($sort["sortid_by"]=="group_id") echo $sort["1_or_2"]; else echo "1"; ?>)"><span>ID</span><span class="sorting-indicator"></span></a></th><?php
+				?>	<th width="4%" scope="col"  id="submitid_fc" class="submitid_fc <?php  if($sort["sortid_by"]=="group_id") echo $sort["custom_style"]; else echo $sort["default_style"]; ?>" <?php if(!(strpos($lists['hide_label_list'],'@submitid@')===false)) echo 'style="display:none;"';?>><a href="javascript:ordering('group_id',<?php if($sort["sortid_by"]=="group_id") echo $sort["1_or_2"]; else echo "1"; ?>)"><span>ID</span><span class="sorting-indicator"></span></a></th><?php
 				 ?>	<th width="210px" scope="col"  id="submitdate_fc" class="submitdate_fc <?php if($sort["sortid_by"]=="date") echo $sort["custom_style"]; else echo $sort["default_style"]; ?>" <?php if(!(strpos($lists['hide_label_list'],'@submitdate@')===false)) echo 'style="display:none;"';?>><a href="javascript:ordering('date',<?php if($sort["sortid_by"]=="date") echo $sort["1_or_2"]; else echo "1"; ?>)"><span>Submit date</span><span class="sorting-indicator"></span></a></th><?php
 				 ?>	<th  scope="col"  id="submitterip_fc" class="submitterip_fc <?php if($sort["sortid_by"]=="ip") echo $sort["custom_style"]; else echo $sort["default_style"];  ?>" <?php if(!(strpos($lists['hide_label_list'],'@submitterip@')===false)) echo 'style="display:none;"';?>><a href="javascript:ordering('ip',<?php if($sort["sortid_by"]=="ip") echo $sort["1_or_2"]; else echo "1"; ?>)"><span>Submitter's IP Address</span><span class="sorting-indicator"></span></a></th><?php
 				 
@@ -627,7 +632,6 @@ foreach($sorted_labels_type as $key => $label_type)
 <br />
 
     <?php
-
 		$query = "SELECT element_value FROM ".$wpdb->prefix."formmaker_submits ".$where_choices." AND element_label='".$labels_id[$key]."'";
 		$choices = $wpdb->get_results($query);	
 	$colors=array('#2CBADE','#FE6400');

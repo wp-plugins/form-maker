@@ -35,8 +35,12 @@
 /**
  * The reCAPTCHA server URL's
  */
+
+if(!defined('RECAPTCHA_API_SERVER'))
 define("RECAPTCHA_API_SERVER", "http://www.google.com/recaptcha/api");
+if(!defined('RECAPTCHA_API_SECURE_SERVER'))
 define("RECAPTCHA_API_SECURE_SERVER", "https://www.google.com/recaptcha/api");
+if(!defined('RECAPTCHA_VERIFY_SERVER'))
 define("RECAPTCHA_VERIFY_SERVER", "www.google.com");
 
 /**
@@ -44,7 +48,7 @@ define("RECAPTCHA_VERIFY_SERVER", "www.google.com");
  * @param $data - array of string elements to be encoded
  * @return string - encoded request
  */
-  if(!function_exists("_recaptcha_qsencode")){
+  if(!function_exists('_recaptcha_qsencode')){
 function _recaptcha_qsencode ($data) {
         $req = "";
         foreach ( $data as $key => $value )
@@ -273,6 +277,6 @@ function recaptcha_mailhide_html($pubkey, $privkey, $email) {
 		"' onclick=\"window.open('" . htmlentities ($url) . "', '', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=500,height=300'); return false;\" title=\"Reveal this e-mail address\">...</a>@" . htmlentities ($emailparts [1]);
 
 }
-
 }
+
 ?>

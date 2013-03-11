@@ -27,7 +27,9 @@ function show_submits(){
 			
 			if($_POST['asc_or_desc'])
 			{
+				if(isset($_POST['order_by'])){
 				$sort["sortid_by"]=$_POST['order_by'];
+				}
 				if($_POST['asc_or_desc']==1)
 				{
 					$sort["custom_style"]="manage-column column-title sorted asc";
@@ -41,6 +43,9 @@ function show_submits(){
 					$order="ORDER BY ".$sort["sortid_by"]." DESC";
 				}
 			}
+			else{
+				$sort["sortid_by"]="";
+			}
 			
 	if($_POST['page_number'])
 		{
@@ -53,6 +58,7 @@ function show_submits(){
 	}
 	else
 		{
+			$sort["sortid_by"]="";
 			$limit=0;
 		}
 	
@@ -65,33 +71,59 @@ function show_submits(){
 
 
 
-	$query = "SELECT id, title FROM ".$wpdb->prefix."formmaker order by title";
+	$query = "SELECT id, title FROM ".$wpdb->prefix."formmaker WHERE `id` NOT IN(".get_option('contact_form_forms',0).") order by title";
 	$forms = $wpdb->get_results($query);
 
-	//$task	= JRequest::getCmd('task'); 
+	//$task	= JRequest::getCmd('task');
+	if(isset($_POST['form_id'])){ 
 	$form_id=$_POST['form_id'];
 	if($form_id){
 	
-	$query = "SELECT id FROM ".$wpdb->prefix."formmaker where id=".$form_id;
+	$query = "SELECT id FROM ".$wpdb->prefix."formmaker WHERE id=".$form_id;
 	$exists = $wpdb->get_var($query);
 	
 	
+	}
+	else{
+		$exists ="";
+	}
 	
 	}
+	else{
+		$exists ="";
+	}
+	
 	if(!$exists)
 		$form_id=0;
 	if(isset($_POST['order_by']) && $_POST['order_by']!="")
 	$filter_order= $_POST['order_by'];
 	else
 	$filter_order='id';
-	if($_POST['asc_or_desc']==1)
+	if(isset($_POST['asc_or_desc'])){
+	if($_POST['asc_or_desc']==1){
 	$filter_order_Dir= " ASC";
-	else
+	}
+	else{
 	$filter_order_Dir=" DESC";
+	}
+	}
+	else{
+		$filter_order_Dir="";
+	}
+	if(isset($_POST['search_submits'])){
 	$search_submits = $_POST['search_submits'];
 	$search_submits =strtolower( $search_submits );
+	}
+	else{
+	$search_submits = "";
+	}
+	if(isset($_POST['ip_search'])){
 	$ip_search = $_POST['ip_search'];
 	$ip_search = strtolower( $ip_search );
+	}
+	else{
+		$ip_search= "";
+     }
 	$where = array();
 
 	$where_choices = array();
@@ -213,7 +245,10 @@ function show_submits(){
 				array_push($sorted_labels, $label_order[$key]);
 				array_push($sorted_labels_id, $label);
 				array_push($label_titles, $label_order_original[$key]);
+				if(isset($_POST[$form_id.'_'.$label.'_search']))
 				$search_temp = $_POST[$form_id.'_'.$label.'_search'];
+				else
+				$search_temp ='';
 				$search_temp = strtolower( $search_temp );
 				$lists[$form_id.'_'.$label.'_search']	 = $search_temp;
 				
@@ -267,8 +302,6 @@ function show_submits(){
 	
 	$where2 = array();
 	$where_choices=$where;
-	
-	
 	for($i=$limit; $i<$limit+20; $i++)
 	{
 		if($i<$total)
@@ -301,7 +334,7 @@ $lists['ip_search']=$ip_search;
 	if(count($rows_ord)==0)
 		$rows_ord=$rows;
     // display function
-	html_show_submits($rows, $forms, $lists, $pageNav, $sorted_labels, $label_titles, $rows_ord, $filter_order_Dir,$form_id, $sorted_labels_id, $sorted_labels_type, $total_entries, $total_views,$where, $where_choices, $sort);
+	html_show_submits($rows, $forms, $lists, $pageNav, $sorted_labels, $label_titles, $rows_ord, $filter_order_Dir,$form_id, $sorted_labels_id, $sorted_labels_type, $total_entries, $total_views,$where,$where_choices,$sort);
 
 
 }

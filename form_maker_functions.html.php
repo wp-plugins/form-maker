@@ -20,6 +20,10 @@ function html_update_form_maker($row, $labels, $themes){
         <br />
         <br />
 		<style>
+		.calendar .button
+		{
+		display:table-cell !important;
+		}
 		.big_div
 		{
 			width:100%;
@@ -542,7 +546,7 @@ margin-top:15px;
 
 
     <td align="left" valign="middle" rowspan="3" style="padding:10px;">
-    <img src="<?php echo $form_file_url; ?>/images/formmaker.png" />
+    <img src="<?php echo $form_file_url; ?>/images/FormMaker.png" />
 	</td>
 
     <td width="70" align="right" valign="middle">
@@ -653,7 +657,7 @@ margin-top:15px;
             <td align="center" onClick="addRow('radio')" class="field_buttons" id="table_radio"><img src="<?php echo $form_file_url; ?>/images/radio.png" style="margin:5px" id="img_radio"/></td>
             </tr>
             <tr>
-            <td align="center" onClick="alert('This field type is disabled in free version. If you need this functionality, you need to buy the commercial version.')" class="field_buttons" id="table_file_upload"><img src="<?php echo $form_file_url; ?>/images/file_upload.png" style="margin:5px" id="img_file_upload"/></td>
+            <td align="center" onClick="alert('This field type is disabled in free version. If you need this functionality, you need to buy the commercial version.')" style="background-color: rgb(114, 113, 113) !important;" class="field_buttons" id="table_file_upload"><img src="<?php echo $form_file_url; ?>/images/file_upload.png" style="margin:5px" id="img_file_upload"/></td>
             
             <td align="center" onClick="addRow('captcha')" class="field_buttons" id="table_captcha"><img src="<?php echo $form_file_url; ?>/images/captcha.png" style="margin:5px" id="img_captcha"/></td>
             </tr>
@@ -663,7 +667,7 @@ margin-top:15px;
             <td align="center" onClick="addRow('section_break')" class="field_buttons" id="table_section_break"><img src="<?php echo $form_file_url; ?>/images/section_break.png" style="margin:5px" id="img_section_break"/></td>
             </tr>
             <tr>
-            <td align="center" onClick="alert('This field type is disabled in free version. If you need this functionality, you need to buy the commercial version.')" class="field_buttons" id="table_map"><img src="<?php echo $form_file_url; ?>/images/map.png" style="margin:5px" id="img_map"/></td>  
+            <td align="center" onClick="alert('This field type is disabled in free version. If you need this functionality, you need to buy the commercial version.')" style="background-color: rgb(114, 113, 113) !important;" class="field_buttons" id="table_map"><img src="<?php echo $form_file_url; ?>/images/map.png" style="margin:5px" id="img_map"/></td>  
             
             <td align="center" onClick="addRow('button')" class="field_buttons" id="table_button"><img src="<?php echo $form_file_url; ?>/images/button.png" style="margin:5px" id="img_button"/></td>
             </tr>
@@ -708,14 +712,16 @@ margin-top:15px;
 <input type="hidden" id="old_selected" />
 <input type="hidden" id="element_type" />
 <input type="hidden" id="editing_id" />
-<div id="main_editor" style="position:absolute; display:none; z-index:140;"><?php if(function_exists ('the_editor')){ ?>
+<div id="main_editor" style="position:absolute; display:none; z-index:140;"><?php if(function_exists ('the_editor') || function_exists ('wp_editor')){ if(get_bloginfo('version')<'3.3'){ ?>
 <div  style=" max-width:500px; height:300px;text-align:left" id="poststuff">
 <div id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>" class="postarea"><?php the_editor("","form_maker_editor","title",$media_buttons = true, $tab_index = 1, $extended = true ); ?>
 </div>
 </div>
 <?php
-
-
+}
+else{
+		echo "<style>#wp-form_maker_editor-media-buttons{ text-align:left }</style>"; wp_editor("","form_maker_editor");	
+	}
 
 }
 else
@@ -1280,6 +1286,11 @@ var keyCode = event.keyCode ? event.keyCode : event.which ? event.which : event.
 }
 }
 	</script>
+    <style>.calendar .button
+		{
+		display:table-cell !important;
+		}
+        </style>
     <form method="post" onkeypress="doNothing()" action="admin.php?page=Form_maker" id="admin_form" name="admin_form">
 	<table cellspacing="10" width="100%">
     <tr>
@@ -1299,6 +1310,7 @@ var keyCode = event.keyCode ? event.keyCode : event.which ? event.which : event.
     </tr>
     </table>
     <?php
+    $serch_value="";
 	if(isset($_POST['serch_or_not'])) {if($_POST['serch_or_not']=="search"){ $serch_value=$_POST['search_events_by_title']; }else{$serch_value="";}} 
 	$serch_fields='<div class="alignleft actions" style="width:180px;">
     	<label for="search_events_by_title" style="font-size:14px">Title: </label>
@@ -1376,6 +1388,68 @@ function html_add_form($themes){
 <script type="text/javascript">
 
 
+	var thickDims, tbWidth, tbHeight;
+jQuery(document).ready(function($) {
+
+        thickDims = function() {
+                var tbWindow = $('#TB_window'), H = $(window).height(), W = $(window).width(), w, h;
+
+                w = (tbWidth && tbWidth < W - 90) ? tbWidth : W - 40;
+                h = (tbHeight && tbHeight < H - 60) ? tbHeight : H - 40;
+
+                if ( tbWindow.size() ) {
+                        tbWindow.width(w).height(h);
+                        $('#TB_iframeContent').width(w).height(h - 27);
+                        tbWindow.css({'margin-left': '-' + parseInt((w / 2),10) + 'px'});
+                        if ( typeof document.body.style.maxWidth != 'undefined' )
+                                tbWindow.css({'top':(H-h)/2,'margin-top':'0'});
+                }
+        };
+
+        thickDims();
+        $(window).resize( function() { thickDims() } );
+
+        $('a.thickbox-preview').click( function() {
+                tb_click.call(this);
+
+                var alink = $(this).parents('.available-theme').find('.activatelink'), link = '', href = $(this).attr('href'), url, text;
+
+                if ( tbWidth = href.match(/&tbWidth=[0-9]+/) )
+                        tbWidth = parseInt(tbWidth[0].replace(/[^0-9]+/g, ''), 10);
+                else
+                        tbWidth = $(window).width() - 120;
+
+                if ( tbHeight = href.match(/&tbHeight=[0-9]+/) )
+                        tbHeight = parseInt(tbHeight[0].replace(/[^0-9]+/g, ''), 10);
+                else
+                        tbHeight = $(window).height() - 120;
+
+                if ( alink.length ) {
+                        url = alink.attr('href') || '';
+                        text = alink.attr('title') || '';
+                        link = '&nbsp; <a href="' + url + '" target="_top" class="tb-theme-preview-link">' + text + '</a>';
+                } else {
+                        text = $(this).attr('title') || '';
+                        link = '&nbsp; <span class="tb-theme-preview-link">' + text + '</span>';
+                }
+
+                $('#TB_title').css({'background-color':'#222','color':'#dfdfdf'});
+                $('#TB_closeAjaxWindow').css({'float':'left'});
+                $('#TB_ajaxWindowTitle').css({'float':'right'}).html(link);
+
+                $('#TB_iframeContent').width('100%');
+                thickDims();
+
+                return false;
+        } );
+
+        // Theme details
+        $('.theme-detail').click(function () {
+                $(this).siblings('.themedetaildiv').toggle();
+                return false;
+        });
+
+});
 function refresh_()
 {
 		
@@ -1860,6 +1934,10 @@ jQuery(document).ready(function($) {
 
     </script>
 <style>
+.calendar .button
+		{
+		display:table-cell !important;
+		}
 #when_edit
 {
 position:absolute;
@@ -1904,7 +1982,10 @@ foreach($themes as $theme)
 		{		
 			$my_selected_theme=$theme->id;
 
-		}	
+		}
+		else{
+			$my_selected_theme=0;
+		}
 		
 	}
     ?>
@@ -1939,7 +2020,7 @@ foreach($themes as $theme)
 
 
     <td align="left" valign="middle" rowspan="3" style="padding:10px;">
-    <img src="<?php echo  plugins_url("images/formmaker.png",__FILE__) ?>" />
+    <img src="<?php echo  plugins_url("images/FormMaker.png",__FILE__) ?>" />
 	</td>
 
     <td width="300" align="right" valign="middle">
@@ -2058,7 +2139,7 @@ foreach($themes as $theme)
             <td align="center" onClick="addRow('radio')" id="table_radio" class="field_buttons"><img src="<?php echo plugins_url("images/radio.png",__FILE__); ?>" style="margin:5px" id="img_radio"/></td>
             </tr>
             <tr>
-            <td align="center" onClick="alert('This field type is disabled in free version. If you need this functionality, you need to buy the commercial version.')" id="table_file_upload" class="field_buttons"><img src="<?php echo plugins_url("images/file_upload.png",__FILE__); ?>" style="margin:5px" id="img_file_upload"/></td>
+            <td align="center" onClick="alert('This field type is disabled in free version. If you need this functionality, you need to buy the commercial version.')" style="background-color: rgb(114, 113, 113) !important;" id="table_file_upload" class="field_buttons"><img src="<?php echo plugins_url("images/file_upload.png",__FILE__); ?>" style="margin:5px" id="img_file_upload"/></td>
             
             <td align="center" onClick="addRow('captcha')" id="table_captcha" class="field_buttons"><img src="<?php echo plugins_url("images/captcha.png",__FILE__); ?>" style="margin:5px" id="img_captcha"/></td>
             </tr>
@@ -2068,7 +2149,7 @@ foreach($themes as $theme)
             <td align="center" onClick="addRow('section_break')" id="table_section_break" class="field_buttons"><img src="<?php echo plugins_url("images/section_break.png",__FILE__); ?>" style="margin:5px" id="img_section_break"/></td>
             </tr>
             <tr>
-            <td align="center" onClick="alert('This field type is disabled in free version. If you need this functionality, you need to buy the commercial version.')" id="table_map" class="field_buttons"><img src="<?php echo plugins_url("images/map.png",__FILE__); ?>" style="margin:5px" id="img_map"/></td>  
+            <td align="center" onClick="alert('This field type is disabled in free version. If you need this functionality, you need to buy the commercial version.')" style="background-color: rgb(114, 113, 113) !important;" id="table_map" class="field_buttons"><img src="<?php echo plugins_url("images/map.png",__FILE__); ?>" style="margin:5px" id="img_map"/></td>  
             
             <td align="center" onClick="addRow('button')" id="table_button" class="field_buttons"><img src="<?php echo plugins_url("images/button.png",__FILE__); ?>" style="margin:5px" id="img_button"/></td>
             </tr>
@@ -2111,15 +2192,20 @@ foreach($themes as $theme)
 <input type="hidden" id="element_type" />
 <input type="hidden" id="editing_id" />
 <input type="hidden" id="editing_page_break" />
-<div id="main_editor" style="position:absolute; display:none; z-index:140;"><?php if(function_exists ('the_editor')){ ?>
+
+
+<div id="main_editor" style="position:absolute; display:none; z-index:140;"><?php if(function_exists ('the_editor') || function_exists ('wp_editor')){  if(get_bloginfo('version')<'3.3'){ ?>
 <div  style=" max-width:500px; height:300px;text-align:left" id="poststuff">
 <div id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>" class="postarea"><?php the_editor("","form_maker_editor","title",$media_buttons = true, $tab_index = 1, $extended = true ); ?>
 </div>
 </div>
+
 <?php
 
-
-
+}
+else{
+	echo "<style>#wp-form_maker_editor-media-buttons{ text-align:left }</style>"; wp_editor("","form_maker_editor");
+}
 }
 else
 {
@@ -2211,6 +2297,42 @@ function html_edit_form_maker($row, $labels, $themes){
 	?>
     
 <script type="text/javascript">
+
+       function gagoo(vvvv) {
+		   alert('ffff');
+                tb_click.call(vvvv);
+
+                var alink = $(vvvv).parents('.available-theme').find('.activatelink'), link = '', href = $(vvvv).attr('href'), url, text;
+
+                if ( tbWidth = href.match(/&tbWidth=[0-9]+/) )
+                        tbWidth = parseInt(tbWidth[0].replace(/[^0-9]+/g, ''), 10);
+                else
+                        tbWidth = $(window).width() - 120;
+
+                if ( tbHeight = href.match(/&tbHeight=[0-9]+/) )
+                        tbHeight = parseInt(tbHeight[0].replace(/[^0-9]+/g, ''), 10);
+                else
+                        tbHeight = $(window).height() - 120;
+
+                if ( alink.length ) {
+                        url = alink.attr('href') || '';
+                        text = alink.attr('title') || '';
+                        link = '&nbsp; <a href="' + url + '" target="_top" class="tb-theme-preview-link">' + text + '</a>';
+                } else {
+                        text = $(vvvv).attr('title') || '';
+                        link = '&nbsp; <span class="tb-theme-preview-link">' + text + '</span>';
+                }
+
+                $('#TB_title').css({'background-color':'#222','color':'#dfdfdf'});
+                $('#TB_closeAjaxWindow').css({'float':'left'});
+                $('#TB_ajaxWindowTitle').css({'float':'right'}).html(link);
+
+                $('#TB_iframeContent').width('100%');
+                thickDims();
+
+                return false;
+        }
+
 
 
 
@@ -2779,6 +2901,10 @@ jQuery(document).ready(function($) {
 
     </script>
 <style>
+.calendar .button
+{
+display:table-cell !important;
+}
 #when_edit
 {
 position:absolute;
@@ -2851,7 +2977,7 @@ margin-top:15px;
 
 
     <td align="left" valign="middle" rowspan="3" style="padding:10px;">
-    <img src="<?php echo plugins_url("images/formmaker.png",__FILE__) ?>" />
+    <img src="<?php echo plugins_url("images/FormMaker.png",__FILE__) ?>" />
 	</td>
 
     <td width="70" align="right" valign="middle">
@@ -2939,7 +3065,7 @@ margin-top:15px;
 <div id="formMakerDiv1" style="padding-top:20px"  align="center">
     
     
-<table border="0" width="100%" cellpadding="0" cellspacing="0" height="100%" style="border:6px #00aeef solid; background-color:#FFF">
+<table border="0"  width="100%" cellpadding="0" cellspacing="0" height="100%" style="border:6px #00aeef solid; background-color:#FFF">
   <tr>
     <td style="padding:0px">
     <table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
@@ -2963,7 +3089,7 @@ margin-top:15px;
             <td align="center" onClick="addRow('radio')" style="cursor:pointer" id="table_radio" class="field_buttons"><img src="<?php echo plugins_url("images/radio.png",__FILE__) ?>" style="margin:5px" id="img_radio"/></td>
             </tr>
             <tr>
-            <td align="center" onClick="alert('This field type is disabled in free version. If you need this functionality, you need to buy the commercial version.')" style="cursor:pointer" id="table_file_upload" class="field_buttons"><img src="<?php echo plugins_url("images/file_upload.png",__FILE__) ?>" style="margin:5px" id="img_file_upload"/></td>
+            <td align="center" onClick="alert('This field type is disabled in free version. If you need this functionality, you need to buy the commercial version.')" style="background-color: rgb(114, 113, 113) !important; cursor:pointer" id="table_file_upload" class="field_buttons"><img src="<?php echo plugins_url("images/file_upload.png",__FILE__) ?>" style="margin:5px" id="img_file_upload"/></td>
             
             <td align="center" onClick="addRow('captcha')" style="cursor:pointer" id="table_captcha" class="field_buttons"><img src="<?php echo plugins_url("images/captcha.png",__FILE__) ?>" style="margin:5px" id="img_captcha"/></td>
             </tr>
@@ -2973,7 +3099,7 @@ margin-top:15px;
             <td align="center" onClick="addRow('section_break')" style="cursor:pointer" id="table_section_break" class="field_buttons"><img src="<?php echo plugins_url("images/section_break.png",__FILE__) ?>" style="margin:5px" id="img_section_break"/></td>
             </tr>
             <tr>
-            <td align="center" onClick="alert('This field type is disabled in free version. If you need this functionality, you need to buy the commercial version.')" style="cursor:pointer" id="table_map" class="field_buttons"><img src="<?php echo plugins_url("images/map.png",__FILE__) ?>" style="margin:5px" id="img_map"/></td>  
+            <td align="center" onClick="alert('This field type is disabled in free version. If you need this functionality, you need to buy the commercial version.')" style="background-color: rgb(114, 113, 113) !important; cursor:pointer" id="table_map" class="field_buttons"><img src="<?php echo plugins_url("images/map.png",__FILE__) ?>" style="margin:5px" id="img_map"/></td>  
             
             <td align="center" onClick="addRow('button')" style="cursor:pointer" id="table_button" class="field_buttons"><img src="<?php echo plugins_url("images/button.png",__FILE__) ?>" style="margin:5px" id="img_button"/></td>
             </tr>
@@ -3019,12 +3145,20 @@ margin-top:15px;
 <input type="hidden" id="element_type" />
 <input type="hidden" id="editing_id" />
 <input type="hidden" value="<?php echo plugins_url("",__FILE__) ?>" id="form_plugins_url" />
-<div id="main_editor" style="position:absolute; display:none; z-index:140;"><?php if(function_exists ('the_editor')){ ?>
+<div id="main_editor" style="position:absolute; display:none; z-index:140;"><?php if(function_exists ('the_editor') || function_exists ('wp_editor')){
+	if(get_bloginfo('version')<'3.3'){
+	 ?>
 <div  style=" max-width:500px; height:300px;text-align:left" id="poststuff">
 <div id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>" class="postarea"><?php the_editor("","form_maker_editor","title",$media_buttons = true, $tab_index = 1, $extended = true ); ?>
 </div>
 </div>
 <?php
+
+	}
+	else
+	{
+		echo "<style>#wp-form_maker_editor-media-buttons{ text-align:left }</style>"; wp_editor("","form_maker_editor");
+	}
 }
 else
 {
@@ -3362,7 +3496,8 @@ width:153px;
                     <option value="0">- Select Post -</option>
                     <?php
                      
-                    // The Query
+                    $args = array(
+    'posts_per_page'  => 10000);
                     query_posts($args );
                      
                     // The Loop
@@ -3414,10 +3549,12 @@ width:153px;
                 <label for="submissioni text"> Text </label>
            </td>
            <td >
+           <?php if(get_bloginfo('version')<'3.3'){ ?>
 				<div  style="height:300px;text-align:left" id="poststuff">
                 <div id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>" class="postarea"><?php the_editor($row->submit_text,"content","title",$media_buttons = true, $tab_index = 1, $extended = true ); ?>
                 </div>   
                 </div>    
+                <?php } else { wp_editor($row->submit_text,"content");}?>
 			</td>
         </tr>
         <tr  <?php if($row->submit_text_type!=4 ) echo 'style="display:none"' ?>  id="url">
@@ -3587,8 +3724,17 @@ document.getElementById('adminForm').submit();
             </tr>
             <tr>
             
-             <td style="width:95%; min-width:500px"><?php if(function_exists(wp_editor)){ the_editor ( $row->script1, $idd = 'script1', $prev_id = 'Mail_script1', $media_buttons = true, $tab_index = 1, $extended = true );} else {?>
- 
+             <td style="width:95%; min-width:500px">
+			 <?php if(function_exists('wp_editor') || function_exists('the_editor')){ 
+			 if(get_bloginfo('version')<'3.3'){
+				 the_editor ( $row->script1, $idd = 'script1', $prev_id = 'Mail_script1', $media_buttons = true, $tab_index = 1, $extended = true );
+				  }
+ 					else{
+						wp_editor( $row->script1, $idd = 'script1');
+					}
+				 } 
+				 else {?>
+
 			<textarea style="width:100%" name="script1" id><?php echo $row->script1 ?></textarea>
 			<?php } ?>
             <br />
@@ -3612,7 +3758,14 @@ document.getElementById('adminForm').submit();
             </tr>
                         <tr>
             
-           <td style="width:70%; min-width:500px"><?php if(function_exists(wp_editor)){ the_editor ( $row->script2, $idd = 'script2', $prev_id = 'Mail_title2', $media_buttons = true, $tab_index = 2, $extended = true );}else { ?>
+           <td style="width:70%; min-width:500px"><?php if(function_exists('wp_editor') || function_exists('the_editor')){if(get_bloginfo('version')<'3.3'){
+			    the_editor ( $row->script2, $idd = 'script2', $prev_id = 'Mail_title2', $media_buttons = true, $tab_index = 2, $extended = true );
+		   }
+		   else
+		   {
+			   wp_editor($row->script2, $idd = 'script2');
+		   }
+				}else { ?>
 			
 			<textarea style="width:100%" name="script2"><?php echo $row->script2 ?></textarea>
 			<?php } ?></td>
@@ -3693,7 +3846,14 @@ document.getElementById('adminForm').submit();
             </tr>
             <tr>
             
-             <td style="width:95%; min-width:500px"><?php if(function_exists(wp_editor)){ the_editor ( $row->script_user1, $idd = 'script_user1', $prev_id = 'Mail_script1', $media_buttons = true, $tab_index = 1, $extended = true );} else {?>
+             <td style="width:95%; min-width:500px"><?php if(function_exists('wp_editor') || function_exists('the_editor')){ if(get_bloginfo('version')<'3.3'){
+				 the_editor ( $row->script_user1, $idd = 'script_user1', $prev_id = 'Mail_script1', $media_buttons = true, $tab_index = 1, $extended = true );
+			 }
+			 else
+			 {
+				 wp_editor($row->script_user1, $idd = 'script_user1');
+			 }
+				 } else {?>
  
 			<textarea style="width:100%" name="script_user1" id><?php echo $row->script_user1 ?></textarea>
 			<?php } ?>
@@ -3718,7 +3878,8 @@ document.getElementById('adminForm').submit();
             </tr>
                         <tr>
             
-           <td style="width:70%; min-width:500px"><?php if(function_exists(wp_editor)){ the_editor ( $row->script_user2, $idd = 'script_user2', $prev_id = 'Mail_title2', $media_buttons = true, $tab_index = 2, $extended = true );}else { ?>
+           <td style="width:70%; min-width:500px"><?php if(function_exists('wp_editor') || function_exists('the_editor')){if(get_bloginfo('version')<'3.3'){ the_editor ( $row->script_user2, $idd = 'script_user2', $prev_id = 'Mail_title2', $media_buttons = true, $tab_index = 2, $extended = true );} else{
+						wp_editor( $row->script_user2, $idd = 'script_user2'); }}else { ?>
 			
 			<textarea style="width:100%" name="script_user2"><?php echo $row->script_user2 ?></textarea>
 			<?php } ?></td>

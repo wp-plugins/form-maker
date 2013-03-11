@@ -4,7 +4,7 @@
 }
 function add_theme(){
 	global $wpdb;
-	$query = "SELECT * FROM ".$wpdb->prefix."formmaker_themes where `default`=1";
+	$query = "SELECT * FROM ".$wpdb->prefix."formmaker_themes where `default`=1  AND `id` NOT IN(".get_option('contact_form_themes',0).") ";
 	$def_theme = $wpdb->get_row($query);
 
 	html_add_theme($def_theme);
@@ -45,6 +45,7 @@ $order="";
 	}
 	else
 		{
+			$sort["sortid_by"]="";
 			$limit=0;
 		}
 	if(isset($_POST['search_events_by_title'])){
@@ -58,16 +59,21 @@ $order="";
 	if ( $search_tag ) {
 		$where= ' WHERE title LIKE "%'.$search_tag.'%"';
 	}
+	else{
+		$where="";
+	}
 	if($order=="")
 	$order="ORDER BY `title` ASC";
 	
-	
+	if(!$where)
+	$where=" WHERE `id` NOT IN (".get_option('contact_form_themes',0).")";
+	else
+	$where.=" AND `id` NOT IN (".get_option('contact_form_themes',0).")";
 	// get the total number of records
 	$query = "SELECT COUNT(*) FROM ".$wpdb->prefix."formmaker_themes". $where;
 	$total = $wpdb->get_var($query);
 	$pageNav['total'] =$total;
 	$pageNav['limit'] =	 $limit/20+1;
-	
 	$query = "SELECT * FROM ".$wpdb->prefix."formmaker_themes".$where." ". $order." "." LIMIT ".$limit.",20";
 	$rows = $wpdb->get_results($query);
 	html_show_theme($rows, $pageNav, $sort);
@@ -154,7 +160,8 @@ function remove_theme($id){
 
 function default_theme($id){
 	global $wpdb;
-	$ids_for=$wpdb->get_col("SELECT id FROM ".$wpdb->prefix."formmaker_themes WHERE `default`=1");
+
+	$ids_for=$wpdb->get_col("SELECT id FROM ".$wpdb->prefix."formmaker_themes WHERE `default`=1 AND `id` NOT IN(".get_option('contact_form_themes',0).")");
 	for($i=0;$i<count($ids_for);$i++)
 	{
 		 $savedd=$wpdb->update($wpdb->prefix.'formmaker_themes', array(

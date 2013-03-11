@@ -2,7 +2,7 @@
 /*
 Plugin Name: Form Maker
 Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
-Version: 1.3.6
+Version: 1.4.0
 Author: http://web-dorado.com/
 License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -242,20 +242,25 @@ add_action('init', 'do_output_buffer');
 function do_output_buffer() {
         ob_start();
 }
+//////////////// 
+for($ii=0;$ii<100;$ii++){
+	remove_filter('the_content','do_shortcode',$ii);
+	remove_filter('the_content','wpautop',$ii);
+}
+add_filter('the_content','wpautop',10);
+add_filter('the_content','do_shortcode',11);
 
 
 function form_shotrcode($atts) {
-     extract(shortcode_atts(array(
-	      'id' => 'no Form',
-     ), $atts));
-     return form_maker_front_end($id);
+     
+     return form_maker_front_end($atts['id']);
 }
 add_shortcode('Form', 'form_shotrcode');
 
 
 function form_maker_scripts_method() {
 				wp_enqueue_style("gmap_styles_",plugins_url("css/style_for_map.css",__FILE__),false); 
-				//wp_enqueue_script("mootools",plugins_url("js/mootools.js",__FILE__));
+				wp_enqueue_script("mootools",plugins_url("js/mootools.js",__FILE__));
     			wp_enqueue_script("main_g_js",plugins_url("js/main_front_end.js",__FILE__),false);
 				wp_enqueue_script("Calendar",plugins_url("js/calendar.js",__FILE__),false);
  			  	wp_enqueue_script("calendar-setup",plugins_url("js/calendar-setup.js",__FILE__),false);
@@ -280,7 +285,7 @@ if($mh_after_head==1){
 	
 	
 	       @session_start();
-		   if(isset($_SESSION['form_submit_type'])){
+		   if(isset($_SESSION['form_submit_type']) && $_SESSION['form_submit_type']){
 		   $type_and_id=$_SESSION['form_submit_type'];
 			$type_and_id=explode(',',$type_and_id);
 			$form_get_type=$type_and_id[0];
@@ -453,21 +458,15 @@ function Form_maker_options_panel(){
 
 function form_maker_submits_styles_scripts()
 {
-	
-	
 			  wp_enqueue_script('word-count');
 			  wp_enqueue_script('post');
 			  wp_enqueue_script('editor');
 			  wp_enqueue_script('media-upload');
 			  wp_admin_css('thickbox');
-			  wp_print_scripts('media-upload');
-			  wp_print_scripts('editor-functions');
+			  wp_print_scripts('media-upload');		 
 			  do_action('admin_print_styles');
 			  wp_enqueue_script( 'common' );
 		  	  wp_enqueue_script( 'jquery-color' );
-			  wp_print_scripts('editor');
-			  if (function_exists('add_thickbox')) add_thickbox();
-			  if (function_exists('wp_tiny_mce')) wp_tiny_mce();
 			  wp_enqueue_script('utils');
 				 wp_enqueue_script("mootools",plugins_url("js/mootools.js",__FILE__));
 			  	wp_enqueue_script("f_calendar",plugins_url("js/calendar.js",__FILE__));
@@ -485,7 +484,7 @@ function form_maker_admin_styles_scripts()
 {
 	if(isset($_GET['task']))
 	{
-		if($_GET['task']=="update" ||$_GET['task']=="save_update" || $_GET['task']=="gotoedit" ||$_GET['task']=="add_form" || $_GET['task']=="edit_form" || $_GET['task']=="Save_Edit_JavaScript" || $_GET['task']=="Save_Actions_after_submission" || $_GET['task']=="Save_Custom_text_in_email_for_administrator" || $_GET['task']=="Save_Custom_text_in_email_for_user")
+		if($_GET['task']=="update" || $_GET['task']=="save_update" || $_GET['task']=="gotoedit" ||$_GET['task']=="add_form" || $_GET['task']=="edit_form" || $_GET['task']=="Save_Edit_JavaScript" || $_GET['task']=="Save_Actions_after_submission" || $_GET['task']=="Save_Custom_text_in_email_for_administrator" || $_GET['task']=="Save_Custom_text_in_email_for_user")
 		{
 			  wp_enqueue_script('word-count');
 			  wp_enqueue_script('post');
@@ -493,15 +492,27 @@ function form_maker_admin_styles_scripts()
 			  wp_enqueue_script('media-upload');
 			  wp_admin_css('thickbox');
 			  wp_print_scripts('media-upload');
-			  wp_print_scripts('editor-functions');
+
 			  do_action('admin_print_styles');
 			  wp_enqueue_script( 'common' );
 		  	  wp_enqueue_script( 'jquery-color' );
-			  wp_print_scripts('editor');
+			  if(get_bloginfo('version')<'3.3'){
 			  if (function_exists('add_thickbox')) add_thickbox();
 			  if (function_exists('wp_tiny_mce')) wp_tiny_mce();
+			  }
 			  wp_enqueue_script('utils');
-			  wp_enqueue_script("jquery_form",plugins_url("js/jquery.js",__FILE__));
+			   if(get_bloginfo('version')>3.3){
+				wp_enqueue_script("jquery");
+				
+				}
+				else
+				{
+					 wp_deregister_script( 'jquery' );
+					wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js');
+					wp_enqueue_script( 'jquery' );
+				
+			
+				}
 			  wp_enqueue_script("form_main_js",plugins_url("js/formmaker_free.js",__FILE__));
 			  wp_enqueue_style("styles_form",plugins_url("css/style.css",__FILE__));
 			  wp_enqueue_script("mootools",plugins_url("js/mootools.js",__FILE__));
@@ -524,6 +535,15 @@ function form_maker_admin_styles_scripts()
 
 
 
+///////////////////////////////////////// add ajax for form maker functionaliti
+
+
+require_once("form_ajax_functions.php");      //////////// include form ajax functions for next 4 ajax hooks 
+
+add_action('wp_ajax_formmakergeneretexml', 'form_maker_generete_xml'); ///export xml
+add_action('wp_ajax_formmakergeneretecsv', 'form_maker_generete_csv'); ///export csv
+add_action('wp_ajax_formmakerwdcaptcha', 'form_maker_wd_captcha'); /// generete captcha image and save it code in session
+add_action('wp_ajax_formmakerwindow', 'form_maker_window_php'); /// openid window in post or page for editor
 
 
 
@@ -531,8 +551,182 @@ function form_maker_admin_styles_scripts()
 
 
 
+////////////////////////////////////////////
+//////////////////////////////////////////// manager
+////////////////////////////////////////////
 
 
+
+
+
+add_action('wp_ajax_fromeditcountryinpopup', 'spider_form_country_edit');
+
+
+
+function spider_form_country_edit(){
+	if(isset($_GET['field_id']))
+	$id=$_GET['field_id'];
+	else{
+	echo "<h2>error cannot get fild id</h2>";
+	return;
+	}
+	html_spider_form_country_edit($id);
+	
+	}
+
+
+
+function html_spider_form_country_edit($id){
+
+wp_print_scripts( 'jquery');
+wp_print_scripts( 'jquery-ui-core');
+wp_print_scripts( 'jquery-ui-widget');
+wp_print_scripts( 'jquery-ui-mouse');
+wp_print_scripts( 'jquery-ui-slider');
+wp_print_scripts( 'jquery-ui-sortable');
+
+
+?>
+ 
+<span style=" position: absolute;right: 29px;" >
+<img alt="ADD" title="add" style="cursor:pointer; vertical-align:middle; margin:5px; " src="<?php echo  plugins_url('images/save.png',__FILE__); ?>" onclick="save_list()">
+<img alt="CANCEL" title="cancel" style=" cursor:pointer; vertical-align:middle; margin:5px; " src="<?php echo  plugins_url('images/cancel_but.png',__FILE__); ?>" onclick="window.parent.tb_remove();">
+</span>
+<button onclick="select_all()">Select all</button>
+<button onclick="remove_all()">Remove all</button>
+<ul id="countries_list" style="list-style:none; padding:0px">
+</ul>
+
+<script>
+
+
+selec_coutries=[];
+
+coutries=["","Afghanistan","Albania",	"Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Central African Republic","Chad","Chile","China","Colombi","Comoros","Congo (Brazzaville)","Congo","Costa Rica","Cote d'Ivoire","Croatia","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","East Timor (Timor Timur)","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Fiji","Finland","France","Gabon","Gambia, The","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea","Guinea-Bissau","Guyana","Haiti","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati","Korea, North","Korea, South","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Morocco","Mozambique","Myanmar","Namibia","Nauru","Nepa","Netherlands","New Zealand","Nicaragua","Niger","Nigeria","Norway","Oman","Pakistan","Palau","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Qatar","Romania","Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia","Saint Vincent","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia and Montenegro","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","Spain","Sri Lanka","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Togo","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"];	
+
+select_=window.parent.document.getElementById('<?php echo $id ?>_elementform_id_temp');
+n=select_.childNodes.length;
+for(i=0; i<n; i++)
+{
+
+	selec_coutries.push(select_.childNodes[i].value);
+	var ch = document.createElement('input');
+		ch.setAttribute("type","checkbox");
+		ch.setAttribute("checked","checked");
+		ch.value=select_.childNodes[i].value;
+		ch.id=i+"ch";
+		//ch.setAttribute("id",i);
+	
+	
+	var p = document.createElement('span');
+	    p.style.cssText ="color:#000000; font-size: 13px; cursor:move";
+		p.innerHTML=select_.childNodes[i].value;
+
+	var li = document.createElement('li');
+	    li.style.cssText ="margin:3px; vertical-align:middle";
+		li.id=i;
+		
+	li.appendChild(ch);
+	li.appendChild(p);
+	
+	document.getElementById('countries_list').appendChild(li);
+}
+cur=i;
+m=coutries.length;
+for(i=0; i<m; i++)
+{
+	isin=isValueInArray(selec_coutries, coutries[i]);
+	
+	if(!isin)
+	{
+		var ch = document.createElement('input');
+			ch.setAttribute("type","checkbox");
+			ch.value=coutries[i];
+			ch.id=cur+"ch";
+		
+		
+		var p = document.createElement('span');
+			p.style.cssText ="color:#000000; font-size: 13px; cursor:move";
+			p.innerHTML=coutries[i];
+
+		var li = document.createElement('li');
+			li.style.cssText ="margin:3px; vertical-align:middle";
+			li.id=cur;
+			
+		li.appendChild(ch);
+		li.appendChild(p);
+		
+		document.getElementById('countries_list').appendChild(li);
+		cur++;
+	}
+}
+jQuery(function() {
+	jQuery( "#countries_list" ).sortable();
+	jQuery( "#countries_list" ).disableSelection();
+});
+
+function isValueInArray(arr, val) {
+	inArray = false;
+	for (x = 0; x < arr.length; x++)
+		if (val == arr[x])
+			inArray = true;
+	return inArray;
+}
+function save_list()
+{
+select_.innerHTML=""
+	ul=document.getElementById('countries_list');
+	n=ul.childNodes.length;
+	for(i=0; i<n; i++)
+	{
+		if(ul.childNodes[i].tagName=="LI")
+		{
+			id=ul.childNodes[i].id;
+			if(document.getElementById(id+'ch').checked)
+			{
+				var option_ = document.createElement('option');
+					option_.setAttribute("value", document.getElementById(id+'ch').value);
+					option_.innerHTML=document.getElementById(id+'ch').value;
+
+				select_.appendChild(option_);
+			}
+				
+		}
+		
+		
+	}
+	window.parent.tb_remove();
+
+
+}
+
+function select_all()
+{
+	for(i=0; i<194; i++)
+	{
+		document.getElementById(i+'ch').checked=true;;	
+	}
+}
+
+function remove_all()
+{
+	for(i=0; i<194; i++)
+	{
+		document.getElementById(i+'ch').checked=false;;	
+	}
+}
+</script>
+
+
+
+
+<?php
+
+	
+	
+	
+	
+}
 
 
 
@@ -544,7 +738,6 @@ function Manage_Form_maker()
 	require_once("form_maker_functions.html.php");	
 	if(!function_exists('print_html_nav'))
 	require_once("nav_function/nav_html_func.php");
-	
 	
 	global $wpdb;
 	if(isset($_GET["task"]))
@@ -1379,14 +1572,50 @@ function Uninstall_Form_Maker()
 global $wpdb; 
 $base_name = plugin_basename('Form_maker');
 $base_page = 'admin.php?page='.$base_name;
+if(isset($_GET['mode'])){
 $mode = trim($_GET['mode']);
-
+}
 
 if(!empty($_POST['do'])) {
 
 	if($_POST['do']=="UNINSTALL Form Maker") {
 			check_admin_referer('Form Maker_uninstall');
 			if(trim($_POST['uninstall_Form_yes']) == 'yes') {
+				
+				if((get_option('contact_form_forms',false) || get_option('contact_form_forms',false)!='') && get_option('contact_form_themes',false) || get_option('contact_form_themes',false)!=''){
+					
+						echo '<div id="message" class="updated fade">';
+				echo '<p>';
+				echo "Table 'formmaker' has been deleted.";
+				$wpdb->query("DELETE FROM ".$wpdb->prefix."formmaker WHERE `id` NOT IN (".get_option('contact_form_forms').")");
+				echo '<font style="color:#000;">';
+				echo '</font><br />';
+				echo '</p>';
+				echo '<p>';
+				echo "Table 'formmaker_submits' has been deleted.";
+				$wpdb->query("DELETE FROM ".$wpdb->prefix."formmaker_submits WHERE `form_id` NOT IN (".get_option('contact_form_forms').")");
+				echo '<font style="color:#000;">';
+				echo '</font><br />';
+				echo '</p>';
+				echo '<p>';
+				echo "Table 'formmaker_views' has been deleted.";
+				$wpdb->query("DELETE FROM ".$wpdb->prefix."formmaker_views WHERE `form_id` NOT IN (".get_option('contact_form_forms').")");
+				echo '<font style="color:#000;">';
+				echo '</font><br />';
+				echo '</p>';
+				echo '<p>';
+				echo "Table 'formmaker_themes' has been deleted.";
+				$wpdb->query("DELETE FROM ".$wpdb->prefix."formmaker_themes WHERE `id` NOT IN (".get_option('contact_form_themes').")");
+				echo '<font style="color:#000;">';
+				echo '</font><br />';
+				echo '</p>';
+				echo '</div>';
+					
+					
+					}
+				else{
+				
+				
 				echo '<div id="message" class="updated fade">';
 				echo '<p>';
 				echo "Table 'formmaker' has been deleted.";
@@ -1413,6 +1642,7 @@ if(!empty($_POST['do'])) {
 				echo '</font><br />';
 				echo '</p>';
 				echo '</div>'; 
+				}
 				$mode = 'end-UNINSTALL';
 				
 			}
@@ -1420,7 +1650,8 @@ if(!empty($_POST['do'])) {
 }
 
 
-
+if(!isset($mode))
+$mode='';
 switch($mode) {
 
 		case 'end-UNINSTALL':
@@ -1503,7 +1734,7 @@ add_action('plugins_loaded', 'formmaker_chech_update');
 
 }
 else{
-	formmaker_chech_update();
+formmaker_chech_update();
 }
 
 
