@@ -546,7 +546,7 @@ margin-top:15px;
 
 
     <td align="left" valign="middle" rowspan="3" style="padding:10px;">
-    <img src="<?php echo $form_file_url; ?>/images/FormMaker.png" />
+    <img src="<?php echo $form_file_url; ?>/images/formmaker.png" />
 	</td>
 
     <td width="70" align="right" valign="middle">
@@ -2020,7 +2020,7 @@ foreach($themes as $theme)
 
 
     <td align="left" valign="middle" rowspan="3" style="padding:10px;">
-    <img src="<?php echo  plugins_url("images/FormMaker.png",__FILE__) ?>" />
+    <img src="<?php echo  plugins_url("images/formmaker.png",__FILE__) ?>" />
 	</td>
 
     <td width="300" align="right" valign="middle">
@@ -2977,7 +2977,7 @@ margin-top:15px;
 
 
     <td align="left" valign="middle" rowspan="3" style="padding:10px;">
-    <img src="<?php echo plugins_url("images/FormMaker.png",__FILE__) ?>" />
+    <img src="<?php echo plugins_url("images/formmaker.png",__FILE__) ?>" />
 	</td>
 
     <td width="70" align="right" valign="middle">
