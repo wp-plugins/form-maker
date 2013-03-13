@@ -1512,7 +1512,7 @@ $form_maker_front_end.='	form_view_count'.$id.'=0;
 theme: "'.$row->recaptcha_theme.'"
 };
 </script>
-</form>';
+</form></div>';
  if($is_recaptcha) {
 	/*	$document->addScriptDeclaration('var RecaptchaOptions = {
 theme: "'.$row->recaptcha_theme.'"
