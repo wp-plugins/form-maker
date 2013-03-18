@@ -2,7 +2,7 @@
 /*
 Plugin Name: Form Maker
 Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
-Version: 1.4.0
+Version: 1.4.1
 Author: http://web-dorado.com/
 License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -545,6 +545,10 @@ add_action('wp_ajax_formmakergeneretecsv', 'form_maker_generete_csv'); ///export
 add_action('wp_ajax_formmakerwdcaptcha', 'form_maker_wd_captcha'); /// generete captcha image and save it code in session
 add_action('wp_ajax_formmakerwindow', 'form_maker_window_php'); /// openid window in post or page for editor
 
+add_action('wp_ajax_nopriv_formmakergeneretexml', 'form_maker_generete_xml'); ///export xml
+add_action('wp_ajax_nopriv_formmakergeneretecsv', 'form_maker_generete_csv'); ///export csv
+add_action('wp_ajax_nopriv_formmakerwdcaptcha', 'form_maker_wd_captcha'); /// generete captcha image and save it code in session
+add_action('wp_ajax_nopriv_formmakerwindow', 'form_maker_window_php'); /// openid window in post or page for editor
 
 
 
