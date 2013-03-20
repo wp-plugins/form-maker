@@ -1137,13 +1137,13 @@ function change_captcha_digit(digit)
 	{	
 		captcha.setAttribute("digit", digit);
 	
-		captcha.setAttribute("src", location.origin+ajaxurl+"?action=formmakerwdcaptcha"+"&digit="+digit+"&i=form_id_temp");
+		captcha.setAttribute("src", location.protocol+'//'+location.host+ajaxurl+"?action=formmakerwdcaptcha"+"&digit="+digit+"&i=form_id_temp");
 		document.getElementById('_wd_captcha_inputform_id_temp').style.width=(document.getElementById('captcha_digit').value*10+15)+"px";
 	}
 	else
 	{
 		captcha.setAttribute("digit", "6");
-		captcha.setAttribute("src", location.origin+ajaxurl+"?action=formmakerwdcaptcha"+"&digit=6"+"&i=form_id_temp");
+		captcha.setAttribute("src", location.protocol+'//'+location.host+ajaxurl+"?action=formmakerwdcaptcha"+"&digit=6"+"&i=form_id_temp");
 		document.getElementById('_wd_captcha_inputform_id_temp').style.width=(6*10+15)+"px";
 	}
 }
@@ -10960,7 +10960,7 @@ function type_country(i, w_field_label, w_countries, w_field_label_pos, w_size, 
 	var el_edit_list = document.createElement('a');
 	    el_edit_list.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px; font-style:italic; cursor:pointer";
 		el_edit_list.innerHTML = "Edit country list";
-		el_edit_list.setAttribute("href",location.origin+ajaxurl+"?action=fromeditcountryinpopup&field_id="+i+"&TB_iframe=1");
+		el_edit_list.setAttribute("href",location.protocol+'//'+location.host+ajaxurl+"?action=fromeditcountryinpopup&field_id="+i+"&TB_iframe=1");
 		el_edit_list.setAttribute("class","thickbox-preview11");
 		
 	var el_style_label = document.createElement('label');
@@ -11988,7 +11988,7 @@ function type_captcha(i,w_field_label, w_field_label_pos, w_digit, w_class, w_at
 	var adding = document.createElement(element);
            	adding.setAttribute("type", type);
            	adding.setAttribute("digit", w_digit);
-           	adding.setAttribute("src", location.origin+ajaxurl+"?action=formmakerwdcaptcha"+"&digit="+w_digit+"&i=form_id_temp");
+           	adding.setAttribute("src", location.protocol+'//'+location.host+ajaxurl+"?action=formmakerwdcaptcha"+"&digit="+w_digit+"&i=form_id_temp");
 			adding.setAttribute("id", "_wd_captchaform_id_temp");
 			adding.setAttribute("class", "captcha_img");
 			adding.setAttribute("onClick", "captcha_refresh('_wd_captcha','form_id_temp')");
