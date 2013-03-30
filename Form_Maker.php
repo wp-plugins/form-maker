@@ -2,7 +2,7 @@
 /*
 Plugin Name: Form Maker
 Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
-Version: 1.4.4
+Version: 1.4.5
 Author: http://web-dorado.com/
 License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -251,12 +251,27 @@ add_filter('the_content','wpautop',10);
 add_filter('the_content','do_shortcode',11);
 
 
-function form_shotrcode($atts) {
-     
-     return form_maker_front_end($atts['id']);
-}
-add_shortcode('Form', 'form_shotrcode');
 
+add_filter('the_content','Form_maker_fornt_end_main',5000);
+
+
+function Form_maker_fornt_end_main($content){
+	
+	
+	 $pattern ='[\[Form id="([0-9]*)"\]]';
+	 
+	 
+			$count_forms_in_post=preg_match_all ( $pattern, $content, $matches_form);
+			for($jj=0;$jj<$count_forms_in_post;$jj++)
+			{
+				$padron=$matches_form[0][$jj];
+				
+				$replacment=form_maker_front_end($matches_form[1][$jj]);		
+					$content=str_replace($padron,$replacment,$content);
+			}
+	return $content;
+	
+	}
 
 function form_maker_scripts_method() {
 				wp_enqueue_style("gmap_styles_",plugins_url("css/style_for_map.css",__FILE__),false); 
