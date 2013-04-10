@@ -231,6 +231,7 @@ width:100px;
 
 
 require_once("front_end_form_maker.php");
+require_once("form_maker_widget.php");
 require_once('recaptchalib.php');
 
 add_action( 'init', 'form_maker_language_load' );
