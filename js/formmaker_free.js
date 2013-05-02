@@ -9,6 +9,27 @@ var url_for_ajax=ajaxurl;
 else
 var url_for_ajax=location.protocol+'//'+location.host+ajaxurl;
 
+/**
+ * Remove witespaces from childNodes.
+ */
+function form_maker_remove_spaces(parent) {
+  if (!parent) {
+    parent = document;
+  }
+  var children = parent.childNodes;
+  for (var i = children.length - 1; i >= 0; i--) {
+    var child = children[i];
+    if (child.nodeType == 3) {
+      if (child.data.match(/^\s+$/)) {
+        parent.removeChild(child);
+      }
+    }
+    else {
+      form_maker_remove_spaces(child);
+    }
+  }
+}
+
 function active_reset(val, id)
 {
 	if(val)
@@ -1456,7 +1477,7 @@ function page_up(id)
 					alert('Unable to move');
 					return;
 				}
-					
+				form_maker_remove_spaces(table);
 				if(jQuery(table.firstChild).is(":visible"))
 					break;
 									
@@ -1550,6 +1571,7 @@ function Enable()
 		if(document.getElementById('form_id_tempform_view'+k))
 		{
 			form_view_element=document.getElementById('form_id_tempform_view'+k);
+      form_maker_remove_spaces(form_view_element);
 			n=form_view_element.childNodes.length-2;
 			for(z=0;z<=n;z++)
 			{
@@ -1585,6 +1607,7 @@ function all_labels()
 		if(document.getElementById('form_id_tempform_view'+k))
 		{
 			form_view_element=document.getElementById('form_id_tempform_view'+k);
+      form_maker_remove_spaces(form_view_element);
 			n=form_view_element.childNodes.length-2;
 			for(z=0;z<=n;z++)
 			{
@@ -14222,6 +14245,7 @@ jQuery("#form_id_tempform_view"+id).show('medium')
 
 function hide_form_view(id)
 {
+  form_maker_remove_spaces(document.getElementById("form_id_tempform_view_img" + id));
 jQuery("#form_id_tempform_view"+id).hide('medium', function() {
 	document.getElementById("form_id_tempform_view_img"+id).childNodes[0].childNodes[0].setAttribute("width", "100%");
 	document.getElementById("form_id_tempform_view_img"+id).childNodes[0].childNodes[0].innerHTML=document.getElementById("form_id_tempform_view"+id).getAttribute('page_title');
@@ -14471,6 +14495,7 @@ function refresh_pages(id)
 				document.getElementById('form_id_tempform_view'+i).parentNode.style.borderWidth="0px";
 				document.getElementById('form_id_tempform_view'+i).style.display="block";
 				document.getElementById("form_id_temppage_nav"+i).innerHTML="";
+        form_maker_remove_spaces(document.getElementById("form_id_tempform_view_img" + i));
 				document.getElementById("form_id_tempform_view_img"+i).childNodes[0].childNodes[0].removeAttribute("width", "100%");
 				document.getElementById("form_id_tempform_view_img"+i).style.backgroundColor="";
 				document.getElementById("form_id_tempform_view_img"+i).childNodes[0].childNodes[0].style.display="none";
@@ -14858,6 +14883,7 @@ function add(key)
 				if(jQuery("#form_id_tempform_view"+t).is(":visible"))
 				{
 					form_view=t;
+          form_maker_remove_spaces(document.getElementById('form_id_tempform_view' + form_view));
 					break;
 				}
 		}
