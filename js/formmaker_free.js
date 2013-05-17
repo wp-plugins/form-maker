@@ -16682,16 +16682,12 @@ function edit(id)
 				s				=document.getElementById(id+'_yearform_id_temp').style.width;
 				w_year_size		=s.substring(0,s.length-2);
 				
-				if(w_year_type=='SELECT')
+				if(document.getElementById(id+'_yearform_id_temp').getAttribute('from') && document.getElementById(id+'_yearform_id_temp').getAttribute('to'))
 				{
 					w_from			=document.getElementById(id+'_yearform_id_temp').getAttribute('from');
 					w_to			=document.getElementById(id+'_yearform_id_temp').getAttribute('to');
 				}
-				else
-				{
-					w_from			='1901';
-					w_to			='2012';
-				}
+			
 				w_divider		=document.getElementById(id+'_separator1').innerHTML;
 				type_date_fields(id, w_field_label, w_field_label_pos, w_day, w_month, w_year, w_day_type, w_month_type, w_year_type, w_day_label, w_month_label, w_year_label, w_day_size, w_month_size, w_year_size, w_required, w_class, w_from, w_to, w_divider, w_attr_name, w_attr_value); break;
 			}

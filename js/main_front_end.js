@@ -275,7 +275,6 @@ function check_year2(id, str)
 	if(year<from)
 	{
 		document.getElementById(id).value='';
-		alert(str);
 	}
 }	
 	
