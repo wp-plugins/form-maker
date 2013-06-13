@@ -1,50 +1,46 @@
 <?php 
-  
- /**
+
+/**
  * @package Form Maker
  * @author Web-Dorado
  * @copyright (C) 2011 Web-Dorado. All rights reserved.
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  **/
 
- // This php file returnes Captcha image in image/jpeg format therefore direct access must be allowed
- if(isset($_GET["i"]))
-$i=$_GET["i"];
-else
-$i='';
-if(isset($_GET['r2']))
-$r2=$_GET['r2'];
-else
-$r2=0;
-if(isset($_GET['r']))
-$rrr=$_GET['r'];
-else
-$rrr=0;
-$randNum=0+$r2+$rrr;
-
-if(isset($_GET["digit"]))
-$cap_width=$_GET["digit"]*10+15;
-else
-{
-	$cap_width=6*10+15;
+// This php file returnes Captcha image in image/jpeg format therefore direct access must be allowed
+if (isset($_GET["i"])) {
+  $i = (int) $_GET["i"];
 }
-$cap_height=30;
-$cap_quality=100;
-if(isset($_GET["digit"]))
-$cap_length_min=$_GET["digit"];
-else
-$cap_length_min=6;
-if(isset($_GET["digit"]))
-$cap_length_max=$_GET["digit"];
-else
-$cap_length_max=6;
-$cap_digital=1;
-$cap_latin_char=1;
-
-
-
-function code_generic($_length,$_digital=1,$_latin_char=1)
-{
+else {
+  $i = '';
+}
+if (isset($_GET['r2'])) {
+  $r2 = (int) $_GET['r2'];
+}
+else {
+  $r2 = 0;
+}
+if (isset($_GET['r'])) {
+  $rrr = (int) $_GET['r'];
+}
+else {
+  $rrr = 0;
+}
+$randNum = 0 + $r2 + $rrr;
+if (isset($_GET["digit"])) {
+  $digit = (int) $_GET["digit"];
+}
+else {
+  $digit = 6;
+}
+$cap_width = $digit * 10 + 15;
+$cap_height = 30;
+$cap_quality = 100;
+$cap_length_min = $digit;
+$cap_length_max = $digit;
+$cap_digital = 1;
+$cap_latin_char = 1;
+function code_generic($_length, $_digital = 1, $_latin_char = 1) {
 $dig=array(0,1,2,3,4,5,6,7,8,9);
 $lat=array('a','b','c','d','e','f','g','h','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
 $main=array();

@@ -42,15 +42,6 @@ global $wpdb;
 
 $form_id=$_REQUEST['form_id'];
 
- if(!isset($_SERVER['HTTP_REFERER'])){
-
-header('Location: ../../index.php');
-
- exit;
-
- }
-
- 
 
  $query = $wpdb->prepare("SELECT * FROM ".$wpdb->prefix."formmaker_submits where form_id= %d",$form_id);
 

@@ -17,9 +17,8 @@ $order="";
 	if(isset($_POST['page_number']))
 	{
 			
-			if($_POST['asc_or_desc'])
-			{
-				$sort["sortid_by"]=$_POST['order_by'];
+			if ($_POST['asc_or_desc']) {
+				$sort["sortid_by"] = $wpdb->escape($_POST['order_by']);
 				if($_POST['asc_or_desc']==1)
 				{
 					$sort["custom_style"]="manage-column column-title sorted asc";
@@ -36,7 +35,7 @@ $order="";
 			
 	if($_POST['page_number'])
 		{
-			$limit=($_POST['page_number']-1)*20; 
+			$limit=((int) $_POST['page_number']-1)*20; 
 		}
 		else
 		{
@@ -49,7 +48,7 @@ $order="";
 			$limit=0;
 		}
 	if(isset($_POST['search_events_by_title'])){
-		$search_tag=$_POST['search_events_by_title'];
+		$search_tag=esc_html($_POST['search_events_by_title']);
 		}
 		
 		else

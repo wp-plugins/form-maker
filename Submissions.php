@@ -28,7 +28,7 @@ function show_submits(){
 			if($_POST['asc_or_desc'])
 			{
 				if(isset($_POST['order_by'])){
-				$sort["sortid_by"]=$_POST['order_by'];
+				$sort["sortid_by"]=$wpdb->escape($_POST['order_by']);
 				}
 				if($_POST['asc_or_desc']==1)
 				{
@@ -49,7 +49,7 @@ function show_submits(){
 			
 	if($_POST['page_number'])
 		{
-			$limit=($_POST['page_number']-1)*20; 
+			$limit=((int) $_POST['page_number']-1)*20; 
 		}
 		else
 		{
@@ -76,7 +76,7 @@ function show_submits(){
 
 	//$task	= JRequest::getCmd('task');
 	if(isset($_POST['form_id'])){ 
-	$form_id=$_POST['form_id'];
+	$form_id=(int) $_POST['form_id'];
 	if($form_id){
 	
 	$query = "SELECT id FROM ".$wpdb->prefix."formmaker WHERE id=".$form_id;
@@ -96,7 +96,7 @@ function show_submits(){
 	if(!$exists)
 		$form_id=0;
 	if(isset($_POST['order_by']) && $_POST['order_by']!="")
-	$filter_order= $_POST['order_by'];
+	$filter_order= $wpdb->escape($_POST['order_by']);
 	else
 	$filter_order='id';
 	if(isset($_POST['asc_or_desc'])){
@@ -111,14 +111,14 @@ function show_submits(){
 		$filter_order_Dir="";
 	}
 	if(isset($_POST['search_submits'])){
-	$search_submits = $_POST['search_submits'];
+	$search_submits = esc_html($_POST['search_submits']);
 	$search_submits =strtolower( $search_submits );
 	}
 	else{
 	$search_submits = "";
 	}
 	if(isset($_POST['ip_search'])){
-	$ip_search = $_POST['ip_search'];
+	$ip_search = esc_html($_POST['ip_search']);
 	$ip_search = strtolower( $ip_search );
 	}
 	else{
@@ -129,7 +129,7 @@ function show_submits(){
 	$where_choices = array();
 	if(isset($_POST['startdate']))
 	{
-		$lists['startdate']= $_POST['startdate'];
+		$lists['startdate']= esc_html($_POST['startdate']);
 	}
 	else
 	{
@@ -138,7 +138,7 @@ function show_submits(){
 	
 	if(isset($_POST['enddate']))
 	{
-		$lists['enddate']= $_POST['enddate'];
+		$lists['enddate']= esc_html($_POST['enddate']);
 	}
 	else
 	{
@@ -147,7 +147,7 @@ function show_submits(){
 	
 	if(isset($_POST['hide_label_list']))
 	{
-		$lists['hide_label_list']= $_POST['hide_label_list'];
+		$lists['hide_label_list']= esc_html($_POST['hide_label_list']);
 	}
 	else
 	{
@@ -246,7 +246,7 @@ function show_submits(){
 				array_push($sorted_labels_id, $label);
 				array_push($label_titles, $label_order_original[$key]);
 				if(isset($_POST[$form_id.'_'.$label.'_search']))
-				$search_temp = $_POST[$form_id.'_'.$label.'_search'];
+				$search_temp = esc_html($_POST[$form_id.'_'.$label.'_search']);
 				else
 				$search_temp ='';
 				$search_temp = strtolower( $search_temp );
@@ -361,7 +361,7 @@ $query="DELETE FROM ".$wpdb->prefix."formmaker_submits WHERE group_id='".$id."'"
 function remov_cheched_submission()
 {
 	global $wpdb;
-	$cid=$_POST['post'];
+	$cid = esc_html($_POST['post']);
 	
   if (count( $cid )) {
 
@@ -450,9 +450,9 @@ function save_submit($id){
 	
 
 	global $wpdb;
-	$id 	= $_POST['id'];
-	$date 	= $_POST['date'];
-	$ip 	= $_POST['ip'];
+	$id 	= (int) $_POST['id'];
+	$date 	= esc_html($_POST['date']);
+	$ip 	= esc_html($_POST['ip']);
 	$form_id=$wpdb->get_var("SELECT form_id FROM ".$wpdb->prefix."formmaker_submits WHERE group_id='".$id."'");
 	$form =$wpdb->get_row("SELECT * FROM ".$wpdb->prefix."formmaker WHERE id='".$form_id."'");
 		$label_id= array();
@@ -479,7 +479,7 @@ function save_submit($id){
 	
 	foreach($label_id as $key => $label_id_1)
 	{
-		$element_value=$_POST["submission_".$label_id_1];
+		$element_value = esc_html($_POST["submission_".$label_id_1]);
 		if(isset($_POST["submission_".$label_id_1]))
 		{
 			$query = "SELECT id FROM ".$wpdb->prefix."formmaker_submits WHERE group_id='".$id."' AND element_label='".$label_id_1."'";
@@ -530,12 +530,12 @@ function save_submit($id){
 		}
 		else
 		{
-			$element_value_ch=$_POST["submission_".$label_id_1.'_0'];
+			$element_value_ch = esc_html($_POST["submission_".$label_id_1.'_0']);
 			if(isset($_POST["submission_".$label_id_1.'_0']))
 			{
 				for($z=0; $z<21; $z++ )
 				{
-					$element_value_ch=$_POST["submission_".$label_id_1.'_'.$z];
+					$element_value_ch = esc_html($_POST["submission_".$label_id_1.'_'.$z]);
 					if(isset($element_value_ch))
 						$element_value=$element_value.$element_value_ch.'***br***';
 					else

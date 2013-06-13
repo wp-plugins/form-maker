@@ -17,7 +17,7 @@
 			return false;
 			
 			if(isset($_POST['Itemid'])){
-				$Itemid=$_POST["Itemid".$id];
+				$Itemid=esc_html($_POST["Itemid".$id]);
 			}
 			else{
 				$Itemid="";
@@ -53,17 +53,17 @@
 		$all_files=array();
 		@session_start();
         if(isset($_POST["captcha_input"])){  
-		$captcha_input=$_POST["captcha_input"];
+		$captcha_input=esc_html($_POST["captcha_input"]);
 		}
 		if(isset($_POST["recaptcha_response_field"])){ 
-		$recaptcha_response_field=$_POST["recaptcha_response_field"];
+		$recaptcha_response_field=esc_html($_POST["recaptcha_response_field"]);
 		}
 		$id_for_old=$id;
 		if(!$form->form_front)
 		$id='';
 		if(isset($_POST["counter".$id]))
 		{	
-			$counter=$_POST["counter".$id];
+			$counter=(int) $_POST["counter".$id];
 			if (isset($_POST["captcha_input"]))
 			{		
 				$session_wd_captcha_code=isset($_SESSION[$id.'_wd_captcha_code'])?$_SESSION[$id.'_wd_captcha_code']:'-';
@@ -87,11 +87,11 @@
 			}	
 			
 			else
-				if(isset($recaptcha_response_field))
+				if(isset($_POST["recaptcha_response_field"]))
 				{	
 				$privatekey = $form->private_key;
 	
-					$resp = recaptcha_check_answer ($privatekey,$_SERVER["REMOTE_ADDR"],$_POST["recaptcha_challenge_field"],$recaptcha_response_field);
+					$resp = recaptcha_check_answer ($privatekey,$_SERVER["REMOTE_ADDR"],esc_html($_POST["recaptcha_challenge_field"]),$recaptcha_response_field);
 					if($resp->is_valid)
 					{
 						$all_files=save_db($counter,$id_for_old);
@@ -1199,13 +1199,13 @@ formLoadBody'.$id.'();';
 
 
 if(isset($_POST["captcha_input"])){
-$captcha_input=$_POST["captcha_input"];
+$captcha_input=esc_html($_POST["captcha_input"]);
 }
 if(isset($_POST["recaptcha_response_field"])){
-$recaptcha_response_field=$_POST["recaptcha_response_field"];
+$recaptcha_response_field=esc_html($_POST["recaptcha_response_field"]);
 }
 if(isset($_POST["counter".$id])){
-$counter=$_POST["counter".$id];
+$counter=esc_html($_POST["counter".$id]);
 }
 $old_key=-1;
 if(isset($counter))
@@ -1639,11 +1639,11 @@ $form_maker_front_end.='<style>'.str_replace('[SITE_ROOT]', plugins_url("",__FIL
 							";							
 				if(isset($_POST["captcha_input"]))
 				{						
-					$captcha_input=$_POST["captcha_input"];
+					$captcha_input=esc_html($_POST["captcha_input"]);
 				}
 				if(isset($_POST["counter"]))
 				{						
-					$counter=$_POST["counter"];
+					$counter=(int) $_POST["counter"];
 				}
 				if(isset($counter))
 				if (isset($captcha_input) or is_numeric($ok))

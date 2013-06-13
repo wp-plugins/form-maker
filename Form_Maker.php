@@ -2,7 +2,7 @@
 /*
 Plugin Name: Form Maker
 Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
-Version: 1.5
+Version: 1.5.1
 Author: http://web-dorado.com/
 License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -276,7 +276,7 @@ function Form_maker_fornt_end_main($content){
 
 function form_maker_scripts_method() {
 				wp_enqueue_style("gmap_styles_",plugins_url("css/style_for_map.css",__FILE__),false); 
-				wp_enqueue_script("mootools",plugins_url("js/mootools.js",__FILE__));
+				// wp_enqueue_script("mootools",plugins_url("js/mootools.js",__FILE__));
     			wp_enqueue_script("main_g_js",plugins_url("js/main_front_end.js",__FILE__),false);
 				wp_enqueue_script("Calendar",plugins_url("js/calendar.js",__FILE__),false);
  			  	wp_enqueue_script("calendar-setup",plugins_url("js/calendar-setup.js",__FILE__),false);
@@ -498,10 +498,8 @@ function form_maker_submits_styles_scripts()
 
 function form_maker_admin_styles_scripts()
 {
-	if(isset($_GET['task']))
-	{
-		if($_GET['task']=="update" || $_GET['task']=="save_update" || $_GET['task']=="gotoedit" ||$_GET['task']=="add_form" || $_GET['task']=="edit_form" || $_GET['task']=="Save_Edit_JavaScript" || $_GET['task']=="Save_Actions_after_submission" || $_GET['task']=="Save_Custom_text_in_email_for_administrator" || $_GET['task']=="Save_Custom_text_in_email_for_user")
-		{
+	if (isset($_GET['task'])) {
+		if (esc_html($_GET['task'])=="update" || esc_html($_GET['task'])=="save_update" || esc_html($_GET['task'])=="gotoedit" || esc_html($_GET['task'])=="add_form" || esc_html($_GET['task'])=="edit_form" || esc_html($_GET['task'])=="Save_Edit_JavaScript" || esc_html($_GET['task'])=="Save_Actions_after_submission" || esc_html($_GET['task'])=="Save_Custom_text_in_email_for_administrator" || esc_html($_GET['task'])=="Save_Custom_text_in_email_for_user") {
 			  wp_enqueue_script('word-count');
 			  wp_enqueue_script('post');
 			  wp_enqueue_script('editor');
@@ -583,17 +581,24 @@ add_action('wp_ajax_fromeditcountryinpopup', 'spider_form_country_edit');
 
 
 
-function spider_form_country_edit(){
-	if(isset($_GET['field_id']))
-	$id=$_GET['field_id'];
-	else{
-	echo "<h2>error cannot get fild id</h2>";
-	return;
+function spider_form_country_edit() {
+  if (function_exists('current_user_can')) {
+    if (!current_user_can('manage_options')) {
+      die('Access Denied');
+    }
+  }
+  else {
+    die('Access Denied');
+  }
+	if (isset($_GET['field_id'])) {
+    $id = (int) $_GET['field_id'];
+  }
+	else {
+    echo "<h2>error cannot get fild id</h2>";
+    return;
 	}
 	html_spider_form_country_edit($id);
-	
-	}
-
+}
 
 
 function html_spider_form_country_edit($id){
@@ -760,24 +765,18 @@ function Manage_Form_maker()
 	require_once("nav_function/nav_html_func.php");
 	
 	global $wpdb;
-	if(isset($_GET["task"]))
-	{
-		$task=$_GET["task"];
+	if (isset($_GET["task"])) {
+		$task = esc_html($_GET["task"]);
 	}
-	else
-	{
-		$task="show";
+	else {
+		$task = "show";
 	}
-	if(isset($_GET["id"]))
-	{
-		$id=$_GET["id"];
+	if (isset($_GET["id"])) {
+		$id = (int) $_GET["id"];
 	}
-	else
-	{
-		$id=0;
+	else {
+		$id = 0;
 	}
-
-
 	switch($task){
 		
 		case 'update':
@@ -966,12 +965,18 @@ function Manage_Form_maker()
 
 add_action('wp_ajax_frommapeditinpopup', 'spider_form_map_edit');
 
-function spider_form_map_edit(){
-	if(isset($_GET['long']) && isset($_GET['lat'])){
-	$long 	= $_GET['long'];
-	$lat 	= $_GET['lat'];
-	
-
+function spider_form_map_edit() {
+  if (function_exists('current_user_can')) {
+    if (!current_user_can('manage_options')) {
+      die('Access Denied');
+    }
+  }
+  else {
+    die('Access Denied');
+  }
+	if (isset($_GET['long']) && isset($_GET['lat'])) {
+    $long = esc_html($_GET['long']);
+    $lat = esc_html($_GET['lat']);
 		?>
         <script src="<?php echo plugins_url("js/if_gmap.js",__FILE__); ?>"></script>
 		<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
@@ -1409,11 +1414,22 @@ function refresh_first()
 <?php 
 die();
 }
-function  preview_formmaker()
-{
+function  preview_formmaker() {
+  if (function_exists('current_user_can')) {
+    if (!current_user_can('manage_options')) {
+      die('Access Denied');
+    }
+  }
+  else {
+    die('Access Denied');
+  }
 	global $wpdb;
-	if(isset($_GET['id']))
-	$getparams=$_GET['id'];
+	if (isset($_GET['id'])) {
+	  $getparams = (int) $_GET['id'];
+  }
+  else {
+    $getparams = 0;
+  }
 	$query = "SELECT css FROM ".$wpdb->prefix."formmaker_themes WHERE id=".$getparams;	
 	$css = $wpdb->get_var($query);
 	html_preview_formmaker($css);
@@ -1448,21 +1464,17 @@ function Form_maker_Submits()
 	
 		
 	global $wpdb;
-	if(isset($_GET["task"]))
-	{
-		$task=$_GET["task"];
+	if (isset($_GET["task"])) {
+		$task = esc_html($_GET["task"]);
 	}
-	else
-	{
-		$task="show";
+	else {
+		$task = "show";
 	}
-	if(isset($_GET["id"]))
-	{
-		$id=$_GET["id"];
+	if (isset($_GET["id"])) {
+		$id = (int) $_GET["id"];
 	}
-	else
-	{
-		$id=0;
+	else {
+		$id = 0;
 	}
 switch($task){
 		case "submits" :
@@ -1510,21 +1522,17 @@ function Form_maker_Themes(){
 	if(!function_exists('print_html_nav'))
 	require_once("nav_function/nav_html_func.php");
 	global $wpdb;
-	if(isset($_GET["task"]))
-	{
-		$task=$_GET["task"];
+	if (isset($_GET["task"])) {
+		$task = esc_html($_GET["task"]);
 	}
-	else
-	{
-		$task="";
+	else {
+		$task = "";
 	}
-	if(isset($_GET["id"]))
-	{
-		$id=$_GET["id"];
+	if (isset($_GET["id"])) {
+		$id = (int) $_GET["id"];
 	}
-	else
-	{
-		$id=0;
+	else {
+		$id = 0;
 	}
 	switch($task){
 	case 'theme':
@@ -1592,15 +1600,15 @@ function Uninstall_Form_Maker()
 global $wpdb; 
 $base_name = plugin_basename('Form_maker');
 $base_page = 'admin.php?page='.$base_name;
-if(isset($_GET['mode'])){
-$mode = trim($_GET['mode']);
+if (isset($_GET['mode'])) {
+  $mode = trim(esc_html($_GET['mode']));
 }
 
 if(!empty($_POST['do'])) {
 
-	if($_POST['do']=="UNINSTALL Form Maker") {
+	if (esc_html($_POST['do']) == "UNINSTALL Form Maker") {
 			check_admin_referer('Form Maker_uninstall');
-			if(trim($_POST['uninstall_Form_yes']) == 'yes') {
+			if(trim(esc_html($_POST['uninstall_Form_yes'])) == 'yes') {
 				
 				if((get_option('contact_form_forms',false) || get_option('contact_form_forms',false)!='') && get_option('contact_form_themes',false) || get_option('contact_form_themes',false)!=''){
 					
@@ -1766,12 +1774,11 @@ register_activation_hook( __FILE__, 'formmaker_activate' );
 
 
 function sp_form_deactiv(){
-	echo $_GET['form_maker_uninstall'];
+	echo esc_html($_GET['form_maker_uninstall']);
 	
-	if(isset($_GET['form_maker_uninstall']))
-	{
-		if($_GET['form_maker_uninstall']==1){
-		delete_option('formmaker_cureent_version');
+	if (isset($_GET['form_maker_uninstall'])) {
+		if (esc_html($_GET['form_maker_uninstall']) == 1) {
+      delete_option('formmaker_cureent_version');
 		}
 	}
 }

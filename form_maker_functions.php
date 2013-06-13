@@ -112,7 +112,7 @@ document.getElementById('adminForm').submit();
 
 function save_update_form_maker(){
 	global $wpdb;
-	$id=$_GET['id'];
+	$id = (int) $_GET['id'];
 	$no_slash_form = stripslashes($_POST['form']);
 	
 	$no_slash_form_front=	stripslashes($_POST['form_front']);
@@ -179,8 +179,8 @@ function display_form_lists(){
 			
 			if($_POST['asc_or_desc'])
 			{
-				$sort["sortid_by"]=$_POST['order_by'];
-				if($_POST['asc_or_desc']==1)
+				$sort["sortid_by"] = $wpdb->escape($_POST['order_by']);
+				if((int) $_POST['asc_or_desc']==1)
 				{
 					$sort["custom_style"]="manage-column column-title sorted asc";
 					$sort["1_or_2"]="2";
@@ -196,7 +196,7 @@ function display_form_lists(){
 			
 	if($_POST['page_number'])
 		{
-			$limit=($_POST['page_number']-1)*20; 
+			$limit=((int) $_POST['page_number']-1)*20; 
 		}
 		else
 		{
@@ -207,9 +207,9 @@ function display_form_lists(){
 		{
 			$limit=0;
 		}
-	if(isset($_POST['search_events_by_title'])){
-		$search_tag=$_POST['search_events_by_title'];
-		}
+	if (isset($_POST['search_events_by_title'])) {
+		$search_tag = esc_html($_POST['search_events_by_title']);
+  }
 		
 		else
 		{
@@ -407,7 +407,7 @@ function  save_form()
 	}
 	
 	global $wpdb;
-	if($_POST["title"]!=''){
+	if (esc_html($_POST["title"]) != '') {
 	if(isset($_POST["label_order"]) && isset($_POST["title"]) && isset($_POST["form"])){
 	$no_slash_form = stripslashes($_POST['form']);
 	$no_slash_form_front=	stripslashes($_POST['form_front']);
@@ -524,7 +524,7 @@ function save_as_copy(){
 	if(isset($_POST["label_order"]) && isset($_POST["title"]) && isset($_POST["form"]) && isset($_GET['id'])){
 	$no_slash_form = stripslashes($_POST['form']);
 	$no_slash_form_front=	stripslashes($_POST['form_front']);
-	$row_for_sav_as_copy=$wpdb->get_row("SELECT * FROM ".$wpdb->prefix."formmaker WHERE id=".$_GET['id']);
+	$row_for_sav_as_copy=$wpdb->get_row("SELECT * FROM ".$wpdb->prefix."formmaker WHERE id=" . (int) $_GET['id']);
 	$javascript=$row_for_sav_as_copy->javascript;
 
 	 $save_or_no= $wpdb->insert($wpdb->prefix.'formmaker', array(
@@ -560,7 +560,7 @@ function save_as_copy(){
 				'%s',
 				'%d',
 				'%d',
-				'%d',
+				'%s',
 				'%s',
 				'%s',
 				'%s',
