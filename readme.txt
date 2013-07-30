@@ -4,7 +4,7 @@ Donate link: http://web-dorado.com/products/wordpress-form.html
 Tags:  form,  forms,  contact form, contact forms,  form plugin, forms plugin, forms plugin, form builder,    form manager, multiple forms, custom  form, form maker, form with recaptcha,  form with google map, feedback form, feedback forms,contact us
 Requires at least: 3.0
 Tested up to: 3.5
-Stable tag: 1.5.1
+Stable tag: 1.5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
