@@ -31,16 +31,16 @@ You can add Google map (*commercial version*) to your form using a simple user-f
 ###Features:  
 
 -Ten main elements for creating new form  
-   * Custom HTML  
-   * Text Input  
-   * Time and Date  
-   * Select  
-   * Checkbox  
-   * Radio  
-   * File upload(*commercial version*)  
-   * Captcha  
-   * Map(*commercial version*)  
-   * Buttons  
+   * Custom HTML for creating form 
+   * Text Input  for creating form 
+   * Time and Date  for creating form 
+   * Select  for creating form 
+   * Checkbox  for creating form 
+   * Radio  for creating form 
+   * File upload(*commercial version*)  for creating form 
+   * Captcha  for creating form 
+   * Map(*commercial version*) for creating form  
+   * Buttons  for creating form 
 
 -Unlimited fields of the Form Maker(*commercial version*), 5 fields (*free version*)  
 -Custom CSS and Java script in your form  
@@ -51,17 +51,17 @@ You can add Google map (*commercial version*) to your form using a simple user-f
 -Various parameter for every element of the form  
 -Data validation during the submitting the form  
 -Ability to keep the form filled information in the database of the form maker 
--Ability to restrict preferred file extensions in file upload(*commercial version*)  
+-Ability to restrict preferred file extensions in file upload(*commercial version*) in the form  
 -[WordPress Form] Maker(http://web-dorado.com/products/wordpress-form.html) is integrated with Google Maps API(*commercial version*)  
 -Field Instructions for the User  
 -Required Fields in form  
 -Hidden Fields in form  
 -A form Submit Button Customization  
-
+-Full PayPal integration with different checkout modes (Test Mode and Production) and five field types (Amount, Select, Checkbox, Radio, and Shipping).(*commercial version*)		
  
 ### Supported languages
 
- *If you need language of the Form Maker which is not included in this list, please  us and we will do the translation of the Form Maker within 3 days. If you find some mistakes in the translation of the Form Maker, please  us and we will correct it within 3 days.*
+ *If you need language of the Form Maker which is not included in this list, please tell us and we will do the translation of the Form Maker within 3 days. If you find some mistakes in the translation of the Form Maker, please inform us and we will correct it within 3 days.*
 
  Afrikaans (af)  
 Albanian (sq)  
@@ -130,7 +130,7 @@ After downloading the ZIP file of the Form Maker
 6.    Once it is complete, activate the plugin of the Form Maker in order to use Form Maker.    
 
 Once the plugin of the Form Maker is activated, you'll notice a menu on the left called "Form Maker".  Here you can manage forms and submissions of the Form Maker.  
-If any problem occurs with the form maker, please  us info@web-dorado.com in order to correct the mistakes of the Form Maker plugin.    
+If any problem occurs with the form maker, please inform us info@web-dorado.com in order to correct the mistakes of the Form Maker plugin.    
 
 == Frequently Asked Questions ==
 
@@ -185,7 +185,7 @@ You will lose your forms data only if you uninstall Form Maker using the Uninsta
 
 You can set language of the Form Maker by setting define('WPLANG',[lang_code]); in wp_config.php config file. The language of front-end interface of the Form Maker should be changed automatically. The back-end interface of Form Maker can not be changed.  You can modify the translations of the Form Maker from wp-content/plugins/form-maker/languages. (you will need POEdit http://www.poedit.net/download.php).
 
-= 9. How does Form Maker saves data after submitting? = 	
+= 9. How does Form Maker saves data after submitting a form? = 	
 
 Form Maker stores the form filled information in the database. Administrator can manage (sort, search, edit, delete) the form submissions as well as view statistics and export to XML and CSV. The form submissions can be (optionally) sent to administrator of the form and the submitter.
 
@@ -295,8 +295,8 @@ Edit JavaScript: Here you can define new JavaScript functions, which can be appl
     
 2.4   On the of the Form Maker right side you will see three fields of the  form:    
 -	 form Title: In this field type a title for your  form. You can have an unlimited number of  forms. This is a required field for a  form.    
--	Email to send submissions of a  form to: Here you type e-mails to which submitted  form in formation will be sent. If you need more than one e-mail address to send the submissions of a  form you must separate them by commas. This field is not required for a  form. In any case the submitted in formation is stored in**Submissions** part of the  form maker, where it could be managed easily.     
--	Theme of a form. A distinct theme can be applied to each new form. The themes can be accessed by selecting Form Maker > Themes on the left menu. 43 themes are available for selection for each. There is an option for creating new themes for a form, which you can access by clicking "New" on the upper right corner of the section.which you can later find in the "Forms" section.    
+-	Email to send submissions of a  form to: Here you type e-mails to which submitted  form information will be sent. If you need more than one e-mail address to send the submissions of a  form you must separate them by commas. This field is not required for a  form. In any case the submitted information is stored in**Submissions** part of the  form maker, where it could be managed easily.     
+-	Theme of a form. A distinct theme can be applied to each new form. The themes can be accessed by selecting Form Maker > Themes on the left menu. 43 themes are available for selection for each form. There is an option for creating new themes for a form, which you can access by clicking "New" on the upper right corner of the section.which you can later find in the "Forms" section.    
     
     
 2.5   Add new fields to your  form by clicking on the ADD A NEW FIELD button (see the next step of Form Maker manual).    
@@ -315,7 +315,7 @@ Edit JavaScript: Here you can define new JavaScript functions, which can be appl
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
 Field Size: Type the size of the field of the  form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappeared when the form user enters the in formation.    
+Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the form user enters the information.    
 Class Name : You can define new CSS classes in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
@@ -324,53 +324,53 @@ Required: The field of the  form can be set as required for the submission on th
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
 Field Size: Type the size of the field of the  form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappeared when the user of form enters the in formation.    
+Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of form enters the information.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
      
-	Text Area: This field of the conatct form can be used for typing some text. The difference between Text Area and Simple Text is that Simple Text has only one row while Text Area can have several rows. It has several attributes:     
+	Text Area: This field of the contact form can be used for typing some text. The difference between Text Area and Simple Text of the contact form is that Simple Text has only one row while Text Area can have several rows. It has several attributes:     
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
 Field Size: Type the size of the field of the  form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappeared when the user of the form enters the in formation.    
+Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the information.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.    
      
-	Name: This can be used for typing a name. It has several attributes: Field Label: Type the name of the field of the  form.    
+	Name: This can be used for typing a name in the form. It has several attributes: Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
 Field Size: Type the size of the field of the  form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappeared when the user of the form enters the in formation.    
+Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the information.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on th form by this checkbox.    
  Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.    
      
-	Address: This field can be used for adding an address. It has several attributes:
+	Address: This field can be used for adding an address to form. It has several attributes:
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
 Field Size: Type the size of the field of the  form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappeared when the user of the form enters the in formation.    
+Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the information.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Send mail to the submitter: The submitted in formation of the  form will be sent to the submitter if this box is checked.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.    
      
-	 Address (Mark on Map):This filed can be used for adding an address by directly marking it on the map. It has several attributes:
+	 Address (Mark on Map):This filed can be used for adding an address to form by directly marking it on the map. It has several attributes:
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
 Field Size: Type the size of the field of the  form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappeared when the user of the form enters the in formation.    
+Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the information.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Send mail to the submitter: The submitted in formation of the  form will be sent to the submitter if this box is checked.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.   
       
-	E-mail:This form field can be used for typing the submitter's e-mail. The submitted e-mail validation is checked. It has several attributes:    
+	E-mail: This form field can be used for typing the submitter's e-mail. The submitted e-mail validation is checked. It has several attributes:    
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
 Field Size: Type the size of the field of the  form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappeared when the user of the form enters the in formation.    
+Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the in formation.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Send mail to the submitter: The submitted in formation of the  form will be sent to the submitter if this box is checked.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
@@ -380,7 +380,7 @@ Required: The field of the  form can be set as required for the submission on th
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
 Field Size: Type the size of the field of the  form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappeared when the user of the form enters the in formation.    
+Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the in formation.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Send mail to the submitter: The submitted in formation of the  form will be sent to the submitter if this box is checked.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
@@ -390,17 +390,17 @@ Required: The field of the  form can be set as required for the submission on th
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
 Field Size: Type the size of the field of the  form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappeared when the user of the form enters the in formation.    
+Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the in formation.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Send mail to the submitter: The submitted in formation of the  form will be sent to the submitter if this box is checked.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this form option to customize the specific properties for the field of the  form. 
      
-	Hidden Field: This field oof the  form can be used to store additional in formation that does not need to be displayed on the form. 
+	Hidden Field: This field of the  form can be used to store additional in formation that does not need to be displayed on the form. 
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
 Field Size: Type the size of the field of the  form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappeared when the user of the form enters the in formation.    
+Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the in formation.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Send mail to the submitter: The submitted in formation of the  form will be sent to the submitter if this box is checked.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
@@ -450,7 +450,7 @@ Class Name : You can define new CSS classes for the form in the Edit CSS page an
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
     
-3.6Radio:This field of the  form can be used for selecting the values from a list of radio buttons. The list can be defined by Options attribute. You can easily add and remove list items. The list can be displayed in horizontal/vertical in the  form positions by setting the Relative Position attribute.The field of the  form has several attributes: Field Label: Type the name of the field of the  form.    
+3.6 Radio:This field of the  form can be used for selecting the values from a list of radio buttons. The list can be defined by Options attribute. You can easily add and remove list items. The list can be displayed in horizontal/vertical in the  form positions by setting the Relative Position attribute.The field of the  form has several attributes: Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
 Field Size: Type the size of the field of the  form in pixels.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
@@ -544,7 +544,7 @@ The submissions of a  form can be exported to the CSV and XML  formats. You can 
 - Conversion Rate: The percentage of submitted forms to the overall number of views.
     
     
-5.4 For the forms that contain checkboxes or radio buttons a separate statistics is available. It shows how many times a particular checkbox/radio button has been checked in the form submissions, and what is the ratio of that number to the overall number of checks.
+5.4 For the forms that contain checkboxes or radio buttons a separate statistics is available. It shows how many times a particular checkbox/radio button has been checked in the form submissions, and what is the ratio of that number to the overall number of checks in form.
      
     
 5.5 There is a possibility to search the submissions database by all the relevant fields of the given form. Submissions can be sorted by any of the fields of the form by clicking the labels.
