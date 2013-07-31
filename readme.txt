@@ -57,7 +57,7 @@ You can add Google map (*commercial version*) to your form using a simple user-f
 -Required Fields in form  
 -Hidden Fields in form  
 -A form Submit Button Customization  
-
+-Full PayPal integration with different checkout modes (Test Mode and Production) and five field types (Amount, Select, Checkbox, Radio, and Shipping).(*commercial version*)		
  
 ### Supported languages
 
