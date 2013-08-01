@@ -1,11 +1,9 @@
 <?php
-
-
 function formmaker_chech_update() {
   global $wpdb;
-  if (get_option('formmaker_cureent_version') != '2.4.5' || !get_site_option('formmaker_cureent_version')) {
-  if (get_option('formmaker_cureent_version') != '1.35') {
-    if ($wpdb->get_var("SHOW TABLES LIKE '" . $wpdb->prefix . "formmaker'") == $wpdb->prefix . "formmaker") {
+  if ($wpdb->get_var("SHOW TABLES LIKE '" . $wpdb->prefix . "formmaker_sessions'") != $wpdb->prefix . "formmaker_sessions") {
+  if ($wpdb->get_var("SHOW TABLES LIKE '" . $wpdb->prefix . "formmaker'") == $wpdb->prefix . "formmaker") {
+    if ($wpdb->get_var("SHOW TABLES LIKE '" . $wpdb->prefix . "formmaker_themes'") != $wpdb->prefix . "formmaker_themes") {
       $form_maker_views_table = "CREATE TABLE IF NOT EXISTS `" . $wpdb->prefix . "formmaker_views` (
   `form_id` int(11) NOT NULL,
   `views` int(50) NOT NULL,
@@ -342,14 +340,14 @@ function before_reset()
         '%d',
       ));
     }
-    if (!get_site_option('formmaker_cureent_version')) {
+    /*if (!get_option('formmaker_cureent_version')) {
       // if ($wpdb->get_var("SHOW TABLES LIKE '" . $wpdb->prefix . "formmaker_themes'") == $wpdb->prefix . "formmaker_themes")
-        add_option('formmaker_cureent_version', '2.4.5');
+      add_option('formmaker_cureent_version', '2.4.5'); 
     }
     else {
       // if ($wpdb->get_var("SHOW TABLES LIKE '" . $wpdb->prefix . "formmaker_themes'") == $wpdb->prefix . "formmaker_themes")
         update_option('formmaker_cureent_version', '2.4.5');
-    }
+    }*/
   }
 }
 

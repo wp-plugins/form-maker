@@ -2018,7 +2018,7 @@ jQuery(document).ready(function ($) {
 <div class="formmaker_table" width="100%">
   <div style="float:left; text-align:center">
     </br>
-    <img src="<?php echo  plugins_url("images/formmaker.png",__FILE__) ?>"/>
+    <img src="<?php echo  plugins_url("images/formMaker.png",__FILE__) ?>"/>
     </br>
     </br>
     <img src="<?php echo  plugins_url("images/logo.png",__FILE__) ?>"/>
@@ -2885,6 +2885,7 @@ jQuery(document).ready(function ($) {
                                                                                         class="button-primary"/></a>
     </td>
     <td><input type="button" onclick="submitbutton('form_options')" value="Form options" class="button-primary" /></td>
+    <td style="width:300px"><input type="button" onclick="submitbutton('save_as_copy')" value="Save As Copy" class="button-secondary action" /> </td>
     <td align="right"><input type="button" onclick="submitbutton('Save')" value="Save" class="button-secondary action"/>
     </td>
     <td align="right"><input type="button" onclick="submitbutton('Apply')" value="Apply"
@@ -2902,7 +2903,7 @@ jQuery(document).ready(function ($) {
 <div class="formmaker_table" width="100%">
   <div style="float:left; text-align:center">
     </br>
-    <img src="<?php echo plugins_url("images/formmaker.png",__FILE__) ?>"/>
+    <img src="<?php echo plugins_url("images/formMaker.png",__FILE__) ?>"/>
     </br>
     </br>
     <img src="<?php echo plugins_url("images/logo.png",__FILE__) ?>"/>

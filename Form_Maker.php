@@ -2,7 +2,7 @@
 /*
 Plugin Name: Form Maker
 Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
-Version: 1.5.2
+Version: 1.5.3
 Author: http://web-dorado.com/
 License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -1424,14 +1424,15 @@ require_once("update_sql.php");
 function formmaker_activate() {
   include 'setup_sql.php';
   set_form_maker_sql();
-}
-
-if (get_bloginfo('version') >= 3.1) {
-  add_action('plugins_loaded', 'formmaker_chech_update');
-}
-else {
   formmaker_chech_update();
 }
+
+// if (get_bloginfo('version') >= 3.1) {
+  // add_action('plugins_loaded', 'formmaker_chech_update');
+// }
+// else {
+  
+// }
 register_activation_hook(__FILE__, 'formmaker_activate');
 function sp_form_deactiv() {
   echo esc_html($_GET['form_maker_uninstall']);

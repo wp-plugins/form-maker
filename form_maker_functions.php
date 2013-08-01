@@ -396,7 +396,6 @@ function save_as_copy() {
         '%s',
         '%s',
         '%s',
-        '%s',
         '%d',
         '%s',
         '%s',
