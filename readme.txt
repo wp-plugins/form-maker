@@ -1,7 +1,7 @@
 === Form Maker ===
 Contributors: webdorado
 Donate link: http://web-dorado.com/products/wordpress-form.html
-Tags:  form,  forms,  contact form, contact forms,  form plugin, forms plugin, forms plugin, form builder,    form manager, multiple forms, custom  form, form maker, form with recaptcha,  form with google map, feedback form, feedback forms,contact us
+Tags:  form,  forms,  contact form, contact forms,  form plugin, forms plugin, forms plugin, form builder,    form manager, multiple forms, custom  form, form maker, form with recaptcha,  form with google map, feedback form, feedback forms, contact us
 Requires at least: 3.0
 Tested up to: 3.5
 Stable tag: 1.5.3
@@ -52,12 +52,13 @@ You can add Google map (*commercial version*) to your form using a simple user-f
 -Data validation during the submitting the form  
 -Ability to keep the form filled information in the database of the form maker 
 -Ability to restrict preferred file extensions in file upload(*commercial version*) in the form  
+-Full PayPal integration with different checkout modes (Test Mode and Production) and five field types (Amount, Select, Checkbox, Radio, and Shipping).(*commercial version*)	
 -[WordPress Form] Maker(http://web-dorado.com/products/wordpress-form.html) is integrated with Google Maps API(*commercial version*)  
 -Field Instructions for the User  
 -Required Fields in form  
 -Hidden Fields in form  
 -A form Submit Button Customization  
--Full PayPal integration with different checkout modes (Test Mode and Production) and five field types (Amount, Select, Checkbox, Radio, and Shipping).(*commercial version*)		
+	
  
 ### Supported languages
 
