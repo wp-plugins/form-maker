@@ -63,7 +63,7 @@ You can add Google map (*commercial version*) to your form using a simple user-f
 
  *If you need language of the Form Maker which is not included in this list, please  us and we will do the translation of the Form Maker within 3 days. If you find some mistakes in the translation of the Form Maker, please  us and we will correct it within 3 days.*
 
- Afrikaans (af)  
+Afrikaans (af)  
 Albanian (sq)  
 Arabic (ar)  
 Armenian (hy_AM)  
