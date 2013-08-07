@@ -713,7 +713,7 @@ function page_previous(id, form_id, form_view_count, form_view_max) {
     table.removeChild(table.firstChild);
 
   generate_page_nav(table.firstChild.id.replace(form_id + 'form_view', ""), form_id, form_view_count, form_view_max);
-
+  window.scrollTo(0, 0);
 }
 
 function page_next(id, form_id, form_view_count, form_view_max) {
@@ -728,7 +728,7 @@ function page_next(id, form_id, form_view_count, form_view_max) {
     table.removeChild(table.firstChild);
 
   generate_page_nav(table.firstChild.id.replace(form_id + 'form_view', ""), form_id, form_view_count, form_view_max);
-
+  window.scrollTo(0, 0);
 }
 
 function randomSort(a, b) {
