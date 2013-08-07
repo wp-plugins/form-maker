@@ -111,8 +111,8 @@ function form_maker_generete_csv() {
               $data_temp[$label_titles[$h]] = 'Longitude:' . substr(str_replace("***map***", ', Latitude:', $t->element_value), 0, -2);
             }
             else {
-              $val = str_replace('&amp;', "&", $t->element_value);
-              $val = stripslashes(str_replace('&#039;', "'", $t->element_value));
+              $val = htmlspecialchars_decode($t->element_value);
+              $val = stripslashes(str_replace('&#039;', "'", $val));
               $data_temp[stripslashes($label_titles[$h])] = ($t->element_value ? $val : '');
             }
           }

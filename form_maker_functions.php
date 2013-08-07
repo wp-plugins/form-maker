@@ -274,6 +274,12 @@ function before_reset()
           'submit_text_type' => 0,
           'script_mail' => '%all%',
           'script_mail_user' => '%all%',
+          'label_order_current' => $_POST["label_order"],
+          'tax' => 0,
+          'payment_currency' => '',
+          'paypal_email' => '',
+          'checkout_mode' => 'testmode',
+          'paypal_mode' => 0
         ), array(
           '%d',
           '%s',
@@ -299,7 +305,13 @@ function before_reset()
           '%s',
           '%d',
           '%s',
-          '%s'
+          '%s',
+          '%s',
+          '%d',
+          '%s',
+          '%s',
+          '%s',
+          '%d'
         ));
       if (!$save_or_no) {
         ?>
