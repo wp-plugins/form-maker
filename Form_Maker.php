@@ -382,7 +382,7 @@ function Form_maker_options_panel() {
   add_menu_page('Theme page title', 'Form Maker', 'manage_options', 'Form_maker', 'Manage_Form_maker', $icon_url);
   $page_form = add_submenu_page('Form_maker', 'Form Maker Manager', 'Manager', 'manage_options', 'Form_maker', 'Manage_Form_maker');
   $page_submits = add_submenu_page('Form_maker', 'Form Maker  submissions', 'Submissions', 'manage_options', 'Form_maker_Submits', 'Form_maker_Submits');
-  add_submenu_page('Form_maker', 'Licensing', 'Licensing', 'manage_options', 'form_maker_Licensing', 'form_maker_Licensing');
+  add_submenu_page('Form_maker', 'Licensing/Donation', 'Licensing/Donation', 'manage_options', 'form_maker_Licensing', 'form_maker_Licensing');
   add_submenu_page('Form_maker', 'Form Maker  Themes', 'Themes', 'manage_options', 'Form_maker_Themes', 'Form_maker_Themes');
   add_submenu_page('Form_maker', 'Uninstall Form Maker ', 'Uninstall Form Maker', 'manage_options', 'Uninstall_Form_Maker', 'Uninstall_Form_Maker');
   add_action('admin_print_styles-' . $page_form, 'form_maker_admin_styles_scripts');
@@ -392,19 +392,20 @@ function Form_maker_options_panel() {
 function form_maker_Licensing() {
   ?>
 <div style="width:95%">
-  <p>
-    This plugin is the non-commercial version of the Form Maker. Use of this plugin is free. You can add not more than 7 fields. The limitation is on the some types of the fields (File Upload, Map and Paypal). If you want to use those fields, you are required to purchase a license. </p>
+  <p>This plugin is the non-commercial version of the Form Maker. Use of this plugin is free. You can add not more than 7 fields. The limitation is on the some types of the fields (File Upload, Map and Paypal). If you want to use those fields, you are required to purchase a license. </p>
+  <br/>
+  <a href="http://web-dorado.com/files/fromFormMaker.php" class="button-primary" target="_blank">Purchase a License</a>
   <br/><br/>
-  <a href="http://web-dorado.com/files/fromFormMaker.php" class="button-primary" target="_blank">Purchase a
-    License</a>
-  <br/><br/><br/>
-
   <p>After the purchasing the commercial version follow this steps:</p>
   <ol>
     <li>Deactivate Form Maker Plugin</li>
     <li>Delete Form Maker Plugin</li>
     <li>Install the downloaded commercial version of the plugin</li>
   </ol>
+  <br/>
+  <p>If you enjoy using Form Maker and find it useful, please consider making a donation. Your donation will help encourage and support the plugin's continued development and better user support.</p>
+  <br/>
+  <a href="http://web-dorado.com/files/donate_redirect.php" target="_blank"><img src="<?php echo plugins_url('images/btn_donateCC_LG.gif', __FILE__); ?>" /></a>
 </div>
 <?php
 }
