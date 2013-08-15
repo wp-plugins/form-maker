@@ -314,32 +314,6 @@ function before_reset()
       PRIMARY KEY (`id`)
     ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17";
     $wpdb->query($form_maker_sessions_table);
-    $form_rows = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "formmaker");
-    foreach ($form_rows as $form_row) {
-      $wpdb->update($wpdb->prefix . "formmaker", array(
-        'paypal_mode' => 0,
-        'checkout_mode' => 'testmode',
-        'paypal_email' => '',
-        'payment_currency' => '',
-        'tax' => 0,
-        'script_mail' => $form_row->script1 . '%all%' . $form_row->script2,
-        'script_mail_user' => $form_row->script_user1 . '%all%' . $form_row->script_user2,
-        'label_order_current' => $form_row->label_order,
-      ), array(
-        'id' => $form_row->id,
-      ), array(
-        '%d',
-        '%s',
-        '%s',
-        '%s',
-        '%d',
-        '%s',
-        '%s',
-        '%s',
-      ), array(
-        '%d',
-      ));
-    }
   }
   $form_properties = $wpdb->get_results("DESCRIBE " . $wpdb->prefix . "formmaker", ARRAY_A);
   foreach ($form_properties as $prop) {
@@ -355,11 +329,27 @@ function before_reset()
   $form_rows = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "formmaker");
   foreach ($form_rows as $form_row) {
     $wpdb->update($wpdb->prefix . "formmaker", array(
+      'paypal_mode' => 0,
+      'checkout_mode' => 'testmode',
+      'paypal_email' => '',
+      'payment_currency' => '',
+      'tax' => 0,
+      'script_mail' => $form_row->script1 . '%all%' . $form_row->script2,
+      'script_mail_user' => $form_row->script_user1 . '%all%' . $form_row->script_user2,
+      'label_order_current' => $form_row->label_order,
       'from_mail' => '',
-      'from_name' => '',
+      'from_name' => ''
     ), array(
       'id' => $form_row->id,
     ), array(
+      '%d',
+      '%s',
+      '%s',
+      '%s',
+      '%d',
+      '%s',
+      '%s',
+      '%s',
       '%s',
       '%s',
     ), array(
