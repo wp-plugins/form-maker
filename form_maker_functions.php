@@ -279,7 +279,9 @@ function before_reset()
           'payment_currency' => '',
           'paypal_email' => '',
           'checkout_mode' => 'testmode',
-          'paypal_mode' => 0
+          'paypal_mode' => 0,
+          'from_mail' => '',
+          'from_name' => ''
         ), array(
           '%d',
           '%s',
@@ -311,7 +313,9 @@ function before_reset()
           '%s',
           '%s',
           '%s',
-          '%d'
+          '%d',
+          '%s',
+          '%s'
         ));
       if (!$save_or_no) {
         ?>
@@ -385,7 +389,9 @@ function save_as_copy() {
         'paypal_email' => $row_for_sav_as_copy->paypal_email,
         'payment_currency' => $row_for_sav_as_copy->payment_currency,
         'tax' => $row_for_sav_as_copy->tax,
-        'label_order_current' => $row_for_sav_as_copy->label_order_current
+        'label_order_current' => $row_for_sav_as_copy->label_order_current,
+        'from_mail' => $row_for_sav_as_copy->from_mail,
+        'from_name' => $row_for_sav_as_copy->from_name
       ), array(
         '%d',
         '%s',
@@ -417,6 +423,8 @@ function save_as_copy() {
         '%s',
         '%s',
         '%d',
+        '%s',
+        '%s',
         '%s'
       ));
     if (!$save_or_no) {
@@ -589,7 +597,9 @@ function Apply_form_options($id) {
     'checkout_mode' => 'testmode',
     'paypal_email' => '',
     'payment_currency' => 'USD',
-    'tax' => 0
+    'tax' => 0,
+    'from_mail' => $_POST["from_mail"],
+    'from_name' => $_POST["from_name"]
   ), array('id' => $id), array(
     '%s',
     '%d',
@@ -605,6 +615,8 @@ function Apply_form_options($id) {
     '%s',
     '%s',
     '%d',
+    '%s',
+    '%s',
   ), array('%d'));
   ?>
   <div class="updated"><p><strong><?php _e('Changes successfully saved'); ?></strong></p></div>
