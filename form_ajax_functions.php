@@ -78,15 +78,19 @@ function form_maker_generete_csv() {
         }
       }
     $data = array();
+    $temp_all = array();
+    for ($j = 0; $j < $n; $j++) {
+      $row = &$rows[$j];
+      $key = $row->group_id;
+      if (!isset($temp_all[$key])) {
+        $temp_all[$key] = array();
+      }
+      array_push($temp_all[$key], $row);
+    }
     for ($www = 0; $www < count($group_id_s); $www++) {
       $i = $group_id_s[$www];
       $temp = array();
-      for ($j = 0; $j < $n; $j++) {
-        $row = &$rows[$j];
-        if ($row->group_id == $i) {
-          array_push($temp, $row);
-        }
-      }
+      $temp = $temp_all[$i];
       $f = $temp[0];
       $date = $f->date;
       $ip = $f->ip;
@@ -223,15 +227,19 @@ function form_maker_generete_xml() {
         }
       }
     $data = array();
+    $temp_all = array();
+    for ($j = 0; $j < $n; $j++) {
+      $row = &$rows[$j];
+      $key = $row->group_id;
+      if (!isset($temp_all[$key])) {
+        $temp_all[$key] = array();
+      }
+      array_push($temp_all[$key], $row);
+    }
     for ($www = 0; $www < count($group_id_s); $www++) {
       $i = $group_id_s[$www];
       $temp = array();
-      for ($j = 0; $j < $n; $j++) {
-        $row = &$rows[$j];
-        if ($row->group_id == $i) {
-          array_push($temp, $row);
-        }
-      }
+      $temp = $temp_all[$i];
       $f = $temp[0];
       $date = $f->date;
       $ip = $f->ip;
