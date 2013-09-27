@@ -28,7 +28,7 @@ You can add Google map (*commercial version*) to your form using a simple user-f
 ###IMPORTANT: If you think you found a bug in Form Maker or have any problem or question concerning Form Maker, do not hesitate to  us at [info@web-dorado.com](mailto:info@web-dorado.com).
 
 
-###Features:  
+###Features of Form Maker:  
 
 -Ten main elements for creating new form  
    * Custom HTML for creating form 
@@ -54,13 +54,13 @@ You can add Google map (*commercial version*) to your form using a simple user-f
 -Ability to restrict preferred file extensions in file upload(*commercial version*) in the form  
 -Full PayPal integration with different checkout modes (Test Mode and Production) and five field types (Amount, Select, Checkbox, Radio, and Shipping).(*commercial version*)	
 -[WordPress Form] Maker(http://web-dorado.com/products/wordpress-form.html) is integrated with Google Maps API(*commercial version*)  
--Field Instructions for the User  
+-Field Instructions for the Form User  
 -Required Fields in form  
 -Hidden Fields in form  
 -A form Submit Button Customization  
 	
  
-### Supported languages
+### Supported languages by Form Maker
 
  *If you need language of the Form Maker which is not included in this list, please tell us and we will do the translation of the Form Maker within 3 days. If you find some mistakes in the translation of the Form Maker, please inform us and we will correct it within 3 days.*
 
@@ -112,7 +112,7 @@ Turkish (tr_TR)
 Ukrainian (uk_UA)  
 Vietnamese (vi)  
 
-== Installation ==
+== Installation of Form Maker ==
 
 ####Thank you for your interest in [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker.
 
@@ -133,7 +133,7 @@ After downloading the ZIP file of the Form Maker
 Once the plugin of the Form Maker is activated, you'll notice a menu on the left called "Form Maker".  Here you can manage forms and submissions of the Form Maker.  
 If any problem occurs with the form maker, please inform us info@web-dorado.com in order to correct the mistakes of the Form Maker plugin.    
 
-== Frequently Asked Questions ==
+== Frequently Asked Questions About Form Maker==
 
 ## [Click here to see the Form Maker Frequently Asked Questions](http://web-dorado.com/forum/form-maker/316-form-maker-faq.html)  
 
@@ -178,7 +178,7 @@ Yes, [WordPress Form](http://web-dorado.com/products/wordpress-form.html)  Maker
 We did our best to have a universal Form Maker which will work on any browser, template and will not conflict with other extensions. As any case of such kind of a problem is unique, please  us giving the link of the website where the problem with Form Maker has occurred. We will try to answer within 24 hours and solve the problem with Form Maker.
 
 = 7. How can I install the pro version of the Form Maker without losing created forms? =	
-You should download pro version of Form Maker from "Thank You for buying our products" email, after that just Deactivate Form Maker, Delete Form Maker, and then Reinstall Form Maker pro from the downloaded file.
+You should download pro version of Form Maker from "Thank You for buying our products" email, after that just Deactivate Form Maker, Delete Form Maker, and then Reinstall Form Maker pro from the downloaded file which contains Form Maker.
 If you just Deactivate Form Maker, Delete Form Maker, and then Reinstall Form Maker, you will keep your data of the form submissions.
 You will lose your forms data only if you uninstall Form Maker using the Uninstall Form Maker menu item.
 
@@ -192,14 +192,14 @@ Form Maker stores the form filled information in the database. Administrator can
 
 = 10. What can I do if I do not receive email after submitting a form? =	
 
-First of all please make sure the email is not filtered to the spam or junk email folder. 
+First of all please make sure the Form email is not filtered to the spam or junk email folder. 
 - Try using another email address for receiving form submissions
 - Wordpress uses PHP mail. Probably, your hosting does not have the send mail function enabled, in this case, please contact your hosting provider for receiving form submissions.
 - You can use SMTP, which works always properly. 
 
 For example, this plugin. http://wordpress.org/extend/plugins/configure-smtp is great for Form Maker.
 In this case, you have to know your SMTP parameters. to configure the mails of the form of the Form Maker
-For Setting an external SMTP server form mails of the Form Maker, such as GMail should work. But Gmail, the authentication is required for the Form Maker mail settings.
+For Setting an external SMTP server form mails of the Form Maker, such as Gmail should work. But Gmail, the authentication is required for the Form Maker mail settings.
 
 
 = 11. What can I do, if my downloaded installation package of Form Maker is not a ZIP file? =	
@@ -211,18 +211,18 @@ Read more here: http://web-dorado.com/wordpress-form-maker-guide-1.html
 
 
 
-== Screenshots ==
+== Screenshots of Form Maker==
 1.  Form Maker - Sample RSVP  
 2.  Form Maker - Sample  form  
 3.  Form Maker - Manage forms  
 4.  Form Maker - Creating a new form  
-5.  Form Maker - Text input field type  
-6.  Form Maker - Captcha field type  
-7.  Form Maker - Manage submissions
-8.  Form Maker - Select Columns  
+5.  Form Maker - form Text input field type  
+6.  Form Maker - form Captcha field type  
+7.  Form Maker - Manage submissions of form
+8.  Form Maker - Select form Columns
 
 
-== Changelog ==
+== Changelog of Form Maker ==
  
 = Form Maker 1.3.0 =
 * Actions after form Submission of the Form Maker: 
@@ -314,7 +314,7 @@ Edit JavaScript: Here you can define new JavaScript functions, which can be appl
 3.2 Text Input: At first choose the Field Type of the  form according to your preference. There are several options:    
 -	Simple Text: This can be used for typing some text. It has several attributes:     
 Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
 Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the form user enters the information.    
 Class Name : You can define new CSS classes in the Edit CSS page and use those classes here to design the  form more properly.    
@@ -332,15 +332,15 @@ Required: The field of the  form can be set as required for the submission on th
      
 	Text Area: This field of the contact form can be used for typing some text. The difference between Text Area and Simple Text of the contact form is that Simple Text has only one row while Text Area can have several rows. It has several attributes:     
 Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the information.    
+Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the information into the form.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.    
      
 	Name: This can be used for typing a name in the form. It has several attributes: Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
 Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the information.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
@@ -349,7 +349,7 @@ Required: The field of the  form can be set as required for the submission on th
      
 	Address: This field can be used for adding an address to form. It has several attributes:
 Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
 Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the information.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
@@ -359,7 +359,7 @@ Required: The field of the  form can be set as required for the submission on th
      
 	 Address (Mark on Map):This filed can be used for adding an address to form by directly marking it on the map. It has several attributes:
 Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
 Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the information.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
@@ -369,7 +369,7 @@ Required: The field of the  form can be set as required for the submission on th
       
 	E-mail: This form field can be used for typing the submitter's e-mail. The submitted e-mail validation is checked. It has several attributes:    
 Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
 Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the in formation.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
@@ -379,7 +379,7 @@ Required: The field of the  form can be set as required for the submission on th
     
 	Number: This field can be used to provide numbers for different purposes (e.g. serial number). It has several attributes:
 Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
 Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the in formation.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
@@ -389,7 +389,7 @@ Required: The field of the  form can be set as required for the submission on th
       
 	  Phone: This field can be used to provide a phone number. It has several attributes:
 Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
 Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the in formation.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
@@ -399,7 +399,7 @@ Required: The field of the  form can be set as required for the submission on th
      
 	Hidden Field: This field of the  form can be used to store additional in formation that does not need to be displayed on the form. 
 Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
 Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the in formation.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
@@ -409,7 +409,7 @@ Required: The field of the  form can be set as required for the submission on th
 3.3 Time and Date: At first choose the form Field Type according to your preference. There are several options:    
 Date (single field with a picker): This field of the  form can be used for typing a date or choosing by the picker. It has several attributes:     
 Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form   
 Date  format: Here you can define the date  format for the date picker of the  form.    
 Date picker label: Type the label of the date picker button of the  form.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
@@ -417,13 +417,13 @@ Required: The field of the  form can be set as required for the submission on th
  Additional Attributes: You can use this option of the form to customize the specific properties for the field of the  form.     
 Date (3 separate fields): This field of the form can be used for typing a date in 3 field  format(day, month, year). Each of the 3 form fields can be set as text input or select list.  Each of the 3 form fields has the attributes Field Size and Field Label.  For year field the select list interval can be defined. These 3 form fields can be separated in the  format set by the fields separator attribute. The field has several attributes:     
 Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this option of the form to customize the specific properties for the field of the  form.      
 Time: This field of the form can be used for typing a time. Time can be shown in 24 hour or 12 hour  formats by setting the time  format attribute. The seconds preview can be enabled/disabled by setting the Display Seconds attribute. The field of the form has several standard attributes:     
 Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
 Additional Attributes: You can use this option of the form to customize the specific properties for the field of the  form.    
@@ -431,28 +431,28 @@ Additional Attributes: You can use this option of the form to customize the spec
 3.4 Select: At first choose the form Field Type according to your preference. There are several options:    
 Custom select: This field of the form can be used for selecting the values from a list. The list can be defined by Options attribute. You can easily add and remove list items. The checked items are considered as empty values. The form field has several attributes:    
  Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
 Country list: This field of the form can be used for selecting a country from a list. It has several attributes:     
 Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
 3.5 Checkbox: This field of the  form can be used for selecting the values from a list of checkboxes. The list can be defined by Options attribute. You can easily add and remove list items. The list can be displayed in horizontal/vertical positions by setting the Relative Position attribute.The field of the form has several attributes:     
 Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
     
 3.6 Radio:This field of the  form can be used for selecting the values from a list of radio buttons. The list can be defined by Options attribute. You can easily add and remove list items. The list can be displayed in horizontal/vertical in the  form positions by setting the Relative Position attribute.The field of the  form has several attributes: Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
@@ -461,7 +461,7 @@ Required: The field of the  form can be set as required for the submission on th
      
 3.7 File Upload: This field of the  form can be used for uploading a file. The size of the uploaded file can be limited by setting the value of Maximum Size attribute in KB. The upload folder can be mentioned by setting the Destinationattribute. Only files with extensions listed in Allowed file extensionsattribute can be uploaded. The form field has several attributes: Field Label: Type the name of the field of the  form.    
     
-Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
@@ -470,33 +470,33 @@ Required: The field of the  form can be set as required for the submission on th
     
 3.8 Captcha: This field of the  form can be used for the ensuring that the submission is generated by a person. The number of randomly generated symbols can be set by the value of Captcha size attribute. The field of the  form has several attributes:     
 Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
      
 	 Recaptcha This is an alternative option for Captcha that uses Public and Private Keys for creating a form. You will need to create reCaptcha keys with the help of a dedicated tool for Form Maker.     
 Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.
     
-	3.9 Page Break of a form: This can be used to break the form into distinct pages. Use Page Title of a form to provide a title for the given page. Furthermore, the following parameters of the ìNextî and ìPreviousî navigation buttons can be customized for the Form Maker. The field of the  form has several attributes: Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+	3.9 Page Break of a form: This can be used to break the form into distinct pages. Use Page Title of a form to provide a title for the given page. Furthermore, the following parameters of the ‚ÄúNext‚Äù and ‚ÄúPrevious‚Äù navigation buttons can be customized for the Form Maker. The field of the  form has several attributes: Field Label: Type the name of the field of the  form.    
+Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
       
 	3.10 Section Break: This option allows adding a section break to the form page.  The field of the  form has several attributes: Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
+Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
      
-	3.11 Map: This field of the  form can be used for pointing out some position on the map. The position of the marker is fixed at the front end. The field of the  form  has several attributes:Location, Map Size, Marker Info, Class Name, Additional Attributes.     
+	3.11 Map: This field of the  form can be used for pointing out some position on the map. The position of the Form Marker is fixed at the front end. The field of the  form  has several attributes:Location, Map Size, Marker Info, Class Name, Additional Attributes.     
     
     
 3.12 Button: At first choose the Field Type of the  form according to your preference. There are several options:    
@@ -551,10 +551,10 @@ The submissions of a  form can be exported to the CSV and XML  formats. You can 
 5.5 There is a possibility to search the submissions database by all the relevant fields of the given form. Submissions can be sorted by any of the fields of the form by clicking the labels.
     
      
-5.6 You can delete any of submissions of a form by selecting them and pressing the ìDeleteî button on the top of the page of the Form Maker.
+5.6 You can delete any of submissions of a form by selecting them and pressing the ‚ÄúDelete‚Äù button on the top of the page of the Form Maker.
      
      
-5.7 It is also possible to edit the submissions of a form by clicking on the ìEditî icon on the upper right corner of the ìSubmissionsî section.
+5.7 It is also possible to edit the submissions of a form by clicking on the ‚ÄúEdit‚Äù icon on the upper right corner of the ‚ÄúSubmissions‚Äù section.
     
     
-5.8 You can add/remove any column of the submissions of a form by ìAdd/Remove Columnsî button. 
+5.8 You can add/remove any column of the submissions of a form by ‚ÄúAdd/Remove Columns‚Äù button. 
