@@ -1,17 +1,19 @@
 <?php
-
 if (!current_user_can('manage_options')) {
   die('Access Denied');
 }
 function show_submits() {
   global $wpdb;
-  /////////////////////////////////////////////////////////////////////////////         PAGE NAVI             ///////////////////////////////////////////////////
+  $sort["sortid_by"] = '';
+  $sort["custom_style"] = '';
+  $sort["1_or_2"] = '';
+  $order = '';
+  // Page navigation.
+  $exists = 0;
   $sort["default_style"] = "manage-column column-autor sortable desc";
   if (isset($_POST['page_number'])) {
     if ($_POST['asc_or_desc']) {
-      if (isset($_POST['order_by'])) {
-        $sort["sortid_by"] = $wpdb->escape($_POST['order_by']);
-      }
+      $sort["sortid_by"] = $wpdb->escape($_POST['order_by']);
       if ($_POST['asc_or_desc'] == 1) {
         $sort["custom_style"] = "manage-column column-title sorted asc";
         $sort["1_or_2"] = "2";
@@ -23,84 +25,74 @@ function show_submits() {
         $order = "ORDER BY " . $sort["sortid_by"] . " DESC";
       }
     }
-    else {
-      $sort["sortid_by"] = "";
-    }
     if ($_POST['page_number']) {
-      $limit = ((int)$_POST['page_number'] - 1) * 20;
+      $limit = ((int) $_POST['page_number'] - 1) * 20;
     }
     else {
       $limit = 0;
     }
   }
   else {
-    $sort["sortid_by"] = "";
     $limit = 0;
   }
-  /////////////////////////////////////////////////////////////////           END PAGE NAVI                ///////////////////////////////////////////////
-  $query = "SELECT id, title FROM " . $wpdb->prefix . "formmaker WHERE `id` NOT IN(" . get_option('contact_form_forms', 0) . ") order by title";
+  //End page navigation.
+  $query = "SELECT id, title FROM " . $wpdb->prefix . "formmaker order by title";
   $forms = $wpdb->get_results($query);
-  //$task	= JRequest::getCmd('task');
   if (isset($_POST['form_id'])) {
-    $form_id = (int)$_POST['form_id'];
-    if ($form_id) {
-      $query = "SELECT id FROM " . $wpdb->prefix . "formmaker WHERE id=" . $form_id;
-      $exists = $wpdb->get_var($query);
-    }
-    else {
-      $exists = "";
-    }
+    $form_id = (int) $_POST['form_id'];
   }
   else {
-    $exists = "";
-  }
-  if (!$exists)
     $form_id = 0;
-  if (isset($_POST['order_by']) && $_POST['order_by'] != "")
-    $filter_order = $wpdb->escape($_POST['order_by']);
-  else
-    $filter_order = 'id';
-  if (isset($_POST['asc_or_desc'])) {
-    if ($_POST['asc_or_desc'] == 1) {
-      $filter_order_Dir = " ASC";
-    }
-    else {
-      $filter_order_Dir = " DESC";
-    }
+  }
+  if ($form_id) {
+    $query = "SELECT id FROM " . $wpdb->prefix . "formmaker where id=" . $form_id;
+    $exists = $wpdb->get_var($query);
+  }
+  if (!$exists) {
+    $form_id = 0;
+  }
+  if (isset($_POST['order_by']) && $_POST['order_by'] != "") {
+    $filter_order = esc_html($_POST['order_by']);
   }
   else {
-    $filter_order_Dir = "";
+    $filter_order = 'id';
+  }
+  if (isset($_POST['asc_or_desc']) && $_POST['asc_or_desc'] == 1) {
+    $filter_order_Dir = " ASC";
+  }
+  else {
+    $filter_order_Dir = " DESC";
   }
   if (isset($_POST['search_submits'])) {
     $search_submits = esc_html($_POST['search_submits']);
-    $search_submits = strtolower($search_submits);
   }
   else {
-    $search_submits = "";
+    $search_submits = '';
   }
+  $search_submits = strtolower($search_submits);
   if (isset($_POST['ip_search'])) {
     $ip_search = esc_html($_POST['ip_search']);
-    $ip_search = strtolower($ip_search);
   }
   else {
-    $ip_search = "";
+    $ip_search = '';
   }
+  $ip_search = strtolower($ip_search);
   $where = array();
   $where_choices = array();
   if (isset($_POST['startdate'])) {
-    $lists['startdate'] = esc_html($_POST['startdate']);
+    $lists['startdate'] = $_POST['startdate'];
   }
   else {
     $lists['startdate'] = "";
   }
   if (isset($_POST['enddate'])) {
-    $lists['enddate'] = esc_html($_POST['enddate']);
+    $lists['enddate'] = $_POST['enddate'];
   }
   else {
     $lists['enddate'] = "";
   }
   if (isset($_POST['hide_label_list'])) {
-    $lists['hide_label_list'] = esc_html($_POST['hide_label_list']);
+    $lists['hide_label_list'] = $_POST['hide_label_list'];
   }
   else {
     $lists['hide_label_list'] = "";
@@ -111,10 +103,12 @@ function show_submits() {
   if ($ip_search) {
     $where[] = 'ip LIKE "%' . $ip_search . '%"';
   }
-  if ($lists['startdate'] != '')
+  if ($lists['startdate'] != '') {
     $where[] = "  `date`>='" . $lists['startdate'] . " 00:00:00' ";
-  if ($lists['enddate'] != '')
+  }
+  if ($lists['enddate'] != '') {
     $where[] = "  `date`<='" . $lists['enddate'] . " 23:59:59' ";
+  }
   /*if ($form_id=="")
     if($forms)
     $form_id=$forms[0]->id;*/
@@ -124,7 +118,7 @@ function show_submits() {
   if ($filter_order == 'id' or $filter_order == 'title' or $filter_order == 'mail') {
     $orderby = ' ORDER BY `date` desc';
   }
-  else if (!strpos($filter_order, "_field")) {
+  elseif (!strpos($filter_order, "_field")) {
     $orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir . '';
   }
   $query = "SELECT * FROM " . $wpdb->prefix . "formmaker_submits" . $where;
@@ -141,6 +135,11 @@ function show_submits() {
       array_push($labels, $row->element_label);
     }
   }
+  // $query = "SELECT id FROM " . $wpdb->prefix . "formmaker_submits WHERE form_id='".$form_id."' and element_label=0";
+	// $ispaypal = $wpdb->get_row($query);
+	// if (!$ispaypal) {
+    // return false;
+  // }
   $sorted_labels_type = array();
   $sorted_labels_id = array();
   $sorted_labels = array();
@@ -164,26 +163,30 @@ function show_submits() {
       array_push($label_order, $label_temp);
       array_push($label_type, $label_order_each[1]);
     }
-    foreach ($label_id as $key => $label)
+    foreach ($label_id as $key => $label) {
       if (in_array($label, $labels)) {
         array_push($sorted_labels_type, $label_type[$key]);
         array_push($sorted_labels, $label_order[$key]);
         array_push($sorted_labels_id, $label);
         array_push($label_titles, $label_order_original[$key]);
-        if (isset($_POST[$form_id . '_' . $label . '_search']))
-          $search_temp = esc_html($_POST[$form_id . '_' . $label . '_search']);
-        else
+        if (isset($_POST[$form_id . '_' . $label . '_search'])) {
+          $search_temp = $_POST[$form_id . '_' . $label . '_search'];
+        }
+        else {
           $search_temp = '';
+        }
         $search_temp = strtolower($search_temp);
         $lists[$form_id . '_' . $label . '_search'] = $search_temp;
         if ($search_temp) {
-          $where_labels[] = '(group_id in (SELECT group_id FROM ' . $wpdb->prefix . 'formmaker_submits WHERE element_label=' . $label . ' AND element_value LIKE "%' . $search_temp . '%"))';
+          $where_labels[] = '(group_id in (SELECT group_id FROM ' . $wpdb->prefix . 'formmaker_submits WHERE element_label="' . $label . '" AND element_value LIKE "%' . $search_temp . '%"))';
         }
       }
+    }
   }
   $where_labels = (count($where_labels) ? ' ' . implode(' AND ', $where_labels) : '');
-  if ($where_labels)
+  if ($where_labels) {
     $where = $where . ' AND ' . $where_labels;
+  }
   $rows_ord = array();
   if (strpos($filter_order, "_field")) {
     $query = "insert into " . $wpdb->prefix . "formmaker_submits (form_id,	element_label, element_value, group_id,`date`,ip) select $form_id,'" . str_replace("_field", "", $filter_order) . "', '', group_id,`date`,ip from  " . $wpdb->prefix . "formmaker_submits where `form_id`=$form_id and group_id not in (select group_id from " . $wpdb->prefix . "formmaker_submits where `form_id`=$form_id and element_label='" . str_replace("_field", "", $filter_order) . "' group by  group_id) group by group_id";
@@ -207,8 +210,9 @@ function show_submits() {
   $where2 = array();
   $where_choices = $where;
   for ($i = $limit; $i < $limit + 20; $i++) {
-    if ($i < $total)
+    if ($i < $total) {
       $where2 [] = "group_id='" . $group_ids[$i]->group_id . "'";
+    }
   }
   $where2 = (count($where2) ? ' AND ( ' . implode(' OR ', $where2) . ' )' : '');
   $where = $where . $where2;
@@ -220,12 +224,13 @@ function show_submits() {
   $total_views = $wpdb->get_var($query);
   $lists['order_Dir'] = $filter_order_Dir;
   $lists['order'] = $filter_order;
-  // search filter
+  // Search filter.
   $lists['search_submits'] = $search_submits;
   $lists['ip_search'] = $ip_search;
-  if (count($rows_ord) == 0)
+  if (count($rows_ord) == 0) {
     $rows_ord = $rows;
-  // display function
+  }
+  // Display function.
   html_show_submits($rows, $forms, $lists, $pageNav, $sorted_labels, $label_titles, $rows_ord, $filter_order_Dir, $form_id, $sorted_labels_id, $sorted_labels_type, $total_entries, $total_views, $where, $where_choices, $sort);
 }
 
@@ -248,8 +253,8 @@ function remov_cheched_submission() {
   global $wpdb;
   $cid = $_POST['post'];
   if (count($cid)) {
-    $cids = esc_html(implode(',', $cid));
-    // Create sql statement
+    $cids = implode(',', $cid);
+    // Create sql statement.
     $query = 'DELETE FROM ' . $wpdb->prefix . 'formmaker_submits' . ' WHERE group_id IN ( ' . $cids . ' )';
     if ($wpdb->query($query)) {
       ?>
@@ -286,13 +291,13 @@ function editSubmit($id) {
     array_push($label_order_original, $label_oder_each[0]);
     array_push($label_type, $label_oder_each[1]);
   }
-  // display function
+  // Display function.
   html_editSubmit($rows, $label_id, $label_order_original, $label_type);
 }
 
 function save_submit($id) {
   global $wpdb;
-  $id = (int)$_POST['id'];
+  $id = (int) $_POST['id'];
   $date = esc_html($_POST['date']);
   $ip = esc_html($_POST['ip']);
   $form_id = $wpdb->get_var("SELECT form_id FROM " . $wpdb->prefix . "formmaker_submits WHERE group_id='" . $id . "'");
@@ -310,7 +315,7 @@ function save_submit($id) {
     array_push($label_type, $label_oder_each[1]);
   }
   foreach ($label_id as $key => $label_id_1) {
-    $element_value = esc_html($_POST["submission_" . $label_id_1]);
+    $element_value = $_POST["submission_" . $label_id_1];
     if (isset($_POST["submission_" . $label_id_1])) {
       $query = "SELECT id FROM " . $wpdb->prefix . "formmaker_submits WHERE group_id='" . $id . "' AND element_label='" . $label_id_1 . "'";
       $result = $wpdb->get_var($query);
@@ -318,52 +323,7 @@ function save_submit($id) {
         if ($element_value)
           $element_value = $element_value . "*@@url@@*";
       if ($result) {
-        //$query = "UPDATE ".$wpdb->prefix."formmaker_submits SET `element_value`='".$element_value."' WHERE group_id='".$id."' AND element_label='".$label_id_1."'";
         $wpdb->update($wpdb->prefix . "formmaker_submits", array(
-          'element_value' => stripslashes($element_value),
-        ), array(
-          'group_id' => $id,
-          'element_label' => $label_id_1
-        ), array(
-          '%s',
-        ), array(
-          '%d',
-          '%s'
-        ));
-      }
-      else {
-        $wpdb->insert($wpdb->prefix . "formmaker_submits", array(
-          'form_id' => $form_id,
-          'element_label' => $label_id_1,
-          'element_value' => stripslashes($element_value),
-          'group_id' => $id,
-          'date' => $date,
-          'ip' => $ip
-        ), array(
-          '%d',
-          '%s',
-          '%s',
-          '%d',
-          '%s',
-          '%s'
-        ));
-      }
-    }
-    else {
-      $element_value_ch = esc_html($_POST["submission_" . $label_id_1 . '_0']);
-      if (isset($_POST["submission_" . $label_id_1 . '_0'])) {
-        for ($z = 0; $z < 21; $z++) {
-          $element_value_ch = esc_html($_POST["submission_" . $label_id_1 . '_' . $z]);
-          if (isset($element_value_ch))
-            $element_value = $element_value . $element_value_ch . '***br***';
-          else
-            break;
-        }
-        $query = "SELECT id FROM " . $wpdb->prefix . "formmaker_submits WHERE group_id='" . $id . "' AND element_label='" . $label_id_1 . "'";
-        $result = $wpdb->get_var($query);
-        if ($result) {
-          $query = "UPDATE " . $wpdb->prefix . "formmaker_submits SET `element_value`='" . $element_value . "' WHERE group_id='" . $id . "' AND element_label='" . $label_id_1 . "'";
-          $wpdb->update($wpdb->prefix . "formmaker_submits", array(
             'element_value' => stripslashes($element_value),
           ), array(
             'group_id' => $id,
@@ -374,10 +334,9 @@ function save_submit($id) {
             '%d',
             '%s'
           ));
-        }
-        else {
-          $query = "INSERT INTO " . $wpdb->prefix . "formmaker_submits (form_id, element_label, element_value, group_id, date, ip) VALUES('" . $form_id . "', '" . $label_id_1 . "', '" . $element_value . "','" . $id . "', '" . $date . "', '" . $ip . "')";
-          $wpdb->insert($wpdb->prefix . "formmaker_submits", array(
+      }
+      else {
+        $wpdb->insert($wpdb->prefix . "formmaker_submits", array(
             'form_id' => $form_id,
             'element_label' => $label_id_1,
             'element_value' => stripslashes($element_value),
@@ -392,6 +351,51 @@ function save_submit($id) {
             '%s',
             '%s'
           ));
+      }
+    }
+    else {
+      $element_value_ch = $_POST["submission_" . $label_id_1 . '_0'];
+      if (isset($_POST["submission_" . $label_id_1 . '_0'])) {
+        for ($z = 0; $z < 21; $z++) {
+          $element_value_ch = $_POST["submission_" . $label_id_1 . '_' . $z];
+          if (isset($element_value_ch))
+            $element_value = $element_value . $element_value_ch . '***br***';
+          else
+            break;
+        }
+        $query = "SELECT id FROM " . $wpdb->prefix . "formmaker_submits WHERE group_id='" . $id . "' AND element_label='" . $label_id_1 . "'";
+        $result = $wpdb->get_var($query);
+        if ($result) {
+          $query = "UPDATE " . $wpdb->prefix . "formmaker_submits SET `element_value`='" . stripslashes($element_value) . "' WHERE group_id='" . $id . "' AND element_label='" . $label_id_1 . "'";
+          $wpdb->update($wpdb->prefix . "formmaker_submits", array(
+              'element_value' => stripslashes($element_value),
+            ), array(
+              'group_id' => $id,
+              'element_label' => $label_id_1
+            ), array(
+              '%s',
+            ), array(
+              '%d',
+              '%s'
+            ));
+        }
+        else {
+          $query = "INSERT INTO " . $wpdb->prefix . "formmaker_submits (form_id, element_label, element_value, group_id, date, ip) VALUES('" . $form_id . "', '" . $label_id_1 . "', '" . stripslashes($element_value) . "','" . $id . "', '" . $date . "', '" . $ip . "')";
+          $wpdb->insert($wpdb->prefix . "formmaker_submits", array(
+              'form_id' => $form_id,
+              'element_label' => $label_id_1,
+              'element_value' => stripslashes($element_value),
+              'group_id' => $id,
+              'date' => $date,
+              'ip' => $ip
+            ), array(
+              '%d',
+              '%s',
+              '%s',
+              '%d',
+              '%s',
+              '%s'
+            ));
         }
       }
     }

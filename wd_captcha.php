@@ -8,26 +8,26 @@
  **/
 // This php file returnes Captcha image in image/jpeg format therefore direct access must be allowed
 if (isset($_GET["i"])) {
-  $i = (int)$_GET["i"];
+  $i = (int) $_GET["i"];
 }
 else {
   $i = '';
 }
 if (isset($_GET['r2'])) {
-  $r2 = (int)$_GET['r2'];
+  $r2 = (int) $_GET['r2'];
 }
 else {
   $r2 = 0;
 }
 if (isset($_GET['r'])) {
-  $rrr = (int)$_GET['r'];
+  $rrr = (int) $_GET['r'];
 }
 else {
   $rrr = 0;
 }
 $randNum = 0 + $r2 + $rrr;
 if (isset($_GET["digit"])) {
-  $digit = (int)$_GET["digit"];
+  $digit = (int) $_GET["digit"];
 }
 else {
   $digit = 6;

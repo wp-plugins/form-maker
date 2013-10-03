@@ -7,7 +7,8 @@ class form_maker_widget extends WP_Widget {
     $widget_ops = array(
       'classname' => 'form_maker_widget',
       'description' => 'Add Form Maker widget.'
-    ); // Widget Settings
+    );
+    // Widget Settings
     $control_ops = array('id_base' => 'form_maker_widget'); // Widget Control Settings
     $this->WP_Widget('form_maker_widget', 'Form Maker', $widget_ops, $control_ops); // Create the widget
   }
@@ -22,7 +23,6 @@ class form_maker_widget extends WP_Widget {
     if ($title) {
       echo $before_title . $title . $after_title;
     }
-    // echo $title;
     global $form_maker_function__once;
     if ($form_maker_function__once) {
       $form_maker_function__once = 0;

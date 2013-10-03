@@ -16,14 +16,13 @@ function html_show_submits($rows, $forms, $lists, $pageNav, $labels, $label_titl
         array_push($group_id_s, $row->group_id);
       }
     }
-
-  ?>
-<style>
-  .calendar .button {
-    display: table-cell !important;
-  }
-</style>
-<script type="text/javascript">
+    ?>
+    <style>
+      .calendar .button {
+        display: table-cell !important;
+      }
+    </style>
+    <script type="text/javascript">
 function tableOrdering(order, dir, task) {
   var form = document.admin_form;
   form.filter_order2.value = order;
@@ -37,7 +36,6 @@ function ordering(name, as_or_desc) {
 }
 function renderColumns() {
   allTags = document.getElementsByTagName('*');
-
   for (curTag in allTags) {
     if (typeof(allTags[curTag].className) != "undefined")
       if (allTags[curTag].className.indexOf('_fc') > 0) {
@@ -47,21 +45,25 @@ function renderColumns() {
         else
           allTags[curTag].style.display = '';
       }
-    if (typeof(allTags[curTag].id) != "undefined")
+    if (typeof(allTags[curTag].id) != "undefined") {
       if (allTags[curTag].id.indexOf('_fc') > 0) {
-        curLabel = allTags[curTag].id.replace('_fc', '');
-        if (document.forms.admin_form.hide_label_list.value.indexOf('@' + curLabel + '@') >= 0)
+        curLabel = allTags[curTag].id.replace('_fc','');
+        if (document.forms.admin_form.hide_label_list.value.indexOf('@' + curLabel + '@') >= 0) {
           allTags[curTag].style.display = 'none';
-        else
+        }
+        else {
           allTags[curTag].style.display = '';
+        }
       }
+    }
   }
 }
 
 function clickLabChB(label, ChB) {
   document.forms.admin_form.hide_label_list.value = document.forms.admin_form.hide_label_list.value.replace('@' + label + '@', '');
-  if (document.forms.admin_form.hide_label_list.value == '') document.getElementById('ChBAll').checked = true;
-
+  if (document.forms.admin_form.hide_label_list.value == '') {
+    document.getElementById('ChBAll').checked = true;
+  }
   if (!(ChB.checked)) {
     document.forms.admin_form.hide_label_list.value += '@' + label + '@';
     document.getElementById('ChBAll').checked = false;
@@ -248,7 +250,6 @@ jQuery(document).ready(function ($) {
 </script>
 
 <style>
-
   .reports {
     border: 1px solid #DEDEDE;
     border-radius: 11px;
@@ -256,11 +257,9 @@ jQuery(document).ready(function ($) {
     text-align: center;
     width: 100px;
   }
-
   .bordered {
     border-radius: 8px
   }
-
   .simple_table {
     background-color: transparent;
   !important
@@ -292,11 +291,14 @@ jQuery(document).ready(function ($) {
         else
           echo '<input type="checkbox" onclick="clickLabChB(\'' . $curlabel . '\', this)" />' . stripslashes($label_titles[$key]) . '<br />';
       }
-
-
+      $ispaypal = FALSE;
+      for ($i = 0; $i < count($labels); $i++) {
+        if ($sorted_labels_type[$i] == 'type_paypal_payment_status') {
+          $ispaypal = TRUE;
+        }
+      }
       ?>
       <br/>
-
       <div style="text-align:center;">
         <input type="button" onclick="toggleChBDiv(false);" value="Done"/>
       </div>
@@ -310,19 +312,16 @@ jQuery(document).ready(function ($) {
   This section allows you to view and manage form submissions.
   <a href="http://web-dorado.com/wordpress-form-maker-guide-6.html" target="_blank" style="color:blue; text-decoration:none;">More...</a>
 </div>
-<form action="admin.php?page=Form_maker_Submits" method="post" id="admin_form"
+<form action="admin.php?page=Form_maker_Submits" method="post" style="" id="admin_form"
       name="admin_form">
 <input type="hidden" name="option" value="com_formmaker">
 <input type="hidden" name="task" value="submits">
-<input type="hidden" name="asc_or_desc" id="asc_or_desc" value="<?php if (isset($_POST['asc_or_desc'])) {
-  echo esc_html($_POST['asc_or_desc']);
-} ?>">
-<input type="hidden" name="order_by" id="order_by" value="<?php if (isset($_POST['order_by'])) {
-  echo esc_html($_POST['order_by']);
-} ?>">
+<input type="hidden" name="asc_or_desc" id="asc_or_desc" value="<?php  if (isset($_POST['asc_or_desc']))
+  echo esc_html($_POST['asc_or_desc']); ?>">
+<input type="hidden" name="order_by" id="order_by" value="<?php if (isset($_POST['order_by']))
+  echo esc_html($_POST['order_by']) ?>">
 <br/>
 <table width="95%">
-
   <tr>
     <td colspan="11">
       <div style="text-align:right;font-size:16px;padding:20px; padding-right:50px; width:100%">
@@ -396,18 +395,13 @@ jQuery(document).ready(function ($) {
 </table>
   <?php print_html_nav($pageNav['total'], $pageNav['limit']);
   ?>
-<div style="border-radius: 3px 3px 3px 3px;border: 1px solid #F0F0F0; overflow-x:auto; width:95%; ">
+  <div style="border-radius: 3px 3px 3px 3px;border: 1px solid #F0F0F0; overflow-x:auto; width:95%; ">
 <table class="wp-list-table widefat fixed posts" style="width:95%; table-layout: inherit !important;">
 <thead>
 <tr>
   <th width="3%"><?php echo '#'; ?></th>
-
   <th scope="col" id="cb" class="manage-column column-cb check-column" style=""><input type="checkbox"></th>
-  <?php
-
-
-  ?>
-  <th width="4%" scope="col" id="submitid_fc" class="submitid_fc <?php  if ($sort["sortid_by"] == "group_id")
+  <th width="4%" scope="col" id="submitid_fc" class="submitid_fc <?php if ($sort["sortid_by"] == "group_id")
     echo $sort["custom_style"];
   else echo $sort["default_style"]; ?>" <?php if (!(strpos($lists['hide_label_list'], '@submitid@') === FALSE))
     echo 'style="display:none;"';?>><a href="javascript:ordering('group_id',<?php if ($sort["sortid_by"] == "group_id")
@@ -427,18 +421,15 @@ jQuery(document).ready(function ($) {
     echo 'style="display:none;"';?>><a href="javascript:ordering('ip',<?php if ($sort["sortid_by"] == "ip")
     echo $sort["1_or_2"];
   else echo "1"; ?>)"><span>Submitter's IP Address</span><span class="sorting-indicator"></span></a></th><?php
-
-
-
   $n = count($rows);
-
-
   for ($i = 0; $i < count($labels); $i++) {
-    if (strpos($lists['hide_label_list'], '@' . $labels_id[$i] . '@') === FALSE)
+    if (strpos($lists['hide_label_list'], '@' . $labels_id[$i] . '@') === FALSE) {
       $styleStr = '';
-    else $styleStr = 'display:none;';
-    if ($sorted_labels_type[$i] == 'type_address'
-    )
+    }
+    else {
+      $styleStr = 'display:none;';
+    }
+    if ($sorted_labels_type[$i] == 'type_address')
       switch ($label_titles_copy[$i]) {
         case 'Street Line':
           $field_title = __('Street Address', 'form_maker');
@@ -462,10 +453,10 @@ jQuery(document).ready(function ($) {
           $field_title = stripslashes($label_titles_copy[$i]);
           break;
       }
-    else
+    else {
       $field_title = stripslashes($label_titles_copy[$i]);
+    }
     ?>
-
     <th style="<?php  echo $styleStr; ?>" id="<?php  echo $labels_id[$i] . '_fc';?>"
         class="<?php  echo $labels_id[$i] . '_fc'; if ($sort["sortid_by"] == $labels_id[$i] . "_field")
           echo $sort["custom_style"] . '"';
@@ -473,9 +464,8 @@ jQuery(document).ready(function ($) {
       href="javascript:ordering('<?php echo $labels_id[$i] . "_field"; ?>',<?php if ($sort["sortid_by"] == $labels_id[$i] . "_field")
         echo $sort["1_or_2"];
       else echo "1"; ?>)"><span><?php echo $field_title ?></span><span class="sorting-indicator"></span></a></th>
-
     <?php
-  }
+	}
   ?>
   <th style="width:80px">Edit</th>
   <th style="width:80px"><a
@@ -526,14 +516,17 @@ jQuery(document).ready(function ($) {
   }
 
   for ($i = 0; $i < count($labels); $i++) {
-    if (strpos($lists['hide_label_list'], '@' . $labels_id[$i] . '@') === FALSE)
+    if (strpos($lists['hide_label_list'], '@' . $labels_id[$i] . '@') === FALSE) {
       $styleStr = '';
-    else
+    }
+    else {
       $styleStr = 'style="display:none;"';
-    if (!$ka_fielderov_search)
+    }
+    if (!$ka_fielderov_search) {
       if ($lists[$form_id . '_' . $labels_id[$i] . '_search']) {
         $ka_fielderov_search = TRUE;
       }
+    }
     if ($sorted_labels_type[$i] != 'type_mark_map')
       echo '<th class="' . $labels_id[$i] . '_fc" ' . $styleStr . '>' . '<input name="' . $form_id . '_' . $labels_id[$i] . '_search" id="' . $form_id . '_' . $labels_id[$i] . '_search" type="text" value="' . $lists[$form_id . '_' . $labels_id[$i] . '_search'] . '"  onChange="this.form.submit();" >' . '</th>';
     else
@@ -568,7 +561,6 @@ jQuery(document).ready(function ($) {
     $f = $temp[0];
     $date = $f->date;
     $ip = $f->ip;
-    //	$checked 	= JHTML::_('grid.id', $www, $group_id_s[$www]);
     $link = "admin.php?page=Form_maker_Submits&task=edit_submit&id=" . $f->group_id;
     ?>
 
@@ -612,53 +604,78 @@ jQuery(document).ready(function ($) {
             $map_params = explode('***map***', $t->element_value);
             $longit = $map_params[0];
             $latit = $map_params[1];
-            echo  '<td align="center" class="' . $labels_id[$h] . '_fc" ' . $styleStr . '><a class="thickbox-preview"  href="' . admin_url('admin-ajax.php?action=frommapeditinpopup&long=' . $longit . '&lat=' . $latit) . '&TB_iframe=1&tbWidth=630&tbHeight=650" >' . 'Show on Map' . "</a></td>";
+            echo  '<td align="center" class="' . $labels_id[$h] . '_fc" ' . $styleStr . '>
+                <a class="thickbox-preview" href="' . admin_url('admin-ajax.php?action=frommapeditinpopup&long=' . $longit . '&lat=' . $latit) . '&TB_iframe=1&tbWidth=630&tbHeight=650" >' . 'Show on Map' . '</a>
+                </td>';
           }
           else if (strpos($t->element_value, "*@@url@@*")) {
             $new_file = str_replace("*@@url@@*", '', str_replace("***br***", '<br>', $t->element_value));
             $new_filename = explode('/', $new_file);
             echo  '<td  class="' . $labels_id[$h] . '_fc" ' . $styleStr . '><a target="_blank" href="' . $new_file . '">' . $new_filename[count($new_filename) - 1] . "</td>";
           }
-          else
-            echo  '<td  class="' . $labels_id[$h] . '_fc" ' . $styleStr . '><pre style="font-family:inherit">' . str_replace("***br***", '<br>', $t->element_value) . '</pre></td>';
+          elseif (strpos($t->element_value, "***star_rating***")) {
+            $new_filename = str_replace("***star_rating***", '', $t->element_value);
+            $stars = "";
+            $new_filename=explode('***', $new_filename);
+            for ($j = 0; $j < $new_filename[1]; $j++) {
+							$stars .= '<img id="' . $t->element_label . '_star_' . $j . '" src="' . plugins_url('images/star_' . $new_filename[2] . '.png', __FILE__) . '" /> ';
+            }
+            for ($k = $new_filename[1]; $k < $new_filename[0]; $k++) {
+							$stars .= '<img id="' . $t->element_label . '_star_' . $k . '" src="' . plugins_url('images/star.png', __FILE__) . '" /> ';
+            }
+            echo  '<td align="center" class="' . $labels_id[$h] . '_fc" ' . $styleStr . '>' . $stars . "</td>";
+          }
+					elseif (strpos($t->element_value, "***matrix***")) {
+						echo  '<td align="center" class="' . $labels_id[$h] . '_fc" ' . $styleStr . '>
+                <a class="thickbox-preview" href="' . admin_url('admin-ajax.php?action=show_matrix&matrix_params=' . $t->element_value) . '&TB_iframe=1&tbWidth=630&tbHeight=650">Show Matrix</a>
+              </td>';
+					}
+					elseif (strpos($t->element_value, "***grading***")) {
+            $new_filename = str_replace("***grading***", '', $t->element_value);
+            $grading = explode(":", $new_filename);
+            $items_count = sizeof($grading) - 1;
+            $items = "";
+            $total = "";
+            for ($k = 0; $k < $items_count / 2; $k++) {
+              $items .= $grading[$items_count / 2 + $k] . ": " . $grading[$k] . "</br>";
+              $total += $grading[$k];
+            }
+            $items .= "Total: " . $total;
+            echo '<td align="center" class="' . $labels_id[$h] . '_fc" ' . $styleStr . '><pre style="font-family:inherit">' . $items . '</pre></td>';
+					}
+          else {
+            echo  '<td  class="' . $labels_id[$h] . '_fc" ' . $styleStr . '><pre style="font-family:inherit">' . str_replace("***br***", '<br>', stripslashes($t->element_value)) . '</pre></td>';
+          }
           $not_label = FALSE;
         }
       }
-      if ($not_label)
+      if ($not_label) {
         echo  '<td  class="' . $labels_id[$h] . '_fc" ' . $styleStr . '></td>';
+      }
     }
     ?>
-    <td><a
-      href="javascript:submit_del('admin.php?page=Form_maker_Submits&task=edit_submit&id=<?php echo $f->group_id; ?>')">Edit</a>
+    <td>
+      <a href="javascript:submit_del('admin.php?page=Form_maker_Submits&task=edit_submit&id=<?php echo $f->group_id; ?>')">Edit</a>
     </td>
-    <td><a
-      href="javascript:submit_del('admin.php?page=Form_maker_Submits&task=remove_submit&id=<?php echo $f->group_id; ?>')">Delete</a>
+    <td>
+      <a href="javascript:submit_del('admin.php?page=Form_maker_Submits&task=remove_submit&id=<?php echo $f->group_id; ?>')">Delete</a>
     </td>
   </tr>
-
     <?php
-
-
     $k = 1 - $k;
   }
-
   ?>
-
 </table>
 </div>
-
-
   <?php
   foreach ($sorted_labels_type as $key => $label_type) {
     if ($label_type == "type_checkbox" || $label_type == "type_radio" || $label_type == "type_own_select" || $label_type == "type_country") {
       ?>
     <br/>
     <br/>
-
     <strong><?php echo stripslashes($label_titles_copy[$key]); ?></strong>
     <br/>
     <br/>
-
       <?php
       $query = "SELECT element_value FROM " . $wpdb->prefix . "formmaker_submits " . $where_choices . " AND element_label='" . $labels_id[$key] . "'";
       $choices = $wpdb->get_results($query);
@@ -736,7 +753,6 @@ jQuery(document).ready(function ($) {
 <input type="hidden" name="filter_order_Dir2" value="<?php echo $lists['order_Dir']; ?>"/>
 
 </form>
-
 <script>
     <?php if ($ka_fielderov_search) { ?>
   document.getElementById('fields_filter').style.display = '';
@@ -781,7 +797,7 @@ function html_editSubmit($rows, $labels_id, $labels_name, $labels_type) {
   </tr>
   </tbody>
 </table>
-<form action="admin.php?page=Form_maker_Submits&id=<?php echo (int)$_GET['id']; ?>" method="post" id="adminForm"
+<form action="admin.php?page=Form_maker_Submits&id=<?php echo (int) $_GET['id']; ?>" method="post" id="adminForm"
       name="adminForm">
   <table class="admintable">
     <tr>
@@ -820,39 +836,252 @@ function html_editSubmit($rows, $labels_id, $labels_name, $labels_type) {
             $element_value = $row->element_value;
             break;
           }
+          else {
+            $element_value =	'element_valueelement_valueelement_value';
+          }
         }
-        if ($labels_type[$key] != 'type_checkbox')
-          echo '		<tr>
+        if ($element_value == "element_valueelement_valueelement_value") {
+          continue;
+        }
+        switch ($labels_type[$key]) {
+          case 'type_checkbox':
+           {
+            $choices = explode('***br***', $element_value);
+            $choices = array_slice($choices, 0, count($choices) - 1);
+            echo '<tr>
+                    <td class="key" rowspan="' . count($choices) . '">
+                      <label for="title">' . $labels_name[$key] . '</label>
+                    </td>';
+            foreach ($choices as $choice_key => $choice) {
+              echo '<td>
+                      <input type="text" name="submission_'.$label_id.'_'.$choice_key.'" id="submission_'.$label_id.'_'.$choice_key.'" value="'.$choice.'" size="80" />
+                    </td>
+                  </tr>';
+            }
+            break;
+          }
+          case 'type_star_rating': {
+            $edit_stars = "";
+						$element_value1 = str_replace("***star_rating***", '', $element_value);
+						$stars_value = explode('***', $element_value1);
+						for ($j = 0; $j < $stars_value[1]; $j++)
+							$edit_stars.='<img id="'.$label_id.'_star_'.$j.'" onclick="edit_star_rating('.$j.','.$label_id.')" src="' . plugins_url('/images/star_'.$stars_value[2].'.png', __FILE__) . '" /> ';
+						for( $k=$stars_value[1];$k<$stars_value[0];$k++)
+							$edit_stars.='<img id="'.$label_id.'_star_'.$k.'" onclick="edit_star_rating('.$k.','.$label_id.')" src="' . plugins_url('/images/star.png', __FILE__) . '" /> ';
+            echo '<tr>
 						<td class="key">
 							<label for="title">
-								' . $labels_name[$key] . '
+								'.$labels_name[$key].'
 							</label>
 						</td>
-						<td >
-							<input type="text" name="submission_' . $label_id . '" id="submission_' . $label_id . '" value="' . str_replace("*@@url@@*", '', $element_value) . '" size="80" />
+						<td>
+              <input type="hidden"  id="'.$label_id.'_star_amountform_id_temp" name="'.$label_id.'_star_amountform_id_temp" value="'.$stars_value[0].'">
+              <input type="hidden"  name="'.$label_id.'_star_colorform_id_temp" id="'.$label_id.'_star_colorform_id_temp" value="'.$stars_value[2].'">
+              <input type="hidden"  id="'.$label_id.'_selected_star_amountform_id_temp" name="'.$label_id.'_selected_star_amountform_id_temp" value="'.$stars_value[1].'">
+								'.$edit_stars.'
+							<input type="hidden" name="submission_'.$label_id.'" id="submission_'.$label_id.'" value="'.$element_value.'" size="80" />
 						</td>
-					</tr>
-					';
-        else {
-          $choices = explode('***br***', $element_value);
-          $choices = array_slice($choices, 0, count($choices) - 1);
-          echo '		<tr>
-						<td class="key" rowspan="' . count($choices) . '">
+					</tr>';
+            break;
+          }
+          case "type_scale_rating": {
+            $scale_radio = explode('/', $element_value);
+            $scale_value = $scale_radio[0];
+  					$scale ='<table><tr>';
+						for ($k = 1; $k <= $scale_radio[1]; $k++)
+              $scale .= '<td style="text-align:center"><span>'.$k.'</span></td>';
+						$scale .='<tr></tr>';
+						for ($l = 1; $l <= $scale_radio[1]; $l++) {
+              if ($l == $scale_radio[0])
+                $checked="checked";
+              else
+                $checked="";
+              $scale .= '<td><input type="radio" name = "'.$label_id.'_scale_rating_radio" id = "'.$label_id.'_scale_rating_radio_'.$l.'" value="'.$l.'" '.$checked.' onClick="edit_scale_rating(this.value,'.$label_id.')" /></td>';
+						}	
+            $scale .= '</tr></table>';
+            echo '<tr>
+						<td class="key">
 							<label for="title">
-								' . $labels_name[$key] . '
+								'.$labels_name[$key].'
 							</label>
-						</td>';
-          foreach ($choices as $choice_key => $choice)
-            echo '
-						<td >
-							<input type="text" name="submission_' . $label_id . '_' . $choice_key . '" id="submission_' . $label_id . '_' . $choice_key . '" value="' . $choice . '" size="80" />
 						</td>
-					</tr>
-					';
+						<td>
+              <input type="hidden"  id="'.$label_id.'_scale_checkedform_id_temp" name="'.$label_id.'_scale_checkedform_id_temp" value="'.$scale_radio[1].'">
+              '.$scale.'
+              <input type="hidden" name="submission_'.$label_id.'" id="submission_'.$label_id.'" value="'.$element_value.'" size="80" />
+						</td>
+					</tr>';
+            break;
+          }
+          case 'type_range': {
+            $range_value = explode('-', $element_value);
+            $range = '<input name="'.$label_id.'_element0"  id="'.$label_id.'_element0" type="text" value="'.$range_value[0].'" onChange="edit_range(this.value,'.$label_id.',0)" size="8"/> - <input name="'.$label_id.'_element1"  id="'.$label_id.'_element1" type="text" value="'.$range_value[1].'" onChange="edit_range(this.value,'.$label_id.',1)" size="8"/>';							
+            echo '<tr>
+						<td class="key">
+							<label for="title">
+								'.$labels_name[$key].'
+							</label>
+						</td>
+						<td>
+							'.$range.'
+							<input type="hidden" name="submission_'.$label_id.'" id="submission_'.$label_id.'" value="'.$element_value.'" size="80" />
+						</td>
+					</tr>';
+            break;
+          }
+          case 'type_spinner': {
+            echo '<tr>
+							<td class="key">
+								<label for="title">
+									'.$labels_name[$key].'
+								</label>
+							</td>
+							<td>
+								<input type="text" name="submission_'.$label_id.'" id="submission_'.$label_id.'" value="'.str_replace("*@@url@@*",'',$element_value).'" size="20" />
+							</td>
+						</tr>';
+            break;
+          }
+          case 'type_grading': {
+            $element_value1 = str_replace("***grading***", '', $element_value);
+            $garding_value = explode(':', $element_value1);
+            $items_count = sizeof($garding_value) - 1;
+            $garding = "";
+            $sum = "";
+            for ($k = 0; $k < $items_count/2; $k++) {
+              $garding .= '<input name="'.$label_id.'_element'.$k.'"  id="'.$label_id.'_element'.$k.'" type="text" value="'.$garding_value[$k].'" onKeyUp="edit_grading('.$label_id.','.$items_count.')" size="5"/> '.$garding_value[$items_count/2+$k].'</br>';
+              $sum += $garding_value[$k];
+            }
+            echo '<tr>
+						<td class="key">
+							<label for="title">
+								'.$labels_name[$key].'
+							</label>
+						</td>
+						<td>
+							'.$garding.'<div><span id="'.$label_id.'_grading_sumform_id_temp">'.$sum.'</span>/<span id="'.$label_id.'_grading_totalform_id_temp">'.$garding_value[$items_count].'</span><span id="'.$label_id.'_text_elementform_id_temp"></span>
+              <input type="hidden"  id="'.$label_id.'_element_valueform_id_temp" name="'.$label_id.'_element_valueform_id_temp" value="'.$element_value1.'">
+              <input type="hidden"  id="'.$label_id.'_grading_totalform_id_temp" name="'.$label_id.'_grading_totalform_id_temp" value="'.$garding_value[$items_count].'">
+              <input type="hidden" name="submission_'.$label_id.'" id="submission_'.$label_id.'" value="'.$element_value.'" size="80" />
+						</td>
+					</tr>';
+            break;
+          }
+          case 'type_matrix': {
+            $new_filename = str_replace("***matrix***", '', $element_value);
+            $matrix_value = explode('***', $new_filename);
+            $matrix_value = array_slice($matrix_value, 0, count($matrix_value) - 1);
+            $mat_rows = $matrix_value[0];
+            $mat_columns = $matrix_value[$mat_rows + 1];
+            $matrix = "<table>";
+            $matrix .= '<tr><td></td>';
+            for ($k = 1; $k <= $mat_columns; $k++)
+							$matrix .= '<td style="background-color:#BBBBBB; padding:5px; border:1px; ">'.$matrix_value[$mat_rows+1+$k].'</td>';
+            $matrix .= '</tr>';
+            $aaa = Array();
+            $var_checkbox = 1;
+            $selected_value = "";
+            $selected_value_yes = "";
+            $selected_value_no = "";
+            for ($k = 1; $k <= $mat_rows; $k++) {
+              $matrix .='<tr><td style="background-color:#BBBBBB; padding:5px; border:1px;">'.$matrix_value[$k].'</td>';
+              if ($matrix_value[$mat_rows + $mat_columns + 2] == "radio") {
+                if ($matrix_value[$mat_rows + $mat_columns + 2 + $k] == 0) {
+                  $checked = "";
+                  $aaa[1] = "";
+                }
+                else
+                  $aaa = explode("_", $matrix_value[$mat_rows + $mat_columns + 2 + $k]);
+                for ($l = 1; $l <= $mat_columns; $l++) {
+                  if ($aaa[1] == $l) {
+                    $checked = 'checked';
+                  }
+                  else
+                    $checked = "";
+                  $index = "'" . $k . '_' . $l . "'";
+									$matrix .='<td style="text-align:center;"><input name="'.$label_id.'_input_elementform_id_temp'.$k.'"  id="'.$label_id.'_input_elementform_id_temp'.$k.'_'.$l.'" type="'.$matrix_value[$mat_rows+$mat_columns+2].'" '.$checked.' onClick="change_radio_values('.$index.','.$label_id.','.$mat_rows.','.$mat_columns.')"/></td>';
+								}
+              }
+              else {
+                if ($matrix_value[$mat_rows+$mat_columns+2] == "checkbox") {
+                  for ($l = 1; $l <= $mat_columns; $l++) {
+                    if ($matrix_value[$mat_rows+$mat_columns+2+$var_checkbox]==1)
+                      $checked = 'checked';
+                    else
+                      $checked = '';
+										$index = "'".$k.'_'.$l."'";
+										$matrix .='<td style="text-align:center;"><input name="'.$label_id.'_input_elementform_id_temp'.$k.'_'.$l.'"  id="'.$label_id.'_input_elementform_id_temp'.$k.'_'.$l.'" type="'.$matrix_value[$mat_rows+$mat_columns+2].'" '.$checked.' onClick="change_checkbox_values('.$index.','.$label_id.','.$mat_rows.','.$mat_columns.')"/></td>';
+      							$var_checkbox++;
+                  }
+                }
+                else {
+                  if ($matrix_value[$mat_rows+$mat_columns+2]=="text") {
+                    for ($l = 1; $l <= $mat_columns; $l++) {
+                      $text_value = $matrix_value[$mat_rows+$mat_columns+2+$var_checkbox];
+											$index = "'".$k.'_'.$l."'";									
+											$matrix .='<td style="text-align:center;"><input name="'.$label_id.'_input_elementform_id_temp'.$k.'_'.$l.'"  id="'.$label_id.'_input_elementform_id_temp'.$k.'_'.$l.'" type="'.$matrix_value[$mat_rows+$mat_columns+2].'" 
+											value="'.$text_value.'" onKeyUp="change_text_values('.$index.','.$label_id.','.$mat_rows.','.$mat_columns.')"/></td>';
+											$var_checkbox++;
+                    }
+                  }
+                  else {
+                    for ($l = 1; $l <= $mat_columns; $l++) {
+                      $selected_text = $matrix_value[$mat_rows+$mat_columns+2+$var_checkbox];
+                      if ($selected_text=='yes') {
+                        $selected_value_yes ='selected';
+                        $selected_value_no ='';
+                        $selected_value ='';
+                      }
+                      else {
+                        if ($selected_text=='no') {
+                          $selected_value_yes ='';
+													$selected_value_no ='selected';
+													$selected_value ='';
+                        }
+                        else {
+                          $selected_value_yes = '';
+                          $selected_value_no ='';
+                          $selected_value ='selected';
+                        }
+                      }
+                      $index = "'".$k.'_'.$l."'";
+											$matrix .='<td style="text-align:center;"><select name="'.$label_id.'_select_yes_noform_id_temp'.$k.'_'.$l.'"  id="'.$label_id.'_select_yes_noform_id_temp'.$k.'_'.$l.'" onChange="change_option_values('.$index.','.$label_id.','.$mat_rows.','.$mat_columns.')"><option value="" '.$selected_value.'></option><option value="yes" '.$selected_value_yes.' >Yes</option><option value="no" '.$selected_value_no.'>No</option></select></td>';
+											$var_checkbox++;
+										}
+                  }
+                }
+              }
+              $matrix .= '</tr>';
+            }
+            $matrix .= '</table>';
+            echo '<tr>
+						<td class="key">
+							<label for="title">
+								'.$labels_name[$key].'
+							</label>
+						</td>
+						<td>
+              <input type="hidden"  id="'.$label_id.'_matrixform_id_temp" name="'.$label_id.'_matrixform_id_temp" value="'.$new_filename.'">
+	                     '.$matrix.'
+              <input type="hidden" name="submission_'.$label_id.'" id="submission_'.$label_id.'" value="'.$element_value.'" size="80" />
+						</td>
+					</tr>';
+            break;
+          }
+          default: {
+            echo '<tr>
+                    <td class="key">
+                      <label for="title">' . $labels_name[$key] . '</label>
+                    </td>
+                    <td>
+                      <input type="text" name="submission_'.$label_id.'" id="submission_'.$label_id.'" value="'.str_replace("*@@url@@*", '', $element_value).'" size="80" />
+                    </td>
+                  </tr>';
+          }
+          break;
         }
       }
     }
-
     ?>
   </table>
   <input type="hidden" name="option" value="com_formmaker"/>
@@ -861,6 +1090,10 @@ function html_editSubmit($rows, $labels_id, $labels_name, $labels_type) {
   <input type="hidden" name="date" value="<?php echo $rows[0]->date?>"/>
   <input type="hidden" name="ip" value="<?php echo $rows[0]->ip?>"/>
   <input type="hidden" name="task" value="save_submit"/>
+  <input type="hidden" value="<?php echo plugins_url("", __FILE__); ?>" id="form_plugins_url" />
+  <script>
+    plugin_url = document.getElementById('form_plugins_url').value;
+  </script>
 </form>
 <?php
 }

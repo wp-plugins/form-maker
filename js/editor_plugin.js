@@ -1,5 +1,6 @@
 (function() {
     tinymce.create('tinymce.plugins.Form_Maker_mce', {
+ 
         init : function(ed, url){
 			
 			ed.addCommand('mceForm_Maker_mce', function() {

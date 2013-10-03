@@ -12,6 +12,12 @@ function add_theme() {
 function show_theme() {
   global $wpdb;
   $order = "";
+  $where = '';
+  $sort["sortid_by"] = '';
+  $order = '';
+  $sort["custom_style"] = '';
+  $sort["1_or_2"] = '';
+  $search_tag = '';
   $sort["default_style"] = "manage-column column-autor sortable desc";
   if (isset($_POST['page_number'])) {
     if ($_POST['asc_or_desc']) {
@@ -28,14 +34,13 @@ function show_theme() {
       }
     }
     if ($_POST['page_number']) {
-      $limit = ((int)$_POST['page_number'] - 1) * 20;
+      $limit = ((int) $_POST['page_number'] - 1) * 20;
     }
     else {
       $limit = 0;
     }
   }
   else {
-    $sort["sortid_by"] = "";
     $limit = 0;
   }
   if (isset($_POST['search_events_by_title'])) {
@@ -46,16 +51,13 @@ function show_theme() {
   }
   if ($search_tag) {
     $where = ' WHERE title LIKE "%' . $search_tag . '%"';
+    $where .= " AND `id` NOT IN (" . get_option('contact_form_themes', 0) . ")";
   }
   else {
-    $where = "";
+    $where = " WHERE `id` NOT IN (" . get_option('contact_form_themes', 0) . ")";
   }
   if ($order == "")
     $order = "ORDER BY `title` ASC";
-  if (!$where)
-    $where = " WHERE `id` NOT IN (" . get_option('contact_form_themes', 0) . ")";
-  else
-    $where .= " AND `id` NOT IN (" . get_option('contact_form_themes', 0) . ")";
   // get the total number of records
   $query = "SELECT COUNT(*) FROM " . $wpdb->prefix . "formmaker_themes" . $where;
   $total = $wpdb->get_var($query);

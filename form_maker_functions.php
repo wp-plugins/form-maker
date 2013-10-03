@@ -59,53 +59,55 @@ function update_form_maker() {
 
 function save_update_form_maker() {
   global $wpdb;
-  $id = (int)$_GET['id'];
+  $id = (int) $_GET['id'];
   $no_slash_form = stripslashes($_POST['form']);
   $no_slash_form_front = stripslashes($_POST['form_front']);
   $savedd = $wpdb->update($wpdb->prefix . "formmaker", array(
-      'title' => $_POST["title"],
-      'mail' => $_POST["mail"],
-      'form' => $no_slash_form,
-      'form_front' => $no_slash_form_front,
-      'theme' => $_POST["theme"],
-      'counter' => $_POST["counter"],
-      'label_order' => $_POST["label_order"],
-      'label_order_current' => $_POST["label_order_current"],
-      'pagination' => $_POST["pagination"],
-      'show_title' => $_POST["show_title"],
-      'show_numbers' => $_POST["show_numbers"],
-      'public_key' => $_POST["public_key"],
-      'private_key' => $_POST["private_key"],
-      'recaptcha_theme' => $_POST["recaptcha_theme"],
-    ), array('id' => $id), array(
-      '%s',
-      '%s',
-      '%s',
-      '%s',
-      '%d',
-      '%d',
-      '%s',
-      '%s',
-      '%s',
-      '%s',
-      '%s',
-      '%s',
-      '%s',
-      '%s'
-    ));
+    'title' => $_POST["title"],
+    'mail' => $_POST["mail"],
+    'form' => $no_slash_form,
+    'form_front' => $no_slash_form_front,
+    'theme' => $_POST["theme"],
+    'counter' => $_POST["counter"],
+    'label_order' => $_POST["label_order"],
+    'label_order_current' => $_POST["label_order_current"],
+    'pagination' => $_POST["pagination"],
+    'show_title' => $_POST["show_title"],
+    'show_numbers' => $_POST["show_numbers"],
+    'public_key' => $_POST["public_key"],
+    'private_key' => $_POST["private_key"],
+    'recaptcha_theme' => $_POST["recaptcha_theme"],
+  ), array('id' => $id), array(
+    '%s',
+    '%s',
+    '%s',
+    '%s',
+    '%d',
+    '%d',
+    '%s',
+    '%s',
+    '%s',
+    '%s',
+    '%s',
+    '%s',
+    '%s',
+    '%s'
+  ));
   html_forchrome_update();
 }
 
 function display_form_lists() {
   global $wpdb;
   $where = '';
+  $sort["custom_style"] = "";
+  $sort["1_or_2"] = "";
   $order = "";
-  $sort["default_style"] = "manage-column column-autor sortable desc";
-  $sort["sortid_by"] = "";
+  $sort["default_style"] = "";
+  $sort["sortid_by"] = '';
   if (isset($_POST['page_number'])) {
     if ($_POST['asc_or_desc']) {
       $sort["sortid_by"] = $wpdb->escape($_POST['order_by']);
-      if ((int)$_POST['asc_or_desc'] == 1) {
+      if ($_POST['asc_or_desc'] == 1) {
         $sort["custom_style"] = "manage-column column-title sorted asc";
         $sort["1_or_2"] = "2";
         $order = "ORDER BY " . $sort["sortid_by"] . " ASC";
@@ -117,7 +119,7 @@ function display_form_lists() {
       }
     }
     if ($_POST['page_number']) {
-      $limit = ((int)$_POST['page_number'] - 1) * 20;
+      $limit = ((int) $_POST['page_number'] - 1) * 20;
     }
     else {
       $limit = 0;
@@ -134,14 +136,12 @@ function display_form_lists() {
   }
   if ($search_tag) {
     $where = ' WHERE title LIKE "%' . $search_tag . '%"';
-  }
-  if ($where) {
     $where .= " AND `id` NOT IN(" . get_option('contact_form_forms', 0) . ")";
   }
   else {
     $where = " WHERE `id` NOT IN(" . get_option('contact_form_forms', 0) . ")";
   }
-  // get the total number of records
+  // Get the total number of records.
   $query = "SELECT COUNT(*) FROM " . $wpdb->prefix . "formmaker" . $where;
   $total = $wpdb->get_var($query);
   $pageNav['total'] = $total;
@@ -183,7 +183,7 @@ function display_form_lists() {
   html_display_form_lists($rows, $pageNav, $sort, $old_version, $can_update_form);
 }
 
-//////////////////////////////////       ADD FORM
+// Add a form.
 function add_form() {
   global $wpdb;
   $query = "SELECT * FROM " . $wpdb->prefix . "formmaker_themes WHERE `id` NOT IN(" . get_option('contact_form_themes', 0) . ") ORDER BY title";
@@ -191,10 +191,10 @@ function add_form() {
   html_add_form($themes);
 }
 
-////////////////////////////////////// Edit Form
+// Edit the form.
 function edit_form_maker($id) {
   global $wpdb;
-  // load the row from the db table
+  // Load the row from the DB table.
   if (get_option('contact_form_forms', FALSE)) {
     $row = $wpdb->get_row("SELECT * FROM " . $wpdb->prefix . "formmaker WHERE id='" . $id . "' AND `id` NOT IN(" . get_option('contact_form_forms') . ")");
   }
@@ -222,7 +222,7 @@ function edit_form_maker($id) {
   html_edit_form_maker($row, $labels, $themes);
 }
 
-function  save_form() {
+function save_form() {
   $count_words_in_form = count(explode("_element_section", $_POST["form"])) - count(explode("and_element_section", $_POST["form"])) + count(explode("wdform_table1", $_POST["form"]));
   if ($count_words_in_form > 9) {
     ?>
@@ -232,7 +232,7 @@ function  save_form() {
     return FALSE;
   }
   global $wpdb;
-  if (esc_html($_POST["title"]) != '') {
+  if ($_POST["title"] != '') {
     if (isset($_POST["label_order"]) && isset($_POST["title"]) && isset($_POST["form"])) {
       $no_slash_form = stripslashes($_POST['form']);
       $no_slash_form_front = stripslashes($_POST['form_front']);
@@ -281,7 +281,7 @@ function before_reset()
           'checkout_mode' => 'testmode',
           'paypal_mode' => 0,
           'from_mail' => '',
-          'from_name' => ''
+          'from_name' => '',
         ), array(
           '%d',
           '%s',
@@ -319,34 +319,32 @@ function before_reset()
         ));
       if (!$save_or_no) {
         ?>
-      <div class="updated"><p><strong><?php _e('Error. Please install plugin again'); ?></strong></p></div>
-      <?php
+        <div class="updated"><p><strong><?php _e('Error. Please install plugin again'); ?></strong></p></div>
+        <?php
         return FALSE;
       }
       $id = $wpdb->get_var("SELECT MAX(id) FROM " . $wpdb->prefix . "formmaker");
       $save_or_no = $wpdb->insert($wpdb->prefix . 'formmaker_views', array(
-          'form_id' => $id
+        'form_id' => $id
         ), array(
           '%d'
         ));
       ?>
-
-    <div class="updated"><p><strong><?php _e('Item Saved'); ?></strong></p></div>
-    <?php
-
+      <div class="updated"><p><strong><?php _e('Item Saved'); ?></strong></p></div>
+      <?php
       return TRUE;
     }
     else {
       ?>
-    <h1>Error</h1>
-    <?php
+      <h1>Error</h1>
+      <?php
       exit;
     }
   }
   else {
     ?>
-  <div class="updated"><p><strong><?php _e('could not save form '); ?></strong></p></div>
-  <?php
+    <div class="updated"><p><strong><?php _e('could not save form '); ?></strong></p></div>
+    <?php
   }
 }
 
@@ -359,39 +357,39 @@ function save_as_copy() {
     $row_for_sav_as_copy = $wpdb->get_row("SELECT * FROM " . $wpdb->prefix . "formmaker WHERE id=" . $form_id);
     $javascript = $row_for_sav_as_copy->javascript;
     $save_or_no = $wpdb->insert($wpdb->prefix . 'formmaker', array(
-        'id' => NULL,
-        'title' => $_POST["title"],
-        'mail' => $row_for_sav_as_copy->mail,
-        'form' => $no_slash_form,
-        'form_front' => $no_slash_form_front,
-        'theme' => $row_for_sav_as_copy->theme,
-        'counter' => $_POST["counter"],
-        'label_order' => $_POST["label_order"],
-        'pagination' => $_POST["pagination"],
-        'show_title' => $_POST["show_title"],
-        'show_numbers' => $_POST["show_numbers"],
-        'public_key' => $_POST["public_key"],
-        'private_key' => $_POST["private_key"],
-        'recaptcha_theme' => $_POST["recaptcha_theme"],
-        'javascript' => $javascript,
-        'script1' => $row_for_sav_as_copy->script1,
-        'script2' => $row_for_sav_as_copy->script2,
-        'script_user1' => $row_for_sav_as_copy->script_user1,
-        'script_user2' => $row_for_sav_as_copy->script_user2,
-        'submit_text' => $row_for_sav_as_copy->submit_text,
-        'url' => $row_for_sav_as_copy->url,
-        'article_id' => $row_for_sav_as_copy->article_id,
-        'submit_text_type' => $row_for_sav_as_copy->submit_text_type,
-        'script_mail' => $row_for_sav_as_copy->script_mail,
-        'script_mail_user' => $row_for_sav_as_copy->script_mail_user,
-        'paypal_mode' => $row_for_sav_as_copy->paypal_mode,
-        'checkout_mode' => $row_for_sav_as_copy->checkout_mode,
-        'paypal_email' => $row_for_sav_as_copy->paypal_email,
-        'payment_currency' => $row_for_sav_as_copy->payment_currency,
-        'tax' => $row_for_sav_as_copy->tax,
-        'label_order_current' => $row_for_sav_as_copy->label_order_current,
-        'from_mail' => $row_for_sav_as_copy->from_mail,
-        'from_name' => $row_for_sav_as_copy->from_name
+      'id' => NULL,
+      'title' => $_POST["title"],
+      'mail' => $row_for_sav_as_copy->mail,
+      'form' => $no_slash_form,
+      'form_front' => $no_slash_form_front,
+      'theme' => $row_for_sav_as_copy->theme,
+      'counter' => $_POST["counter"],
+      'label_order' => $_POST["label_order"],
+      'pagination' => $_POST["pagination"],
+      'show_title' => $_POST["show_title"],
+      'show_numbers' => $_POST["show_numbers"],
+      'public_key' => $_POST["public_key"],
+      'private_key' => $_POST["private_key"],
+      'recaptcha_theme' => $_POST["recaptcha_theme"],
+      'javascript' => $javascript,
+      'script1' => $row_for_sav_as_copy->script1,
+      'script2' => $row_for_sav_as_copy->script2,
+      'script_user1' => $row_for_sav_as_copy->script_user1,
+      'script_user2' => $row_for_sav_as_copy->script_user2,
+      'submit_text' => $row_for_sav_as_copy->submit_text,
+      'url' => $row_for_sav_as_copy->url,
+      'article_id' => $row_for_sav_as_copy->article_id,
+      'submit_text_type' => $row_for_sav_as_copy->submit_text_type,
+      'script_mail' => $row_for_sav_as_copy->script_mail,
+      'script_mail_user' => $row_for_sav_as_copy->script_mail_user,
+      'paypal_mode' => $row_for_sav_as_copy->paypal_mode,
+      'checkout_mode' => $row_for_sav_as_copy->checkout_mode,
+      'paypal_email' => $row_for_sav_as_copy->paypal_email,
+      'payment_currency' => $row_for_sav_as_copy->payment_currency,
+      'tax' => $row_for_sav_as_copy->tax,
+      'label_order_current' => $row_for_sav_as_copy->label_order_current,
+      'from_mail' => $row_for_sav_as_copy->from_mail,
+      'from_name' => $row_for_sav_as_copy->from_name
       ), array(
         '%d',
         '%s',
@@ -469,17 +467,18 @@ function apply_form($id) {
   $no_slash_form_front = stripslashes($_POST['form_front']);
   if ($_POST["title"] != '') {
     $savedd = $wpdb->update($wpdb->prefix . "formmaker", array(
-        'title' => $_POST["title"],
-        'form' => $no_slash_form,
-        'form_front' => $no_slash_form_front,
-        'counter' => $_POST["counter"],
-        'label_order' => $_POST["label_order"],
-        'pagination' => $_POST["pagination"],
-        'show_title' => $_POST["show_title"],
-        'show_numbers' => $_POST["show_numbers"],
-        'public_key' => $_POST["public_key"],
-        'private_key' => $_POST["private_key"],
-        'recaptcha_theme' => $_POST["recaptcha_theme"],
+      'title' => $_POST["title"],
+      'form' => $no_slash_form,
+      'form_front' => $no_slash_form_front,
+      'counter' => $_POST["counter"],
+      'label_order' => $_POST["label_order"],
+      'label_order_current' => $_POST["label_order_current"],
+      'pagination' => $_POST["pagination"],
+      'show_title' => $_POST["show_title"],
+      'show_numbers' => $_POST["show_numbers"],
+      'public_key' => $_POST["public_key"],
+      'private_key' => $_POST["private_key"],
+      'recaptcha_theme' => $_POST["recaptcha_theme"],
       ), array('id' => $id), array(
         '%s',
         '%s',
@@ -491,16 +490,17 @@ function apply_form($id) {
         '%s',
         '%s',
         '%s',
+        '%s',
         '%s'
       ), array('%d'));
     ?>
-  <div class="updated"><p><strong><?php _e('Item Saved'); ?></strong></p></div>
-  <?php
+    <div class="updated"><p><strong><?php _e('Item Saved'); ?></strong></p></div>
+    <?php
   }
   else {
     ?>
-  <div class="updated"><p><strong><?php _e('could not save form'); ?></strong></p></div>
-  <?php
+    <div class="updated"><p><strong><?php _e('could not save form'); ?></strong></p></div>
+    <?php
   }
 }
 
@@ -513,16 +513,16 @@ function remove_form($id) {
   $sql_remov_form = "DELETE FROM " . $wpdb->prefix . "formmaker WHERE id='" . $id . "'";
   if (!$wpdb->query($sql_remov_form)) {
     ?>
-  <div id="message" class="error"><p>Form Not Deleted</p></div>
-  <?php
+    <div id="message" class="error"><p>Form Not Deleted</p></div>
+    <?php
     return FALSE;
   }
   if ($wpdb->get_row("SELECT * FROM " . $wpdb->prefix . "formmaker_views WHERE form_id='" . $id . "'")) {
     $sql_remov_form = "DELETE FROM " . $wpdb->prefix . "formmaker_views WHERE form_id='" . $id . "'";
     if (!$wpdb->query($sql_remov_form)) {
       ?>
-    <div id="message" class="error"><p>Form views Not Deleted</p></div>
-    <?php
+      <div id="message" class="error"><p>Form views Not Deleted</p></div>
+      <?php
       return FALSE;
     }
   }
@@ -530,43 +530,37 @@ function remove_form($id) {
     $sql_remov_form = "DELETE FROM " . $wpdb->prefix . "formmaker_submits WHERE form_id='" . $id . "'";
     if (!$wpdb->query($sql_remov_form)) {
       ?>
-    <div id="message" class="error"><p>Form submits Not Deleted</p></div>
-    <?php
+      <div id="message" class="error"><p>Form submitions Not Deleted</p></div>
+      <?php
       return FALSE;
     }
   }
   ?>
-<div class="updated"><p><strong><?php _e('Item Deleted.'); ?></strong></p></div>
-<?php
-  // Execute query
+  <div class="updated"><p><strong><?php _e('Form Deleted.'); ?></strong></p></div>
+  <?php
 }
 
 function forchrome($id) {
   ?>
-<script type="text/javascript">
-
-
-  window.onload = val;
-
-  function val() {
-    document.getElementById('adminForm').action = "admin.php?page=Form_maker&task=gotoedit&id=<?php echo  $id;?>";
-    document.getElementById('adminForm').submit();
-  }
-
-</script>
-<form action="index.php" method="post" name="adminForm" id="adminForm">
-</form>
-<?php
+  <script type="text/javascript">
+    window.onload = val;
+    function val() {
+      document.getElementById('adminForm').action = "admin.php?page=Form_maker&task=gotoedit&id=<?php echo $id;?>";
+      document.getElementById('adminForm').submit();
+    }
+  </script>
+  <form method="post" name="adminForm" id="adminForm"></form>
+  <?php
 }
 
 function gotoedit() {
   ?>
-<div class="updated"><p><strong><?php _e('Item Saved'); ?></strong></p></div>
-<?php
+  <div class="updated"><p><strong><?php _e('Item Saved'); ?></strong></p></div>
+  <?php
 }
 
 // Form options.
-function form_options($id) {
+function wd_form_options($id) {
   global $wpdb;
   $row = $wpdb->get_row("SELECT * FROM " . $wpdb->prefix . "formmaker WHERE id='" . $id . "'");
   $query = "SELECT * FROM " . $wpdb->prefix . "formmaker_themes ORDER BY title";
@@ -587,7 +581,7 @@ function Apply_form_options($id) {
     'mail' => $_POST["mail"],
     'theme' => $_POST["theme"],
     'javascript' => stripslashes($_POST["javascript"]),
-    'submit_text' => $_POST["content"],
+    'submit_text' => stripslashes($_POST["content"]),
     'url' => $_POST["url"],
     'submit_text_type' => $_POST["submit_text_type"],
     'script_mail' => stripslashes($_POST["script_mail"]),
@@ -599,7 +593,7 @@ function Apply_form_options($id) {
     'payment_currency' => 'USD',
     'tax' => 0,
     'from_mail' => $_POST["from_mail"],
-    'from_name' => $_POST["from_name"]
+    'from_name' => $_POST["from_name"],
   ), array('id' => $id), array(
     '%s',
     '%d',

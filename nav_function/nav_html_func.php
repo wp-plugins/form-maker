@@ -50,7 +50,10 @@ function print_html_nav($count_items,$page_number,$serch_fields=""){
 	<div class="tablenav-pages">
     <span class="displaying-num"><?php echo $count_items; ?> items</span>
 	<?php if($count_items>20) {
-
+				$first_page="";
+				$prev_page="";
+				$next_page="";
+				$last_page=""; 
 			if($page_number==1)
 			{
 				$first_page="first-page disabled";
@@ -83,7 +86,7 @@ function print_html_nav($count_items,$page_number,$serch_fields=""){
 	</span>
 	</div>
   </div >
-    <input type="hidden" id="page_number" name="page_number" value="<?php if (isset($_POST['page_number'])){  echo (int) $_POST['page_number'];} else { echo '1';} ?>"  />
+    <input type="hidden" id="page_number" name="page_number" value="<?php if (isset($_POST['page_number'])){  echo esc_html($_POST['page_number']);} else { echo '1';} ?>"  />
     
     <input type="hidden" id="serch_or_not" name="serch_or_not" value="<?php if(isset($_POST["serch_or_not"])){ echo esc_html($_POST["serch_or_not"]);}  ?>"    />
 <?php

@@ -1,21 +1,16 @@
 <?php
-
 /**
  * @package Form Maker
  * @author Web-Dorado
  * @copyright (C) 2011 Web-Dorado. All rights reserved.
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  **/
+
 function showform($id) {
   global $wpdb;
   $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM " . $wpdb->prefix . "formmaker WHERE id=%d", $id));
-  if (!$row)
+  if (!$row) {
     return FALSE;
-  if (isset($_POST['Itemid'])) {
-    $Itemid = esc_html($_POST["Itemid" . $id]);
-  }
-  else {
-    $Itemid = "";
   }
   $form_theme = $wpdb->get_var($wpdb->prepare("SELECT css FROM " . $wpdb->prefix . "formmaker_themes WHERE id=%d", $row->theme));
   if (!$form_theme) {
@@ -51,7 +46,7 @@ function savedata($form, $id) {
   if (!$form->form_front)
     $id = '';
   if (isset($_POST["counter" . $id])) {
-    $counter = (int)$_POST["counter" . $id];
+    $counter = esc_html($_POST["counter" . $id]);
     if (isset($_POST["captcha_input"])) {
       $captcha_input = esc_html($_POST["captcha_input"]);
       $session_wd_captcha_code = isset($_SESSION[$id . '_wd_captcha_code']) ? $_SESSION[$id . '_wd_captcha_code'] : '-';
@@ -59,18 +54,20 @@ function savedata($form, $id) {
         $correct = TRUE;
       }
       else {
-        echo "<script> alert('" . addslashes(__('Error, incorrect Security code.', 'form_maker')) . "');</script>";
+        echo "<script> alert('" . addslashes(__('Error, incorrect Security code.', 'form_maker')) . "');
+						</script>";
       }
     }
     elseif (isset($_POST["recaptcha_response_field"])) {
       $recaptcha_response_field = $_POST["recaptcha_response_field"];
       $privatekey = $form->private_key;
-      $resp = recaptcha_check_answer($privatekey, $_SERVER["REMOTE_ADDR"], esc_html($_POST["recaptcha_challenge_field"]), $recaptcha_response_field);
+      $resp = recaptcha_check_answer($privatekey, $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $recaptcha_response_field);
       if ($resp->is_valid) {
         $correct = TRUE;
       }
       else {
-        echo "<script> alert('" . addslashes(__('Error, incorrect Security code.', 'form_maker')) . "');</script>";
+        echo "<script> alert('" . addslashes(__('Error, incorrect Security code.', 'form_maker')) . "');
+							</script>";
       }
     }
     else {
@@ -122,6 +119,9 @@ function save_db($counter, $id) {
       $deleted = $_POST[$i . "_type" . $id];
       if (!isset($_POST[$i . "_type" . $id]))
         break;
+    }
+    if ($type == 'type_paypal_total') {
+      continue;
     }
     switch ($type) {
       case 'type_text':
@@ -213,6 +213,7 @@ function save_db($counter, $id) {
           while (file_exists($destination . "/" . $fileName)) {
             $to = strlen($file['name']) - strlen($uploadedFileExtension) - 1;
             $fileName = substr($fileName, 0, $to) . '(' . $p . ').' . $uploadedFileExtension;
+            $file['name'] = $fileName;
             $p++;
           }
           if (is_dir(ABSPATH . $destination)) {
@@ -222,7 +223,7 @@ function save_db($counter, $id) {
             }
           }
           else {
-            echo "<script> alert('" . addslashes(__('Error, file cannot be moved.', 'form_maker')) . "');</script>";
+            echo "<script> alert('" . addslashes(__('Error, file destination does not exist.', 'form_maker')) . "');</script>";
             return array($max + 1);
           }
           $value = site_url() . '/' . $destination . '/' . $fileName . '*@@url@@*';
@@ -305,20 +306,97 @@ function save_db($counter, $id) {
         }
         break;
         }
+        case "type_star_rating": {
+					if (isset($_POST[$i."_selected_star_amount".$id]) &&  $_POST[$i."_selected_star_amount".$id] != "") {
+            $selected_star_amount = $_POST[$i."_selected_star_amount".$id];
+          }
+					else {
+            $selected_star_amount = 0;
+          }
+					$value = (isset($_POST[$i."_star_amount".$id]) ? $_POST[$i."_star_amount".$id] : '').'***'.$selected_star_amount.'***'.(isset($_POST[$i."_star_color".$id]) ? $_POST[$i."_star_color".$id] : '').'***star_rating***';									
+					break;
+				}
+        case "type_scale_rating": {
+					$value = (isset($_POST[$i."_scale_radio".$id]) ? $_POST[$i."_scale_radio".$id] : 0).'/'.(isset($_POST[$i."_scale_amount".$id]) ? $_POST[$i."_scale_amount".$id] : '');									
+					break;
+				}
+        case "type_spinner": {
+          $value = (isset($_POST[$i."_element".$id]) ? $_POST[$i."_element".$id] : '');
+					break;
+				}
+				case "type_slider":	{
+					$value = (isset($_POST[$i."_slider_value".$id]) ? $_POST[$i."_slider_value".$id] : '');
+					break;
+				}
+				case "type_range": {
+					$value = (isset($_POST[$i."_element".$id . '0']) ? $_POST[$i."_element".$id . '0'] : '') .'-'.(isset($_POST[$i."_element".$id.'1']) ? $_POST[$i."_element".$id.'1'] : '');
+					break;
+				}
+				case "type_grading": {
+					$value = "";
+          if (isset($_POST[$i."_hidden_item".$id])) {
+            $items = explode(":", $_POST[$i."_hidden_item".$id]);
+            for ($k = 0; $k < sizeof($items) - 1; $k++) {
+              if (isset($_POST[$i."_element".$id.$k])) {
+                $value .= $_POST[$i."_element".$id.$k].':';
+              }
+            }
+            $value .= $_POST[$i."_hidden_item".$id].'***grading***';
+          }
+					break;
+				}
+				case "type_matrix": {
+          $rows_of_matrix = explode("***",$_POST[$i."_hidden_row".$id]);
+					$rows_count= sizeof($rows_of_matrix)-1;
+					$column_of_matrix=explode("***",$_POST[$i."_hidden_column".$id]);
+					$columns_count= sizeof($column_of_matrix)-1;
+					$row_ids=explode(",",substr($_POST[$i."_row_ids".$id], 0, -1));
+					$column_ids=explode(",",substr($_POST[$i."_column_ids".$id], 0, -1));
+					if ($_POST[$i."_input_type".$id]=="radio") {
+						$input_value="";
+						foreach($row_ids as $row_id) {
+              $input_value.=(isset($_POST[$i."_input_element".$id.$row_id]) ? $_POST[$i."_input_element".$id.$row_id] : 0)."***";
+            }
+					}
+					if ($_POST[$i."_input_type".$id]=="checkbox") {
+						$input_value="";
+						foreach($row_ids as $row_id)
+              foreach($column_ids as $column_id)
+                $input_value .= (isset($_POST[$i."_input_element".$id.$row_id.'_'.$column_id]) ? $_POST[$i."_input_element".$id.$row_id.'_'.$column_id] : 0)."***";
+          }
+					if ($_POST[$i."_input_type".$id]=="text") {
+						$input_value="";
+						foreach($row_ids as $row_id)
+              foreach($column_ids as $column_id)
+                $input_value.=$_POST[$i."_input_element".$id.$row_id.'_'.$column_id]."***";
+					}
+					if ($_POST[$i."_input_type".$id]=="select") {
+						$input_value="";
+						foreach($row_ids as $row_id)
+						foreach($column_ids as $column_id)
+						$input_value.=$_POST[$i."_select_yes_no".$id.$row_id.'_'.$column_id]."***";	
+					}
+					$value=$rows_count.'***'.$_POST[$i."_hidden_row".$id].$columns_count.'***'.$_POST[$i."_hidden_column".$id].$_POST[$i."_input_type".$id].'***'.$input_value.'***matrix***';	
+					break;
+				}
     }
-    if ($type == "type_address")
-      if ($value == '*#*#*#')
-        break;
+    if ($type == "type_address") {
+      if ($value == '*#*#*#') {
+        //break;?????????????????????????????????????????????????????
+        continue; 
+      }
+    }
     $unique_element = $_POST[$i . "_unique" . $id];
     if ($unique_element == 'yes') {
       $unique = $wpdb->get_col($wpdb->prepare("SELECT id FROM " . $wpdb->prefix . "formmaker_submits WHERE form_id= %d  and element_label= %s and element_value= %s", $id_old, $i, addslashes($value)));
       if ($unique) {
         echo "<script> alert('" . addslashes(__('This field %s requires a unique entry and this value was already submitted.', 'form_maker')) . "'.replace('%s','" . $label_label[$key] . "'));</script>";
-        return ($max + 1);
+        return array($max + 1);
       }
     }
     $ip = $_SERVER['REMOTE_ADDR'];
     $r = $wpdb->prefix . "formmaker_submits";
+    
     $save_or_no = $wpdb->insert($r, array(
         'form_id' => $id_old,
         'element_label' => $i,
@@ -342,10 +420,12 @@ function save_db($counter, $id) {
   $str = '';
   if ($chgnac) {
     global $wpdb;
-    if (count($all_files) == 0)
+    if (count($all_files) == 0) {
       @session_start();
-    if ($form->submit_text_type != 4)
+    }
+    if ($form->submit_text_type != 4) {
       $_SESSION['massage_after_submit'] = addslashes(addslashes(__('Nothing was submitted.', 'form_maker')));
+    }
     $_SESSION['error_or_no'] = 1;
     $_SESSION['form_submit_type'] = $form->submit_text_type . "," . $form->id;
     wp_redirect($_SERVER["REQUEST_URI"]);
@@ -367,7 +447,7 @@ function gen_mail($counter, $all_files, $id, $str) {
   $label_type = array();
   $cc = array();
   $row_mail_one_time = 1;
-  $label_all = explode('#****#', $row->label_order);
+  $label_all = explode('#****#', $row->label_order_current);
   $label_all = array_slice($label_all, 0, count($label_all) - 1);
   foreach ($label_all as $key => $label_each) {
     $label_id_each = explode('#**id**#', $label_each);
@@ -457,23 +537,26 @@ function gen_mail($counter, $all_files, $id, $str) {
             }
           case "type_address":
             {
-            $street1 = $_POST[$i . "_street1" . $id];
-            if (isset($_POST[$i . "_street1" . $id])) {
+            if (isset($_POST[$i . "_street1" . $id]))
               $list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $_POST[$i . "_street1" . $id] . '</td></tr>';
-              $i++;
+            $i++;
+            if (isset($_POST[$i."_street2".$id]))
               $list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $_POST[$i . "_street2" . $id] . '</td></tr>';
-              $i++;
+            $i++;
+            if (isset($_POST[$i."_city".$id]))
               $list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $_POST[$i . "_city" . $id] . '</td></tr>';
-              $i++;
+            $i++;
+            if (isset($_POST[$i."_state".$id]))
               $list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $_POST[$i . "_state" . $id] . '</td></tr>';
-              $i++;
+            $i++;
+            if (isset($_POST[$i."_postal".$id]))
               $list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $_POST[$i . "_postal" . $id] . '</td></tr>';
-              $i++;
+            $i++;
+            if (isset($_POST[$i."_country".$id]))
               $list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $_POST[$i . "_country" . $id] . '</td></tr>';
-              $i++;
-            }
+            $i++;
             break;
-            }
+          }
           case "type_date_fields":
             {
             $day = $_POST[$i . "_day" . $id];
@@ -524,7 +607,133 @@ function gen_mail($counter, $all_files, $id, $str) {
               $list = $list . '</td></tr>';
             }
             break;
+          }
+          case "type_star_rating": {
+            $selected = (isset($_POST[$i."_selected_star_amount".$id]) ? $_POST[$i."_selected_star_amount".$id] : 0);
+            if (isset($_POST[$i."_star_amount".$id])) {
+              $list = $list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="font-family:inherit; margin:0px; padding:0px">'.$selected.'/'.$_POST[$i."_star_amount".$id].'</pre></td></tr>';
             }
+            break;
+          }
+          case "type_scale_rating": {
+						$selected = (isset($_POST[$i."_scale_radio".$id]) ? $_POST[$i."_scale_radio".$id] : 0);
+            if (isset($_POST[$i."_scale_amount".$id])) {
+              $list = $list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="font-family:inherit; margin:0px; padding:0px">'.$selected.'/'.$_POST[$i."_scale_radio".$id].'</pre></td></tr>';
+						}
+            break;
+          }
+          case "type_spinner": {
+            if (isset($_POST[$i."_element".$id])) {
+              $list=$list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="font-family:inherit; margin:0px; padding:0px">'.$_POST[$i."_element".$id].'</pre></td></tr>';					
+            }
+            break;
+          }
+          case "type_slider": {
+            if (isset($_POST[$i."_slider_value".$id])) {
+              $list=$list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="font-family:inherit; margin:0px; padding:0px">'.$_POST[$i."_slider_value".$id].'</pre></td></tr>';					
+						}
+            break;
+          }
+          case "type_range": {
+            if(isset($_POST[$i."_element".$id.'0']) || isset($_POST[$i."_element".$id.'1'])) {
+              $list = $list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="font-family:inherit; margin:0px; padding:0px">From:'.$_POST[$i."_element".$id.'0'].'<span style="margin-left:6px">To</span>:'.$_POST[$i."_element".$id.'1'].'</pre></td></tr>';
+            }
+            break;
+          }
+          case "type_grading": {
+            if (isset($_POST[$i."_hidden_item".$id])) {
+							$element = $_POST[$i."_hidden_item".$id];
+							$grading = explode(":", $element);
+							$items_count = sizeof($grading) - 1;
+							$total = "";
+							for ($k = 0; $k < $items_count; $k++) {
+                if (isset($_POST[$i."_element".$id.$k])) {
+                  $element .= $grading[$k].":".$_POST[$i."_element".$id.$k]." ";
+                  $total += $_POST[$i."_element".$id.$k];
+                }
+							}
+							$element .= "Total:".$total;
+              $list = $list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="font-family:inherit; margin:0px; padding:0px">'.$element.'</pre></td></tr>';
+						}
+            break;
+          }
+          case "type_matrix": {
+            $input_type=$_POST[$i."_input_type".$id]; 
+                        
+            $mat_rows = $_POST[$i."_hidden_row".$id];
+            $mat_rows = explode('***', $mat_rows);
+            $mat_rows = array_slice($mat_rows,0, count($mat_rows)-1);
+            $mat_columns = $_POST[$i."_hidden_column".$id];
+            $mat_columns = explode('***', $mat_columns);
+            $mat_columns = array_slice($mat_columns,0, count($mat_columns)-1);
+            $row_ids=explode(",",substr($_POST[$i."_row_ids".$id], 0, -1));
+            $column_ids=explode(",",substr($_POST[$i."_column_ids".$id], 0, -1));
+            $matrix = "<table>";
+            $matrix .= '<tr><td></td>';
+            for ($k = 0; $k < count($mat_columns); $k++) {
+              $matrix .='<td style="background-color:#BBBBBB; padding:5px; ">'.$mat_columns[$k].'</td>';
+            }
+            $matrix .= '</tr>';
+            $aaa = Array();
+            $k = 0;
+            foreach ($row_ids as $row_id) {
+              $matrix .= '<tr><td style="background-color:#BBBBBB; padding:5px;">'.$mat_rows[$k].'</td>';
+              if ($input_type=="radio") {
+                $mat_radio = (isset($_POST[$i."_input_element".$id.$row_id]) ? $_POST[$i."_input_element".$id.$row_id] : 0);											
+                if ($mat_radio == 0) {
+                  $checked = "";
+                  $aaa[1] = "";
+                }
+                else {
+                  $aaa = explode("_", $mat_radio);
+                }
+                foreach ($column_ids as $column_id) {
+                  if ($aaa[1] == $column_id) {
+                    $checked = "checked";
+                  }
+                  else {
+                    $checked = "";
+                  }
+                  $matrix .= '<td style="text-align:center"><input  type="radio" '.$checked.' disabled /></td>';
+                }
+              }
+              else {
+                if ($input_type=="checkbox") {
+                  foreach($column_ids as $column_id) {
+                    $checked = $_POST[$i."_input_element".$id.$row_id.'_'.$column_id];                     
+                    if ($checked == 1) {			
+                      $checked = "checked";
+                    }
+                    else {		
+                      $checked = "";
+                    }
+                    $matrix .= '<td style="text-align:center"><input  type="checkbox" '.$checked.' disabled /></td>';
+                  } 
+                }
+                else {
+                  if ($input_type=="text") {
+                    foreach ($column_ids as $column_id) {
+                      $checked = $_POST[$i."_input_element".$id.$row_id.'_'.$column_id];
+                      $matrix .='<td style="text-align:center"><input  type="text" value="'.$checked.'" disabled /></td>';
+                    }
+                  }
+                  else {
+                    foreach ($column_ids as $column_id) {
+                      $checked = $_POST[$i."_select_yes_no".$id.$row_id.'_'.$column_id];
+                      $matrix .='<td style="text-align:center">'.$checked.'</td>';
+                    }
+                  }
+                }
+              }
+              $matrix .= '</tr>';
+              $k++;
+            }
+            $matrix .= '</table>';
+            if (isset($matrix)) {
+              $list = $list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="font-family:inherit; margin:0px; padding:0px">'.$matrix.'</pre></td></tr>';
+            }
+            break;
+          }
           default:
             break;
         }
@@ -633,22 +842,30 @@ function gen_mail($counter, $all_files, $id, $str) {
                   break;		
                 }
                 case "type_address": {
-                  $street1 = $_POST[$key."_street1".$id];
-                  if (isset($street1)) {
+                  if (isset($_POST[$key."_street1".$id])) {
                     $new_value = $new_value.$_POST[$key."_street1".$id];
-                    $key++;
+                    break;
+                  }
+                  if (isset($_POST[$key."_street2".$id])) {
                     $new_value = $new_value.$_POST[$key."_street2".$id];
-                    $key++;
+                    break;
+                  }
+                  if (isset($_POST[$key."_city".$id])) {
                     $new_value = $new_value.$_POST[$key."_city".$id];
-                    $key++;
+                    break;
+                  }
+                  if (isset($_POST[$key."_state".$id])) {
                     $new_value = $new_value.$_POST[$key."_state".$id];
-                    $key++;
+                    break;
+                  }
+                  if (isset($_POST[$key."_postal".$id])) {
                     $new_value = $new_value.$_POST[$key."_postal".$id];
-                    $key++;
+                    break;
+                  }
+                  if (isset($_POST[$key."_country".$id])) {
                     $new_value = $new_value.$_POST[$key."_country".$id];
-                    $key++;			
-                  }		
-                  break;
+                    break;
+                  }
                 }
                 case "type_date_fields": {
                   $day = $_POST[$key."_day".$id];
@@ -698,6 +915,199 @@ function gen_mail($counter, $all_files, $id, $str) {
                   }
                   break;
                 }
+                case "type_star_rating":
+															{
+																$element=$_POST[$key."_star_amount".$id];
+																$selected=(isset($_POST[$key."_selected_star_amount".$id]) ? $_POST[$key."_selected_star_amount".$id] : 0);
+																
+																
+																if(isset($element))
+																{
+																	$new_value=$new_value.$selected.'/'.$element;					
+																}
+																break;
+															}
+															
+
+															case "type_scale_rating":
+															{
+															$element=$_POST[$key."_scale_amount".$id];
+															$selected=(isset($_POST[$key."_scale_radio".$id]) ? $_POST[$key."_scale_radio".$id] : 0);
+															
+																
+																if(isset($element))
+																{
+																	$new_value=$new_value.$selected.'/'.$element;					
+																}
+																break;
+															}
+															
+															case "type_spinner":
+															{
+
+																if (isset($_POST[$key."_element".$id])) {
+																	$new_value = $new_value . $_POST[$key."_element".$id];					
+																}
+																break;
+															}
+															
+															case "type_slider":
+															{
+
+																$element=$_POST[$key."_slider_value".$id];
+																if(isset($element))
+																{
+																	$new_value=$new_value.$element;					
+																}
+																break;
+															}
+															case "type_range":
+															{
+
+																$element0=$_POST[$key."_element".$id.'0'];
+																$element1=$_POST[$key."_element".$id.'1'];
+																if(isset($element0) || isset($element1))
+																{
+																	$new_value=$new_value.$element0.'-'.$element1;					
+																}
+																break;
+															}
+															
+															case "type_grading":
+															{
+																$element=$_POST[$key."_hidden_item".$id];
+																$grading = explode(":",$element);
+																$items_count = sizeof($grading)-1;
+																
+																$element = "";
+																$total = "";
+																
+																for($k=0;$k<$items_count;$k++)
+
+																{
+																	$element .= $grading[$k].":".$_POST[$key."_element".$id.$k]." ";
+															$total += $_POST[$key."_element".$id.$k];
+														}
+
+														$element .="Total:".$total;
+
+																											
+														if(isset($element))
+														{
+															$new_value=$new_value.$element;					
+														}
+														break;
+													}
+													
+														case "type_matrix":
+													{
+													
+														
+														$input_type=$_POST[$key."_input_type".$id]; 
+																				
+														$mat_rows = $_POST[$key."_hidden_row".$id];
+														$mat_rows = explode('***', $mat_rows);
+														$mat_rows = array_slice($mat_rows,0, count($mat_rows)-1);
+														
+														$mat_columns = $_POST[$key."_hidden_column".$id];
+														$mat_columns = explode('***', $mat_columns);
+														$mat_columns = array_slice($mat_columns,0, count($mat_columns)-1);
+												  
+														$row_ids=explode(",",substr($_POST[$key."_row_ids".$id], 0, -1));
+														$column_ids=explode(",",substr($_POST[$key."_column_ids".$id], 0, -1)); 
+								
+																	
+														$matrix="<table>";
+																	
+															$matrix .='<tr><td></td>';
+														
+														for( $k=0;$k< count($mat_columns) ;$k++)
+															$matrix .='<td style="background-color:#BBBBBB; padding:5px; ">'.$mat_columns[$k].'</td>';
+															$matrix .='</tr>';
+														
+														$aaa=Array();
+														   $k=0;
+														foreach( $row_ids as $row_id){
+														$matrix .='<tr><td style="background-color:#BBBBBB; padding:5px;">'.$mat_rows[$k].'</td>';
+														
+														  if($input_type=="radio"){
+														 
+														$mat_radio = (isset($_POST[$key."_input_element".$id.$row_id]) ? $_POST[$key."_input_element".$id.$row_id] : 0);											
+														  if($mat_radio==0){
+																$checked="";
+																$aaa[1]="";
+																}
+																else{
+																$aaa=explode("_",$mat_radio);
+																}
+																
+																foreach( $column_ids as $column_id){
+																	if($aaa[1]==$column_id)
+																	$checked="checked";
+																	else
+																	$checked="";
+																$matrix .='<td style="text-align:center"><input  type="radio" '.$checked.' disabled /></td>';
+																
+																}
+																
+															} 
+															else{
+															if($input_type=="checkbox")
+															{                
+																foreach( $column_ids as $column_id){
+																 $checked = $_POST[$key."_input_element".$id.$row_id.'_'.$column_id];                              
+																 if($checked==1)							
+																 $checked = "checked";						
+																 else									 
+																 $checked = "";
+
+																$matrix .='<td style="text-align:center"><input  type="checkbox" '.$checked.' disabled /></td>';
+															
+															}
+															
+															}
+															else
+															{
+															if($input_type=="text")
+															{
+																					  
+																foreach( $column_ids as $column_id){
+																 $checked = $_POST[$key."_input_element".$id.$row_id.'_'.$column_id];
+																	
+																$matrix .='<td style="text-align:center"><input  type="text" value="'.$checked.'" disabled /></td>';
+													
+															}
+															
+															}
+															else{
+																foreach( $column_ids as $column_id){
+																 $checked = $_POST[$key."_select_yes_no".$id.$row_id.'_'.$column_id];
+																	 $matrix .='<td style="text-align:center">'.$checked.'</td>';
+																
+												
+															
+																}
+															}
+															
+															}
+															
+															}
+															$matrix .='</tr>';
+															$k++;
+														}
+														 $matrix .='</table>';
+
+									
+									
+									
+																										
+														if(isset($matrix))
+														{
+															$new_value=$new_value.$matrix;					
+														}
+													
+														break;
+													}
                 default: break;
               }
               $new_script = str_replace("%".$label_each."%", $new_value, $new_script);	
@@ -707,14 +1117,17 @@ function gen_mail($counter, $all_files, $id, $str) {
         if (strpos($new_script, "%all%") !== FALSE) {
           $new_script = str_replace("%all%", $list, $new_script);
         }
-        $body = $new_script;        
-        $send = wp_mail($recipient, $subject, stripslashes($body), $headers, $attachment);
+        $body = $new_script;
+        $send = wp_mail(str_replace(' ', '', $recipient), $subject, stripslashes($body), $headers, $attachment);
       }
       if ($row->mail) {
         if ($c) {
-          // $headers_form_mail = 'From: ' . $c . ' <' . $c . '>' . "\r\n";
+          // $headers_form_mail = "From: " . $c . " <" . $c . ">" . "\r\n";
           $headers = "MIME-Version: 1.0\n" . "From: " . $c . " <" . $c . ">" . "\r\n" . "Content-Type: text/html; charset=\"" . get_option('blog_charset') . "\"\n";
         }
+        // else {
+          // $headers_form_mail = "";
+        // }
         if ($row_mail_one_time) {
           $recipient = $row->mail;
           $subject = $row->title;
@@ -789,7 +1202,7 @@ function gen_mail($counter, $all_files, $id, $str) {
                     if (isset($element_first)) {
                       $element_title = $_POST[$key."_element_title".$id];
                       if (isset($element_title)) {
-                        $new_value = $_POST[$key."_element_title".$id].' '.$_POST[$key."_element_first".$id].' '.$_POST[$i."_element_last".$id].' '.$_POST[$i."_element_middle".$id];
+                        $new_value = $_POST[$key."_element_title".$id].' '.$_POST[$key."_element_first".$id].' '.$_POST[$key."_element_last".$id].' '.$_POST[$key."_element_middle".$id];
                       }
                       else {
                         $new_value = $_POST[$key."_element_first".$id].' '.$_POST[$key."_element_last".$id];
@@ -799,21 +1212,30 @@ function gen_mail($counter, $all_files, $id, $str) {
                   }
                   case "type_address": {
                     $street1 = $_POST[$key."_street1".$id];
-                    if (isset($street1)) {
+                    if (isset($_POST[$key."_street1".$id])) {
                       $new_value = $new_value.$_POST[$key."_street1".$id];
-                      $key++;
+                      break;
+                    }
+                    if (isset($_POST[$key."_street2".$id])) {
                       $new_value=$new_value.$_POST[$key."_street2".$id];
-                      $key++;
+                      break;
+                    }
+                    if (isset($_POST[$key."_city".$id])) {
                       $new_value=$new_value.$_POST[$key."_city".$id];
-                      $key++;
+                      break;
+                    }
+                    if (isset($_POST[$key."_state".$id])) {
                       $new_value=$new_value.$_POST[$key."_state".$id];
-                      $key++;
+                      break;
+                    }
+                    if (isset($_POST[$key."_postal".$id])) {
                       $new_value=$new_value.$_POST[$key."_postal".$id];
-                      $key++;
+                      break;
+                    }
+                    if (isset($_POST[$key."_country".$id])) {
                       $new_value=$new_value.$_POST[$key."_country".$id];
-                      $key++;			
-                    }		
-                    break;
+                      break;
+                    }
                   }
                   case "type_date_fields": {
                     $day = $_POST[$key."_day".$id];
@@ -863,6 +1285,170 @@ function gen_mail($counter, $all_files, $id, $str) {
                     }
                     break;
                   }
+                  case "type_star_rating": {
+                    if (isset($_POST[$key."_star_amount".$id])) {
+                      $selected = (isset($_POST[$key."_selected_star_amount".$id]) ? $_POST[$key."_selected_star_amount".$id] : 0);
+                      $new_value = $new_value.$selected.'/'.$_POST[$key."_star_amount".$id];					
+                    }
+                    break;
+                  }
+                  case "type_scale_rating": {
+                    if (isset($_POST[$key."_scale_amount".$id])) {
+                      $selected = (isset($_POST[$key."_scale_radio".$id]) ? $_POST[$key."_scale_radio".$id] : 0);
+                      $new_value=$new_value.$selected.'/'.$_POST[$key."_scale_amount".$id];					
+                    }
+                    break;
+                  }
+                  case "type_spinner": {
+                    if(isset($_POST[$key."_element".$id])) {
+                      $new_value = $new_value.$_POST[$key."_element".$id];					
+                    }
+                    break;
+                  }
+                  case "type_slider": {
+                    if (isset($_POST[$key."_slider_value".$id])) {
+                      $new_value = $new_value.$_POST[$key."_slider_value".$id];
+                    }
+                    break;
+                  }
+                  case "type_range": {
+                    if (isset($_POST[$key."_element".$id.'0']) || isset($_POST[$key."_element".$id.'1'])) {
+                      $new_value=$new_value.$_POST[$key."_element".$id.'0'].'-'.$_POST[$key."_element".$id.'1'];
+                    }
+                    break;
+                  }
+															
+															case "type_grading":
+															{
+																$element=$_POST[$key."_hidden_item".$id];
+																$grading = explode(":",$element);
+																$items_count = sizeof($grading)-1;
+																
+																$element = "";
+																$total = "";
+																
+																for($k=0;$k<$items_count;$k++) {
+																	$element .= $grading[$k].":".$_POST[$key."_element".$id.$k]." ";
+															$total += $_POST[$key."_element".$id.$k];
+														}
+
+														$element .="Total:".$total;
+
+																											
+														if(isset($element))
+														{
+															$new_value=$new_value.$element;					
+														}
+														break;
+													}
+													
+														case "type_matrix":
+													{
+													
+														
+														$input_type=$_POST[$key."_input_type".$id]; 
+																				
+														$mat_rows = $_POST[$key."_hidden_row".$id];
+														$mat_rows = explode('***', $mat_rows);
+														$mat_rows = array_slice($mat_rows,0, count($mat_rows)-1);
+														
+														$mat_columns = $_POST[$key."_hidden_column".$id];
+														$mat_columns = explode('***', $mat_columns);
+														$mat_columns = array_slice($mat_columns,0, count($mat_columns)-1);
+												  
+														$row_ids=explode(",",substr($_POST[$key."_row_ids".$id], 0, -1));
+														$column_ids=explode(",",substr($_POST[$key."_column_ids".$id], 0, -1)); 
+														$matrix="<table>";
+																	
+														$matrix .='<tr><td></td>';
+														
+														for( $k=0;$k< count($mat_columns) ;$k++)
+															$matrix .='<td style="background-color:#BBBBBB; padding:5px; ">'.$mat_columns[$k].'</td>';
+															$matrix .='</tr>';
+														
+														$aaa=Array();
+														   $k=0;
+														foreach( $row_ids as $row_id){
+														$matrix .='<tr><td style="background-color:#BBBBBB; padding:5px;">'.$mat_rows[$k].'</td>';
+														
+														  if($input_type=="radio"){
+														 
+														$mat_radio = (isset($_POST[$key."_input_element".$id.$row_id]) ? $_POST[$key."_input_element".$id.$row_id] : 0);											
+														  if($mat_radio==0){
+																$checked="";
+																$aaa[1]="";
+																}
+																else{
+																$aaa=explode("_",$mat_radio);
+																}
+																
+																foreach( $column_ids as $column_id){
+																	if($aaa[1]==$column_id)
+																	$checked="checked";
+																	else
+																	$checked="";
+																$matrix .='<td style="text-align:center"><input  type="radio" '.$checked.' disabled /></td>';
+																
+																}
+																
+															} 
+															else{
+															if($input_type=="checkbox")
+															{                
+																foreach( $column_ids as $column_id){
+																 $checked = $_POST[$key."_input_element".$id.$row_id.'_'.$column_id];                              
+																 if($checked==1)							
+																 $checked = "checked";						
+																 else									 
+																 $checked = "";
+
+																$matrix .='<td style="text-align:center"><input  type="checkbox" '.$checked.' disabled /></td>';
+															
+															}
+															
+															}
+															else
+															{
+															if($input_type=="text")
+															{
+																					  
+																foreach( $column_ids as $column_id){
+																 $checked = $_POST[$key."_input_element".$id.$row_id.'_'.$column_id];
+																	
+																$matrix .='<td style="text-align:center"><input  type="text" value="'.$checked.'" disabled /></td>';
+													
+															}
+															
+															}
+															else{
+																foreach( $column_ids as $column_id){
+																 $checked = $_POST[$key."_select_yes_no".$id.$row_id.'_'.$column_id];
+																	 $matrix .='<td style="text-align:center">'.$checked.'</td>';
+																
+												
+															
+															}
+															}
+															
+															}
+															
+															}
+															$matrix .='</tr>';
+															$k++;
+														}
+														 $matrix .='</table>';
+
+									
+									
+									
+																										
+														if(isset($matrix))
+														{
+															$new_value=$new_value.$matrix;					
+														}
+													
+														break;
+													}
                   default: break;
                 }
                 $new_script = str_replace("%".$label_each."%", $new_value, $new_script);	
@@ -874,7 +1460,7 @@ function gen_mail($counter, $all_files, $id, $str) {
           }
           $body = $new_script;
           $mode = 1;
-          $send = wp_mail($recipient, $subject, stripslashes($body), $headers, $attachment);
+          $send = wp_mail(str_replace(' ', '', $recipient), $subject, stripslashes($body), $headers, $attachment);
           $row_mail_one_time = 0;
         }
       }
@@ -963,22 +1549,30 @@ function gen_mail($counter, $all_files, $id, $str) {
                 break;
               }
               case "type_address": {
-                $street1 = $_POST[$key."_street1".$id];
-                if (isset($street1)) {
+                if (isset($_POST[$key."_street1".$id])) {
                   $new_value = $new_value.$_POST[$key."_street1".$id];
-                  $key++;
-                  $new_value = $new_value.$_POST[$key."_street2".$id];
-                  $key++;
-                  $new_value = $new_value.$_POST[$key."_city".$id];
-                  $key++;
-                  $new_value = $new_value.$_POST[$key."_state".$id];
-                  $key++;
-                  $new_value = $new_value.$_POST[$key."_postal".$id];
-                  $key++;
-                  $new_value = $new_value.$_POST[$key."_country".$id];
-                  $key++;
+                  break;
                 }
-                break;
+                if (isset($_POST[$key."_street2".$id])) {
+                  $new_value = $new_value.$_POST[$key."_street2".$id];
+                  break;
+                }
+                if (isset($_POST[$key."_city".$id])) {
+                  $new_value = $new_value.$_POST[$key."_city".$id];
+                  break;
+                }
+                if (isset($_POST[$key."_state".$id])) {
+                  $new_value = $new_value.$_POST[$key."_state".$id];
+                  break;
+                }
+                if (isset($_POST[$key."_postal".$id])) {
+                  $new_value = $new_value.$_POST[$key."_postal".$id];
+                  break;
+                }
+                if (isset($_POST[$key."_country".$id])) {
+                  $new_value = $new_value.$_POST[$key."_country".$id];
+                  break;
+                }
               }
               case "type_date_fields": {
                 $day = $_POST[$key."_day".$id];
@@ -1028,6 +1622,199 @@ function gen_mail($counter, $all_files, $id, $str) {
                 }
                 break;
               }
+              case "type_star_rating":
+															{
+																$element=$_POST[$key."_star_amount".$id];
+																$selected=(isset($_POST[$key."_selected_star_amount".$id]) ? $_POST[$key."_selected_star_amount".$id] : 0);
+																if(isset($element))
+																{
+																	$new_value=$new_value.$selected.'/'.$element;					
+																}
+																break;
+															}
+															
+
+															case "type_scale_rating":
+															{
+															$element=$_POST[$key."_scale_amount".$id];
+															$selected=(isset($_POST[$key."_scale_radio".$id]) ? $_POST[$key."_scale_radio".$id] : 0);
+															
+																
+																if(isset($element))
+																{
+																	$new_value=$new_value.$selected.'/'.$element;					
+																}
+																break;
+															}
+															
+															case "type_spinner":
+															{
+
+																if(isset($_POST[$key."_element".$id]))
+																{
+																	$new_value=$new_value.$_POST[$key."_element".$id];					
+																}
+																break;
+															}
+															
+															case "type_slider":
+															{
+
+																$element=$_POST[$key."_slider_value".$id];
+																if(isset($element))
+																{
+																	$new_value=$new_value.$element;					
+																}
+																break;
+															}
+															case "type_range":
+															{
+
+																$element0=$_POST[$key."_element".$id.'0'];
+																$element1=$_POST[$key."_element".$id.'1'];
+																if(isset($element0) || isset($element1))
+																{
+																	$new_value=$new_value.$element0.'-'.$element1;					
+																}
+																break;
+															}
+															
+															case "type_grading":
+															{
+																$element=$_POST[$key."_hidden_item".$id];
+																$grading = explode(":",$element);
+																$items_count = sizeof($grading)-1;
+																
+																$element = "";
+																$total = "";
+																
+																for($k=0;$k<$items_count;$k++)
+
+																{
+																	$element .= $grading[$k].":".$_POST[$key."_element".$id.$k]." ";
+															$total += $_POST[$key."_element".$id.$k];
+														}
+
+														$element .="Total:".$total;
+
+																											
+														if(isset($element))
+														{
+															$new_value=$new_value.$element;					
+														}
+														break;
+													}
+													
+														case "type_matrix":
+													{
+													
+														
+														$input_type=$_POST[$key."_input_type".$id]; 
+																				
+														$mat_rows = $_POST[$key."_hidden_row".$id];
+														$mat_rows = explode('***', $mat_rows);
+														$mat_rows = array_slice($mat_rows,0, count($mat_rows)-1);
+														
+														$mat_columns = $_POST[$key."_hidden_column".$id];
+														$mat_columns = explode('***', $mat_columns);
+														$mat_columns = array_slice($mat_columns,0, count($mat_columns)-1);
+												  
+														$row_ids=explode(",",substr($_POST[$key."_row_ids".$id], 0, -1));
+														$column_ids=explode(",",substr($_POST[$key."_column_ids".$id], 0, -1)); 
+																				  
+																	
+														$matrix="<table>";
+																	
+															$matrix .='<tr><td></td>';
+														
+														for( $k=0;$k< count($mat_columns) ;$k++)
+															$matrix .='<td style="background-color:#BBBBBB; padding:5px; ">'.$mat_columns[$k].'</td>';
+															$matrix .='</tr>';
+														
+														$aaa=Array();
+														   $k=0;
+														foreach($row_ids as $row_id)
+														{
+														$matrix .='<tr><td style="background-color:#BBBBBB; padding:5px;">'.$mat_rows[$k].'</td>';
+														
+														  if($input_type=="radio"){
+														 
+														$mat_radio = (isset($_POST[$key."_input_element".$id.$row_id]) ? $_POST[$key."_input_element".$id.$row_id] : 0);											
+														  if($mat_radio==0){
+																$checked="";
+																$aaa[1]="";
+																}
+																else{
+																$aaa=explode("_",$mat_radio);
+																}
+																
+																foreach($column_ids as $column_id){
+																	if($aaa[1]==$column_id)
+																	$checked="checked";
+																	else
+																	$checked="";
+																$matrix .='<td style="text-align:center"><input  type="radio" '.$checked.' disabled /></td>';
+																
+																}
+																
+															} 
+															else{
+															if($input_type=="checkbox")
+															{                
+																foreach($column_ids as $column_id){
+																 $checked = $_POST[$key."_input_element".$id.$row_id.'_'.$column_id];                              
+																 if($checked==1)							
+																 $checked = "checked";						
+																 else									 
+																 $checked = "";
+
+																$matrix .='<td style="text-align:center"><input  type="checkbox" '.$checked.' disabled /></td>';
+															
+															}
+															
+															}
+															else
+															{
+															if($input_type=="text")
+															{
+																					  
+																foreach($column_ids as $column_id){
+																 $checked = $_POST[$key."_input_element".$id.$row_id.'_'.$column_id];
+																	
+																$matrix .='<td style="text-align:center"><input  type="text" value="'.$checked.'" disabled /></td>';
+													
+															}
+															
+															}
+															else{
+																foreach($column_ids as $column_id){
+																 $checked = $_POST[$i."_select_yes_no".$id.$row_id.'_'.$column_id];
+																	 $matrix .='<td style="text-align:center">'.$checked.'</td>';
+																
+												
+															
+																}
+															}
+															
+															}
+															
+															}
+															$matrix .='</tr>';
+															$k++;
+														}
+														 $matrix .='</table>';
+
+									
+									
+									
+																										
+														if(isset($matrix))
+														{
+															$new_value=$new_value.$matrix;					
+														}
+													
+														break;
+													}
               default: break;
             }
             $new_script = str_replace("%".$label_each."%", $new_value, $new_script);
@@ -1038,7 +1825,7 @@ function gen_mail($counter, $all_files, $id, $str) {
         $new_script = str_replace("%all%", $list, $new_script);
       }
       $body = $new_script;
-      $send = wp_mail($recipient, $subject, stripslashes($body), $headers, $attachment);
+      $send = wp_mail(str_replace(' ', '', $recipient), $subject, stripslashes($body), $headers, $attachment);
     }
   }
   if ($row->mail) {
@@ -1087,8 +1874,9 @@ function gen_mail($counter, $all_files, $id, $str) {
     case "4":
       {
       @session_start();
-      if ($row->submit_text_type != 4)
+      if ($row->submit_text_type != 4) {
         $_SESSION['massage_after_submit'] = $msg;
+      }
       $_SESSION['form_submit_type'] = $row->submit_text_type . "," . $row->id;
       $redirect_url = $row->url;
       break;
@@ -1120,9 +1908,8 @@ function remove($group_id) {
   $wpdb->query($wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'formmaker_submits WHERE group_id= %d', $group_id));
 }
 
-//////////////////////////////////////////////////////         DISPLAY
+// Form maker frontend.
 function form_maker_front_end($id) {
-  global $wp_filter;
   $form_maker_front_end = "";
   $result = showform($id);
   if (!$result) {
@@ -1138,12 +1925,13 @@ function form_maker_front_end($id) {
   $label_id = $result[2];
   $label_type = $result[3];
   $form_theme = $result[4];
-  if (isset($_SESSION['show_submit_text' . $id]))
+  if (isset($_SESSION['show_submit_text' . $id])) {
     if ($_SESSION['show_submit_text' . $id] == 1) {
       $_SESSION['show_submit_text' . $id] = 0;
       $form_maker_front_end .= $row->submit_text;
       return;
     }
+  }
   $vives_form = $wpdb->get_var($wpdb->prepare("SELECT views FROM " . $wpdb->prefix . "formmaker_views WHERE form_id=%d", $id));
   $vives_form = $vives_form + 1;
   $wpdb->update($wpdb->prefix . "formmaker_views", array(
@@ -1161,12 +1949,10 @@ function form_maker_front_end($id) {
       $body_or_classes[$i] = explode('}', $new_form_theme[$i]);
     }
     for ($i = 0; $i < $count_after_explod_theme; $i++) {
-      if ($i == 0) {
+      if ($i == 0)
         $body_or_classes[$i][0] = "#form" . $id . ' ' . str_replace(',', ", #form" . $id, $body_or_classes[$i][0]);
-      }
-      else {
+      else
         $body_or_classes[$i][1] = "#form" . $id . ' ' . str_replace(',', ", #form" . $id, $body_or_classes[$i][1]);
-      }
     }
     for ($i = 0; $i < $count_after_explod_theme; $i++) {
       $body_or_classes_implode[$i] = implode('}', $body_or_classes[$i]);
@@ -1204,6 +1990,11 @@ function form_maker_front_end($id) {
       "<!--repstart-->Country<!--repend-->",
       "<!--repstart-->Area Code<!--repend-->",
       "<!--repstart-->Phone Number<!--repend-->",
+      "<!--repstart-->From<!--repend-->",				
+			"<!--repstart-->To<!--repend-->",
+      "<!--repstart-->$300<!--repend-->",
+			"<!--repstart-->product 1 $100<!--repend-->",
+			"<!--repstart-->product 2 $200<!--repend-->",
       $captcha_url,
       'class="captcha_img"',
       plugins_url("images/refresh.png", __FILE__),
@@ -1235,6 +2026,11 @@ function form_maker_front_end($id) {
       addslashes(__("Country", 'form_maker')),
       addslashes(__("Area Code", 'form_maker')),
       addslashes(__("Phone Number", 'form_maker')),
+      addslashes(__("From", 'form_maker')),
+      addslashes(__("To", 'form_maker')),
+      '',
+			'',
+			'',
       $captcha_rep_url,
       'class="captcha_img" style="display:none"',
       plugins_url("images/refresh.png", __FILE__),
@@ -1250,14 +2046,14 @@ function form_maker_front_end($id) {
     $form_maker_front_end .= $untilupload;
     $is_recaptcha = FALSE;
     $form_maker_front_end .= '<script type="text/javascript">';
-    $form_maker_front_end .= 'WDF_FILE_TYPE_ERROR = \'' . addslashes(__("Sorry, you are not allowed to upload this type of file.", 'form_maker')) . '\';
-';
-    $form_maker_front_end .= 'WDF_INVALID_EMAIL = \'' . addslashes(__("This is not a valid email address.", 'form_maker')) . '\';
-';
-    $form_maker_front_end .= 'REQUEST_URI	= "' . $_SERVER['REQUEST_URI'] . '";
-';
-    $form_maker_front_end .= 'ReqFieldMsg	=\'`FIELDNAME`' . addslashes(__('field is required.', 'form_maker')) . '\';
-';
+    $form_maker_front_end .= 'WDF_FILE_TYPE_ERROR = \'' . addslashes(__("Sorry, you are not allowed to upload this type of file.", 'form_maker')) . '\';';
+    $form_maker_front_end .= 'WDF_GRADING_TEXT = \'' . addslashes(__("Your score should be less than", 'form_maker')) . '\';';
+    $form_maker_front_end .= 'WDF_INVALID_GRADING 	= \'' . addslashes(sprintf(__("Your score should be less than", 'form_maker'), '`grading_label`', '`grading_total`')) . '\';';
+    $form_maker_front_end .= 'WDF_INVALID_EMAIL = \'' . addslashes(__("This is not a valid email address.", 'form_maker')) . '\';';
+    $form_maker_front_end .= 'REQUEST_URI	= "' . $_SERVER['REQUEST_URI'] . '";';
+    $form_maker_front_end .= 'ReqFieldMsg	=\'`FIELDNAME` ' . addslashes(__('field is required.', 'form_maker')) . '\';';
+    $form_maker_front_end .= 'FormCurrency = "";';
+    $form_maker_front_end .= 'FormPaypalTax = "";';
     $form_maker_front_end .= 'function formOnload' . $id . '()
 {
 ';
@@ -1319,42 +2115,133 @@ function form_maker_front_end($id) {
         case 'type_radio':
         case 'type_checkbox':
           $form_maker_front_end .= 'if(document.getElementById(\'' . $label_id[$key] . '_randomize' . $id . '\'))
-		if(document.getElementById(\'' . $label_id[$key] . '_randomize' . $id . '\').value=="yes")
-		{
-			choises_randomize(\'' . $label_id[$key] . '\', \'' . $id . '\');
-		}';
+		if (document.getElementById(\'' . $label_id[$key] . '_randomize' . $id . '\').value == "yes") {
+			choises_randomize(\'' . $label_id[$key] . '\', \'' . $id . '\');}';
+          break;
+        case 'type_spinner':
+          $form_maker_front_end .= '
+    if (document.getElementById(\'' . $label_id[$key] . '_element' . $id . '\')) {
+      var spinner_value = document.getElementById(\'' . $label_id[$key] . '_element' . $id . '\').getAttribute(\'aria-valuenow\');
+    }
+    if (document.getElementById(\'' . $label_id[$key] . '_min_value' . $id . '\'))
+      var spinner_min_value = document.getElementById(\'' . $label_id[$key] . '_min_value' . $id . '\').value;
+    if (document.getElementById(\'' . $label_id[$key] . '_max_value' . $id . '\'))
+      var spinner_max_value = document.getElementById(\'' . $label_id[$key] . '_max_value' . $id . '\').value;
+    if (document.getElementById(\'' . $label_id[$key] . '_step' . $id . '\'))
+      var spinner_step = document.getElementById(\'' . $label_id[$key] . '_step' . $id . '\').value;
+    jQuery( \'' . $label_id[$key] . '_element' . $id . '\' ).removeClass( \'ui-spinner-input\')
+    .prop( \'disabled\', false )
+    .removeAttr( \'autocomplete\' )
+    .removeAttr( \'role\' )
+    .removeAttr( \'aria-valuemin\' )
+    .removeAttr( \'aria-valuemax\' )
+    .removeAttr( \'aria-valuenow\' );
+    if (document.getElementById(\'' . $label_id[$key] . '_element' . $id . '\')) {
+      span_ui= document.getElementById(\'' . $label_id[$key] . '_element' . $id . '\').parentNode;
+      span_ui.parentNode.appendChild(document.getElementById(\'' . $label_id[$key] . '_element' . $id . '\'));
+      span_ui.parentNode.removeChild(span_ui);
+      jQuery(\'#' . $label_id[$key] . '_element' . $id . '\')[0].spin = null;
+    }
+    spinner = jQuery( \'#' . $label_id[$key] . '_element' . $id . '\' ).spinner();
+    spinner.spinner( \'value\', spinner_value );
+		jQuery( \'#' . $label_id[$key] . '_element' . $id . '\' ).spinner({ min: spinner_min_value});
+		jQuery( \'#' . $label_id[$key] . '_element' . $id . '\' ).spinner({ max: spinner_max_value});
+		jQuery( \'#' . $label_id[$key] . '_element' . $id . '\' ).spinner({ step: spinner_step});';
+          break;
+        case 'type_slider':
+          $form_maker_front_end .= '
+    if (document.getElementById(\'' . $label_id[$key] . '_slider_value' . $id . '\'))
+      var slider_value = document.getElementById(\'' . $label_id[$key] . '_slider_value' . $id . '\').value;
+    if (document.getElementById(\'' . $label_id[$key] . '_slider_min_value' . $id . '\'))
+      var slider_min_value = document.getElementById(\'' . $label_id[$key] . '_slider_min_value' . $id . '\').value;
+    if (document.getElementById(\'' . $label_id[$key] . '_slider_max_value' . $id . '\'))
+      var slider_max_value = document.getElementById(\'' . $label_id[$key] . '_slider_max_value' . $id . '\').value;
+    if (document.getElementById(\'' . $label_id[$key] . '_element_value' . $id . '\'))
+      var slider_element_value = document.getElementById(\'' . $label_id[$key] . '_element_value' . $id . '\' );
+    if (document.getElementById(\'' . $label_id[$key] . '_slider_value' . $id . '\'))
+      var slider_value_save = document.getElementById( \'' . $label_id[$key] . '_slider_value' . $id . '\' );
+    if (document.getElementById(\'' . $label_id[$key] . '_element' . $id . '\')) {
+      document.getElementById(\'' . $label_id[$key] . '_element' . $id . '\').innerHTML = \'\';
+      document.getElementById(\'' . $label_id[$key] . '_element' . $id . '\').removeAttribute( \'class\' );
+      document.getElementById(\'' . $label_id[$key] . '_element' . $id . '\').removeAttribute( \'aria-disabled\' );
+    }
+    if (document.getElementById(\'' . $label_id[$key] . '_element' . $id . '\'))
+      jQuery(\'#' . $label_id[$key] . '_element' . $id . '\')[0].slide = null;
+    jQuery( \'#' . $label_id[$key] . '_element' . $id . '\').slider({
+      range: \'min\',
+      value: eval(slider_value),
+      min: eval(slider_min_value),
+      max: eval(slider_max_value),	
+      slide: function( event, ui ) {
+        slider_element_value.innerHTML = \'\' + ui.value;
+        slider_value_save.value = \'\' + ui.value;
+      }
+    });';
+          break;			
+        case 'type_range':
+          $form_maker_front_end .= '
+    if (document.getElementById(\'' . $label_id[$key] . '_element' . $id . '0\'))
+      var spinner_value0 = document.getElementById(\'' . $label_id[$key] . '_element' . $id . '0\').getAttribute( \'aria-valuenow\' );
+    if (document.getElementById(\'' . $label_id[$key] . '_element' . $id . '1\'))
+      var spinner_value1 = document.getElementById(\'' . $label_id[$key] . '_element' . $id . '1\').getAttribute( \'aria-valuenow\' );
+    if (document.getElementById(\'' . $label_id[$key] . '_range_step' . $id . '\'))
+      var spinner_step = document.getElementById(\'' . $label_id[$key] . '_range_step' . $id . '\').value;
+    jQuery( \'#' . $label_id[$key] . '_element' . $id . '0\' ).removeClass( \'ui-spinner-input\' )
+    .prop( \'disabled\', false )	
+    .removeAttr( \'autocomplete\' )		
+    .removeAttr( \'role\' )			
+    .removeAttr( \'aria-valuenow\' );		
+    if (document.getElementById(\'' . $label_id[$key] . '_element' . $id . '0\')) {
+      span_ui= document.getElementById(\'' . $label_id[$key] . '_element' . $id . '0\').parentNode;
+      span_ui.parentNode.appendChild(document.getElementById(\'' . $label_id[$key] . '_element' . $id . '0\'));
+      span_ui.parentNode.removeChild(span_ui);
+      jQuery(\'#' . $label_id[$key] . '_element' . $id . '0\')[0].spin = null;
+    }
+		spinner0 = jQuery( \'#' . $label_id[$key] . '_element' . $id . '0\' ).spinner();
+		spinner0.spinner( \'value\', spinner_value0 );
+    jQuery( \'#' . $label_id[$key] . '_element' . $id . '0\' ).spinner({ step: spinner_step});
+    jQuery( \'#' . $label_id[$key] . '_element' . $id . '1\' ).removeClass( \'ui-spinner-input\' )
+    .prop( \'disabled\', false )
+    .removeAttr( \'autocomplete\' )
+    .removeAttr( \'role\' )
+    .removeAttr( \'aria-valuenow\' );
+    if (document.getElementById(\'' . $label_id[$key] . '_element' . $id . '1\')) {
+      span_ui1= document.getElementById(\'' . $label_id[$key] . '_element' . $id . '1\').parentNode;
+      span_ui1.parentNode.appendChild(document.getElementById(\'' . $label_id[$key] . '_element' . $id . '1\'));
+      span_ui1.parentNode.removeChild(span_ui1);
+      jQuery(\'#' . $label_id[$key] . '_element' . $id . '1\')[0].spin = null;
+    }
+		spinner1 = jQuery( \'#' . $label_id[$key] . '_element' . $id . '1\' ).spinner();
+		spinner1.spinner( \'value\', spinner_value1 );
+		jQuery( \'#' . $label_id[$key] . '_element' . $id . '1\').spinner({ step: spinner_step});';
+          break;
+        case 'type_paypal_total':
+          $form_maker_front_end .= '
+    set_total_value(' . $label_id[$key] . ', ' . $id . ');';
           break;
         default:
           break;
       }
     }
-    $form_maker_front_end .= 'if(window.before_load)
-	{
-		before_load();
-	}
-}
-';
-    $form_maker_front_end .= 'function formAddToOnload' . $id . '()
-{ 
-	if(formOldFunctionOnLoad' . $id . '){ formOldFunctionOnLoad' . $id . '(); }
-	formOnload' . $id . '();
-}
-function formLoadBody' . $id . '()
-{
-	formOldFunctionOnLoad' . $id . ' = window.onload;
-	window.onload = formAddToOnload' . $id . ';
-}
-var formOldFunctionOnLoad' . $id . ' = null;
-formLoadBody' . $id . '();';
-    if (isset($_POST["captcha_input"])) {
-      $captcha_input = esc_html($_POST["captcha_input"]);
-    }
-    if (isset($_POST["recaptcha_response_field"])) {
-      $recaptcha_response_field = esc_html($_POST["recaptcha_response_field"]);
-    }
-    if (isset($_POST["counter" . $id])) {
-      $counter = esc_html($_POST["counter" . $id]);
-    }
+    $form_maker_front_end .= '
+     if (window.before_load) {
+      before_load();
+     }
+  }';
+    $form_maker_front_end .= '
+      function formAddToOnload' . $id . '() {
+        if (formOldFunctionOnLoad' . $id . ') {
+          formOldFunctionOnLoad' . $id . '();
+        }
+        formOnload' . $id . '();
+      }
+      function formLoadBody' . $id . '() {
+        formOldFunctionOnLoad' . $id . ' = window.onload;
+        window.onload = formAddToOnload' . $id . ';
+      }
+      var formOldFunctionOnLoad' . $id . ' = null;
+      formLoadBody' . $id . '();';
+    $counter = $_POST["counter" . $id];
     $old_key = -1;
     if (isset($counter)) {
       foreach ($label_type as $key => $type) {
@@ -1448,6 +2335,120 @@ formLoadBody' . $id . '();';
 	}";
             break;
             }
+          case "type_star_rating": {
+						$form_maker_front_end .=
+					"if(document.getElementById('".$label_id[$key]."_element".$id."')) {
+						document.getElementById('".$label_id[$key]."_selected_star_amount".$id."').value='".addslashes($_POST[$label_id[$key]."_selected_star_amount".$id])."';	
+            if (document.getElementById('".$label_id[$key]."_selected_star_amount".$id."').value)	
+              select_star_rating((document.getElementById('".$label_id[$key]."_selected_star_amount".$id."').value-1),".$label_id[$key].",".$id.");	
+					}";
+            break;
+          
+					}
+
+				case "type_scale_rating": {
+          $form_maker_front_end .=
+					"for (k=0; k<100; k++) {
+						if (document.getElementById('".$label_id[$key]."_scale_radio".$id."_'+k)) {
+							document.getElementById('".$label_id[$key]."_scale_radio".$id."_'+k).removeAttribute('checked');
+							if (document.getElementById('".$label_id[$key]."_scale_radio".$id."_'+k).value=='".$_POST[$label_id[$key]."_scale_radio".$id]."')
+								document.getElementById('".$label_id[$key]."_scale_radio".$id."_'+k).setAttribute('checked', 'checked');
+						}
+					}";
+					break;
+
+				}
+				case "type_spinner": {
+          $form_maker_front_end .=
+					"if (document.getElementById('".$label_id[$key]."_element".$id."')) {
+            document.getElementById('".$label_id[$key]."_element".$id."').setAttribute('aria-valuenow','".$_POST[$label_id[$key]."_element".$id]."');
+          }";
+					break;
+
+				}
+				case "type_slider": {
+          $form_maker_front_end .=
+					"if (document.getElementById('".$label_id[$key]."_element".$id."'))
+            document.getElementById('".$label_id[$key]."_element".$id."').setAttribute('aria-valuenow','".$_POST[$label_id[$key]."_slider_value".$id]."');
+					if (document.getElementById('".$label_id[$key]."_slider_value".$id."'))
+            document.getElementById('".$label_id[$key]."_slider_value".$id."').value='".$_POST[$label_id[$key]."_slider_value".$id]."';
+					if (document.getElementById('".$label_id[$key]."_element_value".$id."'))
+            document.getElementById('".$label_id[$key]."_element_value".$id."').innerHTML='".$_POST[$label_id[$key]."_slider_value".$id]."';";
+					break;
+
+				}
+				case "type_range": {
+          $form_maker_front_end .=
+						"if (document.getElementById('".$label_id[$key]."_element".$id."0'))
+              document.getElementById('".$label_id[$key]."_element".$id."0').setAttribute('aria-valuenow','".$_POST[$label_id[$key]."_element".$id."0"]."');
+						if (document.getElementById('".$label_id[$key]."_element".$id."1'))
+              document.getElementById('".$label_id[$key]."_element".$id."1').setAttribute('aria-valuenow','".$_POST[$label_id[$key]."_element".$id."1"]."');";
+					break;
+
+				}
+				case "type_grading": {
+					for ($k = 0; $k < 100; $k++) {
+						$form_maker_front_end .= "if (document.getElementById('".$label_id[$key]."_element".$id.$k."')) {		
+              document.getElementById('".$label_id[$key]."_element".$id.$k."').value='".$_POST[$label_id[$key]."_element".$id.$k]."';}";
+					}
+					$form_maker_front_end .= "sum_grading_values(".$label_id[$key].",".$id.");";
+					break;
+
+				}
+				case "type_matrix": {
+					$form_maker_front_end .= 
+					"if (document.getElementById('".$label_id[$key]."_input_type".$id."').value == 'radio') {";	
+						for ($k = 1; $k < 40; $k++) {
+							for ($l = 1; $l < 40; $l++) {
+								$form_maker_front_end .= 
+									"if (document.getElementById('".$label_id[$key]."_input_element".$id.$k."_".$l."')) {
+										document.getElementById('".$label_id[$key]."_input_element".$id.$k."_".$l."').removeAttribute('checked');
+                    if (document.getElementById('".$label_id[$key]."_input_element".$id.$k."_".$l."').value=='".$_POST[$label_id[$key]."_input_element".$id.$k]."')
+                      document.getElementById('".$label_id[$key]."_input_element".$id.$k."_".$l."').setAttribute('checked', 'checked');
+									}";
+							}
+						}
+						$form_maker_front_end .= 
+					"}	
+					else	
+            if (document.getElementById('".$label_id[$key]."_input_type".$id."').value == 'checkbox') {";
+						for ($k = 1; $k < 40; $k++) {
+							for ($l = 1; $l < 40; $l++) {
+								$form_maker_front_end .= 
+								"if (document.getElementById('".$label_id[$key]."_input_element".$id.$k."_".$l."')) {
+									document.getElementById('".$label_id[$key]."_input_element".$id.$k."_".$l."').removeAttribute('checked');
+									if (document.getElementById('".$label_id[$key]."_input_element".$id.$k."_".$l."').value=='".$_POST[$label_id[$key]."_input_element".$id.$k."_".$l]."')		
+                    document.getElementById('".$label_id[$key]."_input_element".$id.$k."_".$l."').setAttribute('checked', 'checked');
+								}";	
+							}
+						}
+						$form_maker_front_end .= 
+					"}	
+					else	
+            if (document.getElementById('".$label_id[$key]."_input_type".$id."').value == 'text') {";
+						for ($k = 1; $k < 40; $k++) {
+							for ($l = 1; $l < 40; $l++) {
+								$form_maker_front_end .= 
+								"if (document.getElementById('".$label_id[$key]."_input_element".$id.$k."_".$l."'))
+                  document.getElementById('".$label_id[$key]."_input_element".$id.$k."_".$l."').value='".$_POST[$label_id[$key]."_input_element".$id.$k."_".$l]."';";
+							}
+						}
+						$form_maker_front_end .= "
+					}
+					else
+						if (document.getElementById('".$label_id[$key]."_input_type".$id."').value == 'select') {";
+							for ($k = 1; $k < 40; $k++) {
+								for ($l = 1; $l < 40; $l++) {
+									$form_maker_front_end .= 
+									"if (document.getElementById('".$label_id[$key]."_select_yes_no".$id.$k."_".$l."'))
+                    document.getElementById('".$label_id[$key]."_select_yes_no".$id.$k."_".$l."').value='".$_POST[$label_id[$key]."_select_yes_no".$id.$k."_".$l]."';";
+								}
+							}
+						$form_maker_front_end .= 
+						"}";	
+            break;
+
+          }
           case "type_address":
             {
             if ($key > $old_key) {
@@ -1560,12 +2561,12 @@ formLoadBody' . $id . '();';
             }
           case "type_date_fields":
             {
-            $date_fields = explode('-', $_POST[$label_id[$key] . "_element" . $id]);
+            // $date_fields = explode('-', $_POST[$label_id[$key] . "_element" . $id]);
             $form_maker_front_end .= "if(document.getElementById('" . $label_id[$key] . "_day" . $id . "'))
 	{
-		document.getElementById('" . $label_id[$key] . "_day" . $id . "').value='" . $date_fields[0] . "';
-		document.getElementById('" . $label_id[$key] . "_month" . $id . "').value='" . $date_fields[1] . "';
-		document.getElementById('" . $label_id[$key] . "_year" . $id . "').value='" . $date_fields[2] . "';
+		document.getElementById('" . $label_id[$key] . "_day" . $id . "').value='" . $_POST[$label_id[$key] . "_day" . $id] . "';
+		document.getElementById('" . $label_id[$key] . "_month" . $id . "').value='" . $_POST[$label_id[$key] . "_month" . $id] . "';
+		document.getElementById('" . $label_id[$key] . "_year" . $id . "').value='" . $_POST[$label_id[$key] . "_year" . $id] . "';
 	}";
             break;
             }
@@ -1623,17 +2624,18 @@ theme: "' . $row->recaptcha_theme . '"
       $form_maker_front_end .= recaptcha_get_html($publickey, $error);
       $form_maker_front_end .= '</div>
     <script>
-	recaptcha_html=document.getElementById(\'main_recaptcha\').innerHTML.replace(\'Recaptcha.widget = Recaptcha.$("recaptcha_widget_div"); Recaptcha.challenge_callback();\',"");
+	recaptcha_html = document.getElementById(\'main_recaptcha\').innerHTML.replace(\'Recaptcha.widget = Recaptcha.$("recaptcha_widget_div"); Recaptcha.challenge_callback();\',"");
 	document.getElementById(\'main_recaptcha\').innerHTML="";
-	if(document.getElementById(\'wd_recaptcha' . $id . '\'))
-	document.getElementById(\'wd_recaptcha' . $id . '\').innerHTML=recaptcha_html;
-  Recaptcha.widget = Recaptcha.$("recaptcha_widget_div");
-  Recaptcha.challenge_callback();
+	if (document.getElementById(\'wd_recaptcha' . $id . '\')) {
+    document.getElementById(\'wd_recaptcha' . $id . '\').innerHTML=recaptcha_html;
+    Recaptcha.widget = Recaptcha.$("recaptcha_widget_div");
+    Recaptcha.challenge_callback();
+  }
     </script>';
     }
   }
   else {
-    $form_maker_front_end .= '<script type="text/javascript">' . str_replace("
+    $form_maker_front_end .= '<div><script type="text/javascript">' . str_replace("
 ", " ", $row->javascript) . '</script>';
     $form_maker_front_end .= '<style>' . str_replace('[SITE_ROOT]', plugins_url("", __FILE__), str_replace('.wdform_table1', '.form_view', str_replace("
 ", " ", $form_theme))) . '</style>';
@@ -1714,7 +2716,9 @@ theme: "' . $row->recaptcha_theme . '"
 							}							
 							function formAddToOnload()
 							{ 
-								if(formOldFunctionOnLoad){ formOldFunctionOnLoad(); }
+								if(formOldFunctionOnLoad){ 
+                formOldFunctionOnLoad();
+                }
 								formOnload();
 							}							
 							function formLoadBody()
@@ -1725,11 +2729,8 @@ theme: "' . $row->recaptcha_theme . '"
 							var formOldFunctionOnLoad = null;
 							formLoadBody();
 							";
-    if (isset($_POST["captcha_input"])) {
-      $captcha_input = esc_html($_POST["captcha_input"]);
-    }
     if (isset($_POST["counter"])) {
-      $counter = (int)$_POST["counter"];
+      $counter = esc_html($_POST["counter"]);
     }
     if (isset($counter))
       if (isset($_POST["captcha_input"]) or is_numeric($ok)) {
@@ -2252,5 +3253,3 @@ form_.submit();
   }
   return $form_maker_front_end;
 }
-	
-

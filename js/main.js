@@ -8,13 +8,13 @@ function show_other_input(num, form_id)
 				if(	document.getElementById(num+"_element"+form_id+k).getAttribute('other')) 
 					if(	document.getElementById(num+"_element"+form_id+k).getAttribute('other')==1)
 					{
-						element_other=document.getElementById(num+"_element"+form_id+k);
+						var element_other=document.getElementById(num+"_element"+form_id+k);
 						break;
 					}
 
 
 
-	parent=element_other.parentNode;
+	var parent=element_other.parentNode;
 
 	var br = document.createElement('br');
 		br.setAttribute("id", num+"_other_br"+form_id);
@@ -45,16 +45,23 @@ function set_sel_am_pm(select_)
 
 }
 
-function check_isnum(e)
-{
-   	var chCode1 = e.which || e.keyCode;
-    	if (chCode1 > 31 && (chCode1 < 48 || chCode1 > 57))
-        return false;
+function check_isnum(e) {
+  var chCode1 = e.which || e.keyCode;
+  if (chCode1 > 31 && (chCode1 < 48 || chCode1 > 57))
+    return false;
 	return true;
 }
 
-function captcha_refresh(id,genid)
-{
+function check_isnum_or_minus(e) {
+  var chCode1 = e.which || e.keyCode;
+	if (chCode1 != 45 ) {
+    if (chCode1 > 31 && (chCode1 < 48 || chCode1 > 57))
+      return false;
+	}
+	return true;
+}
+
+function captcha_refresh(id, genid) {
 	srcArr=document.getElementById(id+genid).src.split("&r=");
 	document.getElementById(id+genid).src=srcArr[0]+'&r='+Math.floor(Math.random()*100);
 	document.getElementById(id+"_input"+genid).value='';
@@ -822,5 +829,450 @@ function check_required(){}
 	
 function check(){}
 
+var rated=false;
 
+function change_src(id,a){
+
+if(rated==false){
+
+for(var j=0;j<=id;j++)
+
+document.getElementById(a+'_star_'+j).src = plugin_url+'/images/star_'+document.getElementById(a+'_star_colorform_id_temp').value+".png";
+
+}
+
+}
+
+
+
+
+
+function reset_src(id,a){
+
+if(rated==false){
+
+for(var j=0;j<=id;j++)
+
+document.getElementById(a+'_star_'+j).src = plugin_url+'/vimages/star.png';
+
+}
+
+}
+
+
+
+
+
+
+
+
+
+function select_star_rating(id,a)
+
+{
+
+rated=true;
+
+star_amount=document.getElementById(a+'_star_amountform_id_temp').value;
+
+for(var j=0;j<=id;j++)
+
+document.getElementById(a+'_star_'+j).src = plugin_url+'/images/star_'+document.getElementById(a+'_star_colorform_id_temp').value+".png";
+
+for(var k=id+1;k<=star_amount-1;k++)
+
+document.getElementById(a+'_star_'+k).src = plugin_url+'/images/star.png';
+
+document.getElementById(a+'_selected_star_amountform_id_temp').value=id+1;
+
+}
+
+
+
+
+
+function edit_star_rating(id,a)
+
+{
+
+rated=true;
+
+star_amount=document.getElementById(a+'_star_amountform_id_temp').value;
+
+for(var j=0;j<=id;j++)
+
+document.getElementById(a+'_star_'+j).src = plugin_url+'/images/star_'+document.getElementById(a+'_star_colorform_id_temp').value+".png";
+
+for(var k=id+1;k<=star_amount-1;k++)
+
+document.getElementById(a+'_star_'+k).src = plugin_url+'/images/star.png';
+
+document.getElementById(a+'_selected_star_amountform_id_temp').value=id+1;
+
+document.getElementById('submission_'+a).value=star_amount+'***'+(id+1)+'***'+document.getElementById(a+'_star_colorform_id_temp').value+"***star_rating***";
+
+
+
+}
+
+
+
+function edit_scale_rating(checked_value,a)
+
+{
+
+if(!checked_value)
+
+var checked_radio_value = 0;
+
+scale_amount=document.getElementById(a+'_scale_checkedform_id_temp').value;
+
+document.getElementById('submission_'+a).value=checked_value+'/'+scale_amount;
+
+
+
+}
+
+
+
+
+
+function edit_range(value,id,num){
+
+document.getElementById(id+'_element'+num).value=value;
+
+document.getElementById('submission_'+id).value=document.getElementById(id+'_element0').value+"-"+document.getElementById(id+'_element1').value;
+
+}
+
+
+
+
+
+
+
+function sum_grading_values(num,form_id){
+
+
+
+	var sum = 0;
+
+	for(var k=0; k<100;k++)
+
+	{
+
+		if(document.getElementById(num+'_elementform_id_temp'+k))
+
+			if(document.getElementById(num+'_elementform_id_temp'+k).value)
+
+			{
+
+				sum = sum+parseInt(document.getElementById(num+'_elementform_id_temp'+k).value);
+
+			}
+
+
+
+		if(sum > document.getElementById(num+'_total_elementform_id_temp').innerHTML){
+
+		document.getElementById(num+'_text_elementform_id_temp').innerHTML = " Your score should be less than "+document.getElementById(num+'_total_elementform_id_temp').innerHTML;
+
+		}
+
+		else
+
+		{
+
+		document.getElementById(num+'_text_elementform_id_temp').innerHTML = "";
+
+		}
+
+	}
+
+	document.getElementById(num+'_sum_elementform_id_temp').innerHTML = sum;
+
+
+
+}
+
+
+
+function edit_grading(num,items_count){
+
+	var sum = 0;
+
+	var elements_to_add ="";
+
+	for(var k=0; k<100;k++)
+
+	{
+
+		if(document.getElementById(num+'_element'+k))
+
+		if(document.getElementById(num+'_element'+k).value)
+
+		{
+
+			sum = sum+parseInt(document.getElementById(num+'_element'+k).value);
+
+		}
+
+
+
+	if(sum > document.getElementById(num+'_grading_totalform_id_temp').innerHTML){
+
+	document.getElementById(num+'_text_elementform_id_temp').innerHTML = " Your score should be less than "+document.getElementById(num+'_grading_totalform_id_temp').innerHTML;
+
+	}
+
+}
+
+	document.getElementById(num+'_grading_sumform_id_temp').innerHTML = sum;
+
+	element = document.getElementById(num+'_element_valueform_id_temp').value;
+
+	
+
+	element = element.split(':');
+
+
+
+	for(var k=0; k<(element.length-1)/2;k++){
+
+	if(document.getElementById(num+'_element'+k).value)
+
+	elements_to_add += document.getElementById(num+'_element'+k).value + ":"; 
+
+	else
+
+	elements_to_add += ":"; 
+
+	}
+
+	element = element.slice((element.length-1)/2);
+
+	element = element.join(':');
+
+	grading = elements_to_add + element;
+
+
+
+	document.getElementById(num+'_element_valueform_id_temp').value = grading;
+
+	document.getElementById('submission_'+num).value = grading+"***grading***";
+
+}
+
+
+
+
+
+
+
+
+
+function change_radio_values(a,id,rows_count,columns_count){
+
+	var annnn="";
+
+	var not_found=true;
+
+	
+
+		for(var j=1;j<=rows_count;j++)
+
+		{
+
+			for(var k=1;k<=columns_count;k++)
+
+			{
+
+			if(document.getElementById(id+'_input_elementform_id_temp'+j+'_'+k).checked==true)
+
+			{
+
+			 annnn += j+'_'+k+'***';
+
+			 not_found = false;
+
+			 break;
+
+			}
+
+			}
+
+
+
+			if(not_found==true)
+
+			 annnn +='0'+'***';
+
+
+
+			not_found=true;
+
+		}
+
+
+
+	var element = document.getElementById(id+'_matrixform_id_temp').value;
+
+
+
+	element = element.split('***');
+
+	element = element.slice(0,-(rows_count+1));
+
+	element = element.join('***');
+
+	element += '***'+annnn;
+
+	
+
+	document.getElementById('submission_'+id).value=element+'***matrix***';
+
+	document.getElementById(id+'_matrixform_id_temp').value=element;
+
+}
+
+
+
+
+
+function change_checkbox_values(a,id,rows_count,columns_count){
+
+	var annnn="";
+
+
+
+	for(var j=1;j<=rows_count;j++)
+
+	{
+
+		for(var k=1;k<=columns_count;k++)
+
+		{
+
+			if(document.getElementById(id+'_input_elementform_id_temp'+j+'_'+k).checked==true)
+
+			 annnn += 1+'***';
+
+			else
+
+			annnn += 0+'***';
+
+		}
+
+	}
+
+
+
+	var element = document.getElementById(id+'_matrixform_id_temp').value;
+
+
+
+	element = element.slice(0,-(4*rows_count*columns_count));
+
+	element += annnn;
+
+
+
+	document.getElementById('submission_'+id).value=element+'***matrix***';
+
+	document.getElementById(id+'_matrixform_id_temp').value=element;
+
+}
+
+
+
+function change_text_values(a,id,rows_count,columns_count){
+
+	var annnn="";
+
+
+
+	for(var j=1;j<=rows_count;j++)
+
+	{
+
+		for(var k=1;k<=columns_count;k++)
+
+		{
+
+		 annnn += document.getElementById(id+'_input_elementform_id_temp'+j+'_'+k).value+'***';
+
+
+
+		}
+
+	}
+
+
+
+	var element = document.getElementById(id+'_matrixform_id_temp').value;
+
+
+
+	element = element.split('***');
+
+	element = element.slice(0,-(rows_count*columns_count+1));
+
+
+	element = element.join('***');
+
+	element += '***'+annnn;
+
+
+	document.getElementById('submission_'+id).value=element+'***matrix***';
+
+	document.getElementById(id+'_matrixform_id_temp').value=element;
+
+}
+
+
+
+function change_option_values(a,id,rows_count,columns_count){
+
+	var annnn="";
+
+
+
+	for(var j=1;j<=rows_count;j++)
+
+	{
+
+		for(var k=1;k<=columns_count;k++)
+
+		{
+
+		 annnn += document.getElementById(id+'_select_yes_noform_id_temp'+j+'_'+k).value+'***';
+
+
+
+		}
+
+	}
+
+
+
+	var element = document.getElementById(id+'_matrixform_id_temp').value;
+
+
+
+	element = element.split('***');
+
+	element = element.slice(0,-(rows_count*columns_count+1));
+
+
+
+	element = element.join('***');
+	element += '***'+annnn;
+
+
+
+	document.getElementById('submission_'+id).value=element+'***matrix***';
+
+	document.getElementById(id+'_matrixform_id_temp').value=element;
+
+}
 

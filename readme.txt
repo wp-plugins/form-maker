@@ -4,7 +4,7 @@ Donate link: http://web-dorado.com/products/wordpress-form.html
 Tags:  form,  forms,  contact form, contact forms,  form plugin, forms plugin, forms plugin, form builder,  form manager, multiple forms, custom  form, form maker, form with recaptcha,  form with google map, feedback form, feedback forms, contact us, paypal form
 Requires at least: 3.0
 Tested up to: 3.5
-Stable tag: 1.5.6
+Stable tag: 1.5.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -294,10 +294,13 @@ Edit JavaScript: Here you can define new JavaScript functions, which can be appl
 	Save as Copy: The button allows you to save a copy of the current form, which you can later find in the "Forms section."   
     
     
-2.4   On the of the Form Maker right side you will see three fields of the  form:    
--	 form Title: In this field type a title for your  form. You can have an unlimited number of  forms. This is a required field for a  form.    
+2.4   On the right side of the Form Maker you will see the three fields for the Form- Form Title, Form Options, Add New Fields.    
+-	 Form Title: In this field type a title for your  form. You can have an unlimited number of  forms. This is a required field for a  form.    
+Form comes with the following Form Options:
 -	Email to send submissions of a  form to: Here you type e-mails to which submitted  form information will be sent. If you need more than one e-mail address to send the submissions of a  form you must separate them by commas. This field is not required for a  form. In any case the submitted information is stored in**Submissions** part of the  form maker, where it could be managed easily.     
--	Theme of a form. A distinct theme can be applied to each new form. The themes can be accessed by selecting Form Maker > Themes on the left menu. 43 themes are available for selection for each form. There is an option for creating new themes for a form, which you can access by clicking "New" on the upper right corner of the section.which you can later find in the "Forms" section.    
+-	Email From. Here you define the email address from which the users receive the submission email (sender’s email). 
+-	From Name. Here you define the sender’s name which is shown in submission email.
+- 	Theme of a form. A distinct theme can be applied to each new form. The themes can be accessed by selecting Form Maker > Themes on the left menu. 43 themes are available for selection for each form. There is an option for creating new themes for a form, which you can access by clicking "New" on the upper right corner of the section.which you can later find in the "Forms" section.    
     
     
 2.5   Add new fields to your  form by clicking on the ADD A NEW FIELD button (see the next step of Form Maker manual).    
@@ -312,7 +315,9 @@ Edit JavaScript: Here you can define new JavaScript functions, which can be appl
 3.1 Custom HTML:An HTML editor. You can insert your own HTML content to your  form.    
     
 3.2 Text Input: At first choose the Field Type of the  form according to your preference. There are several options:    
--	Simple Text: This can be used for typing some text. It has several attributes:     
+-	Simple Text: This can be used for typing some text. It has several attributes:   
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
@@ -321,7 +326,9 @@ Class Name : You can define new CSS classes in the Edit CSS page and use those c
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
     
-	Password: This field of the  form can be used for adding a password field to your  form. It has several attributes:     
+	Password: This field of the  form can be used for adding a password field to your  form. It has several attributes:  
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 	
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
 Field Size: Type the size of the field of the  form in pixels.    
@@ -331,6 +338,8 @@ Required: The field of the  form can be set as required for the submission on th
  Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
      
 	Text Area: This field of the contact form can be used for typing some text. The difference between Text Area and Simple Text of the contact form is that Simple Text has only one row while Text Area can have several rows. It has several attributes:     
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
@@ -339,7 +348,10 @@ Class Name : You can define new CSS classes for the form in the Edit CSS page an
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.    
      
-	Name: This can be used for typing a name in the form. It has several attributes: Field Label: Type the name of the field of the  form.    
+	Name: This can be used for typing a name in the form. Default field labels can be edited clicking on the field label and typing in a custom label. It has several attributes: 
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
+Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
 Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the information.    
@@ -347,17 +359,22 @@ Class Name : You can define new CSS classes for the form in the Edit CSS page an
 Required: The field of the  form can be set as required for the submission on th form by this checkbox.    
  Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.    
      
-	Address: This field can be used for adding an address to form. It has several attributes:
+	Address: This field can be used for adding an address to form. Default field labels can be edited clicking on the field label and typing in a custom label. It has several attributes:
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
 Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the information.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
+Disable Fields : You can remove the address fields checking the corresponding box.
 Send mail to the submitter: The submitted in formation of the  form will be sent to the submitter if this box is checked.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.    
      
 	 Address (Mark on Map):This filed can be used for adding an address to form by directly marking it on the map. It has several attributes:
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
@@ -368,6 +385,8 @@ Required: The field of the  form can be set as required for the submission on th
  Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.   
       
 	E-mail: This form field can be used for typing the submitter's e-mail. The submitted e-mail validation is checked. It has several attributes:    
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
@@ -378,6 +397,8 @@ Required: The field of the  form can be set as required for the submission on th
  Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.    
     
 	Number: This field can be used to provide numbers for different purposes (e.g. serial number). It has several attributes:
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
@@ -387,7 +408,9 @@ Send mail to the submitter: The submitted in formation of the  form will be sent
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this form option to customize the specific properties for the field of the  form. 
       
-	  Phone: This field can be used to provide a phone number. It has several attributes:
+	  Phone: This field can be used to provide a phone number. Default field labels can be edited clicking on the label and typing in a custom label. It has several attributes:
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
@@ -398,6 +421,8 @@ Required: The field of the  form can be set as required for the submission on th
  Additional Attributes: You can use this form option to customize the specific properties for the field of the  form. 
      
 	Hidden Field: This field of the  form can be used to store additional in formation that does not need to be displayed on the form. 
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
@@ -406,8 +431,11 @@ Class Name : You can define new CSS classes for the form in the Edit CSS page an
 Send mail to the submitter: The submitted in formation of the  form will be sent to the submitter if this box is checked.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.    	
-3.3 Time and Date: At first choose the form Field Type according to your preference. There are several options:    
-Date (single field with a picker): This field of the  form can be used for typing a date or choosing by the picker. It has several attributes:     
+
+	3.3 Time and Date: At first choose the form Field Type according to your preference. There are several options:    
+	Date (single field with a picker): This field of the  form can be used for typing a date or choosing by the picker. It has several attributes: 	    
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form   
 Date  format: Here you can define the date  format for the date picker of the  form.    
@@ -415,13 +443,17 @@ Date picker label: Type the label of the date picker button of the  form.
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this option of the form to customize the specific properties for the field of the  form.     
-Date (3 separate fields): This field of the form can be used for typing a date in 3 field  format(day, month, year). Each of the 3 form fields can be set as text input or select list.  Each of the 3 form fields has the attributes Field Size and Field Label.  For year field the select list interval can be defined. These 3 form fields can be separated in the  format set by the fields separator attribute. The field has several attributes:     
+	Date (3 separate fields): This field of the form can be used for typing a date in 3 field  format(day, month, year). Default field labels can be edited clicking on the label and typing in a custom label. Each of the 3 form fields can be set as text input or select list.  Each of the 3 form fields has the attributes Field Size and Field Label.  For year field the select list interval can be defined. These 3 form fields can be separated in the  format set by the fields separator attribute. The field has several attributes:     
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this option of the form to customize the specific properties for the field of the  form.      
-Time: This field of the form can be used for typing a time. Time can be shown in 24 hour or 12 hour  formats by setting the time  format attribute. The seconds preview can be enabled/disabled by setting the Display Seconds attribute. The field of the form has several standard attributes:     
+	Time: This field of the form can be used for typing a time. Default field labels can be edited clicking on the field label and typing in a custom label. Time can be shown in 24 hour or 12 hour  formats by setting the time  format attribute.  The seconds preview can be enabled/disabled by setting the Display Seconds attribute. The field of the form has several standard attributes:     
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
@@ -430,20 +462,26 @@ Additional Attributes: You can use this option of the form to customize the spec
     
 3.4 Select: At first choose the form Field Type according to your preference. There are several options:    
 Custom select: This field of the form can be used for selecting the values from a list. The list can be defined by Options attribute. You can easily add and remove list items. The checked items are considered as empty values. The form field has several attributes:    
- Field Label: Type the name of the field of the  form.    
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
+Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
 Country list: This field of the form can be used for selecting a country from a list. It has several attributes:     
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
-3.5 Checkbox: This field of the  form can be used for selecting the values from a list of checkboxes. The list can be defined by Options attribute. You can easily add and remove list items. The list can be displayed in horizontal/vertical positions by setting the Relative Position attribute.The field of the form has several attributes:     
+3.5 Checkbox: This field of the  form can be used for selecting the values from a list of checkboxes. The list can be defined by Options attribute. You can easily add and remove list items. The list can be displayed in horizontal/vertical positions by setting the Relative Position attribute. You can use Rows/Columns field if you want the options to be displayed in a row/column (depending on the positioning choice). The number of rows/columns should be specified. The field of the form has several attributes:     
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
@@ -451,7 +489,10 @@ Class Name : You can define new CSS classes for the form in the Edit CSS page an
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
     
-3.6 Radio:This field of the  form can be used for selecting the values from a list of radio buttons. The list can be defined by Options attribute. You can easily add and remove list items. The list can be displayed in horizontal/vertical in the  form positions by setting the Relative Position attribute.The field of the  form has several attributes: Field Label: Type the name of the field of the  form.    
+3.6 Radio:This field of the  form can be used for selecting the values from a list of radio buttons. The list can be defined by Options attribute. You can easily add and remove list items. The list can be displayed in horizontal/vertical in the  form positions by setting the Relative Position attribute. You can use Rows/Columns field if you want the options to be displayed in a row/column (depending on the positioning choice). The number of rows/columns should be specified. The field of the  form has several attributes: 
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
+Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
@@ -459,47 +500,123 @@ Required: The field of the  form can be set as required for the submission on th
  Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
     
      
-3.7 File Upload: This field of the  form can be used for uploading a file. The size of the uploaded file can be limited by setting the value of Maximum Size attribute in KB. The upload folder can be mentioned by setting the Destinationattribute. Only files with extensions listed in Allowed file extensionsattribute can be uploaded. The form field has several attributes: Field Label: Type the name of the field of the  form.    
-    
+  3.7 Captcha: This field of the  form can be used for the ensuring that the submission is generated by a person. The number of randomly generated symbols can be set by the value of Captcha size attribute. The field of the  form has several attributes:     
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
+Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
-Field Size: Type the size of the field of the  form in pixels.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
+ Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.  
       
     
-3.8 Captcha: This field of the  form can be used for the ensuring that the submission is generated by a person. The number of randomly generated symbols can be set by the value of Captcha size attribute. The field of the  form has several attributes:     
-Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
-Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
      
-	 Recaptcha This is an alternative option for Captcha that uses Public and Private Keys for creating a form. You will need to create reCaptcha keys with the help of a dedicated tool for Form Maker.     
+	 Recaptcha: This is an alternative option for Captcha that uses Public and Private Keys for creating a form. You will need to create reCaptcha keys with the help of a dedicated tool for Form Maker.     
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
 Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.
     
-	3.9 Page Break of a form: This can be used to break the form into distinct pages. Use Page Title of a form to provide a title for the given page. Furthermore, the following parameters of the “Next” and “Previous” navigation buttons can be customized for the Form Maker. The field of the  form has several attributes: Field Label: Type the name of the field of the  form.    
+	3.8 Page Break of a form: This can be used to break the form into distinct pages. Use Page Title of a form to provide a title for the given page. Furthermore, the following parameters of the “Next” and “Previous” navigation buttons can be customized for the Form Maker. The field of the  form has several attributes: 
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
+Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
       
-	3.10 Section Break: This option allows adding a section break to the form page.  The field of the  form has several attributes: Field Label: Type the name of the field of the  form.    
+	3.9 Section Break: This option allows adding a section break to the form page.  The field of the  form has several attributes: 
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
+Field Label: Type the name of the field of the  form.    
 Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
 Field Size: Type the size of the field of the  form in pixels.    
 Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
 Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
  Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
      
-	3.11 Map: This field of the  form can be used for pointing out some position on the map. The position of the Form Marker is fixed at the front end. The field of the  form  has several attributes:Location, Map Size, Marker Info, Class Name, Additional Attributes.     
+	     
+   3.10 Survey Tools: Choose the Field Type according to your preferences. There are several options:
+
+   -	Star Rating. This field can be used for inserting star rating field in the form. Type the name of the field to be displayed with the rating system. The field has several attributes: 
+Field Label position: Define the positioning of the rating system.
+Star Amount: Define the number of stars to be used for the rating.
+Star Color: Choose the color of the stars from available four options.
+Class Name: You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly. 
+Required: Check the box to make the rating a required field.
+Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form. 
+
+	- 	Scale Rating. This field can be used for inserting scale rating in the form. Type the name of the field to be displayed with the rating system. Default field labels for lowest/highest satisfaction/grading can be edited clicking on the field label and typing in a custom label. The field has several attributes: 
+Field Label position: Define the positioning of the rating system.
+Scale Amount: Define the length of the scale to be used for the rating.
+Class Name: You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly. 
+Required: Check the box to make the rating a required field.
+Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form. 
+
+	- 	Spinner. This field can be used for inserting spinner as a rating system in the form. Type the name of the field to be displayed with the rating system. The field has several attributes: 
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
+Field Label: Type the name of the field of the  form.
+Field Label position: Define the positioning of the rating system.
+Width: Define the width of the spinner field.
+Min Value: Define the minimal value for rating.
+Max Value: Define the maximal value for rating.
+Class Name: You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly. 
+Required: Check the box to make the rating a required field.
+Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form. 
+
+	- 	Slider. This field can be used for inserting slider as a rating system in the form. Type the name of the field to be displayed with the rating system. The field has several attributes: 
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
+Field Label: Type the name of the field of the  form.
+Field Label position: Define the positioning of the rating system.
+Width: Define the width of the slider field.
+Min Value: Define the minimal value for rating.
+Max Value: Define the maximal value for rating.
+Class Name: You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly. 
+Required: Check the box to make the rating a required field.
+Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form. 
+
+	-	 Range. This field can be used for inserting range system in the form. Type the name of the field to be displayed with the range system. The field has several attributes:
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
+Field Label: Type the name of the field of the  form.
+Field Label position: Define the positioning of the rating system.
+Width: Define the width of the slider field.
+Step: Define the number differing follow up values.
+Class Name: You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly. 
+Required: Check the box to make the rating a required field.
+Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form. 
+
+	-	 Grading. This field can be used for inserting grading system in the form. Type the name of the field to be displayed with the grading system. The field has several attributes:
+Field ID: Each field has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
+Field Name: Each field has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
+Field Label: Type the name of the field of the  form.
+Field Label position: Define the positioning of the rating system.
+Total: Defines the maximal cumulative amount for the grades.
+Items: Define the item names to be graded.
+Class Name: You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly. 
+Required: Check the box to make the rating a required field.
+Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.
+
+	-	 Matrix.This field can be used for inserting a matrix in the form. Type the name of the field to be displayed with the matrix. The field has several attributes:
+Field Label: Type the name of the field of the  form.
+Field Label position: Define the positioning of the rating system.
+Input Type: Choose input option from provided 4 options.
+Rows: Define the names for the row items.
+Columns: Define the names for the column items.
+Class Name: You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly. 
+Required: Check the box to make the rating a required field.
+Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.
+
     
     
-3.12 Button: At first choose the Field Type of the  form according to your preference. There are several options:    
+	3.11 Button: At first choose the Field Type of the  form according to your preference. There are several options:    
 -	Submit and Reset: This field of the  form can be used for inserting a submit/reset button into the  form. You can display reset button by checking the box called Display reset button. Type the name of the submit and reset buttons in Submit button label and Reset button label. The field of the form also has several attributes:     
 Class Name: You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
      

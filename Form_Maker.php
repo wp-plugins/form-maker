@@ -2,12 +2,19 @@
 /*
 Plugin Name: Form Maker
 Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
-Version: 1.5.6
+Version: 1.5.7
 Author: http://web-dorado.com/
 License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
 */
-//// load languages
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////// css
+
+
+function form_maker_sesseion_path() {
+  @session_start();
+  session_save_path(ABSPATH . 'wp-content/plugins/form-maker/session');
+}
+add_action('init', 'form_maker_sesseion_path');
+
+// Css.
 $first_css = ".wdform_table1
 {
 font-size:14px;
@@ -202,30 +209,24 @@ width:100px;
 require_once("front_end_form_maker.php");
 require_once("form_maker_widget.php");
 require_once('recaptchalib.php');
-add_action('init', 'form_maker_language_load');
+
 function form_maker_language_load() {
   load_plugin_textdomain('form_maker', FALSE, basename(dirname(__FILE__)) . '/languages');
 }
-
-function form_maker_sesseion_path() {
-  @session_start();
-  session_save_path(ABSPATH . 'wp-content/plugins/form-maker');
-}
-add_action('init', 'form_maker_sesseion_path');
+add_action('init', 'form_maker_language_load');
 
 function do_output_buffer() {
   ob_start();
 }
 add_action('init', 'do_output_buffer');
 
-////////////////
 for ($ii = 0; $ii < 100; $ii++) {
   remove_filter('the_content', 'do_shortcode', $ii);
   remove_filter('the_content', 'wpautop', $ii);
 }
 add_filter('the_content', 'wpautop', 10);
 add_filter('the_content', 'do_shortcode', 11);
-add_filter('the_content', 'Form_maker_fornt_end_main', 5000);
+
 function Form_maker_fornt_end_main($content) {
   $pattern = '[\[Form id="([0-9]*)"\]]';
   $count_forms_in_post = preg_match_all($pattern, $content, $matches_form);
@@ -236,25 +237,45 @@ function Form_maker_fornt_end_main($content) {
   }
   return $content;
 }
+add_filter('the_content', 'Form_maker_fornt_end_main', 5000);
 
 function form_maker_scripts_method() {
   wp_enqueue_style("gmap_styles_", plugins_url("css/style_for_map.css", __FILE__), FALSE);
-  wp_enqueue_script("main_g_js", plugins_url("js/main_front_end.js", __FILE__), FALSE);
+  wp_enqueue_script("main_g_js", plugins_url("js/main_front_end.js", __FILE__), array(), '', FALSE);
   wp_enqueue_script("Calendar", plugins_url("js/calendar.js", __FILE__), FALSE);
   wp_enqueue_script("calendar-setup", plugins_url("js/calendar-setup.js", __FILE__), FALSE);
   wp_enqueue_script("calendar_function", plugins_url("js/calendar_function.js", __FILE__), FALSE);
   wp_enqueue_style("Css", plugins_url("js/calendar-jos.css", __FILE__), FALSE);
+  wp_enqueue_script("jquery", plugins_url("js/jquery-1.9.1.js", __FILE__), array(), '1.9.1');
+  wp_deregister_script('jquery-ui');
+  wp_enqueue_script("jquery-ui", plugins_url("js/jquery-ui.js", __FILE__));
+  wp_enqueue_script("jquery.ui.slider", plugins_url("js/jquery.ui.slider.js", __FILE__));
+  wp_enqueue_style("jquery-ui-spinner", plugins_url("css/jquery-ui-spinner.css", __FILE__), FALSE);
 }
-
 add_action('wp_enqueue_scripts', 'form_maker_scripts_method');
-///////////////////////////// FORNT END Print message
+
+// Add form maker plugin ur to head.
+function form_maker_plugin_url() {
+  echo "<input type='hidden' value='" . plugins_url("", __FILE__) . "' id='form_plugins_url' />";
+  echo '<script type="text/javascript">
+          if (document.getElementById("form_plugins_url")) {
+            var plugin_url = document.getElementById("form_plugins_url").value;
+          }
+          else {
+            var plugin_url = "";
+          }
+        </script>';
+}
+add_action('wp_head', 'form_maker_plugin_url');
+
+// Frontend messages.
 $check_seo = 0;
 function print_massage($content) {
   include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
   if (is_plugin_active('wordpress-seo/wp-seo.php') && $_SESSION['form_submit_type']) {
     global $check_seo;
     if ($check_seo++ != 1) {
-      return;
+      // return;
     }
   }
   $mh_after_head = did_action('wp_enqueue_scripts');
@@ -277,7 +298,7 @@ function print_massage($content) {
       if ($_SESSION['massage_after_submit'] != "") {
         $message = $_SESSION['massage_after_submit'];
         $_SESSION['massage_after_submit'] = "";
-        $returned_content = "   <style>
+        $returned_content = "<style>
 .updated,.error{
 border-width:1px !important;
 border-style:solid !important;
@@ -354,6 +375,7 @@ add_filter('the_content', 'print_massage');
 //// add editor new mce button
 add_filter('mce_external_plugins', "Form_Maker_register");
 add_filter('mce_buttons', 'Form_Maker_add_button', 0);
+
 /// function for add new button
 function Form_Maker_add_button($buttons) {
   array_push($buttons, "Form_Maker_mce");
@@ -367,121 +389,19 @@ function Form_Maker_register($plugin_array) {
   return $plugin_array;
 }
 
-function add_button_style1() {
-  echo '<style type="text/css">
-.wp_themeSkin span.mce_Form_Maker_mce {background:url(' . plugins_url('images/formmakerLogo.png', __FILE__) . ') no-repeat !important;}
-.wp_themeSkin .mceButtonEnabled:hover span.mce_Form_Maker_mce,.wp_themeSkin .mceButtonActive span.mce_Form_Maker_mce
-{background:url(' . plugins_url('images/formmakerLogoHover.png', __FILE__) . ') no-repeat !important;}
-</style>';
-}
-
-add_action('admin_head', 'add_button_style1');
-add_action('admin_menu', 'Form_maker_options_panel');
-function Form_maker_options_panel() {
-  $icon_url = plugins_url('images/FormMakerLogo-16.png', __FILE__);
-  add_menu_page('Theme page title', 'Form Maker', 'manage_options', 'Form_maker', 'Manage_Form_maker', $icon_url);
-  $page_form = add_submenu_page('Form_maker', 'Form Maker Manager', 'Manager', 'manage_options', 'Form_maker', 'Manage_Form_maker');
-  $page_submits = add_submenu_page('Form_maker', 'Form Maker  submissions', 'Submissions', 'manage_options', 'Form_maker_Submits', 'Form_maker_Submits');
-  add_submenu_page('Form_maker', 'Licensing/Donation', 'Licensing/Donation', 'manage_options', 'form_maker_Licensing', 'form_maker_Licensing');
-  add_submenu_page('Form_maker', 'Form Maker  Themes', 'Themes', 'manage_options', 'Form_maker_Themes', 'Form_maker_Themes');
-  add_submenu_page('Form_maker', 'Uninstall Form Maker ', 'Uninstall Form Maker', 'manage_options', 'Uninstall_Form_Maker', 'Uninstall_Form_Maker');
-  add_action('admin_print_styles-' . $page_form, 'form_maker_admin_styles_scripts');
-  add_action('admin_print_styles-' . $page_submits, 'form_maker_submits_styles_scripts');
-}
-
-function form_maker_Licensing() {
-  ?>
-<div style="width:95%">
-  <p>This plugin is the non-commercial version of the Form Maker. Use of this plugin is free. You can add not more than 7 fields. The limitation is on the some types of the fields (File Upload, Map and Paypal). If you want to use those fields, you are required to purchase a license. </p>
-  <br/>
-  <a href="http://web-dorado.com/files/fromFormMaker.php" class="button-primary" target="_blank">Purchase a License</a>
-  <br/><br/>
-  <p>After the purchasing the commercial version follow this steps:</p>
-  <ol>
-    <li>Deactivate Form Maker Plugin</li>
-    <li>Delete Form Maker Plugin</li>
-    <li>Install the downloaded commercial version of the plugin</li>
-  </ol>
-  <br/>
-  <p>If you enjoy using Form Maker and find it useful, please consider making a donation. Your donation will help encourage and support the plugin's continued development and better user support.</p>
-  <br/>
-  <a href="http://web-dorado.com/files/donate_redirect.php" target="_blank"><img src="<?php echo plugins_url('images/btn_donateCC_LG.gif', __FILE__); ?>" /></a>
-</div>
-<?php
-}
-
-function form_maker_submits_styles_scripts() {
-  wp_enqueue_script('word-count');
-  wp_enqueue_script('post');
-  wp_enqueue_script('editor');
-  wp_enqueue_script('media-upload');
-  wp_admin_css('thickbox');
-  wp_print_scripts('media-upload');
-  do_action('admin_print_styles');
-  wp_enqueue_script('common');
-  wp_enqueue_script('jquery-color');
-  wp_enqueue_script('utils');
-  wp_enqueue_script("mootools", plugins_url("js/mootools.js", __FILE__));
-  wp_enqueue_script("f_calendar", plugins_url("js/calendar.js", __FILE__));
-  wp_enqueue_script("f_calendar_functions", plugins_url("js/calendar_function.js", __FILE__));
-  wp_enqueue_script("f_calendar_setup", plugins_url("js/calendar-setup.js", __FILE__));
-  wp_enqueue_style("calendar-jos", plugins_url("js/calendar-jos.css", __FILE__));
-}
-
-function form_maker_admin_styles_scripts() {
-  if (isset($_GET['task'])) {
-    if (esc_html($_GET['task']) == "update" || esc_html($_GET['task']) == "save_update" || esc_html($_GET['task']) == "gotoedit" || esc_html($_GET['task']) == "add_form" || esc_html($_GET['task']) == "edit_form" || esc_html($_GET['task']) == "Save_Edit_JavaScript" || esc_html($_GET['task']) == "Save_Actions_after_submission" || esc_html($_GET['task']) == "Save_Custom_text_in_email_for_administrator" || esc_html($_GET['task']) == "Save_Custom_text_in_email_for_user") {
-      wp_enqueue_script('word-count');
-      wp_enqueue_script('post');
-      wp_enqueue_script('editor');
-      wp_enqueue_script('media-upload');
-      wp_admin_css('thickbox');
-      wp_print_scripts('media-upload');
-      do_action('admin_print_styles');
-      wp_enqueue_script('common');
-      wp_enqueue_script('jquery-color');
-      if (get_bloginfo('version') < '3.3') {
-        if (function_exists('add_thickbox'))
-          add_thickbox();
-        if (function_exists('wp_tiny_mce'))
-          wp_tiny_mce();
-      }
-      wp_enqueue_script('utils');
-      if (get_bloginfo('version') > 3.3) {
-        wp_enqueue_script("jquery");
-      }
-      else {
-        wp_deregister_script('jquery');
-        wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js');
-        wp_enqueue_script('jquery');
-      }
-      wp_enqueue_script("form_main_js", plugins_url("js/formmaker_free.js", __FILE__));
-      wp_enqueue_style("styles_form", plugins_url("css/style.css", __FILE__));
-      wp_enqueue_script("mootools", plugins_url("js/mootools.js", __FILE__));
-      wp_enqueue_script("f_calendar", plugins_url("js/calendar.js", __FILE__));
-      wp_enqueue_script("f_calendar_functions", plugins_url("js/calendar_function.js", __FILE__));
-      wp_enqueue_script("f_calendar_setup", plugins_url("js/calendar-setup.js", __FILE__));
-      // wp_enqueue_script("main",plugins_url("js/main.js",__FILE__));
-      wp_enqueue_style("calendar-jos", plugins_url("js/calendar-jos.css", __FILE__));
-    }
-  }
-}
-
-///////////////////////////////////////// add ajax for form maker functionaliti
-require_once("form_ajax_functions.php"); //////////// include form ajax functions for next 4 ajax hooks
-add_action('wp_ajax_formmakergeneretexml', 'form_maker_generete_xml'); ///export xml
-add_action('wp_ajax_formmakergeneretecsv', 'form_maker_generete_csv'); ///export csv
-add_action('wp_ajax_formmakerwdcaptcha', 'form_maker_wd_captcha'); /// generete captcha image and save it code in session
-add_action('wp_ajax_formmakerwindow', 'form_maker_window_php'); /// openid window in post or page for editor
-add_action('wp_ajax_nopriv_formmakergeneretexml', 'form_maker_generete_xml'); ///export xml
-add_action('wp_ajax_nopriv_formmakergeneretecsv', 'form_maker_generete_csv'); ///export csv
-add_action('wp_ajax_nopriv_formmakerwdcaptcha', 'form_maker_wd_captcha'); /// generete captcha image and save it code in session
-add_action('wp_ajax_nopriv_formmakerwindow', 'form_maker_window_php'); /// openid window in post or page for editor
+// Add ajax for form maker.
+require_once("form_ajax_functions.php");
+add_action('wp_ajax_formmakergeneretexml', 'form_maker_generete_xml'); // Export xml.
+add_action('wp_ajax_nopriv_formmakergeneretexml', 'form_maker_generete_xml'); // Export xml for all users.
+add_action('wp_ajax_formmakergeneretecsv', 'form_maker_generete_csv'); // Export csv.
+add_action('wp_ajax_nopriv_formmakergeneretecsv', 'form_maker_generete_csv'); // Export csv for all users.
+add_action('wp_ajax_formmakerwdcaptcha', 'form_maker_wd_captcha'); // Generete captcha image and save it code in session.
+add_action('wp_ajax_nopriv_formmakerwdcaptcha', 'form_maker_wd_captcha'); // Generete captcha image and save it code in session for all users.
+add_action('wp_ajax_formmakerwindow', 'form_maker_window_php'); // Open window in post or page for editor.
+add_action('wp_ajax_nopriv_formmakerwindow', 'form_maker_window_php'); // Open window in post or page for editor for all users.
+add_action('wp_ajax_fromeditcountryinpopup', 'spider_form_country_edit'); // Open country list.
 add_action('wp_ajax_form_preview_product_option', 'form_maker_form_preview_product_option');
-////////////////////////////////////////////
-//////////////////////////////////////////// manager
-////////////////////////////////////////////
-add_action('wp_ajax_fromeditcountryinpopup', 'spider_form_country_edit');
+
 function spider_form_country_edit() {
   if (function_exists('current_user_can')) {
     if (!current_user_can('manage_options')) {
@@ -640,11 +560,117 @@ function html_spider_form_country_edit($id) {
 <?php
 }
 
+function add_button_style1() {
+  echo '<style type="text/css">
+.wp_themeSkin span.mce_Form_Maker_mce {background:url(' . plugins_url('images/formmakerLogo.png', __FILE__) . ') no-repeat !important;}
+.wp_themeSkin .mceButtonEnabled:hover span.mce_Form_Maker_mce,.wp_themeSkin .mceButtonActive span.mce_Form_Maker_mce
+{background:url(' . plugins_url('images/formmakerLogoHover.png', __FILE__) . ') no-repeat !important;}
+</style>';
+}
+
+add_action('admin_head', 'add_button_style1');
+add_action('admin_menu', 'Form_maker_options_panel');
+function Form_maker_options_panel() {
+  $icon_url = plugins_url('images/FormMakerLogo-16.png', __FILE__);
+  add_menu_page('Theme page title', 'Form Maker', 'manage_options', 'Form_maker', 'Manage_Form_maker', $icon_url);
+  $page_form = add_submenu_page('Form_maker', 'Form Maker Manager', 'Manager', 'manage_options', 'Form_maker', 'Manage_Form_maker');
+  $page_submits = add_submenu_page('Form_maker', 'Form Maker  submissions', 'Submissions', 'manage_options', 'Form_maker_Submits', 'Form_maker_Submits');
+  add_submenu_page('Form_maker', 'Licensing/Donation', 'Licensing/Donation', 'manage_options', 'form_maker_Licensing', 'form_maker_Licensing');
+  add_submenu_page('Form_maker', 'Form Maker  Themes', 'Themes', 'manage_options', 'Form_maker_Themes', 'Form_maker_Themes');
+  add_submenu_page('Form_maker', 'Uninstall Form Maker ', 'Uninstall Form Maker', 'manage_options', 'Uninstall_Form_Maker', 'Uninstall_Form_Maker');
+  add_action('admin_print_styles-' . $page_form, 'form_maker_admin_styles_scripts');
+  add_action('admin_print_styles-' . $page_submits, 'form_maker_submits_styles_scripts');
+}
+
+function form_maker_Licensing() {
+  ?>
+<div style="width:95%">
+  <p>This plugin is the non-commercial version of the Form Maker. Use of this plugin is free. You can add not more than 7 fields. The limitation is on the some types of the fields (File Upload, Map and Paypal). If you want to use those fields, you are required to purchase a license. </p>
+  <br/>
+  <a href="http://web-dorado.com/files/fromFormMaker.php" class="button-primary" target="_blank">Purchase a License</a>
+  <br/><br/>
+  <p>After the purchasing the commercial version follow this steps:</p>
+  <ol>
+    <li>Deactivate Form Maker Plugin</li>
+    <li>Delete Form Maker Plugin</li>
+    <li>Install the downloaded commercial version of the plugin</li>
+  </ol>
+  <br/>
+  <p>If you enjoy using Form Maker and find it useful, please consider making a donation. Your donation will help encourage and support the plugin's continued development and better user support.</p>
+  <br/>
+  <a href="http://web-dorado.com/files/donate_redirect.php" target="_blank"><img src="<?php echo plugins_url('images/btn_donateCC_LG.gif', __FILE__); ?>" /></a>
+</div>
+<?php
+}
+
+function form_maker_submits_styles_scripts() {
+  wp_enqueue_script('word-count');
+  wp_enqueue_script('post');
+  wp_enqueue_script('editor');
+  wp_enqueue_script('media-upload');
+  wp_admin_css('thickbox');
+  wp_print_scripts('media-upload');
+  do_action('admin_print_styles');
+  wp_enqueue_script('common');
+  wp_enqueue_script('jquery-color');
+  wp_enqueue_script('utils');
+  wp_enqueue_script("main", plugins_url("js/main.js", __FILE__));
+  wp_enqueue_script("mootools", plugins_url("js/mootools.js", __FILE__));
+  wp_enqueue_script("f_calendar", plugins_url("js/calendar.js", __FILE__));
+  wp_enqueue_script("f_calendar_functions", plugins_url("js/calendar_function.js", __FILE__));
+  wp_enqueue_script("f_calendar_setup", plugins_url("js/calendar-setup.js", __FILE__));
+  wp_enqueue_style("calendar-jos", plugins_url("js/calendar-jos.css", __FILE__));
+  wp_enqueue_script("jquery", plugins_url("js/jquery-1.9.1.js", __FILE__), array(), '1.9.1');
+  wp_deregister_script('jquery-ui');
+  wp_enqueue_script("jquery-ui", plugins_url("js/jquery-ui.js", __FILE__));
+  wp_enqueue_style("jquery-ui-spinner", plugins_url("css/jquery-ui-spinner.css", __FILE__), FALSE);
+  wp_enqueue_script("jquery.ui.slider", plugins_url("js/jquery.ui.slider.js", __FILE__));
+  
+}
+
+function form_maker_admin_styles_scripts() {
+  if (isset($_GET['task'])) {
+    if (esc_html($_GET['task']) == "update" || esc_html($_GET['task']) == "save_update" || esc_html($_GET['task']) == "gotoedit" || esc_html($_GET['task']) == "add_form" || esc_html($_GET['task']) == "edit_form" || esc_html($_GET['task']) == "form_options") {
+      wp_enqueue_script('word-count');
+      wp_enqueue_script('post');
+      wp_enqueue_script('editor');
+      wp_enqueue_script('media-upload');
+      wp_admin_css('thickbox');
+      wp_print_scripts('media-upload');
+      do_action('admin_print_styles');
+      wp_enqueue_script('common');
+      wp_enqueue_script('jquery-color');
+      if (get_bloginfo('version') < '3.3') {
+        if (function_exists('add_thickbox'))
+          add_thickbox();
+        if (function_exists('wp_tiny_mce'))
+          wp_tiny_mce();
+      }
+      wp_enqueue_script('utils');
+      wp_enqueue_script("main", plugins_url("js/main.js", __FILE__));
+      wp_enqueue_script("form_main_js", plugins_url("js/formmaker_free.js", __FILE__));
+      wp_enqueue_script("gmap_form_api", 'http://maps.google.com/maps/api/js?sensor=false');
+      wp_enqueue_style("styles_form", plugins_url("css/style.css", __FILE__));
+      wp_enqueue_script("mootools", plugins_url("js/mootools.js", __FILE__));
+      wp_enqueue_script("f_calendar", plugins_url("js/calendar.js", __FILE__));
+      wp_enqueue_script("f_calendar_functions", plugins_url("js/calendar_function.js", __FILE__));
+      wp_enqueue_script("f_calendar_setup", plugins_url("js/calendar-setup.js", __FILE__));
+      wp_enqueue_style("calendar-jos", plugins_url("js/calendar-jos.css", __FILE__));
+      wp_enqueue_script("jquery", plugins_url("js/jquery-1.9.1.js", __FILE__), array(), '1.9.1');
+      wp_deregister_script('jquery-ui');
+      wp_enqueue_script("jquery-ui", plugins_url("js/jquery-ui.js", __FILE__));
+      wp_enqueue_script("jquery.ui.slider", plugins_url("js/jquery.ui.slider.js", __FILE__));
+      wp_enqueue_style("jquery-ui-spinner", plugins_url("css/jquery-ui-spinner.css", __FILE__), FALSE);
+    }
+  }
+}
+
 function Manage_Form_maker() {
   require_once("form_maker_functions.php");
   require_once("form_maker_functions.html.php");
-  if (!function_exists('print_html_nav'))
+  if (!function_exists('print_html_nav')) {
     require_once("nav_function/nav_html_func.php");
+  }
   global $wpdb;
   if (isset($_GET["task"])) {
     $task = esc_html($_GET["task"]);
@@ -653,7 +679,7 @@ function Manage_Form_maker() {
     $task = "show";
   }
   if (isset($_GET["id"])) {
-    $id = (int)$_GET["id"];
+    $id = (int) $_GET["id"];
   }
   else {
     $id = 0;
@@ -676,10 +702,12 @@ function Manage_Form_maker() {
       edit_form_maker($id);
       break;
     case "Save" :
-      if ($id)
+      if ($id) {
         apply_form($id);
-      else
+      }
+      else {
         save_form();
+      }
       display_form_lists();
       break;
     case "Apply" :
@@ -709,7 +737,7 @@ function Manage_Form_maker() {
         save_form();
         $id = $wpdb->get_var("SELECT MAX(id) FROM " . $wpdb->prefix . "formmaker");
       }
-      form_options($id);
+      wd_form_options($id);
       break;
     case "Save_form_options" :
       Apply_form_options($id);
@@ -717,7 +745,7 @@ function Manage_Form_maker() {
       break;
     case "Apply_form_options" :
       Apply_form_options($id);
-      form_options($id);
+      wd_form_options($id);
       break;
     case "save_as_copy":
       save_as_copy();
@@ -728,10 +756,7 @@ function Manage_Form_maker() {
   }
 }
 
-////////////////////////////////////////////
-//////////////////////////////////////////// Submi
-////////////////////////////////////////////
-////map in spubmits
+// Open map in submissions.
 add_action('wp_ajax_frommapeditinpopup', 'spider_form_map_edit');
 function spider_form_map_edit() {
   if (function_exists('current_user_can')) {
@@ -746,9 +771,8 @@ function spider_form_map_edit() {
     $long = esc_html($_GET['long']);
     $lat = esc_html($_GET['lat']);
     ?>
-  <script src="<?php echo plugins_url("js/if_gmap.js", __FILE__); ?>"></script>
+  <script src="<?php echo plugins_url("js/if_gmap_back_end.js", __FILE__); ?>"></script>
   <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
-
   <table style="margin:0px; padding:0px">
     <tr>
       <td><b>Address:</b></td>
@@ -764,20 +788,12 @@ function spider_form_map_edit() {
     </tr>
   </table>
 
-  <div id="0_elementform_id_temp" long="<?php echo $long ?>" center_x="<?php echo $long ?>"
-       center_y="<?php echo $lat ?>" lat="<?php echo $lat ?>" zoom="8" info=""
-       style="width:600px; height:500px; "></div>
-
+  <div id="0_elementform_id_temp" long="<?php echo $long ?>" center_x="<?php echo $long ?>" center_y="<?php echo $lat ?>" lat="<?php echo $lat ?>" zoom="8" info="" style="width:600px; height:500px; "></div>
   <script>
     if_gmap_init("0");
     add_marker_on_map(0, 0, "<?php echo $long ?>", "<?php echo $lat ?>", '');
-
-
   </script>
-
   <?php
-
-
     die();
   }
   else {
@@ -785,29 +801,120 @@ function spider_form_map_edit() {
   }
 }
 
-/////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////           priview form
-///////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////
+// Open map in submissions.
+add_action('wp_ajax_show_matrix', 'spider_form_show_matrix');
+function spider_form_show_matrix() {
+  if (function_exists('current_user_can')) {
+    if (!current_user_can('manage_options')) {
+      die('Access Denied');
+    }
+  }
+  else {
+    die('Access Denied');
+  }
+  if (isset($_GET['matrix_params'])) {
+    $matrix_params = esc_html($_GET['matrix_params']);
+    $new_filename = str_replace("***matrix***", '', $matrix_params);
+    $new_filename = explode('***', $matrix_params);
+    $mat_params = array_slice($new_filename, 0, count($new_filename) - 1);
+    $mat_rows = $mat_params[0];
+    $mat_columns = $mat_params[$mat_rows + 1];
+    $matrix = '<table>';
+    $matrix .= '<tr><td></td>';
+    for ($k = 1; $k <= $mat_columns; $k++) {
+      $matrix .= '<td style="background-color:#BBBBBB; padding:5px;">' . $mat_params[$mat_rows + 1 + $k] . '</td>';
+    }
+    $matrix .= '</tr>';
+    $aaa = Array();
+    $var_checkbox = 1;
+    for ($k = 1; $k <= $mat_rows; $k++) {
+      $matrix .='<tr><td style="background-color:#BBBBBB; padding:5px; ">'.$mat_params[$k].'</td>';
+      if ($mat_params[$mat_rows + $mat_columns + 2] == "radio") {
+        if ($mat_params[$mat_rows + $mat_columns + 2 + $k] == 0) {
+          $checked = 0;
+          $aaa[1] = "";
+        }
+        else {
+          $aaa = explode("_", $mat_params[$mat_rows + $mat_columns + 2 + $k]);
+        }
+        for ($l = 1; $l <= $mat_columns; $l++) {
+          if ($aaa[1] == $l) {
+            $checked = "checked";
+          }
+          else {
+            $checked = "";
+          }
+          $matrix .= '<td style="text-align:center"><input type="radio" ' . $checked . ' disabled /></td>';
+        }
+      }
+      else {
+        if ($mat_params[$mat_rows + $mat_columns + 2] == "checkbox") {
+          for ($l = 1; $l <= $mat_columns; $l++) {
+            if ($mat_params[$mat_rows+$mat_columns + 2 + $var_checkbox] == "1") {
+              $checked = "checked";
+            }
+            else {
+              $checked = "";
+            }
+            $matrix .= '<td style="text-align:center"><input type="checkbox" ' . $checked . ' disabled /></td>';
+            $var_checkbox++;
+          }
+        }
+        else {
+          if ($mat_params[$mat_rows + $mat_columns + 2] == "text") {
+            for ($l = 1; $l <= $mat_columns; $l++) {
+              $checked = $mat_params[$mat_rows + $mat_columns + 2 + $var_checkbox];
+              $matrix .= '<td style="text-align:center"><input type="text" value="' . $checked . '" disabled /></td>';
+              $var_checkbox++;
+            }
+          }
+          else {
+            for ($l = 1; $l <= $mat_columns; $l++) {
+              $checked = $mat_params[$mat_rows + $mat_columns + 2 + $var_checkbox];
+              $matrix .= '<td style="text-align:center">' . $checked . '</td>';
+              $var_checkbox++;
+            }
+          }
+        }
+      }
+      $matrix .= '</tr>';
+    }
+    $matrix .= '</table>';
+		echo $matrix;
+    die();
+  }
+  else {
+    return 0;
+  }
+}
+
+// Form preview.
 add_action('wp_ajax_frommakerpreview', 'preview_formmaker');
 function html_preview_formmaker($css) {
-  /**
-   * @package SpiderFC
-   * @author Web-Dorado
-   * @copyright (C) 2011 Web-Dorado. All rights reserved.
-   * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
-   **/
+  echo "<input type='hidden' value='" . plugins_url("", __FILE__) . "' id='form_plugins_url' />";
+  echo '<script type="text/javascript">
+          if (document.getElementById("form_plugins_url")) {
+            var plugin_url = document.getElementById("form_plugins_url").value;
+          }
+          else {
+            var plugin_url = "";
+          }
+        </script>';
   $cmpnt_js_path = plugins_url('js', __FILE__);
   $id = 'form_id_temp';
   ?>
-<script src="<?php echo $cmpnt_js_path . "/if_gmap.js"; ?>"></script>
+<script src="<?php echo $cmpnt_js_path . "/if_gmap_back_end.js"; ?>"></script>
 <script src="<?php echo $cmpnt_js_path . "/main.js"; ?>"></script>
 <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script src="<?php echo $cmpnt_js_path . "/jquery-1.9.1.js"; ?>"></script>
+<script src="<?php echo $cmpnt_js_path . "/jquery-ui.js"; ?>"></script>
+<script src="<?php echo $cmpnt_js_path . "/jquery.ui.slider.js"; ?>"></script>
+<script src="<?php echo $cmpnt_js_path . "/main_front_end.js"; ?>"></script>
+<link media="all" type="text/css" href="<?php echo plugins_url('', __FILE__) . "/css/jquery-ui-spinner.css"; ?>" rel="stylesheet">
 <style>
     <?php
     $cmpnt_js_path = plugins_url('', __FILE__);
     echo str_replace('[SITE_ROOT]', $cmpnt_js_path, $css);
-
     ?>
 </style>
 <div id="form_id_temppages" class="wdform_page_navigation" show_title="" show_numbers="" type=""></div>
@@ -823,8 +930,6 @@ document.getElementById('form_id_temppages').setAttribute('show_title', window.p
 document.getElementById('form_id_temppages').setAttribute('show_numbers', window.parent.document.getElementById('pages').getAttribute('show_numbers'));
 document.getElementById('form_id_temppages').setAttribute('type', window.parent.document.getElementById('pages').getAttribute('type'));
 document.getElementById('counterform_id_temp').value = window.parent.gen;
-;
-
 form_view_count<?php echo $id ?>= 0;
 for (i = 1; i <= 30; i++) {
   if (document.getElementById('<?php echo $id ?>form_view' + i)) {
@@ -869,7 +974,6 @@ function remove_add_(id) {
 }
 
 function refresh_first() {
-
   n = window.parent.gen;
   for (i = 0; i < n; i++) {
     if (document.getElementById(i)) {
@@ -1038,12 +1142,18 @@ function refresh_first() {
         }
         case "type_address":
         {
-          remove_add_(i + "_street1form_id_temp");
-          remove_add_(i + "_street2form_id_temp");
-          remove_add_(i + "_cityform_id_temp");
-          remove_add_(i + "_stateform_id_temp");
-          remove_add_(i + "_postalform_id_temp");
-          remove_add_(i + "_countryform_id_temp");
+          if(document.getElementById(i+"_disable_fieldsform_id_temp").getAttribute('street1')=='no')
+            remove_add_(i+"_street1form_id_temp");
+          if(document.getElementById(i+"_disable_fieldsform_id_temp").getAttribute('street2')=='no')	
+            remove_add_(i+"_street2form_id_temp");
+          if(document.getElementById(i+"_disable_fieldsform_id_temp").getAttribute('city')=='no')
+            remove_add_(i+"_cityform_id_temp");
+          if(document.getElementById(i+"_disable_fieldsform_id_temp").getAttribute('state')=='no')
+            remove_add_(i+"_stateform_id_temp");
+          if(document.getElementById(i+"_disable_fieldsform_id_temp").getAttribute('postal')=='no')
+            remove_add_(i+"_postalform_id_temp");
+          if(document.getElementById(i+"_disable_fieldsform_id_temp").getAttribute('country')=='no')
+            remove_add_(i+"_countryform_id_temp");
 
           break;
 
@@ -1058,9 +1168,6 @@ function refresh_first() {
             if (document.getElementById(i + "_elementform_id_temp" + j)) {
               remove_add_(i + "_elementform_id_temp" + j);
             }
-          /*	if(document.getElementById(i+"_randomize").value=="yes")
-                  choises_randomize(i);*/
-
           break;
         }
 
@@ -1101,6 +1208,140 @@ function refresh_first() {
           remove_add_(i + "_yearform_id_temp");
           break;
         }
+        case "type_star_rating":
+						{	
+							remove_add_(i+"_elementform_id_temp");
+						
+								break;
+						}
+					case "type_scale_rating":
+						{	
+							remove_add_(i+"_elementform_id_temp");
+						
+								break;
+						}
+					case "type_spinner":
+						{	
+							remove_add_(i+"_elementform_id_temp");
+							
+							var spinner_value = document.getElementById(i+"_elementform_id_temp").getAttribute( "aria-valuenow" );
+							var spinner_min_value = document.getElementById(i+"_min_valueform_id_temp").value;
+							var spinner_max_value = document.getElementById(i+"_max_valueform_id_temp").value;
+							var spinner_step = document.getElementById(i+"_stepform_id_temp").value;
+								  
+									 jQuery( "#"+i+"_elementform_id_temp" ).removeClass( "ui-spinner-input" )
+							.prop( "disabled", false )
+							.removeAttr( "autocomplete" )
+							.removeAttr( "role" )
+							.removeAttr( "aria-valuemin" )
+							.removeAttr( "aria-valuemax" )
+							.removeAttr( "aria-valuenow" );
+				
+							span_ui= document.getElementById(i+"_elementform_id_temp").parentNode;
+								span_ui.parentNode.appendChild(document.getElementById(i+"_elementform_id_temp"));
+								span_ui.parentNode.removeChild(span_ui);
+								
+								jQuery("#"+i+"_elementform_id_temp")[0].spin = null;
+								
+								spinner = jQuery( "#"+i+"_elementform_id_temp" ).spinner();
+								spinner.spinner( "value", spinner_value );
+								jQuery( "#"+i+"_elementform_id_temp" ).spinner({ min: spinner_min_value});    
+								jQuery( "#"+i+"_elementform_id_temp" ).spinner({ max: spinner_max_value});
+								jQuery( "#"+i+"_elementform_id_temp" ).spinner({ step: spinner_step});
+									break;
+						}
+						
+								case "type_slider":
+						{	
+								remove_add_(i+"_elementform_id_temp");	
+								
+							var slider_value = document.getElementById(i+"_slider_valueform_id_temp").value;
+							var slider_min_value = document.getElementById(i+"_slider_min_valueform_id_temp").value;
+							var slider_max_value = document.getElementById(i+"_slider_max_valueform_id_temp").value;
+							
+							var slider_element_value = document.getElementById( i+"_element_valueform_id_temp" );
+							var slider_value_save = document.getElementById( i+"_slider_valueform_id_temp" );
+					
+							document.getElementById(i+"_elementform_id_temp").innerHTML = "";
+							document.getElementById(i+"_elementform_id_temp").removeAttribute( "class" );
+							document.getElementById(i+"_elementform_id_temp").removeAttribute( "aria-disabled" );
+							jQuery("#"+i+"_elementform_id_temp")[0].slide = null;	
+							
+							
+							jQuery( "#"+i+"_elementform_id_temp").slider({
+								range: "min",
+								value: eval(slider_value),
+								min: eval(slider_min_value),
+								max: eval(slider_max_value),
+								slide: function( event, ui ) {	
+									slider_element_value.innerHTML = "" + ui.value ;
+									slider_value_save.value = "" + ui.value; 
+
+								}
+							});
+                         break;
+						}
+								case "type_range":
+						{	
+							remove_add_(i+"_elementform_id_temp0");
+							remove_add_(i+"_elementform_id_temp1");
+						
+							var spinner_value0 = document.getElementById(i+"_elementform_id_temp0").getAttribute( "aria-valuenow" );
+							var spinner_step = document.getElementById(i+"_range_stepform_id_temp").value;
+								  
+									 jQuery( "#"+i+"_elementform_id_temp0" ).removeClass( "ui-spinner-input" )
+							.prop( "disabled", false )
+							.removeAttr( "autocomplete" )
+							.removeAttr( "role" )
+							.removeAttr( "aria-valuenow" );
+							
+							span_ui= document.getElementById(i+"_elementform_id_temp0").parentNode;
+								span_ui.parentNode.appendChild(document.getElementById(i+"_elementform_id_temp0"));
+								span_ui.parentNode.removeChild(span_ui);
+							
+							jQuery("#"+i+"_elementform_id_temp0")[0].spin = null;
+							jQuery("#"+i+"_elementform_id_temp1")[0].spin = null;
+							
+							
+							spinner0 = jQuery( "#"+i+"_elementform_id_temp0" ).spinner();
+							spinner0.spinner( "value", spinner_value0 );
+							jQuery( "#"+i+"_elementform_id_temp0" ).spinner({ step: spinner_step});
+							var spinner_value1 = document.getElementById(i+"_elementform_id_temp1").getAttribute( "aria-valuenow" );
+              jQuery( "#"+i+"_elementform_id_temp1" ).removeClass( "ui-spinner-input" )
+							.prop( "disabled", false )
+							.removeAttr( "autocomplete" )
+							.removeAttr( "role" )
+							.removeAttr( "aria-valuenow" );
+							
+							span_ui1= document.getElementById(i+"_elementform_id_temp1").parentNode;
+							span_ui1.parentNode.appendChild(document.getElementById(i+"_elementform_id_temp1"));
+							span_ui1.parentNode.removeChild(span_ui1);
+							
+							spinner1 = jQuery( "#"+i+"_elementform_id_temp1" ).spinner();
+							spinner1.spinner( "value", spinner_value1 );
+							jQuery( "#"+i+"_elementform_id_temp1" ).spinner({ step: spinner_step});
+				
+								break;
+						}
+						case "type_grading":
+						{
+							
+							for(k=0; k<100; k++)
+								if(document.getElementById(i+"_elementform_id_temp"+k))
+								{
+									remove_add_(i+"_elementform_id_temp"+k);
+								}
+						
+							
+							break;
+						}
+						
+						case "type_matrix":
+						{	
+							remove_add_(i+"_elementform_id_temp");
+						
+								break;
+						}
       }
     }
   }
@@ -1148,7 +1389,7 @@ function refresh_first() {
   die();
 }
 
-function  preview_formmaker() {
+function preview_formmaker() {
   if (function_exists('current_user_can')) {
     if (!current_user_can('manage_options')) {
       die('Access Denied');
@@ -1158,12 +1399,8 @@ function  preview_formmaker() {
     die('Access Denied');
   }
   global $wpdb;
-  if (isset($_GET['id'])) {
-    $getparams = (int)$_GET['id'];
-  }
-  else {
-    $getparams = 0;
-  }
+  if (isset($_GET['id']))
+    $getparams = (int) $_GET['id'];
   $query = "SELECT css FROM " . $wpdb->prefix . "formmaker_themes WHERE id=" . $getparams;
   $css = $wpdb->get_var($query);
   html_preview_formmaker($css);
@@ -1187,7 +1424,7 @@ function Form_maker_Submits() {
     $task = "show";
   }
   if (isset($_GET["id"])) {
-    $id = (int)$_GET["id"];
+    $id = (int) $_GET["id"];
   }
   else {
     $id = 0;
@@ -1226,8 +1463,9 @@ function Form_maker_Submits() {
 function Form_maker_Themes() {
   require_once("Theme_functions.php");
   require_once("Themes_function.html.php");
-  if (!function_exists('print_html_nav'))
+  if (!function_exists('print_html_nav')) {
     require_once("nav_function/nav_html_func.php");
+  }
   global $wpdb;
   if (isset($_GET["task"])) {
     $task = esc_html($_GET["task"]);
@@ -1236,7 +1474,7 @@ function Form_maker_Themes() {
     $task = "";
   }
   if (isset($_GET["id"])) {
-    $id = (int)$_GET["id"];
+    $id = (int) $_GET["id"];
   }
   else {
     $id = 0;
@@ -1418,7 +1656,7 @@ function Uninstall_Form_Maker() {
         </div>
       </form>
       <?php
-  } // End switch($mode)
+  }
 }
 
 
@@ -1428,12 +1666,12 @@ function formmaker_activate() {
   require_once("update_sql.php");
   formmaker_chech_update();
 }
-
 register_activation_hook(__FILE__, 'formmaker_activate');
+
 function sp_form_deactiv() {
   echo esc_html($_GET['form_maker_uninstall']);
   if (isset($_GET['form_maker_uninstall'])) {
-    if (esc_html($_GET['form_maker_uninstall']) == 1) {
+    if ($_GET['form_maker_uninstall'] == 1) {
       delete_option('formmaker_cureent_version');
     }
   }

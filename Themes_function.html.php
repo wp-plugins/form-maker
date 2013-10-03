@@ -124,8 +124,6 @@ function html_show_theme($rows, $pageNav, $sort) {
 <form method="post" onkeypress="doNothing()" action="admin.php?page=Form_maker_Themes" id="admin_form"
       name="admin_form">
   <table cellspacing="10" width="100%">
-
-
     <tr>
       <td style="width:80px">
         <?php echo "<h2>" . 'Themes' . "</h2>"; ?>
@@ -133,9 +131,7 @@ function html_show_theme($rows, $pageNav, $sort) {
       <td style="width:90px; text-align:right;"><p class="submit" style="padding:0px; text-align:left"><input
         type="button" value="Add a Theme" name="custom_parametrs"
         onclick="window.location.href='admin.php?page=Form_maker_Themes&task=add_theme'"/></p></td>
-      <td style="text-align:right;font-size:16px;padding:20px; padding-right:50px">
-
-      </td>
+      <td style="text-align:right;font-size:16px;padding:20px; padding-right:50px"></td>
       <td colspan="11">
         <div style="text-align:right;font-size:16px;padding:20px; padding-right:50px; width:90%">
           <a href="http://web-dorado.com/files/fromFormMaker.php" target="_blank"
@@ -149,6 +145,7 @@ function html_show_theme($rows, $pageNav, $sort) {
     </tr>
   </table>
   <?php
+  $serch_value = '';
   if (isset($_POST['serch_or_not'])) {
     if (esc_html($_POST['serch_or_not']) == "search") {
       $serch_value = esc_html($_POST['search_events_by_title']);
@@ -156,9 +153,6 @@ function html_show_theme($rows, $pageNav, $sort) {
     else {
       $serch_value = "";
     }
-  }
-  else {
-    $serch_value = "";
   }
   $serch_fields = '<div class="alignleft actions" style="width:180px;">
     	<label for="search_events_by_title" style="font-size:14px">Title: </label>
@@ -250,26 +244,6 @@ function html_edit_theme($row, $id) {
   }
 
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <table width="90%">
   <thead>
   <tr>
