@@ -2391,18 +2391,20 @@ function html_edit_form_maker($row, $labels, $themes) {
             }
             case "type_address":
             {
-              if(document.getElementById(id_for_country+"_disable_fieldsform_id_temp").getAttribute('street1')=='no')
-								remove_add_(i+"_street1form_id_temp");
-							if(document.getElementById(id_for_country+"_disable_fieldsform_id_temp").getAttribute('street2')=='no')	
-								remove_add_(i+"_street2form_id_temp");
-							if(document.getElementById(id_for_country+"_disable_fieldsform_id_temp").getAttribute('city')=='no')
-								remove_add_(i+"_cityform_id_temp");
-							if(document.getElementById(id_for_country+"_disable_fieldsform_id_temp").getAttribute('state')=='no')
-								remove_add_(i+"_stateform_id_temp");
-							if(document.getElementById(id_for_country+"_disable_fieldsform_id_temp").getAttribute('postal')=='no')
-								remove_add_(i+"_postalform_id_temp");
-							if(document.getElementById(id_for_country+"_disable_fieldsform_id_temp").getAttribute('country')=='no')
-								remove_add_(i+"_countryform_id_temp");
+              if (document.getElementById(id_for_country+"_disable_fieldsform_id_temp")) {
+                if(document.getElementById(id_for_country+"_disable_fieldsform_id_temp").getAttribute('street1')=='no')
+                  remove_add_(i+"_street1form_id_temp");
+                if(document.getElementById(id_for_country+"_disable_fieldsform_id_temp").getAttribute('street2')=='no')	
+                  remove_add_(i+"_street2form_id_temp");
+                if(document.getElementById(id_for_country+"_disable_fieldsform_id_temp").getAttribute('city')=='no')
+                  remove_add_(i+"_cityform_id_temp");
+                if(document.getElementById(id_for_country+"_disable_fieldsform_id_temp").getAttribute('state')=='no')
+                  remove_add_(i+"_stateform_id_temp");
+                if(document.getElementById(id_for_country+"_disable_fieldsform_id_temp").getAttribute('postal')=='no')
+                  remove_add_(i+"_postalform_id_temp");
+                if(document.getElementById(id_for_country+"_disable_fieldsform_id_temp").getAttribute('country')=='no')
+                  remove_add_(i+"_countryform_id_temp");
+              }
               break;
 
             }
