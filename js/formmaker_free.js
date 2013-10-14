@@ -14580,6 +14580,7 @@ document.getElementById( b+"_slider_widthform_id_temp" ).value=a;
 
 function change_slider_min_value(a,b,form_id){
 document.getElementById( b+"_slider_min_valueform_id_temp" ).value=a;
+document.getElementById(b+"_slider_valueform_id_temp" ).value = a;
 if(a > document.getElementById( b+"_element_valueform_id_temp" ).innerHTML){
 document.getElementById( b+"_element_valueform_id_temp" ).innerHTML = a;
 
@@ -22958,36 +22959,75 @@ function edit(id) {
 			{
 				s=document.getElementById(id+"_div_address").style.width;
 				w_size=s.substring(0,s.length-2);
-        if(document.getElementById(id+"_mini_label_street1"))
-					w_street1= document.getElementById(id+"_mini_label_street1").innerHTML; 
-				else
-					w_street1 = document.getElementById(id+"_street1form_id_temp").value;
-					
-					
-				if(document.getElementById(id+"_mini_label_street2"))
+        if(document.getElementById(id+"_mini_label_street1")) {
+					w_street1= document.getElementById(id+"_mini_label_street1").innerHTML;
+        }
+				else {
+          if (document.getElementById(id+"_street1form_id_temp")) {
+            w_street1 = document.getElementById(id+"_street1form_id_temp").value;
+          }
+          else {
+            w_street1 = '';
+          }
+        }
+				if (document.getElementById(id+"_mini_label_street2")) {
 					w_street2= document.getElementById(id+"_mini_label_street2").innerHTML;
-				else
-					w_street2 = document.getElementById(id+"_street2form_id_temp").value;	
+        }
+				else {
+          if (document.getElementById(id+"_street2form_id_temp")) {
+            w_street2 = document.getElementById(id+"_street2form_id_temp").value;
+          }
+          else {
+            w_street2 = '';
+          }
+        }
 					
-				if(document.getElementById(id+"_mini_label_city"))
+				if (document.getElementById(id+"_mini_label_city")) {
 					w_city= document.getElementById(id+"_mini_label_city").innerHTML;
-				else
-					w_city = document.getElementById(id+"_cityform_id_temp").value;					
+        }
+				else {
+          if (document.getElementById(id+"_cityform_id_temp")) {
+            w_city = document.getElementById(id+"_cityform_id_temp").value;
+          }
+          else {
+            w_city = '';
+          }
+        }
+
+				if (document.getElementById(id+"_mini_label_state")) {
+					w_state= document.getElementById(id+"_mini_label_state").innerHTML;
+        }
+				else {
+          if (document.getElementById(id+"_stateform_id_temp")) {
+            w_state = document.getElementById(id+"_stateform_id_temp").value;
+          }
+          else {
+            w_state = '';
+          }
+        }
+				if (document.getElementById(id+"_mini_label_postal")) {
+					w_postal= document.getElementById(id+"_mini_label_postal").innerHTML;
+        }
+				else {
+          if (document.getElementById(id+"_postalform_id_temp")) {
+            w_postal = document.getElementById(id+"_postalform_id_temp").value;
+          }
+          else {
+            w_postal = '';
+          }
+        }
 					
-				if(document.getElementById(id+"_mini_label_state"))
-					w_state= document.getElementById(id+"_mini_label_state").innerHTML; 
-				else
-					w_state = document.getElementById(id+"_stateform_id_temp").value;	
-					
-				if(document.getElementById(id+"_mini_label_postal"))
-					w_postal= document.getElementById(id+"_mini_label_postal").innerHTML; 
-				else
-					w_postal = document.getElementById(id+"_postalform_id_temp").value;	
-					
-				if(document.getElementById(id+"_mini_label_country"))
-					w_country= document.getElementById(id+"_mini_label_country").innerHTML; 
-				else
-					w_country = document.getElementById(id+"_countryform_id_temp").value;					
+				if (document.getElementById(id+"_mini_label_country")) {
+					w_country= document.getElementById(id+"_mini_label_country").innerHTML;
+        }
+				else {
+          if (document.getElementById(id+"_countryform_id_temp")) {
+            w_country = document.getElementById(id+"_countryform_id_temp").value;
+          }
+          else {
+            w_country = '';
+          }
+        }			
 					
 				w_mini_labels=[w_street1, w_street2, w_city, w_state, w_postal, w_country];
 
@@ -23579,36 +23619,75 @@ function dublicate(id) {
 			{
 				s=document.getElementById(id+"_div_address").style.width;
 				w_size=s.substring(0,s.length-2);
-        if(document.getElementById(id+"_mini_label_street1"))
-					w_street1= document.getElementById(id+"_mini_label_street1").innerHTML; 
-				else
-					w_street1 = document.getElementById(id+"_street1form_id_temp").value;
-					
-					
-				if(document.getElementById(id+"_mini_label_street2"))
+        if(document.getElementById(id+"_mini_label_street1")) {
+					w_street1= document.getElementById(id+"_mini_label_street1").innerHTML;
+        }
+				else {
+          if (document.getElementById(id+"_street1form_id_temp")) {
+            w_street1 = document.getElementById(id+"_street1form_id_temp").value;
+          }
+          else {
+            w_street1 = '';
+          }
+        }
+				if (document.getElementById(id+"_mini_label_street2")) {
 					w_street2= document.getElementById(id+"_mini_label_street2").innerHTML;
-				else
-					w_street2 = document.getElementById(id+"_street2form_id_temp").value;	
+        }
+				else {
+          if (document.getElementById(id+"_street2form_id_temp")) {
+            w_street2 = document.getElementById(id+"_street2form_id_temp").value;
+          }
+          else {
+            w_street2 = '';
+          }
+        }
 					
-				if(document.getElementById(id+"_mini_label_city"))
+				if (document.getElementById(id+"_mini_label_city")) {
 					w_city= document.getElementById(id+"_mini_label_city").innerHTML;
-				else
-					w_city = document.getElementById(id+"_cityform_id_temp").value;					
+        }
+				else {
+          if (document.getElementById(id+"_cityform_id_temp")) {
+            w_city = document.getElementById(id+"_cityform_id_temp").value;
+          }
+          else {
+            w_city = '';
+          }
+        }
+
+				if (document.getElementById(id+"_mini_label_state")) {
+					w_state= document.getElementById(id+"_mini_label_state").innerHTML;
+        }
+				else {
+          if (document.getElementById(id+"_stateform_id_temp")) {
+            w_state = document.getElementById(id+"_stateform_id_temp").value;
+          }
+          else {
+            w_state = '';
+          }
+        }
+				if (document.getElementById(id+"_mini_label_postal")) {
+					w_postal= document.getElementById(id+"_mini_label_postal").innerHTML;
+        }
+				else {
+          if (document.getElementById(id+"_postalform_id_temp")) {
+            w_postal = document.getElementById(id+"_postalform_id_temp").value;
+          }
+          else {
+            w_postal = '';
+          }
+        }
 					
-				if(document.getElementById(id+"_mini_label_state"))
-					w_state= document.getElementById(id+"_mini_label_state").innerHTML; 
-				else
-					w_state = document.getElementById(id+"_stateform_id_temp").value;	
-					
-				if(document.getElementById(id+"_mini_label_postal"))
-					w_postal= document.getElementById(id+"_mini_label_postal").innerHTML; 
-				else
-					w_postal = document.getElementById(id+"_postalform_id_temp").value;	
-					
-				if(document.getElementById(id+"_mini_label_country"))
-					w_country= document.getElementById(id+"_mini_label_country").innerHTML; 
-				else
-					w_country = document.getElementById(id+"_countryform_id_temp").value;					
+				if (document.getElementById(id+"_mini_label_country")) {
+					w_country= document.getElementById(id+"_mini_label_country").innerHTML;
+        }
+				else {
+          if (document.getElementById(id+"_countryform_id_temp")) {
+            w_country = document.getElementById(id+"_countryform_id_temp").value;
+          }
+          else {
+            w_country = '';
+          }
+        }				
 					
 				w_mini_labels=[w_street1, w_street2, w_city, w_state, w_postal, w_country];
 				var disabled_input = document.getElementById(id+"_disable_fieldsform_id_temp");
