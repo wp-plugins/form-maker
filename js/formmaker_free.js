@@ -20376,10 +20376,16 @@ function make_pagebreak_button(next_or_previous,title,type, class_ ,id)
 
 function show_or_hide(id)
 {
-	if(!jQuery("#form_id_tempform_view"+id).is(":visible"))
+	if(!jQuery("#form_id_tempform_view"+id).is(":visible")) {
 		show_form_view(id);
-	else
+		jQuery("#show_page_img_"+id).attr("onmouseover", "chnage_icons_src(this,'minus')");
+		jQuery("#show_page_img_"+id).attr("onmouseout", "chnage_icons_src(this,'minus')");
+	}
+	else {
 		hide_form_view(id);
+		jQuery("#show_page_img_"+id).attr("onmouseover", "chnage_icons_src(this,'plus')");
+		jQuery("#show_page_img_"+id).attr("onmouseout", "chnage_icons_src(this,'plus')");
+	}
 }
 
 function show_form_view(id)
