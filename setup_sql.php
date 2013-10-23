@@ -191,7 +191,7 @@ HEREQUERYFORM;
   `id` int(11) NOT NULL auto_increment,
   `form_id` int(11) NOT NULL,
   `element_label` varchar(128) NOT NULL,
-  `element_value` varchar(600) NOT NULL,
+  `element_value` mediumtext NOT NULL,
   `group_id` int(11) NOT NULL,
   `date` datetime NOT NULL,
   `ip` varchar(32) NOT NULL,

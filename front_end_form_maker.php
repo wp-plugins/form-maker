@@ -833,7 +833,7 @@ function gen_mail($counter, $all_files, $id, $str) {
                   if (isset($element_first)) {
                     $element_title = $_POST[$key."_element_title".$id];
                     if (isset($element_title)) {
-                      $new_value = $_POST[$key."_element_title".$id].' '.$_POST[$key."_element_first".$id].' '.$_POST[$i."_element_last".$id].' '.$_POST[$i."_element_middle".$id];
+                      $new_value = $_POST[$key."_element_title".$id].' '.$_POST[$key."_element_first".$id].' '.$_POST[$key."_element_last".$id].' '.$_POST[$key."_element_middle".$id];
                     }
                     else {
                       $new_value = $_POST[$key."_element_first".$id].' '.$_POST[$key."_element_last".$id];

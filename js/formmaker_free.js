@@ -19529,7 +19529,7 @@ function go_to_type_matrix(new_id)
 	
 	w_rows = ['','row1','row2'];
 	w_columns = ['','column1','column2'];
-type_matrix(new_id,'Martix:', 'left', 'radio', w_rows, w_columns, 'no','wdform_matrix',w_attr_name, w_attr_value);				
+  type_matrix(new_id,'Matrix:', 'left', 'radio', w_rows, w_columns, 'no','wdform_matrix',w_attr_name, w_attr_value);				
 }
 
 function el_section_break() {
@@ -23053,7 +23053,9 @@ function edit(id) {
 				atrs=return_attributes(id+'_street1form_id_temp');
 				w_attr_name=atrs[0];
 				w_attr_value=atrs[1];
-				type_address(id, w_field_label, w_field_label_pos, w_size, w_mini_labels, w_disabled_fields, w_required, w_class, w_attr_name, w_attr_value); break;
+				type_address(id, w_field_label, w_field_label_pos, w_size, w_mini_labels, w_disabled_fields, w_required, w_class, w_attr_name, w_attr_value);
+        disable_fields(id);
+        break;
 			}
 
 			case 'type_submitter_mail':
