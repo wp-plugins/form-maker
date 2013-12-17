@@ -1,10 +1,10 @@
 === Form Maker ===
 Contributors: webdorado
 Donate link: http://web-dorado.com/products/wordpress-form.html
-Tags:  form,  forms,  contact form, contact forms,  form plugin, forms plugin, forms plugin, form builder,  form manager, multiple forms, custom  form, form maker, form with recaptcha,  form with google map, feedback form, feedback forms, contact us, paypal form
+Tags:  form,  forms,  contact form, contact forms,  form plugin, forms plugin, forms plugin, form builder,  form manager, multiple forms, custom  form, form maker, form with recaptcha,  form with google map, feedback form, feedback forms, contact us form, paypal form, survey form, application form, advanced form
 Requires at least: 3.0
 Tested up to: 3.8
-Stable tag: 1.6.2
+Stable tag: 1.6.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,19 +20,23 @@ Form Maker is a modern and advanced tool for creating WordPress forms easily and
 [Frequently Asked Questions](http://web-dorado.com/forum/form-maker/316-form-maker-faq.html)  
 [Support Forum](http://web-dorado.com/forum/26-form-maker.html)  
 
-The [Form Maker](http://web-dorado.com/products/wordpress-form.html) is one of the best form creators in WordPress Plugin Directory.  [WordPres Form Builder](http://web-dorado.com/products/wordpress-form.html) allows you to set all the parameters such as colors and fonts. The size of each element of the form can be set as well.
-[Form Maker](http://web-dorado.com/products/wordpress-form.html) is a modern and advanced tool for creating WordPress forms easily and fast. The back end interface of the [Form Maker](http://web-dorado.com/products/wordpress-form.html) is intuitive and user friendly which allows users far from scripting and programming to create forms.  
-[WordPress Form](http://web-dorado.com/products/wordpress-form.html) handles small forms to complex form applications. That is why [Form Maker](http://web-dorado.com/products/wordpress-form.html) is ideally suited for beginners and also meets the needs of designers and experts. [WordPress Form  Maker](http://web-dorado.com/products/wordpress-form.html) can be used for creating , mailing list, survey, application, event registration and party invitation forms.   
-You can add Google map (*commercial version*) to your form using a simple user-friendly interface of the [Form Maker](http://web-dorado.com/products/wordpress-form.html). Also the desired address can be added in a few seconds using the address searching interface, or by filling in geographical coordinates (longitude and latitude). You can also drag the marker on the map using only the mouse.  
+The [Form Maker](http://web-dorado.com/products/wordpress-form.html) is one of the best form creators in WordPress Plugin Directory.  [WordPress Form Builder](http://web-dorado.com/products/wordpress-form.html) allows you to set all the parameters such as colors and fonts to best fit all form standards. The size of each element of the form can be set as well. If you want to make minimalistic forms, you can also create forms with filled-in text, avoiding long form field labels.
+[Form Maker](http://web-dorado.com/products/wordpress-form.html) is a modern and advanced tool for creating WordPress forms easily and fast. The back end interface of the [Form Maker](http://web-dorado.com/products/wordpress-form.html) is intuitive and user friendly which allows users far from scripting and programming to create forms and edit already created forms.  
+[WordPress Form](http://web-dorado.com/products/wordpress-form.html) handles small forms to complex form applications. That is why [Form Maker](http://web-dorado.com/products/wordpress-form.html) is ideally suited for beginners, who are just starting with forms and also meets the needs of designers (with advanced form themes and multiple form customization possibilities) and experts looking for advanced forms. [WordPress Form  Maker](http://web-dorado.com/products/wordpress-form.html) can be used for creating simple forms, mailing list forms, survey forms, form applications, event registration forms and party invitation forms. In addition you can create complex forms with pagination.  
+You can add Google map (*commercial version*) to your form using a simple user-friendly interface of the [Form Maker](http://web-dorado.com/products/wordpress-form.html). Also the desired address can be added into the form in a few seconds using the address searching interface, or by filling in geographical coordinates (longitude and latitude) in the backend of the form.
 
-###IMPORTANT: If you think you found a bug in Form Maker or have any problem or question concerning Form Maker, do not hesitate to  us at [info@web-dorado.com](mailto:info@web-dorado.com).
+PayPal integration allows to add PayPal features into the form, thus making it possible to use the Form Maker as a great tool for creating donation form, whereas Survey Tools form field allows to create manageable questionaire forms.
+
+Form Maker uses standard Captcha, as well as possibility to add Google standard ReCaptcha to make the forms safer.
+
+###IMPORTANT: If you think you found a bug in Form Maker or have any problem or question concerning Form Maker, do not hesitate to contact us at [info@web-dorado.com](mailto:info@web-dorado.com).
 
 
 ###Features of Form Maker:  
 
 -Ten main elements for creating new form  
    * Custom HTML for creating form 
-   * Text Input  for creating form 
+   * Text Input for creating form 
    * Time and Date  for creating form 
    * Select  for creating form 
    * Checkbox  for creating form 
@@ -42,8 +46,8 @@ You can add Google map (*commercial version*) to your form using a simple user-f
    * Map(*commercial version*) for creating form  
    * Buttons  for creating form 
 
--Unlimited fields of the Form Maker(*commercial version*), 5 fields (*free version*)  
--Custom CSS and Java script in your form  
+-Unlimited form fields of the Form Maker(*commercial version*), 5 form fields (*free version*)  
+-Custom CSS and Java script  form field in your form  
 -Includes additional attributes for each element of the form, where you can customize the specific properties for the fields of the form using Java Script.  
 -Ability to receive the filled forms on defined emails, the submitted information also could be sent to the submitter of the form(parameter)  
 -Ability to create menu items and connect with the form  
@@ -51,13 +55,15 @@ You can add Google map (*commercial version*) to your form using a simple user-f
 -Various parameter for every element of the form  
 -Data validation during the submitting the form  
 -Ability to keep the form filled information in the database of the form maker 
--Ability to restrict preferred file extensions in file upload(*commercial version*) in the form  
--Full PayPal integration with different checkout modes (Test Mode and Production) and five field types (Amount, Select, Checkbox, Radio, and Shipping).(*commercial version*)	
--[WordPress Form] Maker(http://web-dorado.com/products/wordpress-form.html) is integrated with Google Maps API(*commercial version*)  
--Field Instructions for the Form User  
--Required Fields in form  
--Hidden Fields in form  
+-Ability to restrict preferred file extensions in file upload(*commercial version*) form field of the Form Maker  
+-Full PayPal integration with different checkout modes (Test Mode and Production) and five form field types (Amount, Select, Checkbox, Radio, and Shipping).(*commercial version*)	
+-[WordPress Form] Maker(http://web-dorado.com/products/wordpress-form.html) is integrated with Google Maps API(*commercial version*) using it within form fields 
+-Detailed Form Maker Manual describing installation process, detailed form field descriptions, the process of inserting created form into your site and other details about the Form User  
+-Required form fields in the Form Maker  
+-Hidden form fields in the Form Maker
 -A form Submit Button Customization  
+-Form Pagination possibility with the form field customization possibility
+-Customizable themes to edit design of the Form Maker
 	
  
 ### Supported languages by Form Maker
@@ -112,7 +118,7 @@ Turkish (tr_TR)
 Ukrainian (uk_UA)  
 Vietnamese (vi)  
 
-== Installation of Form Maker ==
+== Installation ==
 
 ####Thank you for your interest in [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker.
 
@@ -133,7 +139,7 @@ After downloading the ZIP file of the Form Maker
 Once the plugin of the Form Maker is activated, you'll notice a menu on the left called "Form Maker".  Here you can manage forms and submissions of the Form Maker.  
 If any problem occurs with the form maker, please inform us info@web-dorado.com in order to correct the mistakes of the Form Maker plugin.    
 
-== Frequently Asked Questions About Form Maker==
+== Frequently Asked Questions ==
 
 ## [Click here to see the Form Maker Frequently Asked Questions](http://web-dorado.com/forum/form-maker/316-form-maker-faq.html)  
 
@@ -211,7 +217,7 @@ Read more here: http://web-dorado.com/wordpress-form-maker-guide-1.html
 
 
 
-== Screenshots of Form Maker==
+== Screenshots ==
 1.  Form Maker - Sample RSVP  
 2.  Form Maker - Sample  form  
 3.  Form Maker - Manage forms  
@@ -222,8 +228,13 @@ Read more here: http://web-dorado.com/wordpress-form-maker-guide-1.html
 8.  Form Maker - Select form Columns
 
 
-== Changelog of Form Maker ==
- 
+== Changelog ==
+= Form Maker 1.6.3 =
+* From Name, From Email in Form options
+= Form Maker 1.5.0 =
+* Survey Tools (Star Rating, Scale Rating, Spinner, Slider, Range, Grading, Matrix)
+= Form Maker 1.4.0 = 
+* Customizable Email message for Administrator and Users
 = Form Maker 1.3.0 =
 * Actions after form Submission of the Form Maker: 
 -	Stay on form:   

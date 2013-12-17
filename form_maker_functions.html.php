@@ -1111,7 +1111,7 @@ function html_display_form_lists($rows, $pageNav, $sort, $old_version, $can_upda
       }
     } 
     $serch_fields = '
-    <div class="alignleft actions" style="width:220px;">
+    <div class="alignleft actions" style="width:250px;">
     	<label for="search_events_by_title" style="font-size:14px">Title: </label>
       <input type="text" name="search_events_by_title" value="' . $serch_value . '" id="search_events_by_title" onchange="clear_serch_texts()">
     </div>
