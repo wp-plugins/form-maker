@@ -4,73 +4,69 @@ Donate link: http://web-dorado.com/products/wordpress-form.html
 Tags:  form,  forms,  contact form, contact forms,  form plugin, forms plugin, forms plugin, form builder,  form manager, multiple forms, custom  form, form maker, form with recaptcha,  form with google map, feedback form, feedback forms, contact us form, paypal form, survey form, application form, advanced form
 Requires at least: 3.0
 Tested up to: 3.8
-Stable tag: 1.6.3
+Stable tag: 1.6.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Form Maker is a modern and advanced tool for creating WordPress forms easily and fast.
+Form Maker is a fresh and innovative tool for generating various kinds of forms.  
+
 == Description ==
 
-### [WordPress Form](http://web-dorado.com/products/wordpress-form.html)  Maker
+### [WordPress Form Maker](http://web-dorado.com/products/wordpress-form.html)  
 
+The Form Maker is one of the best form creators in WordPress Plugin Directory. WordPress Form Builder allows you to set all the parameters such as colors, fonts and dimensions to best fit all form standards. If you want to make minimalistic forms, you can create forms with pre-filled texts, avoiding long field labels. If want to build simple contact forms with unlimited number of fields, then you can use [WordPress Contact Form](http://wordpress.org/extend/plugins/contact-form-maker/).  
 
-[Demo](http://wpdemo.web-dorado.com/form-maker/)  
-[Demo Admin](http://wpdemo.web-dorado.com/wp-admin/admin.php?page=Form_maker)  
-[User Manual](http://web-dorado.com/wordpress-form-maker-guide-1.html)  
-[Frequently Asked Questions](http://web-dorado.com/forum/form-maker/316-form-maker-faq.html)  
-[Support Forum](http://web-dorado.com/forum/26-form-maker.html)  
+Form Maker is a fresh and innovative tool for generating various kinds of forms. The back end of the Form Maker is essential and easy to use, with no need of advanced programming skills.  
 
-The [Form Maker](http://web-dorado.com/products/wordpress-form.html) is one of the best form creators in WordPress Plugin Directory.  [WordPress Form Builder](http://web-dorado.com/products/wordpress-form.html) allows you to set all the parameters such as colors and fonts to best fit all form standards. The size of each element of the form can be set as well. If you want to make minimalistic forms, you can also create forms with filled-in text, avoiding long form field labels.
-[Form Maker](http://web-dorado.com/products/wordpress-form.html) is a modern and advanced tool for creating WordPress forms easily and fast. The back end interface of the [Form Maker](http://web-dorado.com/products/wordpress-form.html) is intuitive and user friendly which allows users far from scripting and programming to create forms and edit already created forms.  
-[WordPress Form](http://web-dorado.com/products/wordpress-form.html) handles small forms to complex form applications. That is why [Form Maker](http://web-dorado.com/products/wordpress-form.html) is ideally suited for beginners, who are just starting with forms and also meets the needs of designers (with advanced form themes and multiple form customization possibilities) and experts looking for advanced forms. [WordPress Form  Maker](http://web-dorado.com/products/wordpress-form.html) can be used for creating simple forms, mailing list forms, survey forms, form applications, event registration forms and party invitation forms. In addition you can create complex forms with pagination.  
-You can add Google map (*commercial version*) to your form using a simple user-friendly interface of the [Form Maker](http://web-dorado.com/products/wordpress-form.html). Also the desired address can be added into the form in a few seconds using the address searching interface, or by filling in geographical coordinates (longitude and latitude) in the backend of the form.
+The commercial version of the product has Google Map integration for the geolocation as well as pre-filled address demonstration. The details of the longitude and latitude can be provided in the back end.  
 
-PayPal integration allows to add PayPal features into the form, thus making it possible to use the Form Maker as a great tool for creating donation form, whereas Survey Tools form field allows to create manageable questionaire forms.
+WordPress Form can be use both for simple and multipart forms. That is why Form Maker is a perfect choice for ther beginners, who are just starting with forms and also meets the needs of experts (with advanced themes and multiple customization possibilities). WordPress Form Maker can be used for creating simple forms, survey forms and questionnaires, registration and application forms and etc.  
+
+PayPal integration allows you to add PayPal features into the form, thus making it possible to use the Form Maker as a great tool for creating donation forms, whereas Survey Tools form field allows creating manageable questionnaire forms.  
 
 Form Maker uses standard Captcha, as well as possibility to add Google standard ReCaptcha to make the forms safer.
 
-###IMPORTANT: If you think you found a bug in Form Maker or have any problem or question concerning Form Maker, do not hesitate to contact us at [info@web-dorado.com](mailto:info@web-dorado.com).
+
+###IMPORTANT: If you think you found a bug in Form Maker or have any problem or question concerning Form Maker, do not hesitate to contact us at [info@web-dorado.com](mailto:info@web-dorado.com).  
 
 
-###Features of Form Maker:  
+###Features of Form Maker  
 
--Ten main elements for creating new form  
-   * Custom HTML for creating form 
-   * Text Input for creating form 
-   * Time and Date  for creating form 
-   * Select  for creating form 
-   * Checkbox  for creating form 
-   * Radio  for creating form 
-   * File upload(*commercial version*)  for creating form 
-   * Captcha  for creating form 
-   * Map(*commercial version*) for creating form  
-   * Buttons  for creating form 
+*   WordPress 3.0+  
+*   Twelve form fields with detailed parameters  
+	*   Custom HTML with standard editor  
+	*   Text Input options (included 10 types)  
+	*   Time and Date  
+	*   Custom select and country select (drop-down lists)  
+	*   Checkbox for multiple choices  
+	*   Radio button for single choice  
+	*   Captcha/ReCaptcha  
+	*   Page break  
+	*   Section break  
+	*   Map  
+	*   Submit, Reset and Custom Button  
+*   Up to seven field forms for free version and unlimited number of fields for the commercial one  
+*   Possibility to edit CSS or add custom Javascript into the form  
+*   Includes additional attributes for each form field for adding properties with Java Script (for more advanced users)  
+*   Possibility to receive the filled forms to the admin and submitter (if applicable) emails  
+*   Shortcode button in WordPress standard editor   
+*   Data validation while submitting the form  
+*   Filled information is kept in database   
+*   Possibility to choose the desired file extension types for the file upload form field(commercial version) 
+*   Fully integrated with PayPal: two checkout modes (Test Mode and Production) and five form field types (Amount, Select, Checkbox, Radio, and Shipping)(commercial version)  
+*   Google Maps API Integration (commercial version)  
+*   Detailed Form Maker User Manual describing installation process, detailed form field descriptions, the process of inserting created form into your site and other details about the Form User  
+*   Required  and hidden form fields   
+*   Possibility to customize button styles  
+*   Form Pagination possibility   
+*   Customizable themes to edit design of the Form Maker  
 
--Unlimited form fields of the Form Maker(*commercial version*), 5 form fields (*free version*)  
--Custom CSS and Java script  form field in your form  
--Includes additional attributes for each element of the form, where you can customize the specific properties for the fields of the form using Java Script.  
--Ability to receive the filled forms on defined emails, the submitted information also could be sent to the submitter of the form(parameter)  
--Ability to create menu items and connect with the form  
--WordPress Form Maker integrated with the standard WordPress editor  
--Various parameter for every element of the form  
--Data validation during the submitting the form  
--Ability to keep the form filled information in the database of the form maker 
--Ability to restrict preferred file extensions in file upload(*commercial version*) form field of the Form Maker  
--Full PayPal integration with different checkout modes (Test Mode and Production) and five form field types (Amount, Select, Checkbox, Radio, and Shipping).(*commercial version*)	
--[WordPress Form] Maker(http://web-dorado.com/products/wordpress-form.html) is integrated with Google Maps API(*commercial version*) using it within form fields 
--Detailed Form Maker Manual describing installation process, detailed form field descriptions, the process of inserting created form into your site and other details about the Form User  
--Required form fields in the Form Maker  
--Hidden form fields in the Form Maker
--A form Submit Button Customization  
--Form Pagination possibility with the form field customization possibility
--Customizable themes to edit design of the Form Maker
-	
- 
-### Supported languages by Form Maker
 
- *If you need language of the Form Maker which is not included in this list, please tell us and we will do the translation of the Form Maker within 3 days. If you find some mistakes in the translation of the Form Maker, please inform us and we will correct it within 3 days.*
+### Supported languages Of Form Maker  
 
- Afrikaans (af)  
+ *If you need language of Form Maker which is not included in this list, please contact us and we will do the translation of Form Maker within 3 days. If you find some mistakes in the translation of Form Maker, please contact  us and we will correct it within 3 days.*  
+
+Afrikaans (af)  
 Albanian (sq)  
 Arabic (ar)  
 Armenian (hy_AM)  
@@ -118,104 +114,32 @@ Turkish (tr_TR)
 Ukrainian (uk_UA)  
 Vietnamese (vi)  
 
-== Installation ==
+== Installation ==    
 
-####Thank you for your interest in [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker.
+####Thank you for your interest in WordPress Form Maker.  
 
-Minimum requirements of form maker.    
-    
--	Wordpress 3.0+    
--	PHP 5.x    
--	MySQL 5.x    
+### Minimum requirements.  
+*   Wordpress 3.0+  
+*   PHP 5.x  
+*   MySQL 5.x  
 
-After downloading the ZIP file of the Form Maker 
-1.    Login to your WordPress site administrator panel and head over the 'Plugins' menu  in order to install Form Maker 
-2.    Click 'Add New'(in order to add the plugin of the Form Maker)  
-3.    Choose the 'Upload' option in order to install Form Maker
-4.    Click **Choose file** (**Browse**) and select the Form Maker zip file in order to install Form Maker.   
-5.    Click **Install Now** button to install the Form Maker.    
-6.    Once it is complete, activate the plugin of the Form Maker in order to use Form Maker.    
+### Perform a new installation  
 
-Once the plugin of the Form Maker is activated, you'll notice a menu on the left called "Form Maker".  Here you can manage forms and submissions of the Form Maker.  
-If any problem occurs with the form maker, please inform us info@web-dorado.com in order to correct the mistakes of the Form Maker plugin.    
+After downloading the ZIP file,  
 
-== Frequently Asked Questions ==
+1. Log in to the administrator panel.  
+1. Go to Plugins Add > New > Upload.  
+1. Click “Choose file” (“Browse”) and select the downloaded zip file.  
+*For Mac Users*  
+*Go to your Downloads folder and locate the folder with the plugin. Right-click on the folder and select Compress. Now you have a newly created .zip file which can be installed as described here.*  
+1. Click “Install Now” button.  
+1. Click “Activate Plugin” button for activating the plugin.  
 
-## [Click here to see the Form Maker Frequently Asked Questions](http://web-dorado.com/forum/form-maker/316-form-maker-faq.html)  
+If any problem occurs, please contact us at  [info@web-dorado.com](mailto:info@web-dorado.com).  
 
-= 1. What is Form Maker? =
+### Updating Form Maker.  
 
-[WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker is a brilliant extension for creating online forms for your WordPress site. When you create a form with Form Maker, it automatically builds the forms database and scripts needed for the form. So you can create forms without the knowledge of HTML, CSS or any programming language.
-
-
-= 2. What can I build with [Form Maker](http://wordpress.org/extend/plugins/form-maker) ? =
-
-Generally the possibilities of creating different new amazing forms are limited only by your will or imagination. See below the several examples of usage of [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker.
-- Form    
-- Mailing list form    
-- Survey form     
-- Job application form    
-- Workshop registration form    
-- Bug tracker form    
-- Wedding planner form    
-- Quizzes/Testes form    
-- Real estate applications form    
-- Invitation/RSVP form add invitation to the product demo form    
-- Online orders form    
-
-
-= 3. Why would I want to use [Form Maker](http://wordpress.org/extend/plugins/form-maker) ? =
-
-Any site administrator aims to collect as more information and feedback from the site user as it is possible through a form. The most effective mechanism for collecting data from people is a form. The process of creating a form and related databases is complicated, resource and time consuming. The whole process of creating a form may last days, if no weeks. The Form Maker is best choice for skipping all these steps effectively and creating a great form.
-
-
-= 4. I bought Form Maker, but I have not received an email for confirmation and for downloading Form Maker plugin.  =
-
-Usually confirmation e-mail of purchasing Form Maker arrives during a minute after the purchase of Form Maker. You can also check spam and junk folders to find out the Form Maker. If the e-mail of purchasing Form Maker does not arrive during half an hour, please  us to manually receive the Form Maker. We will do our best to solve the problems connected with th Form Maker as soon as possible and will also send the form maker by e-mail.
-
-
-= 5. Does the Form Maker work on the localhost. =
-
-Yes, [WordPress Form](http://web-dorado.com/products/wordpress-form.html)  Maker works in any server where MYSQL and PHP are supported.
-
-
-= 6. Form Maker does not work or works in an improper way. What should I do to solve the problem connected with Form Maker? =
-
-We did our best to have a universal Form Maker which will work on any browser, template and will not conflict with other extensions. As any case of such kind of a problem is unique, please  us giving the link of the website where the problem with Form Maker has occurred. We will try to answer within 24 hours and solve the problem with Form Maker.
-
-= 7. How can I install the pro version of the Form Maker without losing created forms? =	
-You should download pro version of Form Maker from "Thank You for buying our products" email, after that just Deactivate Form Maker, Delete Form Maker, and then Reinstall Form Maker pro from the downloaded file which contains Form Maker.
-If you just Deactivate Form Maker, Delete Form Maker, and then Reinstall Form Maker, you will keep your data of the form submissions.
-You will lose your forms data only if you uninstall Form Maker using the Uninstall Form Maker menu item.
-
-= 8. How can I translate the Form Maker? = 	
-
-You can set language of the Form Maker by setting define('WPLANG',[lang_code]); in wp_config.php config file. The language of front-end interface of the Form Maker should be changed automatically. The back-end interface of Form Maker can not be changed.  You can modify the translations of the Form Maker from wp-content/plugins/form-maker/languages. (you will need POEdit http://www.poedit.net/download.php).
-
-= 9. How does Form Maker saves data after submitting a form? = 	
-
-Form Maker stores the form filled information in the database. Administrator can manage (sort, search, edit, delete) the form submissions as well as view statistics and export to XML and CSV. The form submissions can be (optionally) sent to administrator of the form and the submitter.
-
-= 10. What can I do if I do not receive email after submitting a form? =	
-
-First of all please make sure the Form email is not filtered to the spam or junk email folder. 
-- Try using another email address for receiving form submissions
-- Wordpress uses PHP mail. Probably, your hosting does not have the send mail function enabled, in this case, please contact your hosting provider for receiving form submissions.
-- You can use SMTP, which works always properly. 
-
-For example, this plugin. http://wordpress.org/extend/plugins/configure-smtp is great for Form Maker.
-In this case, you have to know your SMTP parameters. to configure the mails of the form of the Form Maker
-For Setting an external SMTP server form mails of the Form Maker, such as Gmail should work. But Gmail, the authentication is required for the Form Maker mail settings.
-
-
-= 11. What can I do, if my downloaded installation package of Form Maker is not a ZIP file? =	
-
-The downloaded file of the Form Maker should be zipped. In case, you have downloaded a file of the Form Maker from our website, which is not zipped, then you probably are using the Safari browser, which does not allow you to download ZIP files. Please try different browser to download zip files of the Form Maker.
-
-Read more here: http://web-dorado.com/wordpress-form-maker-guide-1.html
-
-
-
+If you want to update the plugin while preserving your existing forms, you need to deactivate and delete the Form Maker from the list of installed plugins (Do not uninstall it using the Uninstall Form Maker option of the plugin) and install the new plugin. Afterwards, go to Form Maker>Manager and on the upper hand of the screen click on the “Update Forms” button. If the update is successful, you will see a notification message saying, “All forms are updated!”.  
 
 == Screenshots ==
 1.  Form Maker - Sample RSVP  
@@ -227,462 +151,205 @@ Read more here: http://web-dorado.com/wordpress-form-maker-guide-1.html
 7.  Form Maker - Manage submissions of form
 8.  Form Maker - Select form Columns
 
-
 == Changelog ==
-= Form Maker 1.6.3 =
-* From Name, From Email in Form options
-= Form Maker 1.5.0 =
-* Survey Tools (Star Rating, Scale Rating, Spinner, Slider, Range, Grading, Matrix)
-= Form Maker 1.4.0 = 
-* Customizable Email message for Administrator and Users
-= Form Maker 1.3.0 =
-* Actions after form Submission of the Form Maker: 
+
+= 1.6.4 =
+*  Added featured plugins  
+= 1.6.3 =
+*  From Name, From Email in Form options  
+= 1.5.0 =
+*  Survey Tools (Star Rating, Scale Rating, Spinner, Slider, Range, Grading, Matrix)  
+= 1.4.0 = 
+*  Customizable Email message for Administrator and Users  
+= 1.3.0 =
+*  Actions after form Submission:  
 -	Stay on form:   
 -	To go to Post,Page after the form submission:  
 -	Custom text after the form submission:   
--	URL: The user is redirected to the provided URL after the form submission. 
-* Edit javascript of the form:
-* Save as the copy of the form:
-* Themes: There are 43 standard themes included in Form Maker
-* New form fields: 
--	Address form field
--	Address mark on map form field
--	Number form field
--	Phone form field
--	Address form field
--	Date 3 different form field
--	Time form field
--	Country list form field
--	Recapthca form field
-* Pagebreak of the Form Maker: This can be used to break the form into distinct pages. 
-* Section Break of the Form Maker: This option allows adding a section break to the form page. 
-* For each form certain types of statistical data are available in the Form Maker:
-* Entries of a form: The number of submitted forms in the Form Maker.
-* Views of a form: The number of times the form has been viewed.
-* Conversion Rate of a form: The percentage of submitted forms to the overall number of views.
+-	URL: The user is redirected to the provided URL after the form submission.  
+*  Edit javascript of the form:  
+*  Save as the copy of the form:  
+*  Themes: There are 43 standard themes included in Form Maker  
+*  New form fields:  
+-	Address field  
+-	Address mark on map form field  
+-	Number form field  
+-	Phone form field  
+-	Date 3 different form field  
+-	Time form field  
+-	Country list form field  
+-	Recapthca form field  
+*  Pagebreak of the Form Maker: This can be used to break the form into distinct pages.  
+*  Section Break of the Form Maker: This option allows adding a section break to the form page.  
+*  For each form certain types of statistical data are available in the Form Maker:  
+*  Entries of a form: The number of submitted forms in the Form Maker.  
+*  Views of a form: The number of times the form has been viewed.  
+*  Conversion Rate of a form: The percentage of submitted forms to the overall number of views.  
 
-== Form Maker Step by step guide Step 1 ==    
-= Installing Form Maker =    
-    
-1.1 Minimum requirements of form maker.    
-    
--	Wordpress 3.0+    
--	PHP 5.x    
--	MySQL 5.x    
-    
-1.2 Perform a new installation of form maker of the site where you want to install the form maker.   
-    
-1.	Log in to the administrator panel to install the form maker.    
-2.	Go to Plugins Add > New > Upload to install the form maker.    
-3.	Click **Choose file** (**Browse**) and select the [Form Maker](http://wordpress.org/extend/plugins/form-maker) zip file to install the form maker.    
-4.	Click **Install Now** button to install the form maker.    
-5.	If any problem occurs with the form maker, please  us info@web-dorado.com and we will try to help you with the issues with the form maker.    
-6.	Click **Activate Plugin** button for activating the form maker.    
 
-== Form Maker Step by step guide Step 2 ==        
-    
-= Creating a new form =    
-    
-2.1  On the left menu select [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Maker > Manager    
-    
-2.2  In the upper left corner click on the **Add a form** button.     
-    
-2.3   On the top of the page you can find several buttons:    
-     
-    
-Preview of a form: Using this button, you can preview the form in the form's current state to see how it will appear on the website.
-Actions after Submission of a form: Here you can select the action that takes place after form submission. Following options after form submission are available:   
--	Stay on form: The user stays on the form page after the form submission.   
--	Article: The user is redirected to the selected article after the form submission.   
--	Custom text: Custom text is displayed on the screen after the form submission.   
--	URL: The user is redirected to the provided URL after the form submission.   
-Edit JavaScript: Here you can define new JavaScript functions, which can be applied to the form. Three empty event functions are included in the form maker:   
--	before_load(): before the form is loaded   
--	before_submit(): before the form is submitted   
--	before_reset(): before the form is reset   
-	Custom text in e-mail for administrator: Here you can add custom texts, images, and custom HTML to the e-mail message that is sent to the administrator after the form submission.   
-	Custom text in e-mail for user: Here you can add custom texts, images, and custom HTML to the e-mail message that is sent to the users after the form submission.    
-	Save as Copy: The button allows you to save a copy of the current form, which you can later find in the "Forms section."   
-    
-    
-2.4   On the right side of the Form Maker you will see the three fields for the Form- Form Title, Form Options, Add New Fields.    
--	 Form Title: In this field type a title for your  form. You can have an unlimited number of  forms. This is a required field for a  form.    
-Form comes with the following Form Options:
--	Email to send submissions of a  form to: Here you type e-mails to which submitted  form information will be sent. If you need more than one e-mail address to send the submissions of a  form you must separate them by commas. This field is not required for a  form. In any case the submitted information is stored in**Submissions** part of the  form maker, where it could be managed easily.     
--	Email From. Here you define the email address from which the users receive the submission email (sender’s email). 
--	From Name. Here you define the sender’s name which is shown in submission email.
-- 	Theme of a form. A distinct theme can be applied to each new form. The themes can be accessed by selecting Form Maker > Themes on the left menu. 43 themes are available for selection for each form. There is an option for creating new themes for a form, which you can access by clicking "New" on the upper right corner of the section.which you can later find in the "Forms" section.    
-    
-    
-2.5   Add new fields to your  form by clicking on the ADD A NEW FIELD button (see the next step of Form Maker manual).    
-    
-     
-2.6   To update the Form Maker plugin while keeping your existing forms, you need to deactivate and delete the Form Maker from the list of installed plugins (do not uninstall it using the Uninstall Form Maker option of the plugin) and install the new plugin. Afterwards, go to Form Maker>Manager and on the upper hand of the screen click on the "Update Form" button. If the update is successful, you will see a notification message, "All form are updated!"
+==Wordpress Form Maker Step by step guide==    
+### Step 1: Installing the [Wordpress Form Maker](http://wordpress.org/plugins/form-maker/)    
 
-== Form Maker Step by step guide for Form Maker Step 3 ==        
-    
-= Description of the  form fields =     
-    
-3.1 Custom HTML:An HTML editor. You can insert your own HTML content to your  form.    
-    
-3.2 Text Input: At first choose the Field Type of the  form according to your preference. There are several options:    
--	Simple Text: This can be used for typing some text. It has several attributes:   
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
-Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
-Field Size: Type the size of the field of the  form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the form user enters the information.    
-Class Name : You can define new CSS classes in the Edit CSS page and use those classes here to design the  form more properly.    
-Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
-    
-	Password: This field of the  form can be used for adding a password field to your  form. It has several attributes:  
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 	
-Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: top and left    
-Field Size: Type the size of the field of the  form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of form enters the information.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
-Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
-     
-	Text Area: This field of the contact form can be used for typing some text. The difference between Text Area and Simple Text of the contact form is that Simple Text has only one row while Text Area can have several rows. It has several attributes:     
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
-Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
-Field Size: Type the size of the field of the  form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the information into the form.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
-Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.    
-     
-	Name: This can be used for typing a name in the form. Default field labels can be edited clicking on the field label and typing in a custom label. It has several attributes: 
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
-Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
-Field Size: Type the size of the field of the  form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the information.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
-Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.    
-     
-	Address: This field can be used for adding an address to form. Default field labels can be edited clicking on the field label and typing in a custom label. It has several attributes:
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
-Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
-Field Size: Type the size of the field of the  form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the information.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
-Disable Fields : You can remove the address fields checking the corresponding box.
-Send mail to the submitter: The submitted in formation of the  form will be sent to the submitter if this box is checked.    
-Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.    
-     
-	 Address (Mark on Map):This filed can be used for adding an address to form by directly marking it on the map. It has several attributes:
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
-Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
-Field Size: Type the size of the field of the  form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the information.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
-Send mail to the submitter: The submitted in formation of the  form will be sent to the submitter if this box is checked.    
-Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.   
-      
-	E-mail: This form field can be used for typing the submitter's e-mail. The submitted e-mail validation is checked. It has several attributes:    
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
-Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
-Field Size: Type the size of the field of the  form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the in formation.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
-Send mail to the submitter: The submitted in formation of the  form will be sent to the submitter if this box is checked.    
-Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.    
-    
-	Number: This field of the form can be used to provide numbers for different purposes (e.g. serial number). It has several attributes:
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
-Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
-Field Size: Type the size of the field of the  form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the in formation.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
-Send mail to the submitter: The submitted in formation of the  form will be sent to the submitter if this box is checked.    
-Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this form option to customize the specific properties for the field of the  form. 
-      
-	  Phone: This field can be used to provide a phone number in the form. Default field labels can be edited clicking on the label and typing in a custom label of the form. It has several attributes:
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
-Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
-Field Size: Type the size of the field of the  form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the in formation.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
-Send mail to the submitter: The submitted in formation of the  form will be sent to the submitter if this box is checked.    
-Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this form option to customize the specific properties for the field of the  form. 
-     
-	Hidden Field: This field of the  form can be used to store additional in formation that does not need to be displayed on the form. 
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
-Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
-Field Size: Type the size of the field of the  form in pixels.    
-Value If Empty: The text typed here will be displayed in the corresponding field of the  form and disappear when the user of the form enters the in formation.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
-Send mail to the submitter: The submitted in formation of the  form will be sent to the submitter if this box is checked.    
-Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this form option to customize the specific properties for the field of the  form.    	
+1.1 Minimum requirements.  
+Wordpress 3.0+  
+PHP 5.x  
+MySQL 5.x  
 
-	3.3 Time and Date: At first choose the form Field Type according to your preference. There are several options:    
-	Date (single field with a picker): This field of the  form can be used for typing a date or choosing by the picker. It has several attributes: 	    
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
-Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form   
-Date  format: Here you can define the date  format for the date picker of the  form.    
-Date picker label: Type the label of the date picker button of the  form.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
-Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this option of the form to customize the specific properties for the field of the  form.     
-	Date (3 separate fields): This field of the form can be used for typing a date in 3 field  format(day, month, year). Default field labels can be edited clicking on the label and typing in a custom label. Each of the 3 form fields can be set as text input or select list.  Each of the 3 form fields has the attributes Field Size and Field Label.  For year field the select list interval can be defined. These 3 form fields can be separated in the  format set by the fields separator attribute. The field has several attributes:     
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
-Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
-Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this option of the form to customize the specific properties for the field of the  form.      
-	Time: This field of the form can be used for typing a time. Default field labels can be edited clicking on the field label and typing in a custom label. Time can be shown in 24 hour or 12 hour  formats by setting the time  format attribute.  The seconds preview can be enabled/disabled by setting the Display Seconds attribute. The field of the form has several standard attributes:     
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
-Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
-Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
-Additional Attributes: You can use this option of the form to customize the specific properties for the field of the  form.    
-    
-3.4 Select: At first choose the form Field Type according to your preference. There are several options:    
-Custom select: This field of the form can be used for selecting the values from a list. The list can be defined by Options attribute. You can easily add and remove list items. The checked items are considered as empty values. The form field has several attributes:    
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
-Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
-Field Size: Type the size of the field of the  form in pixels.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
-Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
-Country list: This field of the form can be used for selecting a country from a list. It has several attributes:     
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
-Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
-Field Size: Type the size of the field of the  form in pixels.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
-Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
-3.5 Checkbox: This field of the  form can be used for selecting the values from a list of checkboxes. The list can be defined by Options attribute. You can easily add and remove list items. The list can be displayed in horizontal/vertical positions by setting the Relative Position attribute. You can use Rows/Columns field if you want the options to be displayed in a row/column (depending on the positioning choice). The number of rows/columns should be specified. The field of the form has several attributes:     
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
-Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
-Field Size: Type the size of the field of the  form in pixels.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
-Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
-    
-3.6 Radio:This field of the form can be used for selecting the values from a list of radio buttons. The list can be defined by Options attribute. You can easily add and remove list items. The list can be displayed in horizontal/vertical in the  form positions by setting the Relative Position attribute. You can use Rows/Columns field if you want the options to be displayed in a row/column (depending on the positioning choice). The number of rows/columns should be specified. The field of the  form has several attributes: 
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
-Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
-Field Size: Type the size of the field of the  form in pixels.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
-Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
-    
-     
-  3.7 Captcha: This field of the  form can be used for the ensuring that the submission is generated by a person. The number of randomly generated symbols can be set by the value of Captcha size attribute. The field of the  form has several attributes:     
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
-Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
-Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.  
-      
-    
-     
-	 Recaptcha: This is an alternative option for Captcha that uses Public and Private Keys for creating a form. You will need to create reCaptcha keys with the help of a dedicated tool for Form Maker.     
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
-Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
-Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.
-    
-	3.8 Page Break of a form: This can be used to break the form into distinct pages. Use Page Title of a form to provide a title for the given page. Furthermore, the following parameters of the “Next” and “Previous” navigation buttons can be customized for the Form Maker. The field of the  form has several attributes: 
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
-Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
-Field Size: Type the size of the field of the  form in pixels.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
-Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
-      
-	3.9 Section Break: This option allows adding a section break to the form page.  The field of the  form has several attributes: 
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
-Field Label: Type the name of the field of the  form.    
-Field Label Position: Field label of the  form can be set in two positions on the form: on the top of the form and on the left of the form    
-Field Size: Type the size of the field of the  form in pixels.    
-Class Name : You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
-Required: The field of the  form can be set as required for the submission on the form by this checkbox.    
- Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.    
-     
-	     
-   3.10 Survey Tools: Choose the Field Type according to your preferences. There are several options:
+1.2 Perform a new installation.  
+Log in to the administrator panel.  
+Go to Plugins Add > New > Upload.  
+Click “Choose file” (“Browse”) and select the Form Maker zip file.  
+*For Mac Users*  
+*Go to your Downloads folder and locate the folder with the plugin. Right-click on the folder and select Compress. Now you have a newly created .zip file which can be installed as described here.*  
+Click “Install Now” button.  
+If the installation succeeded you will see the message in the picture. If any problem occurs, please contact us at info@web-dorado.com.  
+Click “Activate Plugin” button for activating the plugin.  
+ 
 
-   -	Star Rating. This field can be used for inserting star rating field in the form. Type the name of the field to be displayed with the rating system. The field has several attributes: 
-Field Label position: Define the positioning of the rating system of the form.
-Star Amount: Define the number of stars to be used for the rating in the form.
-Star Color: Choose the color of the stars from available four options.
-Class Name: You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly. 
-Required: Check the box to make the rating a required field.
-Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form. 
+1.3 Updating the form.  
 
-	- 	Scale Rating. This field can be used for inserting scale rating in the form. Type the name of the field to be displayed with the rating system. Default field labels for lowest/highest satisfaction/grading can be edited clicking on the field label and typing in a custom label. The field has several attributes: 
-Field Label position: Define the positioning of the rating system.
-Scale Amount: Define the length of the scale to be used for the rating.
-Class Name: You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly. 
-Required: Check the box to make the rating a required field of the form.
-Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form. 
+If you want to update the plugin while preserving your existing forms, you need to deactivate and delete the Form Maker from the list of installed plugins (Do not uninstall it using the Uninstall Form Maker option of the plugin) and install the new plugin. Afterwards, go to Form Maker>Manager and on the upper hand of the screen click on the “Update Forms” button. If the update is successful, you will see a notification message saying, “All forms are updated!”.  
 
-	- 	Spinner. This field can be used for inserting spinner as a rating system in the form. Type the name of the field to be displayed with the rating system. The field has several attributes: 
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
-Field Label: Type the name of the field of the  form.
-Field Label position: Define the positioning of the rating system.
-Width: Define the width of the spinner field of the form.
-Min Value: Define the minimal value for rating in the form.
-Max Value: Define the maximal value for rating in the form.
-Class Name: You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly. 
-Required: Check the box to make the rating a required field.
-Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form. 
 
-	- 	Slider. This field can be used for inserting slider as a rating system in the form. Type the name of the field to be displayed with the rating system. The field has several attributes: 
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
-Field Label: Type the name of the field of the  form.
-Field Label position: Define the positioning of the rating system.
-Width: Define the width of the slider field of the form.
-Min Value: Define the minimal value for rating.
-Max Value: Define the maximal value for rating.
-Class Name: You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly. 
-Required: Check the box to make the rating a required field of the form.
-Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form. 
+= Step 2: Creating a new form =    
 
-	-	 Range. This field can be used for inserting range system in the form. Type the name of the field to be displayed with the range system. The field has several attributes:
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
-Field Label: Type the name of the field of the  form.
-Field Label position: Define the positioning of the rating system.
-Width: Define the width of the slider field of the form.
-Step: Define the number differing follow up values of the form.
-Class Name: You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly. 
-Required: Check the box to make the rating a required field.
-Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form. 
+2.1 On the left menu select Form Maker > Manager  
+2.2 In the upper left corner click on the “Add a form” button.  
+2.3 Form Title. Specify a title for the form.  
 
-	-	 Grading. This field can be used for inserting grading system in the form. Type the name of the field to be displayed with the grading system. The field has several attributes:
-Field ID: Each field of the form has a unique ID, which is not editable. You can use this ID to access this field from the JavaScript code.
-Field Name: Each field of the form has a unique Name, which is not editable. You can use this ID to acces this field from the JavaScript code. 
-Field Label: Type the name of the field of the  form.
-Field Label position: Define the positioning of the rating system.
-Total: Defines the maximal cumulative amount for the grades.
-Items: Define the item names to be graded.
-Class Name: You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly. 
-Required: Check the box to make the rating a required field of the form.
-Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.
 
-	-	 Matrix.This field of the form can be used for inserting a matrix in the form. Type the name of the field to be displayed with the matrix. The field has several attributes:
-Field Label: Type the name of the field of the  form.
-Field Label position: Define the positioning of the rating system.
-Input Type: Choose input option from provided 4 options.
-Rows: Define the names for the row items of the form.
-Columns: Define the names for the column items of the form.
-Class Name: You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly. 
-Required: Check the box to make the rating a required field of the form.
-Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form.
+= Step 3: Configuring Form Options =    
 
-    
-    
-	3.11 Button: At first choose the Field Type of the  form according to your preference. There are several options:    
--	Submit and Reset: This field of the  form can be used for inserting a submit/reset button into the  form. You can display reset button by checking the box called Display reset button. Type the name of the submit and reset buttons in Submit button label and Reset button label. The field of the form also has several attributes:     
-Class Name: You can define new CSS classes for the form in the Edit CSS page and use those classes here to design the  form more properly.    
-     
-Additional Attributes: You can use this option of the form to customize the specific properties for the field of the  form. For example typing    
-Custom: This field of the  form can be used for inserting custom buttons into the  form. Type the name of each button in button name field of the form. You can define click functions for each button of the form. The field of the  form also has several attributes:     
-Class Name: You can define new CSS classes in the Edit CSS page and use those classes here to design the  form more properly.    
-     
-Additional Attributes: You can use this option of the  form to customize the specific properties for the field of the  form. For example typing    
-    
-    
-== Form Maker: Step by step guide Step 4 ==        
-    
-= Publishing the created  form =    
-To insert a  form into a Page or a Post.    
-    
-    
-    
-  4.1. Press the button named Insert [WordPress Form Creator](http://web-dorado.com/products/wordpress-form.html) in a post or a page you want to show the  form.    
-    
-  4.2. Select a  form from the list.    
-    
-  4.3. Save the page or the post.     
-    
-Alternatively, you can use [ Form Maker](http://wordpress.org/extend/plugins/form-maker) without the button on the toolbar: Add the shortcode [ form id="N"] (where N is the id of the  form, for the  form with id=2, the shortcode must be [ form id="2"]) to the pages and posts, where you want the  form to appear.    
-==  form Maker Step by step guide Step 5 ==        
-    
-####Managing submissions of a [Form Maker](http://web-dorado.com/products/wordpress-form.html)    
-    
-5.1 On the top menu select Components >  formMaker > Submissions    
-    
-5.2 In order to manage a  form's submissions, select the  form from the list.    
-    
-    
-You can filter [WordPress Form](http://web-dorado.com/products/wordpress-form.html) Makers submissions by the date filter. You can add/remove any column of the submissions by **Add/Remove Columns** button.     
-    
-    
-The submissions of a  form can be exported to the CSV and XML  formats. You can delete any of submissions by selecting them and pressing the **Delete** button on the top of the page. Submissions can be sorted by any of the fields of the  form by clicking the labels.    
-    
-     
-5.3  For each form certain types of statistical data are available:
-- Entries: The number of submitted forms.
-- Views: The number of times the form has been viewed.
-- Conversion Rate: The percentage of submitted forms to the overall number of views.
-    
-    
-5.4 For the forms that contain checkboxes or radio buttons a separate statistics is available. It shows how many times a particular checkbox/radio button has been checked in the form submissions, and what is the ratio of that number to the overall number of checks in form.
-     
-    
-5.5 There is a possibility to search the submissions database by all the relevant fields of the given form. Submissions can be sorted by any of the fields of the form by clicking the labels.
-    
-     
-5.6 You can delete any of submissions of a form by selecting them and pressing the “Delete” button on the top of the page of the Form Maker.
-     
-     
-5.7 It is also possible to edit the submissions of a form by clicking on the “Edit” icon on the upper right corner of the “Submissions” section.
-    
-    
-5.8 You can add/remove any column of the submissions of a form by “Add/Remove Columns” button. 
+3.1 General Options  
+3.1.1 Email to send submissions to. Here you provide e-mails to which submitted form information is sent. If you need more than one e-mail address, you must separate them by commas. This field is not required. In any case, the submitted information is stored in “Submissions” part, where it can be easily managed.  
+3.1.2 Email From. Here you define the email address from which the users receive the submission email (sender’s email).  
+3.1.3 From Name. Here you define the sender’s name which is shown in submission email.  
+3.1.4 Theme. A distinct theme can be applied to each new form. The themes can be accessed by selecting FormMaker > Themes on the top menu. 41 themes are available for selection. There is an option for creating new themes, which you can access by clicking “New” on the upper right corner of the section.  
+
+3.2 Actions after Submission  
+Here you can select the action that takes place after form submission. Following options are available:  
+- Stay on form: The user stays on the form page.  
+- Article: The user is redirected to the selected article.  
+- Custom text: Custom text is displayed on the screen.  
+- URL: The user is redirected to the provided URL.  
+3.3 Payment Options  
+3.3.1 Turn on PayPal. Allows making PayPal paymentsusing Form Maker.  
+3.3.2 Checkout Mode. Choose the checkout mode:  
+Production (https://developer.paypal.com/webapps/developer/docs/classic/lifecycle/goingLive/)  
+Test Mode (https://developer.paypal.com/webapps/developer/docs/integration/direct/test-the-api/)  
+3.3.3 PayPal Email. Enter your PayPal email.  
+3.3.4 PayPal Currency. Choose your PayPal currency.  
+3.3.5 Tax. Add the tax amount if any.  
+3.4 JavaScript  
+Here you can define new JavaScript functions, which can be applied to the form. Three empty event functions are included:  
+- before_load(): before the form is loaded  
+- before_submit(): before the form is submitted  
+- before_reset(): before the form is reset  
+3.5 Custom Text in Email  
+For Administrator. Here you can add custom texts, images, and custom HTML to the e-mail message that is sent to the administrator, as well as choose which fields of the submitted form are included in the e-mail (set to ‘all’ by default).  
+For User. Here you can add custom texts, images, and custom HTML to the e-mail message that is sent to the users, as well as choose which fields of the submitted form are included in the e-mail (set to ‘all’ by default).  
+
+= Step 4: Description of the form fields =    
+
+4.1 Custom HTML:An HTML editor. You can insert your own HTML content to your WordPress form.  
+
+4.2 Text Input: At first choose the Field Type according to your preference. There are several options:  
+Simple Text: This can be used for typing some text. It has several attributes: Field Id, Field Name, Field Label, Field Label Position, Field Size, Value If Empty, Class Name, Required, Allow only unique values, Additional Attributes  
+
+Password: This field can be used for adding a password field to your form. It has several attributes: Field Id, Field Name, Field Label, Field Label Position, Field Size, Class Name, Required, Allow only unique values, Additional Attributes  
+Text Area: This field can be used for typing some text. The difference between Text Area and Simple Text is that Simple Text has only one row while Text Area can have several rows. It has several attributes: Field Id, Field Name, Field Label, Field Label Position, Field Size, Value If Empty, Class Name, Required, Allow only unique values, Additional Attributes  
+Name: This can be used for typing a name. Default field labels can be edited clicking on the field label and typing in a custom label. It has several attributes: Field Id, Field Name, Field Label, Field Label Position, Value If Empty, Field Size, Name Format, Class Name, Required, Allow only unique values, Additional Attributes  
+Address: This field can be used for adding an address. Default field labels can be edited clicking on the label and typing in a custom label. It has several attributes: Field Id, Field Name, Field Label, Field Label Position, Overall Size, Class Name, Disable Fields, Required, Additional Attributes  
+Address (Mark on Map):This filed can be used for adding an address by directly marking it on the map. It has several attributes: Field Label, Field Label Position, Default Location, Map Size, Marker Info, Class Name, Additional Attributes  
+E-mail:This field can be used for typing the submitter’s e-mail. The submitted e-mail validation is checked. It has several attributes: Field Id, Field Name, Field Label, Field Label Position, Field Size, Value If Empty, Class Name, Send mail to submitter, Required, Allow only unique values, Additional Attributes.  
+Number: This field can be used to provide numbers for different purposes (e.g. serial number). It has several attributes: Field Id, Field Name, Field Label, Field Label Position, Field Size, Value If Empty, Class Name, Required, Allow only unique values, Additional Attributes  
+Phone: This field can be used to provide a phone number. Default field labels can be edited clicking on the label and typing in a custom label. It has several attributes: Field Id, Field Name, Field Label, Field Label Position, Value If Empty, Field Size, Class Name, Required, Allow only unique values, Additional Attributes  
+Hidden Field: This field can be used to store additional information that does not need to be displayed. It has several attributes : Field ld, Field Name, Field Value, Additional Attributes.  
+4.3 Time and Date: Choose the Field Type according to your preference. There are several options:  
+Date (single field with a picker): This field can be used for typing a date or choosing by the picker. It has several attributes: Field Id, Field Name, Field Label, Field Label Position, Date format, Date Picker Label, Class Name, Required, Additional Attributes.  
+Date (3 separate fields): This field can be used for typing a date in 3 field format(day, month, year). Default field labels can be edited clicking on the field label and typing in a custom label. Each of the 3 fields can be set as text input or select list. Each of the 3 fields has the attributes Field Size and Field Label. For year field the select list interval can be defined. These 3 fields can be separated in the format set by the fields separator attribute. The field has several attributes: Field Id, Field Name, Field Label, Field Label Position, Class Name, Required, Additional Attributes.  
+Time: This field can be used for typing a time. Default field labels can be edited clicking on the field label and typing in a custom label. Time can be shown in 24 hour or 12 hour formats by setting the time format attribute. The seconds preview can be enabled/disabled by setting the Display Seconds attribute. The field has several standard attributes: Field Id, Field Name, Field Label, Field Label Position, Class Name, Required, Additional Attributes.  
+4.4 Select: Choose the Field Type according to your preference. There are several options:  
+Custom select: This field can be used for selecting the values from a list. The list can be defined by Options attribute. You can easily add and remove list items. The checked items are considered as empty values. The field has several attributes: Field Id, Field Name, Field Label, Field Label Position, Field Size, Class Name, Required, Additional Attributes.  
+Country list: This field can be used for selecting a country from a list. It has several attributes: Field Id, Field Name, Field Label, Field Label Position, Field Size, Class Name, Required, Additional Attributes.  
+4.5 Checkbox: This field can be used for selecting the values from a list of checkboxes. The list can be defined by Options attribute. You can easily add and remove list items. The list can be displayed in horizontal/vertical positions by setting the Relative Position attribute. You can use Rows/Columns field if you want the options to be displayed in a row/column (depending on the positioning choice). The number of rows/columns should be specified. The field has several attributes: Field Id, Field Name, Field Label, Field Label Position, Field Size, Class Name, Required, Randomize in frontend, Allow other, Additional Attributes.  
+
+4.6Radio:This field can be used for selecting the values from a list of radio buttons. The list can be defined by Options attribute. You can use Rows/Columns field if you want the options to be displayed in a row/column (depending on the positioning choice). The number of rows/columns should be specified. You can easily add and remove list items. The list can be displayed in horizontal/vertical positions by setting the Relative Position attribute.The field has several attributes: Field Id, Field Name, Field Label, Field Label Position, Field Size, Class Name, Required, Randomize in frontend, Allow other, Additional Attributes.  
+
+4.7 File Upload: This field can be used for uploading a file. The size of the uploaded file can be limited by setting the value of Maximum Size attribute in KB. The upload folder can be mentioned by setting the Destination attribute. Only files with extensions listed in Allowed file extensions attribute can be uploaded. The field has several attributes: Field Id, Field Name, Field Label, Field Label Position, Class Name, Required, Additional Attributes.  
+
+4.8 Captcha:This field can be used for the ensuring that the submission is generated by a person. Choose the Field Type according to your preference. There are several options:  
+Simple Captcha This is a easy to configure Simple Captcha. The number of randomly generated symbols can be set by the value of Captcha size attribute. The field has several attributes: Field Id, Field Name, Field Label, Field Label Position, Class Name, Additional Attributes.  
+Recaptcha This is an alternative option for Captcha that uses Public and Private Keys. You will need to create reCaptcha keys with the help of a dedicated tool.The tool can be found on https://www.google.com/recaptcha/admin/create.  
+
+4.9 Page Break: This can be used to break the form into distinct pages. Use Page Title to provide a title for the given page. Furthermore, the following parameters of the “Next” and “Previous” navigation buttons can be customized:  
+Type, Name, Class Name, Check the required fields , Additional Attributes.  
+
+4.10 Section Break: This option allows adding a section break to the form page.  
+
+4.11 Map: This field can be used for pointing out some position on the map. The position of the marker is fixed at the front end. Multiple locations can be selected by clicking the + button. The field has several attributes:  
+Location, Map Size, Marker Info, Class Name, Additional Attributes.  
+
+4.12 PayPal: Choose the Field Type. The following options are available:  
+Amount (Price) This field is for indicating the amount of payment. Default field labels can be edited clicking on the field label and typing in a custom label. You can configure the following attributes: Field Label, Field Label Position, Range, Value If Empty, Field Size, Class Name, Required, Hide Cents, and Additional Attributes.  
+Select This field can be used for selecting a product/service for which the payment is being made. The list (each item consists of “Product name” and its “Price”)can be specified by the Options attribute. You can easily add and remove list items. There is also a Product Properties parameter, where you can add different properties (e.g. size) by specifying the type, the name, and adding options for selection. The checked items are considered as empty values. You can configure the following attributes: Field Label, Field Label Position, Field Size, Class Name, Required, and Additional Attributes.  
+Checkbox This field can be used for selecting multiple products/services for which the payment is being made. The options (each item consists of “Product name” and its “Price”) can be specified by the Options attribute. You can easily add and remove list items. There is also a quantity property parameter where the quantity of products/services can be specified. Moreover, there is a Product Properties parameter, where you can add different properties (e.g. size) by specifying the type, the name, and adding options for selection. You can configure the following attributes: Field Label, Field Label Position, Relative Position, Class Name, Required, and Additional Attributes.  
+Radio This field can be used for selecting the product/service for which the payment is being made. The options (each item consists of “Product name” and its “Price”) can be specified by the Options attribute. You can easily add and remove list items. There is also a quantity property parameter where the quantity of products/services can be specified. Moreover, there is a Product Properties parameter, where you can add different properties (e.g. size) by specifying the type, the name, and adding options for selection. You can configure the following attributes: Field Label, Field Label Position, Relative Position, Class Name, Required, and Additional Attributes.  
+Shipping This field can be used for selecting the shipping option for the selected product. The options (each item consists of a “Type” and “Price” parameters) can be specified by the Options attribute. You can easily add and remove list items. You can configure the following attributes: Field Label, Field Label Position, Relative Position, Class Name, Required, and Additional Attributes.  
+Total This field calculates the total sum to be paid via PayPal, including the payments for the shipping and taxes (if applicable).  
+
+4.13 Survey Tools: Choose the Field Type according to your preferences. There are several options:  
+Star Rating: This field can be used for inserting star rating field in the form. Type the name of the field to be displayed with the rating system. The field has several attributes: Field Label Position, Star Amount, Star Color, Class Name, Required, and Additional Attributes.  
+Scale Rating: This field can be used for inserting scale rating in the form. Type the name of the field to be displayed with the rating system.Default field labels for lowest/highest satisfaction/grading can be edited clicking on the field label and typing in a custom label. The field has several attributes: Field Label Position, Scale Amount, Class Name, Required, and Additional Attributes.  
+Spinner: This field can be used for inserting spinner as a rating system in the form. Type the name of the field to be displayed with the rating system. The field has several attributes: Field Id, Field Name, Field Label, Field Label Position, Width, Min Value, Max Value, Step, Class Name, Required, and Additional Attributes.  
+Slider: This field can be used for inserting slider as a rating system in the form. Type the name of the field to be displayed with the rating system. The field has several attributes: Field Id, Field Name, Field Label, Field Label Position, Width, Min Value, Max Value, Class Name, Required, and Additional Attributes.  
+Range: This field can be used for inserting range system in the form. Type the name of the field to be displayed with the range system. The field has several attributes: Field Id, Field Name, Field Label, Field Label Position, Width, Step, Class Name, Required, and Additional Attributes.  
+Grading: This field can be used for inserting grading system in the form. Type the name of the field to be displayed with the grading system. The field has several attributes: Field Id, Field Name, Field Label, Field Label Position, Total, Items, Class Name, Required, and Additional Attributes.  
+Matrix: This field can be used for inserting a matrix in the form. Type the name of the field to be displayed with the matrix. The field has several attributes: Field Label, Field Label Position, Input Type, Rows, Columns, Class Name, Required, and Additional Attributes.  
+4.14 Submit Button: Choose the Field Type according to your preference. There are several options:  
+Submit and Reset: This field can be used for inserting a submit/reset button into the form. You can display reset button by checking the box called Display reset button. Type the name of the submit and reset buttons in Submit button label and Reset button label. The field also has several attributes: Class Name and Additional Attributes.  
+Custom: This field can be used for inserting custom buttons into the form. Type the name of each button in button name field. You can define click functions for each button. The field also has several attributes: Class Name and Additional Attributes.  
+
+= Step 5: Publishing the created form. =    
+
+To insert a form into a Page or a Post.  
+
+
+  
+  5.1. Press the button named Insert Form Maker in a post or a page you want to show the form.  
+
+  5.2. Select a form from the list.  
+
+
+  
+  5.3. Save the page or the post.  
+
+Alternatively, you can use Form Maker without the button on the toolbar: Add the shortcode [Form id="N"] (where N is the id of the form, for the form with id=2, the shortcode must be [Form id="2"]) to the pages and posts, where you want the form to appear.   
+
+  
+= Step 6: Managing submissions of the form. =    
+  
+6.1 On the left menu select Form Maker > Submissions  
+
+6.2 In order to manage a form's submissions, select the form from the list.  
+
+6.3 For each form certain types of statistical data are available:  
+- Entries: The number of submitted forms.  
+- Views: The number of times the form has been viewed.  
+- Conversion Rate: The percentage of submitted forms to the overall number of views.  
+
+6.4 For the forms that contain checkboxes or radio buttons a separate statistics is available. It shows how many times a particular checkbox/radio button has been checked, and what is the ratio of that number to the overall number of checks.  
+
+6.5 There is a possibility to search the submissions database by all the relevant fields of the given form. Submissions can be sorted by any of the fields of the form by clicking the labels.  
+
+
+6.6 You can delete any of submissions by selecting them and pressing the “Delete” button on the top of the page.  
+
+6.7 It is also possible to edit the submissions by clicking on the “Edit” icon on the upper right corner of the “Submissions” section.  
+
+
+6.8 You can add/remove any column of the submissions by “Add/Remove Columns” button.  
+
+  
+
+6.9 The submissions can be exported to the CSV and XML formats.
