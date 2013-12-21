@@ -116,7 +116,7 @@ Vietnamese (vi)
 
 == Installation ==    
 
-####Thank you for your interest in WordPress Form Maker.  
+####Thank you for your interest in [Wordpress Form](http://wordpress.org/plugins/form-maker/) Maker.  
 
 ### Minimum requirements.  
 *   Wordpress 3.0+  
@@ -142,7 +142,7 @@ If any problem occurs, please contact us at  [info@web-dorado.com](mailto:info@w
 If you want to update the plugin while preserving your existing forms, you need to deactivate and delete the Form Maker from the list of installed plugins (Do not uninstall it using the Uninstall Form Maker option of the plugin) and install the new plugin. Afterwards, go to Form Maker>Manager and on the upper hand of the screen click on the “Update Forms” button. If the update is successful, you will see a notification message saying, “All forms are updated!”.  
 
 == Screenshots ==
-1.  Form Maker - Sample RSVP  
+1.  [Wordpress Form](http://wordpress.org/plugins/form-maker/) Maker - Sample RSVP  
 2.  Form Maker - Sample  form  
 3.  Form Maker - Manage forms  
 4.  Form Maker - Creating a new form  
@@ -179,7 +179,7 @@ If you want to update the plugin while preserving your existing forms, you need 
 -	Time form field  
 -	Country list form field  
 -	Recapthca form field  
-*  Pagebreak of the Form Maker: This can be used to break the form into distinct pages.  
+*  Pagebreak of the [Wordpress Form](http://wordpress.org/plugins/form-maker/) Maker: This can be used to break the form into distinct pages.  
 *  Section Break of the Form Maker: This option allows adding a section break to the form page.  
 *  For each form certain types of statistical data are available in the Form Maker:  
 *  Entries of a form: The number of submitted forms in the Form Maker.  
@@ -188,7 +188,7 @@ If you want to update the plugin while preserving your existing forms, you need 
 
 
 ==Wordpress Form Maker Step by step guide==    
-### Step 1: Installing the [Wordpress Form Maker](http://wordpress.org/plugins/form-maker/)    
+### Step 1: Installing the [Wordpress Form](http://wordpress.org/plugins/form-maker/) Maker    
 
 1.1 Minimum requirements.  
 Wordpress 3.0+  
