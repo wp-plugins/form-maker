@@ -1,7 +1,7 @@
 === Form Maker ===
 Contributors: webdorado
 Donate link: http://web-dorado.com/products/wordpress-form.html
-Tags:  form,  forms,  contact form, contact forms,  form plugin, forms plugin, forms plugin, form builder,  form manager, multiple forms, custom  form, form maker, form with recaptcha,  form with google map, feedback form, feedback forms, contact us form, paypal form, survey form, application form, advanced form
+Tags:  form,  forms,  contact form, contact forms,  form plugin, forms plugin, forms plugin, form builder,  form manager, multiple forms, custom  form, form maker, form with recaptcha,  form with google map, feedback form, feedback forms, contact us form, paypal form, survey form, advanced form
 Requires at least: 3.0
 Tested up to: 3.8
 Stable tag: 1.6.4
