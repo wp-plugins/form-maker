@@ -14,15 +14,15 @@ Form Maker is a fresh and innovative tool for generating various kinds of forms.
 
 ### [WordPress Form Maker](http://web-dorado.com/products/wordpress-form.html)  
 
-The Form Maker is one of the best form creators in WordPress Plugin Directory. WordPress Form Builder allows you to set all the parameters such as colors, fonts and dimensions to best fit all form standards. If you want to make minimalistic forms, you can create forms with pre-filled texts, avoiding long field labels. If want to build simple contact forms with unlimited number of fields, then you can use [WordPress Contact Form](http://wordpress.org/extend/plugins/contact-form-maker/).  
+The Form Maker is one of the best form creators in WordPress Plugin Directory. WordPress Form Builder allows you to set all the parameters such as colors, fonts and dimensions to best fit all form standards. If you want to make minimalistic forms, you can create forms with pre-filled texts, avoiding long form field labels. If want to build simple contact forms with unlimited number of fields, then you can use  [WordPress Contact Form](http://wordpress.org/extend/plugins/contact-form-maker/).  
 
-Form Maker is a fresh and innovative tool for generating various kinds of forms. The back end of the Form Maker is essential and easy to use, with no need of advanced programming skills.  
+Form Maker is a fresh and innovative tool for generating various kinds of forms. The back end of the Form Maker is essential and easy to use, with no need of advanced programming skills.
 
-The commercial version of the product has Google Map integration for the geolocation as well as pre-filled address demonstration. The details of the longitude and latitude can be provided in the back end.  
+The commercial version of the Form Maker has Google Map integration for the geolocation as well as pre-filled address demonstration in the forms. The details of the longitude and latitude can be provided in the back end of the form. 
 
-WordPress Form can be use both for simple and multipart forms. That is why Form Maker is a perfect choice for ther beginners, who are just starting with forms and also meets the needs of experts (with advanced themes and multiple customization possibilities). WordPress Form Maker can be used for creating simple forms, survey forms and questionnaires, registration and application forms and etc.  
+WordPress Form can be used both for simple and multipart forms. That is why Form Maker is a perfect choice for the beginners, who are just starting with forms and also meets the needs of experts (with advanced themes and multiple form customization possibilities). WordPress Form Maker can be used for creating simple forms, survey forms and questionnaires, registration and application forms and etc.  
 
-PayPal integration allows you to add PayPal features into the form, thus making it possible to use the Form Maker as a great tool for creating donation forms, whereas Survey Tools form field allows creating manageable questionnaire forms.  
+PPayPal integration (commercial version) allows you to add PayPal features into the form, thus making it possible to use the Form Maker as a great tool for creating donation forms, whereas Survey Tools form field allows creating manageable questionnaire forms.  
 
 Form Maker uses standard Captcha, as well as possibility to add Google standard ReCaptcha to make the forms safer.
 
@@ -33,33 +33,63 @@ Form Maker uses standard Captcha, as well as possibility to add Google standard 
 ###Features of Form Maker  
 
 *   WordPress 3.0+  
-*   Twelve form fields with detailed parameters  
+*   Multiple default forms 
+*   Twelve form fields with detailed parameters for creating forms
 	*   Custom HTML with standard editor  
 	*   Text Input options (included 10 types)  
-	*   Time and Date  
+		*   Simple text to add a limited input field into the form
+		*   Password(protected input type form field) for signup forms
+		*   Text area allowing to shrunk the text form field wherever the text is longer than the field itself
+		*   Name form field with customizable field labels
+		*   Address form field with a chance to remove some of the fields from the form and possibility of editing field labels
+		*   Address (Mark on Map) to create an address form field using Google API integration
+		*   E-mail for providing emails (gets validated for the type during the form submission)
+		*   Number for numerical form field
+		*   Phone form field with a possibility to edit the field labels in the backend
+		*   Hidden fields
+	*   Time and Date form fields with a possibility of adding date pickers and time pickers for registration forms, booking and similar forms 
 	*   Custom select and country select (drop-down lists)  
 	*   Checkbox for multiple choices  
 	*   Radio button for single choice  
-	*   Captcha/ReCaptcha  
-	*   Page break  
-	*   Section break  
-	*   Map  
+	*   Captcha/ReCaptcha for using safer forms  
+	*   Page break for form pagination  
+	*   Section break for creating multi-section forms 
+	*   Map for inserting Google Map into the form 
+	*   PayPal form field with currency change possibility(commercial version)
 	*   Submit, Reset and Custom Button  
-*   Up to seven field forms for free version and unlimited number of fields for the commercial one  
-*   Possibility to edit CSS or add custom Javascript into the form  
-*   Includes additional attributes for each form field for adding properties with Java Script (for more advanced users)  
-*   Possibility to receive the filled forms to the admin and submitter (if applicable) emails  
-*   Shortcode button in WordPress standard editor   
-*   Data validation while submitting the form  
+*   Up to seven field forms for free version and unlimited number of form fields for the commercial version of the Form Maker
+*   41 default themes for different form designs
+*   Possibility to include required field option to receive specific information from the form submitter  
+*   Possibility to edit the form CSS or add custom Javascript into the form  
+*   Includes additional attributes for each form field for adding properties with Java Script (for more advanced form users)  
+*   Possibility to receive the filled forms to the admin and form submitter (if applicable) emails
+*   Possibility to add custom text in the emails sent to the administrators and form submitter  
+*   Possibility to edit and change the Email and the Name, which are displayed with the form submission sent to the form submitter, thus allowing to have a feedback to a specific email
+*   Form Maker Shortcode button in WordPress standard editor to make the form inserting process easier, whereas it is also possible to change the form in the page/post just changing the ID of the form in the shortcode   
+*   Data validation for all form fields while submitting the form
+*   Possibility to preview the form, as well as form themes
+*   Possibility to choose the desired file extension types for the file upload form field(commercial version of the Form Maker
+*   Fully integrated with PayPal: two checkout modes (Test Mode and Production) and five form field types (Amount, Select, Checkbox, Radio, and Shipping)(commercial version of the Form Maker), possibility to use the form as a payment/donation form
+*   Google Maps API Integration (commercial version of the Form Maker), possibility to use the maps in two different form fields of the Form Maker
+*   Detailed Form Maker User Manual describing form installation process, detailed form field descriptions, the process of inserting created form into your site and other details for the Form Users
 *   Filled information is kept in database   
-*   Possibility to choose the desired file extension types for the file upload form field(commercial version) 
-*   Fully integrated with PayPal: two checkout modes (Test Mode and Production) and five form field types (Amount, Select, Checkbox, Radio, and Shipping)(commercial version)  
-*   Google Maps API Integration (commercial version)  
-*   Detailed Form Maker User Manual describing installation process, detailed form field descriptions, the process of inserting created form into your site and other details about the Form User  
-*   Required  and hidden form fields   
-*   Possibility to customize button styles  
-*   Form Pagination possibility   
-*   Customizable themes to edit design of the Form Maker  
+*   Required  and hidden form fields 
+*   Possibility to customize button styles used in the form
+*   Form Pagination possibility
+*   Customizable themes to edit the design of the forms
+*   Possibility to edit the form titles whenever required
+*   Possibility to create forms based on the default forms with the “Save as Copy” button
+*   Form Maker supports multiple languages allowing you to create forms in user-native languages
+*   Page redirect possibility after the form is submitted, allowing to navigate not only to specific pages (e.g. including other forms) or to another site (providing URL)
+*   Functional and easy to use back end; you can use navigation arrows to move the created form fields in the same page and even to move the form field from one form page to another
+*   Filled information is kept in database section of the form
+*   Detailed submissions field providing the ID of the submitter, the submission date, form submitter’s IP address and all of the form fields
+*   Searchable Submissions field to find relevant submitted forms in the database
+*   One form based submissions allowing to get separate data for each form
+*   Possibility to use Export CSV/XML feature to download the submitted forms and to analyze the data with advanced tools
+*   Possibility to edit form submissions, deleting the columns of irrelevant form submissions or for sorting the data
+*   Possibility to hide and unhide specific form fields from demonstrating in the Submissions 
+
 
 
 ### Supported languages Of Form Maker  
