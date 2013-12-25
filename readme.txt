@@ -20,7 +20,7 @@ Form Maker is a fresh and innovative form builder for generating various kinds o
 
 The commercial version of the Form Maker has Google Map integration for the geolocation as well as pre-filled address demonstration in the forms. The details of the longitude and latitude can be provided in the back end of the form. 
 
-WordPress Form Maker can be used both for simple and multipart forms. That is why this form builder is a perfect choice for the beginners, who are just starting with forms and also meets the needs of experts (with advanced themes and multiple form customization possibilities). This form buider can be used for creating simple forms, survey forms and questionnaires, registration and application forms and etc.  
+WordPress Form Maker can be used both for simple and multipart forms. That is why this form builder is a perfect choice for the beginners, who are just starting with forms and also meets the needs of experts (with advanced themes and multiple form customization possibilities). This form builder can be used for creating simple forms, survey forms and questionnaires, registration and application forms and etc.  
 
 PayPal integration (commercial version) allows you to add PayPal features into the form, thus making it possible to use the Form Maker as a great tool for creating donation forms, whereas Survey Tools form field allows creating manageable questionnaire forms.  
 
