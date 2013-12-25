@@ -8,23 +8,23 @@ Stable tag: 1.6.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Form Maker is a fresh and innovative tool for generating various kinds of forms.  
+WordPress Form Maker is a fresh and innovative form builder. This form builder is for generating various kinds of forms.
 
 == Description ==
 
 ### [WordPress Form Maker](http://web-dorado.com/products/wordpress-form.html)  
 
-The Form Maker is one of the best form creators in WordPress Plugin Directory. WordPress Form Builder allows you to set all the parameters such as colors, fonts and dimensions to best fit all form standards. If you want to make minimalistic forms, you can create forms with pre-filled texts, avoiding long form field labels. If want to build simple contact forms with unlimited number of fields, then you can use  [WordPress Contact Form](http://wordpress.org/extend/plugins/contact-form-maker/).  
+The Form Maker is one of the best form builders in WordPress Plugin Directory. WordPress Form Builder allows you to set all the parameters such as colors, fonts and dimensions to best fit all form standards. If you want to make minimalistic forms, you can builde forms with pre-filled texts, avoiding long form field labels. If want to build simple contact forms with unlimited number of fields, then you can use  [WordPress Contact Form](http://wordpress.org/extend/plugins/contact-form-maker/).  
 
-Form Maker is a fresh and innovative tool for generating various kinds of forms. The back end of the Form Maker is essential and easy to use, with no need of advanced programming skills.
+Form Maker is a fresh and innovative form builder for generating various kinds of forms. The back end of the Form Maker is essential and easy to use, with no need of advanced programming skills.
 
 The commercial version of the Form Maker has Google Map integration for the geolocation as well as pre-filled address demonstration in the forms. The details of the longitude and latitude can be provided in the back end of the form. 
 
-WordPress Form can be used both for simple and multipart forms. That is why Form Maker is a perfect choice for the beginners, who are just starting with forms and also meets the needs of experts (with advanced themes and multiple form customization possibilities). WordPress Form Maker can be used for creating simple forms, survey forms and questionnaires, registration and application forms and etc.  
+WordPress Form Maker can be used both for simple and multipart forms. That is why this form builder is a perfect choice for the beginners, who are just starting with forms and also meets the needs of experts (with advanced themes and multiple form customization possibilities). This form buider can be used for creating simple forms, survey forms and questionnaires, registration and application forms and etc.  
 
-PPayPal integration (commercial version) allows you to add PayPal features into the form, thus making it possible to use the Form Maker as a great tool for creating donation forms, whereas Survey Tools form field allows creating manageable questionnaire forms.  
+PayPal integration (commercial version) allows you to add PayPal features into the form, thus making it possible to use the Form Maker as a great tool for creating donation forms, whereas Survey Tools form field allows creating manageable questionnaire forms.  
 
-Form Maker uses standard Captcha, as well as possibility to add Google standard ReCaptcha to make the forms safer.
+This form builder uses standard Captcha, as well as possibility to add Google standard ReCaptcha to build the forms safer.
 
 
 ###IMPORTANT: If you think you found a bug in Form Maker or have any problem or question concerning Form Maker, do not hesitate to contact us at [info@web-dorado.com](mailto:info@web-dorado.com).  
@@ -79,7 +79,7 @@ Form Maker uses standard Captcha, as well as possibility to add Google standard 
 *   Customizable themes to edit the design of the forms
 *   Possibility to edit the form titles whenever required
 *   Possibility to create forms based on the default forms with the “Save as Copy” button
-*   Form Maker supports multiple languages allowing you to create forms in user-native languages
+*   This form builder supports multiple languages allowing you to create forms in user-native languages
 *   Page redirect possibility after the form is submitted, allowing to navigate not only to specific pages (e.g. including other forms) or to another site (providing URL)
 *   Functional and easy to use back end; you can use navigation arrows to move the created form fields in the same page and even to move the form field from one form page to another
 *   Filled information is kept in database section of the form
@@ -211,8 +211,8 @@ If you want to update the plugin while preserving your existing forms, you need 
 -	Recapthca form field  
 *  Pagebreak of the [Wordpress Form](http://wordpress.org/plugins/form-maker/) Maker: This can be used to break the form into distinct pages.  
 *  Section Break of the Form Maker: This option allows adding a section break to the form page.  
-*  For each form certain types of statistical data are available in the Form Maker:  
-*  Entries of a form: The number of submitted forms in the Form Maker.  
+*  For each form certain types of statistical data are available in the form builder:  
+*  Entries of a form: The number of submitted forms in the form builder.  
 *  Views of a form: The number of times the form has been viewed.  
 *  Conversion Rate of a form: The percentage of submitted forms to the overall number of views.  
 
@@ -238,7 +238,7 @@ Click “Activate Plugin” button for activating the plugin.
 
 1.3 Updating the form.  
 
-If you want to update the plugin while preserving your existing forms, you need to deactivate and delete the Form Maker from the list of installed plugins (Do not uninstall it using the Uninstall Form Maker option of the plugin) and install the new plugin. Afterwards, go to Form Maker>Manager and on the upper hand of the screen click on the “Update Forms” button. If the update is successful, you will see a notification message saying, “All forms are updated!”.  
+If you want to update the form builder plugin while preserving your existing forms, you need to deactivate and delete the Form Maker from the list of installed plugins (Do not uninstall it using the Uninstall Form Maker option of the plugin) and install the new plugin. Afterwards, go to Form Maker>Manager and on the upper hand of the screen click on the “Update Forms” button. If the update is successful, you will see a notification message saying, “All forms are updated!”.  
 
 
 = Step 2: Creating a new form =    
@@ -248,7 +248,7 @@ If you want to update the plugin while preserving your existing forms, you need 
 2.3 Form Title. Specify a title for the form.  
 
 
-= Step 3: Configuring Form Options =    
+= Step 3: Configuring Form Builder Options =    
 
 3.1 General Options  
 3.1.1 Email to send submissions to. Here you provide e-mails to which submitted form information is sent. If you need more than one e-mail address, you must separate them by commas. This field is not required. In any case, the submitted information is stored in “Submissions” part, where it can be easily managed.  
@@ -257,13 +257,13 @@ If you want to update the plugin while preserving your existing forms, you need 
 3.1.4 Theme. A distinct theme can be applied to each new form. The themes can be accessed by selecting FormMaker > Themes on the top menu. 41 themes are available for selection. There is an option for creating new themes, which you can access by clicking “New” on the upper right corner of the section.  
 
 3.2 Actions after Submission  
-Here you can select the action that takes place after form submission. Following options are available:  
+Form builder allows to select the action that takes place after form submission. Following options are available:  
 - Stay on form: The user stays on the form page.  
 - Article: The user is redirected to the selected article.  
 - Custom text: Custom text is displayed on the screen.  
 - URL: The user is redirected to the provided URL.  
 3.3 Payment Options  
-3.3.1 Turn on PayPal. Allows making PayPal paymentsusing Form Maker.  
+3.3.1 Turn on PayPal. Allows making PayPal payments using Form Maker.  
 3.3.2 Checkout Mode. Choose the checkout mode:  
 Production (https://developer.paypal.com/webapps/developer/docs/classic/lifecycle/goingLive/)  
 Test Mode (https://developer.paypal.com/webapps/developer/docs/integration/direct/test-the-api/)  
@@ -281,7 +281,7 @@ For User. Here you can add custom texts, images, and custom HTML to the e-mail m
 
 = Step 4: Description of the form fields =    
 
-4.1 Custom HTML:An HTML editor. You can insert your own HTML content to your WordPress form.  
+4.1 Custom HTML:An HTML editor. You can insert your own HTML content to your WordPress form builder.  
 
 4.2 Text Input: At first choose the form Field Type according to your preference. There are several options:  
 Simple Text: This can be used for typing some text. It has several attributes: Field Id, Field Name, Field Label, Field Label Position, Field Size, Value If Empty, Class Name, Required, Allow only unique values, Additional Attributes  
@@ -354,7 +354,7 @@ To insert a form into a Page or a Post.
   
   5.3. Save the page or the post.  
 
-Alternatively, you can use Form Maker without the button on the toolbar: Add the shortcode [Form id="N"] (where N is the id of the form, for the form with id=2, the shortcode must be [Form id="2"]) to the pages and posts, where you want the form to appear.   
+Alternatively, you can use form builder without the button on the toolbar: Add the shortcode [Form id="N"] (where N is the id of the form, for the form with id=2, the shortcode must be [Form id="2"]) to the pages and posts, where you want the form to appear.   
 
   
 = Step 6: Managing submissions of the form. =    
@@ -370,15 +370,14 @@ Alternatively, you can use Form Maker without the button on the toolbar: Add the
 
 6.4 For the forms that contain checkboxes or radio buttons a separate statistics is available. It shows how many times a particular checkbox/radio button has been checked, and what is the ratio of that number to the overall number of checks.  
 
-6.5 There is a possibility to search the submissions database by all the relevant fields of the given form. Submissions can be sorted by any of the fields of the form by clicking the labels.  
+6.5 Form builder allows to search the submissions database by all the relevant fields of the given form. Submissions can be sorted by any of the fields of the form by clicking the labels.  
 
 
-6.6 You can delete any of submissions by selecting them and pressing the “Delete” button on the top of the page.  
+6.6 Form builder allows to delete any of submissions by selecting them and pressing the “Delete” button on the top of the page.  
 
-6.7 It is also possible to edit the submissions by clicking on the “Edit” icon on the upper right corner of the “Submissions” section.  
+6.7 Form builder allows to edit the submissions by clicking on the “Edit” icon on the upper right corner of the “Submissions” section.  
 
-
-6.8 You can add/remove any column of the submissions by “Add/Remove Columns” button.  
+6.8 Form builder allows to add/remove any column of the submissions by “Add/Remove Columns” button.  
 
   
 
