@@ -481,6 +481,13 @@ function gen_mail($counter, $all_files, $id, $str) {
             }
             break;
             }
+          case "type_hidden": {
+            $element = $_POST[$element_label];
+            if (isset($element)) {
+              $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="font-family:inherit; margin:0px; padding:0px">' . $element . '</pre></td></tr>';
+            }
+            break;
+          }
           case "type_submitter_mail":
             {
             $element = $_POST[$i . "_element" . $id];

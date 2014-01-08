@@ -1029,7 +1029,7 @@ function check_required(but_type, form_id)
 							
 						case "type_address":
 							{	
-								if ((document.getElementById(i+"_street1"+form_id) && document.getElementById(i+"_street1"+form_id).value=="") || (document.getElementById(i+"_city"+form_id) && document.getElementById(i+"_city"+form_id).value=="") || (document.getElementById(i+"_state"+form_id) && document.getElementById(i+"_state"+form_id).value=="") || (document.getElementById(i+"_postal"+form_id) && document.getElementById(i+"_postal"+form_id).value=="") || (document.getElementById(i+"_country"+form_id) && document.getElementById(i+"_country"+form_id).value==""))
+								if ((document.getElementById(i+"_street1"+form_id) && document.getElementById(i+"_street1"+form_id).value=="" && jQuery("#" + i+"_street1"+form_id).attr("type") != "hidden") || (document.getElementById(i+"_city"+form_id) && document.getElementById(i+"_city"+form_id).value=="" && jQuery("#" + i+"_city"+form_id).attr("type") != "hidden") || (document.getElementById(i+"_state"+form_id) && document.getElementById(i+"_state"+form_id).value==""&& jQuery("#" + i+"_state"+form_id).attr("type") != "hidden") || (document.getElementById(i+"_postal"+form_id) && document.getElementById(i+"_postal"+form_id).value==""&& jQuery("#" + i+"_city"+form_id).attr("type") != "hidden") || (document.getElementById(i+"_postal"+form_id) && document.getElementById(i+"_country"+form_id).value==""&& jQuery("#" + i+"_country"+form_id).attr("type") != "hidden"))
 									seted=false;
 								break;
 	
