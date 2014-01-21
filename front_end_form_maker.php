@@ -400,7 +400,7 @@ function save_db($counter, $id) {
     $save_or_no = $wpdb->insert($r, array(
         'form_id' => $id_old,
         'element_label' => $i,
-        'element_value' => stripslashes($value),
+        'element_value' => stripslashes(esc_html($value)),
         'group_id' => ($max + 1),
         'date' => date('Y-m-d H:i:s'),
         'ip' => $ip,
@@ -2248,7 +2248,9 @@ function form_maker_front_end($id) {
       }
       var formOldFunctionOnLoad' . $id . ' = null;
       formLoadBody' . $id . '();';
-    $counter = $_POST["counter" . $id];
+    if (isset($_POST["counter" . $id])) {
+      $counter = esc_html($_POST["counter" . $id]);
+    }
     $old_key = -1;
     if (isset($counter)) {
       foreach ($label_type as $key => $type) {
