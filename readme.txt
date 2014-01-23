@@ -183,6 +183,8 @@ If you want to update the plugin while preserving your existing forms, you need 
 
 == Changelog ==
 
+= 1.6.6 =
+*  fix security issue which was reported by Mateusz Lach
 = 1.6.4 =
 *  Added featured plugins  
 = 1.6.3 =
