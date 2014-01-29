@@ -33,7 +33,7 @@ This form builder has a Captcha field to protect from spam with two options: a s
 ###Features of Form Maker  
 
 *   WordPress 3.0+  
-*   Multiple default forms 
+*   Multiple pre-installed sample forms 
 *   Twelve form fields with detailed parameters for creating forms
 	*   Custom HTML with standard editor  
 	*   Text Input options (included 10 types)  
@@ -58,7 +58,7 @@ This form builder has a Captcha field to protect from spam with two options: a s
 	*   PayPal form field with currency change possibility(commercial version)
 	*   Submit, Reset and Custom Button  
 *   Up to seven field forms for free version and unlimited number of form fields for the commercial version of the Form Maker
-*   41 default themes for different form designs
+*   41 editable themes for different form designs
 *   Possibility to include required field option to receive specific information from the form submitter  
 *   Possibility to edit the form CSS or add custom Javascript into the form  
 *   Includes additional attributes for each form field for adding properties with Java Script (for more advanced form users)  
