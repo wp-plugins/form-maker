@@ -24,7 +24,7 @@ WordPress Form Maker can be used both for simple and multipart forms. That is wh
 
 PayPal integration (commercial version) allows you to add PayPal features into the form, thus making it possible to use the Form Maker as a great tool for creating donation forms, whereas Survey Tools form field allows creating manageable questionnaire forms.  
 
-This form builder uses standard Captcha, as well as possibility to add Google standard ReCaptcha to build the forms safer.
+This form builder has a Captcha field to protect from spam with two options: a simple Captcha and ReCaptcha (the famous Captcha by Google).
 
 
 ###IMPORTANT: If you think you found a bug in Form Maker or have any problem or question concerning Form Maker, do not hesitate to contact us at [info@web-dorado.com](mailto:info@web-dorado.com).  
