@@ -240,14 +240,14 @@ Click “Activate Plugin” button for activating the plugin.
 
 1.3 Updating the form.  
 
-If you want to update the form builder plugin while preserving your existing forms, you need to deactivate and delete the Form Maker from the list of installed plugins (Do not uninstall it using the Uninstall Form Maker option of the plugin) and install the new plugin. Afterwards, go to Form Maker>Manager and on the upper hand of the screen click on the “Update Forms” button. If the update is successful, you will see a notification message saying, “All forms are updated!”.  
+If you want to update the form builder plugin while preserving your existing forms, you need to deactivate and delete the Form Maker from the list of installed plugins (Do not uninstall it using the Uninstall Form Maker option of the plugin, otherwise you will lose your initial data) and install the new plugin. 
 
 
 = Step 2: Creating a new form =    
 
 2.1 On the left menu select Form Maker > Manager  
 2.2 In the upper left corner click on the “Add a form” button.  
-2.3 Form Title. Specify a title for the form.  
+2.3 Form Title. Specify a title for the form (Try to use unique titles).  
 
 
 = Step 3: Configuring Form Builder Options =    
