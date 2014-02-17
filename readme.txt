@@ -27,7 +27,8 @@ PayPal integration (commercial version) allows you to add PayPal features into t
 This form builder has a Captcha field to protect from spam with two options: a simple Captcha and ReCaptcha (the famous Captcha by Google).
 
 
-###IMPORTANT: If you think you found a bug in Form Maker or have any problem or question concerning Form Maker, do not hesitate to contact us at [info@web-dorado.com](mailto:info@web-dorado.com).  
+###IMPORTANT: If you think you found a bug in Form Maker or have any problem/ question concerning the plugin, please check out [Support Forum](http://web-dorado.com/forum/26-form-maker.html) in our website. If you do not find a solution here, do not hesitate to contact us at [info@web-dorado.com](mailto:info@web-dorado.com).
+
 
 
 ###Features of Form Maker  
