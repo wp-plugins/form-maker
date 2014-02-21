@@ -14,17 +14,22 @@ WordPress Form Maker is a fresh and innovative form builder. This form builder i
 
 ### [WordPress Form Maker](http://web-dorado.com/products/wordpress-form.html)  
 
-The Form Maker is one of the best form builders in WordPress Plugin Directory. WordPress Form Builder allows you to set all the parameters such as colors, fonts and dimensions to best fit all form standards. If you want to make minimalistic forms, you can builde forms with pre-filled texts, avoiding long form field labels. If want to build simple contact forms with unlimited number of fields, then you can use  [WordPress Contact Form](http://wordpress.org/extend/plugins/contact-form-maker/).  
+The Form Maker is one of the best form builders in WordPress Plugin Directory. WordPress Form Builder allows you to set all the parameters such as colors, fonts and dimensions to best fit all form standards. If you want to make minimalistic forms, you can build forms with pre-filled texts, avoiding long form field labels. If want to build simple contact forms with unlimited number of fields, then you can use  [WordPress Contact Form](http://wordpress.org/extend/plugins/contact-form-maker/).  
 
 Form Maker is a fresh and innovative form builder for generating various kinds of forms. The back end of the Form Maker is essential and easy to use, with no need of advanced programming skills.
 
-The commercial version of the Form Maker has Google Map integration for the geolocation as well as pre-filled address demonstration in the forms. The details of the longitude and latitude can be provided in the back end of the form. 
+The Form Maker uses a number of customizable themes.  You can choose the design of the form to fit your website/webpage. Moreover, the Form Maker theme CSS is open for editing and making necessary changes, for creating a custom form design. To choose the best fitting form design, you can first preview the created forms changing the form theme and pressing preview button. 
 
 WordPress Form Maker can be used both for simple and multipart forms. That is why this form builder is a perfect choice for the beginners, who are just starting with forms and also meets the needs of experts (with advanced themes and multiple form customization possibilities). This form builder can be used for creating simple forms, survey forms and questionnaires, registration and application forms and etc.  
 
-PayPal integration (commercial version) allows you to add PayPal features into the form, thus making it possible to use the Form Maker as a great tool for creating donation forms, whereas Survey Tools form field allows creating manageable questionnaire forms.  
 
-This form builder has a Captcha field to protect from spam with two options: a simple Captcha and ReCaptcha (the famous Captcha by Google).
+The commercial version of the Form Maker has Google Map integration for the geolocation as well as pre-filled address demonstration in the forms. The details of the longitude and latitude can be provided in the back end of the form. 
+
+To make the process of creating forms easier, the package includes a list of pre-installed forms for different purposes. There is a possibility of saving those forms as copies and editing them to fit your needs.
+
+PayPal integration of the Form Maker (commercial version) allows you to add PayPal features into the form, thus making it possible to use the Form Maker as a great tool for creating donation forms, whereas Survey Tools form field allows creating manageable questionnaire forms.  
+
+This form builder has a Captcha field to protect from receiving spam with the forms. The form field comes with two options: a simple Captcha and ReCaptcha (the famous Captcha by Google).
 
 
 ###IMPORTANT: If you think you found a bug in Form Maker or have any problem/ question concerning the plugin, please check out [Support Forum](http://web-dorado.com/forum/26-form-maker.html) in our website. If you do not find a solution here, do not hesitate to contact us at [info@web-dorado.com](mailto:info@web-dorado.com).
@@ -37,11 +42,11 @@ This form builder has a Captcha field to protect from spam with two options: a s
 *   Multiple pre-installed sample forms 
 *   Twelve form fields with detailed parameters for creating forms
 	*   Custom HTML with standard editor  
-	*   Text Input options (included 10 types)  
+	*   Text Input form fields (included 10 different types)   
 		*   Simple text to add a limited input field into the form
 		*   Password(protected input type form field) for signup forms
 		*   Text area allowing to shrunk the text form field wherever the text is longer than the field itself
-		*   Name form field with customizable field labels
+		*   Name form field with customizable field labels (this form field includes two formats: Normal (only first and last name included) and extended (with a possibility of adding up to four sections within a single form field)
 		*   Address form field with a chance to remove some of the fields from the form and possibility of editing field labels
 		*   Address (Mark on Map) to create an address form field using Google API integration
 		*   E-mail for providing emails (gets validated for the type during the form submission)
@@ -50,8 +55,8 @@ This form builder has a Captcha field to protect from spam with two options: a s
 		*   Hidden fields
 	*   Time and Date form fields with a possibility of adding date pickers and time pickers for registration forms, booking and similar forms 
 	*   Custom select and country select (drop-down lists)  
-	*   Checkbox for multiple choices  
-	*   Radio button for single choice  
+	*   Checkbox for multiple choices questions in the form  
+	*   Radio button for single choice questions in the form 
 	*   Captcha/ReCaptcha for using safer forms  
 	*   Page break for form pagination  
 	*   Section break for creating multi-section forms 
