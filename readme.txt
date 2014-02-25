@@ -175,7 +175,8 @@ If any problem occurs, please contact us at  [info@web-dorado.com](mailto:info@w
 
 ### Updating Form Maker.  
 
-If you want to update the plugin while preserving your existing forms, you need to deactivate and delete the Form Maker from the list of installed plugins (Do not uninstall it using the Uninstall Form Maker option of the plugin) and install the new plugin. Afterwards, go to Form Maker>Manager and on the upper hand of the screen click on the “Update Forms” button. If the update is successful, you will see a notification message saying, “All forms are updated!”.  
+Whenever a new version of Form Maker becomes available you will see a notification in the plugins section of the WordPress below the actual plugin. To update the Form Maker, you should press update now button and after the process is done, press Activate Plugin button.   
+In case you are upgrading your Form Maker to paid version, but still want to preserve the created forms, you need to deactivate and delete the Form Maker from the list of installed plugins (Do not uninstall it using the Uninstall Form Maker option of the plugin) and install the new plugin.     
 
 == Screenshots ==
 1.  [Wordpress Form](http://wordpress.org/plugins/form-maker/) Maker - Sample RSVP  
