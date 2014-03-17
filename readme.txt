@@ -94,11 +94,11 @@ Possibility of sending submitted form to various emails, providing them in Email
 *   Filled information is kept in database section of the form
 *   Detailed submissions field providing the ID of the submitter, the submission date, form submitter’s IP address and all of the form fields
 *   Searchable Submissions field to find relevant submitted forms in the database
-*   One form based submissions allowing to get separate data for each form
+*   One form based submissions allowing to get separate data for each form    
+*   Submissions section includes simple statistical data for the choice-based entries.    
 *   Possibility to use Export CSV/XML feature to download the submitted forms and to analyze the data with advanced tools    
 *   Possibility to edit form submissions, deleting the columns of irrelevant form submissions or for sorting the data   
 *   Possibility to hide and unhide specific form fields from demonstrating in the Submissions    
-*   Submissions section includes simple statistical data for the choice-based entries.    
 
 
 ### Supported languages Of Form Maker  
