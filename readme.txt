@@ -96,7 +96,9 @@ Possibility of sending submitted form to various emails, providing them in Email
 *   Possibility to edit form submissions, deleting the columns of irrelevant form submissions or for sorting the data   
 *   Possibility to hide and unhide specific form fields from demonstrating in the Submissions    
 
-Upgrade to [WordPress Form Maker Pro](http://web-dorado.com/products/wordpress-form.html) to add features:    
+
+Upgrade to [WordPress Form Maker Pro](http://web-dorado.com/products/wordpress-form.html) to add features: 
+   
 *   unlimited number of form fields       
 *   PayPal form field with currency change possibility   
 *   Upload file field    
