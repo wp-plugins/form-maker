@@ -97,12 +97,12 @@ Possibility of sending submitted form to various emails, providing them in Email
 *   Possibility to hide and unhide specific form fields from demonstrating in the Submissions    
 
 Upgrade to [WordPress Form Maker Pro](http://web-dorado.com/products/wordpress-form.html) to add features:    
-	*   unlimited number of form fields       
-	*   PayPal form field with currency change possibility   
-	*   Upload file field    
-	*   Possibility to choose the desired file extension types for the file upload form field     
-	*   Fully integrated with PayPal: two checkout modes (Test Mode and Production) and five form field types (Amount, Select, Checkbox, Radio, and Shipping)(commercial version of the Form Maker), possibility to use the form as a payment/donation form     
-	*   Google Maps API Integration, possibility to use the maps in two different form fields of the Form Maker     
+*   unlimited number of form fields       
+*   PayPal form field with currency change possibility   
+*   Upload file field    
+*   Possibility to choose the desired file extension types for the file upload form field     
+*   Fully integrated with PayPal: two checkout modes (Test Mode and Production) and five form field types (Amount, Select, Checkbox, Radio, and Shipping)(commercial version of the Form Maker), possibility to use the form as a payment/donation form     
+*   Google Maps API Integration, possibility to use the maps in two different form fields of the Form Maker     
 	
 	
 ### Supported languages Of Form Maker  
