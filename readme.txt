@@ -64,10 +64,9 @@ Possibility of sending submitted form to various emails, providing them in Email
 	*   Page break for form pagination  
 	*   Section break for creating multi-section forms 
 	*   Map for inserting Google Map into the form 
-	*   PayPal form field with currency change possibility(commercial version)
 	*   Submit, Reset and Custom Button  
-*   Up to seven field forms for free version and unlimited number of form fields for the commercial version of the Form Maker
 *   41 editable themes for different form designs
+*   Up to seven field forms for free version
 *   Possibility to include required field option to receive specific information from the form submitter  
 *   Possibility to edit the form CSS or add custom Javascript into the form  
 *   Includes additional attributes for each form field for adding properties with Java Script (for more advanced form users)  
@@ -77,9 +76,6 @@ Possibility of sending submitted form to various emails, providing them in Email
 *   Form Maker Shortcode button in WordPress standard editor to make the form inserting process easier, whereas it is also possible to change the form in the page/post just changing the ID of the form in the shortcode   
 *   Data validation for all form fields while submitting the form
 *   Possibility to preview the form, as well as form themes
-*   Possibility to choose the desired file extension types for the file upload form field(commercial version of the Form Maker
-*   Fully integrated with PayPal: two checkout modes (Test Mode and Production) and five form field types (Amount, Select, Checkbox, Radio, and Shipping)(commercial version of the Form Maker), possibility to use the form as a payment/donation form
-*   Google Maps API Integration (commercial version of the Form Maker), possibility to use the maps in two different form fields of the Form Maker
 *   Detailed Form Maker User Manual describing form installation process, detailed form field descriptions, the process of inserting created form into your site and other details for the Form Users
 *   Filled information is kept in database   
 *   Required  and hidden form fields 
@@ -95,12 +91,20 @@ Possibility of sending submitted form to various emails, providing them in Email
 *   Detailed submissions field providing the ID of the submitter, the submission date, form submitter’s IP address and all of the form fields
 *   Searchable Submissions field to find relevant submitted forms in the database
 *   One form based submissions allowing to get separate data for each form    
-*   Submissions section includes simple statistical data for the choice-based entries.    
+*   Submissions section includes simple statistical data for the choice-based entries    
 *   Possibility to use Export CSV/XML feature to download the submitted forms and to analyze the data with advanced tools    
 *   Possibility to edit form submissions, deleting the columns of irrelevant form submissions or for sorting the data   
 *   Possibility to hide and unhide specific form fields from demonstrating in the Submissions    
 
-
+Upgrade to [WordPress Form Maker Pro](http://web-dorado.com/products/wordpress-form.html) to add features:
+	*   unlimited number of form fields       
+	*   PayPal form field with currency change possibility   
+	*   Upload file field    
+	*   Possibility to choose the desired file extension types for the file upload form field     
+	*   Fully integrated with PayPal: two checkout modes (Test Mode and Production) and five form field types (Amount, Select, Checkbox, Radio, and Shipping)(commercial version of the Form Maker), possibility to use the form as a payment/donation form     
+	*   Google Maps API Integration, possibility to use the maps in two different form fields of the Form Maker     
+	
+	
 ### Supported languages Of Form Maker  
 
  *If you need language of Form Maker which is not included in this list, please contact us and we will do the translation of Form Maker within 3 days. If you find some mistakes in the translation of Form Maker, please contact  us and we will correct it within 3 days.*  
