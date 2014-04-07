@@ -78,8 +78,7 @@ Possibility of sending submitted form to various emails, providing them in Email
 *   Form Maker Shortcode button in WordPress standard editor to make the form inserting process easier, whereas it is also possible to change the form in the page/post just changing the ID of the form in the shortcode   
 *   Data validation for all form fields while submitting the form
 *   Possibility to preview the form, as well as form themes
-*   Detailed Form Maker User Manual describing form installation process, detailed form field descriptions, the process of inserting created form into your site and other details for the Form Users
-*   Filled information is kept in database   
+*   Detailed Form Maker User Manual describing form installation process, detailed form field descriptions, the process of inserting created form into your site and other details for the Form Users     
 *   Required  and hidden form fields 
 *   Possibility to customize button styles used in the form
 *   Form Pagination possibility
@@ -97,7 +96,7 @@ Possibility of sending submitted form to various emails, providing them in Email
 *   Possibility to use Export CSV/XML feature to download the submitted forms and to analyze the data with advanced tools    
 *   Possibility to edit form submissions, deleting the columns of irrelevant form submissions or for sorting the data   
 *   Possibility to hide and unhide specific form fields from demonstrating in the Submissions    
-
+*   There is a possibility to add custom text which will be displayed when the field is empty to give the users samples or instruction when filling the specific field.    
 
 Upgrade to [WordPress Form Maker Pro](http://web-dorado.com/products/wordpress-form.html) to add features: 
    
