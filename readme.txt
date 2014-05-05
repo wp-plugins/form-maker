@@ -100,7 +100,7 @@ Survey tools are also very convenient for adding rating systems for the articles
 *   Possibility to hide and unhide specific form fields from demonstrating in the Submissions    
 *   There is a possibility to add custom text which will be displayed when the field is empty to give the users samples or instruction when filling the specific field.    
 *   Possibility to have pre-filled texts serving as instructions for the textarea and other text fields.   
-
+*   Date picker in the form of drop-down menu for easier date selection.
 
 Upgrade to [WordPress Form Maker Pro](http://web-dorado.com/products/wordpress-form.html) to add features: 
    
