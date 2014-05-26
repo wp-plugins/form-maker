@@ -13,6 +13,10 @@ WordPress Form Maker is a fresh and innovative form builder. This form builder i
 == Description ==
 
 ### [WordPress Form Maker](http://web-dorado.com/products/wordpress-form.html)  
+[Demo](http://wpdemo.web-dorado.com/)  
+[Demo Admin](http://wpdemo.web-dorado.com/wp-admin/admin.php?page=Form_maker)  
+[User Manual](http://web-dorado.com/wordpress-form-maker-guide-1.html)  
+[Frequently Asked Questions](http://web-dorado.com/forum/form-maker/316-form-maker-faq.html)  
 
 The Form Maker is one of the best form builders in WordPress Plugin Directory. WordPress Form Builder allows you to set all the parameters such as colors, fonts and dimensions to best fit all form standards. If you want to make minimalistic forms, you can build forms with pre-filled texts, avoiding long form field labels. If want to build simple contact forms with unlimited number of fields, then you can use  [WordPress Contact Form](http://wordpress.org/extend/plugins/contact-form-maker/).  
 
