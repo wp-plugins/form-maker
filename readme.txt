@@ -43,7 +43,7 @@ Possibility of sending submitted form to various emails, providing them in Email
 
 Survey tools are also very convenient for adding rating systems for the posts, e.g. for contests. 
 
-###IMPORTANT: If you think you found a bug in Form Maker or have any problem/ question concerning the plugin, please check out [Support Forum](http://web-dorado.com/forum/26-form-maker.html) in our website. If you do not find a solution here, do not hesitate to contact us at [info@web-dorado.com](mailto:info@web-dorado.com).
+###IMPORTANT: If you think you found a bug in Form Maker or have any problem/question concerning the plugin, please check out [Support Forum](http://web-dorado.com/forum/26-form-maker.html) in our website. If you do not find a solution here, do not hesitate to contact us at [info@web-dorado.com](mailto:info@web-dorado.com).
 
 
 
