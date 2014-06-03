@@ -3,9 +3,8 @@ j = 2;
 var c;
 var need_enable = true;
 var a = new Array();
-var plugin_url = "";
-var id_ifr_editor = 500;
-var count_of_filds_form = 7;
+var id_ifr_editor = 0;
+var count_of_fields_form = 7;
 if (ajaxurl.indexOf("://") != -1) {
   var url_for_ajax = ajaxurl;
 }
@@ -84,6 +83,12 @@ function refresh_attr(x, type) {
 		case "type_text": {
 			id_array = Array();
 			id_array[0] = x + '_elementform_id_temp';
+			break;
+		}
+    case "type_paypal_price": {
+			id_array = Array();
+			id_array[0] = x + '_element_dollarsform_id_temp';
+			id_array[1] = x + '_element_centsform_id_temp';
 			break;
 		}
     case "type_star_rating": {
@@ -1473,13 +1478,13 @@ function change_captcha_digit(digit)
 	{	
 		captcha.setAttribute("digit", digit);
 	
-		captcha.setAttribute("src", url_for_ajax+"?action=formmakerwdcaptcha"+"&digit="+digit+"&i=form_id_temp");
+		captcha.setAttribute("src", url_for_ajax + "?action=formmakerwdcaptcha&digit="+digit+"&i=form_id_temp");
 		document.getElementById('_wd_captcha_inputform_id_temp').style.width=(document.getElementById('captcha_digit').value*10+15)+"px";
 	}
 	else
 	{
 		captcha.setAttribute("digit", "6");
-		captcha.setAttribute("src", url_for_ajax+"?action=formmakerwdcaptcha"+"&digit=6"+"&i=form_id_temp");
+		captcha.setAttribute("src", url_for_ajax+"?action=formmakerwdcaptcha&digit=6&i=form_id_temp");
 		document.getElementById('_wd_captcha_inputform_id_temp').style.width=(6*10+15)+"px";
 	}
 }
@@ -1531,6 +1536,7 @@ function second_yes(id, w_ss)
 		ss.setAttribute("onBlur", "add_0('"+id+"_ssform_id_temp')");
 	var ss_label = document.createElement('label');
            	ss_label.setAttribute("class", "mini_label");
+            ss_label.setAttribute("id", id+"_mini_label_ss");
 		ss_label.innerHTML="SS";
 
 	td_time_input3.appendChild(ss);
@@ -1558,7 +1564,7 @@ function second_yes(id, w_ss)
   jQuery(document).ready(function() {
 		jQuery("label#"+id+"_mini_label_ss").click(function() {
       if (jQuery(this).children('input').length == 0) {
-        var ss = "<input type='text' class='ss' size='4' style='outline:none; border:none; background:none;' value=\""+jQuery(this).text()+"\">";
+        var ss = "<input type='text' class='ss' style='outline: none; border: none; background: none; width: 40px;' value=\""+jQuery(this).text()+"\">";
         jQuery(this).html(ss);
         jQuery("input.ss").focus();
         jQuery("input.ss").blur(function() {
@@ -1614,6 +1620,14 @@ function check_isnum_or_minus(e) {
       return false;
     }
 	}
+	return true;
+}
+
+function check_isspacebar(e) {
+  var chCode1 = e.which || e.keyCode;
+  if (chCode1 == 32 ) {
+    return false;
+  }
 	return true;
 }
 
@@ -2359,10 +2373,11 @@ function close_window() {
   document.getElementById('form_maker_editor').value = "";
   document.getElementById('editing_id').value = "";
   document.getElementById('element_type').value = "";
-	alltypes = Array('customHTML', 'text', 'checkbox', 'radio', 'time_and_date', 'select', 'file_upload', 'captcha', 'map', 'button', 'page_break', 'section_break', 'survey');
-  for (x = 0; x < 13; x++) {
-    if (alltypes[x] != 'file_upload' && alltypes[x] != 'map')
+	alltypes = Array('customHTML', 'text', 'checkbox', 'radio', 'time_and_date', 'select', 'file_upload', 'captcha', 'map', 'button', 'page_break', 'section_break', 'paypal', 'survey');
+  for (x = 0; x < 14; x++) {
+    if (alltypes[x] != 'file_upload' && alltypes[x] != 'map' && alltypes[x] != 'paypal') {
       document.getElementById('img_' + alltypes[x]).parentNode.style.backgroundColor = '';
+    }
   }
 }
 
@@ -2372,6 +2387,14 @@ function change_label(id, label) {
 }
 
 function change_label_1(id, label) {
+  document.getElementById(id).value = label;
+}
+
+function change_label_price(id, label) {
+  document.getElementById(id).innerHTML = label;
+}
+
+function change_value_price(id, label) {
   document.getElementById(id).value = label;
 }
 
@@ -2404,6 +2427,125 @@ function change_size(size, num)
 			document.getElementById(num+'_elementform_id_temp').setAttribute("rows", "8");break;
 		}
 	}
+}
+
+function add_choise_price(type, num) {
+  var q = 0;
+  if (document.getElementById(num + '_hor')) {
+    q = 1;
+    flow_ver(num);
+  }
+  j++;
+  if (type == 'radio' || type == 'checkbox') {
+    element = 'input';
+    var table = document.getElementById(num + '_table_little');
+    var tr = document.createElement('tr');
+    tr.setAttribute("id", num + "_element_tr" + j);
+    var td = document.createElement('td');
+    td.setAttribute("valign", "top");
+    td.setAttribute("id", num + "_td_little" + j);
+    td.setAttribute("idi", j);
+    var adding = document.createElement(element);
+    adding.setAttribute("type", type);
+    adding.setAttribute("value", "");
+    adding.setAttribute("id", num + "_elementform_id_temp" + j);
+    if (type == 'checkbox') {
+      adding.setAttribute("onClick", "set_checked('" + num + "','" + j + "','form_id_temp')");
+      adding.setAttribute("name", num + "_elementform_id_temp" + j);
+    }
+		if (type == 'radio') {
+      adding.setAttribute("onClick", "set_default('" + num + "','" + j + "','form_id_temp')");
+      adding.setAttribute("name", num + "_elementform_id_temp");
+    }
+    var label_adding = document.createElement('label');
+    label_adding.setAttribute("id", num + "_label_element" + j);
+    label_adding.setAttribute("class", "ch_rad_label");
+    label_adding.setAttribute("for",num+"_elementform_id_temp"+j);
+    var adding_ch_label = document.createElement('input');
+    adding_ch_label.setAttribute("type", "hidden");
+    adding_ch_label.setAttribute("id", num+"_elementlabel_form_id_temp"+j);
+    adding_ch_label.setAttribute("name", num+"_elementform_id_temp"+j+"_label");
+    adding_ch_label.setAttribute("value", "");
+    td.appendChild(adding);
+    td.appendChild(label_adding);
+    td.appendChild(adding_ch_label);
+    tr.appendChild(td);
+    table.appendChild(tr);
+    var choices_td= document.getElementById('choices');
+    var br = document.createElement('br');
+    br.setAttribute("id", "br"+j);
+    var el_choices = document.createElement('input');
+    el_choices.setAttribute("id", "el_choices"+j);
+    el_choices.setAttribute("type", "text");
+    el_choices.setAttribute("value", "");
+    el_choices.style.cssText =   "width:100px; margin:0; padding:0; border-width: 1px";
+    el_choices.setAttribute("onKeyUp", "change_label('"+num+"_label_element"+j+"', this.value); change_label_1('"+num+"_elementlabel_form_id_temp"+j+"', this.value); ");
+    var el_choices_remove = document.createElement('img');
+    el_choices_remove.setAttribute("id", "el_choices"+j+"_remove");
+    el_choices_remove.setAttribute("src", plugin_url+'/images/delete.png');
+    el_choices_remove.style.cssText =  'cursor:pointer;vertical-align:middle; margin:3px';
+    el_choices_remove.setAttribute("align", 'top');
+    el_choices_remove.setAttribute("onClick", "remove_choise_price('"+j+"','"+num+"')");
+    var el_choices_price = document.createElement('input');
+    el_choices_price.setAttribute("id", "el_option_price"+j);
+    el_choices_price.setAttribute("type", "text");
+    el_choices_price.setAttribute("value", '');
+    el_choices_price.style.cssText =   "width:50px; margin:1px; padding:0; border-width: 1px";
+    el_choices_price.setAttribute("onKeyUp", "change_value_price('"+num+"_elementform_id_temp"+j+"', this.value)");
+    el_choices_price.setAttribute("onKeyPress", "return check_isnum_point(event)");
+    choices_td.appendChild(br);
+    choices_td.appendChild(el_choices);
+    choices_td.appendChild(el_choices_price);
+    choices_td.appendChild(el_choices_remove);
+		if (type == 'checkbox') {
+      refresh_id_name(num, 'type_checkbox');
+    }
+    if (type == 'radio') {
+      refresh_id_name(num, 'type_radio');
+    }
+    refresh_attr(num, 'type_checkbox');
+  }
+  if (type == 'select') {
+    var select_ = document.getElementById(num+'_elementform_id_temp');
+    var option = document.createElement('option');
+    option.setAttribute("id", num+"_option"+j);
+    select_.appendChild(option);
+    var choices_td= document.getElementById('choices');
+    var br = document.createElement('br');
+    br.setAttribute("id", "br"+j);
+    var el_choices = document.createElement('input');
+    el_choices.setAttribute("id", "el_option"+j);
+    el_choices.setAttribute("type", "text");
+    el_choices.setAttribute("value", "");
+    el_choices.style.cssText =   "width:100px; margin:1px; padding:0; border-width: 1px";
+    el_choices.setAttribute("onKeyUp", "change_label_price('"+num+"_option"+j+"', this.value)");
+    var el_choices_price = document.createElement('input');
+    el_choices_price.setAttribute("id", "el_option_price"+j);
+    el_choices_price.setAttribute("type", "text");
+    el_choices_price.setAttribute("value", '');
+    el_choices_price.style.cssText =   "width:50px; margin:1px; padding:0; border-width: 1px";
+    el_choices_price.setAttribute("onKeyUp", "change_value_price('"+num+"_option"+j+"', this.value)");
+    el_choices_price.setAttribute("onKeyPress", "return check_isnum_point(event)");
+    var el_choices_remove = document.createElement('img');
+    el_choices_remove.setAttribute("id", "el_option"+j+"_remove");
+    el_choices_remove.setAttribute("src", plugin_url+'/images/delete.png');
+    el_choices_remove.style.cssText = 'cursor:pointer; vertical-align:middle;  margin-left:4px;';
+    el_choices_remove.setAttribute("align", 'top');
+    el_choices_remove.setAttribute("onClick", "remove_option_price('"+j+"','"+num+"')");
+    var el_choices_dis = document.createElement('input');
+    el_choices_dis.setAttribute("type", 'checkbox');
+    el_choices_dis.setAttribute("id", "el_option"+j+"_dis");
+    el_choices_dis.setAttribute("onClick", "dis_option_price('"+num+"','"+j+"', this.checked)");
+    el_choices_dis.style.cssText ="vertical-align: middle; margin-right:24px; margin-left:24px;";
+    choices_td.appendChild(br);
+    choices_td.appendChild(el_choices);
+    choices_td.appendChild(el_choices_price);
+    choices_td.appendChild(el_choices_dis);
+    choices_td.appendChild(el_choices_remove);
+  }
+  if (q == 1) {
+    flow_hor(num);
+  }
 }
 
 function add_choise(type, num) {
@@ -2793,6 +2935,48 @@ function remove_choise(id, num, type) {
   choices_td.removeChild(br);
   refresh_rowcol(num, type);
   refresh_id_name(num, document.getElementById(num+'_typeform_id_temp').value );
+}
+
+function remove_choise_price(id, num) {
+  var q = 0;
+  if (document.getElementById(num + '_hor')) {
+    q = 1;
+    flow_ver(num);
+  }
+  j++;
+  var table = document.getElementById(num + '_table_little');
+  var tr = document.getElementById(num + '_element_tr' + id);
+  table.removeChild(tr);
+  var choices_td= document.getElementById('choices');
+  var el_choices = document.getElementById('el_choices'+id);
+  var el_choices_price = document.getElementById('el_option_price'+id);
+  var el_choices_remove = document.getElementById('el_choices'+id+'_remove');
+  var br = document.getElementById('br'+id);
+  choices_td.removeChild(el_choices);
+  choices_td.removeChild(el_choices_price);
+  choices_td.removeChild(el_choices_remove);
+  choices_td.removeChild(br);
+  if (q == 1) {
+    flow_hor(num);
+  }
+  refresh_id_name(num, document.getElementById(num+'_typeform_id_temp').value);
+}
+
+function remove_option_price(id, num) {
+  var select_ = document.getElementById(num + '_elementform_id_temp');
+  var option = document.getElementById(num + '_option' + id);
+  select_.removeChild(option);
+  var choices_td= document.getElementById('choices');
+  var el_choices = document.getElementById('el_option' + id);
+  var el_choices_price = document.getElementById('el_option_price' + id);
+  var el_choices_dis = document.getElementById('el_option' + id + '_dis');
+  var el_choices_remove = document.getElementById('el_option' + id + '_remove');
+  var br = document.getElementById('br' + id);
+  choices_td.removeChild(el_choices);
+  choices_td.removeChild(el_choices_price);
+  choices_td.removeChild(el_choices_dis);
+  choices_td.removeChild(el_choices_remove);
+  choices_td.removeChild(br);
 }
 
 function add_grading_items(num){
@@ -3499,14 +3683,12 @@ function type_editor(i, w_editor){
 		
 		
 		
-		if(document.getElementById('form_maker_editor').style.display=="none")
-		{
+		if (document.getElementById('form_maker_editor').style.display=="none") {
 			ifr_id=document.getElementsByTagName("iframe")[id_ifr_editor].id;
 			ifr=getIFrameDocument(ifr_id);
 			ifr.body.innerHTML=w_editor;
 		}
-		else
-		{
+		else {
 			document.getElementById('form_maker_editor').value=w_editor;
 		}
 		
@@ -3972,6 +4154,7 @@ function type_hidden(i, w_name, w_value, w_attr_name, w_attr_value){
 		
                 el_field_name_input.setAttribute("value", w_name);
                 el_field_name_input.style.cssText = "margin-left: 16px; width:160px";
+				el_field_name_input.setAttribute("onKeyPress", "return check_isspacebar(event)");
                 el_field_name_input.setAttribute("onChange", "change_field_name('"+i+"', this)");
 
 	var el_field_value_label = document.createElement('label');
@@ -6774,14 +6957,17 @@ function type_phone(i, w_field_label, w_field_label_pos, w_size, w_first_val, w_
 function change_input_range(type, id)
 {
 	var s='';
-	if(document.getElementById('el_range_'+type+'1').value=='')
-		s='0';
-	else
+	if(document.getElementById('el_range_'+type+'1').value!='')
 		s=document.getElementById('el_range_'+type+'1').value;
 
 	if(document.getElementById('el_range_'+type+'2').value!='')
-		s=s+'.'+document.getElementById('el_range_'+type+'2').value;
+	{
+		if(document.getElementById('el_range_'+type+'1').value=='')
+			s='0';			
 
+		s=s+'.'+document.getElementById('el_range_'+type+'2').value;
+	}
+	
 	document.getElementById(id+'_range_'+type+'form_id_temp').value=s;
 }
 function explode( delimiter, string ) {	
@@ -6814,6 +7000,688 @@ function explode( delimiter, string ) {
 	}
 
 	return string.toString().split ( delimiter.toString() );
+}
+
+function type_paypal_price(i, w_field_label, w_field_label_pos, w_first_val, w_title, w_mini_labels, w_size, w_required, w_hide_cents, w_class, w_attr_name, w_attr_value, w_range_min, w_range_max) {
+	document.getElementById("element_type").value="type_paypal_price";
+
+	delete_last_child();
+// edit table	
+	var edit_div  = document.createElement('div');
+		edit_div.setAttribute("id", "edit_div");
+		edit_div.setAttribute("style", "border-top:1px dotted black;padding:10px;  padding-top:0px; padding-bottom:0px; margin-top:10px;");
+		
+	var edit_main_table  = document.createElement('table');
+		edit_main_table.setAttribute("id", "edit_main_table");
+		edit_main_table.setAttribute("cellpadding", "0");
+		edit_main_table.setAttribute("cellspacing", "0");
+		
+	var edit_main_tr1  = document.createElement('tr');
+      		edit_main_tr1.setAttribute("valing", "top");
+		
+	var edit_main_tr2  = document.createElement('tr');
+      		edit_main_tr2.setAttribute("valing", "top");
+		
+	var edit_main_tr3  = document.createElement('tr');
+      		edit_main_tr3.setAttribute("valing", "top");
+		
+	var edit_main_tr4  = document.createElement('tr');
+      		edit_main_tr4.setAttribute("valing", "top");
+		
+	var edit_main_tr5  = document.createElement('tr');
+      		edit_main_tr5.setAttribute("valing", "top");
+			
+	var edit_main_tr6  = document.createElement('tr');
+      		edit_main_tr6.setAttribute("valing", "top");
+		
+	var edit_main_tr7  = document.createElement('tr');
+      		edit_main_tr7.setAttribute("valing", "top");
+		
+	var edit_main_tr8  = document.createElement('tr');
+      		edit_main_tr8.setAttribute("valing", "top");
+
+	var edit_main_tr9  = document.createElement('tr');
+      		edit_main_tr9.setAttribute("valing", "top");
+
+	var edit_main_td1 = document.createElement('td');
+		edit_main_td1.style.cssText = "padding-top:10px";	
+	var edit_main_td1_1 = document.createElement('td');
+		edit_main_td1_1.style.cssText = "padding-top:10px";		
+	var edit_main_td2 = document.createElement('td');
+		edit_main_td2.style.cssText = "padding-top:10px";
+	var edit_main_td2_1 = document.createElement('td');
+		edit_main_td2_1.style.cssText = "padding-top:10px";
+
+	var edit_main_td3 = document.createElement('td');
+		edit_main_td3.style.cssText = "padding-top:10px";
+	var edit_main_td3_1 = document.createElement('td');
+		edit_main_td3_1.style.cssText = "padding-top:10px; line-height:20px";
+	var edit_main_td4 = document.createElement('td');
+		edit_main_td4.style.cssText = "padding-top:10px";
+	var edit_main_td4_1 = document.createElement('td');
+		edit_main_td4_1.style.cssText = "padding-top:10px";
+		
+	var edit_main_td5 = document.createElement('td');
+		edit_main_td5.style.cssText = "padding-top:10px";
+	var edit_main_td5_1 = document.createElement('td');
+		edit_main_td5_1.style.cssText = "padding-top:10px";
+				
+	var edit_main_td6 = document.createElement('td');
+		edit_main_td6.style.cssText = "padding-top:10px";
+	var edit_main_td6_1 = document.createElement('td');
+		edit_main_td6_1.style.cssText = "padding-top:10px";
+		  
+	var edit_main_td7 = document.createElement('td');
+		edit_main_td7.style.cssText = "padding-top:10px";
+	var edit_main_td7_1 = document.createElement('td');
+		edit_main_td7_1.style.cssText = "padding-top:10px";
+		  
+	var edit_main_td8 = document.createElement('td');
+		edit_main_td8.style.cssText = "padding-top:10px";
+	var edit_main_td8_1 = document.createElement('td');
+		edit_main_td8_1.style.cssText = "padding-top:10px";
+		  
+	var edit_main_td9 = document.createElement('td');
+		edit_main_td9.style.cssText = "padding-top:10px";
+	var edit_main_td9_1 = document.createElement('td');
+		edit_main_td9_1.style.cssText = "padding-top:10px";
+		  
+	var el_label_label = document.createElement('label');
+			        el_label_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+			el_label_label.innerHTML = "Field label";
+	
+	var el_label_textarea = document.createElement('textarea');
+                el_label_textarea.setAttribute("id", "edit_for_label");
+                el_label_textarea.setAttribute("rows", "4");
+                el_label_textarea.style.cssText = "width:200px;";
+                el_label_textarea.setAttribute("onKeyUp", "change_label('"+i+"_element_labelform_id_temp', this.value)");
+				el_label_textarea.innerHTML = w_field_label;
+		
+	var el_label_position_label = document.createElement('label');
+			        el_label_position_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_label_position_label.innerHTML = "Field label position";
+	
+	var el_label_position1 = document.createElement('input');
+                el_label_position1.setAttribute("id", "edit_for_label_position_top");
+                el_label_position1.setAttribute("type", "radio");
+                el_label_position1.setAttribute("value", "left");
+                
+
+                el_label_position1.setAttribute("name", "edit_for_label_position");
+                el_label_position1.setAttribute("onchange", "label_left("+i+")");
+		Left = document.createTextNode("Left");
+		
+	var el_label_position2 = document.createElement('input');
+                el_label_position2.setAttribute("id", "edit_for_label_position_left");
+                el_label_position2.setAttribute("type", "radio");
+                el_label_position2.setAttribute("value", "top");
+	
+
+                el_label_position2.setAttribute("name", "edit_for_label_position");
+                el_label_position2.setAttribute("onchange", "label_top("+i+")");
+		Top = document.createTextNode("Top");
+		
+	if(w_field_label_pos=="top")
+	
+				el_label_position2.setAttribute("checked", "checked");
+	else
+
+				el_label_position1.setAttribute("checked", "checked");
+
+	w_range_minarray=explode('.', w_range_min);
+	w_range_maxarray=explode('.', w_range_max);
+				
+	var el_range_label = document.createElement('label');
+	    el_range_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_range_label.innerHTML = "Range ";
+	
+	var min = document.createTextNode("Min");
+	
+	var el_range_min1 = document.createElement('input');
+        el_range_min1.setAttribute("id", "el_range_min1");
+        el_range_min1.setAttribute("type", "text");
+	if(w_range_minarray[0])
+        el_range_min1.setAttribute("value", w_range_minarray[0]);
+        el_range_min1.style.cssText = "width:60px; margin-right:4px;margin-left:8px";
+		el_range_min1.setAttribute("onKeyPress", "return check_isnum(event)");
+        el_range_min1.setAttribute("onChange", "change_input_range('min', '"+i+"')");
+
+	var ket_min = document.createTextNode(".");
+
+	var el_range_min2 = document.createElement('input');
+        el_range_min2.setAttribute("id", "el_range_min2");
+        el_range_min2.setAttribute("type", "text");
+	if(w_range_minarray[1])
+        el_range_min2.setAttribute("value", w_range_minarray[1]);
+        el_range_min2.style.cssText = "width:30px; margin-left:4px";
+		el_range_min2.setAttribute("onKeyPress", "return check_isnum(event)");
+        el_range_min2.setAttribute("onChange", "change_input_range('min', '"+i+"')");
+
+	var max = document.createTextNode("Max");
+	
+	var el_range_max1 = document.createElement('input');
+        el_range_max1.setAttribute("id", "el_range_max1");
+        el_range_max1.setAttribute("type", "text");
+	if(w_range_maxarray[0])
+        el_range_max1.setAttribute("value", w_range_maxarray[0]);
+        el_range_max1.style.cssText = "width:60px; margin-right:4px;margin-left:4px";
+		el_range_max1.setAttribute("onKeyPress", "return check_isnum(event)");
+        el_range_max1.setAttribute("onChange", "change_input_range('max', '"+i+"')");
+
+	var ket_max = document.createTextNode(".");
+
+	var el_range_max2 = document.createElement('input');
+        el_range_max2.setAttribute("id", "el_range_max2");
+        el_range_max2.setAttribute("type", "text");
+	if(w_range_maxarray[1])
+        el_range_max2.setAttribute("value", w_range_maxarray[1]);
+        el_range_max2.style.cssText = "width:30px; margin-left:4px";
+		el_range_max2.setAttribute("onKeyPress", "return check_isnum(event)");
+        el_range_max2.setAttribute("onChange", "change_input_range('max', '"+i+"')");
+
+
+	var gic = document.createTextNode("-");
+
+	var el_first_value_label = document.createElement('label');
+	    el_first_value_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_first_value_label.innerHTML = "Value if empty ";
+	
+	var el_first_value_first = document.createElement('input');
+                el_first_value_first.setAttribute("id", "el_first_value_first");
+                el_first_value_first.setAttribute("type", "text");
+                el_first_value_first.setAttribute("value", w_title[0]);
+                el_first_value_first.style.cssText = "width:80px; margin-right:4px";
+                el_first_value_first.setAttribute("onKeyUp", "change_input_value(this.value,'"+i+"_element_dollarsform_id_temp')");
+
+	var el_first_value_last = document.createElement('input');
+                el_first_value_last.setAttribute("id", "el_first_value_last");
+                el_first_value_last.setAttribute("type", "text");
+                el_first_value_last.setAttribute("value", w_title[1]);
+                el_first_value_last.style.cssText = "width:80px; margin-left:4px; margin-right:4px";
+                el_first_value_last.setAttribute("onKeyUp", "change_input_value(this.value,'"+i+"_element_centsform_id_temp')");
+
+	var el_size_label = document.createElement('label');
+	        el_size_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+			el_size_label.innerHTML = "Field size(px) ";
+	var el_size = document.createElement('input');
+			el_size.setAttribute("id", "edit_for_input_size");
+			el_size.setAttribute("type", "text");
+			el_size.setAttribute("value", w_size);
+			el_size.setAttribute("name", "edit_for_size");
+			el_size.setAttribute("onKeyPress", "return check_isnum(event)");
+            el_size.setAttribute("onKeyUp", "change_w_style('"+i+"_element_dollarsform_id_temp', this.value);");
+
+	var el_required_label = document.createElement('label');
+	        el_required_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_required_label.innerHTML = "Required";
+	
+	var el_required = document.createElement('input');
+                el_required.setAttribute("id", "el_send");
+                el_required.setAttribute("type", "checkbox");
+                el_required.setAttribute("value", "yes");
+                el_required.setAttribute("onclick", "set_required('"+i+"_required')");
+	if(w_required=="yes")
+                el_required.setAttribute("checked", "checked");	
+
+				
+	var el_hide_cents_label = document.createElement('label');
+	    el_hide_cents_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_hide_cents_label.innerHTML = "Hide Cents";
+	
+	var el_hide_cents = document.createElement('input');
+                el_hide_cents.setAttribute("id", "el_send");
+                el_hide_cents.setAttribute("type", "checkbox");
+                el_hide_cents.setAttribute("value", "yes");
+                el_hide_cents.setAttribute("onclick", "hide_show_cents(this.checked, "+i+")");
+	if(w_hide_cents=="yes")
+                el_hide_cents.setAttribute("checked", "checked");	
+
+				
+	var el_style_label = document.createElement('label');
+	        el_style_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+			el_style_label.innerHTML = "Class name";
+	
+	var el_style_textarea = document.createElement('input');
+                el_style_textarea.setAttribute("id", "element_style");
+				el_style_textarea.setAttribute("type", "text");
+				el_style_textarea.setAttribute("value", w_class);
+                el_style_textarea.style.cssText = "width:200px;";
+                el_style_textarea.setAttribute("onChange", "change_class(this.value,'"+i+"')");
+
+	var el_attr_label = document.createElement('label');
+	                el_attr_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+			el_attr_label.innerHTML = "Additional Attributes";
+	var el_attr_add = document.createElement('img');
+                el_attr_add.setAttribute("id", "el_choices_add");
+           	el_attr_add.setAttribute("src", plugin_url+'/images/add.png');
+            	el_attr_add.style.cssText = 'cursor:pointer; margin-left:68px';
+            	el_attr_add.setAttribute("title", 'add');
+                el_attr_add.setAttribute("onClick", "add_attr("+i+", 'type_paypal_price')");
+	var el_attr_table = document.createElement('table');
+                el_attr_table.setAttribute("id", 'attributes');
+                el_attr_table.setAttribute("border", '0');
+        	el_attr_table.style.cssText = 'margin-left:0px';
+	var el_attr_tr_label = document.createElement('tr');
+                el_attr_tr_label.setAttribute("idi", '0');
+	var el_attr_td_name_label = document.createElement('th');
+            	el_attr_td_name_label.style.cssText = 'width:100px';
+	var el_attr_td_value_label = document.createElement('th');
+            	el_attr_td_value_label.style.cssText = 'width:100px';
+	var el_attr_td_X_label = document.createElement('th');
+            	el_attr_td_X_label.style.cssText = 'width:10px';
+	var el_attr_name_label = document.createElement('label');
+	                el_attr_name_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px";
+			el_attr_name_label.innerHTML = "Name";
+			
+	var el_attr_value_label = document.createElement('label');
+	                el_attr_value_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px";
+			el_attr_value_label.innerHTML = "Value";
+			
+	el_attr_table.appendChild(el_attr_tr_label);
+	el_attr_tr_label.appendChild(el_attr_td_name_label);
+	el_attr_tr_label.appendChild(el_attr_td_value_label);
+	el_attr_tr_label.appendChild(el_attr_td_X_label);
+	el_attr_td_name_label.appendChild(el_attr_name_label);
+	el_attr_td_value_label.appendChild(el_attr_value_label);
+	
+	n=w_attr_name.length;
+	for(j=1; j<=n; j++)
+	{	
+		var el_attr_tr = document.createElement('tr');
+			el_attr_tr.setAttribute("id", "attr_row_"+j);
+			el_attr_tr.setAttribute("idi", j);
+		var el_attr_td_name = document.createElement('td');
+			el_attr_td_name.style.cssText = 'width:100px';
+		var el_attr_td_value = document.createElement('td');
+			el_attr_td_value.style.cssText = 'width:100px';
+		
+		var el_attr_td_X = document.createElement('td');
+		var el_attr_name = document.createElement('input');
+	
+			el_attr_name.setAttribute("type", "text");
+	
+			el_attr_name.style.cssText = "width:100px";
+			el_attr_name.setAttribute("value", w_attr_name[j-1]);
+			el_attr_name.setAttribute("id", "attr_name"+j);
+			el_attr_name.setAttribute("onChange", "change_attribute_name("+i+", this, 'type_paypal_price')");
+			
+		var el_attr_value = document.createElement('input');
+	
+			el_attr_value.setAttribute("type", "text");
+	
+			el_attr_value.style.cssText = "width:100px";
+			el_attr_value.setAttribute("value", w_attr_value[j-1]);
+			el_attr_value.setAttribute("id", "attr_value"+j);
+			el_attr_value.setAttribute("onChange", "change_attribute_value("+i+", "+j+", 'type_paypal_price')");
+	
+		var el_attr_remove = document.createElement('img');
+			el_attr_remove.setAttribute("id", "el_choices"+j+"_remove");
+			el_attr_remove.setAttribute("src", plugin_url+'/images/delete.png');
+			el_attr_remove.style.cssText = 'cursor:pointer; vertical-align:middle; margin:3px';
+			el_attr_remove.setAttribute("align", 'top');
+			el_attr_remove.setAttribute("onClick", "remove_attr("+j+", "+i+", 'type_paypal_price')");
+		el_attr_table.appendChild(el_attr_tr);
+		el_attr_tr.appendChild(el_attr_td_name);
+		el_attr_tr.appendChild(el_attr_td_value);
+		el_attr_tr.appendChild(el_attr_td_X);
+		el_attr_td_name.appendChild(el_attr_name);
+		el_attr_td_value.appendChild(el_attr_value);
+		el_attr_td_X.appendChild(el_attr_remove);
+		
+	}
+
+		
+	var t  = document.getElementById('edit_table');
+	
+	var br = document.createElement('br');
+	var br1 = document.createElement('br');
+	var br2 = document.createElement('br');
+	var br3 = document.createElement('br');
+	var br4 = document.createElement('br');
+	var br5 = document.createElement('br');
+	var br6 = document.createElement('br');
+	
+	edit_main_td1.appendChild(el_label_label);
+	edit_main_td1_1.appendChild(el_label_textarea);
+
+	edit_main_td2.appendChild(el_label_position_label);
+	edit_main_td2_1.appendChild(el_label_position1);
+	edit_main_td2_1.appendChild(Left);
+	edit_main_td2_1.appendChild(br2);
+	edit_main_td2_1.appendChild(el_label_position2);
+	edit_main_td2_1.appendChild(Top);
+	
+	edit_main_td3.appendChild(el_range_label);
+	edit_main_td3_1.appendChild(min);
+	edit_main_td3_1.appendChild(el_range_min1);
+	edit_main_td3_1.appendChild(ket_min);
+	edit_main_td3_1.appendChild(el_range_min2);
+	edit_main_td3_1.appendChild(br);
+	edit_main_td3_1.appendChild(max);
+	edit_main_td3_1.appendChild(el_range_max1);
+	edit_main_td3_1.appendChild(ket_max);
+	edit_main_td3_1.appendChild(el_range_max2);
+
+	edit_main_td9.appendChild(el_first_value_label);
+	edit_main_td9_1.appendChild(el_first_value_first);
+	edit_main_td9_1.appendChild(gic);
+	edit_main_td9_1.appendChild(el_first_value_last);
+	
+	
+	
+	edit_main_td7.appendChild(el_size_label);
+	edit_main_td7_1.appendChild(el_size);
+	
+	
+	edit_main_td4.appendChild(el_style_label);
+	edit_main_td4_1.appendChild(el_style_textarea);
+	
+	edit_main_td5.appendChild(el_required_label);
+	edit_main_td5_1.appendChild(el_required);
+	
+	edit_main_td8.appendChild(el_hide_cents_label);
+	edit_main_td8_1.appendChild(el_hide_cents);
+	
+	
+	edit_main_td6.appendChild(el_attr_label);
+	edit_main_td6.appendChild(el_attr_add);
+	edit_main_td6.appendChild(br3);
+	edit_main_td6.appendChild(el_attr_table);
+	edit_main_td6.setAttribute("colspan", "2");
+	
+	edit_main_tr1.appendChild(edit_main_td1);
+	edit_main_tr1.appendChild(edit_main_td1_1);
+	edit_main_tr2.appendChild(edit_main_td2);
+	edit_main_tr2.appendChild(edit_main_td2_1);
+	edit_main_tr3.appendChild(edit_main_td3);
+	edit_main_tr3.appendChild(edit_main_td3_1);
+	edit_main_tr7.appendChild(edit_main_td7);
+	edit_main_tr7.appendChild(edit_main_td7_1);
+	edit_main_tr4.appendChild(edit_main_td4);
+	edit_main_tr4.appendChild(edit_main_td4_1);
+	edit_main_tr5.appendChild(edit_main_td5);
+	edit_main_tr5.appendChild(edit_main_td5_1);
+	edit_main_tr6.appendChild(edit_main_td6);
+	edit_main_tr6.appendChild(edit_main_td6_1);
+	edit_main_tr8.appendChild(edit_main_td8);
+	edit_main_tr8.appendChild(edit_main_td8_1);
+	edit_main_tr9.appendChild(edit_main_td9);
+	edit_main_tr9.appendChild(edit_main_td9_1);
+	edit_main_table.appendChild(edit_main_tr1);
+	edit_main_table.appendChild(edit_main_tr2);
+	edit_main_table.appendChild(edit_main_tr3);
+	edit_main_table.appendChild(edit_main_tr9);
+	edit_main_table.appendChild(edit_main_tr7);
+	edit_main_table.appendChild(edit_main_tr4);
+	edit_main_table.appendChild(edit_main_tr5);
+	edit_main_table.appendChild(edit_main_tr8);
+	edit_main_table.appendChild(edit_main_tr6);
+	edit_div.appendChild(edit_main_table);
+	
+	t.appendChild(edit_div);
+	add_id_and_name(i, 'type_name');
+	
+//show table
+
+	var adding_type = document.createElement("input");
+            adding_type.setAttribute("type", "hidden");
+            adding_type.setAttribute("value", "type_paypal_price");
+            adding_type.setAttribute("name", i+"_typeform_id_temp");
+            adding_type.setAttribute("id", i+"_typeform_id_temp");
+			
+	var adding_required= document.createElement("input");
+            adding_required.setAttribute("type", "hidden");
+            adding_required.setAttribute("value", w_required);
+            adding_required.setAttribute("name", i+"_requiredform_id_temp");
+            adding_required.setAttribute("id", i+"_requiredform_id_temp");
+			
+	var adding_range_min= document.createElement("input");
+            adding_range_min.setAttribute("type", "hidden");
+            adding_range_min.setAttribute("value", w_range_min);
+            adding_range_min.setAttribute("name", i+"_range_minform_id_temp");
+            adding_range_min.setAttribute("id", i+"_range_minform_id_temp");
+			
+	var adding_range_max= document.createElement("input");
+            adding_range_max.setAttribute("type", "hidden");
+            adding_range_max.setAttribute("value", w_range_max);
+            adding_range_max.setAttribute("name", i+"_range_maxform_id_temp");
+            adding_range_max.setAttribute("id", i+"_range_maxform_id_temp");
+			
+     	var div = document.createElement('div');
+      	    div.setAttribute("id", "main_div");
+					
+      	var table = document.createElement('table');
+           	table.setAttribute("id", i+"_elemet_tableform_id_temp");
+        var div_for_editable_labels = document.createElement('div');
+        div_for_editable_labels.setAttribute("style", "margin-left:4px; color:red;");
+      	edit_labels = document.createTextNode("The labels of the fields are editable. Please, click the label to edit.");
+        div_for_editable_labels.appendChild(edit_labels);
+			
+      	var tr = document.createElement('tr');
+			
+      	var td1 = document.createElement('td');
+         	td1.setAttribute("valign", 'top');
+         	td1.setAttribute("align", 'left');
+           	td1.setAttribute("id", i+"_label_sectionform_id_temp");
+			
+      	var td2 = document.createElement('td');
+        	td2.setAttribute("valign", 'top');
+         	td2.setAttribute("align", 'left');
+           	td2.setAttribute("id", i+"_element_sectionform_id_temp");
+			
+      	var table_price = document.createElement('table');
+           	table_price.setAttribute("id", i+"_table_price");
+           	table_price.setAttribute("cellpadding", '0');
+           	table_price.setAttribute("cellspacing", '0');
+			
+      	var tr_price1 = document.createElement('tr');
+           	tr_price1.setAttribute("id", i+"_tr_price1");
+			
+      	var tr_price2 = document.createElement('tr');
+           	tr_price2.setAttribute("id", i+"_tr_price2");
+			
+      	var td_name_currency = document.createElement('td');
+           	td_name_currency.setAttribute("id", i+"_td_name_currency");
+			
+      	var td_name_dollars = document.createElement('td');
+           	td_name_dollars.setAttribute("id", i+"_td_name_dollars");
+			
+       	var td_name_ket = document.createElement('td');
+           	td_name_ket.setAttribute("id", i+"_td_name_divider");
+		
+     	var td_name_cents = document.createElement('td');
+           	td_name_cents.setAttribute("id", i+"_td_name_cents");
+			
+      	var td_name_label_currency = document.createElement('td');
+			
+      	var td_name_label_dollars = document.createElement('td');
+           	td_name_label_dollars.setAttribute("align", "left");
+			
+      	var td_name_label_ket = document.createElement('td');
+           	td_name_label_ket.setAttribute("id", i+"_td_name_label_divider");
+			
+      	var td_name_label_cents = document.createElement('td');
+	        td_name_label_cents.setAttribute("align", "left");
+           	td_name_label_cents.setAttribute("id", i+"_td_name_label_cents");
+		
+      	var br1 = document.createElement('br');
+      	var br2 = document.createElement('br');
+     	var br3 = document.createElement('br');
+      	var br4 = document.createElement('br');
+      
+	    
+    var label = document.createElement('span');
+		label.setAttribute("id", i+"_element_labelform_id_temp");
+		label.innerHTML = w_field_label;
+		label.setAttribute("class", "label");
+	    
+    var required = document.createElement('span');
+		required.setAttribute("id", i+"_required_elementform_id_temp");
+		required.innerHTML = "";
+		required.setAttribute("class", "required");
+		
+	if(w_required=="yes")
+		required.innerHTML = " *";	
+		
+	var currency = document.createElement('span');
+        currency.setAttribute("class", 'wdform_colon');
+		currency.style.cssText = "font-style:bold; vertical-align:middle";
+		currency.innerHTML="<!--repstart-->&nbsp;$&nbsp;<!--repend-->";
+
+	var currency_label = document.createElement('label');
+	    currency_label.setAttribute("class", "mini_label");
+
+	var dollars = document.createElement('input');
+        dollars.setAttribute("type", 'text');
+		if(w_title[0]==w_first_val[0])
+			dollars.setAttribute("class", "input_deactive");
+		else
+			dollars.setAttribute("class", "input_active");
+		
+	    dollars.style.cssText = "width:"+w_size+"px";
+	    dollars.setAttribute("id", i+"_element_dollarsform_id_temp");
+	    dollars.setAttribute("name", i+"_element_dollarsform_id_temp");
+		dollars.setAttribute("value", w_first_val[0]);
+		dollars.setAttribute("title", w_title[0]);
+		dollars.setAttribute("onFocus", 'delete_value("'+i+'_element_dollarsform_id_temp")');
+		dollars.setAttribute("onBlur", 'return_value("'+i+'_element_dollarsform_id_temp")');
+	    dollars.setAttribute("onChange", "change_value('"+i+"_element_dollarsform_id_temp')");
+		dollars.setAttribute("onKeyPress", "return check_isnum(event)");
+    dollars.setAttribute("onKeyUp", "change_value_for_total('"+i+"','form_id_temp')");
+			
+	var dollars_label = document.createElement('label');
+	    dollars_label.setAttribute("class", "mini_label");
+	    dollars_label.setAttribute("id", i+"_mini_label_dollars");
+      dollars_label.innerHTML = w_mini_labels[0];
+		
+	
+	var ket = document.createElement('span');
+        ket.setAttribute("class", 'wdform_colon');
+		ket.style.cssText = "font-style:bold; vertical-align:middle";
+		ket.innerHTML="&nbsp;.&nbsp;";
+
+	var ket_label = document.createElement('label');
+	    ket_label.setAttribute("class", "mini_label");
+
+	var cents = document.createElement('input');
+        cents.setAttribute("type", 'text');
+		
+		if(w_title[1]==w_first_val[1])
+			cents.setAttribute("class", "input_deactive");
+		else
+			cents.setAttribute("class", "input_active");
+			
+		cents.style.cssText = "width:30px";
+		cents.setAttribute("id", i+"_element_centsform_id_temp");
+	   	cents.setAttribute("name", i+"_element_centsform_id_temp");
+		cents.setAttribute("value", w_first_val[1]);
+		cents.setAttribute("title", w_title[1]);
+		cents.setAttribute("onFocus", 'delete_value("'+i+'_element_centsform_id_temp")');
+		cents.setAttribute("onBlur", 'return_value("'+i+'_element_centsform_id_temp"); add_0("'+i+'_element_centsform_id_temp")');
+		cents.setAttribute("onChange", "change_value('"+i+"_element_centsform_id_temp')");
+		cents.setAttribute("onKeyPress", "return check_isnum_interval(event,'"+i+"_element_centsform_id_temp',0,99)");
+    cents.setAttribute("onKeyUp", "change_value_for_total('"+i+"','form_id_temp')");
+
+    var cents_label = document.createElement('label');
+		cents_label.setAttribute("class", "mini_label");
+		cents_label.setAttribute("id", i + "_mini_label_cents");
+		cents_label.innerHTML = w_mini_labels[1];
+			
+    var main_td  = document.getElementById('show_table');
+      
+      	td1.appendChild(label);
+      	td1.appendChild(required );
+		
+      	td_name_currency.appendChild(currency);
+      	td_name_dollars.appendChild(dollars);
+      	td_name_ket.appendChild(ket);
+      	td_name_cents.appendChild(cents);
+		
+      	tr_price1.appendChild(td_name_currency);
+      	tr_price1.appendChild(td_name_dollars);
+      	tr_price1.appendChild(td_name_ket);
+      	tr_price1.appendChild(td_name_cents);
+		
+      	td_name_label_currency.appendChild(currency_label);
+      	td_name_label_dollars.appendChild(dollars_label);
+      	td_name_label_ket.appendChild(ket_label);
+      	td_name_label_cents.appendChild(cents_label);
+		
+      	tr_price2.appendChild(td_name_label_currency);
+      	tr_price2.appendChild(td_name_label_dollars);
+      	tr_price2.appendChild(td_name_label_ket);
+      	tr_price2.appendChild(td_name_label_cents);
+
+      	table_price.appendChild(tr_price1);
+      	table_price.appendChild(tr_price2);
+		
+       	td2.appendChild(adding_type);
+       	td2.appendChild(adding_required);
+       	td2.appendChild(adding_range_min);
+       	td2.appendChild(adding_range_max);
+    	td2.appendChild(table_price);
+      	tr.appendChild(td1);
+      	tr.appendChild(td2);
+      	table.appendChild(tr);
+      
+      	div.appendChild(table);
+      	div.appendChild(br3);
+        div.appendChild(div_for_editable_labels);
+      	main_td.appendChild(div);
+		
+	if(w_field_label_pos=="top")
+				label_top(i);
+				
+	if(w_hide_cents=="yes")				
+		hide_show_cents(true, i)
+  jQuery(document).ready(function() {
+    jQuery("label#"+i+"_mini_label_dollars").click(function() {
+      if (jQuery(this).children('input').length == 0) {
+        var dollars = "<input type='text' class='dollars' style='outline:none; border:none; background:none;' value=\""+jQuery(this).text()+"\">";
+          jQuery(this).html(dollars);
+          jQuery(dollars).focus();	
+          jQuery("input.dollars").blur(function() {
+            var value = jQuery(this).val();
+            jQuery("#"+i+"_mini_label_dollars").text(value);
+          });
+      }
+    });
+    jQuery("label#"+i+"_mini_label_cents").click(function() {
+      if (jQuery(this).children('input').length == 0) {
+        var cents = "<input type='text' class='cents'  style='outline:none; border:none; background:none;' value=\""+jQuery(this).text()+"\">";
+        jQuery(this).html(cents);
+        jQuery("input.cents").focus();
+        jQuery("input.cents").blur(function() {
+          var value = jQuery(this).val();
+          jQuery("#"+i+"_mini_label_cents").text(value);
+        });
+      }
+    });
+	});
+  change_class(w_class, i);
+  refresh_attr(i, 'type_paypal_price');
+}
+
+function hide_show_cents(hide, id) {
+  td_divider = document.getElementById(id+"_td_name_divider");
+  td_cents = document.getElementById(id+"_td_name_cents");
+  td_divider_label = document.getElementById(id+"_td_name_label_divider");
+  td_cents_label = document.getElementById(id+"_td_name_label_cents");
+  change_input_value('', id + '_element_centsform_id_temp');
+  document.getElementById("el_first_value_last").value = "";
+  document.getElementById(id+'_element_centsform_id_temp').value = "";
+  if (hide) {
+    td_divider.style.display = "none";
+    td_cents.style.display = "none";
+    td_divider_label.style.display = "none";
+    td_cents_label.style.display = "none";
+  }
+  else {
+    td_divider.style.display = "";
+    td_cents.style.display = "";
+    td_divider_label.style.display = "";
+    td_cents_label.style.display = "";
+  }
 }
 
 function type_name(i, w_field_label, w_field_label_pos, w_first_val, w_title, w_mini_labels, w_size, w_name_format, w_required, w_unique, w_class, w_attr_name, w_attr_value) {
@@ -7802,7 +8670,6 @@ function type_address(i, w_field_label, w_field_label_pos, w_size, w_mini_labels
 	edit_main_table.appendChild(edit_main_tr7);
 	//edit_main_table.appendChild(edit_main_tr3);
 	edit_main_table.appendChild(edit_main_tr4);
-	edit_main_table.appendChild(edit_main_tr5);
 	edit_main_table.appendChild(edit_main_tr8);
 	edit_main_table.appendChild(edit_main_tr5);
 	edit_main_table.appendChild(edit_main_tr6);
@@ -8660,7 +9527,7 @@ function type_checkbox(i, w_field_label, w_field_label_pos, w_flow, w_choices, w
 	var edit_main_td4 = document.createElement('td');
 		edit_main_td4.style.cssText = "padding-top:10px";
 	var edit_main_td4_1 = document.createElement('td');
-		edit_main_td4_1.style.cssText = "padding-top:10px";
+		edit_main_td4_1.style.cssText = "padding-top:10px; vertical-align:top;";
       	edit_main_td4.setAttribute("id", "choices");
 	var edit_main_td5 = document.createElement('td');
 		edit_main_td5.style.cssText = "padding-top:10px";
@@ -9200,7 +10067,7 @@ function type_radio(i, w_field_label, w_field_label_pos, w_flow, w_choices, w_ch
 	var edit_main_td4 = document.createElement('td');
 		edit_main_td4.style.cssText = "padding-top:10px";
 	var edit_main_td4_1 = document.createElement('td');
-		edit_main_td4_1.style.cssText = "padding-top:10px";
+		edit_main_td4_1.style.cssText = "padding-top:10px; vertical-align:top;";
 		
 		edit_main_td4.setAttribute("id", "choices");
 		
@@ -11786,7 +12653,7 @@ function type_own_select(i, w_field_label, w_field_label_pos, w_size, w_choices,
 	var edit_main_td3 = document.createElement('td');
 		edit_main_td3.style.cssText = "padding-top:10px";
 	var edit_main_td3_1 = document.createElement('td');
-		edit_main_td3_1.style.cssText = "padding-top:10px";
+		edit_main_td3_1.style.cssText = "padding-top:10px; vertical-align:top;";
 		edit_main_td3.setAttribute("id", "choices");
 		
 	var edit_main_td4 = document.createElement('td');
@@ -11804,7 +12671,7 @@ function type_own_select(i, w_field_label, w_field_label_pos, w_size, w_choices,
 	var edit_main_td6_1 = document.createElement('td');
 		edit_main_td6_1.style.cssText = "padding-top:10px";
 	var edit_main_td7 = document.createElement('td');
-		edit_main_td7.style.cssText = "padding-top:10px";
+		edit_main_td7.style.cssText = "padding-top:10px;";
 	var edit_main_td7_1 = document.createElement('td');
 		edit_main_td7_1.style.cssText = "padding-top:10px";
 		  
@@ -12028,8 +12895,8 @@ function type_own_select(i, w_field_label, w_field_label_pos, w_size, w_choices,
     div_.style.cssText = 'border-bottom:1px dotted black; width: 248px;';
     var br = document.createElement('br');
     var el_choices_mini_label = document.createElement('b');
-    el_choices_mini_label.innerHTML="Options";
-    el_choices_mini_label.style.cssText='padding-right: 30px; padding-left: 30px; font-size:9px';
+    el_choices_mini_label.innerHTML="Option name";
+    el_choices_mini_label.style.cssText='padding-right: 20px; padding-left: 20px; font-size:9px';
     var el_choices_price_mini_label = document.createElement('b');
     el_choices_price_mini_label.innerHTML="Price";
     el_choices_price_mini_label.style.cssText='padding-right: 15px; padding-left: 15px;  font-size:9px';
@@ -12224,6 +13091,713 @@ change_class(w_class, i);
 refresh_attr(i, 'type_text');
 }
 
+function form_maker_getElementsByAttribute(node,tag,attr,value){
+  var elems = (tag=="*" && node.all) ? node.all : node.getElementsByTagName(tag),
+    returnElems = new Array(),
+    nValue = (typeof value!="undefined") ? new RegExp("(^|\\s)" + value + "(\\s|$)") : null,
+    nAttr,
+    cur;
+  for (var i = 0; i < elems.length; i++) {
+    cur = elems[i];
+    nAttr = cur.getAttribute && cur.getAttribute(attr);
+    if (typeof nAttr == "string" && nAttr.length > 0) {
+      if (typeof value == "undefined" || (nValue && nValue.test(nAttr))) {
+        returnElems.push(cur);
+      }
+    }
+  }
+  return returnElems;
+}
+
+function add_quantity(i) {
+  div_ = document.getElementById(i+"_divform_id_temp");
+  // if (div_.getElementById(i + "_element_quantityform_id_temp")) {
+  if (form_maker_getElementsByAttribute(div_, "*", "id", i + "_element_quantityform_id_temp") != '') {
+    div_.removeChild(document.getElementById(i + "_element_quantity_spanform_id_temp"));
+    return;
+  }
+  select_ = document.createElement('input');
+  select_.setAttribute("type", 'text');				
+  select_.setAttribute("value", '1');				
+  select_.setAttribute("id", i + "_element_quantityform_id_temp");
+  select_.setAttribute("name", i + "_element_quantityform_id_temp");
+  select_.setAttribute("onKeyPress", "return check_isnum(event)");
+  select_.setAttribute("onChange", "change_value('" + i + "_element_quantityform_id_temp', this.value)");
+  select_.setAttribute("onKeyUp", "change_value_for_total('"+i+"','form_id_temp')");
+  select_.style.cssText = "width:30px; margin:2px 0px";
+  var select_label = document.createElement('label');
+  select_label.innerHTML =  "<!--repstart-->Quantity<!--repend-->";
+  select_label.style.cssText = "margin-right:5px";		
+  select_label.setAttribute("class", 'mini_label');
+  select_label.setAttribute("id", i + '_element_quantity_label_form_id_temp');
+  var span_ = document.createElement('span');
+  span_.style.cssText = "margin-right:15px";
+  span_.setAttribute("id", i + '_element_quantity_spanform_id_temp');
+  span_.appendChild(select_label);
+  span_.appendChild(select_);
+  if (div_.firstChild) {
+    div_.insertBefore(span_, div_.firstChild);
+  }
+  else {
+    div_.appendChild(span_);
+  }
+}
+
+function type_paypal_select(i, w_field_label, w_field_label_pos, w_size, w_choices, w_choices_price, w_choices_checked, w_required, w_quantity, w_class, w_attr_name, w_attr_value, w_choices_disabled, w_property, w_property_type, w_property_values){
+	document.getElementById("element_type").value="type_paypal_select";
+	delete_last_child();
+// edit table	
+	var edit_div  = document.createElement('div');
+		edit_div.setAttribute("id", "edit_div");
+		edit_div.setAttribute("style", "border-top:1px dotted black;padding:10px;  padding-top:0px; padding-bottom:0px; margin-top:10px;");
+		
+	var edit_main_table  = document.createElement('table');
+		edit_main_table.setAttribute("id", "edit_main_table");
+		edit_main_table.setAttribute("cellpadding", "0");
+		edit_main_table.setAttribute("cellspacing", "0");
+		
+	var edit_main_tr1  = document.createElement('tr');
+      		edit_main_tr1.setAttribute("valing", "top");
+		
+	var edit_main_tr2  = document.createElement('tr');
+      		edit_main_tr2.setAttribute("valing", "top");
+		
+	var edit_main_tr3  = document.createElement('tr');
+      		edit_main_tr3.setAttribute("valing", "top");
+		
+	var edit_main_tr4  = document.createElement('tr');
+      		edit_main_tr4.setAttribute("valing", "top");
+		
+	var edit_main_tr5  = document.createElement('tr');
+      		edit_main_tr5.setAttribute("valing", "top");
+			
+	var edit_main_tr6  = document.createElement('tr');
+      		edit_main_tr6.setAttribute("valing", "top");
+	var edit_main_tr7  = document.createElement('tr');
+      		edit_main_tr7.setAttribute("valing", "top");
+	var edit_main_tr8  = document.createElement('tr');
+      		edit_main_tr8.setAttribute("valing", "top");
+	var edit_main_tr9  = document.createElement('tr');
+      		edit_main_tr9.setAttribute("valing", "top");
+
+	var edit_main_td1 = document.createElement('td');
+		edit_main_td1.style.cssText = "padding-top:10px";	
+	var edit_main_td1_1 = document.createElement('td');
+		edit_main_td1_1.style.cssText = "padding-top:10px";		
+	var edit_main_td2 = document.createElement('td');
+		edit_main_td2.style.cssText = "padding-top:10px";
+	var edit_main_td2_1 = document.createElement('td');
+		edit_main_td2_1.style.cssText = "padding-top:10px";
+
+	var edit_main_td3 = document.createElement('td');
+		edit_main_td3.style.cssText = "padding-top:10px";
+	var edit_main_td3_1 = document.createElement('td');
+		edit_main_td3_1.style.cssText = "padding-top:10px";
+		edit_main_td3.setAttribute("id", "choices");
+		
+	var edit_main_td4 = document.createElement('td');
+		edit_main_td4.style.cssText = "padding-top:10px";
+	var edit_main_td4_1 = document.createElement('td');
+		edit_main_td4_1.style.cssText = "padding-top:10px";
+		
+	var edit_main_td5 = document.createElement('td');
+		edit_main_td5.style.cssText = "padding-top:10px";
+	var edit_main_td5_1 = document.createElement('td');
+		edit_main_td5_1.style.cssText = "padding-top:10px";
+				
+	var edit_main_td6 = document.createElement('td');
+		edit_main_td6.style.cssText = "padding-top:10px";
+	var edit_main_td6_1 = document.createElement('td');
+		edit_main_td6_1.style.cssText = "padding-top:10px";
+	var edit_main_td7 = document.createElement('td');
+		edit_main_td7.style.cssText = "padding-top:10px";
+	var edit_main_td7_1 = document.createElement('td');
+		edit_main_td7_1.style.cssText = "padding-top:10px";
+		  
+	var edit_main_td8 = document.createElement('td');
+		edit_main_td8.style.cssText = "padding-top:10px";
+	var edit_main_td8_1 = document.createElement('td');
+		edit_main_td8_1.style.cssText = "padding-top:10px";
+		  
+	var edit_main_td9 = document.createElement('td');
+		edit_main_td9.style.cssText = "padding-top:10px";
+	var edit_main_td9_1 = document.createElement('td');
+		edit_main_td9_1.style.cssText = "padding-top:10px";
+		  
+	var el_label_label = document.createElement('label');
+			        el_label_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+			el_label_label.innerHTML = "Field label";
+	
+	var el_label_textarea = document.createElement('textarea');
+                el_label_textarea.setAttribute("id", "edit_for_label");
+                el_label_textarea.setAttribute("rows", "4");
+                el_label_textarea.style.cssText = "width:200px;";
+                el_label_textarea.setAttribute("onKeyUp", "change_label('"+i+"_element_labelform_id_temp', this.value)");
+				el_label_textarea.innerHTML = w_field_label;
+		
+	var el_label_position_label = document.createElement('label');
+			        el_label_position_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_label_position_label.innerHTML = "Field label position";
+	
+	var el_label_position1 = document.createElement('input');
+                el_label_position1.setAttribute("id", "edit_for_label_position_top");
+                el_label_position1.setAttribute("type", "radio");
+                el_label_position1.setAttribute("value", "left");
+                
+
+                el_label_position1.setAttribute("name", "edit_for_label_position");
+                el_label_position1.setAttribute("onchange", "label_left("+i+")");
+		el_label_position1.setAttribute("checked", "checked");
+		Left = document.createTextNode("Left");
+		
+	var el_label_position2 = document.createElement('input');
+                el_label_position2.setAttribute("id", "edit_for_label_position_left");
+                el_label_position2.setAttribute("type", "radio");
+                el_label_position2.setAttribute("value", "top");
+	
+
+                el_label_position2.setAttribute("name", "edit_for_label_position");
+                el_label_position2.setAttribute("onchange", "label_top("+i+")");
+		Top = document.createTextNode("Top");
+	
+	if(w_field_label_pos=="top")
+	
+				el_label_position2.setAttribute("checked", "checked");
+	else
+				el_label_position1.setAttribute("checked", "checked");
+	
+	var el_size_label = document.createElement('label');
+	        el_size_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_size_label.innerHTML = "Field size(px) ";
+	var el_size = document.createElement('input');
+		   el_size.setAttribute("id", "edit_for_input_size");
+		   el_size.setAttribute("type", "text");
+		   el_size.setAttribute("value", w_size);
+		   
+			el_size.setAttribute("name", "edit_for_size");
+			el_size.setAttribute("onKeyPress", "return check_isnum(event)");
+            el_size.setAttribute("onKeyUp", "change_w_style('"+i+"_elementform_id_temp', this.value)");
+	
+	
+	var el_style_label = document.createElement('label');
+	        el_style_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_style_label.innerHTML = "Class name";
+	
+	var el_style_textarea = document.createElement('input');
+                el_style_textarea.setAttribute("id", "element_style");
+		el_style_textarea.setAttribute("type", "text");
+		el_style_textarea.setAttribute("value", w_class);
+                el_style_textarea.style.cssText = "width:200px;";
+                el_style_textarea.setAttribute("onChange", "change_class(this.value,'"+i+"')");
+	
+	var el_required_label = document.createElement('label');
+	        el_required_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_required_label.innerHTML = "Required";
+	
+	var el_required = document.createElement('input');
+                el_required.setAttribute("id", "el_send");
+                el_required.setAttribute("type", "checkbox");
+                el_required.setAttribute("value", "yes");
+                el_required.setAttribute("onclick", "set_required('"+i+"_required')");
+	if(w_required=="yes")
+			
+                el_required.setAttribute("checked", "checked");
+	
+	
+	var el_quantity_label = document.createElement('label');
+	    el_quantity_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_quantity_label.innerHTML = "Quantity property";
+		
+	var el_quantity = document.createElement('input');
+        el_quantity.setAttribute("type", "checkbox");
+        el_quantity.setAttribute("value", "yes");
+        el_quantity.setAttribute("onclick", "add_quantity('"+i+"')");
+	
+	if(w_quantity=="yes")
+		el_quantity.setAttribute("checked", "checked");
+	
+	
+	var el_product_option_label = document.createElement('label');
+	    el_product_option_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px;";
+		el_product_option_label.innerHTML = "Product properties";
+	
+	var el_product_option_add_a = document.createElement('a');
+		// el_product_option_add_a.setAttribute("rel", "{handler: 'iframe', size: {x: 650, y: 375}}"	);
+		// el_product_option_add_a.setAttribute("href","index.php?option=com_formmaker&task=product_option&field_id="+i+"&tmpl=component");
+		// el_product_option_add_a.setAttribute("class","modal");
+    el_product_option_add_a.setAttribute("href", url_for_ajax + "?action=product_option&field_id=" + i + "&url_for_ajax=" + url_for_ajax + "&width=600&height=400&TB_iframe=1");
+		el_product_option_add_a.setAttribute("class","thickbox-preview");
+
+	var el_product_option_add_img = document.createElement('img');
+		el_product_option_add_img.setAttribute("src", plugin_url+'/images/add.png');
+		
+	var el_product_option_add_ul = document.createElement('ul');
+		el_product_option_add_ul.setAttribute("id", 'option_ul');
+		el_product_option_add_ul.style.cssText="list-style-type: none; padding:0px"
+				
+				
+	el_product_option_add_a.appendChild(el_product_option_add_img);
+	
+	
+	var el_attr_label = document.createElement('label');
+	                el_attr_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+			el_attr_label.innerHTML = "Additional Attributes";
+	var el_attr_add = document.createElement('img');
+                el_attr_add.setAttribute("id", "el_choices_add");
+           	el_attr_add.setAttribute("src", plugin_url+'/images/add.png');
+            	el_attr_add.style.cssText = 'cursor:pointer; margin-left:68px';
+            	el_attr_add.setAttribute("title", 'add');
+                el_attr_add.setAttribute("onClick", "add_attr("+i+", 'type_text')");
+				
+				
+				
+	var el_attr_table = document.createElement('table');
+                el_attr_table.setAttribute("id", 'attributes');
+                el_attr_table.setAttribute("border", '0');
+        	el_attr_table.style.cssText = 'margin-left:0px';
+	var el_attr_tr_label = document.createElement('tr');
+                el_attr_tr_label.setAttribute("idi", '0');
+	var el_attr_td_name_label = document.createElement('th');
+            	el_attr_td_name_label.style.cssText = 'width:100px';
+	var el_attr_td_value_label = document.createElement('th');
+            	el_attr_td_value_label.style.cssText = 'width:100px';
+	var el_attr_td_X_label = document.createElement('th');
+            	el_attr_td_X_label.style.cssText = 'width:10px';
+	var el_attr_name_label = document.createElement('label');
+	                el_attr_name_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px";
+			el_attr_name_label.innerHTML = "Name";
+			
+	var el_attr_value_label = document.createElement('label');
+	                el_attr_value_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px";
+			el_attr_value_label.innerHTML = "Value";
+			
+	el_attr_table.appendChild(el_attr_tr_label);
+	el_attr_tr_label.appendChild(el_attr_td_name_label);
+	el_attr_tr_label.appendChild(el_attr_td_value_label);
+	el_attr_tr_label.appendChild(el_attr_td_X_label);
+	el_attr_td_name_label.appendChild(el_attr_name_label);
+	el_attr_td_value_label.appendChild(el_attr_value_label);
+	
+	n=w_attr_name.length;
+	for(j=1; j<=n; j++)
+	{	
+		var el_attr_tr = document.createElement('tr');
+			el_attr_tr.setAttribute("id", "attr_row_"+j);
+			el_attr_tr.setAttribute("idi", j);
+		var el_attr_td_name = document.createElement('td');
+			el_attr_td_name.style.cssText = 'width:100px';
+		var el_attr_td_value = document.createElement('td');
+			el_attr_td_value.style.cssText = 'width:100px';
+		
+		var el_attr_td_X = document.createElement('td');
+		var el_attr_name = document.createElement('input');
+	
+			el_attr_name.setAttribute("type", "text");
+	
+			el_attr_name.style.cssText = "width:100px";
+			el_attr_name.setAttribute("value", w_attr_name[j-1]);
+			el_attr_name.setAttribute("id", "attr_name"+j);
+			el_attr_name.setAttribute("onChange", "change_attribute_name("+i+", this, 'type_text')");
+			
+		var el_attr_value = document.createElement('input');
+	
+			el_attr_value.setAttribute("type", "text");
+	
+			el_attr_value.style.cssText = "width:100px";
+			el_attr_value.setAttribute("value", w_attr_value[j-1]);
+			el_attr_value.setAttribute("id", "attr_value"+j);
+			el_attr_value.setAttribute("onChange", "change_attribute_value("+i+", "+j+", 'type_text')");
+	
+		var el_attr_remove = document.createElement('img');
+			el_attr_remove.setAttribute("id", "el_choices"+j+"_remove");
+			el_attr_remove.setAttribute("src", plugin_url+'/images/delete.png');
+			el_attr_remove.style.cssText = 'cursor:pointer; vertical-align:middle; margin:3px';
+			el_attr_remove.setAttribute("align", 'top');
+			el_attr_remove.setAttribute("onClick", "remove_attr("+j+", "+i+", 'type_text')");
+		el_attr_table.appendChild(el_attr_tr);
+		el_attr_tr.appendChild(el_attr_td_name);
+		el_attr_tr.appendChild(el_attr_td_value);
+		el_attr_tr.appendChild(el_attr_td_X);
+		el_attr_td_name.appendChild(el_attr_name);
+		el_attr_td_value.appendChild(el_attr_value);
+		el_attr_td_X.appendChild(el_attr_remove);
+		
+	}
+		
+	var el_choices_label = document.createElement('label');
+	        el_choices_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_choices_label.innerHTML = "Options";
+	var el_choices_add = document.createElement('img');
+                el_choices_add.setAttribute("id", "el_choices_add");
+           	el_choices_add.setAttribute("src", plugin_url+'/images/add.png');
+            	el_choices_add.style.cssText = 'cursor:pointer; padding-left:15px';
+            	el_choices_add.setAttribute("title", 'add');
+          el_choices_add.setAttribute("onClick", "add_choise_price('select',"+i+")");
+
+  var el_choices_important = document.createElement('div');			
+  el_choices_important.style.cssText = 'color:red; padding:4px';
+  el_choices_important.innerHTML = 'IMPORTANT! Check the "Empty value" checkbox only if you want the option to be considered as empty.';				
+
+	var t  = document.getElementById('edit_table');
+	
+	var br = document.createElement('br');
+	var br1 = document.createElement('br');
+	var br2 = document.createElement('br');
+	var br3 = document.createElement('br');
+        br3.setAttribute("id", "br1");
+	var br4 = document.createElement('br');
+        br4.setAttribute("id", "br2");
+	var br5 = document.createElement('br');
+	var br6 = document.createElement('br');
+	
+	edit_main_td1.appendChild(el_label_label);
+	edit_main_td1_1.appendChild(el_label_textarea);
+
+	edit_main_td2.appendChild(el_label_position_label);
+	edit_main_td2_1.appendChild(el_label_position1);
+	edit_main_td2_1.appendChild(Left);
+	edit_main_td2_1.appendChild(br2);
+	edit_main_td2_1.appendChild(el_label_position2);
+	edit_main_td2_1.appendChild(Top);
+	
+	edit_main_td6.appendChild(el_style_label);
+	edit_main_td6_1.appendChild(el_style_textarea);
+	
+	edit_main_td7.appendChild(el_attr_label);
+	edit_main_td7.appendChild(el_attr_add);
+	edit_main_td7.appendChild(br3);
+	edit_main_td7.appendChild(el_attr_table);
+	edit_main_td7.setAttribute("colspan", "2");
+	edit_main_td4.appendChild(el_required_label);
+	edit_main_td4_1.appendChild(el_required);
+	
+	edit_main_td9.appendChild(el_quantity_label);
+	edit_main_td9_1.appendChild(el_quantity);
+	
+	
+	edit_main_td5.appendChild(el_size_label);
+	edit_main_td5_1.appendChild(el_size);
+	
+	edit_main_td3.appendChild(el_choices_label);
+	edit_main_td3.appendChild(el_choices_add);
+  edit_main_td3.setAttribute("colspan", "2");
+  edit_main_td3.appendChild(el_choices_important);
+	
+	edit_main_td8.appendChild(el_product_option_label);
+	edit_main_td8.appendChild(el_product_option_add_ul);
+	edit_main_td8_1.appendChild(el_product_option_add_a);
+	
+	/*edit_main_td8_1.appendChild(el_product_option1);
+	edit_main_td8_1.appendChild(Property1);
+	edit_main_td8_1.appendChild(br);
+	edit_main_td8_1.appendChild(el_product_option2);
+	edit_main_td8_1.appendChild(Property2);
+	edit_main_td8_1.appendChild(br5);
+	edit_main_td8_1.appendChild(el_product_option3);
+	edit_main_td8_1.appendChild(Property3);
+	edit_main_td8_1.appendChild(br6);*/
+	
+		var div_ = document.createElement('div');
+			div_.style.cssText = 'border-bottom:1px dotted black; width: 248px;';
+		var br = document.createElement('br');
+		
+		var el_choices_mini_label = document.createElement('b');
+			el_choices_mini_label.innerHTML="Product name";
+			el_choices_mini_label.style.cssText='padding-right: 20px; padding-left: 20px; font-size:9px';
+			
+		var el_choices_price_mini_label = document.createElement('b');
+			el_choices_price_mini_label.innerHTML="Price";
+			el_choices_price_mini_label.style.cssText='padding-right: 15px; padding-left: 15px;  font-size:9px';
+	
+		var el_choices_remove_mini_label = document.createElement('b');
+			el_choices_remove_mini_label.innerHTML="Empty value";
+			el_choices_remove_mini_label.style.cssText='padding-right: 2px; padding-left: 2px; font-size:9px';
+			
+		var el_choices_dis_mini_label = document.createElement('b');
+			el_choices_dis_mini_label.innerHTML="Delete";
+			el_choices_dis_mini_label.style.cssText='padding-left: 2px; padding-right: 2px; font-size:9px';
+			
+		div_.appendChild(br);
+		div_.appendChild(el_choices_mini_label);
+		div_.appendChild(el_choices_price_mini_label);
+		div_.appendChild(el_choices_remove_mini_label);
+		div_.appendChild(el_choices_dis_mini_label);
+		edit_main_td3.appendChild(div_);
+
+	
+	n=w_choices.length;
+	for(j=0; j<n; j++)
+	{	
+		var br = document.createElement('br');
+		br.setAttribute("id", "br"+j);
+		var el_choices = document.createElement('input');
+			el_choices.setAttribute("id", "el_option"+j);
+			el_choices.setAttribute("type", "text");
+			el_choices.setAttribute("value", w_choices[j]);
+			el_choices.style.cssText =   "width:100px; margin:1px; padding:0; border-width: 1px";
+			el_choices.setAttribute("onKeyUp", "change_label_price('"+i+"_option"+j+"', this.value)");
+			
+		var el_choices_price = document.createElement('input');
+			el_choices_price.setAttribute("id", "el_option_price"+j);
+			el_choices_price.setAttribute("type", "text");
+			el_choices_price.setAttribute("value", w_choices_price[j]);
+			el_choices_price.style.cssText =   "width:50px; margin:1px; padding:0; border-width: 1px";
+			el_choices_price.setAttribute("onKeyUp", "change_value_price('"+i+"_option"+j+"', this.value)");
+			el_choices_price.setAttribute("onKeyPress", "return check_isnum_point(event)");
+	
+		var el_choices_remove = document.createElement('img');
+			el_choices_remove.setAttribute("id", "el_option"+j+"_remove");
+			el_choices_remove.setAttribute("src", plugin_url+'/images/delete.png');
+			el_choices_remove.style.cssText = 'cursor:pointer; vertical-align:middle; margin-left:4px;';
+			el_choices_remove.setAttribute("align", 'top');
+			el_choices_remove.setAttribute("onClick", "remove_option_price("+j+","+i+")");
+			
+		var el_choices_dis = document.createElement('input');
+			el_choices_dis.setAttribute("type", 'checkbox');
+			el_choices_dis.setAttribute("title", 'Empty value');
+			el_choices_dis.setAttribute("id", "el_option"+j+"_dis");
+			el_choices_dis.setAttribute("onClick", "dis_option_price('"+i+"','"+j+"', this.checked)");
+			el_choices_dis.style.cssText ="vertical-align: middle; margin-right:24px; margin-left:24px;";
+			if(w_choices_disabled[j])
+			{
+				el_choices_dis.setAttribute("checked", "checked");
+			}
+			
+		edit_main_td3.appendChild(br);
+		edit_main_td3.appendChild(el_choices);
+		edit_main_td3.appendChild(el_choices_price);
+		edit_main_td3.appendChild(el_choices_dis);
+		edit_main_td3.appendChild(el_choices_remove);
+	
+	}
+
+
+	edit_main_tr1.appendChild(edit_main_td1);
+	edit_main_tr1.appendChild(edit_main_td1_1);
+	edit_main_tr2.appendChild(edit_main_td2);
+	edit_main_tr2.appendChild(edit_main_td2_1);
+	edit_main_tr5.appendChild(edit_main_td5);
+	edit_main_tr5.appendChild(edit_main_td5_1);
+	
+	edit_main_tr6.appendChild(edit_main_td6);
+	edit_main_tr6.appendChild(edit_main_td6_1);
+	edit_main_tr4.appendChild(edit_main_td4);
+	edit_main_tr4.appendChild(edit_main_td4_1);
+	edit_main_tr9.appendChild(edit_main_td9);
+	edit_main_tr9.appendChild(edit_main_td9_1);
+	edit_main_tr7.appendChild(edit_main_td7);
+	edit_main_tr7.appendChild(edit_main_td7_1);
+	
+	edit_main_tr3.appendChild(edit_main_td3);
+	edit_main_tr8.appendChild(edit_main_td8);
+	edit_main_tr8.appendChild(edit_main_td8_1);
+	
+	edit_main_table.appendChild(edit_main_tr1);
+	edit_main_table.appendChild(edit_main_tr2);
+	edit_main_table.appendChild(edit_main_tr5);
+	edit_main_table.appendChild(edit_main_tr6);
+	edit_main_table.appendChild(edit_main_tr4);
+	
+	edit_main_table.appendChild(edit_main_tr3);
+	edit_main_table.appendChild(edit_main_tr9);
+	edit_main_table.appendChild(edit_main_tr8);
+	edit_main_table.appendChild(edit_main_tr7);
+	edit_div.appendChild(edit_main_table);
+	
+	t.appendChild(edit_div);
+	add_id_and_name(i, 'type_text');
+	
+//show table
+	var adding_type = document.createElement("input");
+            adding_type.setAttribute("type", "hidden");
+            adding_type.setAttribute("value", "type_paypal_select");
+            adding_type.setAttribute("name", i+"_typeform_id_temp");
+            adding_type.setAttribute("id", i+"_typeform_id_temp");
+	    
+	var adding_required = document.createElement("input");
+            adding_required.setAttribute("type", "hidden");
+            adding_required.setAttribute("value", w_required);
+            adding_required.setAttribute("name", i+"_requiredform_id_temp");
+			
+            adding_required.setAttribute("id", i+"_requiredform_id_temp");
+	    
+     	var div = document.createElement('div');
+      	    div.setAttribute("id", "main_div");
+			
+		var table = document.createElement('table');
+           	table.setAttribute("id", i+"_elemet_tableform_id_temp");
+			
+      	var tr = document.createElement('tr');
+			
+      	var td1 = document.createElement('td');
+         	td1.setAttribute("valign", 'top');
+         	td1.setAttribute("align", 'left');
+           	td1.setAttribute("id", i+"_label_sectionform_id_temp");
+			
+
+      	var td2 = document.createElement('td');
+        	td2.setAttribute("valign", 'middle');
+         	td2.setAttribute("align", 'left');
+           	td2.setAttribute("id", i+"_element_sectionform_id_temp");
+
+      	var br1 = document.createElement('br');
+      	var br2 = document.createElement('br');
+     	var br3 = document.createElement('br');
+      	var br4 = document.createElement('br');
+		
+	var table_little = document.createElement('table');
+           	table_little.setAttribute("id", i+"_table_little");
+			
+      	var tr_little1 = document.createElement('tr');
+	        tr_little1.setAttribute("id", i+"_element_tr1");
+		
+      	var tr_little2 = document.createElement('tr');
+ 	        tr_little2.setAttribute("id", i+"_element_tr2");
+			
+      	var td_little1 = document.createElement('td');
+         	td_little1.setAttribute("valign", 'top');
+           	td_little1.setAttribute("id", i+"_td_little1");
+			
+      	var td_little2 = document.createElement('td');
+        	td_little2.setAttribute("valign", 'top');
+           	td_little2.setAttribute("id", i+"_td_little2");
+			
+   
+      	var label = document.createElement('span');
+			label.setAttribute("id", i+"_element_labelform_id_temp");
+			label.innerHTML = w_field_label;
+			label.setAttribute("class", "label");
+	    
+      	var required = document.createElement('span');
+			required.setAttribute("id", i+"_required_elementform_id_temp");
+			required.innerHTML = "";
+			required.setAttribute("class", "required");
+	if(w_required=="yes")
+			required.innerHTML = " *";
+	var select_ = document.createElement('select');
+		select_.setAttribute("id", i+"_elementform_id_temp");
+		select_.setAttribute("name", i+"_elementform_id_temp");
+		select_.style.cssText = "width:"+w_size+"px";
+		select_.setAttribute("onchange", "set_select(this)");
+		
+	for(j=0; j<n; j++)
+	{      	
+		var option = document.createElement('option');
+		option.setAttribute("id", i+"_option"+j);
+	if(w_choices_disabled[j])
+		option.value="";
+	else
+		option.setAttribute("value", w_choices_price[j]);
+		
+		option.setAttribute("onselect", "set_select('"+i+"_option"+j+"')");
+           	option.innerHTML = w_choices[j];
+	if(w_choices_checked[j]==1)
+		option.setAttribute("selected", "selected");
+		select_.appendChild(option);
+	}	
+	
+		var div_ = document.createElement('div');
+			div_.setAttribute("id", i+"_divform_id_temp");
+
+    
+      	var main_td  = document.getElementById('show_table');
+	
+      
+      	td1.appendChild(label);
+      	td1.appendChild(required);
+	td2.appendChild(adding_type);
+	
+	td2.appendChild(adding_required);
+      	td2.appendChild(select_);
+       	td2.appendChild(div_);
+     	tr.appendChild(td1);
+      	tr.appendChild(td2);
+      	table.appendChild(tr);
+      
+      	div.appendChild(table);
+      	div.appendChild(br3);
+      	main_td.appendChild(div);
+	
+	if(w_field_label_pos=="top")
+				label_top(i);
+		
+
+	if(w_quantity=="yes")
+				add_quantity(i);
+// form_maker_open_in_popup(11);
+change_class(w_class, i);
+refresh_attr(i, 'type_text');
+// enable_modals();
+add_properties(i, w_property, w_property_values, w_property_type);
+spider_popup();
+}
+
+function remove_property(id, i) {
+  property_ = document.getElementById(id + '_property_' + i);
+  property_.parentNode.removeChild(property_);
+  property_li_ = document.getElementById('property_li_' + i);
+  property_li_.parentNode.removeChild(property_li_);
+}
+
+function add_properties(id, w_property, w_property_values, w_property_type) {
+  n = w_property.length;
+  for (i = 0; i < n; i++) {
+    select_ = document.createElement('select');
+    select_.setAttribute("id", id+"_propertyform_id_temp"+i);
+    select_.setAttribute("name", id+"_propertyform_id_temp"+i);
+    select_.setAttribute("type", w_property_type[i]);
+    select_.style.cssText = "width:auto; margin:2px 0px";
+    for (k = 0; k < w_property_values[i].length; k++) {
+      var option = document.createElement('option');
+      option.setAttribute("id",id+"_"+i+"_option"+k);
+      option.setAttribute("value", w_property_values[i][k]);
+      option.innerHTML =  w_property_values[i][k];
+      select_.appendChild(option);	
+    }
+    var select_label = document.createElement('label');
+    select_label.innerHTML =  w_property[i];
+    select_label.style.cssText = "margin-right:5px";
+    select_label.setAttribute("class", 'mini_label');
+    select_label.setAttribute("id", id+'_property_label_form_id_temp'+i);
+    var span_ = document.createElement('span');
+    span_.style.cssText = "margin-right:15px";
+    span_.setAttribute("id", id+'_property_'+i);
+    div_=document.getElementById(id+"_divform_id_temp");
+    span_.appendChild(select_label);
+    span_.appendChild(select_);
+    div_.appendChild(span_);
+    var li_ = document.createElement('li');
+    li_.setAttribute("id", 'property_li_'+i);
+    var li_label = document.createElement('label');
+    li_label.innerHTML=w_property[i];
+    li_label.setAttribute("id", 'label_property_'+i);
+    li_label.style.cssText ="font-weight:bold; font-size: 13px";
+    var li_edit = document.createElement('a');	
+    // li_edit.setAttribute("rel", "{handler: 'iframe', size: {x: 650, y: 375}}"	);
+    // li_edit.setAttribute("href","index.php?option=com_formmaker&task=product_option&field_id="+id+"&property_id="+i+"&tmpl=component");
+    // li_edit.setAttribute("class","modal");
+    li_edit.setAttribute("href", url_for_ajax + "?action=product_option&field_id="+id+"&property_id="+i+"&url_for_ajax=" + url_for_ajax + "&width=600&height=400&TB_iframe=1");
+		li_edit.setAttribute("class","thickbox-preview");
+    var li_edit_img = document.createElement('img');
+    li_edit_img.setAttribute("src", plugin_url+'/images/edit.png');
+    li_edit_img.style.cssText = "margin-left:13px;";
+    li_edit_img.setAttribute("onmouseover", 'chnage_icons_src(this,"edit")');
+    li_edit_img.setAttribute("onmouseout", 'chnage_icons_src(this,"edit")');
+    li_edit.appendChild(li_edit_img);
+    var li_x = document.createElement('img');
+    li_x.setAttribute("src", plugin_url+'/images/delete.png');
+    li_x.setAttribute("onClick", 'remove_property('+id+','+i+')');
+    li_x.style.cssText = "margin-left:3px; cursor:pointer";
+    ul_=document.getElementById("option_ul");
+    li_.appendChild(li_label);
+    li_.appendChild(li_edit);
+    li_.appendChild(li_x);
+    ul_.appendChild(li_);
+  }
+  // enable_modals();
+  spider_popup();
+}
+
 function dis_option(id, value) {
   if (value) {
     document.getElementById(id).value = '';
@@ -12232,6 +13806,1408 @@ function dis_option(id, value) {
     document.getElementById(id).value = document.getElementById(id).innerHTML;
   }
 }
+
+function dis_option_price(id, i, value) {
+  if (value) {
+    document.getElementById(id+'_option'+i).value = '';
+  }
+  else {
+    document.getElementById(id+'_option'+i).value = document.getElementById('el_option_price'+i).value;
+  }
+}
+
+function type_paypal_checkbox(i, w_field_label, w_field_label_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other,w_allow_other_num, w_class, w_attr_name, w_attr_value,  w_property, w_property_type, w_property_values, w_quantity) {
+
+	document.getElementById("element_type").value="type_paypal_checkbox";
+
+	delete_last_child();
+// edit table	
+	var edit_div  = document.createElement('div');
+		edit_div.setAttribute("id", "edit_div");
+		edit_div.setAttribute("style", "border-top:1px dotted black;padding:10px; padding:10px;  padding-top:0px; padding-bottom:0px; margin-top:10px;");
+		
+	var edit_main_table  = document.createElement('table');
+		edit_main_table.setAttribute("id", "edit_main_table");
+		edit_main_table.setAttribute("cellpadding", "0");
+		edit_main_table.setAttribute("cellspacing", "0");
+		
+	var edit_main_tr1  = document.createElement('tr');
+      		edit_main_tr1.setAttribute("valing", "top");
+		
+	var edit_main_tr2  = document.createElement('tr');
+      		edit_main_tr2.setAttribute("valing", "top");
+		
+	var edit_main_tr3  = document.createElement('tr');
+      		edit_main_tr3.setAttribute("valing", "top");
+		
+	var edit_main_tr4  = document.createElement('tr');
+      		edit_main_tr4.setAttribute("valing", "top");
+		
+	var edit_main_tr5  = document.createElement('tr');
+      		edit_main_tr5.setAttribute("valing", "top");
+			
+	var edit_main_tr6  = document.createElement('tr');
+      		edit_main_tr6.setAttribute("valing", "top");
+	var edit_main_tr7  = document.createElement('tr');
+      		edit_main_tr7.setAttribute("valing", "top");
+
+	var edit_main_tr8  = document.createElement('tr');
+      		edit_main_tr8.setAttribute("valing", "top");
+
+	var edit_main_tr9  = document.createElement('tr');
+      		edit_main_tr9.setAttribute("valing", "top");
+
+	var edit_main_tr10  = document.createElement('tr');
+      		edit_main_tr10.setAttribute("valing", "top");
+	var edit_main_tr11  = document.createElement('tr');
+      		edit_main_tr11.setAttribute("valing", "top");
+
+	var edit_main_td1 = document.createElement('td');
+		edit_main_td1.style.cssText = "padding-top:10px";	
+	var edit_main_td1_1 = document.createElement('td');
+		edit_main_td1_1.style.cssText = "padding-top:10px";		
+	var edit_main_td2 = document.createElement('td');
+		edit_main_td2.style.cssText = "padding-top:10px";
+	var edit_main_td2_1 = document.createElement('td');
+		edit_main_td2_1.style.cssText = "padding-top:10px";
+
+	var edit_main_td3 = document.createElement('td');
+		edit_main_td3.style.cssText = "padding-top:10px";
+	var edit_main_td3_1 = document.createElement('td');
+		edit_main_td3_1.style.cssText = "padding-top:10px";
+
+		
+	var edit_main_td10 = document.createElement('td');
+		edit_main_td10.style.cssText = "padding-top:10px";
+	var edit_main_td10_1 = document.createElement('td');
+		edit_main_td10_1.style.cssText = "padding-top:10px";
+
+		
+	var edit_main_td4 = document.createElement('td');
+		edit_main_td4.style.cssText = "padding-top:10px";
+	var edit_main_td4_1 = document.createElement('td');
+		edit_main_td4_1.style.cssText = "padding-top:10px; vertical-align:top;";
+      	edit_main_td4.setAttribute("id", "choices");
+	var edit_main_td5 = document.createElement('td');
+		edit_main_td5.style.cssText = "padding-top:10px";
+	var edit_main_td5_1 = document.createElement('td');
+		edit_main_td5_1.style.cssText = "padding-top:10px";
+				
+	var edit_main_td6 = document.createElement('td');
+		edit_main_td6.style.cssText = "padding-top:10px";
+	var edit_main_td6_1 = document.createElement('td');
+		edit_main_td6_1.style.cssText = "padding-top:10px";
+		
+	var edit_main_td7 = document.createElement('td');
+		edit_main_td7.style.cssText = "padding-top:10px";
+	var edit_main_td7_1 = document.createElement('td');
+		edit_main_td7_1.style.cssText = "padding-top:10px";
+		  
+	var edit_main_td8 = document.createElement('td');
+		edit_main_td8.style.cssText = "padding-top:10px";
+	var edit_main_td8_1 = document.createElement('td');
+		edit_main_td8_1.style.cssText = "padding-top:10px";
+		  
+	var edit_main_td9 = document.createElement('td');
+		edit_main_td9.style.cssText = "padding-top:10px";
+	var edit_main_td9_1 = document.createElement('td');
+		edit_main_td9_1.style.cssText = "padding-top:10px";
+		  
+	var edit_main_td11 = document.createElement('td');
+		edit_main_td11.style.cssText = "padding-top:10px";
+	var edit_main_td11_1 = document.createElement('td');
+		edit_main_td11_1.style.cssText = "padding-top:10px";
+		  
+	var el_label_label = document.createElement('label');
+			        el_label_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+			el_label_label.innerHTML = "Field label";
+	
+	var el_label_textarea = document.createElement('textarea');
+                el_label_textarea.setAttribute("id", "edit_for_label");
+                el_label_textarea.setAttribute("rows", "4");
+                el_label_textarea.style.cssText = "width:200px;";
+                el_label_textarea.setAttribute("onKeyUp", "change_label('"+i+"_element_labelform_id_temp', this.value)");
+				el_label_textarea.innerHTML = w_field_label;
+		
+	var el_label_position_label = document.createElement('label');
+			        el_label_position_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_label_position_label.innerHTML = "Field label position";
+	
+	var el_label_position1 = document.createElement('input');
+                el_label_position1.setAttribute("id", "edit_for_label_position_top");
+                el_label_position1.setAttribute("type", "radio");
+                el_label_position1.setAttribute("value", "left");
+                
+                el_label_position1.setAttribute("name", "edit_for_label_position");
+                el_label_position1.setAttribute("onchange", "label_left("+i+")");
+		Left = document.createTextNode("Left");
+		
+	var el_label_position2 = document.createElement('input');
+                el_label_position2.setAttribute("id", "edit_for_label_position_left");
+                el_label_position2.setAttribute("type", "radio");
+                el_label_position2.setAttribute("value", "top");
+			
+                el_label_position2.setAttribute("name", "edit_for_label_position");
+                el_label_position2.setAttribute("onchange", "label_top("+i+")");
+		Top = document.createTextNode("Top");
+		
+	if(w_field_label_pos=="top")
+	
+				el_label_position2.setAttribute("checked", "checked");
+	else
+				el_label_position1.setAttribute("checked", "checked");
+	var el_label_flow = document.createElement('label');
+			        el_label_flow.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_label_flow.innerHTML = "Relative Position";
+	
+	var el_flow_vertical = document.createElement('input');
+                el_flow_vertical.setAttribute("id", "edit_for_flow_vertical");
+                el_flow_vertical.setAttribute("type", "radio");
+                el_flow_vertical.setAttribute("value", "ver");
+                el_flow_vertical.setAttribute("name", "edit_for_flow");
+                el_flow_vertical.setAttribute("onchange", "flow_ver("+i+")");
+		Vertical = document.createTextNode("Vertical");
+		
+	var el_flow_horizontal = document.createElement('input');
+                el_flow_horizontal.setAttribute("id", "edit_for_flow_horizontal");
+                el_flow_horizontal.setAttribute("type", "radio");
+                el_flow_horizontal.setAttribute("value", "hor");
+                el_flow_horizontal.setAttribute("name", "edit_for_flow");
+                el_flow_horizontal.setAttribute("onchange", "flow_hor("+i+")");
+		Horizontal = document.createTextNode("Horizontal");
+		
+	if(w_flow=="hor")
+				el_flow_horizontal.setAttribute("checked", "checked");
+	else
+				el_flow_vertical.setAttribute("checked", "checked");
+				
+				
+	var el_style_label = document.createElement('label');
+	        el_style_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_style_label.innerHTML = "Class name";
+	
+	var el_style_textarea = document.createElement('input');
+                el_style_textarea.setAttribute("id", "element_style");
+		el_style_textarea.setAttribute("type", "text");
+ 		el_style_textarea.setAttribute("value", w_class);
+                el_style_textarea.style.cssText = "width:200px;";
+                el_style_textarea.setAttribute("onChange", "change_class(this.value,'"+i+"')");
+
+	var el_required_label = document.createElement('label');
+	        el_required_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_required_label.innerHTML = "Required";
+	
+	var el_required = document.createElement('input');
+                el_required.setAttribute("id", "el_send");
+                el_required.setAttribute("type", "checkbox");
+                el_required.setAttribute("value", "yes");
+                el_required.setAttribute("onclick", "set_required('"+i+"_required')");
+	if(w_required=="yes")
+			
+                el_required.setAttribute("checked", "checked");
+		
+	var el_quantity_label = document.createElement('label');
+	    el_quantity_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_quantity_label.innerHTML = "Quantity property";
+		
+	var el_quantity = document.createElement('input');
+        el_quantity.setAttribute("type", "checkbox");
+        el_quantity.setAttribute("value", "yes");
+        el_quantity.setAttribute("onclick", "add_quantity('"+i+"')");
+	
+	if(w_quantity=="yes")
+		el_quantity.setAttribute("checked", "checked");
+	
+		
+				
+	var el_randomize_label = document.createElement('label');
+				el_randomize_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+				el_randomize_label.innerHTML = "Randomize in frontend";
+	
+	var el_randomize = document.createElement('input');
+                el_randomize.setAttribute("id", "el_randomize");
+                el_randomize.setAttribute("type", "checkbox");
+                el_randomize.setAttribute("value", "yes");
+                el_randomize.setAttribute("onclick", "set_randomize('"+i+"_randomizeform_id_temp')");
+	if(w_randomize=="yes")
+			    el_randomize.setAttribute("checked", "checked");
+
+	var el_allow_other_label = document.createElement('label');
+				el_allow_other_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+				el_allow_other_label.innerHTML = "Allow other";
+	
+	var el_allow_other = document.createElement('input');
+                el_allow_other.setAttribute("id", "el_allow_other");
+                el_allow_other.setAttribute("type", "checkbox");
+                el_allow_other.setAttribute("value", "yes");
+                el_allow_other.setAttribute("onclick", "set_allow_other('"+i+"','checkbox')");
+	if(w_allow_other=="yes")
+			    el_allow_other.setAttribute("checked", "checked");
+
+
+	
+	
+	var el_product_option_label = document.createElement('label');
+	    el_product_option_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px;";
+		el_product_option_label.innerHTML = "Product properties";
+	
+	var el_product_option_add_a = document.createElement('a');
+		// el_product_option_add_a.setAttribute("rel", "{handler: 'iframe', size: {x: 650, y: 375}}"	);
+		// el_product_option_add_a.setAttribute("href","index.php?option=com_formmaker&task=product_option&field_id="+i+"&tmpl=component");
+		// el_product_option_add_a.setAttribute("class","modal");
+    el_product_option_add_a.setAttribute("href", url_for_ajax + "?action=product_option&field_id=" + i + "&url_for_ajax=" + url_for_ajax + "&width=600&height=400&TB_iframe=1");
+		el_product_option_add_a.setAttribute("class","thickbox-preview");
+
+	var el_product_option_add_img = document.createElement('img');
+		el_product_option_add_img.setAttribute("src", plugin_url+'/images/add.png');
+		
+	var el_product_option_add_ul = document.createElement('ul');
+		el_product_option_add_ul.setAttribute("id", 'option_ul');
+		el_product_option_add_ul.style.cssText="list-style-type: none; padding:0px"
+				
+				
+	el_product_option_add_a.appendChild(el_product_option_add_img);
+	
+
+		
+	
+	var el_attr_label = document.createElement('label');
+	                el_attr_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+			el_attr_label.innerHTML = "Additional Attributes";
+	var el_attr_add = document.createElement('img');
+                el_attr_add.setAttribute("id", "el_choices_add");
+           	el_attr_add.setAttribute("src", plugin_url+'/images/add.png');
+            	el_attr_add.style.cssText = 'cursor:pointer; margin-left:68px';
+            	el_attr_add.setAttribute("title", 'add');
+                el_attr_add.setAttribute("onClick", "add_attr("+i+", 'type_checkbox')");
+	var el_attr_table = document.createElement('table');
+                el_attr_table.setAttribute("id", 'attributes');
+                el_attr_table.setAttribute("border", '0');
+        	el_attr_table.style.cssText = 'margin-left:0px';
+	var el_attr_tr_label = document.createElement('tr');
+                el_attr_tr_label.setAttribute("idi", '0');
+	var el_attr_td_name_label = document.createElement('th');
+            	el_attr_td_name_label.style.cssText = 'width:100px';
+	var el_attr_td_value_label = document.createElement('th');
+            	el_attr_td_value_label.style.cssText = 'width:100px';
+	var el_attr_td_X_label = document.createElement('th');
+            	el_attr_td_X_label.style.cssText = 'width:10px';
+	var el_attr_name_label = document.createElement('label');
+	                el_attr_name_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px";
+			el_attr_name_label.innerHTML = "Name";
+			
+	var el_attr_value_label = document.createElement('label');
+	                el_attr_value_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px";
+			el_attr_value_label.innerHTML = "Value";
+			
+	el_attr_table.appendChild(el_attr_tr_label);
+	el_attr_tr_label.appendChild(el_attr_td_name_label);
+	el_attr_tr_label.appendChild(el_attr_td_value_label);
+	el_attr_tr_label.appendChild(el_attr_td_X_label);
+	el_attr_td_name_label.appendChild(el_attr_name_label);
+	el_attr_td_value_label.appendChild(el_attr_value_label);
+	
+	n=w_attr_name.length;
+	for(j=1; j<=n; j++)
+	{	
+		var el_attr_tr = document.createElement('tr');
+			el_attr_tr.setAttribute("id", "attr_row_"+j);
+			el_attr_tr.setAttribute("idi", j);
+		var el_attr_td_name = document.createElement('td');
+			el_attr_td_name.style.cssText = 'width:100px';
+		var el_attr_td_value = document.createElement('td');
+			el_attr_td_value.style.cssText = 'width:100px';
+		
+		var el_attr_td_X = document.createElement('td');
+		var el_attr_name = document.createElement('input');
+	
+			el_attr_name.setAttribute("type", "text");
+	
+			el_attr_name.style.cssText = "width:100px";
+			el_attr_name.setAttribute("value", w_attr_name[j-1]);
+			el_attr_name.setAttribute("id", "attr_name"+j);
+			el_attr_name.setAttribute("onChange", "change_attribute_name("+i+", this, 'type_checkbox')");
+			
+		var el_attr_value = document.createElement('input');
+	
+			el_attr_value.setAttribute("type", "text");	
+			el_attr_value.style.cssText = "width:100px";
+			el_attr_value.setAttribute("value", w_attr_value[j-1]);
+			el_attr_value.setAttribute("id", "attr_value"+j);
+			el_attr_value.setAttribute("onChange", "change_attribute_value("+i+", "+j+", 'type_checkbox')");
+	
+		var el_attr_remove = document.createElement('img');
+			el_attr_remove.setAttribute("id", "el_choices"+j+"_remove");
+			el_attr_remove.setAttribute("src", plugin_url+'/images/delete.png');
+			el_attr_remove.style.cssText = 'cursor:pointer; vertical-align:middle; margin:3px';
+			el_attr_remove.setAttribute("align", 'top');
+			el_attr_remove.setAttribute("onClick", "remove_attr("+j+", "+i+", 'type_checkbox')");
+		el_attr_table.appendChild(el_attr_tr);
+		el_attr_tr.appendChild(el_attr_td_name);
+		el_attr_tr.appendChild(el_attr_td_value);
+		el_attr_tr.appendChild(el_attr_td_X);
+		el_attr_td_name.appendChild(el_attr_name);
+		el_attr_td_value.appendChild(el_attr_value);
+		el_attr_td_X.appendChild(el_attr_remove);
+		
+	}
+
+	var el_choices_label = document.createElement('label');
+			el_choices_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+			el_choices_label.innerHTML = "Options ";
+			
+	var el_choices_add = document.createElement('img');
+                el_choices_add.setAttribute("id", "el_choices_add");
+           		el_choices_add.setAttribute("src", plugin_url+'/images/add.png');
+            	el_choices_add.style.cssText = 'cursor:pointer;';
+            	el_choices_add.setAttribute("title", 'add');
+                el_choices_add.setAttribute("onClick", "add_choise_price('checkbox',"+i+")");
+	
+	var t  = document.getElementById('edit_table');
+	
+	var br = document.createElement('br');
+	var br1 = document.createElement('br');
+	var br2 = document.createElement('br');
+	var br3 = document.createElement('br');
+	var br4 = document.createElement('br');
+	var br5 = document.createElement('br');
+	var br6 = document.createElement('br');
+	
+	edit_main_td1.appendChild(el_label_label);
+	edit_main_td1_1.appendChild(el_label_textarea);
+
+	edit_main_td2.appendChild(el_label_position_label);
+	edit_main_td2_1.appendChild(el_label_position1);
+	edit_main_td2_1.appendChild(Left);
+	edit_main_td2_1.appendChild(br2);
+	edit_main_td2_1.appendChild(el_label_position2);
+	edit_main_td2_1.appendChild(Top);
+
+	edit_main_td3.appendChild(el_label_flow);
+	edit_main_td3_1.appendChild(el_flow_vertical);
+	edit_main_td3_1.appendChild(Vertical);
+	edit_main_td3_1.appendChild(br4);
+	edit_main_td3_1.appendChild(el_flow_horizontal);
+	edit_main_td3_1.appendChild(Horizontal);
+	
+	edit_main_td5.appendChild(el_required_label);
+	edit_main_td5_1.appendChild(el_required);
+	
+	edit_main_td8.appendChild(el_randomize_label);
+	edit_main_td8_1.appendChild(el_randomize);
+	
+	edit_main_td9.appendChild(el_allow_other_label);
+	edit_main_td9_1.appendChild(el_allow_other);
+	
+	edit_main_td6.appendChild(el_style_label);
+	edit_main_td6_1.appendChild(el_style_textarea);
+	
+	edit_main_td10.appendChild(el_product_option_label);
+	edit_main_td10.appendChild(el_product_option_add_ul);
+	edit_main_td10_1.appendChild(el_product_option_add_a);
+		
+	edit_main_td11.appendChild(el_quantity_label);
+	edit_main_td11_1.appendChild(el_quantity);
+	
+
+	
+	edit_main_td7.appendChild(el_attr_label);
+	edit_main_td7.appendChild(el_attr_add);
+	edit_main_td7.appendChild(br6);
+	edit_main_td7.appendChild(el_attr_table);
+	edit_main_td7.setAttribute("colspan", "2");
+	
+	edit_main_td4.appendChild(el_choices_label);
+	edit_main_td4_1.appendChild(el_choices_add);
+	
+		var div_ = document.createElement('div');
+			div_.style.cssText = 'border-bottom:1px dotted black; width: 187px;';
+		var br = document.createElement('br');
+		
+		var el_choices_mini_label = document.createElement('b');
+			el_choices_mini_label.innerHTML="Product name";
+			el_choices_mini_label.style.cssText='padding-right: 15px; padding-left: 15px; font-size:9px';
+			
+		var el_choices_price_mini_label = document.createElement('b');
+			el_choices_price_mini_label.innerHTML="Price";
+			el_choices_price_mini_label.style.cssText='padding-right: 15px; padding-left: 15px;  font-size:9px';
+	
+		var el_choices_remove_mini_label = document.createElement('b');
+			el_choices_remove_mini_label.innerHTML="Empty value";
+			el_choices_remove_mini_label.style.cssText='padding-right: 2px; padding-left: 2px; font-size:9px';
+			
+		var el_choices_dis_mini_label = document.createElement('b');
+			el_choices_dis_mini_label.innerHTML="Delete";
+			el_choices_dis_mini_label.style.cssText='padding-left: 2px; padding-right: 2px; font-size:9px';
+			
+		div_.appendChild(br);
+		div_.appendChild(el_choices_mini_label);
+		div_.appendChild(el_choices_price_mini_label);
+		div_.appendChild(el_choices_dis_mini_label);
+		edit_main_td4.appendChild(div_);
+
+	
+
+	
+	
+	
+	
+	n=w_choices.length;
+	for(j=0; j<n; j++)
+	{	
+		var br = document.createElement('br');
+			br.setAttribute("id", "br"+j);
+			
+		var el_choices = document.createElement('input');
+			el_choices.setAttribute("id", "el_choices"+j);
+			el_choices.setAttribute("type", "text");
+			el_choices.setAttribute("value", w_choices[j]);
+			el_choices.style.cssText =   "width:100px; margin:0; padding:0; border-width: 1px";
+			el_choices.setAttribute("onKeyUp", "change_label('"+i+"_label_element"+j+"', this.value); change_label_1('"+i+"_elementlabel_form_id_temp"+j+"', this.value); ");
+	
+		var el_choices_price = document.createElement('input');
+			el_choices_price.setAttribute("id", "el_option_price"+j);
+			el_choices_price.setAttribute("type", "text");
+			el_choices_price.setAttribute("value", w_choices_price[j]);
+			el_choices_price.style.cssText =   "width:50px; margin:1px; padding:0; border-width: 1px";
+		if(w_allow_other=="yes" && j==w_allow_other_num)
+			el_choices_price.style.display = 'none';
+			el_choices_price.setAttribute("onKeyUp", "change_value_price('"+i+"_elementform_id_temp"+j+"', this.value)");
+			el_choices_price.setAttribute("onKeyPress", "return check_isnum_point(event)");
+	
+		var el_choices_remove = document.createElement('img');
+			el_choices_remove.setAttribute("id", "el_choices"+j+"_remove");
+			el_choices_remove.setAttribute("src", plugin_url+'/images/delete.png');
+		if(w_allow_other=="yes" && j==w_allow_other_num)
+			el_choices_remove.style.cssText = 'cursor:pointer; vertical-align:middle; margin:3px; display:none';
+		else			
+			el_choices_remove.style.cssText = 'cursor:pointer; vertical-align:middle; margin:3px';
+			el_choices_remove.setAttribute("align", 'top');
+			el_choices_remove.setAttribute("onClick", "remove_choise_price("+j+","+i+")");
+			
+		edit_main_td4.appendChild(br);
+		edit_main_td4.appendChild(el_choices);
+		edit_main_td4.appendChild(el_choices_price);
+		edit_main_td4.appendChild(el_choices_remove);
+	
+	}
+
+	edit_main_tr1.appendChild(edit_main_td1);
+	edit_main_tr1.appendChild(edit_main_td1_1);
+	edit_main_tr2.appendChild(edit_main_td2);
+	edit_main_tr2.appendChild(edit_main_td2_1);
+	edit_main_tr3.appendChild(edit_main_td3);
+	edit_main_tr3.appendChild(edit_main_td3_1);
+	edit_main_tr6.appendChild(edit_main_td6);
+	edit_main_tr6.appendChild(edit_main_td6_1);
+	edit_main_tr5.appendChild(edit_main_td5);
+	edit_main_tr5.appendChild(edit_main_td5_1);
+	edit_main_tr7.appendChild(edit_main_td7);
+	edit_main_tr4.appendChild(edit_main_td4);
+	edit_main_tr4.appendChild(edit_main_td4_1);
+	edit_main_tr10.appendChild(edit_main_td10);
+	edit_main_tr10.appendChild(edit_main_td10_1);
+	edit_main_tr11.appendChild(edit_main_td11);
+	edit_main_tr11.appendChild(edit_main_td11_1);
+	edit_main_tr8.appendChild(edit_main_td8);
+	edit_main_tr8.appendChild(edit_main_td8_1);
+	edit_main_tr8.style.display="none";
+	edit_main_tr9.appendChild(edit_main_td9);
+	edit_main_tr9.appendChild(edit_main_td9_1);
+	edit_main_tr9.style.display="none";
+	edit_main_table.appendChild(edit_main_tr1);
+	edit_main_table.appendChild(edit_main_tr2);
+	edit_main_table.appendChild(edit_main_tr3);
+	
+	edit_main_table.appendChild(edit_main_tr6);
+	edit_main_table.appendChild(edit_main_tr5);
+	edit_main_table.appendChild(edit_main_tr8);
+	edit_main_table.appendChild(edit_main_tr9);
+	edit_main_table.appendChild(edit_main_tr4);
+	edit_main_table.appendChild(edit_main_tr11);
+	edit_main_table.appendChild(edit_main_tr10);
+	edit_main_table.appendChild(edit_main_tr7);
+	edit_div.appendChild(edit_main_table);
+	
+	t.appendChild(edit_div);
+	
+//show table
+
+	element='input';	type='checkbox'; 
+	var adding_type = document.createElement("input");
+            adding_type.setAttribute("type", "hidden");
+            adding_type.setAttribute("value", "type_paypal_checkbox");
+            adding_type.setAttribute("name", i+"_typeform_id_temp");
+            adding_type.setAttribute("id", i+"_typeform_id_temp");
+	var adding_required = document.createElement("input");
+            adding_required.setAttribute("type", "hidden");
+            adding_required.setAttribute("value", w_required);
+            adding_required.setAttribute("name", i+"_requiredform_id_temp");
+            adding_required.setAttribute("id", i+"_requiredform_id_temp");
+			
+ 	var adding_randomize = document.createElement("input");
+            adding_randomize.setAttribute("type", "hidden");
+            adding_randomize.setAttribute("value", w_randomize);
+            adding_randomize.setAttribute("name", i+"_randomizeform_id_temp");			
+            adding_randomize.setAttribute("id", i+"_randomizeform_id_temp");
+	    
+	var adding_allow_other= document.createElement("input");
+            adding_allow_other.setAttribute("type", "hidden");
+            adding_allow_other.setAttribute("value", w_allow_other);
+            adding_allow_other.setAttribute("name", i+"_allow_otherform_id_temp");			
+            adding_allow_other.setAttribute("id", i+"_allow_otherform_id_temp");
+	    
+	var adding_allow_other_id= document.createElement("input");
+            adding_allow_other_id.setAttribute("type", "hidden");
+            adding_allow_other_id.setAttribute("value", w_allow_other_num);
+            adding_allow_other_id.setAttribute("name", i+"_allow_other_numform_id_temp");			
+            adding_allow_other_id.setAttribute("id", i+"_allow_other_numform_id_temp");
+	    
+   var div = document.createElement('div');
+       	div.setAttribute("id", "main_div");
+//tbody sarqac
+		
+		
+	var table = document.createElement('table');
+		table.setAttribute("id", i+"_elemet_tableform_id_temp");
+	
+    var tr = document.createElement('tr');
+			
+    var td1 = document.createElement('td');
+         	td1.setAttribute("valign", 'top');
+         	td1.setAttribute("align", 'left');
+           	td1.setAttribute("id", i+"_label_sectionform_id_temp");
+			
+      	var td2 = document.createElement('td');
+        	td2.setAttribute("valign", 'top');
+         	td2.setAttribute("align", 'left');
+           	td2.setAttribute("id", i+"_element_sectionform_id_temp");
+
+      	var br1 = document.createElement('br');
+      	var br2 = document.createElement('br');
+     	var br3 = document.createElement('br');
+      	var br4 = document.createElement('br');
+	//	table_little -@ sarqaca tbody table_little darela table_little_t
+	var table_little_t = document.createElement('table');
+			
+	var table_little = document.createElement('tbody');
+           	table_little.setAttribute("id", i+"_table_little");
+	table_little_t.appendChild(table_little);
+	
+
+	    
+      	var label = document.createElement('span');
+			label.setAttribute("id", i+"_element_labelform_id_temp");
+			label.innerHTML = w_field_label;
+			label.setAttribute("class", "label");
+
+	    
+      	var required = document.createElement('span');
+			required.setAttribute("id", i+"_required_elementform_id_temp");
+			required.innerHTML = "";
+			required.setAttribute("class", "required");
+	if(w_required=="yes")
+			required.innerHTML = " *";
+	n=w_choices.length;
+	aaa=false;
+	for(j=0; j<n; j++)
+	{      	
+		var tr_little = document.createElement('tr');
+			tr_little.setAttribute("id", i+"_element_tr"+j);
+				
+		var td_little = document.createElement('td');
+			td_little.setAttribute("valign", 'top');
+			td_little.setAttribute("id", i+"_td_little"+j);
+			td_little.setAttribute("idi", j);
+	
+		var adding = document.createElement(element);
+				adding.setAttribute("type", type);
+				adding.setAttribute("id", i+"_elementform_id_temp"+j);
+				adding.setAttribute("name", i+"_elementform_id_temp"+j);
+				adding.setAttribute("value", w_choices_price[j]);
+			if(w_allow_other=="yes" && j==w_allow_other_num)
+			{
+				adding.setAttribute("other", "1");
+				adding.setAttribute("onclick", "if(set_checked('"+i+"','"+j+"','form_id_temp')) show_other_input('"+i+"','form_id_temp');");
+			}
+			else
+				adding.setAttribute("onclick", "set_checked('"+i+"','"+j+"','form_id_temp')");
+			
+		if(w_choices_checked[j]=='1')
+				adding.setAttribute("checked", "checked");
+				
+				
+				
+		var label_adding = document.createElement('label');
+				label_adding.setAttribute("id", i+"_label_element"+j);
+				label_adding.setAttribute("class","ch_rad_label");
+				label_adding.setAttribute("for",i+"_elementform_id_temp"+j);
+				label_adding.innerHTML = w_choices[j];
+				
+		var adding_ch_label = document.createElement('input');
+				adding_ch_label.setAttribute("type", "hidden");
+				adding_ch_label.setAttribute("id", i+"_elementlabel_form_id_temp"+j);
+				adding_ch_label.setAttribute("name", i+"_elementform_id_temp"+j+"_label");
+				adding_ch_label.setAttribute("value", w_choices[j]);
+				
+		td_little.appendChild(adding);
+		td_little.appendChild(label_adding);
+		td_little.appendChild(adding_ch_label);
+		tr_little.appendChild(td_little);
+		table_little.appendChild(tr_little);
+		
+		if(w_choices_checked[j]=='1')
+			if(w_allow_other=="yes" && j==w_allow_other_num)
+				aaa=true;
+	
+	}			
+	
+		var div_ = document.createElement('div');
+			div_.setAttribute("id", i+"_divform_id_temp");
+
+      	var main_td  = document.getElementById('show_table');
+	
+      
+      	td1.appendChild(label);
+      	td1.appendChild(required);
+        td2.appendChild(adding_type);
+  
+        td2.appendChild(adding_required);
+        td2.appendChild(adding_randomize);
+       	td2.appendChild(adding_allow_other);
+       	td2.appendChild(adding_allow_other_id);
+		td2.appendChild(table_little_t);
+		td2.appendChild(div_);
+      	tr.appendChild(td1);
+      	tr.appendChild(td2);
+      	table.appendChild(tr);
+      
+
+      	div.appendChild(table);
+      	div.appendChild(br3);
+      	main_td.appendChild(div);
+	add_id_and_name(i, 'type_checkbox');
+		
+	if(w_field_label_pos=="top")
+				label_top(i);
+				
+	if(w_flow=="hor")
+				
+				flow_hor(i);
+change_class(w_class, i);
+refresh_attr(i, 'type_checkbox');
+
+
+	if(w_quantity=="yes")
+				add_quantity(i);
+							
+// form_maker_open_in_popup(11);
+if(aaa)
+{
+	show_other_input(i);
+}
+	// enable_modals();
+	
+add_properties(i, w_property, w_property_values, w_property_type);
+spider_popup();
+}
+
+function type_paypal_radio(i, w_field_label, w_field_label_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value,  w_property, w_property_type, w_property_values, w_quantity ){
+	document.getElementById("element_type").value="type_paypal_radio";
+
+	delete_last_child();
+// edit table	
+	var edit_div  = document.createElement('div');
+		edit_div.setAttribute("id", "edit_div");
+		edit_div.setAttribute("style", "border-top:1px dotted black;padding:10px; padding:10px; padding-top:0px; padding-bottom:0px; margin-top:10px;");
+		
+	var edit_main_table  = document.createElement('table');
+		edit_main_table.setAttribute("id", "edit_main_table");
+		edit_main_table.setAttribute("cellpadding", "0");
+		edit_main_table.setAttribute("cellspacing", "0");
+		
+	var edit_main_tr1  = document.createElement('tr');
+      		edit_main_tr1.setAttribute("valing", "top");
+		
+	var edit_main_tr2  = document.createElement('tr');
+      		edit_main_tr2.setAttribute("valing", "top");
+		
+	var edit_main_tr3  = document.createElement('tr');
+      		edit_main_tr3.setAttribute("valing", "top");
+		
+	var edit_main_tr4  = document.createElement('tr');
+      		edit_main_tr4.setAttribute("valing", "top");
+		
+	var edit_main_tr5  = document.createElement('tr');
+      		edit_main_tr5.setAttribute("valing", "top");
+			
+	var edit_main_tr6  = document.createElement('tr');
+      		edit_main_tr6.setAttribute("valing", "top");
+			
+	var edit_main_tr7  = document.createElement('tr');
+      		edit_main_tr7.setAttribute("valing", "top");
+			
+	var edit_main_tr8  = document.createElement('tr');
+      		edit_main_tr8.setAttribute("valing", "top");
+
+	var edit_main_tr9  = document.createElement('tr');
+      		edit_main_tr9.setAttribute("valing", "top");
+
+	var edit_main_tr10  = document.createElement('tr');
+      		edit_main_tr10.setAttribute("valing", "top");
+
+	var edit_main_tr11  = document.createElement('tr');
+      		edit_main_tr11.setAttribute("valing", "top");
+
+	var edit_main_td1 = document.createElement('td');
+		edit_main_td1.style.cssText = "padding-top:10px";	
+	var edit_main_td1_1 = document.createElement('td');
+		edit_main_td1_1.style.cssText = "padding-top:10px";		
+	var edit_main_td2 = document.createElement('td');
+		edit_main_td2.style.cssText = "padding-top:10px";
+	var edit_main_td2_1 = document.createElement('td');
+		edit_main_td2_1.style.cssText = "padding-top:10px";
+
+	var edit_main_td3 = document.createElement('td');
+		edit_main_td3.style.cssText = "padding-top:10px";
+	var edit_main_td3_1 = document.createElement('td');
+		edit_main_td3_1.style.cssText = "padding-top:10px";
+
+	var edit_main_td4 = document.createElement('td');
+		edit_main_td4.style.cssText = "padding-top:10px";
+	var edit_main_td4_1 = document.createElement('td');
+		edit_main_td4_1.style.cssText = "padding-top:10px; vertical-align:top;";
+		
+		edit_main_td4.setAttribute("id", "choices");
+		
+		
+	var edit_main_td10 = document.createElement('td');
+		edit_main_td10.style.cssText = "padding-top:10px";
+	var edit_main_td10_1 = document.createElement('td');
+		edit_main_td10_1.style.cssText = "padding-top:10px";
+
+	var edit_main_td5 = document.createElement('td');
+		edit_main_td5.style.cssText = "padding-top:10px";
+	var edit_main_td5_1 = document.createElement('td');
+		edit_main_td5_1.style.cssText = "padding-top:10px";
+				
+	var edit_main_td6 = document.createElement('td');
+		edit_main_td6.style.cssText = "padding-top:10px";
+	var edit_main_td6_1 = document.createElement('td');
+		edit_main_td6_1.style.cssText = "padding-top:10px";
+		
+	var edit_main_td7 = document.createElement('td');
+		edit_main_td7.style.cssText = "padding-top:10px";
+	var edit_main_td7_1 = document.createElement('td');
+		edit_main_td7_1.style.cssText = "padding-top:10px";
+		  
+	var edit_main_td8 = document.createElement('td');
+		edit_main_td8.style.cssText = "padding-top:10px";
+	var edit_main_td8_1 = document.createElement('td');
+		edit_main_td8_1.style.cssText = "padding-top:10px";
+		  
+	var edit_main_td9 = document.createElement('td');
+		edit_main_td9.style.cssText = "padding-top:10px";
+	var edit_main_td9_1 = document.createElement('td');
+		edit_main_td9_1.style.cssText = "padding-top:10px";
+		  
+		  
+	var edit_main_td11 = document.createElement('td');
+		edit_main_td11.style.cssText = "padding-top:10px";
+	var edit_main_td11_1 = document.createElement('td');
+		edit_main_td11_1.style.cssText = "padding-top:10px";
+		  
+	var el_label_label = document.createElement('label');
+			        el_label_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+			el_label_label.innerHTML = "Field label";
+	
+	var el_label_textarea = document.createElement('textarea');
+                el_label_textarea.setAttribute("id", "edit_for_label");
+                el_label_textarea.setAttribute("rows", "4");
+                el_label_textarea.style.cssText = "width:200px;";
+                el_label_textarea.setAttribute("onKeyUp", "change_label('"+i+"_element_labelform_id_temp', this.value)");
+				el_label_textarea.innerHTML = w_field_label;
+		
+	var el_label_position_label = document.createElement('label');
+			        el_label_position_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_label_position_label.innerHTML = "Field label position";
+	
+	var el_label_position1 = document.createElement('input');
+                el_label_position1.setAttribute("id", "edit_for_label_position_top");
+                el_label_position1.setAttribute("type", "radio");
+                el_label_position1.setAttribute("value", "left");
+                
+
+                el_label_position1.setAttribute("name", "edit_for_label_position");
+                el_label_position1.setAttribute("onchange", "label_left("+i+")");
+				el_label_position1.setAttribute("checked", "checked");
+		Left = document.createTextNode("Left");
+		
+	var el_label_position2 = document.createElement('input');
+                el_label_position2.setAttribute("id", "edit_for_label_position_left");
+                el_label_position2.setAttribute("type", "radio");
+
+                el_label_position2.setAttribute("value", "top");
+	
+
+                el_label_position2.setAttribute("name", "edit_for_label_position");
+                el_label_position2.setAttribute("onchange", "label_top("+i+")");
+		Top = document.createTextNode("Top");
+		
+	if(w_field_label_pos=="top")
+	
+				el_label_position2.setAttribute("checked", "checked");
+	else
+				el_label_position1.setAttribute("checked", "checked");
+	
+	var el_label_flow = document.createElement('label');
+			        el_label_flow.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_label_flow.innerHTML = "Relative Position";
+
+	var el_flow_vertical = document.createElement('input');
+                el_flow_vertical.setAttribute("id", "edit_for_flow_vertical");
+                el_flow_vertical.setAttribute("type", "radio");
+                el_flow_vertical.setAttribute("value", "ver");
+                el_flow_vertical.setAttribute("name", "edit_for_flow");
+                el_flow_vertical.setAttribute("onchange", "flow_ver("+i+")");
+		Vertical = document.createTextNode("Vertical");
+		
+	var el_flow_horizontal = document.createElement('input');
+            el_flow_horizontal.setAttribute("id", "edit_for_flow_horizontal");
+            el_flow_horizontal.setAttribute("type", "radio");
+            el_flow_horizontal.setAttribute("value", "hor");
+            el_flow_horizontal.setAttribute("name", "edit_for_flow");
+            el_flow_horizontal.setAttribute("onchange", "flow_hor("+i+")");
+		Horizontal = document.createTextNode("Horizontal");
+		
+	if(w_flow=="hor")
+				el_flow_horizontal.setAttribute("checked", "checked");
+	else
+				el_flow_vertical.setAttribute("checked", "checked");
+				
+	var el_style_label = document.createElement('label');
+	    el_style_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_style_label.innerHTML = "Class name";
+	
+	var el_style_textarea = document.createElement('input');
+        el_style_textarea.setAttribute("id", "element_style");
+		el_style_textarea.setAttribute("type", "text");
+		el_style_textarea.setAttribute("value", w_class);
+        el_style_textarea.style.cssText = "width:200px;";
+        el_style_textarea.setAttribute("onChange", "change_class(this.value,'"+i+"')");
+	
+	var el_required_label = document.createElement('label');
+	        el_required_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_required_label.innerHTML = "Required";
+	
+	var el_required = document.createElement('input');
+                el_required.setAttribute("id", "el_send");
+                el_required.setAttribute("type", "checkbox");
+                el_required.setAttribute("value", "yes");
+                el_required.setAttribute("onclick", "set_required('"+i+"_required')");
+	if(w_required=="yes")
+			
+                el_required.setAttribute("checked", "checked");
+
+	var el_quantity_label = document.createElement('label');
+	    el_quantity_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_quantity_label.innerHTML = "Quantity property";
+		
+	var el_quantity = document.createElement('input');
+        el_quantity.setAttribute("type", "checkbox");
+        el_quantity.setAttribute("value", "yes");
+        el_quantity.setAttribute("onclick", "add_quantity('"+i+"')");
+	
+	if(w_quantity=="yes")
+		el_quantity.setAttribute("checked", "checked");
+	
+				
+	var el_randomize_label = document.createElement('label');
+				el_randomize_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+				el_randomize_label.innerHTML = "Randomize in frontend";
+	
+	var el_randomize = document.createElement('input');
+                el_randomize.setAttribute("id", "el_randomize");
+                el_randomize.setAttribute("type", "checkbox");
+                el_randomize.setAttribute("value", "yes");
+                el_randomize.setAttribute("onclick", "set_randomize('"+i+"_randomizeform_id_temp')");
+	if(w_randomize=="yes")
+			    el_randomize.setAttribute("checked", "checked");
+
+	var el_allow_other_label = document.createElement('label');
+				el_allow_other_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+				el_allow_other_label.innerHTML = "Allow other";
+	
+	var el_allow_other = document.createElement('input');
+                el_allow_other.setAttribute("id", "el_allow_other");
+                el_allow_other.setAttribute("type", "checkbox");
+                el_allow_other.setAttribute("value", "yes");
+                el_allow_other.setAttribute("onclick", "set_allow_other('"+i+"','radio')");
+	if(w_allow_other=="yes")
+			    el_allow_other.setAttribute("checked", "checked");
+
+	var el_product_option_label = document.createElement('label');
+	    el_product_option_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px;";
+		el_product_option_label.innerHTML = "Product properties";
+	
+	var el_product_option_add_a = document.createElement('a');
+		// el_product_option_add_a.setAttribute("rel", "{handler: 'iframe', size: {x: 650, y: 375}}"	);
+		// el_product_option_add_a.setAttribute("href","index.php?option=com_formmaker&task=product_option&field_id="+i+"&tmpl=component");
+		// el_product_option_add_a.setAttribute("class","modal");
+    el_product_option_add_a.setAttribute("href", url_for_ajax + "?action=product_option&field_id=" + i + "&url_for_ajax=" + url_for_ajax + "&width=600&height=400&TB_iframe=1");
+		el_product_option_add_a.setAttribute("class","thickbox-preview");
+
+
+	var el_product_option_add_img = document.createElement('img');
+		el_product_option_add_img.setAttribute("src", plugin_url + "/images/add.png");
+		
+	var el_product_option_add_ul = document.createElement('ul');
+		el_product_option_add_ul.setAttribute("id", 'option_ul');
+		el_product_option_add_ul.style.cssText="list-style-type: none; padding:0px"
+				
+				
+	el_product_option_add_a.appendChild(el_product_option_add_img);
+	
+
+	var el_attr_label = document.createElement('label');
+	                el_attr_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+			el_attr_label.innerHTML = "Additional Attributes";
+	var el_attr_add = document.createElement('img');
+                el_attr_add.setAttribute("id", "el_choices_add");
+           	el_attr_add.setAttribute("src", plugin_url+'/images/add.png');
+            	el_attr_add.style.cssText = 'cursor:pointer; margin-left:68px';
+            	el_attr_add.setAttribute("title", 'add');
+                el_attr_add.setAttribute("onClick", "add_attr("+i+", 'type_checkbox')");
+	var el_attr_table = document.createElement('table');
+                el_attr_table.setAttribute("id", 'attributes');
+                el_attr_table.setAttribute("border", '0');
+        	el_attr_table.style.cssText = 'margin-left:0px';
+	var el_attr_tr_label = document.createElement('tr');
+                el_attr_tr_label.setAttribute("idi", '0');
+	var el_attr_td_name_label = document.createElement('th');
+            	el_attr_td_name_label.style.cssText = 'width:100px';
+	var el_attr_td_value_label = document.createElement('th');
+            	el_attr_td_value_label.style.cssText = 'width:100px';
+	var el_attr_td_X_label = document.createElement('th');
+            	el_attr_td_X_label.style.cssText = 'width:10px';
+	var el_attr_name_label = document.createElement('label');
+	                el_attr_name_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px";
+			el_attr_name_label.innerHTML = "Name";
+			
+	var el_attr_value_label = document.createElement('label');
+	                el_attr_value_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px";
+			el_attr_value_label.innerHTML = "Value";
+			
+	el_attr_table.appendChild(el_attr_tr_label);
+	el_attr_tr_label.appendChild(el_attr_td_name_label);
+	el_attr_tr_label.appendChild(el_attr_td_value_label);
+	el_attr_tr_label.appendChild(el_attr_td_X_label);
+	el_attr_td_name_label.appendChild(el_attr_name_label);
+	el_attr_td_value_label.appendChild(el_attr_value_label);
+	
+	n=w_attr_name.length;
+	for(j=1; j<=n; j++)
+	{	
+		var el_attr_tr = document.createElement('tr');
+			el_attr_tr.setAttribute("id", "attr_row_"+j);
+			el_attr_tr.setAttribute("idi", j);
+		var el_attr_td_name = document.createElement('td');
+			el_attr_td_name.style.cssText = 'width:100px';
+		var el_attr_td_value = document.createElement('td');
+			el_attr_td_value.style.cssText = 'width:100px';
+		
+		var el_attr_td_X = document.createElement('td');
+		var el_attr_name = document.createElement('input');
+	
+			el_attr_name.setAttribute("type", "text");
+	
+			el_attr_name.style.cssText = "width:100px";
+			el_attr_name.setAttribute("value", w_attr_name[j-1]);
+			el_attr_name.setAttribute("id", "attr_name"+j);
+			el_attr_name.setAttribute("onChange", "change_attribute_name("+i+", this, 'type_checkbox')");
+			
+		var el_attr_value = document.createElement('input');
+	
+			el_attr_value.setAttribute("type", "text");
+			el_attr_value.style.cssText = "width:100px";
+			el_attr_value.setAttribute("value", w_attr_value[j-1]);
+			el_attr_value.setAttribute("id", "attr_value"+j);
+			el_attr_value.setAttribute("onChange", "change_attribute_value("+i+", "+j+", 'type_checkbox')");
+	
+		var el_attr_remove = document.createElement('img');
+			el_attr_remove.setAttribute("id", "el_choices"+j+"_remove");
+			el_attr_remove.setAttribute("src", plugin_url+'/images/delete.png');
+			el_attr_remove.style.cssText = 'cursor:pointer; vertical-align:middle; margin:3px';
+			el_attr_remove.setAttribute("align", 'top');
+			el_attr_remove.setAttribute("onClick", "remove_attr("+j+", "+i+", 'type_checkbox')");
+		el_attr_table.appendChild(el_attr_tr);
+		el_attr_tr.appendChild(el_attr_td_name);
+		el_attr_tr.appendChild(el_attr_td_value);
+		el_attr_tr.appendChild(el_attr_td_X);
+		el_attr_td_name.appendChild(el_attr_name);
+		el_attr_td_value.appendChild(el_attr_value);
+		el_attr_td_X.appendChild(el_attr_remove);
+		
+	}
+
+	var el_choices_label = document.createElement('label');
+			        el_choices_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_choices_label.innerHTML = "Options ";
+
+	
+	var el_choices_add = document.createElement('img');
+                el_choices_add.setAttribute("id", "el_choices_add");
+           	el_choices_add.setAttribute("src", plugin_url+'/images/add.png');
+            	el_choices_add.style.cssText = 'cursor:pointer;';
+            	el_choices_add.setAttribute("title", 'add');
+                el_choices_add.setAttribute("onClick", "add_choise_price('radio',"+i+")");
+				
+	var t  = document.getElementById('edit_table');
+	
+	var br = document.createElement('br');
+	var br1 = document.createElement('br');
+	var br2 = document.createElement('br');
+	var br3 = document.createElement('br');
+	var br4 = document.createElement('br');
+	var br5 = document.createElement('br');
+	var br6 = document.createElement('br');
+	
+
+	edit_main_td1.appendChild(el_label_label);
+	edit_main_td1_1.appendChild(el_label_textarea);
+
+	edit_main_td2.appendChild(el_label_position_label);
+	edit_main_td2_1.appendChild(el_label_position1);
+	edit_main_td2_1.appendChild(Left);
+	edit_main_td2_1.appendChild(br2);
+	edit_main_td2_1.appendChild(el_label_position2);
+	edit_main_td2_1.appendChild(Top);
+	
+	edit_main_td3.appendChild(el_label_flow);
+	edit_main_td3_1.appendChild(el_flow_vertical);
+	edit_main_td3_1.appendChild(Vertical);
+	edit_main_td3_1.appendChild(br4);
+	edit_main_td3_1.appendChild(el_flow_horizontal);
+	edit_main_td3_1.appendChild(Horizontal);
+
+	edit_main_td6.appendChild(el_style_label);
+	edit_main_td6_1.appendChild(el_style_textarea);
+	
+	edit_main_td5.appendChild(el_required_label);
+	edit_main_td5_1.appendChild(el_required);
+	
+	edit_main_td8.appendChild(el_randomize_label);
+	edit_main_td8_1.appendChild(el_randomize);
+	
+	edit_main_td9.appendChild(el_allow_other_label);
+	edit_main_td9_1.appendChild(el_allow_other);
+	
+	edit_main_td11.appendChild(el_quantity_label);
+	edit_main_td11_1.appendChild(el_quantity);
+
+	edit_main_td10.appendChild(el_product_option_label);
+	edit_main_td10.appendChild(el_product_option_add_ul);
+	edit_main_td10_1.appendChild(el_product_option_add_a);
+	
+	edit_main_td7.appendChild(el_attr_label);
+	edit_main_td7.appendChild(el_attr_add);
+	edit_main_td7.appendChild(br6);
+	edit_main_td7.appendChild(el_attr_table);
+	edit_main_td7.setAttribute("colspan", "2");
+	
+	edit_main_td4.appendChild(el_choices_label);
+	edit_main_td4_1.appendChild(el_choices_add);
+
+		var div_ = document.createElement('div');
+			div_.style.cssText = 'border-bottom:1px dotted black; width: 187px;';
+		var br = document.createElement('br');
+		
+		var el_choices_mini_label = document.createElement('b');
+			el_choices_mini_label.innerHTML="Product name";
+			el_choices_mini_label.style.cssText='padding-right: 15px; padding-left: 15px; font-size:9px';
+			
+		var el_choices_price_mini_label = document.createElement('b');
+			el_choices_price_mini_label.innerHTML="Price";
+			el_choices_price_mini_label.style.cssText='padding-right: 15px; padding-left: 15px;  font-size:9px';
+	
+		var el_choices_remove_mini_label = document.createElement('b');
+			el_choices_remove_mini_label.innerHTML="Empty value";
+			el_choices_remove_mini_label.style.cssText='padding-right: 2px; padding-left: 2px; font-size:9px';
+			
+		var el_choices_dis_mini_label = document.createElement('b');
+			el_choices_dis_mini_label.innerHTML="Delete";
+			el_choices_dis_mini_label.style.cssText='padding-left: 2px; padding-right: 2px; font-size:9px';
+			
+		div_.appendChild(br);
+		div_.appendChild(el_choices_mini_label);
+		div_.appendChild(el_choices_price_mini_label);
+		div_.appendChild(el_choices_dis_mini_label);
+		edit_main_td4.appendChild(div_);
+
+
+	n=w_choices.length;
+	for(j=0; j<n; j++)
+	{	
+		var br = document.createElement('br');
+			br.setAttribute("id", "br"+j);
+			
+		var el_choices = document.createElement('input');
+			el_choices.setAttribute("id", "el_choices"+j);
+			el_choices.setAttribute("type", "text");
+			el_choices.setAttribute("value", w_choices[j]);
+			el_choices.style.cssText =   "width:100px; margin:0; padding:0; border-width: 1px";
+			el_choices.setAttribute("onKeyUp", "change_label('"+i+"_label_element"+j+"', this.value); change_label_1('"+i+"_elementlabel_form_id_temp"+j+"', this.value); ");
+	
+		var el_choices_price = document.createElement('input');
+			el_choices_price.setAttribute("id", "el_option_price"+j);
+			el_choices_price.setAttribute("type", "text");
+			el_choices_price.setAttribute("value", w_choices_price[j]);
+			el_choices_price.style.cssText =   "width:50px; margin:1px; padding:0; border-width: 1px";
+		if(w_allow_other=="yes" && j==w_allow_other_num)
+			el_choices_price.style.display = 'none';
+			el_choices_price.setAttribute("onKeyUp", "change_value_price('"+i+"_elementform_id_temp"+j+"', this.value)");
+			el_choices_price.setAttribute("onKeyPress", "return check_isnum_point(event)");
+
+		var el_choices_remove = document.createElement('img');
+			el_choices_remove.setAttribute("id", "el_choices"+j+"_remove");
+			el_choices_remove.setAttribute("src", plugin_url+'/images/delete.png');
+		if(w_allow_other=="yes" && j==w_allow_other_num)
+			el_choices_remove.style.cssText = 'cursor:pointer; vertical-align:middle; margin:3px; display:none';
+		else			
+			el_choices_remove.style.cssText = 'cursor:pointer; vertical-align:middle; margin:3px';
+			el_choices_remove.setAttribute("align", 'top');
+			el_choices_remove.setAttribute("onClick", "remove_choise_price("+j+","+i+")");
+			
+		edit_main_td4.appendChild(br);
+		edit_main_td4.appendChild(el_choices);
+		edit_main_td4.appendChild(el_choices_price);
+		edit_main_td4.appendChild(el_choices_remove);
+	
+	}
+
+
+	edit_main_tr1.appendChild(edit_main_td1);
+	edit_main_tr1.appendChild(edit_main_td1_1);
+	edit_main_tr2.appendChild(edit_main_td2);
+	edit_main_tr2.appendChild(edit_main_td2_1);
+	edit_main_tr3.appendChild(edit_main_td3);
+	edit_main_tr3.appendChild(edit_main_td3_1);
+	
+	edit_main_tr6.appendChild(edit_main_td6);
+	edit_main_tr6.appendChild(edit_main_td6_1);
+	edit_main_tr7.appendChild(edit_main_td7);
+	edit_main_tr5.appendChild(edit_main_td5);
+	edit_main_tr5.appendChild(edit_main_td5_1);
+	edit_main_tr4.appendChild(edit_main_td4);
+	edit_main_tr4.appendChild(edit_main_td4_1);
+	edit_main_tr8.appendChild(edit_main_td8);
+	edit_main_tr8.appendChild(edit_main_td8_1);
+	edit_main_tr8.style.display="none";
+	edit_main_tr9.appendChild(edit_main_td9);
+	edit_main_tr9.appendChild(edit_main_td9_1);
+	edit_main_tr9.style.display="none";
+	edit_main_tr10.appendChild(edit_main_td10);
+	edit_main_tr10.appendChild(edit_main_td10_1);
+	edit_main_tr11.appendChild(edit_main_td11);
+	edit_main_tr11.appendChild(edit_main_td11_1);
+	edit_main_table.appendChild(edit_main_tr1);
+	edit_main_table.appendChild(edit_main_tr2);
+	edit_main_table.appendChild(edit_main_tr3);
+	edit_main_table.appendChild(edit_main_tr6);
+	edit_main_table.appendChild(edit_main_tr5);
+	edit_main_table.appendChild(edit_main_tr8);
+	edit_main_table.appendChild(edit_main_tr9);
+	edit_main_table.appendChild(edit_main_tr4);
+	edit_main_table.appendChild(edit_main_tr11);
+	edit_main_table.appendChild(edit_main_tr10);
+	edit_main_table.appendChild(edit_main_tr7);
+	edit_div.appendChild(edit_main_table);
+	
+	t.appendChild(edit_div);
+	
+//show table
+
+	element='input';	type='radio'; 
+		var adding_type = document.createElement("input");
+            adding_type.setAttribute("type", "hidden");
+            adding_type.setAttribute("value", "type_paypal_radio");
+            adding_type.setAttribute("name", i+"_typeform_id_temp");
+            adding_type.setAttribute("id", i+"_typeform_id_temp");
+	var adding_required = document.createElement("input");
+            adding_required.setAttribute("type", "hidden");
+            adding_required.setAttribute("value", w_required);
+            adding_required.setAttribute("name", i+"_requiredform_id_temp");			
+            adding_required.setAttribute("id", i+"_requiredform_id_temp");
+	    
+	var adding_randomize = document.createElement("input");
+            adding_randomize.setAttribute("type", "hidden");
+            adding_randomize.setAttribute("value", w_randomize);
+            adding_randomize.setAttribute("name", i+"_randomizeform_id_temp");			
+            adding_randomize.setAttribute("id", i+"_randomizeform_id_temp");
+	    
+	var adding_allow_other= document.createElement("input");
+            adding_allow_other.setAttribute("type", "hidden");
+            adding_allow_other.setAttribute("value", w_allow_other);
+            adding_allow_other.setAttribute("name", i+"_allow_otherform_id_temp");			
+            adding_allow_other.setAttribute("id", i+"_allow_otherform_id_temp");
+	    
+     var div = document.createElement('div');
+      	    div.setAttribute("id", "main_div");
+			
+	var table = document.createElement('table');
+           	table.setAttribute("id", i+"_elemet_tableform_id_temp");
+	
+      	var tr = document.createElement('tr');
+			
+      	var td1 = document.createElement('td');
+         	td1.setAttribute("valign", 'top');
+         	td1.setAttribute("align", 'left');
+           	td1.setAttribute("id", i+"_label_sectionform_id_temp");
+			
+      	var td2 = document.createElement('td');
+        	td2.setAttribute("valign", 'top');
+         	td2.setAttribute("align", 'left');
+           	td2.setAttribute("id", i+"_element_sectionform_id_temp");
+
+      	var br1 = document.createElement('br');
+      	var br2 = document.createElement('br');
+     	var br3 = document.createElement('br');
+      	var br4 = document.createElement('br');
+//tbody sarqac		
+		var table_little_t = document.createElement('table');
+			
+		var table_little = document.createElement('tbody');
+           	table_little.setAttribute("id", i+"_table_little");
+			
+		table_little_t.appendChild(table_little);
+	
+      	var tr_little1 = document.createElement('tr');
+	        tr_little1.setAttribute("id", i+"_element_tr1");
+		
+      	var tr_little2 = document.createElement('tr');
+ 	        tr_little2.setAttribute("id", i+"_element_tr2");
+			
+      	var td_little1 = document.createElement('td');
+         	td_little1.setAttribute("valign", 'top');
+           	td_little1.setAttribute("id", i+"_td_little1");
+			
+      	var td_little2 = document.createElement('td');
+        	td_little2.setAttribute("valign", 'top');
+           	td_little2.setAttribute("id", i+"_td_little2");
+			
+
+	    
+      	var label = document.createElement('span');
+			label.setAttribute("id", i+"_element_labelform_id_temp");
+			label.innerHTML = w_field_label;
+			label.setAttribute("class", "label");
+	    
+      	var required = document.createElement('span');
+			required.setAttribute("id", i+"_required_elementform_id_temp");
+			required.innerHTML = "";
+			required.setAttribute("class", "required");
+	if(w_required=="yes")
+			required.innerHTML = " *";
+	n=w_choices.length;
+	aaa=false;
+	for(j=0; j<n; j++)
+	{      	
+		var tr_little = document.createElement('tr');
+			tr_little.setAttribute("id", i+"_element_tr"+j);
+				
+		var td_little = document.createElement('td');
+			td_little.setAttribute("valign", 'top');
+			td_little.setAttribute("id", i+"_td_little"+j);
+			td_little.setAttribute("idi", j);
+	
+		var adding = document.createElement(element);
+				adding.setAttribute("type", type);
+				adding.setAttribute("id", i+"_elementform_id_temp"+j);
+				adding.setAttribute("name", i+"_elementform_id_temp");
+				adding.setAttribute("value", w_choices_price[j]);
+			if(w_allow_other=="yes" && j==w_allow_other_num)
+			{
+				adding.setAttribute("other", "1");
+				adding.setAttribute("onclick", "set_default('"+i+"','"+j+"','form_id_temp'); show_other_input('"+i+"','form_id_temp');");
+			}
+			else
+				adding.setAttribute("onclick", "set_default('"+i+"','"+j+"','form_id_temp')");
+			
+		if(w_choices_checked[j]=='1')
+		{
+			adding.setAttribute("checked", "checked");
+		}		
+				
+				
+		var label_adding = document.createElement('label');
+				label_adding.setAttribute("id", i+"_label_element"+j);
+				label_adding.setAttribute("class","ch_rad_label");
+				label_adding.setAttribute("for",i+"_elementform_id_temp"+j);
+				label_adding.innerHTML = w_choices[j];
+				
+		var adding_ch_label = document.createElement('input');
+				adding_ch_label.setAttribute("type", "hidden");
+				adding_ch_label.setAttribute("id", i+"_elementlabel_form_id_temp"+j);
+				adding_ch_label.setAttribute("name", i+"_elementform_id_temp"+j+"_label");
+				adding_ch_label.setAttribute("value", w_choices[j]);
+				
+				
+		td_little.appendChild(adding);
+		td_little.appendChild(label_adding);
+		td_little.appendChild(adding_ch_label);
+		tr_little.appendChild(td_little);
+		table_little.appendChild(tr_little);
+			
+		if(w_choices_checked[j]=='1')
+			if(w_allow_other=="yes" && j==w_allow_other_num)
+				aaa=true;
+	}			
+	
+		var div_ = document.createElement('div');
+			div_.setAttribute("id", i+"_divform_id_temp");
+	    
+      	var main_td  = document.getElementById('show_table');
+	
+      
+      	td1.appendChild(label);
+      	td1.appendChild(required);
+       	td2.appendChild(adding_type);
+	
+       	td2.appendChild(adding_required);
+       	td2.appendChild(adding_randomize);
+       	td2.appendChild(adding_allow_other);
+		td2.appendChild(table_little_t);
+  		td2.appendChild(div_);
+    	tr.appendChild(td1);
+      	tr.appendChild(td2);
+      	table.appendChild(tr);
+      
+      	div.appendChild(table);
+      	div.appendChild(br3);
+      	main_td.appendChild(div);
+	add_id_and_name(i, 'type_radio');
+
+		if(w_field_label_pos=="top")
+					label_top(i);
+		
+		if(w_flow=="hor")
+				
+				flow_hor(i);
+	if(w_quantity=="yes")
+				add_quantity(i);
+// form_maker_open_in_popup(11);
+
+change_class(w_class, i);
+refresh_attr(i, 'type_checkbox');
+if(aaa)
+{
+	show_other_input(i);
+}
+
+add_properties(i, w_property, w_property_values, w_property_type);
+spider_popup();
+}
+
 
 function type_star_rating(i, w_field_label, w_field_label_pos, w_field_label_col, w_star_amount, w_required, w_class, w_attr_name, w_attr_value){
 
@@ -12891,7 +15867,8 @@ function type_paypal_total(i, w_field_label, w_field_label_pos, w_class){
 			div_products.setAttribute("id", i+"paypal_productsform_id_temp");
 			div_products.setAttribute("class", "paypal_productsform_id_temp");
 			div_products.style.cssText = 'border-spacing: 2px;';
-		var div_product1 = document.createElement('div');
+		
+    var div_product1 = document.createElement('div');
     div_product1.style.cssText = 'border-spacing: 2px;';
 		div_product1.innerHTML = '<!--repstart-->product 1 $100<!--repend-->';
 		
@@ -12913,8 +15890,8 @@ function type_paypal_total(i, w_field_label, w_field_label_pos, w_class){
 		div_paypal.appendChild(input_for_total);
 		div_products.appendChild(div_product1);
 		div_products.appendChild(div_product2);
-		div_paypal.appendChild(div_total);
 		div_paypal.appendChild(div_products);
+		div_paypal.appendChild(div_total);
     div_paypal.appendChild(div_tax);
 		
       	var main_td  = document.getElementById('show_table');
@@ -14447,18 +17424,15 @@ function type_slider(i, w_field_label, w_field_label_pos,  w_field_width, w_fiel
         var slider_td2 = document.createElement('td');
          	  slider_td2.setAttribute("align", 'left');
            	slider_td2.setAttribute("id", i+"_slider_td2form_id_temp");
-           	slider_td2.setAttribute("style", "text-align:left");
 				
 			
 		var slider_td3 = document.createElement('td');
             slider_td3.setAttribute("align", 'right');
            	slider_td3.setAttribute("id", i+"_slider_td3form_id_temp");
-            slider_td3.setAttribute("style", "text-align:right");
 			
 		var slider_td4 = document.createElement('td');
             slider_td4.setAttribute("align", 'right');
-           	slider_td4.setAttribute("id", i+"_slider_td4form_id_temp");
-            slider_td4.setAttribute("style", "text-align:right");
+           	slider_td4.setAttribute("id", i+"_slider_td4form_id_temp");		
       	var tr = document.createElement('tr');
 			
       	var td1 = document.createElement('td');
@@ -14581,7 +17555,7 @@ document.getElementById( b+"_slider_widthform_id_temp" ).value=a;
 function change_slider_min_value(a,b,form_id){
 document.getElementById( b+"_slider_min_valueform_id_temp" ).value=a;
 document.getElementById(b+"_slider_valueform_id_temp" ).value = a;
-if(a > document.getElementById( b+"_element_valueform_id_temp" ).innerHTML){
+if(eval(a) > document.getElementById( b+"_element_valueform_id_temp" ).innerHTML){
 document.getElementById( b+"_element_valueform_id_temp" ).innerHTML = a;
 
 	jQuery( "#"+b+"_elementform_id_temp").slider({
@@ -14610,7 +17584,7 @@ jQuery( "#"+b+"_elementform_id_temp").slider({
 function change_slider_max_value(a,b,form_id){
 document.getElementById( b+"_slider_max_valueform_id_temp" ).value=a;
 
-if(a < parseInt(document.getElementById( b+"_slider_valueform_id_temp" ).value)){
+if(eval(a) < parseInt(document.getElementById( b+"_slider_valueform_id_temp" ).value)){
 
 document.getElementById( b+"_element_valueform_id_temp" ).innerHTML = a;
 document.getElementById(b+"_slider_valueform_id_temp" ).value = a;
@@ -15126,13 +18100,17 @@ function type_range(i, w_field_label, w_field_label_pos, w_field_range_width, w_
   change_class(w_class, i);
   refresh_attr(i, 'type_range');
 
-  var spinner1 = jQuery( "#"+i+"_elementform_id_temp0" ).spinner();
-  spinner1.spinner( "value", w_field_value1 );
-  jQuery( "#"+i+"_elementform_id_temp0" ).spinner({ step: w_field_range_step});
+jQuery( "#"+i+"_elementform_id_temp0" ).spinner();
+ var spinner1 = jQuery( "#"+i+"_elementform_id_temp0" ).spinner();
 
-  var spinner2 = jQuery( "#"+i+"_elementform_id_temp1" ).spinner();
-  spinner2.spinner( "value", w_field_value2 );
-  jQuery( "#"+i+"_elementform_id_temp1" ).spinner({ step: w_field_range_step});
+spinner1.spinner( "value", w_field_value1 );
+jQuery( "#"+i+"_elementform_id_temp0" ).spinner({ step: w_field_range_step});
+
+
+jQuery( "#"+i+"_elementform_id_temp1" ).spinner();
+var spinner2 = jQuery( "#"+i+"_elementform_id_temp1" ).spinner();
+spinner2.spinner( "value", w_field_value2 );
+jQuery( "#"+i+"_elementform_id_temp1" ).spinner({ step: w_field_range_step});
 
 jQuery(document).ready(function() {	
 	jQuery("label#"+i+"_mini_label_from").click(function() {
@@ -16398,8 +19376,8 @@ function type_paypal_shipping(i, w_field_label, w_field_label_pos, w_flow, w_cho
 		// el_product_option_add_a.setAttribute("rel", "{handler: 'iframe', size: {x: 650, y: 375}}"	);
 		// el_product_option_add_a.setAttribute("href","index.php?option=com_formmaker&task=product_option&field_id="+i+"&tmpl=component");
 		// el_product_option_add_a.setAttribute("class","modal");
-    el_product_option_add_a.setAttribute("href", url_for_ajax + "?action=product_option&field_id=" + i + "&url_for_ajax=" + url_for_ajax + "&TB_iframe=1");
-		el_product_option_add_a.setAttribute("class","thickbox-preview11");
+    el_product_option_add_a.setAttribute("href", url_for_ajax + "?action=product_option&field_id=" + i + "&url_for_ajax=" + url_for_ajax + "&width=600&height=400&TB_iframe=1");
+		el_product_option_add_a.setAttribute("class","thickbox-preview");
 
 	var el_product_option_add_img = document.createElement('img');
 		el_product_option_add_img.setAttribute("src", plugin_url+'/images/add.png');
@@ -16832,8 +19810,7 @@ function type_paypal_shipping(i, w_field_label, w_field_label_pos, w_flow, w_cho
 				
 				flow_hor(i);
 /////////////////////////////////////////////////
-form_maker_open_in_popup(11);
-// form_maker_open_in_popup(20);
+// form_maker_open_in_popup(11);
 change_class(w_class, i);
 refresh_attr(i, 'type_checkbox');
 if(aaa)
@@ -16842,7 +19819,7 @@ if(aaa)
 }
 
 add_properties(i, w_property, w_property_values, w_property_type);
-
+spider_popup();
 }
 
 function type_country(i, w_field_label, w_countries, w_field_label_pos, w_size, w_required, w_class, w_attr_name, w_attr_value) {
@@ -16974,8 +19951,8 @@ function type_country(i, w_field_label, w_countries, w_field_label_pos, w_size, 
 	var el_edit_list = document.createElement('a');
 	  el_edit_list.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px; font-style:italic; cursor:pointer";
 		el_edit_list.innerHTML = "Edit country list";
-		el_edit_list.setAttribute("href", url_for_ajax + "?action=fromeditcountryinpopup&field_id="+i+"&TB_iframe=1");
-		el_edit_list.setAttribute("class","thickbox-preview11");
+		el_edit_list.setAttribute("href", url_for_ajax + "?action=fromeditcountryinpopup&field_id="+i+"&width=600&height=400&TB_iframe=1");
+		el_edit_list.setAttribute("class","thickbox-preview");
 		
 	var el_style_label = document.createElement('label');
 	        el_style_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
@@ -17239,65 +20216,12 @@ function type_country(i, w_field_label, w_countries, w_field_label_pos, w_size, 
       	div.appendChild(br3);
       	main_td.appendChild(div);
 	
-	if(w_field_label_pos=="top")
-				label_top(i);
-var thickDims, tbWidth, tbHeight;
-jQuery(document).ready(function($) {
-
-        thickDims = function() {
-                var tbWindow = jQuery('#TB_window'), H = jQuery(window).height(), W = jQuery(window).width(), w, h;
-
-                w = (tbWidth && tbWidth < W - 90) ? tbWidth : W - 40;
-                h = (tbHeight && tbHeight < H - 60) ? tbHeight : H - 40;
-
-                if ( tbWindow.size() ) {
-                        tbWindow.width(w).height(h);
-                        jQuery('#TB_iframeContent').width(w).height(h - 27);
-                        tbWindow.css({'margin-left': '-' + parseInt((w / 2),10) + 'px'});
-                        if ( typeof document.body.style.maxWidth != 'undefined' )
-                                tbWindow.css({'top':(H-h)/2,'margin-top':'0'});
-                }
-        };
-
-        thickDims();
-        jQuery(window).resize( function() { thickDims() } );
-
-        jQuery('a.thickbox-preview11').click( function() {
-                tb_click.call(this);
-
-                var alink = jQuery(this).parents('.available-theme').find('.activatelink'), link = '', href = jQuery(this).attr('href'), url, text;
-
-                if ( tbWidth = href.match(/&tbWidth=[0-9]+/) )
-                        tbWidth = parseInt(tbWidth[0].replace(/[^0-9]+/g, ''), 10);
-                else
-                        tbWidth = jQuery(window).width() - 120;
-
-                if ( tbHeight = href.match(/&tbHeight=[0-9]+/) )
-                        tbHeight = parseInt(tbHeight[0].replace(/[^0-9]+/g, ''), 10);
-                else
-                        tbHeight = jQuery(window).height() - 120;
-
-                if ( alink.length ) {
-                        url = alink.attr('href') || '';
-                        text = alink.attr('title') || '';
-                        link = '&nbsp; <a href="' + url + '" target="_top" class="tb-theme-preview-link">' + text + '</a>';
-                } else {
-                        text = jQuery(this).attr('title') || '';
-                        link = '&nbsp; <span class="tb-theme-preview-link">' + text + '</span>';
-                }
-
-                jQuery('#TB_title').css({'background-color':'#222','color':'#dfdfdf'});
-                jQuery('#TB_closeAjaxWindow').css({'float':'left'});
-                jQuery('#TB_ajaxWindowTitle').css({'float':'right'}).html(link);
-
-                jQuery('#TB_iframeContent').width('100%');
-                thickDims();
-
-                return false;
-        } );
-});
-change_class(w_class, i);
-refresh_attr(i, 'type_text');
+	if (w_field_label_pos=="top") {
+    label_top(i);
+  }
+  change_class(w_class, i);
+  refresh_attr(i, 'type_text');
+  spider_popup();
 }
 
 function type_recaptcha(i,w_field_label, w_field_label_pos, w_public, w_private, w_theme, w_class, w_attr_name, w_attr_value){
@@ -17659,7 +20583,7 @@ function type_recaptcha(i,w_field_label, w_field_label_pos, w_public, w_private,
 		var adding_text = document.createElement('span');
 			adding_text.style.color="red";
 			adding_text.style.fontStyle="italic";
-			adding_text.innerHTML="Recaptcha don't display in back end";
+			adding_text.innerHTML="Recaptcha doesn't display in back end";
 			
 		adding.appendChild(adding_text);
 		
@@ -18089,6 +21013,955 @@ function type_captcha(i,w_field_label, w_field_label_pos, w_digit, w_class, w_at
 				label_top(i);
 change_class(w_class, i);
 refresh_attr(i, 'type_captcha');
+}
+
+function type_map(i, w_center_x, w_center_y, w_long, w_lat, w_zoom, w_width, w_height, w_class, w_info, w_attr_name, w_attr_value){
+    document.getElementById("element_type").value="type_map";
+	delete_last_child();
+// edit table	
+	var edit_div  = document.createElement('div');
+		edit_div.setAttribute("id", "edit_div");
+		edit_div.setAttribute("style", "padding:10px;  padding-top:0px; padding-bottom:0px; margin-top:10px;");
+		
+	var edit_main_table  = document.createElement('table');
+		edit_main_table.setAttribute("id", "edit_main_table");
+		edit_main_table.setAttribute("cellpadding", "0");
+		edit_main_table.setAttribute("cellspacing", "0");
+		
+	var edit_main_tr1  = document.createElement('tr');
+      		edit_main_tr1.setAttribute("valing", "top");
+		
+	var edit_main_tr2  = document.createElement('tr');
+      		edit_main_tr2.setAttribute("valing", "top");
+		
+	var edit_main_tr3  = document.createElement('tr');
+      		edit_main_tr3.setAttribute("valing", "top");
+		
+	var edit_main_tr4  = document.createElement('tr');
+      		edit_main_tr4.setAttribute("valing", "top");
+		
+	var edit_main_tr5  = document.createElement('tr');
+      		edit_main_tr5.setAttribute("valing", "top");
+			
+	var edit_main_tr6  = document.createElement('tr');
+      		edit_main_tr6.setAttribute("valing", "top");
+
+	var edit_main_tr7  = document.createElement('tr');
+      		edit_main_tr7.setAttribute("valing", "top");
+
+	var edit_main_td1 = document.createElement('td');
+		edit_main_td1.style.cssText = "padding-top:10px";	
+	var edit_main_td1_1 = document.createElement('td');
+		edit_main_td1_1.style.cssText = "padding-top:10px";	
+	var edit_main_td2 = document.createElement('td');
+		edit_main_td2.style.cssText = "padding-top:10px";
+
+
+	var edit_main_td3 = document.createElement('td');
+		edit_main_td3.style.cssText = "padding-top:10px";
+	var edit_main_td3_1 = document.createElement('td');
+		edit_main_td3_1.style.cssText = "padding-top:10px";
+	var edit_main_td4 = document.createElement('td');
+		edit_main_td4.style.cssText = "padding-top:10px";
+	var edit_main_td4_1 = document.createElement('td');
+		edit_main_td4_1.style.cssText = "padding-top:10px";
+		
+	var edit_main_td5 = document.createElement('td');
+		edit_main_td5.style.cssText = "padding-top:10px";
+	var edit_main_td5_1 = document.createElement('td');
+		edit_main_td5_1.style.cssText = "padding-top:10px";
+				
+	var edit_main_td6 = document.createElement('td');
+		edit_main_td6.style.cssText = "padding-top:10px";
+	var edit_main_td6_1 = document.createElement('td');
+		edit_main_td6_1.style.cssText = "padding-top:10px";
+		
+				
+	var edit_main_td7 = document.createElement('td');
+		edit_main_td7.style.cssText = "padding-top:10px";
+		edit_main_td7.setAttribute("colspan", "4");
+		edit_main_td7.setAttribute("id", "markers");
+		
+	var center1 = document.createElement('p');
+        center1.setAttribute("id", "center1");
+		center1.innerHTML="Drag the marker to change marker position."	;
+		
+		  
+	var el_label_location = document.createElement('label');
+	    el_label_location.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_label_location.innerHTML = "Location";
+		
+	var el_img_add_marker = document.createElement('img');
+        el_img_add_marker.setAttribute("src", plugin_url+'/images/add.png');
+	    el_img_add_marker.style.cssText ="cursor:pointer";
+        el_img_add_marker.setAttribute("onClick", "add_marker('"+i+"', -1)");
+		
+	/*var el_info_label = document.createElement('label');
+	    el_info_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_info_label.innerHTML = "Marker Info";
+	*/
+	
+	
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////
+	
+	
+
+	var el_label_map_size = document.createElement('label');
+	    el_label_map_size.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_label_map_size.innerHTML = "Map size";
+	
+	var el_map_width = document.createElement('input');
+        el_map_width.setAttribute("type", "text");
+        el_map_width.setAttribute("value", w_width);
+        el_map_width.style.cssText ="margin-left:18px";
+ 		el_map_width.setAttribute("onKeyPress", "return check_isnum(event)");
+        el_map_width.setAttribute("onKeyUp", "change_w_style('"+i+"_elementform_id_temp', this.value);");
+
+	Width = document.createTextNode("Width");
+		
+	var el_map_height = document.createElement('input');
+        el_map_height.setAttribute("type", "text");
+        el_map_height.setAttribute("value", w_height);
+		el_map_height.style.cssText = "margin-left:15px";
+      	el_map_height.setAttribute("onKeyPress", "return check_isnum(event)");
+	    el_map_height.setAttribute("onKeyUp", "change_h_style('"+i+"_elementform_id_temp', this.value);");
+	
+	Height = document.createTextNode("Height");
+	
+	var el_style_label = document.createElement('label');
+	        el_style_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_style_label.innerHTML = "Class name";
+	
+	var el_style_textarea = document.createElement('input');
+                el_style_textarea.setAttribute("id", "element_style");
+		el_style_textarea.setAttribute("type", "text");
+ 		el_style_textarea.setAttribute("value", w_class);
+                el_style_textarea.style.cssText = "width:200px;";
+                el_style_textarea.setAttribute("onChange", "change_class(this.value,'"+i+"')");
+
+	var el_attr_label = document.createElement('label');
+	                el_attr_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+			el_attr_label.innerHTML = "Additional Attributes";
+	var el_attr_add = document.createElement('img');
+                el_attr_add.setAttribute("id", "el_choices_add");
+           	el_attr_add.setAttribute("src", plugin_url+'/images/add.png');
+            	el_attr_add.style.cssText = 'cursor:pointer; margin-left:68px';
+            	el_attr_add.setAttribute("title", 'add');
+                el_attr_add.setAttribute("onClick", "add_attr("+i+", 'type_text')");
+	var el_attr_table = document.createElement('table');
+                el_attr_table.setAttribute("id", 'attributes');
+                el_attr_table.setAttribute("border", '0');
+        	el_attr_table.style.cssText = 'margin-left:0px';
+	var el_attr_tr_label = document.createElement('tr');
+                el_attr_tr_label.setAttribute("idi", '0');
+	var el_attr_td_name_label = document.createElement('th');
+            	el_attr_td_name_label.style.cssText = 'width:100px';
+	var el_attr_td_value_label = document.createElement('th');
+            	el_attr_td_value_label.style.cssText = 'width:100px';
+	var el_attr_td_X_label = document.createElement('th');
+            	el_attr_td_X_label.style.cssText = 'width:10px';
+	var el_attr_name_label = document.createElement('label');
+	                el_attr_name_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px";
+			el_attr_name_label.innerHTML = "Name";
+			
+	var el_attr_value_label = document.createElement('label');
+	                el_attr_value_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px";
+			el_attr_value_label.innerHTML = "Value";
+			
+	el_attr_table.appendChild(el_attr_tr_label);
+	el_attr_tr_label.appendChild(el_attr_td_name_label);
+	el_attr_tr_label.appendChild(el_attr_td_value_label);
+	el_attr_tr_label.appendChild(el_attr_td_X_label);
+	el_attr_td_name_label.appendChild(el_attr_name_label);
+	el_attr_td_value_label.appendChild(el_attr_value_label);
+	
+	n=w_attr_name.length;
+	for(j=1; j<=n; j++)
+	{	
+		var el_attr_tr = document.createElement('tr');
+			el_attr_tr.setAttribute("id", "attr_row_"+j);
+			el_attr_tr.setAttribute("idi", j);
+		var el_attr_td_name = document.createElement('td');
+			el_attr_td_name.style.cssText = 'width:100px';
+		var el_attr_td_value = document.createElement('td');
+			el_attr_td_value.style.cssText = 'width:100px';
+		
+		var el_attr_td_X = document.createElement('td');
+		var el_attr_name = document.createElement('input');
+	
+			el_attr_name.setAttribute("type", "text");
+	
+			el_attr_name.style.cssText = "width:100px";
+			el_attr_name.setAttribute("value", w_attr_name[j-1]);
+			el_attr_name.setAttribute("id", "attr_name"+j);
+			el_attr_name.setAttribute("onChange", "change_attribute_name("+i+", this, 'type_text')");
+			
+		var el_attr_value = document.createElement('input');
+	
+			el_attr_value.setAttribute("type", "text");
+	
+			el_attr_value.style.cssText = "width:100px";
+			el_attr_value.setAttribute("value", w_attr_value[j-1]);
+			el_attr_value.setAttribute("id", "attr_value"+j);
+			el_attr_value.setAttribute("onChange", "change_attribute_value("+i+", "+j+", 'type_text')");
+	
+		var el_attr_remove = document.createElement('img');
+			el_attr_remove.setAttribute("id", "el_choices"+j+"_remove");
+			el_attr_remove.setAttribute("src", plugin_url+'/images/delete.png');
+			el_attr_remove.style.cssText = 'cursor:pointer; vertical-align:middle; margin:3px';
+			el_attr_remove.setAttribute("align", 'top');
+			el_attr_remove.setAttribute("onClick", "remove_attr("+j+", "+i+", 'type_text')");
+		el_attr_table.appendChild(el_attr_tr);
+		el_attr_tr.appendChild(el_attr_td_name);
+		el_attr_tr.appendChild(el_attr_td_value);
+		el_attr_tr.appendChild(el_attr_td_X);
+		el_attr_td_name.appendChild(el_attr_name);
+		el_attr_td_value.appendChild(el_attr_value);
+		el_attr_td_X.appendChild(el_attr_remove);
+		
+	}
+		
+	var t  = document.getElementById('edit_table');
+	var br = document.createElement('br');
+	var br1 = document.createElement('br');
+	var br2 = document.createElement('br');
+	var br3 = document.createElement('br');
+	var br4 = document.createElement('br');
+	var br5 = document.createElement('br');
+	var br6 = document.createElement('br');
+	var br7 = document.createElement('br');
+	var br8 = document.createElement('br');
+	var br9 = document.createElement('br');
+	var br10 = document.createElement('br');
+	var br11 = document.createElement('br');
+	
+	edit_main_td2.appendChild(el_label_location);
+	edit_main_td2.appendChild(center1);
+	edit_main_td2.appendChild(el_img_add_marker);
+	edit_main_td2.setAttribute("colspan", "2");
+	
+	/*edit_main_td7.appendChild(Address);
+	edit_main_td7.appendChild(br9);
+	edit_main_td7.appendChild(Longitude);
+	edit_main_td7.appendChild(br8);
+	edit_main_td7.appendChild(Latitude);
+	edit_main_td7.appendChild(br11);
+	edit_main_td7.appendChild(Marker_info);
+	edit_main_td7_1.appendChild(el_map_address);
+	edit_main_td7_1.appendChild(br7);
+	edit_main_td7_1.appendChild(el_map_longitude);
+	edit_main_td7_1.appendChild(br2);
+	edit_main_td7_1.appendChild(el_map_latitude);
+	edit_main_td7_1.appendChild(br10);
+	edit_main_td7_1.appendChild(el_info_textarea);*/
+	
+//	edit_main_td2.appendChild(br3);
+
+	edit_main_td3.appendChild(el_label_map_size);
+	edit_main_td3_1.appendChild(Width);
+	edit_main_td3_1.appendChild(el_map_width);
+	edit_main_td3_1.appendChild(br5);
+	edit_main_td3_1.appendChild(Height);
+	edit_main_td3_1.appendChild(el_map_height);
+
+	
+	edit_main_td5.appendChild(el_style_label);
+	edit_main_td5_1.appendChild(el_style_textarea);
+	
+	edit_main_td6.appendChild(el_attr_label);
+	edit_main_td6.appendChild(el_attr_add);
+	edit_main_td6.appendChild(br6);
+	edit_main_td6.appendChild(el_attr_table);
+	edit_main_td6.setAttribute("colspan", "2");
+	
+/*	edit_main_td5.appendChild(el_guidelines_label);
+	edit_main_td5.appendChild(br4);
+	edit_main_td5.appendChild(el_guidelines_textarea);
+*/	
+	edit_main_tr2.appendChild(edit_main_td2);
+	
+	edit_main_tr7.appendChild(edit_main_td7);
+	//edit_main_tr7.appendChild(edit_main_td7_1);
+	
+	edit_main_tr3.appendChild(edit_main_td3);
+	edit_main_tr3.appendChild(edit_main_td3_1);
+	edit_main_tr4.appendChild(edit_main_td4);
+	edit_main_tr4.appendChild(edit_main_td4_1);
+	edit_main_tr5.appendChild(edit_main_td5);
+	edit_main_tr5.appendChild(edit_main_td5_1);
+	edit_main_tr6.appendChild(edit_main_td6);
+	edit_main_tr6.appendChild(edit_main_td6_1);
+	
+	
+	edit_main_table.appendChild(edit_main_tr3);
+	edit_main_table.appendChild(edit_main_tr2);
+	edit_main_table.appendChild(edit_main_tr7);
+//	edit_main_table.appendChild(edit_main_tr4);
+	edit_main_table.appendChild(edit_main_tr5);
+	edit_main_table.appendChild(edit_main_tr6);
+	edit_div.appendChild(edit_main_table);
+	
+	t.appendChild(edit_div);
+	
+//show table
+
+	element='div';
+	var adding_type = document.createElement("input");
+            adding_type.setAttribute("type", "hidden");
+            adding_type.setAttribute("value", "type_map");
+            adding_type.setAttribute("name", i+"_typeform_id_temp");
+            adding_type.setAttribute("id", i+"_typeform_id_temp");
+	
+	var adding = document.createElement('div');
+		adding.setAttribute("id", i+"_elementform_id_temp");
+		adding.style.cssText = "width:"+w_width+"px; height: "+w_height+"px";
+		adding.setAttribute("zoom", w_zoom);
+		adding.setAttribute("center_x", w_center_x);
+		adding.setAttribute("center_y", w_center_y);
+		
+	var label = document.createElement('span');
+		label.setAttribute("id", i+"_element_labelform_id_temp");
+		label.innerHTML = "map_"+i;
+            	label.style.cssText = 'display:none';
+		
+     	var div = document.createElement('div');
+      	    div.setAttribute("id", "main_div");
+					
+      	var table = document.createElement('table');
+           	table.setAttribute("id", i+"_elemet_tableform_id_temp");
+			
+      	var tr = document.createElement('tr');
+			
+      	var td1 = document.createElement('td');
+         	td1.setAttribute("valign", 'middle');
+         	td1.setAttribute("align", 'left');
+           	td1.setAttribute("id", i+"_label_sectionform_id_temp");
+            	td1.style.cssText = 'display:none';
+		
+      	var td2 = document.createElement('td');
+        	td2.setAttribute("valign", 'middle');
+         	td2.setAttribute("align", 'left');
+           	td2.setAttribute("id", i+"_element_sectionform_id_temp");
+			
+      	var br1 = document.createElement('br');
+      	var br2 = document.createElement('br');
+     	var br3 = document.createElement('br');
+      	var br4 = document.createElement('br');
+      
+
+      	var main_td  = document.getElementById('show_table');
+      
+      	td1.appendChild(label);
+      	td2.appendChild(adding_type);
+      	td2.appendChild(adding);
+
+      	tr.appendChild(td1);
+      	tr.appendChild(td2);
+      	table.appendChild(tr);
+      
+      	div.appendChild(table);
+      	div.appendChild(br3);
+      	main_td.appendChild(div);
+change_class(w_class, i);
+refresh_attr(i, 'type_text');
+if_gmap_init(i);
+
+		
+	n=w_long.length;
+	for(j=0; j<n; j++)
+	{	
+		add_marker(i,j, w_long[j], w_lat[j], w_info[j]);
+ 	}
+    
+}
+
+function add_marker(id, i, w_long, w_lat, w_info)
+{
+
+	edit_main_td7=document.getElementById('markers');
+	
+	if(i==-1)
+	{
+		if(edit_main_td7.lastChild)
+			i=parseInt(edit_main_td7.lastChild.getAttribute("idi"))+1;
+		else
+			i=0;
+		w_long=null;
+		w_lat=null;
+		w_info='';
+
+	}
+	
+		var table_marker = document.createElement('table');
+			table_marker.setAttribute("width", "100%");
+			table_marker.setAttribute("border", "0");
+			table_marker.setAttribute("id", "marker_opt"+i);
+			table_marker.setAttribute("idi", i);
+			//table_marker.style.cssText = "border-top: 1px dotted #D1C8C8;";
+	
+
+		var tr_marker = document.createElement('tr');
+		var tr_hr = document.createElement('tr');
+		
+		var td_marker = document.createElement('td');
+		var td_X = document.createElement('td');
+		var td_hr = document.createElement('td');
+		    td_hr.setAttribute("colspan", "3");
+		tr_hr.appendChild(td_hr);
+		tr_marker.appendChild(td_marker);
+		tr_marker.appendChild(td_X);
+		table_marker.appendChild(tr_marker);
+		
+		var br1 = document.createElement('br');
+		var br2 = document.createElement('br');
+		var br3 = document.createElement('br');
+		
+		var hr = document.createElement('hr');
+		hr.setAttribute("id", "br"+i);
+		
+		var el_info_textarea = document.createElement('textarea');
+			el_info_textarea.setAttribute("id", "info"+i);
+			el_info_textarea.setAttribute("rows", "3");
+			el_info_textarea.setAttribute("value", w_info);
+			el_info_textarea.style.cssText = "width:200px;";
+			el_info_textarea.setAttribute("onKeyUp", "change_info(this.value,'"+id+"','"+i+"')");
+			el_info_textarea.innerHTML=w_info;
+		
+		var Marker_info = document.createElement('label');
+			Marker_info.style.cssText =" font-size: 11px; vertical-align:top; margin-right:43px";
+			Marker_info.innerHTML = "Marker Info";
+	
+		var el_map_address = document.createElement('input');
+			el_map_address.setAttribute("id", "addrval"+i);
+			el_map_address.setAttribute("type", "text");
+			el_map_address.setAttribute("value", "");
+			el_map_address.setAttribute("size", "40");
+			el_map_address.setAttribute("onchange", "changeAddress("+id+","+i+")");
+	
+		var Address = document.createElement('label');
+			Address.style.cssText =" font-size: 11px; vertical-align:top; margin-right:55px";
+			Address.innerHTML = "Address";
+	
+		var el_map_longitude = document.createElement('input');
+			el_map_longitude.setAttribute("id", "longval"+i);
+			el_map_longitude.setAttribute("type", "text");
+			el_map_longitude.setAttribute("value", w_long);
+			el_map_longitude.setAttribute("size", "10");
+			el_map_longitude.setAttribute("onkeyup", "update_position("+id+", "+i+");");
+		
+	
+		var Longitude = document.createElement('label');
+			Longitude.style.cssText =" font-size: 11px; vertical-align:top; margin-right:50px";
+			Longitude.innerHTML = "Longitude";
+			
+		var el_map_latitude = document.createElement('input');
+			el_map_latitude.setAttribute("id", "latval"+i);
+			el_map_latitude.setAttribute("type", "text");
+			el_map_latitude.setAttribute("value", w_lat);
+			el_map_latitude.setAttribute("size", "10");
+			el_map_latitude.setAttribute("onkeyup", "update_position("+id+", "+i+");");
+		
+		var Latitude = document.createElement('label');
+			Latitude.style.cssText =" font-size: 11px; vertical-align:top; margin-right:59px";
+			Latitude.innerHTML = "Latitude";
+			
+
+		
+		var el_choices_remove = document.createElement('img');
+			el_choices_remove.setAttribute("id", "el_button"+i+"_remove");
+			el_choices_remove.setAttribute("src", plugin_url+'/images/delete.png');
+			el_choices_remove.style.cssText = 'cursor:pointer; vertical-align:middle; margin:3px';
+			el_choices_remove.setAttribute("align", 'top');
+			el_choices_remove.setAttribute("onClick", "remove_map("+id+","+i+")");
+			
+		td_hr.appendChild(hr);
+		
+		
+		td_marker.appendChild(Address);
+		td_marker.appendChild(el_map_address);
+		td_marker.appendChild(br1);
+		td_marker.appendChild(Longitude);
+		td_marker.appendChild(el_map_longitude);
+		td_marker.appendChild(br2);
+		td_marker.appendChild(Latitude);
+		td_marker.appendChild(el_map_latitude);
+		td_marker.appendChild(br3);
+		td_marker.appendChild(Marker_info);
+		td_marker.appendChild(el_info_textarea);
+		td_X.appendChild(el_choices_remove);
+		edit_main_td7.appendChild(table_marker);
+	
+	
+	var adding = document.getElementById(id+"_elementform_id_temp")
+		adding.setAttribute("long"+i, w_long);
+		adding.setAttribute("lat"+i, w_lat);
+ 		adding.setAttribute("info"+i, w_info);
+   
+
+add_marker_on_map(id, i, w_long, w_lat, w_info, true);
+}
+
+function remove_map(id,i)
+{
+	table=document.getElementById('marker_opt'+i);
+	table.parentNode.removeChild(table);
+	map=document.getElementById(id+"_elementform_id_temp");
+	map.removeAttribute("long"+i);
+	map.removeAttribute("lat"+i);
+ 	map.removeAttribute("info"+i);
+
+	reomve_marker(id,i);
+}
+
+
+
+
+function type_mark_map(i, w_field_label, w_field_label_pos, w_center_x, w_center_y, w_long, w_lat, w_zoom, w_width, w_height, w_class, w_info, w_attr_name, w_attr_value){
+    document.getElementById("element_type").value="type_mark_map";
+	delete_last_child();
+// edit table	
+	var edit_div  = document.createElement('div');
+		edit_div.setAttribute("id", "edit_div");
+		edit_div.setAttribute("style", "border-top:1px dotted black;padding:10px;  padding-top:0px; padding-bottom:0px; margin-top:10px;");
+		
+	var edit_main_table  = document.createElement('table');
+		edit_main_table.setAttribute("id", "edit_main_table");
+		edit_main_table.setAttribute("cellpadding", "0");
+		edit_main_table.setAttribute("cellspacing", "0");
+		
+	var edit_main_tr1  = document.createElement('tr');
+      		edit_main_tr1.setAttribute("valing", "top");
+		
+	var edit_main_tr2  = document.createElement('tr');
+      		edit_main_tr2.setAttribute("valing", "top");
+		
+	var edit_main_tr3  = document.createElement('tr');
+      		edit_main_tr3.setAttribute("valing", "top");
+		
+	var edit_main_tr4  = document.createElement('tr');
+      		edit_main_tr4.setAttribute("valing", "top");
+		
+	var edit_main_tr5  = document.createElement('tr');
+      		edit_main_tr5.setAttribute("valing", "top");
+			
+	var edit_main_tr6  = document.createElement('tr');
+      		edit_main_tr6.setAttribute("valing", "top");
+
+	var edit_main_tr7  = document.createElement('tr');
+      		edit_main_tr7.setAttribute("valing", "top");
+
+	var edit_main_tr8  = document.createElement('tr');
+      		edit_main_tr8.setAttribute("valing", "top");
+
+	var edit_main_td1 = document.createElement('td');
+		edit_main_td1.style.cssText = "padding-top:10px";	
+	var edit_main_td1_1 = document.createElement('td');
+		edit_main_td1_1.style.cssText = "padding-top:10px";	
+	var edit_main_td2 = document.createElement('td');
+		edit_main_td2.style.cssText = "padding-top:10px";
+
+
+	var edit_main_td3 = document.createElement('td');
+		edit_main_td3.style.cssText = "padding-top:10px";
+	var edit_main_td3_1 = document.createElement('td');
+		edit_main_td3_1.style.cssText = "padding-top:10px";
+	var edit_main_td4 = document.createElement('td');
+		edit_main_td4.style.cssText = "padding-top:10px";
+	var edit_main_td4_1 = document.createElement('td');
+		edit_main_td4_1.style.cssText = "padding-top:10px";
+		
+	var edit_main_td5 = document.createElement('td');
+		edit_main_td5.style.cssText = "padding-top:10px";
+	var edit_main_td5_1 = document.createElement('td');
+		edit_main_td5_1.style.cssText = "padding-top:10px";
+				
+	var edit_main_td6 = document.createElement('td');
+		edit_main_td6.style.cssText = "padding-top:10px";
+	var edit_main_td6_1 = document.createElement('td');
+		edit_main_td6_1.style.cssText = "padding-top:10px";
+		
+				
+	var edit_main_td7 = document.createElement('td');
+		edit_main_td7.style.cssText = "padding-top:10px";
+	var edit_main_td7_1 = document.createElement('td');
+		edit_main_td7_1.style.cssText = "padding-top:10px";
+		
+	var edit_main_td8 = document.createElement('td');
+		edit_main_td8.style.cssText = "padding-top:10px";
+	var edit_main_td8_1 = document.createElement('td');
+		edit_main_td8_1.style.cssText = "padding-top:10px";
+	//////////////////////////////////////////////////////////////////////////////////////////////
+
+	var el_label_label = document.createElement('label');
+			        el_label_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+			el_label_label.innerHTML = "Field label";
+	
+	var el_label_textarea = document.createElement('textarea');
+                el_label_textarea.setAttribute("id", "edit_for_label");
+                el_label_textarea.setAttribute("rows", "4");
+                el_label_textarea.style.cssText = "width:200px;";
+                el_label_textarea.setAttribute("onKeyUp", "change_label('"+i+"_element_labelform_id_temp', this.value)");
+				el_label_textarea.innerHTML = w_field_label;
+		
+	var el_label_position_label = document.createElement('label');
+			        el_label_position_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_label_position_label.innerHTML = "Field label position";
+	
+	var el_label_position1 = document.createElement('input');
+                el_label_position1.setAttribute("id", "edit_for_label_position_top");
+                el_label_position1.setAttribute("type", "radio");
+                el_label_position1.setAttribute("value", "left");
+                
+
+                el_label_position1.setAttribute("name", "edit_for_label_position");
+                el_label_position1.setAttribute("onchange", "label_left("+i+")");
+		el_label_position1.setAttribute("checked", "checked");
+		Left = document.createTextNode("Left");
+		
+	var el_label_position2 = document.createElement('input');
+                el_label_position2.setAttribute("id", "edit_for_label_position_left");
+                el_label_position2.setAttribute("type", "radio");
+                el_label_position2.setAttribute("value", "top");
+	
+
+                el_label_position2.setAttribute("name", "edit_for_label_position");
+                el_label_position2.setAttribute("onchange", "label_top("+i+")");
+		Top = document.createTextNode("Top");
+	
+	if(w_field_label_pos=="top")
+	
+				el_label_position2.setAttribute("checked", "checked");
+	else
+				el_label_position1.setAttribute("checked", "checked");
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	var center1 = document.createElement('p');
+		center1.innerHTML="Drag the marker to change default marker position."	;
+		
+		  
+	var el_label_location = document.createElement('label');
+	        el_label_location.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_label_location.innerHTML = "Default Location";
+	
+	var el_map_address = document.createElement('input');
+                el_map_address.setAttribute("id", "addrval0");
+                el_map_address.setAttribute("type", "text");
+                el_map_address.setAttribute("value", "");
+				
+                el_map_address.setAttribute("size", "40");
+                el_map_address.setAttribute("onchange", "changeAddress("+i+",0)");
+	Address = document.createTextNode("Address");
+	var el_map_longitude = document.createElement('input');
+                el_map_longitude.setAttribute("id", "longval0");
+                el_map_longitude.setAttribute("type", "text");
+                el_map_longitude.setAttribute("value", w_long);
+                el_map_longitude.setAttribute("size", "10");
+                el_map_longitude.setAttribute("onkeyup", "update_position("+i+", 0);");
+	Longitude = document.createTextNode("Longitude");
+		
+	var el_map_latitude = document.createElement('input');
+                el_map_latitude.setAttribute("id", "latval0");
+                el_map_latitude.setAttribute("type", "text");
+                el_map_latitude.setAttribute("value", w_lat);
+                el_map_latitude.setAttribute("size", "10");
+                el_map_latitude.setAttribute("onkeyup", "update_position("+i+", 0);");
+	Latitude = document.createTextNode("Latitude");
+
+	var el_label_map_size = document.createElement('label');
+	        el_label_map_size.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_label_map_size.innerHTML = "Map size";
+	
+	var el_map_width = document.createElement('input');
+                el_map_width.setAttribute("type", "text");
+                el_map_width.setAttribute("value", w_width);
+                el_map_width.style.cssText ="margin-left:18px";
+ 		el_map_width.setAttribute("onKeyPress", "return check_isnum(event)");
+                el_map_width.setAttribute("onKeyUp", "change_w_style('"+i+"_elementform_id_temp', this.value);");
+
+	Width = document.createTextNode("Width");
+		
+	var el_map_height = document.createElement('input');
+                el_map_height.setAttribute("type", "text");
+                el_map_height.setAttribute("value", w_height);
+		el_map_height.style.cssText = "margin-left:15px";
+      		el_map_height.setAttribute("onKeyPress", "return check_isnum(event)");
+	        el_map_height.setAttribute("onKeyUp", "change_h_style('"+i+"_elementform_id_temp', this.value);");
+	Height = document.createTextNode("Height");
+	var el_info_label = document.createElement('label');
+	        el_info_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_info_label.innerHTML = "Marker Info";
+	
+	var el_info_textarea = document.createElement('textarea');
+                el_info_textarea.setAttribute("id", "info0");
+                el_info_textarea.setAttribute("rows", "3");
+ 		el_info_textarea.setAttribute("value", w_class);
+                el_info_textarea.style.cssText = "width:200px; margin-left:2px";
+                el_info_textarea.setAttribute("onKeyUp", "change_info(this.value,'"+i+"','"+0+"')");
+		el_info_textarea.innerHTML=w_info;
+		
+	var el_style_label = document.createElement('label');
+	        el_style_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_style_label.innerHTML = "Class name";
+	
+	var el_style_textarea = document.createElement('input');
+                el_style_textarea.setAttribute("id", "element_style");
+		el_style_textarea.setAttribute("type", "text");
+ 		el_style_textarea.setAttribute("value", w_class);
+                el_style_textarea.style.cssText = "width:200px;";
+                el_style_textarea.setAttribute("onChange", "change_class(this.value,'"+i+"')");
+
+	var el_attr_label = document.createElement('label');
+	                el_attr_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+			el_attr_label.innerHTML = "Additional Attributes";
+	var el_attr_add = document.createElement('img');
+                el_attr_add.setAttribute("id", "el_choices_add");
+           	el_attr_add.setAttribute("src", plugin_url+'/images/add.png');
+            	el_attr_add.style.cssText = 'cursor:pointer; margin-left:68px';
+            	el_attr_add.setAttribute("title", 'add');
+                el_attr_add.setAttribute("onClick", "add_attr("+i+", 'type_text')");
+	var el_attr_table = document.createElement('table');
+                el_attr_table.setAttribute("id", 'attributes');
+                el_attr_table.setAttribute("border", '0');
+        	el_attr_table.style.cssText = 'margin-left:0px';
+	var el_attr_tr_label = document.createElement('tr');
+                el_attr_tr_label.setAttribute("idi", '0');
+	var el_attr_td_name_label = document.createElement('th');
+            	el_attr_td_name_label.style.cssText = 'width:100px';
+	var el_attr_td_value_label = document.createElement('th');
+            	el_attr_td_value_label.style.cssText = 'width:100px';
+	var el_attr_td_X_label = document.createElement('th');
+            	el_attr_td_X_label.style.cssText = 'width:10px';
+	var el_attr_name_label = document.createElement('label');
+	                el_attr_name_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px";
+			el_attr_name_label.innerHTML = "Name";
+			
+	var el_attr_value_label = document.createElement('label');
+	                el_attr_value_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px";
+			el_attr_value_label.innerHTML = "Value";
+			
+	el_attr_table.appendChild(el_attr_tr_label);
+	el_attr_tr_label.appendChild(el_attr_td_name_label);
+	el_attr_tr_label.appendChild(el_attr_td_value_label);
+	el_attr_tr_label.appendChild(el_attr_td_X_label);
+	el_attr_td_name_label.appendChild(el_attr_name_label);
+	el_attr_td_value_label.appendChild(el_attr_value_label);
+	
+	n=w_attr_name.length;
+	for(j=1; j<=n; j++)
+	{	
+		var el_attr_tr = document.createElement('tr');
+			el_attr_tr.setAttribute("id", "attr_row_"+j);
+			el_attr_tr.setAttribute("idi", j);
+		var el_attr_td_name = document.createElement('td');
+			el_attr_td_name.style.cssText = 'width:100px';
+		var el_attr_td_value = document.createElement('td');
+			el_attr_td_value.style.cssText = 'width:100px';
+		
+		var el_attr_td_X = document.createElement('td');
+		var el_attr_name = document.createElement('input');
+	
+			el_attr_name.setAttribute("type", "text");
+	
+			el_attr_name.style.cssText = "width:100px";
+			el_attr_name.setAttribute("value", w_attr_name[j-1]);
+			el_attr_name.setAttribute("id", "attr_name"+j);
+			el_attr_name.setAttribute("onChange", "change_attribute_name("+i+", this, 'type_text')");
+			
+		var el_attr_value = document.createElement('input');
+	
+			el_attr_value.setAttribute("type", "text");
+	
+			el_attr_value.style.cssText = "width:100px";
+			el_attr_value.setAttribute("value", w_attr_value[j-1]);
+			el_attr_value.setAttribute("id", "attr_value"+j);
+			el_attr_value.setAttribute("onChange", "change_attribute_value("+i+", "+j+", 'type_text')");
+	
+		var el_attr_remove = document.createElement('img');
+			el_attr_remove.setAttribute("id", "el_choices"+j+"_remove");
+			el_attr_remove.setAttribute("src", plugin_url+'/images/delete.png');
+			el_attr_remove.style.cssText = 'cursor:pointer; vertical-align:middle; margin:3px';
+			el_attr_remove.setAttribute("align", 'top');
+			el_attr_remove.setAttribute("onClick", "remove_attr("+j+", "+i+", 'type_text')");
+		el_attr_table.appendChild(el_attr_tr);
+		el_attr_tr.appendChild(el_attr_td_name);
+		el_attr_tr.appendChild(el_attr_td_value);
+		el_attr_tr.appendChild(el_attr_td_X);
+		el_attr_td_name.appendChild(el_attr_name);
+		el_attr_td_value.appendChild(el_attr_value);
+		el_attr_td_X.appendChild(el_attr_remove);
+		
+	}
+		
+	var t  = document.getElementById('edit_table');
+	var br = document.createElement('br');
+	var br1 = document.createElement('br');
+	var br2 = document.createElement('br');
+	var br3 = document.createElement('br');
+	var br4 = document.createElement('br');
+	var br5 = document.createElement('br');
+	var br6 = document.createElement('br');
+	var br7 = document.createElement('br');
+	var br8 = document.createElement('br');
+	var br9 = document.createElement('br');
+	var br10 = document.createElement('br');
+	
+
+
+	edit_main_td1.appendChild(el_label_label);
+	edit_main_td1_1.appendChild(el_label_textarea);
+
+	edit_main_td8.appendChild(el_label_position_label);
+	edit_main_td8_1.appendChild(el_label_position1);
+	edit_main_td8_1.appendChild(Left);
+	edit_main_td8_1.appendChild(br10);
+	edit_main_td8_1.appendChild(el_label_position2);
+	edit_main_td8_1.appendChild(Top);
+	
+
+	edit_main_td2.appendChild(el_label_location);
+	edit_main_td2.appendChild(center1);
+	edit_main_td2.setAttribute("colspan", "2");
+	
+	edit_main_td7.appendChild(Address);
+	edit_main_td7.appendChild(br9);
+	edit_main_td7.appendChild(Longitude);
+	edit_main_td7.appendChild(br8);
+	edit_main_td7.appendChild(Latitude);
+	edit_main_td7_1.appendChild(el_map_address);
+	edit_main_td7_1.appendChild(br7);
+
+	edit_main_td7_1.appendChild(el_map_longitude);
+	edit_main_td7_1.appendChild(br2);
+	edit_main_td7_1.appendChild(el_map_latitude);
+	
+	edit_main_td2.appendChild(br3);
+
+	edit_main_td3.appendChild(el_label_map_size);
+	edit_main_td3_1.appendChild(Width);
+	edit_main_td3_1.appendChild(el_map_width);
+	edit_main_td3_1.appendChild(br5);
+	edit_main_td3_1.appendChild(Height);
+	edit_main_td3_1.appendChild(el_map_height);
+
+	edit_main_td4.appendChild(el_info_label);
+	edit_main_td4_1.appendChild(el_info_textarea);
+	
+	edit_main_td5.appendChild(el_style_label);
+	edit_main_td5_1.appendChild(el_style_textarea);
+	
+	edit_main_td6.appendChild(el_attr_label);
+	edit_main_td6.appendChild(el_attr_add);
+	edit_main_td6.appendChild(br6);
+	edit_main_td6.appendChild(el_attr_table);
+	edit_main_td6.setAttribute("colspan", "2");
+	
+/*	edit_main_td5.appendChild(el_guidelines_label);
+	edit_main_td5.appendChild(br4);
+	edit_main_td5.appendChild(el_guidelines_textarea);
+*/	
+	edit_main_tr1.appendChild(edit_main_td1);
+	edit_main_tr1.appendChild(edit_main_td1_1);
+	edit_main_tr8.appendChild(edit_main_td8);
+	edit_main_tr8.appendChild(edit_main_td8_1);
+	edit_main_tr2.appendChild(edit_main_td2);
+	
+	edit_main_tr7.appendChild(edit_main_td7);
+	edit_main_tr7.appendChild(edit_main_td7_1);
+	
+	edit_main_tr3.appendChild(edit_main_td3);
+	edit_main_tr3.appendChild(edit_main_td3_1);
+	edit_main_tr4.appendChild(edit_main_td4);
+	edit_main_tr4.appendChild(edit_main_td4_1);
+	edit_main_tr5.appendChild(edit_main_td5);
+	edit_main_tr5.appendChild(edit_main_td5_1);
+	edit_main_tr6.appendChild(edit_main_td6);
+	edit_main_tr6.appendChild(edit_main_td6_1);
+	edit_main_table.appendChild(edit_main_tr1);
+	edit_main_table.appendChild(edit_main_tr8);
+	edit_main_table.appendChild(edit_main_tr2);
+	edit_main_table.appendChild(edit_main_tr7);
+	edit_main_table.appendChild(edit_main_tr3);
+	edit_main_table.appendChild(edit_main_tr4);
+	edit_main_table.appendChild(edit_main_tr5);
+	edit_main_table.appendChild(edit_main_tr6);
+	edit_div.appendChild(edit_main_table);
+	
+	t.appendChild(edit_div);
+	
+//show table
+
+	element='div';
+	var adding_type = document.createElement("input");
+            adding_type.setAttribute("type", "hidden");
+            adding_type.setAttribute("value", "type_mark_map");
+            adding_type.setAttribute("name", i+"_typeform_id_temp");
+            adding_type.setAttribute("id", i+"_typeform_id_temp");
+	
+	var adding = document.createElement('div');
+		adding.setAttribute("id", i+"_elementform_id_temp");
+		adding.setAttribute("long0", w_long);
+		adding.setAttribute("lat0", w_lat);
+		adding.setAttribute("zoom", w_zoom);
+		adding.style.cssText = "width:"+w_width+"px; height: "+w_height+"px";
+ 		adding.setAttribute("info0", w_info);
+ 		adding.setAttribute("center_x", w_center_x);
+		adding.setAttribute("center_y", w_center_y);
+		
+     
+	var label = document.createElement('span');
+		label.setAttribute("id", i+"_element_labelform_id_temp");
+		label.innerHTML = w_field_label;
+		label.setAttribute("class", "label");
+		
+		
+     	var div = document.createElement('div');
+      	    div.setAttribute("id", "main_div");
+					
+      	var table = document.createElement('table');
+           	table.setAttribute("id", i+"_elemet_tableform_id_temp");
+			
+      	var tr = document.createElement('tr');
+			
+      	var td1 = document.createElement('td');
+         	td1.setAttribute("valign", 'top');
+         	td1.setAttribute("align", 'left');
+           	td1.setAttribute("id", i+"_label_sectionform_id_temp");
+		
+      	var td2 = document.createElement('td');
+        	td2.setAttribute("valign", 'top');
+         	td2.setAttribute("align", 'left');
+           	td2.setAttribute("id", i+"_element_sectionform_id_temp");
+			
+      	var br1 = document.createElement('br');
+      	var br2 = document.createElement('br');
+     	var br3 = document.createElement('br');
+      	var br4 = document.createElement('br');
+      
+
+      	var main_td  = document.getElementById('show_table');
+      
+      	td1.appendChild(label);
+      	td2.appendChild(adding_type);
+      	td2.appendChild(adding);
+
+      	tr.appendChild(td1);
+      	tr.appendChild(td2);
+      	table.appendChild(tr);
+      
+      	div.appendChild(table);
+      	div.appendChild(br3);
+      	main_td.appendChild(div);
+	if(w_field_label_pos=="top")
+				label_top(i);
+change_class(w_class, i);
+refresh_attr(i, 'type_text');
+if_gmap_init(i);
+add_marker_on_map(i, 0, w_long, w_lat, w_info, true);
+
 }
 
 //////////////////////////////////////////////
@@ -19037,7 +22910,6 @@ function type_page_break(i,w_page_title, w_title , w_type , w_class, w_check, w_
 	var br20= document.createElement('br');
 	var br21= document.createElement('br');
 	var br22= document.createElement('br');
-	var br233= document.createElement('br');
 	
 	edit_main_td1.appendChild(el_page_title_label);
 	edit_main_td1_1.appendChild(el_page_title_input);
@@ -19078,7 +22950,6 @@ function type_page_break(i,w_page_title, w_title , w_type , w_class, w_check, w_
 	edit_main_td4_1.appendChild(Text_previous);
 	edit_main_td4_1.appendChild(el_type_previous_img);
 	edit_main_td4_1.appendChild(Image_previous);
-	edit_main_td4_1.appendChild(br233);
 	edit_main_td4_1.appendChild(el_title_previous);
 	edit_main_td4_1.appendChild(br5);
 	edit_main_td4_1.appendChild(el_style_previous_textarea);
@@ -19316,10 +23187,11 @@ function addRow(b) {
     document.getElementById('show_table').innerHTML = "";
     document.getElementById('edit_table').innerHTML = "";
   }
-	alltypes = Array('customHTML','text','checkbox','radio','time_and_date','select','file_upload','captcha','map','button','page_break','section_break', 'survey');
-  for (x = 0; x < 13; x++) {
-    if (alltypes[x] != 'file_upload' && alltypes[x] != 'map')
+	alltypes = Array('customHTML','text','checkbox','radio','time_and_date','select','file_upload','captcha','map','button','page_break','section_break', 'paypal', 'survey');
+  for (x = 0; x < 14; x++) {
+    if (alltypes[x] != 'file_upload' && alltypes[x] != 'map' && alltypes[x] != 'paypal') {
       document.getElementById('img_'+alltypes[x]).parentNode.style.backgroundColor = '';
+    }
   }
   document.getElementById('img_' + b).parentNode.style.backgroundColor = '#FE6400';
 	switch(b) {
@@ -19329,12 +23201,13 @@ function addRow(b) {
 		case 'radio':{ el_radio(); break;}
 		case 'time_and_date':{ el_time_and_date(); break; }
 		case 'select':{ el_select(); break; }
-		case 'file_upload':{ el_file_upload(); break; }
+		case 'file_upload':{ alert('This field type is disabled in free version. If you need this functionality, you need to buy the commercial version.'); break; }
 		case 'captcha':{ el_captcha(); break; }
 		case 'map':{ alert('This field type is disabled in free version. If you need this functionality, you need to buy the commercial version.'); break; }
 		case 'button':{ el_button(); break; }
 		case 'page_break':{ el_page_break(); break; }
 		case 'section_break':{ el_section_break(); break; }
+    case 'paypal':{ alert('This field type is disabled in free version. If you need this functionality, you need to buy the commercial version.'); break; }
     case 'survey':{ el_survey(); break; }
   }
   var pos = document.getElementsByName("el_pos");
@@ -19532,6 +23405,64 @@ function go_to_type_matrix(new_id)
   type_matrix(new_id,'Matrix:', 'left', 'radio', w_rows, w_columns, 'no','wdform_matrix',w_attr_name, w_attr_value);				
 }
 
+function go_to_type_paypal_price(new_id) {
+  w_attr_name = [];
+ 	w_attr_value = [];
+ 	w_first_val = ['',''];
+ 	w_title = ['',''];
+  w_mini_labels=['Dollars','Cents'];
+	type_paypal_price(new_id,'Amount:', 'left', w_first_val, w_title, w_mini_labels, '100', 'no', 'no', '',w_attr_name, w_attr_value, '', '')
+}
+
+function go_to_type_paypal_select(new_id) {
+ 	w_choices = [ "Select product", "Product 1", "Product 2"];
+ 	w_choices_price = [ "", "100", "200"];
+ 	w_choices_checked = ["1", "0", "0"];
+	w_choices_disabled = [true, false, false];
+ 	w_attr_name = [];
+ 	w_attr_value = [];
+ 	w_property = [];
+ 	w_property_values = [];
+	type_paypal_select(new_id, 'Select Product:', 'left', '200',w_choices, w_choices_price, w_choices_checked, 'no','no','wdform_select',w_attr_name, w_attr_value, w_choices_disabled, w_property, w_property_values);
+}
+
+function go_to_type_paypal_checkbox(new_id) {
+ 	w_choices = [ "Product 1", "Product 2"];
+ 	w_choices_price = [ "100", "200"];
+ 	w_choices_checked = ["0", "0"];
+ 	w_attr_name = [];
+ 	w_attr_value = [];
+ 	w_property = [];
+ 	w_property_values = [];
+	type_paypal_checkbox(new_id,'Checkbox:', 'left', 'ver', w_choices,w_choices_price, w_choices_checked, 'no', 'no', 'no','0', '',w_attr_name, w_attr_value, w_property, w_property, w_property_values, 'no');
+}
+
+function go_to_type_paypal_radio(new_id) {
+ 	w_choices = [ "Product 1", "Product 2"];
+	w_choices_price = [ "100", "200"];
+	w_choices_checked = ["0", "0"];
+ 	w_attr_name = [];
+	w_attr_value = [];
+	w_property = [];
+ 	w_property_values = [];
+	type_paypal_radio(new_id,'Radio:', 'left', 'ver', w_choices, w_choices_price, w_choices_checked, 'no', 'no', 'no','0','',w_attr_name, w_attr_value,  w_property, w_property_values);
+}
+
+function go_to_type_paypal_shipping(new_id) {
+ 	w_choices = [ "Type 1", "Type 2"];
+  w_choices_price = [ "100", "200"];
+	w_choices_checked = ["0", "0"];
+	w_attr_name = [];
+ 	w_attr_value = [];
+ 	w_property = [];
+	w_property_values = [];
+	type_paypal_shipping(new_id,'Shipping:', 'left', 'ver', w_choices, w_choices_price, w_choices_checked, 'no', 'no', 'no','0','',w_attr_name, w_attr_value,  w_property, w_property_values);
+}
+
+function go_to_type_paypal_total(new_id) {
+  type_paypal_total(new_id,'Total:', 'left', '');
+}
+
 function el_section_break() {
   if (document.getElementById("editing_id").value) {
 		new_id = document.getElementById("editing_id").value;
@@ -19620,6 +23551,13 @@ function go_to_type_submit_reset(new_id)
  	w_attr_name=[];
  	w_attr_value=[];
 	type_submit_reset(new_id,'Submit', 'Reset', '', true, w_attr_name, w_attr_value);
+}
+
+function go_to_type_mark_map(new_id)
+{
+ 	w_attr_name=[];
+ 	w_attr_value=[];
+	type_mark_map(new_id, 'Mark your place on map:', 'left', '2.294254', '48.858334', "2.294254", "48.858334", "13", "400","300", 'wdform_map', '', w_attr_name, w_attr_value);
 }
 
 function el_editor()
@@ -19747,7 +23685,7 @@ var el_type_radio_mark_map = document.createElement('input');
 				el_type_radio_mark_map.style.cssText = "margin-left:15px";
                 el_type_radio_mark_map.setAttribute("value", "mark_map");
                 el_type_radio_mark_map.setAttribute("name", "el_type");
-                el_type_radio_mark_map.setAttribute("onmousedown", "alert('This field type is disabled in free version. If you need this functionality, you need to buy the commercial version.'); return false;");
+                el_type_radio_mark_map.setAttribute("onchange", "go_to_type_mark_map('"+new_id+"')");
 		Mark_map = document.createTextNode("Address(mark on map)");
 	
 	
@@ -19960,7 +23898,7 @@ else
  	w_attr_name=[];
  	w_attr_value=[];
 	
-	type_radio(new_id,'Radio:', 'left', 'ver', w_choices, w_choices_checked, '1', 'no', 'no', '0', '',w_attr_name, w_attr_value);
+	type_radio(new_id,'Radio:', 'left', 'ver', w_choices, w_choices_checked, '1', 'no', 'no','0','',w_attr_name, w_attr_value);
 }
 
 function el_time_and_date()
@@ -20111,27 +24049,6 @@ else
 
 	
 	go_to_type_own_select(new_id);
-}
-
-function el_file_upload()
-{
-//edit table
-if(document.getElementById("editing_id").value)
-	new_id=document.getElementById("editing_id").value;
-else
-	new_id=gen;
-	
-	var pos=document.getElementsByName("el_pos");
-			pos[0].removeAttribute("disabled");
-			pos[1].removeAttribute("disabled");
-			pos[2].removeAttribute("disabled");
-		
-	var sel_el_pos=document.getElementById("sel_el_pos");
-		sel_el_pos.removeAttribute("disabled", "disabled");
-
-	
- 	w_attr_name=[];
- 	w_attr_value=[];
 }
 
 function el_captcha()
@@ -20374,10 +24291,9 @@ function make_pagebreak_button(next_or_previous,title,type, class_ ,id)
 	}
 }
 
-function show_or_hide(id)
-{
-	if(!jQuery("#form_id_tempform_view"+id).is(":visible")) {
-		show_form_view(id);
+function show_or_hide(id) {
+	if (!jQuery("#form_id_tempform_view"+id).is(":visible")) {
+    show_form_view(id);
 		jQuery("#show_page_img_"+id).attr("onmouseover", "chnage_icons_src(this,'minus')");
 		jQuery("#show_page_img_"+id).attr("onmouseout", "chnage_icons_src(this,'minus')");
 	}
@@ -20388,27 +24304,22 @@ function show_or_hide(id)
 	}
 }
 
-function show_form_view(id)
-{
+function show_form_view(id) {
 	document.getElementById("form_id_tempform_view_img"+id).childNodes[0].childNodes[0].removeAttribute("width", "100%");
 	document.getElementById("form_id_tempform_view_img"+id).style.backgroundColor="";
 	document.getElementById("form_id_tempform_view_img"+id).childNodes[0].childNodes[0].style.display="none";
 	document.getElementById("show_page_img_"+id).src=plugin_url+'/images/minus.png';
-
-jQuery("#form_id_tempform_view"+id).show('medium')
-
+  jQuery("#form_id_tempform_view"+id).show('medium');
 }
 
 function hide_form_view(id) {
   form_maker_remove_spaces(document.getElementById("form_id_tempform_view_img" + id));
-jQuery("#form_id_tempform_view"+id).hide('medium', function() {
-	document.getElementById("form_id_tempform_view_img"+id).childNodes[0].childNodes[0].setAttribute("width", "100%");
-	document.getElementById("form_id_tempform_view_img"+id).childNodes[0].childNodes[0].innerHTML=document.getElementById("form_id_tempform_view"+id).getAttribute('page_title');
-	document.getElementById("form_id_tempform_view_img"+id).childNodes[0].childNodes[0].removeAttribute('style');
-	document.getElementById("form_id_tempform_view_img"+id).style.backgroundColor="#F0F0F0";
-	document.getElementById("show_page_img_"+id).src=plugin_url+'/images/plus.png';
+  jQuery("#form_id_tempform_view"+id).hide('medium', function() {
+    document.getElementById("form_id_tempform_view_img"+id).childNodes[0].childNodes[0].setAttribute("width", "100%");
+    document.getElementById("form_id_tempform_view_img"+id).childNodes[0].childNodes[0].innerHTML=document.getElementById("form_id_tempform_view"+id).getAttribute('page_title');
+    document.getElementById("form_id_tempform_view_img"+id).childNodes[0].childNodes[0].removeAttribute('style');
+    document.getElementById("show_page_img_"+id).src=plugin_url+'/images/plus.png';
   });
-
 }
 
 function generate_buttons(id)
@@ -20995,53 +24906,48 @@ function remove_add_(id)
 			}
 }
 
-function cont_elements() {
-  cp2 = 0;
-
-  var zzzxxx = document.getElementsByClassName('wdform_table1').length;
-  for (t = 1; t < 100; t++)
-    if (document.getElementById(t))
-      cp2++;
-  return cp2 + zzzxxx;
+function fm_elements_count() {
+  var wdform_table_el = 0;
+  var wdform_table_length = document.getElementsByClassName('wdform_table1').length;
+  for (t = 1; t < 100; t++) {
+    if (document.getElementById(t)) {
+      wdform_table_el++;
+    }
+  }
+  return wdform_table_el + wdform_table_length;
 }
 
 function add(key) {
-   if (document.getElementById('editing_id').value == "")
+  if (document.getElementById('editing_id').value == "") {
     if (key == 0) {
-      var wen_limit_is_page_break = document.getElementsByClassName('wdform_table1').length;
-      kz6 = cont_elements();
-
-      if (document.getElementById("element_type").value == "type_page_navigation")
-        askofeny = 1;
-      else
-        askofeny = 0;
-      if (kz6 > (count_of_filds_form + askofeny)) {
+      var fields_count = fm_elements_count();
+      if (document.getElementById("element_type").value == "type_page_navigation") {
+        page_nav_is = 1;
+      }
+      else {
+        page_nav_is = 0;
+      }
+      if (fields_count > (count_of_fields_form + page_nav_is)) {
         alert("The free version is limited up to 7 fields to add. If you need this functionality, you need to buy the commercial version.");
         return;
       }
       else {
-        if (count_of_filds_form > 7) {
+        if (count_of_fields_form > 7) {
           alert("The free version is limited up to 7 fields to add. If you need this functionality, you need to buy the commercial version.");
           return;
         }
       }
     }
-  if(document.getElementById("element_type").value=="type_grading")
-	{
-
-	for(k=100;k>0;k--)
-	{
-		 if(document.getElementById("el_items"+k))
-		 {
-			break;
-		 }
-	}	
-	 m=k;
-
-
-	var items_input="";
-	
-	for(i=0;i<=m;i++){
+  }
+  if (document.getElementById("element_type").value == "type_grading") {
+    for (k = 100; k > 0; k--) {
+ 		  if (document.getElementById("el_items" + k)) {
+        break;
+		  }
+    }
+    m = k;
+    var items_input = "";
+    for (i = 0; i <= m; i++) {
 	if(document.getElementById("el_items"+i)){
 	items_input = items_input+document.getElementById("el_items"+i).value+":";	
 	}
@@ -22961,6 +26867,25 @@ function edit(id) {
 				w_attr_value=atrs[1];
 				type_name(id, w_field_label, w_field_label_pos,w_first_val, w_title, w_mini_labels, w_size, w_name_format, w_required, w_unique, w_class, w_attr_name, w_attr_value); break;
 			}
+      case 'type_paypal_price': {
+				w_first_val = [document.getElementById(id+"_element_dollarsform_id_temp").value, document.getElementById(id+"_element_centsform_id_temp").value];
+				w_title = [document.getElementById(id+"_element_dollarsform_id_temp").title, document.getElementById(id+"_element_centsform_id_temp").title];
+				if (document.getElementById(id+"_td_name_cents").style.display=="none") {
+					w_hide_cents = 'yes';
+        }
+				else {
+					w_hide_cents = 'no';
+        }
+				s = document.getElementById(id + "_element_dollarsform_id_temp").style.width;
+				w_size=s.substring(0, s.length - 2);
+				atrs=return_attributes(id + '_element_dollarsform_id_temp');
+				w_attr_name = atrs[0];
+				w_attr_value = atrs[1];
+				w_range_min = document.getElementById(id+"_range_minform_id_temp").value;
+				w_range_max = document.getElementById(id+"_range_maxform_id_temp").value;
+        w_mini_labels = [document.getElementById(id+"_mini_label_dollars").innerHTML,document.getElementById(id+"_mini_label_cents").innerHTML];
+				type_paypal_price(id, w_field_label, w_field_label_pos, w_first_val, w_title, w_mini_labels, w_size, w_required, w_hide_cents, w_class, w_attr_name, w_attr_value, w_range_min , w_range_max); break;
+			}
 			case 'type_address':
 			{
 				s=document.getElementById(id+"_div_address").style.width;
@@ -23033,11 +26958,8 @@ function edit(id) {
           else {
             w_country = '';
           }
-        }			
-					
+        }
 				w_mini_labels=[w_street1, w_street2, w_city, w_state, w_postal, w_country];
-
-				
 				var disabled_input = document.getElementById(id+"_disable_fieldsform_id_temp");
 				
 					w_street1_dis= disabled_input.getAttribute('street1');
@@ -23108,6 +27030,59 @@ function edit(id) {
 				w_attr_value=atrs[1];
 				type_checkbox(id, w_field_label, w_field_label_pos, w_flow, w_choices, w_choices_checked, w_rowcol, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value); break;
 			}
+      case 'type_paypal_checkbox': {
+				if (document.getElementById(id+'_hor')) {
+					w_flow="hor";
+        }
+				else {
+					w_flow = "ver";
+        }
+				w_randomize = document.getElementById(id+"_randomizeform_id_temp").value;
+				w_allow_other = document.getElementById(id+"_allow_otherform_id_temp").value;
+				v = 0;
+				for (k = 0; k < 100; k++) {
+					if (document.getElementById(id+"_elementform_id_temp" + k)) {
+						if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other'))
+							if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other')=='1')
+								w_allow_other_num=t;
+						w_choices[t]=document.getElementById(id+"_label_element"+k).innerHTML;
+						w_choices_price[t]=document.getElementById(id+"_elementform_id_temp"+k).value;
+						w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+k).checked;
+						t++;
+						v=k;
+					}
+					
+					if(document.getElementById(id+"_propertyform_id_temp"+k))
+					{
+						w_property.push(document.getElementById(id+"_property_label_form_id_temp"+k).innerHTML);
+						w_property_type.push(document.getElementById(id+"_propertyform_id_temp"+k).getAttribute('type'));
+						if(document.getElementById(id+"_propertyform_id_temp"+k).childNodes.length)
+						{	
+							w_property_values[w_property.length-1]=new Array();	
+							for(m=0;m < document.getElementById(id+"_propertyform_id_temp"+k).childNodes.length;m++)
+							{				
+								w_property_values[w_property.length-1].push(document.getElementById(id+"_propertyform_id_temp"+k).childNodes[m].value);
+							}
+						}
+						else
+						{
+							w_property_values.push('');
+						}
+					}
+					
+				}
+				
+				w_quantity="no";
+				if(document.getElementById(id+"_element_quantityform_id_temp"))
+				{
+					w_quantity='yes';
+				}
+			
+				atrs=return_attributes(id+'_elementform_id_temp'+v);
+				w_attr_name=atrs[0];
+				w_attr_value=atrs[1];
+				type_paypal_checkbox(id, w_field_label, w_field_label_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value,  w_property, w_property_type, w_property_values,w_quantity); break;
+			}
 			case 'type_radio': {
         w_randomize=document.getElementById(id+"_randomizeform_id_temp").value;
 				w_allow_other=document.getElementById(id+"_allow_otherform_id_temp").value;
@@ -23147,6 +27122,120 @@ function edit(id) {
 				w_attr_value=atrs[1];
 				type_radio(id, w_field_label, w_field_label_pos, w_flow, w_choices, w_choices_checked, w_rowcol, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value); break;
 			}
+      case 'type_paypal_radio':
+			{	
+				if(document.getElementById(id+'_hor'))
+					w_flow="hor"	
+				else
+					w_flow="ver";
+		
+				w_randomize=document.getElementById(id+"_randomizeform_id_temp").value;
+				w_allow_other=document.getElementById(id+"_allow_otherform_id_temp").value;
+
+				v=0;
+				for(k=0;k<100;k++)
+				{
+					if(document.getElementById(id+"_elementform_id_temp"+k))
+					{
+						if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other'))
+							if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other')=='1')
+								w_allow_other_num=t;
+						w_choices[t]=document.getElementById(id+"_label_element"+k).innerHTML;
+						w_choices_price[t]=document.getElementById(id+"_elementform_id_temp"+k).value;
+						w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+k).checked;
+						t++;
+						v=k;
+					}
+					
+					if(document.getElementById(id+"_propertyform_id_temp"+k))
+					{
+						w_property.push(document.getElementById(id+"_property_label_form_id_temp"+k).innerHTML);
+						w_property_type.push(document.getElementById(id+"_propertyform_id_temp"+k).getAttribute('type'));
+						if(document.getElementById(id+"_propertyform_id_temp"+k).childNodes.length)
+						{	
+							w_property_values[w_property.length-1]=new Array();	
+							for(m=0;m < document.getElementById(id+"_propertyform_id_temp"+k).childNodes.length;m++)
+							{				
+								w_property_values[w_property.length-1].push(document.getElementById(id+"_propertyform_id_temp"+k).childNodes[m].value);
+							}
+						}
+						else
+						{
+							w_property_values.push('');
+						}
+					}
+				
+				}
+				
+				w_quantity="no";
+				if(document.getElementById(id+"_element_quantityform_id_temp"))
+				{
+					w_quantity='yes';
+				}
+			
+				atrs=return_attributes(id+'_elementform_id_temp'+v);
+				w_attr_name=atrs[0];
+				w_attr_value=atrs[1];
+				type_paypal_radio(id, w_field_label, w_field_label_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value, w_property, w_property_type, w_property_values, w_quantity); break;
+			}
+		
+			case 'type_paypal_shipping':
+			{	
+				if(document.getElementById(id+'_hor'))
+					w_flow="hor"	
+				else
+					w_flow="ver";
+		
+				w_randomize=document.getElementById(id+"_randomizeform_id_temp").value;
+				w_allow_other=document.getElementById(id+"_allow_otherform_id_temp").value;
+
+				v=0;
+				for(k=0;k<100;k++)
+				{
+					if(document.getElementById(id+"_elementform_id_temp"+k))
+					{
+						if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other'))
+							if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other')=='1')
+								w_allow_other_num=t;
+						w_choices[t]=document.getElementById(id+"_label_element"+k).innerHTML;
+						w_choices_price[t]=document.getElementById(id+"_elementform_id_temp"+k).value;
+						w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+k).checked;
+						t++;
+						v=k;
+					}
+					
+					if(document.getElementById(id+"_propertyform_id_temp"+k))
+					{
+						w_property.push(document.getElementById(id+"_property_label_form_id_temp"+k).innerHTML);
+						w_property_type.push(document.getElementById(id+"_propertyform_id_temp"+k).getAttribute('type'));
+						if(document.getElementById(id+"_propertyform_id_temp"+k).childNodes.length)
+						{	
+							w_property_values[w_property.length-1]=new Array();	
+							for(m=0;m < document.getElementById(id+"_propertyform_id_temp"+k).childNodes.length;m++)
+							{				
+								w_property_values[w_property.length-1].push(document.getElementById(id+"_propertyform_id_temp"+k).childNodes[m].value);
+							}
+						}
+						else
+						{
+							w_property_values.push('');
+						}
+					}
+				
+				}
+				
+				atrs=return_attributes(id+'_elementform_id_temp'+v);
+				w_attr_name=atrs[0];
+				w_attr_value=atrs[1];
+				type_paypal_shipping(id, w_field_label, w_field_label_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value, w_property, w_property_type, w_property_values); break;
+			}
+      case 'type_paypal_total':
+			{	
+				
+				type_paypal_total(id, w_field_label, w_field_label_pos,  w_class); break;
+			}
+			
+			
 			case 'type_star_rating':
 			{
 				w_star_amount  = document.getElementById(id+"_star_amountform_id_temp").value;
@@ -23368,6 +27457,54 @@ function edit(id) {
 				w_attr_value=atrs[1];
 				type_own_select(id, w_field_label, w_field_label_pos, w_size, w_choices, w_choices_checked, w_required, w_class, w_attr_name, w_attr_value, w_choices_disabled); break;
 			}
+      case 'type_paypal_select':
+			{	
+				
+				for(k=0;k<100;k++)
+				{
+					if(document.getElementById(id+"_option"+k))
+					{
+						w_choices[t]=document.getElementById(id+"_option"+k).innerHTML;
+						w_choices_price[t]=document.getElementById(id+"_option"+k).value;
+						w_choices_checked[t]=document.getElementById(id+"_option"+k).selected;
+						if(document.getElementById(id+"_option"+k).value=="")
+							w_choices_disabled[t]=true;
+						else
+							w_choices_disabled[t]=false;
+						t++;
+					}
+					
+					if(document.getElementById(id+"_propertyform_id_temp"+k))
+					{
+						w_property.push(document.getElementById(id+"_property_label_form_id_temp"+k).innerHTML);
+						w_property_type.push(document.getElementById(id+"_propertyform_id_temp"+k).getAttribute('type'));
+						if(document.getElementById(id+"_propertyform_id_temp"+k).childNodes.length)
+						{	
+							w_property_values[w_property.length-1]=new Array();	
+							for(m=0;m < document.getElementById(id+"_propertyform_id_temp"+k).childNodes.length;m++)
+							{				
+								w_property_values[w_property.length-1].push(document.getElementById(id+"_propertyform_id_temp"+k).childNodes[m].value);
+							}
+						}
+						else
+						{
+							w_property_values.push('');
+						}
+					}
+					
+				}
+				
+				w_quantity="no";
+				if(document.getElementById(id+"_element_quantityform_id_temp"))
+				{
+					w_quantity='yes';
+				}
+
+				atrs=return_attributes(id+'_elementform_id_temp');
+				w_attr_name=atrs[0];
+				w_attr_value=atrs[1];
+				type_paypal_select(id, w_field_label, w_field_label_pos, w_size, w_choices,w_choices_price, w_choices_checked, w_required,  w_quantity, w_class, w_attr_name, w_attr_value, w_choices_disabled, w_property,w_property_type, w_property_values); break;
+			}
 			case 'type_country':
 			{	
 				w_countries=[];
@@ -23402,6 +27539,49 @@ function edit(id) {
 				w_attr_name=atrs[0];
 				w_attr_value=atrs[1];
 				type_recaptcha(id, w_field_label, w_field_label_pos, w_public, w_private, w_theme, w_class,  w_attr_name, w_attr_value); break;
+			}
+			case 'type_map':
+			{
+				w_lat=[];
+				w_long=[];
+				w_info=[];
+				
+				w_center_x  = document.getElementById(id+"_elementform_id_temp").getAttribute("center_x");
+				w_center_y  = document.getElementById(id+"_elementform_id_temp").getAttribute("center_y");
+				w_zoom  = document.getElementById(id+"_elementform_id_temp").getAttribute("zoom");
+				w_width = parseInt(document.getElementById(id+"_elementform_id_temp").style.width);
+				w_height= parseInt(document.getElementById(id+"_elementform_id_temp").style.height);
+				
+				
+				
+				for(j=0; j<=20; j++)
+					if( document.getElementById(id+"_elementform_id_temp").getAttribute("lat"+j))
+					{
+						w_lat.push(document.getElementById(id+"_elementform_id_temp").getAttribute("lat"+j));
+						w_long.push(document.getElementById(id+"_elementform_id_temp").getAttribute("long"+j));
+						w_info.push(document.getElementById(id+"_elementform_id_temp").getAttribute("info"+j));
+					}
+
+				atrs=return_attributes(id+'_elementform_id_temp');
+				w_attr_name=atrs[0];
+				w_attr_value=atrs[1];
+				type_map(id, w_center_x, w_center_y, w_long, w_lat, w_zoom, w_width, w_height, w_class, w_info, w_attr_name, w_attr_value); break;
+			}
+			case 'type_mark_map':
+			{
+				w_info  = document.getElementById(id+"_elementform_id_temp").getAttribute("info0");
+				w_long  = document.getElementById(id+"_elementform_id_temp").getAttribute("long0");
+				w_lat   = document.getElementById(id+"_elementform_id_temp").getAttribute("lat0");
+				w_zoom  = document.getElementById(id+"_elementform_id_temp").getAttribute("zoom");
+				w_width = parseInt(document.getElementById(id+"_elementform_id_temp").style.width);
+				w_height= parseInt(document.getElementById(id+"_elementform_id_temp").style.height);
+				w_center_x  = document.getElementById(id+"_elementform_id_temp").getAttribute("center_x");
+				w_center_y  = document.getElementById(id+"_elementform_id_temp").getAttribute("center_y");
+				
+				atrs=return_attributes(id+'_elementform_id_temp');
+				w_attr_name=atrs[0];
+				w_attr_value=atrs[1];
+				type_mark_map(id, w_field_label, w_field_label_pos, w_center_x, w_center_y, w_long, w_lat, w_zoom, w_width, w_height, w_class, w_info, w_attr_name, w_attr_value); break;
 			}
 			case 'type_submit_reset':
 			{
@@ -23695,8 +27875,7 @@ function dublicate(id) {
           else {
             w_country = '';
           }
-        }				
-					
+        }
 				w_mini_labels=[w_street1, w_street2, w_city, w_state, w_postal, w_country];
 				var disabled_input = document.getElementById(id+"_disable_fieldsform_id_temp");
 					w_street1_dis= disabled_input.getAttribute('street1');
@@ -23768,6 +27947,84 @@ function dublicate(id) {
 				// type_checkbox(gen, w_field_label, w_field_label_pos, w_flow, w_choices, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value); add(0); break;
 				type_checkbox(gen, w_field_label, w_field_label_pos, w_flow, w_choices, w_choices_checked, w_rowcol, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value);break;
 			}
+      case 'type_paypal_price':
+			{
+				w_first_val=[document.getElementById(id+"_element_dollarsform_id_temp").value, document.getElementById(id+"_element_centsform_id_temp").value];
+				w_title=[document.getElementById(id+"_element_dollarsform_id_temp").title, document.getElementById(id+"_element_centsform_id_temp").title];
+				
+				if(document.getElementById(id+"_td_name_cents").style.display=="none")
+					w_hide_cents='yes';
+				else
+					w_hide_cents='no';
+				
+						
+				s=document.getElementById(id+"_element_dollarsform_id_temp").style.width;
+				w_size=s.substring(0,s.length-2);
+				atrs=return_attributes(id+'_element_dollarsform_id_temp');
+				w_attr_name=atrs[0];
+				w_attr_value=atrs[1];
+				w_range_min=document.getElementById(id+"_range_minform_id_temp").value;
+				w_range_max=document.getElementById(id+"_range_maxform_id_temp").value;
+        w_mini_labels = [document.getElementById(id+"_mini_label_dollars").innerHTML,document.getElementById(id+"_mini_label_cents").innerHTML];
+				type_paypal_price(gen, w_field_label, w_field_label_pos, w_first_val, w_title, w_mini_labels, w_size, w_required, w_hide_cents, w_class, w_attr_name, w_attr_value, w_range_min , w_range_max); break;
+			}
+			
+			case 'type_paypal_checkbox':
+			{	
+			
+				if(document.getElementById(id+'_hor'))
+					w_flow="hor"	
+				else
+					w_flow="ver";
+
+				w_randomize=document.getElementById(id+"_randomizeform_id_temp").value;
+				w_allow_other=document.getElementById(id+"_allow_otherform_id_temp").value;
+		
+				v=0;
+				for(k=0;k<100;k++)
+				{
+					if(document.getElementById(id+"_elementform_id_temp"+k))
+					{
+						if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other'))
+							if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other')=='1')
+								w_allow_other_num=t;
+						w_choices[t]=document.getElementById(id+"_label_element"+k).innerHTML;
+						w_choices_price[t]=document.getElementById(id+"_elementform_id_temp"+k).value;
+						w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+k).checked;
+						t++;
+						v=k;
+					}
+					
+					if(document.getElementById(id+"_propertyform_id_temp"+k))
+					{
+						w_property.push(document.getElementById(id+"_property_label_form_id_temp"+k).innerHTML);
+						w_property_type.push(document.getElementById(id+"_propertyform_id_temp"+k).getAttribute('type'));
+						if(document.getElementById(id+"_propertyform_id_temp"+k).childNodes.length)
+						{	
+							w_property_values[w_property.length-1]=new Array();	
+							for(m=0;m < document.getElementById(id+"_propertyform_id_temp"+k).childNodes.length;m++)
+							{				
+								w_property_values[w_property.length-1].push(document.getElementById(id+"_propertyform_id_temp"+k).childNodes[m].value);
+							}
+						}
+						else
+						{
+							w_property_values.push('');
+						}
+					}
+					
+				}
+				w_quantity="no";
+				if(document.getElementById(id+"_element_quantityform_id_temp"))
+				{
+					w_quantity='yes';
+				}
+
+				atrs=return_attributes(id+'_elementform_id_temp'+v);
+				w_attr_name=atrs[0];
+				w_attr_value=atrs[1];
+				type_paypal_checkbox(gen, w_field_label, w_field_label_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value,  w_property, w_property_type, w_property_values,w_quantity); break;
+			}
 			case 'type_radio':
 			{	
 				w_randomize=document.getElementById(id+"_randomizeform_id_temp").value;
@@ -23809,6 +28066,118 @@ function dublicate(id) {
 				// type_radio(gen, w_field_label, w_field_label_pos, w_flow, w_choices, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value); add(0); break;
 				type_radio(gen, w_field_label, w_field_label_pos, w_flow, w_choices, w_choices_checked, w_rowcol, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value);break;
 			}
+      case 'type_paypal_radio':
+			{	
+				if(document.getElementById(id+'_hor'))
+					w_flow="hor"	
+				else
+					w_flow="ver";
+		
+				w_randomize=document.getElementById(id+"_randomizeform_id_temp").value;
+				w_allow_other=document.getElementById(id+"_allow_otherform_id_temp").value;
+
+				v=0;
+				for(k=0;k<100;k++)
+				{
+					if(document.getElementById(id+"_elementform_id_temp"+k))
+					{
+						if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other'))
+							if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other')=='1')
+								w_allow_other_num=t;
+						w_choices[t]=document.getElementById(id+"_label_element"+k).innerHTML;
+						w_choices_price[t]=document.getElementById(id+"_elementform_id_temp"+k).value;
+						w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+k).checked;
+						t++;
+						v=k;
+					}
+					
+					if(document.getElementById(id+"_propertyform_id_temp"+k))
+					{
+						w_property.push(document.getElementById(id+"_property_label_form_id_temp"+k).innerHTML);
+						w_property_type.push(document.getElementById(id+"_propertyform_id_temp"+k).getAttribute('type'));
+						if(document.getElementById(id+"_propertyform_id_temp"+k).childNodes.length)
+						{	
+							w_property_values[w_property.length-1]=new Array();	
+							for(m=0;m < document.getElementById(id+"_propertyform_id_temp"+k).childNodes.length;m++)
+							{				
+								w_property_values[w_property.length-1].push(document.getElementById(id+"_propertyform_id_temp"+k).childNodes[m].value);
+							}
+						}
+						else
+						{
+							w_property_values.push('');
+						}
+					}
+				
+				}
+				
+				w_quantity="no";
+				if(document.getElementById(id+"_element_quantityform_id_temp"))
+				{
+					w_quantity='yes';
+				}
+
+				atrs=return_attributes(id+'_elementform_id_temp'+v);
+				w_attr_name=atrs[0];
+				w_attr_value=atrs[1];
+				type_paypal_radio(gen, w_field_label, w_field_label_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value, w_property, w_property_type, w_property_values,w_quantity);  break;
+			}
+		
+			case 'type_paypal_shipping':
+			{	
+				if(document.getElementById(id+'_hor'))
+					w_flow="hor"	
+				else
+					w_flow="ver";
+		
+				w_randomize=document.getElementById(id+"_randomizeform_id_temp").value;
+				w_allow_other=document.getElementById(id+"_allow_otherform_id_temp").value;
+
+				v=0;
+				for(k=0;k<100;k++)
+				{
+					if(document.getElementById(id+"_elementform_id_temp"+k))
+					{
+						if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other'))
+							if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other')=='1')
+								w_allow_other_num=t;
+						w_choices[t]=document.getElementById(id+"_label_element"+k).innerHTML;
+						w_choices_price[t]=document.getElementById(id+"_elementform_id_temp"+k).value;
+						w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+k).checked;
+						t++;
+						v=k;
+					}
+					
+					if(document.getElementById(id+"_propertyform_id_temp"+k))
+					{
+						w_property.push(document.getElementById(id+"_property_label_form_id_temp"+k).innerHTML);
+						w_property_type.push(document.getElementById(id+"_propertyform_id_temp"+k).getAttribute('type'));
+						if(document.getElementById(id+"_propertyform_id_temp"+k).childNodes.length)
+						{	
+							w_property_values[w_property.length-1]=new Array();	
+							for(m=0;m < document.getElementById(id+"_propertyform_id_temp"+k).childNodes.length;m++)
+							{				
+								w_property_values[w_property.length-1].push(document.getElementById(id+"_propertyform_id_temp"+k).childNodes[m].value);
+							}
+						}
+						else
+						{
+							w_property_values.push('');
+						}
+					}
+				
+				}
+				atrs=return_attributes(id+'_elementform_id_temp'+v);
+				w_attr_name=atrs[0];
+				w_attr_value=atrs[1];
+				type_paypal_shipping(gen, w_field_label, w_field_label_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value, w_property, w_property_type, w_property_values);   break;
+			}
+      case 'type_paypal_total':
+			{	
+				
+				type_paypal_total(gen, w_field_label, w_field_label_pos,  w_class); break;
+			}
+			
 			case 'type_star_rating':
 			{
 				w_star_amount  = document.getElementById(id+"_star_amountform_id_temp").value;
@@ -24034,6 +28403,53 @@ function dublicate(id) {
 				// type_own_select(gen, w_field_label, w_field_label_pos, w_size, w_choices, w_choices_checked, w_required, w_class, w_attr_name, w_attr_value, w_choices_disabled); add(0); break;
 				type_own_select(gen, w_field_label, w_field_label_pos, w_size, w_choices, w_choices_checked, w_required, w_class, w_attr_name, w_attr_value, w_choices_disabled);break;
 			}
+      case 'type_paypal_select':
+			{	
+				for(k=0;k<100;k++)
+				{
+					if(document.getElementById(id+"_option"+k))
+					{
+						w_choices[t]=document.getElementById(id+"_option"+k).innerHTML;
+						w_choices_price[t]=document.getElementById(id+"_option"+k).value;
+						w_choices_checked[t]=document.getElementById(id+"_option"+k).selected;
+						if(document.getElementById(id+"_option"+k).value=="")
+							w_choices_disabled[t]=true;
+						else
+							w_choices_disabled[t]=false;
+						t++;
+					}
+					
+					if(document.getElementById(id+"_propertyform_id_temp"+k))
+					{
+						w_property.push(document.getElementById(id+"_property_label_form_id_temp"+k).innerHTML);
+						w_property_type.push(document.getElementById(id+"_propertyform_id_temp"+k).getAttribute('type'));
+						if(document.getElementById(id+"_propertyform_id_temp"+k).childNodes.length)
+						{	
+							w_property_values[w_property.length-1]=new Array();	
+							for(m=0;m < document.getElementById(id+"_propertyform_id_temp"+k).childNodes.length;m++)
+							{				
+								w_property_values[w_property.length-1].push(document.getElementById(id+"_propertyform_id_temp"+k).childNodes[m].value);
+							}
+						}
+						else
+						{
+							w_property_values.push('');
+						}
+					}
+					
+				}
+				
+				w_quantity="no";
+				if(document.getElementById(id+"_element_quantityform_id_temp"))
+				{
+					w_quantity='yes';
+				}
+
+				atrs=return_attributes(id+'_elementform_id_temp');
+				w_attr_name=atrs[0];
+				w_attr_value=atrs[1];
+				type_paypal_select(gen, w_field_label, w_field_label_pos, w_size, w_choices,w_choices_price, w_choices_checked, w_required,w_quantity, w_class, w_attr_name, w_attr_value, w_choices_disabled, w_property, w_property_type, w_property_values);  break;
+			}
 			case 'type_country':
 			{	
 				w_countries=[];
@@ -24050,6 +28466,51 @@ function dublicate(id) {
 				w_attr_value=atrs[1];
 				// type_country(gen, w_field_label, w_countries, w_field_label_pos, w_size, w_required, w_class,  w_attr_name, w_attr_value); add(0); break;
 				type_country(gen, w_field_label, w_countries, w_field_label_pos, w_size, w_required, w_class,  w_attr_name, w_attr_value);break;
+			}
+			case 'type_map':
+			{
+				w_lat=[];
+				w_long=[];
+				w_info=[];
+				
+				w_center_x  = document.getElementById(id+"_elementform_id_temp").getAttribute("center_x");
+				w_center_y  = document.getElementById(id+"_elementform_id_temp").getAttribute("center_y");
+				w_zoom  = document.getElementById(id+"_elementform_id_temp").getAttribute("zoom");
+				w_width = parseInt(document.getElementById(id+"_elementform_id_temp").style.width);
+				w_height= parseInt(document.getElementById(id+"_elementform_id_temp").style.height);
+				
+				
+				
+				for(j=0; j<=20; j++)
+					if( document.getElementById(id+"_elementform_id_temp").getAttribute("lat"+j))
+					{
+						w_lat.push(document.getElementById(id+"_elementform_id_temp").getAttribute("lat"+j));
+						w_long.push(document.getElementById(id+"_elementform_id_temp").getAttribute("long"+j));
+						w_info.push(document.getElementById(id+"_elementform_id_temp").getAttribute("info"+j));
+					}
+
+				atrs=return_attributes(id+'_elementform_id_temp');
+				w_attr_name=atrs[0];
+				w_attr_value=atrs[1];
+				// type_map(gen, w_center_x, w_center_y, w_long, w_lat, w_zoom, w_width, w_height, w_class, w_info, w_attr_name, w_attr_value);add(0); break;
+				type_map(gen, w_center_x, w_center_y, w_long, w_lat, w_zoom, w_width, w_height, w_class, w_info, w_attr_name, w_attr_value);break;
+			}
+			case 'type_mark_map':
+			{
+				w_info  = document.getElementById(id+"_elementform_id_temp").getAttribute("info0");
+				w_long  = document.getElementById(id+"_elementform_id_temp").getAttribute("long0");
+				w_lat   = document.getElementById(id+"_elementform_id_temp").getAttribute("lat0");
+				w_zoom  = document.getElementById(id+"_elementform_id_temp").getAttribute("zoom");
+				w_width = parseInt(document.getElementById(id+"_elementform_id_temp").style.width);
+				w_height= parseInt(document.getElementById(id+"_elementform_id_temp").style.height);
+				w_center_x  = document.getElementById(id+"_elementform_id_temp").getAttribute("center_x");
+				w_center_y  = document.getElementById(id+"_elementform_id_temp").getAttribute("center_y");
+				
+				atrs=return_attributes(id+'_elementform_id_temp');
+				w_attr_name=atrs[0];
+				w_attr_value=atrs[1];
+				// type_mark_map(gen, w_field_label, w_field_label_pos, w_center_x, w_center_y, w_long, w_lat, w_zoom, w_width, w_height, w_class, w_info, w_attr_name, w_attr_value);add(0); break;
+				type_mark_map(gen, w_field_label, w_field_label_pos, w_center_x, w_center_y, w_long, w_lat, w_zoom, w_width, w_height, w_class, w_info, w_attr_name, w_attr_value);break;
 			}
 			case 'type_submit_reset':
 			{
@@ -24104,7 +28565,7 @@ function dublicate(id) {
 	
 }
 
-function form_maker_open_in_popup(id) {
+/*function form_maker_open_in_popup(id) {
   var thickDims, tbWidth, tbHeight;
   jQuery(document).ready(function($) {
     thickDims = function() {
@@ -24154,4 +28615,4 @@ function form_maker_open_in_popup(id) {
       return false;
     });
   });
-}
+}*/

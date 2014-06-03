@@ -4,7 +4,7 @@ Donate link: http://web-dorado.com/products/wordpress-form.html
 Tags:  form, forms, form builder, form maker, form manager, form plugin, form with recaptcha,  forms plugin, multiple forms, paypal form, survey form, feedback form, feedback forms, contact form,contact form plugin, contact form builder, form creator, email form, secure form, web form, form to email, contact forms, custom forms, form widget, captcha form, wordpress contact form ,recaptcha contact form, form creation, contact form with auto reply, widget contact form, builder, feedback, contacts form plugin , custom contact form, contact us form,  Formular, formulario
 Requires at least: 3.0
 Tested up to: 3.9
-Stable tag: 1.6.8
+Stable tag: 1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +18,7 @@ WordPress Form Maker is a fresh and innovative form builder. This form builder i
 [User Manual](http://web-dorado.com/wordpress-form-maker-guide-1.html)  
 [Frequently Asked Questions](http://web-dorado.com/forum/form-maker/316-form-maker-faq.html)  
 
-The Form Maker is one of the best form builders in WordPress Plugin Directory. WordPress Form Builder allows you to set all the parameters such as colors, fonts and dimensions to best fit all form standards. If you want to make minimalistic forms, you can build forms with pre-filled texts, avoiding long form field labels. If want to build simple contact forms with unlimited number of fields, then you can use  [WordPress Contact Form](http://wordpress.org/extend/plugins/contact-form-maker/).  
+The Form Maker is one of the best responsive form builders in WordPress Plugin Directory. WordPress Form Builder allows you to set all the parameters such as colors, fonts and dimensions to best fit all form standards. If you want to make minimalistic forms, you can build forms with pre-filled texts, avoiding long form field labels. If want to build simple contact forms with unlimited number of fields, then you can use  [WordPress Contact Form](http://wordpress.org/extend/plugins/contact-form-maker/).  
 
 Form Maker is a fresh and innovative form builder for generating various kinds of forms. The back end of the Form Maker is essential and easy to use, with no need of advanced programming skills.
 
@@ -51,6 +51,7 @@ Survey tools are also very convenient for adding rating systems for the posts, e
 
 *   WordPress 3.0+  
 *   Multiple pre-installed sample forms 
+*   Responsive layout and design   
 *   Twelve form fields with detailed parameters for creating forms
 	*   Custom HTML with standard editor  
 	*   Text Input form fields (included 10 different types)   
@@ -73,8 +74,10 @@ Survey tools are also very convenient for adding rating systems for the posts, e
 	*   Section break for creating multi-section forms 
 	*   Map for inserting Google Map into the form 
 	*   Submit, Reset and Custom Button  
-*   41 editable themes for different form designs
-*   Up to seven field forms for free version
+*   41 editable themes for different form designs  
+*   Up to seven field forms for free version   
+*   Form Layout changing possibility   
+*   IP blocking possibility    
 *   Possibility to include required field option to receive specific information from the form submitter  
 *   Possibility to edit the form CSS or add custom Javascript into the form  
 *   Includes additional attributes for each form field for adding properties with Java Script (for more advanced form users)  
@@ -208,6 +211,11 @@ In case you are upgrading your Form Maker to paid version, but still want to pre
 8.  Form Maker - Select form Columns
 
 == Changelog ==
+
+= 1.7 =
+Div structured, responsive form
+Editable form layout
+New themes
 
 = 1.6.6 =
 *  fix security issue which was reported by Mateusz Lach

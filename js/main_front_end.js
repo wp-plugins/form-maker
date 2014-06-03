@@ -79,20 +79,6 @@ function captcha_refresh(id, genid)
 
 function set_checked(id,j,form_id) {
 	set_total_value(id,form_id);
-	
-	checking=document.getElementById(id+"_element"+form_id+j);
-	if(checking.getAttribute('other'))
-		if(checking.getAttribute('other')==1)
-			if(!checking.checked)
-			{					
-				if(document.getElementById(id+"_other_input"+form_id))
-				{
-					document.getElementById(id+"_other_input"+form_id).parentNode.removeChild(document.getElementById(id+"_other_br"+form_id));
-					document.getElementById(id+"_other_input"+form_id).parentNode.removeChild(document.getElementById(id+"_other_input"+form_id));
-				}
-				return false;					
-			}
-	return true;
 }
 
 function set_select(value) {
@@ -103,12 +89,6 @@ function set_select(value) {
 }
 
 function set_default(id, j, form_id){	
-
-	if(document.getElementById(id+"_other_input"+form_id))
-	{
-		document.getElementById(id+"_other_input"+form_id).parentNode.removeChild(document.getElementById(id+"_other_br"+form_id));
-		document.getElementById(id+"_other_input"+form_id).parentNode.removeChild(document.getElementById(id+"_other_input"+form_id));
-	}
   set_total_value(id,form_id);
 }
 
@@ -192,6 +172,9 @@ function check_second(e, id)
 
 function check_isnum_interval(e, id, from, to) {
   var chCode1 = e.which || e.keyCode;
+  if (jQuery.inArray(chCode1,[46,8,9,27,13,190]) != -1 || e.ctrlKey === true || (chCode1 >= 35 && chCode1 < 39)) {
+    return true;
+  }
   if (chCode1 > 31 && (chCode1 < 48 || chCode1 > 57)) {
     return false;
   }
@@ -958,32 +941,26 @@ function getfileextension(id, form_id)
 } 
 
 	
-function check_required(but_type, form_id)
-{
-
-	if(but_type=='reset')
-	{
-		if(window.before_reset)
-		{
+function check_required(but_type, form_id) {
+	if (but_type == 'reset') {
+		if (window.before_reset) {
 			before_reset();
 		}
-		window.location=REQUEST_URI;
+		window.location = "";
 		return;
 	}
-	
-	if(window.before_submit)
-	{
+	if (window.before_submit) {
 		before_submit();
 	}
-
-	n=parseInt(document.getElementById('counter'+form_id).value);
+  var ReqFieldMsg = eval("ReqFieldMsg_" + form_id);
+  var REQUEST_URI = eval("REQUEST_URI_" + form_id);
+  var WDF_INVALID_GRADING = eval("WDF_INVALID_GRADING_" + form_id);
+	n = parseInt(document.getElementById('counter'+form_id).value);
 	ext_available=true;
-	seted=true;
-	for(i=0; i<=n; i++)
-	{	
-		if(seted)
-		{
-			if(document.getElementById(i+"_type"+form_id))
+	seted = true;
+	for (i = 0; i <= n; i++) {	
+		if (seted) {
+			if (document.getElementById(i+"_type"+form_id))
 			    if(document.getElementById(i+"_required"+form_id))
 				if(document.getElementById(i+"_required"+form_id).value=="yes")
 				{
@@ -995,6 +972,7 @@ function check_required(but_type, form_id)
 						case "type_password":
 						case "type_submitter_mail":
 						case "type_own_select":
+            case "type_paypal_select":
 						case "type_country":
 							{
 								if(document.getElementById(i+"_element"+form_id).value==document.getElementById(i+"_element"+form_id).title || document.getElementById(i+"_element"+form_id).value=="")
@@ -1049,13 +1027,17 @@ function check_required(but_type, form_id)
 							
 						case "type_address":
 							{	
-								if ((document.getElementById(i+"_street1"+form_id) && document.getElementById(i+"_street1"+form_id).value=="" && jQuery("#" + i+"_street1"+form_id).attr("type") != "hidden") || (document.getElementById(i+"_city"+form_id) && document.getElementById(i+"_city"+form_id).value=="" && jQuery("#" + i+"_city"+form_id).attr("type") != "hidden") || (document.getElementById(i+"_state"+form_id) && document.getElementById(i+"_state"+form_id).value==""&& jQuery("#" + i+"_state"+form_id).attr("type") != "hidden") || (document.getElementById(i+"_postal"+form_id) && document.getElementById(i+"_postal"+form_id).value==""&& jQuery("#" + i+"_city"+form_id).attr("type") != "hidden") || (document.getElementById(i+"_postal"+form_id) && document.getElementById(i+"_country"+form_id).value==""&& jQuery("#" + i+"_country"+form_id).attr("type") != "hidden"))
-									seted=false;
+								if ((document.getElementById(i+"_street1"+form_id) && document.getElementById(i+"_street1"+form_id).value=="" && jQuery("#" + i+"_street1"+form_id).attr("type") != "hidden") || (document.getElementById(i+"_city"+form_id) && document.getElementById(i+"_city"+form_id).value=="" && jQuery("#" + i+"_city"+form_id).attr("type") != "hidden") || (document.getElementById(i+"_state"+form_id) && document.getElementById(i+"_state"+form_id).value==""&& jQuery("#" + i+"_state"+form_id).attr("type") != "hidden") || (document.getElementById(i+"_postal"+form_id) && document.getElementById(i+"_postal"+form_id).value==""&& jQuery("#" + i+"_city"+form_id).attr("type") != "hidden") || (document.getElementById(i+"_postal"+form_id) && document.getElementById(i+"_country"+form_id).value==""&& jQuery("#" + i+"_country"+form_id).attr("type") != "hidden")) {
+                  seted=false;
+                }
 								break;
 	
 							}
+            case "type_paypal_checkbox":
 						case "type_checkbox":
+            case "type_paypal_radio":
 						case "type_radio":
+            case "type_paypal_shipping":
 							{
 								is=true;
 								for(j=0; j<100; j++)
@@ -1231,6 +1213,12 @@ function check_required(but_type, form_id)
 									seted=false;
 								break;
 							}
+            case "type_paypal_price":
+							{	
+								if(document.getElementById(i+"_element_dollars"+form_id).value=="" ||   document.getElementById(i+"_element_dollars"+form_id).value==document.getElementById(i+"_element_dollars"+form_id).title)
+									seted=false;
+								break;
+							}
 					}	
 					
 				}
@@ -1244,10 +1232,11 @@ function check_required(but_type, form_id)
 											
 				}
       if (document.getElementById(i+"_type"+form_id)) {
-				if (document.getElementById(i+"_type"+form_id).value == "type_grading") {
+				if (document.getElementById(i+"_type"+form_id).value=="type_grading") {
 					if (parseInt(document.getElementById(i+"_sum_element"+form_id).innerHTML) > parseInt(document.getElementById(i+"_total_element"+form_id).innerHTML)) {
             alert(WDF_INVALID_GRADING + ' ' + document.getElementById(i+'_total_element'+form_id).innerHTML);
-						return;
+            // alert("Your score should be less than "+document.getElementById(i+'_total_element'+form_id).innerHTML);
+            return;
 					}
 				}
       }
@@ -1308,6 +1297,7 @@ function form_maker_getElementsByAttribute(node,tag,attr,value){
 	
 function check(id, form_id)
 {
+  var ReqFieldMsg = eval("ReqFieldMsg_" + form_id);
 	n=parseInt(document.getElementById("counter"+form_id).value);
 	form_view_curren=document.getElementById(form_id+"form_view"+id);
 	ext_available=true;
@@ -1431,6 +1421,12 @@ function check(id, form_id)
 						case "type_date_fields":
 							{	
 								if(document.getElementById(i+"_day"+form_id).value=="" || document.getElementById(i+"_month"+form_id).value=="" || document.getElementById(i+"_year"+form_id).value=="")
+									seted=false;
+								break;
+							}
+            case "type_paypal_price":
+							{	
+								if(document.getElementById(i+"_element_dollars"+form_id).value=="" || document.getElementById(i+"_element_cents"+form_id).value=="" ||   document.getElementById(i+"_element_dollars"+form_id).value==document.getElementById(i+"_element_dollars"+form_id).title || document.getElementById(i+"_element_cents"+form_id).value==document.getElementById(i+"_element_cents"+form_id).title)
 									seted=false;
 								break;
 							}
@@ -1618,9 +1614,121 @@ function check(id, form_id)
 }	
 	
 function create_headers(form_id) {
+  var RangeFieldMsg = eval("RangeFieldMsg_" + form_id);
   if (a[form_id] == 1) {
     return;
   }
+  var is_paypal;
+  n = parseInt(document.getElementById('counter' + form_id).value);
+  for (i = 0; i <= n; i++) {
+    if (document.getElementById(i + "_type" + form_id)) {
+      type = document.getElementById(i + "_type" + form_id).value;
+      is_paypal = false;
+      switch(type) {
+        case "type_paypal_price": {
+          dollars = 0;
+          cents = 0;
+          if (document.getElementById(i + "_element_dollars" + form_id).value && document.getElementById(i + "_element_dollars" + form_id).value != document.getElementById(i + "_element_dollars" + form_id).title) {
+            dollars = document.getElementById(i + "_element_dollars" + form_id).value;
+          }
+          if (document.getElementById(i + "_element_cents" + form_id).value && document.getElementById(i + "_element_cents" + form_id).value != document.getElementById(i + "_element_cents" + form_id).title) {
+            cents = document.getElementById(i + "_element_cents" + form_id).value;
+          }
+      
+          var price = dollars + '.' + cents;
+          if (isNaN(price)) {
+            alert('Invalid value of number field');
+            return;
+          }
+          var range_min = 0;
+          var range_max = -1;
+          if (document.getElementById(i + "_range_min" + form_id).value) {
+            range_min = document.getElementById(i + "_range_min" + form_id).value;
+          }
+          if (document.getElementById(i + "_range_max" + form_id).value) {
+            range_max =document.getElementById(i + "_range_max" + form_id).value;
+          }
+          if (document.getElementById(i + "_required" + form_id).value == "yes" || (document.getElementById(i + "_element_dollars" + form_id).value != document.getElementById(i + "_element_dollars" + form_id).title) || document.getElementById(i + "_element_cents" + form_id).value != document.getElementById(i + "_element_cents" + form_id).title) {
+            if ((range_max != -1 && parseFloat(price) > range_max) || parseFloat(price) < range_min) {
+              x = document.getElementById(i+"_element_label"+form_id).innerHTML;
+              f = 0;
+              t = 'any';
+              if (document.getElementById(i+"_range_min"+form_id).value) {
+                f=document.getElementById(i+"_range_min"+form_id).value;
+              }
+              if (document.getElementById(i + "_range_max" + form_id).value) {
+                t = document.getElementById(i + "_range_max" + form_id).value;
+              }
+              alert(RangeFieldMsg.replace('`FIELDNAME`', '"' + x + '" ').replace('`FROM`', f).replace('`TO`', t));
+              return;
+            }
+          }
+          break;
+
+        }
+        case "type_paypal_select": {
+          select_ = document.getElementById(i + "_element" + form_id);
+          var phid = document.createElement("input");
+          phid.setAttribute("type", "hidden");
+          phid.setAttribute("name", i + "_element_label" + form_id);
+          phid.setAttribute("id", i + "_element_label" + form_id);
+          phid.value = select_.options[select_.selectedIndex].text;
+          document.getElementById(i + "_type" + form_id).parentNode.appendChild(phid);
+          is_paypal = true;
+          break;
+
+        }
+        case "type_paypal_shipping":
+        case "type_paypal_radio": {
+          var phid = document.createElement("input");
+          phid.setAttribute("type", "hidden");
+          phid.setAttribute("name", i + "_element_label"+ form_id);
+          phid.setAttribute("id", i + "_element_label" + form_id);
+          if (getRadioCheckedValue(i + "_element" + form_id)) {
+            phid.value = document.getElementById(getRadioCheckedValue(i + "_element" + form_id)).value;							
+          }
+          else {
+            phid.value = '';
+          }
+          document.getElementById(i + "_type" + form_id).parentNode.appendChild(phid);
+          is_paypal = true;
+          break;
+
+        }
+        case "type_paypal_checkbox": {
+          is_paypal = true;          
+          break;
+        }
+      }	
+      if (is_paypal) {
+        if (document.getElementById(i + "_element_quantity" + form_id)) {
+          var phid = document.createElement("input");
+          phid.setAttribute("type", "hidden");
+          phid.setAttribute("name", i + "_element_quantity_label" + form_id);
+          phid.setAttribute("id", i + "_element_quantity_label" + form_id);
+          phid.value = document.getElementById(i + "_element_quantity_label_" + form_id).innerHTML;
+          document.getElementById(i + "_type" + form_id).parentNode.appendChild(phid);
+        }
+        for (k = 0; k <= 50; k++) {
+          if (document.getElementById(i + "_property" + form_id + k)) {
+            select_ = document.getElementById(i + "_property" + form_id + k);
+            var phid = document.createElement("input");
+            phid.setAttribute("type", "hidden");
+            phid.setAttribute("name", i + "_element_property_value" + form_id + k);
+            phid.setAttribute("id", i + "_element_property_value" + form_id + k);
+            phid.value = select_.value;
+            document.getElementById(i + "_type" + form_id).parentNode.appendChild(phid);
+            var phid = document.createElement("input");
+            phid.setAttribute("type", "hidden");
+            phid.setAttribute("name", i + "_element_property_label" + form_id + k);
+            phid.setAttribute("id", i + "_element_property_label" + form_id + k);
+            phid.value = document.getElementById(i + "_property_label_" + form_id + k).innerHTML;
+            document.getElementById(i + "_type" + form_id).parentNode.appendChild(phid);
+          }
+        }
+      }
+    }		
+	}
   a[form_id] = 1;
   document.getElementById("form" + form_id).submit();
 }
@@ -1630,7 +1738,7 @@ var rated=false;
 function change_src(id,a,form_id){
 	if(rated==false){
 	for(var j=0;j<=id;j++)
-	document.getElementById(a+'_star_'+j).src = plugin_url+'/images/star_'+document.getElementById(a+'_star_color'+form_id).value+".png";
+	document.getElementById(a+'_star_'+j).src = fm_objectL10n.plugin_url+'/images/star_'+document.getElementById(a+'_star_color'+form_id).value+".png";
 }
 }
 
@@ -1638,7 +1746,7 @@ function change_src(id,a,form_id){
 function reset_src(id,a){
 	if(rated==false){
 	for(var j=0;j<=id;j++)
-	document.getElementById(a+'_star_'+j).src= plugin_url+'/images/star.png';
+	document.getElementById(a+'_star_'+j).src= fm_objectL10n.plugin_url+'/images/star.png';
 	}
 }
 
@@ -1648,9 +1756,9 @@ function select_star_rating(id,a,form_id)
 	rated=true;
 	star_amount=document.getElementById(a+'_star_amount'+form_id).value;
 	for(var j=0;j<=id;j++)
-	document.getElementById(a+'_star_'+j).src = plugin_url+'/images/star_'+document.getElementById(a+'_star_color'+form_id).value+".png";
+	document.getElementById(a+'_star_'+j).src = fm_objectL10n.plugin_url+'/images/star_'+document.getElementById(a+'_star_color'+form_id).value+".png";
 	for(var k=id+1;k<=star_amount-1;k++)
-	document.getElementById(a+'_star_'+k).src = plugin_url+'/images/star.png';
+	document.getElementById(a+'_star_'+k).src = fm_objectL10n.plugin_url+'/images/star.png';
 	document.getElementById(a+'_selected_star_amount'+form_id).value=id+1;
 }
 
@@ -1669,9 +1777,9 @@ function sum_grading_values(num,form_id){
 			}
 			
         if(document.getElementById(num+'_total_element'+form_id)){
-		if (sum > document.getElementById(num+'_total_element'+form_id).innerHTML){
-      document.getElementById(num+'_text_element'+form_id).innerHTML = WDF_GRADING_TEXT + ' ' + document.getElementById(num+'_total_element'+form_id).innerHTML;
-      // document.getElementById(num+'_text_element'+form_id).innerHTML = " Your score should be less than "+document.getElementById(num+'_total_element'+form_id).innerHTML;
+		if(sum > document.getElementById(num+'_total_element'+form_id).innerHTML){
+		  document.getElementById(num+'_text_element'+form_id).innerHTML = WDF_GRADING_TEXT + ' ' + document.getElementById(num+'_total_element'+form_id).innerHTML;
+		// document.getElementById(num+'_text_element'+form_id).innerHTML = " Your score should be less than "+document.getElementById(num+'_total_element'+form_id).innerHTML;
 		}
 		else{
 		document.getElementById(num+'_text_element'+form_id).innerHTML="";
@@ -1694,12 +1802,16 @@ var div_paypal_show= jQuery('.paypal_total'+form_id);
 var div_paypal_products = jQuery('.paypal_products'+form_id);
 var div_paypal_tax = jQuery('.paypal_tax'+form_id);
 var input_paypal_total = jQuery('.input_paypal_total'+form_id);
-var total=0;
-
+var div_paypal_tax = jQuery('.paypal_tax'+form_id);
+var input_paypal_total = jQuery('.input_paypal_total'+form_id);
+var total = 0;
+var total_shipping = 0;
+var FormCurrency = eval("FormCurrency_" + form_id);
+var FormPaypalTax = eval("FormPaypalTax_" + form_id);
 	if(div_paypal_products)
 	div_paypal_products.html('');
 	div_paypal_tax.html('');
-	n=parseInt(document.getElementById('counter'+form_id).value);
+	n=parseInt(jQuery('#counter'+form_id).val());
 	
 
 	for(i=0; i<n; i++)
@@ -1708,7 +1820,7 @@ var total=0;
 	{	
 	
 
-		if(document.getElementById(i+"_type"+form_id))
+		if(jQuery('#'+i+"_type"+form_id).length != 0)
 		{
 
 				type=document.getElementById(i+"_type"+form_id).value;
@@ -1722,9 +1834,6 @@ var total=0;
 						case "type_paypal_checkbox":
 					
 						case "type_paypal_radio":
-					
-						case "type_paypal_shipping":
-
 
 							{
 
@@ -1752,7 +1861,6 @@ var total=0;
 											var span_value = document.createElement('div');
 												span_value.style.cssText = "display:table-cell";
 												span_value.style.cssText = 'margin-left: 7px;';
-												
 											if(document.getElementById(i+"_element_quantity"+form_id) && document.getElementById(i+"_element_quantity"+form_id).value!=1)
 											{
 												span_value.innerHTML= FormCurrency + document.getElementById(i+"_element"+form_id+j).value+' x'+document.getElementById(i+"_element_quantity"+form_id).value;
@@ -1776,14 +1884,39 @@ var total=0;
 
 
 										}
-                    if(FormPaypalTax != 0)
-										div_paypal_tax.html('Tax: ' + FormCurrency + ((total*FormPaypalTax) / 100).toFixed(2));	
-										
-									jQuery('.div_total'+form_id).html(FormCurrency + (total *(1+FormPaypalTax/100)).toFixed(2));	
 										
 								break;
 
 							}
+              case "type_paypal_shipping":
+              {
+                for(j=0; j<100; j++)
+                  if(document.getElementById(i+"_element"+form_id+j))
+                    if(document.getElementById(i+"_element"+form_id+j).checked)
+                    {
+                      var div = document.createElement('div');
+                        div.style.cssText = "display:table-row";
+
+                      var span_label = document.createElement('div');
+                        span_label.style.cssText = "display:table-cell";
+                        span_label.innerHTML= document.getElementById(i+"_elementlabel_"+form_id+j).value;
+                      
+                      var span_value = document.createElement('div');
+                        span_value.style.cssText = "display:table-cell";
+                        span_value.style.cssText = 'margin-left: 7px;';
+                        
+                      span_value.innerHTML= FormCurrency + document.getElementById(i+"_element"+form_id+j).value;
+                      total_shipping =total_shipping + parseInt(document.getElementById(i+"_element"+form_id+j).value);
+                        
+
+                      div.appendChild(span_label);
+                      div.appendChild(span_value);
+                      var div_shipping_total = div;
+                      // div_paypal_products.append(div);
+                    }
+                break;
+
+              }
 
 
 							case "type_paypal_select":
@@ -1814,7 +1947,7 @@ var total=0;
 												
 											if(document.getElementById(i+"_element_quantity"+form_id) && document.getElementById(i+"_element_quantity"+form_id).value!=1)
 											{
-												span_value.innerHTML= FormCurrency + document.getElementById(i+"_element"+form_id).childNodes[j]+' x'+document.getElementById(i+"_element_quantity"+form_id).value;
+                        span_value.innerHTML= FormCurrency + document.getElementById(i+"_element"+form_id).childNodes[j].value+' x'+document.getElementById(i+"_element_quantity"+form_id).value;
 												total =total + document.getElementById(i+"_element_quantity"+form_id).value * parseInt(document.getElementById(i+"_element"+form_id).childNodes[j].value);
 										
 											}	
@@ -1834,13 +1967,7 @@ var total=0;
 										
 
 
-										}
-										
-									if(FormPaypalTax != 0)
-										div_paypal_tax.html('Tax: ' + FormCurrency + ((total*FormPaypalTax) / 100).toFixed(2));	
-																	
-									jQuery('.div_total'+form_id).html(FormCurrency + (total *(1+FormPaypalTax/100)).toFixed(2));	
-										
+										}										
 
 								break;
 
@@ -1898,14 +2025,15 @@ var total=0;
 												div_paypal_products.append(div);
 										
 							}
-              if(FormPaypalTax != 0)
-										div_paypal_tax.html('Tax: ' + FormCurrency + ((total*FormPaypalTax) / 100).toFixed(2));	
-																	
-									jQuery('.div_total'+form_id).html(FormCurrency + (total *(1+FormPaypalTax/100)).toFixed(2));	
 								break;
 							}
 					}	
 		}
 	}
-  input_paypal_total.val(FormCurrency + (total *(1+FormPaypalTax/100)).toFixed(2))  ;	
+  div_paypal_products.append(div_shipping_total);
+  if (FormPaypalTax != 0) {
+    div_paypal_tax.html('Tax: ' + FormCurrency + (((total)*FormPaypalTax) / 100).toFixed(2));	
+  }
+  jQuery('.div_total'+form_id).html(FormCurrency + (parseFloat((total *(1+FormPaypalTax/100)).toFixed(2))+total_shipping));
+  input_paypal_total.val(FormCurrency + (parseFloat((total *(1+FormPaypalTax/100)).toFixed(2))+total_shipping));
 }

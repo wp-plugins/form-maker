@@ -853,7 +853,7 @@ if(rated==false){
 
 for(var j=0;j<=id;j++)
 
-document.getElementById(a+'_star_'+j).src = plugin_url+'/vimages/star.png';
+document.getElementById(a+'_star_'+j).src = plugin_url+'/images/star.png';
 
 }
 
