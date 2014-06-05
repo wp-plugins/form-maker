@@ -137,11 +137,11 @@ function before_reset() {
     $script_user2 = (isset($_POST['script_user2']) ? esc_html(stripslashes($_POST['script_user2'])) : '');
     $submit_text = (isset($_POST['submit_text']) ? esc_html(stripslashes($_POST['submit_text'])) : '');
     $url = (isset($_POST['url']) ? esc_html(stripslashes($_POST['url'])) : '');
-    $script_mail = (isset($_POST['script_mail']) ? esc_html(stripslashes($_POST['script_mail'])) : '%all%');
-    $script_mail_user = (isset($_POST['script_mail_user']) ? esc_html(stripslashes($_POST['script_mail_user'])) : '%all%');
+    $script_mail = (isset($_POST['script_mail']) ? stripslashes($_POST['script_mail']) : '%all%');
+    $script_mail_user = (isset($_POST['script_mail_user']) ? stripslashes($_POST['script_mail_user']) : '%all%');
     $label_order_current = (isset($_POST['label_order_current']) ? esc_html(stripslashes($_POST['label_order_current'])) : '');
     $tax = (isset($_POST['tax']) ? esc_html(stripslashes($_POST['tax'])) : 0);
-    $payment_currency = (isset($_POST['payment_currency']) ? esc_html(stripslashes($_POST['payment_currency'])) : '');
+    $payment_currency = (isset($_POST['payment_currency']) ? stripslashes($_POST['payment_currency']) : '');
     $paypal_email = (isset($_POST['paypal_email']) ? esc_html(stripslashes($_POST['paypal_email'])) : '');
     $checkout_mode = (isset($_POST['checkout_mode']) ? esc_html(stripslashes($_POST['checkout_mode'])) : 'testmode');
     $paypal_mode = (isset($_POST['paypal_mode']) ? esc_html(stripslashes($_POST['paypal_mode'])) : 0);
@@ -318,15 +318,15 @@ function before_reset() {
     if ($reply_to == "other") {
       $reply_to = (isset($_POST['reply_to_other']) ? esc_html(stripslashes($_POST['reply_to_other'])) : '');
     }
-    $script_mail = (isset($_POST['script_mail']) ? esc_html(stripslashes($_POST['script_mail'])) : '%all%');
+    $script_mail = (isset($_POST['script_mail']) ? stripslashes($_POST['script_mail']) : '%all%');
     $mail_from_user = (isset($_POST['mail_from_user']) ? esc_html(stripslashes($_POST['mail_from_user'])) : '');
     $mail_from_name_user = (isset($_POST['mail_from_name_user']) ? esc_html(stripslashes($_POST['mail_from_name_user'])) : '');
     $reply_to_user = (isset($_POST['reply_to_user']) ? esc_html(stripslashes($_POST['reply_to_user'])) : '');
-    $script_mail_user = (isset($_POST['script_mail_user']) ? esc_html(stripslashes($_POST['script_mail_user'])) : '%all%');
+    $script_mail_user = (isset($_POST['script_mail_user']) ? stripslashes($_POST['script_mail_user']) : '%all%');
     $submit_text = (isset($_POST['submit_text']) ? esc_html(stripslashes($_POST['submit_text'])) : '');
     $url = (isset($_POST['url']) ? esc_html(stripslashes($_POST['url'])) : '');
     $tax = (isset($_POST['tax']) ? esc_html(stripslashes($_POST['tax'])) : 0);
-    $payment_currency = (isset($_POST['payment_currency']) ? esc_html(stripslashes($_POST['payment_currency'])) : '');
+    $payment_currency = (isset($_POST['payment_currency']) ? stripslashes($_POST['payment_currency']) : '');
     $paypal_email = (isset($_POST['paypal_email']) ? esc_html(stripslashes($_POST['paypal_email'])) : '');
     $checkout_mode = (isset($_POST['checkout_mode']) ? esc_html(stripslashes($_POST['checkout_mode'])) : 'testmode');
     $paypal_mode = (isset($_POST['paypal_mode']) ? esc_html(stripslashes($_POST['paypal_mode'])) : 0);
