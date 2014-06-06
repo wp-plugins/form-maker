@@ -40,9 +40,7 @@ class FMViewFormMakerPreview {
     <?php
     if (isset($_GET['test_theme'])) {
       wp_print_scripts('jquery-effects-shake');
-      ?>
-      <!--<script src="<?php echo WD_FM_URL . '/js/mootools.js'; ?>" type="text/javascript"></script>-->
-      <?php
+      wp_register_script('main_div_front_end', WD_FM_URL . '/js/main_div_front_end.js', array(), get_option("wd_form_maker_version"));
       $theme_id = esc_html(stripslashes($_GET['test_theme']));
       require_once (WD_FM_DIR . '/frontend/controllers/FMControllerForm_maker.php');
       $controller = new FMControllerForm_maker();

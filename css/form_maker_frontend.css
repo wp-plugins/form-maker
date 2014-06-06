@@ -18,11 +18,6 @@
   vertical-align: top !important;
 }
 
-.wdform-page-and-images .radio-div input[type="radio"],
-.wdform-page-and-images .checkbox-div input[type="checkbox"] {
-  /*visibility: hidden;*/
-}
-
 div[type="type_captcha"] .wdform-element-section * {
   vertical-align: middle;
 }

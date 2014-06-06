@@ -3575,7 +3575,7 @@ class FMViewForm_maker {
   theme: "' . $row->recaptcha_theme . '"
   };
   </script>
-  </form></div>';
+  </form>';
       if ($is_recaptcha) {
         $form_maker_front_end .= '<div id="main_recaptcha" style="display:none;">';
         if ($row->public_key)
