@@ -445,7 +445,7 @@ class FMViewManage_fm {
 
       <div class="formmaker_table" width="100%">
         <div style="float: left; text-align: center;"><br />
-          <img src="<?php echo WD_FM_URL . '/images/FormMaker.png'; ?>" /><br /><br />
+          <img src="<?php echo WD_FM_URL . '/images/formmaker.png'; ?>" /><br /><br />
           <img src="<?php echo WD_FM_URL . '/images/logo.png'; ?>" />
         </div>
         <div style="float:right">
@@ -1395,7 +1395,7 @@ class FMViewManage_fm {
 
       <div class="formmaker_table" width="100%">
         <div style="float: left; text-align: center;"><br />
-          <img src="<?php echo WD_FM_URL . '/images/FormMaker.png'; ?>" /><br /><br />
+          <img src="<?php echo WD_FM_URL . '/images/formmaker.png'; ?>" /><br /><br />
           <img src="<?php echo WD_FM_URL . '/images/logo.png'; ?>" />
         </div>
         <div style="float:right">
