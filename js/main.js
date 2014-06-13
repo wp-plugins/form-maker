@@ -1,4 +1,4 @@
-F=2;//choices id
+F=2;
 var c;
 var a=new Array();
 function show_other_input(num, form_id)
@@ -325,8 +325,6 @@ function change_value(id)
 	tag=input.tagName;
 	if(tag=="TEXTAREA")
 	{
-// destroyChildren(input)
-
 	input.innerHTML=input.value;
 	}
 	else
@@ -383,12 +381,9 @@ function destroyChildren(node)
       node.removeChild(node.firstChild);
 }
 
-////////////////////////////////////////////
 function generate_page_nav(id, form_id, form_view_count, form_view_max)
 {
 form_view=id;
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
 page_nav=document.getElementById(form_id+'page_nav'+id);
 destroyChildren(page_nav);
 form_view_elemet=document.getElementById(form_id+'form_view'+id);
@@ -509,10 +504,6 @@ else
 		if(document.getElementById(x+'_type'+form_id))
 			if(document.getElementById(x+'_type'+form_id).value=="type_map")
 				if_gmap_init(x+"_element"+form_id, false);
-
-		
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 function display_none_form_views_all(form_id)
@@ -521,7 +512,6 @@ function display_none_form_views_all(form_id)
 		if(document.getElementById(form_id+'form_view'+t))
 			document.getElementById(form_id+'form_view'+t).parentNode.style.display="none";
 }
-//
 function generate_page_bar(form_view, form_id, form_view_count, form_view_max)	
 {	
 		if(document.getElementById(form_id+'pages').getAttribute('type')=='steps')

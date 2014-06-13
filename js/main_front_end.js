@@ -1,4 +1,4 @@
-F=2;//choices id
+F=2;
 var c;
 var a = new Array();
 function show_other_input(num, form_id) {
@@ -333,7 +333,6 @@ function change_value(id) {
 	input=document.getElementById(id);
 	tag=input.tagName;
 	if (tag == "TEXTAREA")	{
-    // destroyChildren(input)
     input.innerHTML=input.value;
 	}
 	else {
@@ -391,12 +390,9 @@ function destroyChildren(node)
       node.removeChild(node.firstChild);
 }
 
-////////////////////////////////////////////
 function generate_page_nav(id, form_id, form_view_count, form_view_max)
 {
 form_view=id;
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
 page_nav=document.getElementById(form_id+'page_nav'+id);
 destroyChildren(page_nav);
 form_view_elemet=document.getElementById(form_id+'form_view'+id);
@@ -576,9 +572,6 @@ else
 			
 			
 		}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 function display_none_form_views_all(form_id)
@@ -587,7 +580,7 @@ function display_none_form_views_all(form_id)
 		if(document.getElementById(form_id+'form_view'+t))
 			document.getElementById(form_id+'form_view'+t).parentNode.style.display="none";
 }
-//
+
 function generate_page_bar(form_view, form_id, form_view_count, form_view_max)	
 {	
 		if(document.getElementById(form_id+'pages').getAttribute('type')=='steps')
@@ -700,9 +693,7 @@ function make_page_percentage_front(form_view, form_id, form_view_count, form_vi
        	div.setAttribute("align", "right");
 		
 	var b = document.createElement('span');
-       //	b.style.margin='3px 7px 3px 3px';
        	b.setAttribute("class", "wdform_percentage_text");
-		//b.style.vertical-align='middle';
 	div.appendChild(b);
 	
 	k=0;
@@ -1235,7 +1226,6 @@ function check_required(but_type, form_id) {
 				if (document.getElementById(i+"_type"+form_id).value=="type_grading") {
 					if (parseInt(document.getElementById(i+"_sum_element"+form_id).innerHTML) > parseInt(document.getElementById(i+"_total_element"+form_id).innerHTML)) {
             alert(WDF_INVALID_GRADING + ' ' + document.getElementById(i+'_total_element'+form_id).innerHTML);
-            // alert("Your score should be less than "+document.getElementById(i+'_total_element'+form_id).innerHTML);
             return;
 					}
 				}
@@ -1306,7 +1296,6 @@ function check(id, form_id)
 	{	
 		if(seted)
 		{
-			// if(form_view_curren.getElementById(i+"_type"+form_id))
       if (form_maker_getElementsByAttribute(form_view_curren, "*", "id", "" + i + "_type" + form_id + "") != '')
 			    if(document.getElementById(i+"_required"+form_id))
 				if(document.getElementById(i+"_required"+form_id).value=="yes")
@@ -1779,7 +1768,6 @@ function sum_grading_values(num,form_id){
         if(document.getElementById(num+'_total_element'+form_id)){
 		if(sum > document.getElementById(num+'_total_element'+form_id).innerHTML){
 		  document.getElementById(num+'_text_element'+form_id).innerHTML = WDF_GRADING_TEXT + ' ' + document.getElementById(num+'_total_element'+form_id).innerHTML;
-		// document.getElementById(num+'_text_element'+form_id).innerHTML = " Your score should be less than "+document.getElementById(num+'_total_element'+form_id).innerHTML;
 		}
 		else{
 		document.getElementById(num+'_text_element'+form_id).innerHTML="";
@@ -1912,7 +1900,6 @@ var FormPaypalTax = eval("FormPaypalTax_" + form_id);
                       div.appendChild(span_label);
                       div.appendChild(span_value);
                       var div_shipping_total = div;
-                      // div_paypal_products.append(div);
                     }
                 break;
 

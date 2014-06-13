@@ -3,7 +3,7 @@
  * Plugin Name: Form Maker
  * Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
  * Description: This plugin is a modern and advanced tool for easy and fast creating of a WordPress Form. The backend interface is intuitive and user friendly which allows users far from scripting and programming to create WordPress Forms.
- * Version: 1.7.2
+ * Version: 1.7.3
  * Author: http://web-dorado.com/
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -119,28 +119,29 @@ function do_output_buffer() {
 add_action('init', 'do_output_buffer');
 
 function Form_maker_fornt_end_main($content) {
-  $pattern = '[\[Form id="([0-9]*)"\]]';
-  $count_forms_in_post = preg_match_all($pattern, $content, $matches_form);
-  if ($count_forms_in_post) {
-    require_once (WD_FM_DIR . '/frontend/controllers/FMControllerForm_maker.php');
-    $controller = new FMControllerForm_maker();
-    for ($jj = 0; $jj < $count_forms_in_post; $jj++) {
-      $padron = $matches_form[0][$jj];
-      $replacment = $controller->execute($matches_form[1][$jj]);
-      $content = str_replace($padron, $replacment, $content);
-      
-      // $content = str_replace($padron, '', $content);
+  global $form_maker_generate_action;
+  if ($form_maker_generate_action) {
+    $pattern = '[\[Form id="([0-9]*)"\]]';
+    $count_forms_in_post = preg_match_all($pattern, $content, $matches_form);
+    if ($count_forms_in_post) {
+      require_once (WD_FM_DIR . '/frontend/controllers/FMControllerForm_maker.php');
+      $controller = new FMControllerForm_maker();
+      for ($jj = 0; $jj < $count_forms_in_post; $jj++) {
+        $padron = $matches_form[0][$jj];
+        $replacment = $controller->execute($matches_form[1][$jj]);
+        $content = str_replace($padron, $replacment, $content);
+      }
     }
-  }
-  $pattern = '[\[contact_form_for_repace id="([0-9]*)"\]]';
-  $count_forms_in_post = preg_match_all($pattern, $content, $matches_form);
-  if ($count_forms_in_post) {
-    require_once (WD_FM_DIR . '/frontend/controllers/FMControllerForm_maker.php');
-    $controller = new FMControllerForm_maker();
-    for ($jj = 0; $jj < $count_forms_in_post; $jj++) {
-      $padron = $matches_form[0][$jj];
-      $replacment = $controller->execute($matches_form[1][$jj]);
-      $content = str_replace($padron, $replacment, $content);
+    $pattern = '[\[contact_form_for_repace id="([0-9]*)"\]]';
+    $count_forms_in_post = preg_match_all($pattern, $content, $matches_form);
+    if ($count_forms_in_post) {
+      require_once (WD_FM_DIR . '/frontend/controllers/FMControllerForm_maker.php');
+      $controller = new FMControllerForm_maker();
+      for ($jj = 0; $jj < $count_forms_in_post; $jj++) {
+        $padron = $matches_form[0][$jj];
+        $replacment = $controller->execute($matches_form[1][$jj]);
+        $content = str_replace($padron, $replacment, $content);
+      }
     }
   }
   return $content;
@@ -356,10 +357,12 @@ function form_maker_scripts() {
   wp_enqueue_script('form_maker_admin', WD_FM_URL . '/js/form_maker_admin.js', array(), get_option("wd_form_maker_version"));
 }
 
-// function form_maker_plugin_url() {
-  // echo '<script> var plugin_url = "' . WD_FM_URL . '"; </script>';
-// }
-// add_action('wp_head', 'form_maker_plugin_url');
+$form_maker_generate_action = 0;
+function form_maker_generate_action() {
+  global $form_maker_generate_action;
+  $form_maker_generate_action = 1;
+}
+add_filter('wp_head', 'form_maker_generate_action', 10000);
 
 function form_maker_front_end_scripts() {
   // global $wp_scripts;
