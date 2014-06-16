@@ -259,6 +259,7 @@ div.wd_preview a {
 
 .form_maker_icon {
   background-image: url("../images/formmakerLogo-48.png");
+  background-repeat: no-repeat;
   border: none;
   float: left;
   height: 48px;
@@ -268,6 +269,7 @@ div.wd_preview a {
 
 .block_icon {
   background-image: url("../images/block-icon.png");
+  background-repeat: no-repeat;
   border: none;
   float: left;
   height: 32px;
@@ -277,6 +279,7 @@ div.wd_preview a {
 
 .theme_icon {
   background-image: url("../images/theme-icon.png");
+  background-repeat: no-repeat;
   border: none;
   float: left;
   height: 32px;
@@ -286,6 +289,7 @@ div.wd_preview a {
 
 .uninstall_icon {
   background-image: url("../images/uninstall-icon.png");
+  background-repeat: no-repeat;
   border: none;
   float: left;
   height: 32px;

@@ -664,18 +664,15 @@ class FMModelForm_maker {
 						}
 					}
 				}
-				$ip=$_SERVER['REMOTE_ADDR'];
-        
-        $ip = $_SERVER['REMOTE_ADDR'];
-        $r = $wpdb->prefix . "formmaker_submits";
-        
-        $save_or_no = $wpdb->insert($r, array(
+        $save_or_no = TRUE;
+        if ($form->savedb) {
+          $save_or_no = $wpdb->insert($wpdb->prefix . "formmaker_submits", array(
             'form_id' => $id,
             'element_label' => $i,
             'element_value' => stripslashes($value),
             'group_id' => ($max + 1),
             'date' => date('Y-m-d H:i:s'),
-            'ip' => $ip,
+            'ip' => $_SERVER['REMOTE_ADDR'],
           ), array(
             '%d',
             '%s',
@@ -684,6 +681,7 @@ class FMModelForm_maker {
             '%s',
             '%s'
           ));
+        }
         if (!$save_or_no) {
           return FALSE;
         }
