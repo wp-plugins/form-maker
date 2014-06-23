@@ -211,6 +211,10 @@ In case you are upgrading your Form Maker to paid version, but still want to pre
 8.  Form Maker - Select form Columns
 
 == Changelog ==
+
+= 1.7.4 =
+bug fixed on form options
+
 = 1.7.2 =
 improve themes
 
