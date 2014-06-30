@@ -19,7 +19,6 @@ class FMModelSubmissions_fm {
   ////////////////////////////////////////////////////////////////////////////////////////
   public function check_ip($ip) {
     global $wpdb;
-    $query = "SELECT id, title FROM " . $wpdb->prefix . "formmaker order by title";
     $ip = $wpdb->get_var($wpdb->prepare('SELECT ip FROM ' . $wpdb->prefix . 'formmaker_blocked WHERE ip="%s"', $ip));
     return $ip;
   }

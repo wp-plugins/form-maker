@@ -23,7 +23,9 @@ class FMViewForm_maker {
   // Public Methods                                                                     //
   ////////////////////////////////////////////////////////////////////////////////////////
   public function display($id) {
-    @session_start();
+    if (session_id() == '' || (function_exists('session_status') && (session_status() == PHP_SESSION_NONE))) {
+      @session_start();
+    }
     $form_maker_front_end = "";
     $result = $this->model->showform($id);
     if (!$result) {
@@ -2768,7 +2770,8 @@ class FMViewForm_maker {
         }
         x = jQuery("#form<?php echo $form_id; ?>");
         <?php echo $check_js; ?>;
-        if (a[<?php echo $form_id ?>] == 1) {
+        var a = [];
+        if (typeof a[<?php echo $form_id ?>] !== 'undefined' && a[<?php echo $form_id ?>] == 1) {
           return;
         }
         <?php echo $onsubmit_js; ?>;

@@ -3,7 +3,7 @@ j = 2;
 var c;
 var need_enable = true;
 var a = new Array();
-var id_ifr_editor = 0;
+var id_ifr_editor = -1;
 var count_of_fields_form = 7;
 if (ajaxurl.indexOf("://") != -1) {
   var url_for_ajax = ajaxurl;
@@ -3644,7 +3644,7 @@ function type_section_break(i, w_editor) {
   document.getElementById('main_editor').style.display="block";
   document.getElementById('main_editor').style.left=iReturnLeft + 195 + "px";
   document.getElementById('main_editor').style.top=iReturnTop + 70 + "px";
-  if (document.getElementById('form_maker_editor').style.display == "none") {
+  if (document.getElementsByTagName("iframe")[id_ifr_editor] && document.getElementById('form_maker_editor').style.display == "none") {
     ifr_id = document.getElementsByTagName("iframe")[id_ifr_editor].id;
     ifr = getIFrameDocument(ifr_id);
     ifr.body.innerHTML = w_editor;
@@ -3683,7 +3683,7 @@ function type_editor(i, w_editor){
 		
 		
 		
-		if (document.getElementById('form_maker_editor').style.display=="none") {
+		if (document.getElementsByTagName("iframe")[id_ifr_editor] && document.getElementById('form_maker_editor').style.display=="none") {
 			ifr_id=document.getElementsByTagName("iframe")[id_ifr_editor].id;
 			ifr=getIFrameDocument(ifr_id);
 			ifr.body.innerHTML=w_editor;
@@ -25195,7 +25195,7 @@ function add(key) {
 					in_editor.setAttribute('class', 'toolbar_padding');
 					
 	
-		if(document.getElementById('form_maker_editor').style.display=="none")
+		if(document.getElementsByTagName("iframe")[id_ifr_editor] && document.getElementById('form_maker_editor').style.display=="none")
 		{
 				ifr_id=document.getElementsByTagName("iframe")[id_ifr_editor].id;
 				ifr=getIFrameDocument(ifr_id);
@@ -25350,7 +25350,7 @@ function add(key) {
 					
 
 
-		if(document.getElementById('form_maker_editor').style.display=="none")
+		if(document.getElementsByTagName("iframe")[id_ifr_editor] && document.getElementById('form_maker_editor').style.display=="none")
 		{
 				ifr_id=document.getElementsByTagName("iframe")[id_ifr_editor].id;
 				ifr=getIFrameDocument(ifr_id)
@@ -25858,7 +25858,7 @@ function add(key) {
 					in_editor.setAttribute('class', 'toolbar_padding');
 					
 
-		if(document.getElementById('form_maker_editor').style.display=="none")
+		if(document.getElementsByTagName("iframe")[id_ifr_editor] && document.getElementById('form_maker_editor').style.display=="none")
 		{
 				ifr_id=document.getElementsByTagName("iframe")[id_ifr_editor].id;
 				ifr=getIFrameDocument(ifr_id);
@@ -26056,7 +26056,7 @@ function add(key) {
 					
 
 
-		if(document.getElementById('form_maker_editor').style.display=="none")
+		if(document.getElementsByTagName("iframe")[id_ifr_editor] && document.getElementById('form_maker_editor').style.display=="none")
 		{
 				ifr_id=document.getElementsByTagName("iframe")[id_ifr_editor].id;
 				ifr=getIFrameDocument(ifr_id)

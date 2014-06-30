@@ -1,3 +1,13 @@
+function fm_check_page_load() {
+  if (!document.getElementById('araqel') || (document.getElementById('araqel').value == '0')) {
+    alert('Please wait while page loading.');
+    return false;
+  }
+  else {
+    return true;
+  }
+}
+
 function remove_whitespace(node) {
   var ttt;
   for (ttt = 0; ttt < node.childNodes.length; ttt++) {

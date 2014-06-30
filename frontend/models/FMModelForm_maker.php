@@ -58,7 +58,9 @@ class FMModelForm_maker {
   }
 
   public function savedata($form, $id) {
-    @session_start();
+    if (session_id() == '' || (function_exists('session_status') && (session_status() == PHP_SESSION_NONE))) {
+      @session_start();
+    }
     $all_files = array();
     $correct = FALSE;
     $id_for_old = $id;
@@ -125,7 +127,9 @@ class FMModelForm_maker {
   
   public function save_db($counter, $id) {
     global $wpdb;
-    @session_start();
+    if (session_id() == '' || (function_exists('session_status') && (session_status() == PHP_SESSION_NONE))) {
+      @session_start();
+    }
     $chgnac = TRUE;
     $all_files = array();
     $paypal = array();
@@ -287,9 +291,9 @@ class FMModelForm_maker {
 
 								$value.= site_url() . '/' . $destination . '/' . $fileName . '*@@url@@*';
 				
-								$files['tmp_name'][$file_key]=$destination . "/" . $fileName;
-								$temp_file = array( "name" => $files['name'][$file_key], "type" => $files['type'][$file_key], "tmp_name" => $files['tmp_name'][$file_key]);
-								array_push($all_files,$temp_file);
+								$files['tmp_name'][$file_key] = $destination . "/" . $fileName;
+								$temp_file = array("name" => $files['name'][$file_key], "type" => $files['type'][$file_key], "tmp_name" => $files['tmp_name'][$file_key]);
+								array_push($all_files, $temp_file);
 							}
             }
 						break;
@@ -805,8 +809,8 @@ class FMModelForm_maker {
               $value = site_url() . '/' . $destination . '/' . $fileName . '*@@url@@*';
               $file['tmp_name'] = $destination . "/" . $fileName;
               $file['name'] = ABSPATH . $destination . "/" . $fileName;
-              $temp_file = array( "name" => $files['name'][$file_key], "type" => $files['type'][$file_key], "tmp_name" => $files['tmp_name'][$file_key]);
-							array_push($all_files, $temp_file);
+              // $temp_file = array( "name" => $files['name'][$file_key], "type" => $files['type'][$file_key], "tmp_name" => $files['tmp_name'][$file_key]);
+							array_push($all_files, $file);
             }
             break;
           }
@@ -1294,7 +1298,9 @@ class FMModelForm_maker {
   }
 
   public function gen_mail($counter, $all_files, $id, $str) {
-    @session_start();
+    if (session_id() == '' || (function_exists('session_status') && (session_status() == PHP_SESSION_NONE))) {
+      @session_start();
+    }
     global $wpdb;
     $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM " . $wpdb->prefix . "formmaker WHERE id=%d", $id));
     if (!$row->form_front) {

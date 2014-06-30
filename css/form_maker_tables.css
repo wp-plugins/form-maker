@@ -1,3 +1,9 @@
+#manage_form fieldset {
+  clear: both;
+  float: left;
+  width: 99%;
+}
+
 .form_maker_title {
   border: none;
   font-size: 11px;
@@ -37,7 +43,7 @@
 #formMakerDiv1 {
   padding-top: 20px;
   position: fixed;
-  z-index: 100;
+  z-index: 10000;
   background-color: transparent;
   top: 0;
   left: 0;

@@ -52,7 +52,9 @@ class FMViewFormmakerwdcaptcha {
       }
       $l = rand($cap_length_min, $cap_length_max);
       $code = code_generic($l, $cap_digital, $cap_latin_char);
-      @session_start();
+      if (session_id() == '' || (function_exists('session_status') && (session_status() == PHP_SESSION_NONE))) {
+        @session_start();
+      }
       $_SESSION[$i . '_wd_captcha_code'] = $code;
       $canvas = imagecreatetruecolor($cap_width, $cap_height);
       $c = imagecolorallocate($canvas, rand(150, 255), rand(150, 255), rand(150, 255));

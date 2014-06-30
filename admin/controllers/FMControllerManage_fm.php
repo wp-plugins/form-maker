@@ -135,7 +135,7 @@ function before_reset() {
     $script2 = (isset($_POST['script2']) ? esc_html(stripslashes($_POST['script2'])) : '');
     $script_user1 = (isset($_POST['script_user1']) ? esc_html(stripslashes($_POST['script_user1'])) : '');
     $script_user2 = (isset($_POST['script_user2']) ? esc_html(stripslashes($_POST['script_user2'])) : '');
-    $submit_text = (isset($_POST['submit_text']) ? esc_html(stripslashes($_POST['submit_text'])) : '');
+    $submit_text = (isset($_POST['submit_text']) ? stripslashes($_POST['submit_text']) : '');
     $url = (isset($_POST['url']) ? esc_html(stripslashes($_POST['url'])) : '');
     $script_mail = (isset($_POST['script_mail']) ? stripslashes($_POST['script_mail']) : '%all%');
     $script_mail_user = (isset($_POST['script_mail_user']) ? stripslashes($_POST['script_mail_user']) : '%all%');
@@ -323,7 +323,7 @@ function before_reset() {
     $mail_from_name_user = (isset($_POST['mail_from_name_user']) ? esc_html(stripslashes($_POST['mail_from_name_user'])) : '');
     $reply_to_user = (isset($_POST['reply_to_user']) ? esc_html(stripslashes($_POST['reply_to_user'])) : '');
     $script_mail_user = (isset($_POST['script_mail_user']) ? stripslashes($_POST['script_mail_user']) : '%all%');
-    $submit_text = (isset($_POST['submit_text']) ? esc_html(stripslashes($_POST['submit_text'])) : '');
+    $submit_text = (isset($_POST['submit_text']) ? stripslashes($_POST['submit_text']) : '');
     $url = (isset($_POST['url']) ? esc_html(stripslashes($_POST['url'])) : '');
     $tax = (isset($_POST['tax']) ? esc_html(stripslashes($_POST['tax'])) : 0);
     $payment_currency = (isset($_POST['payment_currency']) ? stripslashes($_POST['payment_currency']) : '');

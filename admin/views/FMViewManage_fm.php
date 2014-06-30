@@ -361,6 +361,9 @@ class FMViewManage_fm {
             if (document.getElementsByTagName("iframe")[iiiii].id == 'form_maker_editor_ifr') {
               id_ifr_editor = iiiii;
               break;
+            }            
+            else {
+              id_ifr_editor = -1;
             }
           }
         }
@@ -454,7 +457,7 @@ class FMViewManage_fm {
           <br />
           <img src="<?php echo WD_FM_URL . '/images/formoptions.png'; ?>" onclick="if (spider_check_required('title', 'Form title') || !submitbutton()) {return false;}; spider_set_input_value('task', 'form_options'); spider_form_submit(event, 'manage_form');" style="cursor: pointer; margin: 10px 0 10px 10px; float: right;"/>
           <br /><br /><br />
-          <img src="<?php echo WD_FM_URL . '/images/addanewfield.png'; ?>" onclick="enable(); Enable()" style="cursor: pointer; margin:10px 0 10px 10px; float: right;"/>
+          <img src="<?php echo WD_FM_URL . '/images/addanewfield.png'; ?>" onclick="if (fm_check_page_load()) { enable(); Enable(); }" style="cursor: pointer; margin:10px 0 10px 10px; float: right;"/>
         </div>
       </div>
 
@@ -1310,6 +1313,9 @@ class FMViewManage_fm {
               id_ifr_editor = iiiii;
               break;
             }
+            else {
+              id_ifr_editor = -1;
+            }
           }
         }
         alltypes = Array('customHTML', 'text', 'checkbox', 'radio', 'time_and_date', 'select', 'file_upload', 'captcha', 'map', 'button', 'page_break', 'section_break', 'paypal', 'survey');
@@ -1404,7 +1410,7 @@ class FMViewManage_fm {
           <br />
           <img src="<?php echo WD_FM_URL . '/images/formoptions.png'; ?>" onclick="if (spider_check_required('title', 'Form title')) {return false;}; submitbutton(); spider_set_input_value('task', 'form_options_old'); spider_form_submit(event, 'manage_form');" style="cursor: pointer; margin: 10px 0 10px 10px; float: right;"/>
           <br /><br /><br />
-          <img src="<?php echo WD_FM_URL . '/images/addanewfield.png'; ?>" onclick="enable(); Enable()" style="cursor: pointer; margin:10px 0 10px 10px; float: right;"/>
+          <img src="<?php echo WD_FM_URL . '/images/addanewfield.png'; ?>" onclick="if (fm_check_page_load()) { enable(); Enable(); }" style="cursor: pointer; margin:10px 0 10px 10px; float: right;"/>
         </div>
       </div>
 
