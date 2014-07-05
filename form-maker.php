@@ -3,7 +3,7 @@
  * Plugin Name: Form Maker
  * Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
  * Description: This plugin is a modern and advanced tool for easy and fast creating of a WordPress Form. The backend interface is intuitive and user friendly which allows users far from scripting and programming to create WordPress Forms.
- * Version: 1.7.5
+ * Version: 1.7.6
  * Author: http://web-dorado.com/
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -199,7 +199,7 @@ if (class_exists('WP_Widget')) {
 // Activate plugin.
 function form_maker_activate() {
   $version = get_option("wd_form_maker_version");
-  $new_version = '1.7.0';
+  $new_version = '1.7.6';
   if (!$version) {
     add_option("wd_form_maker_version", $new_version, '', 'no');
     global $wpdb;
@@ -216,7 +216,7 @@ function form_maker_activate() {
   }
   elseif (version_compare($version, $new_version, '<')) {
     require_once WD_FM_DIR . "/form_maker_update.php";
-    form_maker_update($new_version);
+    form_maker_update($version);
     update_option("wd_form_maker_version", $new_version);
   }
   // To disable contact form.

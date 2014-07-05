@@ -14,7 +14,7 @@
       ed.addButton('Form_Maker_mce', {
         title : 'Insert Form Maker',
         cmd : 'mceForm_Maker_mce',
-        image: plugin_url + '/images/form_maker_edit_but.png'
+        image: url + '/images/form_maker_edit_but.png'
       });
     }
   });

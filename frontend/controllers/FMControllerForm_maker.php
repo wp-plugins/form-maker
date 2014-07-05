@@ -23,6 +23,9 @@ class FMControllerForm_maker {
   }
 
   public function display($id) {
+    if (session_id() == '' || (function_exists('session_status') && (session_status() == PHP_SESSION_NONE))) {
+      @session_start();
+    }
     require_once WD_FM_DIR . "/frontend/models/FMModelForm_maker.php";
     $model = new FMModelForm_maker();
 

@@ -61,6 +61,23 @@ function form_maker_update($version) {
       ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
     $wpdb->query($formmaker_blocked);
   }
+  if (version_compare($version, '1.7.6') == -1) {
+    $wpdb->query("ALTER TABLE `" . $wpdb->prefix . "formmaker` ADD `condition` text NOT NULL");
+    $wpdb->query("ALTER TABLE `" . $wpdb->prefix . "formmaker` ADD `mail_cc` varchar(128) NOT NULL");
+    $wpdb->query("ALTER TABLE `" . $wpdb->prefix . "formmaker` ADD `mail_cc_user` varchar(128) NOT NULL");
+    $wpdb->query("ALTER TABLE `" . $wpdb->prefix . "formmaker` ADD `mail_bcc` varchar(128) NOT NULL");
+    $wpdb->query("ALTER TABLE `" . $wpdb->prefix . "formmaker` ADD `mail_bcc_user` varchar(128) NOT NULL");
+    $wpdb->query("ALTER TABLE `" . $wpdb->prefix . "formmaker` ADD `mail_subject` varchar(128) NOT NULL");
+    $wpdb->query("ALTER TABLE `" . $wpdb->prefix . "formmaker` ADD `mail_subject_user` varchar(128) NOT NULL");
+    $wpdb->query("ALTER TABLE `" . $wpdb->prefix . "formmaker` ADD `mail_mode` tinyint(4) NOT NULL DEFAULT '1'");
+    $wpdb->query("ALTER TABLE `" . $wpdb->prefix . "formmaker` ADD `mail_mode_user` tinyint(4) NOT NULL DEFAULT '1'");
+    $wpdb->query("ALTER TABLE `" . $wpdb->prefix . "formmaker` ADD `mail_attachment` tinyint(4) NOT NULL DEFAULT '1'");
+    $wpdb->query("ALTER TABLE `" . $wpdb->prefix . "formmaker` ADD `mail_attachment_user` tinyint(4) NOT NULL DEFAULT '1'");
+
+    $wpdb->query("ALTER TABLE `" . $wpdb->prefix . "formmaker` CHANGE `tax` `tax` float NOT NULL DEFAULT '0'");
+
+    $wpdb->query('UPDATE ' . $wpdb->prefix . 'formmaker SET `mail_mode` = 1, `mail_mode_user` = 1, `mail_attachment` = 1, `mail_attachment_user` = 1');
+  }
   return;
 }
 

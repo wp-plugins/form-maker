@@ -1779,6 +1779,18 @@ class FMModelManage_fm {
       $row->mail_from_user = '';
       $row->mail_from_name_user = '';
       $row->reply_to_user = '';
+
+      $row->condition = '';
+      $row->mail_cc = '';
+      $row->mail_cc_user = '';
+      $row->mail_bcc = '';
+      $row->mail_bcc_user = '';
+      $row->mail_subject = '';
+      $row->mail_subject_user = '';
+      $row->mail_mode = 1;
+      $row->mail_mode_user = 1;
+      $row->mail_attachment = 1;
+      $row->mail_attachment_user = 1;
     }
     return $row;
   }

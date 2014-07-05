@@ -23,9 +23,6 @@ class FMViewForm_maker {
   // Public Methods                                                                     //
   ////////////////////////////////////////////////////////////////////////////////////////
   public function display($id) {
-    if (session_id() == '' || (function_exists('session_status') && (session_status() == PHP_SESSION_NONE))) {
-      @session_start();
-    }
     $form_maker_front_end = "";
     $result = $this->model->showform($id);
     if (!$result) {
@@ -147,6 +144,412 @@ class FMViewForm_maker {
         array_push($paramss, $temp[1]);
       }
       $form_id = $id;	
+      
+      $show_hide	= array();
+	$field_label	= array();
+	$all_any 	= array();
+	$condition_params 	= array();
+	$type_and_id = array();
+
+	$condition_js='';
+	if($row->condition!="")
+	{
+		$conditions=explode('*:*new_condition*:*',$row->condition);
+		$conditions 	= array_slice($conditions,0, count($conditions)-1); 
+		$count_of_conditions = count($conditions);					
+
+		foreach($conditions as $condition)
+		{
+			$temp=explode('*:*show_hide*:*',$condition);
+			array_push($show_hide, $temp[0]);
+			$temp=explode('*:*field_label*:*',$temp[1]);
+			array_push($field_label, $temp[0]);
+			$temp=explode('*:*all_any*:*',$temp[1]);
+			array_push($all_any, $temp[0]);
+			array_push($condition_params, $temp[1]);
+		}
+
+		foreach($id1s as $id1s_key => $id1)
+		{	
+			$type_and_id[$id1]=$types[$id1s_key];
+		}
+		
+		
+		for($k=0; $k<$count_of_conditions; $k++)
+		{	
+	
+			if($show_hide[$k])
+			{
+				$display = 'removeAttr("style")';
+				$display_none = 'css("display", "none")';
+			}
+			else
+			{
+				$display = 'css("display", "none")';
+				$display_none = 'removeAttr("style")';
+			}
+
+			if($all_any[$k]=="and")
+				$or_and = '&&';
+			else
+				$or_and = '||';
+				
+		
+				if($condition_params[$k])
+				{
+					$cond_params =explode('*:*next_condition*:*',$condition_params[$k]);
+					$cond_params 	= array_slice($cond_params,0, count($cond_params)-1); 
+					
+					$if = '';
+					$keyup = '';
+					$change = '';
+					$click = '';
+					
+					foreach($cond_params as $key=>$param)
+					{
+						$params_value = explode('***',html_entity_decode($param));
+	
+						switch($type_and_id[$params_value[0]])
+						{
+							case "type_text":
+							case "type_password":
+							case "type_textarea":
+							case "type_number":
+							case "type_submitter_mail":		
+								$if .= ' jQuery("#wdform_'.$params_value[0].'_element'.$form_id.'").val()'.$params_value[1].'"'.$params_value[2].'" ';
+								$keyup .= '#wdform_'.$params_value[0].'_element'.$form_id.', ';	
+							break;
+							
+							case "type_name":	
+								
+								$extended0 = '';
+								$extended1 = '';
+								$extended2 = '';
+								$extended3 = '';
+								$normal0 = '';
+								$normal1 = '';
+								$normal2 = '';
+								$normal3 = '';
+								
+								$name_fields = explode(' ',$params_value[2]);
+								if($name_fields[0]!='')
+								{
+									$extended0 = 'jQuery("#wdform_'.$params_value[0].'_element_title'.$form_id.'").val()'.$params_value[1].'"'.$name_fields[0].'"';
+									$normal0 = 'jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val()'.$params_value[1].'"'.$name_fields[0].'"';
+								}
+								
+								if(isset($name_fields[1]) && $name_fields[1]!='')
+								{
+									$extended1 = 'jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val()'.$params_value[1].'"'.$name_fields[1].'"';
+									$normal1 = 'jQuery("#wdform_'.$params_value[0].'_element_last'.$form_id.'").val()'.$params_value[1].'"'.$name_fields[1].'"';
+								}
+								
+								if(isset($name_fields[2]) && $name_fields[2]!='')
+								{
+									$extended2 = 'jQuery("#wdform_'.$params_value[0].'_element_last'.$form_id.'").val()'.$params_value[1].'"'.$name_fields[2].'"';
+									$normal2 = '';
+								}
+								
+								if(isset($name_fields[3]) && $name_fields[3]!='')
+								{
+									$extended3 = 'jQuery("#wdform_'.$params_value[0].'_element_middle'.$form_id.'").val()'.$params_value[1].'"'.$name_fields[3].'"';
+									$normal3 = '';
+								}
+								
+								
+								if(isset($name_fields[3]))
+								{
+									$extended ='';
+									$normal ='';
+									if($extended0)
+									{	
+										$extended = $extended0;
+										if($extended1)
+										{
+											$extended .= ' && '.$extended1;
+											if($extended2)
+												$extended .=' && '.$extended2;	
+												
+											if($extended3)
+												$extended .=' && '.$extended3;
+										}
+										else
+										{
+											if($extended2)
+												$extended .= ' && '.$extended2;
+											if($extended3)
+												$extended .= ' && '.$extended3;	
+										}
+									}
+									else
+									{
+										if($extended1)
+										{	
+											$extended = $extended1;
+											if($extended2)
+												$extended .=' && '.$extended2;
+												
+											if($extended3)
+												$extended .=' && '.$extended3;
+										}
+										else
+										{
+											if($extended2)
+											{
+												$extended = $extended2;
+												if($extended3)
+													$extended .= ' && '.$extended3;
+											}
+											else
+												if($extended3)
+													$extended = $extended3;
+										}		
+									}
+								
+									if($normal0)
+									{	
+										$normal = $normal0;
+										if($normal1)
+											$normal .= ' && '.$normal1;
+									}
+									else
+									{
+										if($normal1)
+											$normal = $normal1;			
+									}
+								}
+								else
+								{
+									if(isset($name_fields[2]))
+									{
+										$extended ="";
+										$normal ="";
+										if($extended0)
+										{	
+											$extended = $extended0;	
+											if($extended1)
+												$extended .= ' && '.$extended1;
+
+											if($extended2)
+													$extended .=' && '.$extended2;
+
+										}
+										else
+										{
+											if($extended1)
+											{
+												$extended = $extended1;
+												if($extended2)
+													$extended .= ' && '.$extended2;	
+											}		
+											else
+												if($extended2)
+													$extended = $extended2;	
+										}
+										
+										
+										if($normal0)
+										{	
+											$normal = $normal0;	
+											if($normal1)
+												$normal .= ' && '.$normal1;
+										}
+										else
+										{
+											if($normal1)
+												$normal = $normal1;
+										}
+										
+									}
+									else
+									{
+										if(isset($name_fields[1]))
+										{
+											$extended ='';
+											$normal ='';
+											if($extended0)
+											{	
+												if($extended1)
+													$extended = $extended0.' && '.$extended1;
+												else
+													$extended = $extended0;
+											}
+											else
+											{
+												if($extended1)
+													$extended = $extended1;
+											}
+											
+											
+											if($normal0)
+											{	
+												if($normal1)
+													$normal = $normal0.' && '.$normal1;
+												else
+													$normal = $normal0;
+											}
+											else
+											{
+												if($normal1)
+													$normal = $normal1;
+											}
+										}
+										else
+										{
+											$extended = $extended0;
+											$normal = $normal0;
+										}
+									}	
+								}
+								
+								if($extended!="" && $normal!="")			
+									$if .= ' ((jQuery("#wdform_'.$params_value[0].'_element_title'.$form_id.'").length != 0) ?  '.$extended.' : '.$normal.') ';
+								else
+									$if .= ' true';
+								
+								$keyup .= '#wdform_'.$params_value[0].'_element_title'.$form_id.', #wdform_'.$params_value[0].'_element_first'.$form_id.', #wdform_'.$params_value[0].'_element_last'.$form_id.', #wdform_'.$params_value[0].'_element_middle'.$form_id.', ';		
+							break;
+							
+							case "type_phone":
+								$phone_fields = explode(' ',$params_value[2]);
+								if(isset($phone_fields[1]))
+								{
+									if($phone_fields[0]!='' && $phone_fields[1]!='')
+										$if .= ' (jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val()'.$params_value[1].'"'.$phone_fields[0].'" && jQuery("#wdform_'.$params_value[0].'_element_last'.$form_id.'").val()'.$params_value[1].'"'.$phone_fields[1].'") ';	
+									else
+									{
+										if($phone_fields[0]=='')
+											$if .= ' (jQuery("#wdform_'.$params_value[0].'_element_last'.$form_id.'").val()'.$params_value[1].'"'.$phone_fields[1].'") ';	
+										else
+											if($phone_fields[1]=='')
+												$if .= ' (jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val()'.$params_value[1].'"'.$phone_fields[1].'") ';	
+									}
+								}
+								else
+									$if .= ' jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val()'.$params_value[1].'"'.$params_value[2].'" ';
+							
+								$keyup .= '#wdform_'.$params_value[0].'_element_first'.$form_id.', #wdform_'.$params_value[0].'_element_last'.$form_id.', ';
+							break;
+						
+							case "type_paypal_price":	
+								$if .= '	
+								(jQuery("#wdform_'.$params_value[0].'_td_name_cents").attr("style")=="display: none;") ? jQuery("#wdform_'.$params_value[0].'_element_dollars'.$form_id.'").val()'.$params_value[1].'"'.$params_value[2].'" : parseFloat(jQuery("#wdform_'.$params_value[0].'_element_dollars'.$form_id.'").val()+"."+jQuery("#wdform_'.$params_value[0].'_element_cents'.$form_id.'").val())'.$params_value[1].'parseFloat("'.str_replace('.0', '.', $params_value[2]).'")';
+								
+								$keyup .= '#wdform_'.$params_value[0].'_element_dollars'.$form_id.', #wdform_'.$params_value[0].'_element_cents'.$form_id.', ';
+							break;
+							
+							case "type_own_select":
+							case "type_paypal_select":
+								
+								$if .= ' jQuery("#wdform_'.$params_value[0].'_element'.$form_id.' option:selected").text()'.$params_value[1].'"'.$params_value[2].'" ';
+								$change .= '#wdform_'.$params_value[0].'_element'.$form_id.', ';
+							break;
+							
+							case "type_address":	
+								$if .= ' jQuery("#wdform_'.$params_value[0].'_country'.$form_id.'").val()'.$params_value[1].'"'.$params_value[2].'" ';
+								$change .= '#wdform_'.$params_value[0].'_country'.$form_id.', ';
+							break;
+							
+							case "type_radio":
+							case "type_paypal_radio":
+							case "type_paypal_shipping":
+								
+								$if .= ' jQuery("label[for=\'"+jQuery("input[name^=\'wdform_'.$params_value[0].'_element'.$form_id.'\']:checked").attr("id")+"\']").eq(0).text()'.$params_value[1].'"'.$params_value[2].'" ';
+								$click .= 'div[wdid='.$params_value[0].'] input[type=\'radio\'], ';
+							break;
+							
+							case "type_checkbox":
+							case "type_paypal_checkbox":	
+							
+								if($params_value[2])
+								{
+									$choises = explode('@@@',$params_value[2]);
+									$choises 	= array_slice($choises,0, count($choises)-1); 
+									
+									if($params_value[1]=="!=")
+										$is = "!";
+									else
+										$is = "";
+										
+									foreach($choises as $key1=>$choise)
+									{
+										if($type_and_id[$params_value[0]]=="type_paypal_checkbox")
+										{
+											$choise_and_value = explode("*:*value*:*",$choise);
+											$if .= ' '.$is.'(jQuery("div[wdid='.$params_value[0].'] input[value=\"'.$choise_and_value[1].'\"]").is(":checked") && jQuery("div[wdid='.$params_value[0].'] input[title=\"'.$choise_and_value[0].'\"]"))';
+
+										}
+										else
+										$if .= ' '.$is.'jQuery("div[wdid='.$params_value[0].'] input[value=\"'.$choise.'\"]").is(":checked") ';
+										
+										if($key1!=count($choises)-1)
+											$if .= '&&';
+									}
+								
+									$click .= 'div[wdid='.$params_value[0].'] input[type=\'checkbox\'], ';
+								}
+								else
+								{
+									if($or_and=='&&')
+										$if .= ' true';
+									else
+										$if .= ' false';
+								}
+								break;
+                default :
+                  if($or_and=='&&')
+										$if .= ' true';
+									else
+										$if .= ' false';
+                  break;
+						}	
+
+						if($key!=count($cond_params)-1)
+							$if .= $or_and;
+					}
+
+					if($if)
+					{
+						$condition_js .= '
+					
+							if('.$if.')
+								jQuery("div[wdid='.$field_label[$k].']").'.$display .';
+							else
+								jQuery("div[wdid='.$field_label[$k].']").'.$display_none .';';							
+					}
+					
+					if($keyup)
+						$condition_js .= '
+							jQuery("'.substr($keyup,0,-2).'").keyup(function() { 
+
+								if('.$if.')
+									jQuery("div[wdid='.$field_label[$k].']").'.$display .';
+								else
+									jQuery("div[wdid='.$field_label[$k].']").'.$display_none .'; });';
+					
+					if($change)
+						$condition_js .= '
+							jQuery("'.substr($change,0,-2).'").change(function() { 
+								if('.$if.')
+									jQuery("div[wdid='.$field_label[$k].']").'.$display .';
+								else
+									jQuery("div[wdid='.$field_label[$k].']").'.$display_none .'; });';
+			
+					if($click)
+						$condition_js .= '
+							jQuery("'.substr($click,0,-2).'").click(function() { 
+								if('.$if.')
+									jQuery("div[wdid='.$field_label[$k].']").'.$display .';
+								else
+									jQuery("div[wdid='.$field_label[$k].']").'.$display_none .'; });';
+		
+			}
+			
+			
+		}
+	
+	}
+      
       if ($row->autogen_layout == 0) {
         $form=$row->custom_front;
       }
@@ -227,7 +630,7 @@ class FMViewForm_maker {
                 jQuery("<input type=\"hidden\" name=\"wdform_send_copy_'.$form_id.'\" value = \"1\" />").appendTo("#form'.$form_id.'");';
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if(x.find(jQuery("div[wdid='.$id1.'] input:checked")).length == 0)
                   {
@@ -274,7 +677,7 @@ class FMViewForm_maker {
               
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="'.$param['w_title'].'" || jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="")
                   {
@@ -324,7 +727,7 @@ class FMViewForm_maker {
               
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="'.$param['w_title'].'" || jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="")
                   {
@@ -371,7 +774,7 @@ class FMViewForm_maker {
               
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="")
                   {
@@ -420,7 +823,7 @@ class FMViewForm_maker {
              
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="'.$param['w_title'].'" || jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="")
                   {
@@ -475,7 +878,7 @@ class FMViewForm_maker {
               $rep.= $wd_editor.'</div></div>';
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if(tinyMCE.get("wdform_'.$id1.'_wd_editor'.$form_id.'").getContent()=="")
                   {
@@ -547,7 +950,7 @@ class FMViewForm_maker {
             
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if(jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").val()=="'.$w_title[0].'" || jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_element_last'.$form_id.'").val()=="'.$w_title[1].'" || jQuery("#wdform_'.$id1.'_element_last'.$form_id.'").val()=="")
                   {
@@ -652,7 +1055,7 @@ class FMViewForm_maker {
               if($required) {
                 if($param['w_name_format']=='normal') {
                   $check_js.='
-                  if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                  if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                   {
                     if(jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").val()=="'.$w_title[0].'" || jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_element_last'.$form_id.'").val()=="'.$w_title[1].'" || jQuery("#wdform_'.$id1.'_element_last'.$form_id.'").val()=="")
                     {
@@ -667,7 +1070,7 @@ class FMViewForm_maker {
                 }
                 else {
                   $check_js.='
-                  if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                  if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                   {
                     if(jQuery("#wdform_'.$id1.'_element_title'.$form_id.'").val()=="'.$w_title[0].'" || jQuery("#wdform_'.$id1.'_element_title'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").val()=="'.$w_title[1].'" || jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_element_last'.$form_id.'").val()=="'.$w_title[2].'" || jQuery("#wdform_'.$id1.'_element_last'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_element_middle'.$form_id.'").val()=="'.$w_title[3].'" || jQuery("#wdform_'.$id1.'_element_middle'.$form_id.'").val()=="")
                     {
@@ -769,7 +1172,7 @@ class FMViewForm_maker {
               
               if ($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if(jQuery("#wdform_'.$id1.'_street1'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_street2'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_city'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_state'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_postal'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_country'.$form_id.'").val()=="")
                   {
@@ -796,7 +1199,7 @@ class FMViewForm_maker {
                 }
                 else
                 {
-                  if(jQuery("#wdform_'.$id1.'_state'.$form_id.'").prop("tagName")=="SELECT")
+                  if(jQuery("#wdform_'.$id1.'_state'.$form_id.'").attr("tagName")=="SELECT")
                   {
               
                     jQuery("#wdform_'.$id1.'_state'.$form_id.'").parent().append("<input type=\"text\" id=\"wdform_'.$id1.'_state'.$form_id.'\" name=\"wdform_'.($id1+3).'_state'.$form_id.'\" value=\"'.(isset($_POST['wdform_'.($id1+3).'_state'.$form_id]) ? $_POST['wdform_'.($id1+3).'_state'.$form_id] : "").'\" style=\"width: 100%;\" '.$param['attributes'].'><label class=\"mini_label\">'.$w_mini_labels[3].'</label>");
@@ -841,7 +1244,7 @@ class FMViewForm_maker {
               
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="'.$param['w_title'].'" || jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="")
                   {
@@ -857,7 +1260,7 @@ class FMViewForm_maker {
                 ';
               }
               $check_js.='
-              if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+              if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
               {
               
               if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()!="" && jQuery("#wdform_'.$id1.'_element'.$form_id.'").val().search(/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/) == -1 )
@@ -930,7 +1333,7 @@ class FMViewForm_maker {
                   $param['w_choices_checked'][$key]=($param['w_choices_checked'][$key]=='true' ? 'checked="checked"' : '');
                 }
                 else {
-                  $post_valuetemp = isset($_POST['wdform_'.$id1."_element".$form_id.$key]) ? $_POST['wdform_'.$id1."_element".$form_id.$key] : "";
+                  $post_valuetemp = isset($_POST['wdform_'.$id1."_element".$form_id.$key]) ? $_POST['wdform_'.$id1."_element".$form_id.$key] : NULL;
                   $param['w_choices_checked'][$key]=(isset($post_valuetemp) ? 'checked="checked"' : '');
                 }
                 
@@ -942,7 +1345,7 @@ class FMViewForm_maker {
               
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if(x.find(jQuery("div[wdid='.$id1.'] input:checked")).length == 0 || jQuery("#wdform_'.$id1.'_other_input'.$form_id.'").val() == "")
                   {
@@ -1030,7 +1433,7 @@ class FMViewForm_maker {
             
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0) {
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                   if(x.find(jQuery("div[wdid='.$id1.'] input:checked")).length == 0 || jQuery("#wdform_'.$id1.'_other_input'.$form_id.'").val() == "") {
                     alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
@@ -1101,7 +1504,7 @@ class FMViewForm_maker {
               
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if( jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="")
                     {
@@ -1160,9 +1563,9 @@ class FMViewForm_maker {
               
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
-                  if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="'.$param['w_title'].'" || jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="")
+                  if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="")
                     {
                       alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
                       jQuery("#wdform_'.$id1.'_element'.$form_id.'").addClass( "form-error" );
@@ -1236,7 +1639,7 @@ class FMViewForm_maker {
               
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if(jQuery("#wdform_'.$id1.'_mm'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_hh'.$form_id.'").val()=="" || (jQuery("#wdform_'.$id1.'_ss'.$form_id.'").length != 0 ? jQuery("#wdform_'.$id1.'_ss'.$form_id.'").val()=="" : false))
                   {
@@ -1283,7 +1686,7 @@ class FMViewForm_maker {
               
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="")
                   {
@@ -1391,7 +1794,7 @@ class FMViewForm_maker {
               
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if(jQuery("#wdform_'.$id1.'_day'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_month'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_year'.$form_id.'").val()=="")
                   {
@@ -1439,7 +1842,7 @@ class FMViewForm_maker {
         
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="")
                   {
@@ -1453,7 +1856,7 @@ class FMViewForm_maker {
                 ';	
               }
               $check_js.='
-              if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+              if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
               {
                 ext_available=getfileextension(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val(),"'.$param['w_extension'].'");
                 if(!ext_available)
@@ -1494,7 +1897,7 @@ class FMViewForm_maker {
               $onload_js .='jQuery("#_element_refresh'.$form_id.'").click(function() {captcha_refresh("wd_captcha","'.$form_id.'")});';
               
               $check_js.='
-              if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+              if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
               {
                 if(jQuery("#wd_captcha_input'.$form_id.'").val()=="")
                 {
@@ -1662,7 +2065,7 @@ class FMViewForm_maker {
 
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if(jQuery("#wdform_'.$id1.'_element_dollars'.$form_id.'").val()=="'.$w_title[0].'" || jQuery("#wdform_'.$id1.'_element_dollars'.$form_id.'").val()=="")
                   {
@@ -1676,7 +2079,7 @@ class FMViewForm_maker {
                 ';
               }
               $check_js.='
-              if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+              if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
               {
                 dollars=0;
                 cents=0;
@@ -1808,9 +2211,9 @@ class FMViewForm_maker {
               
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
-                  if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="'.$param['w_title'].'" || jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="")
+                  if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="")
                   {
                     alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
                     jQuery("#wdform_'.$id1.'_element'.$form_id.'").addClass( "form-error" );
@@ -1829,9 +2232,13 @@ class FMViewForm_maker {
               $onsubmit_js.='
                 jQuery("<input type=\"hidden\" name=\"wdform_'.$id1.'_element_quantity_label'.$form_id.'\"  />").val("'.(__("Quantity", 'form_maker')).'").appendTo("#form'.$form_id.'");
                 ';
-              $onsubmit_js.='
-                jQuery("<input type=\"hidden\" name=\"wdform_'.$id1.'_element_property_label'.$form_id.'\"  />").val("'.$param['w_property'][0].'").appendTo("#form'.$form_id.'");
-                ';
+              foreach($param['w_property'] as $key => $property)
+              {	
+                $onsubmit_js.='
+                  jQuery("<input type=\"hidden\" name=\"wdform_'.$id1.'_element_property_label'.$form_id.$key.'\"  />").val("'.$property.'").appendTo("#form'.$form_id.'");
+                  ';
+                  
+              }
               break;
             }
             
@@ -1871,7 +2278,7 @@ class FMViewForm_maker {
                 $post_value = isset($_POST["counter".$form_id]) ? $_POST["counter".$form_id] : NULL;
                 if(isset($post_value)) {
                   $param['w_choices_checked'][$key]="";
-                  $post_value = isset($_POST['wdform_'.$id1."_element".$form_id.$key]) ? $_POST['wdform_'.$id1."_element".$form_id.$key] : "";
+                  $post_value = isset($_POST['wdform_'.$id1."_element".$form_id.$key]) ? $_POST['wdform_'.$id1."_element".$form_id.$key] : NULL;
                   if(isset($post_value)) {
                     $param['w_choices_checked'][$key]='checked="checked"';							
                   }
@@ -1901,7 +2308,7 @@ class FMViewForm_maker {
               $rep.='</div></div></div>';              
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if(x.find(jQuery("div[wdid='.$id1.'] input:checked")).length == 0)
                   {
@@ -1915,14 +2322,17 @@ class FMViewForm_maker {
                 ';
               }
               $onsubmit_js.='
-                jQuery("<input type=\"hidden\" name=\"wdform_'.$id1.'_element_label'.$form_id.'\"  />").val((x.find(jQuery("div[wdid='.$id1.'] input:checked")).length != 0) ? jQuery("#"+x.find(jQuery("div[wdid='.$id1.'] input:checked")).prop("id").replace("element", "elementlabel_")) : "").appendTo("#form'.$form_id.'");
+                jQuery("<input type=\"hidden\" name=\"wdform_'.$id1.'_element_label'.$form_id.'\"  />").val((x.find(jQuery("div[wdid='.$id1.'] input:checked")).length != 0) ? jQuery("#"+x.find(jQuery("div[wdid='.$id1.'] input:checked")).attr("id").replace("element", "elementlabel_")) : "").appendTo("#form'.$form_id.'");
                 ';
               $onsubmit_js.='
                 jQuery("<input type=\"hidden\" name=\"wdform_'.$id1.'_element_quantity_label'.$form_id.'\"  />").val("'.(__("Quantity", 'form_maker')).'").appendTo("#form'.$form_id.'");
                 ';
-              $onsubmit_js.='
-                jQuery("<input type=\"hidden\" name=\"wdform_'.$id1.'_element_property_label'.$form_id.'\"  />").val("'.$param['w_property'][0].'").appendTo("#form'.$form_id.'");
-                ';                
+              foreach($param['w_property'] as $key => $property)
+              {
+                $onsubmit_js.='
+                  jQuery("<input type=\"hidden\" name=\"wdform_'.$id1.'_element_property_label'.$form_id.$key.'\"  />").val("'.$property.'").appendTo("#form'.$form_id.'");
+                  ';
+              }
               break;
             }
 
@@ -1993,7 +2403,7 @@ class FMViewForm_maker {
               
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if(x.find(jQuery("div[wdid='.$id1.'] input:checked")).length == 0)
                   {
@@ -2008,16 +2418,19 @@ class FMViewForm_maker {
               }
               $onsubmit_js.='
                 jQuery("<input type=\"hidden\" name=\"wdform_'.$id1.'_element_label'.$form_id.'\" />").val(
-                jQuery("label[for=\'"+jQuery("input[name^=\'wdform_'.$id1.'_element'.$form_id.'\']:checked").prop("id")+"\']").eq(0).text()
+                jQuery("label[for=\'"+jQuery("input[name^=\'wdform_'.$id1.'_element'.$form_id.'\']:checked").attr("id")+"\']").eq(0).text()
                 ).appendTo("#form'.$form_id.'");
 
                 ';
               $onsubmit_js.='
                 jQuery("<input type=\"hidden\" name=\"wdform_'.$id1.'_element_quantity_label'.$form_id.'\"  />").val("'.(__("Quantity", 'form_maker')).'").appendTo("#form'.$form_id.'");
                 ';
-              $onsubmit_js.='
-                jQuery("<input type=\"hidden\" name=\"wdform_'.$id1.'_element_property_label'.$form_id.'\"  />").val("'.$param['w_property'][0].'").appendTo("#form'.$form_id.'");
-                ';	
+              foreach($param['w_property'] as $key => $property)
+              {
+                $onsubmit_js.='
+                  jQuery("<input type=\"hidden\" name=\"wdform_'.$id1.'_element_property_label'.$form_id.$key.'\"  />").val("'.$property.'").appendTo("#form'.$form_id.'");
+                  ';
+              }
               break;
             }
             
@@ -2065,7 +2478,7 @@ class FMViewForm_maker {
               $rep.='</div></div>';
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if(x.find(jQuery("div[wdid='.$id1.'] input:checked")).length == 0)
                   {
@@ -2080,7 +2493,7 @@ class FMViewForm_maker {
               }            
               $onsubmit_js.='
                 jQuery("<input type=\"hidden\" name=\"wdform_'.$id1.'_element_label'.$form_id.'\" />").val(
-                jQuery("label[for=\'"+jQuery("input[name^=\'wdform_'.$id1.'_element'.$form_id.'\']:checked").prop("id")+"\']").eq(0).text()
+                jQuery("label[for=\'"+jQuery("input[name^=\'wdform_'.$id1.'_element'.$form_id.'\']:checked").attr("id")+"\']").eq(0).text()
                 ).appendTo("#form'.$form_id.'");
                 ';                
               break;
@@ -2166,7 +2579,7 @@ class FMViewForm_maker {
               
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if(jQuery("#wdform_'.$id1.'_selected_star_amount'.$form_id.'").val()=="")
                   {
@@ -2225,7 +2638,7 @@ class FMViewForm_maker {
               $rep.='</div><div class="wdform-element-section '.$param['w_class'].'"  style="'.$param['w_field_label_pos2'].'"><div id="wdform_'.$id1.'_element'.$form_id.'" style="float: left;" '.$param['attributes'].'><label class="mini_label">'.$w_mini_labels[0].'</label><div  style="display: inline-table; vertical-align: middle;border-spacing: 7px;"><div style="display: table-row;">'.$numbers.'</div><div style="display: table-row;">'.$radio_buttons.'</div></div><label class="mini_label" >'.$w_mini_labels[1].'</label></div></div></div>';
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if(x.find(jQuery("div[wdid='.$id1.'] input:checked")).length == 0)
                   {
@@ -2270,17 +2683,17 @@ class FMViewForm_maker {
               }
               $rep.='</div><div class="wdform-element-section '.$param['w_class'].'"  style="'.$param['w_field_label_pos2'].'"><input type="text" value="'.($param['w_field_value']!= 'null' ? $param['w_field_value'] : '').'" name="wdform_'.$id1.'_element'.$form_id.'" id="wdform_'.$id1.'_element'.$form_id.'" style="width: '.$param['w_field_width'].'px;" '.$param['attributes'].'></div></div>';              
               $onload_js .='
-                jQuery("#wdform_'.$id1.'_element'.$form_id.'")[0].spin = null;
-                spinner = jQuery("#wdform_'.$id1.'_element'.$form_id.'").spinner();
+                jQuery("#form'.$form_id.' #wdform_'.$id1.'_element'.$form_id.'")[0].spin = null;
+                spinner = jQuery("#form'.$form_id.' #wdform_'.$id1.'_element'.$form_id.'").spinner();
                 spinner.spinner( "value", "'.($param['w_field_value']!= 'null' ? $param['w_field_value'] : '').'");
-                jQuery("#wdform_'.$id1.'_element'.$form_id.'").spinner({ min: "'.$param['w_field_min_value'].'"});    
-                jQuery("#wdform_'.$id1.'_element'.$form_id.'").spinner({ max: "'.$param['w_field_max_value'].'"});
-                jQuery("#wdform_'.$id1.'_element'.$form_id.'").spinner({ step: "'.$param['w_field_step'].'"});
+                jQuery("#form'.$form_id.' #wdform_'.$id1.'_element'.$form_id.'").spinner({ min: "'.$param['w_field_min_value'].'"});    
+                jQuery("#form'.$form_id.' #wdform_'.$id1.'_element'.$form_id.'").spinner({ max: "'.$param['w_field_max_value'].'"});
+                jQuery("#form'.$form_id.' #wdform_'.$id1.'_element'.$form_id.'").spinner({ step: "'.$param['w_field_step'].'"});
               ';
 
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="")
                   {
@@ -2340,7 +2753,7 @@ class FMViewForm_maker {
               ';
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if(jQuery("#wdform_'.$id1.'_slider_value'.$form_id.'").val()=='.$param['w_field_min_value'].')
                   {
@@ -2383,21 +2796,21 @@ class FMViewForm_maker {
               }
               $rep.='</div><div class="wdform-element-section '.$param['w_class'].'"  style="'.$param['w_field_label_pos2'].'"><div style="display: table;"><div style="display: table-row;"><div valign="middle" align="left" style="display: table-cell;"><input type="text" value="'.($param['w_field_value1']!= 'null' ? $param['w_field_value1'] : '').'" name="wdform_'.$id1.'_element'.$form_id.'0" id="wdform_'.$id1.'_element'.$form_id.'0" style="width: '.$param['w_field_range_width'].'px;"  '.$param['attributes'].'></div><div valign="middle" align="left" style="display: table-cell; padding-left: 4px;"><input type="text" value="'.($param['w_field_value2']!= 'null' ? $param['w_field_value2'] : '').'" name="wdform_'.$id1.'_element'.$form_id.'1" id="wdform_'.$id1.'_element'.$form_id.'1" style="width: '.$param['w_field_range_width'].'px;" '.$param['attributes'].'></div></div><div style="display: table-row;"><div valign="top" align="left" style="display: table-cell;"><label class="mini_label" id="wdform_'.$id1.'_mini_label_from">'.$w_mini_labels[0].'</label></div><div valign="top" align="left" style="display: table-cell;"><label class="mini_label" id="wdform_'.$id1.'_mini_label_to">'.$w_mini_labels[1].'</label></div></div></div></div></div>';
               $onload_js .='
-                jQuery("#wdform_'.$id1.'_element'.$form_id.'0")[0].spin = null;
-                jQuery("#wdform_'.$id1.'_element'.$form_id.'1")[0].spin = null;
+                jQuery("#form'.$form_id.' #wdform_'.$id1.'_element'.$form_id.'0")[0].spin = null;
+                jQuery("#form'.$form_id.' #wdform_'.$id1.'_element'.$form_id.'1")[0].spin = null;
                 
-                spinner0 = jQuery("#wdform_'.$id1.'_element'.$form_id.'0").spinner();
+                spinner0 = jQuery("#form'.$form_id.' #wdform_'.$id1.'_element'.$form_id.'0").spinner();
                 spinner0.spinner( "value", "'.($param['w_field_value1']!= 'null' ? $param['w_field_value1'] : '').'");
-                jQuery("#wdform_'.$id1.'_element'.$form_id.'").spinner({ step: '.$param['w_field_range_step'].'});
+                jQuery("#form'.$form_id.' #wdform_'.$id1.'_element'.$form_id.'").spinner({ step: '.$param['w_field_range_step'].'});
                 
-                spinner1 = jQuery("#wdform_'.$id1.'_element'.$form_id.'1").spinner();
+                spinner1 = jQuery("#form'.$form_id.' #wdform_'.$id1.'_element'.$form_id.'1").spinner();
                 spinner1.spinner( "value", "'.($param['w_field_value2']!= 'null' ? $param['w_field_value2'] : '').'");
-                jQuery("#wdform_'.$id1.'_element'.$form_id.'").spinner({ step: '.$param['w_field_range_step'].'});
+                jQuery("#form'.$form_id.' #wdform_'.$id1.'_element'.$form_id.'").spinner({ step: '.$param['w_field_range_step'].'});
               ';
               
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if(jQuery("#wdform_'.$id1.'_element'.$form_id.'0").val()=="" || jQuery("#wdform_'.$id1.'_element'.$form_id.'1").val()=="")
                   {
@@ -2457,7 +2870,7 @@ class FMViewForm_maker {
               sum_grading_values("wdform_'.$id1.'",'.$form_id.');';
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
                   if('.$required_check.')
                   {
@@ -2471,7 +2884,7 @@ class FMViewForm_maker {
                 ';		
               }
               $check_js.='
-              if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+              if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
               {
                 if(parseInt(jQuery("#wdform_'.$id1.'_sum_element'.$form_id.'").html()) > '.$param['w_total'].')
                 {
@@ -2561,7 +2974,7 @@ class FMViewForm_maker {
               if($required) {
                 if($param['w_field_input_type']=='radio') {
                   $check_js.='
-                  if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                  if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                   {
                     var radio_checked=true;
                     for(var k=1; k<'.count($w_rows).';k++)
@@ -2585,7 +2998,7 @@ class FMViewForm_maker {
                 }                
                 if($param['w_field_input_type']=='checkbox') {
                   $check_js.='
-                  if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                  if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                   {
                     if(x.find(jQuery("div[wdid='.$id1.']")).find(jQuery("input[type=\'checkbox\']:checked")).length == 0)
                     {
@@ -2600,7 +3013,7 @@ class FMViewForm_maker {
                 }                
                 if($param['w_field_input_type']=='text') {
                   $check_js.='
-                  if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                  if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                   {
                     if(x.find(jQuery("div[wdid='.$id1.']")).find(jQuery("input[type=\'text\']")).filter(function() {return this.value.length !== 0;}).length == 0)
                     {
@@ -2615,7 +3028,7 @@ class FMViewForm_maker {
                 
                 if($param['w_field_input_type']=='select') {
                   $check_js.='
-                  if(x.find(jQuery("div[wdid='.$id1.']")).length != 0)
+                  if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                   {
                     if(x.find(jQuery("div[wdid='.$id1.']")).find(jQuery("select")).filter(function() {return this.value.length !== 0;}).length == 0)
                     {
@@ -2658,6 +3071,21 @@ class FMViewForm_maker {
           $form=str_replace('%'.$id1.' - '.$labels[$id1s_key].'%', $rep, $form);
         }        
       }
+      
+      $onsubmit_js.='
+        var disabled_fields ="";	
+        jQuery("div[wdid]").each(function() {
+          if(jQuery(this).css("display")=="none")
+          {		
+            disabled_fields += jQuery(this).attr("wdid");
+            disabled_fields += ",";
+          }	
+
+            if(disabled_fields)
+            jQuery("<input type=\"hidden\" name=\"disabled_fields'.$form_id.'\" value =\""+disabled_fields+"\" />").appendTo("#form'.$form_id.'");
+            
+        })';
+      
       $rep1=array('form_id_temp');
       $rep2=array($id);
 
@@ -2695,6 +3123,17 @@ class FMViewForm_maker {
         jQuery("div[type='type_time'] input").blur(function() {add_0(this)});
 
         jQuery('.wdform-element-section').each(function() {
+          if(!jQuery(this).parent()[0].style.width && parseInt(jQuery(this).width())!=0)
+          {
+            
+            if(jQuery(this).css('display')=="table-cell")
+            {
+              if(jQuery(this).parent().attr('type')!="type_captcha")
+                jQuery(this).parent().css('width', parseInt(jQuery(this).width()) + parseInt(jQuery(this).parent().find(jQuery(".wdform-label-section"))[0].style.width)+15);
+              else
+                jQuery(this).parent().css('width', (parseInt(jQuery(this).parent().find(jQuery(".captcha_input"))[0].style.width)*2+50) + parseInt(jQuery(this).parent().find(jQuery(".wdform-label-section"))[0].style.width)+15);
+            }
+          }
           if (!jQuery(this).parent()[0].style.width && parseInt(jQuery(this).width()) != 0) {
             if (jQuery(this).css('display') == "table-cell") {
               if (jQuery(this).parent().attr('type') != "type_captcha") {
@@ -2718,6 +3157,7 @@ class FMViewForm_maker {
         });
         
         <?php echo $onload_js; ?>
+        <?php echo $condition_js; ?>
         
         if(window.before_load)
         {
@@ -2961,7 +3401,7 @@ class FMViewForm_maker {
       if (document.getElementById(\'' . $label_id[$key] . '_step' . $id . '\'))
         var spinner_step = document.getElementById(\'' . $label_id[$key] . '_step' . $id . '\').value;
       jQuery( \'' . $label_id[$key] . '_element' . $id . '\' ).removeClass( \'ui-spinner-input\')
-      .prop( \'disabled\', false )
+      .attr( \'disabled\', false )
       .removeAttr( \'autocomplete\' )
       .removeAttr( \'role\' )
       .removeAttr( \'aria-valuemin\' )
@@ -3018,7 +3458,7 @@ class FMViewForm_maker {
       if (document.getElementById(\'' . $label_id[$key] . '_range_step' . $id . '\'))
         var spinner_step = document.getElementById(\'' . $label_id[$key] . '_range_step' . $id . '\').value;
       jQuery( \'#' . $label_id[$key] . '_element' . $id . '0\' ).removeClass( \'ui-spinner-input\' )
-      .prop( \'disabled\', false )	
+      .attr( \'disabled\', false )	
       .removeAttr( \'autocomplete\' )		
       .removeAttr( \'role\' )			
       .removeAttr( \'aria-valuenow\' );		
@@ -3032,7 +3472,7 @@ class FMViewForm_maker {
       spinner0.spinner( \'value\', spinner_value0 );
       jQuery( \'#' . $label_id[$key] . '_element' . $id . '0\' ).spinner({ step: spinner_step});
       jQuery( \'#' . $label_id[$key] . '_element' . $id . '1\' ).removeClass( \'ui-spinner-input\' )
-      .prop( \'disabled\', false )
+      .attr( \'disabled\', false )
       .removeAttr( \'autocomplete\' )
       .removeAttr( \'role\' )
       .removeAttr( \'aria-valuenow\' );

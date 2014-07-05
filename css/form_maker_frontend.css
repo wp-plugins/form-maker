@@ -21,3 +21,7 @@
 div[type="type_captcha"] .wdform-element-section * {
   vertical-align: middle;
 }
+
+.file-upload-status {
+  direction: inherit !important;
+}
