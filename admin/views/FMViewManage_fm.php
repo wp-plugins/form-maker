@@ -457,7 +457,7 @@ class FMViewManage_fm {
           <br />
           <img src="<?php echo WD_FM_URL . '/images/formoptions.png'; ?>" onclick="if (spider_check_required('title', 'Form title') || !submitbutton()) {return false;}; spider_set_input_value('task', 'form_options'); spider_form_submit(event, 'manage_form');" style="cursor: pointer; margin: 10px 0 10px 10px; float: right;"/>
           <br /><br /><br />
-          <img src="<?php echo WD_FM_URL . '/images/addanewfield.png'; ?>" onclick="if (fm_check_page_load()) { enable(); Enable(); }" style="cursor: pointer; margin:10px 0 10px 10px; float: right;"/>
+          <img src="<?php echo WD_FM_URL . '/images/addanewfield.png'; ?>" onclick="enable(); Enable();" style="cursor: pointer; margin:10px 0 10px 10px; float: right;"/>
         </div>
       </div>
 
@@ -1410,7 +1410,7 @@ class FMViewManage_fm {
           <br />
           <img src="<?php echo WD_FM_URL . '/images/formoptions.png'; ?>" onclick="if (spider_check_required('title', 'Form title')) {return false;}; submitbutton(); spider_set_input_value('task', 'form_options_old'); spider_form_submit(event, 'manage_form');" style="cursor: pointer; margin: 10px 0 10px 10px; float: right;"/>
           <br /><br /><br />
-          <img src="<?php echo WD_FM_URL . '/images/addanewfield.png'; ?>" onclick="if (fm_check_page_load()) { enable(); Enable(); }" style="cursor: pointer; margin:10px 0 10px 10px; float: right;"/>
+          <img src="<?php echo WD_FM_URL . '/images/addanewfield.png'; ?>" onclick="enable(); Enable();" style="cursor: pointer; margin:10px 0 10px 10px; float: right;"/>
         </div>
       </div>
 
@@ -2970,8 +2970,9 @@ class FMViewManage_fm {
                 <label> Attach File: </label>
               </td>
               <td class="fm_options_value">
-                <input type="radio" name="mail_attachment"  value="1" id="en_attach" <?php if($row->mail_attachment==1 ) echo "checked" ?> /> <label for="en_attach">Yes</label>
-                <input type="radio" name="mail_attachment" id="dis_attach" value="0" <?php if($row->mail_attachment==0 ) echo "checked" ?> /> <label for="dis_attach">No</label>
+                <input type="radio" disabled="disabled" name="mail_attachment"  value="1" id="en_attach" <?php if($row->mail_attachment==1 ) echo "checked" ?> /> <label for="en_attach">Yes</label>
+                <input type="radio" disabled="disabled" name="mail_attachment" id="dis_attach" value="0" <?php if($row->mail_attachment==0 ) echo "checked" ?> /> <label for="dis_attach">No</label>
+				<div class="error" style="padding: 5px; font-size: 14px;">File attach is disabled in free version.</div>
               </td>
             </tr>
             <tr>
@@ -3147,8 +3148,9 @@ class FMViewManage_fm {
                 <label> Attach File: </label>
               </td>
               <td class="fm_options_value">
-                <input type="radio" name="mail_attachment_user"  value="1" id="en_attach_user" <?php if($row->mail_attachment_user==1 ) echo "checked" ?> /> <label for="en_attach_user">Yes</label>
-                <input type="radio" name="mail_attachment_user" id="dis_attach_user" value="0" <?php if($row->mail_attachment_user==0 ) echo "checked" ?> /> <label for="dis_attach_user">No</label>
+                <input type="radio" disabled="disabled" name="mail_attachment_user"  value="1" id="en_attach_user" <?php if($row->mail_attachment_user==1 ) echo "checked" ?> /> <label for="en_attach_user">Yes</label>
+                <input type="radio" disabled="disabled" name="mail_attachment_user" id="dis_attach_user" value="0" <?php if($row->mail_attachment_user==0 ) echo "checked" ?> /> <label for="dis_attach_user">No</label>
+				<div class="error" style="padding: 5px; font-size: 14px;">File attach is disabled in free version.</div>
               </td>
             </tr>
             <tr>
