@@ -1433,7 +1433,7 @@ class FMViewForm_maker {
             
               if($required) {
                 $check_js.='
-                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
+                if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none") {
                   if(x.find(jQuery("div[wdid='.$id1.'] input:checked")).length == 0 || jQuery("#wdform_'.$id1.'_other_input'.$form_id.'").val() == "") {
                     alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
