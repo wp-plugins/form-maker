@@ -1829,7 +1829,7 @@ class FMModelForm_maker {
           $content_type = "text/html";
 					$mode = 1;
 					$list_user = wordwrap($list, 70, "\n", true);
-					$new_script = $row->script_mail_user;
+					$new_script = wpautop($row->script_mail_user);
 				}	
 				else {
           $content_type = "text/plain";
@@ -1942,7 +1942,7 @@ class FMModelForm_maker {
           $content_type = "text/html";
 					$mode = 1; 
 					$list = wordwrap($list, 70, "\n", true);
-					$new_script = $row->script_mail;
+					$new_script = wpautop($row->script_mail);
 				}	
 				else {
           $content_type = "text/plain";
