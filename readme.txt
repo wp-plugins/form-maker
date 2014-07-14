@@ -212,8 +212,23 @@ In case you are upgrading your Form Maker to paid version, but still want to pre
 
 == Changelog ==
 
+= 1.7.9 =
+line break in custom text in email
+
+= 1.7.8 =
+bug fixed in required radio field
+
+= 1.7.7 =
+bug fixed in adding new form
+
+= 1.7.6 =
+new email options, conditional fileds
+
+= 1.7.5 =
+conflict with jetpack fixed
+
 = 1.7.4 =
-bug fixed on form options
+bug fixed in form options
 
 = 1.7.2 =
 improve themes
