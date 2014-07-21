@@ -20,7 +20,8 @@ class FMModelManage_fm {
   ////////////////////////////////////////////////////////////////////////////////////////
   public function get_rows_data() {
     global $wpdb;
-    $where = ((isset($_POST['search_value']) && (esc_html($_POST['search_value']) != '')) ? 'WHERE title LIKE "%' . esc_html($_POST['search_value']) . '%"' : '');
+    $where = 'WHERE `id` NOT IN (' . (get_option('contact_form_forms', '') != '' ? get_option('contact_form_forms') : 0) . ')';
+    $where .= ((isset($_POST['search_value']) && (esc_html($_POST['search_value']) != '')) ? ' AND title LIKE "%' . esc_html($_POST['search_value']) . '%"' : '');
     $asc_or_desc = ((isset($_POST['asc_or_desc'])) ? esc_html($_POST['asc_or_desc']) : 'asc');
     $order_by = ' ORDER BY ' . ((isset($_POST['order_by']) && esc_html($_POST['order_by']) != '') ? esc_html($_POST['order_by']) : 'id') . ' ' . $asc_or_desc;
     if (isset($_POST['page_number']) && $_POST['page_number']) {
@@ -1803,7 +1804,8 @@ class FMModelManage_fm {
 
   public function page_nav() {
     global $wpdb;
-    $where = ((isset($_POST['search_value']) && (esc_html($_POST['search_value']) != '')) ? 'WHERE title LIKE "%' . esc_html($_POST['search_value']) . '%"'  : '');
+    $where = 'WHERE `id` NOT IN (' . (get_option('contact_form_forms', '') != '' ? get_option('contact_form_forms') : 0) . ')';
+    $where .= ((isset($_POST['search_value']) && (esc_html($_POST['search_value']) != '')) ? ' AND title LIKE "%' . esc_html($_POST['search_value']) . '%"'  : '');
     $query = "SELECT COUNT(*) FROM " . $wpdb->prefix . "formmaker " . $where;
     $total = $wpdb->get_var($query);
     $page_nav['total'] = $total;

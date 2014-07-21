@@ -3,7 +3,6 @@ j = 2;
 var c;
 var need_enable = true;
 var a = new Array();
-var id_ifr_editor = -1;
 var count_of_fields_form = 7;
 if (ajaxurl.indexOf("://") != -1) {
   var url_for_ajax = ajaxurl;
@@ -2365,8 +2364,8 @@ function close_window() {
   document.getElementById('edit_table').innerHTML = "";
   document.getElementById('show_table').innerHTML = "";
   document.getElementById('main_editor').style.display = "none";
-  if (document.getElementsByTagName("iframe")[id_ifr_editor]) {
-    ifr_id = document.getElementsByTagName("iframe")[id_ifr_editor].id;
+  if (document.getElementById('form_maker_editor_ifr')) {
+    ifr_id = 'form_maker_editor_ifr';
     ifr = getIFrameDocument(ifr_id);
     ifr.body.innerHTML = "";
   }
@@ -3411,8 +3410,8 @@ function getIFrameDocument(aID) {
 }
 
 function delete_last_child() {
-  if (document.getElementsByTagName("iframe")[id_ifr_editor]) {
-    ifr_id = document.getElementsByTagName("iframe")[id_ifr_editor].id;
+  if (document.getElementById('form_maker_editor_ifr')) {
+    ifr_id = 'form_maker_editor_ifr';
     ifr = getIFrameDocument(ifr_id);
     ifr.body.innerHTML = "";
   }
@@ -3644,8 +3643,8 @@ function type_section_break(i, w_editor) {
   document.getElementById('main_editor').style.display="block";
   document.getElementById('main_editor').style.left=iReturnLeft + 195 + "px";
   document.getElementById('main_editor').style.top=iReturnTop + 70 + "px";
-  if (document.getElementsByTagName("iframe")[id_ifr_editor] && document.getElementById('form_maker_editor').style.display == "none") {
-    ifr_id = document.getElementsByTagName("iframe")[id_ifr_editor].id;
+  if (document.getElementById('form_maker_editor_ifr') && document.getElementById('form_maker_editor').style.display == "none") {
+    ifr_id = 'form_maker_editor_ifr';
     ifr = getIFrameDocument(ifr_id);
     ifr.body.innerHTML = w_editor;
   }
@@ -3683,8 +3682,8 @@ function type_editor(i, w_editor){
 		
 		
 		
-		if (document.getElementsByTagName("iframe")[id_ifr_editor] && document.getElementById('form_maker_editor').style.display=="none") {
-			ifr_id=document.getElementsByTagName("iframe")[id_ifr_editor].id;
+		if (document.getElementById('form_maker_editor_ifr') && document.getElementById('form_maker_editor').style.display=="none") {
+			ifr_id='form_maker_editor_ifr';
 			ifr=getIFrameDocument(ifr_id);
 			ifr.body.innerHTML=w_editor;
 		}
@@ -25195,9 +25194,9 @@ function add(key) {
 					in_editor.setAttribute('class', 'toolbar_padding');
 					
 	
-		if(document.getElementsByTagName("iframe")[id_ifr_editor] && document.getElementById('form_maker_editor').style.display=="none")
+		if(document.getElementById('form_maker_editor_ifr') && document.getElementById('form_maker_editor').style.display=="none")
 		{
-				ifr_id=document.getElementsByTagName("iframe")[id_ifr_editor].id;
+				ifr_id='form_maker_editor_ifr';
 				ifr=getIFrameDocument(ifr_id);
 				in_editor.innerHTML=ifr.body.innerHTML;
 		}
@@ -25350,9 +25349,9 @@ function add(key) {
 					
 
 
-		if(document.getElementsByTagName("iframe")[id_ifr_editor] && document.getElementById('form_maker_editor').style.display=="none")
+		if(document.getElementById('form_maker_editor_ifr') && document.getElementById('form_maker_editor').style.display=="none")
 		{
-				ifr_id=document.getElementsByTagName("iframe")[id_ifr_editor].id;
+				ifr_id='form_maker_editor_ifr';
 				ifr=getIFrameDocument(ifr_id)
 				in_editor.innerHTML=ifr.body.innerHTML;
 		}
@@ -25858,9 +25857,9 @@ function add(key) {
 					in_editor.setAttribute('class', 'toolbar_padding');
 					
 
-		if(document.getElementsByTagName("iframe")[id_ifr_editor] && document.getElementById('form_maker_editor').style.display=="none")
+		if(document.getElementById('form_maker_editor_ifr') && document.getElementById('form_maker_editor').style.display=="none")
 		{
-				ifr_id=document.getElementsByTagName("iframe")[id_ifr_editor].id;
+				ifr_id='form_maker_editor_ifr';
 				ifr=getIFrameDocument(ifr_id);
 				in_editor.innerHTML=ifr.body.innerHTML;
 		}
@@ -26056,9 +26055,9 @@ function add(key) {
 					
 
 
-		if(document.getElementsByTagName("iframe")[id_ifr_editor] && document.getElementById('form_maker_editor').style.display=="none")
+		if(document.getElementById('form_maker_editor_ifr') && document.getElementById('form_maker_editor').style.display=="none")
 		{
-				ifr_id=document.getElementsByTagName("iframe")[id_ifr_editor].id;
+				ifr_id='form_maker_editor_ifr';
 				ifr=getIFrameDocument(ifr_id)
 				in_editor.innerHTML=ifr.body.innerHTML;
 		}

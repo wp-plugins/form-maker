@@ -20,7 +20,7 @@ class FMModelForm_maker {
   ////////////////////////////////////////////////////////////////////////////////////////
   public function showform($id) {
     global $wpdb;
-    $row = $wpdb->get_row($wpdb->prepare('SELECT * FROM ' . $wpdb->prefix . 'formmaker WHERE id="%d"', $id));
+    $row = $wpdb->get_row($wpdb->prepare('SELECT * FROM ' . $wpdb->prefix . 'formmaker WHERE id="%d" AND id NOT IN (' . (get_option('contact_form_forms', '') != '' ? get_option('contact_form_forms') : 0) . ')', $id));
     if (!$row || !$row->published) {
       return FALSE;
     }
@@ -188,11 +188,11 @@ class FMModelForm_maker {
             case "type_own_select":					
             case "type_country":				
             case "type_number": {
-              $value = isset($_POST['wdform_'.$i."_element".$id]) ? $_POST['wdform_'.$i."_element".$id] : "";
+              $value = isset($_POST['wdform_'.$i."_element".$id]) ? esc_html($_POST['wdform_'.$i."_element".$id]) : "";
               break;
             }
             case "type_wdeditor": {
-              $value = isset($_POST['wdform_'.$i.'_wd_editor'.$id]) ? $_POST['wdform_'.$i.'_wd_editor'.$id] : "";
+              $value = isset($_POST['wdform_'.$i.'_wd_editor'.$id]) ? esc_html($_POST['wdform_'.$i.'_wd_editor'.$id]) : "";
               break;
             }
             case "type_mark_map": {
@@ -222,12 +222,12 @@ class FMModelForm_maker {
               break;
             }		
             case "type_name": {				
-              $element_title = isset($_POST['wdform_'.$i."_element_title".$id]) ? $_POST['wdform_'.$i."_element_title".$id] : NULL;
+              $element_title = isset($_POST['wdform_'.$i."_element_title".$id]) ? esc_html($_POST['wdform_'.$i."_element_title".$id]) : NULL;
               if(isset($element_title)) {
-                $value = (isset($_POST['wdform_'.$i."_element_title".$id]) ? $_POST['wdform_'.$i."_element_title".$id] : "") . '@@@' . (isset($_POST['wdform_'.$i."_element_first".$id]) ? $_POST['wdform_'.$i."_element_first".$id] : "") . '@@@' . (isset($_POST['wdform_'.$i."_element_last".$id]) ? $_POST['wdform_'.$i."_element_last".$id] : "") . '@@@' . (isset($_POST['wdform_'.$i."_element_middle".$id]) ? $_POST['wdform_'.$i."_element_middle".$id] : "");
+                $value = (isset($_POST['wdform_'.$i."_element_title".$id]) ? esc_html($_POST['wdform_'.$i."_element_title".$id]) : "") . '@@@' . (isset($_POST['wdform_'.$i."_element_first".$id]) ? esc_html($_POST['wdform_'.$i."_element_first".$id]) : "") . '@@@' . (isset($_POST['wdform_'.$i."_element_last".$id]) ? esc_html($_POST['wdform_'.$i."_element_last".$id]) : "") . '@@@' . (isset($_POST['wdform_'.$i."_element_middle".$id]) ? esc_html($_POST['wdform_'.$i."_element_middle".$id]) : "");
               }
               else {
-                $value = (isset($_POST['wdform_'.$i."_element_first".$id]) ? $_POST['wdform_'.$i."_element_first".$id] : "") . '@@@' . (isset($_POST['wdform_'.$i."_element_last".$id]) ? $_POST['wdform_'.$i."_element_last".$id] : "");
+                $value = (isset($_POST['wdform_'.$i."_element_first".$id]) ? esc_html($_POST['wdform_'.$i."_element_first".$id]) : "") . '@@@' . (isset($_POST['wdform_'.$i."_element_last".$id]) ? esc_html($_POST['wdform_'.$i."_element_last".$id]) : "");
               }
               break;
             }		
@@ -301,37 +301,37 @@ class FMModelForm_maker {
             
             case 'type_address': {
               $value = '*#*#*#';
-              $element = isset($_POST['wdform_'.$i."_street1".$id]) ? $_POST['wdform_'.$i."_street1".$id] : NULL;
+              $element = isset($_POST['wdform_'.$i."_street1".$id]) ? esc_html($_POST['wdform_'.$i."_street1".$id]) : NULL;
               if(isset($element)) {
                 $value = $element;
                 break;
               }
               
-              $element = isset($_POST['wdform_'.$i."_street2".$id]) ? $_POST['wdform_'.$i."_street2".$id] : NULL;
+              $element = isset($_POST['wdform_'.$i."_street2".$id]) ? esc_html($_POST['wdform_'.$i."_street2".$id]) : NULL;
               if(isset($element)) {
                 $value = $element;
                 break;
               }
               
-              $element = isset($_POST['wdform_'.$i."_city".$id]) ? $_POST['wdform_'.$i."_city".$id] : NULL;
+              $element = isset($_POST['wdform_'.$i."_city".$id]) ? esc_html($_POST['wdform_'.$i."_city".$id]) : NULL;
               if(isset($element)) {
                 $value = $element;
                 break;
               }
               
-              $element = isset($_POST['wdform_'.$i."_state".$id]) ? $_POST['wdform_'.$i."_state".$id] : NULL;
+              $element = isset($_POST['wdform_'.$i."_state".$id]) ? esc_html($_POST['wdform_'.$i."_state".$id]) : NULL;
               if(isset($element)) {
                 $value = $element;
                 break;
               }
               
-              $element = isset($_POST['wdform_'.$i."_postal".$id]) ? $_POST['wdform_'.$i."_postal".$id] : NULL;
+              $element = isset($_POST['wdform_'.$i."_postal".$id]) ? esc_html($_POST['wdform_'.$i."_postal".$id]) : NULL;
               if(isset($element)) {
                 $value = $element;
                 break;
               }
               
-              $element = isset($_POST['wdform_'.$i."_country".$id]) ? $_POST['wdform_'.$i."_country".$id] : NULL;
+              $element = isset($_POST['wdform_'.$i."_country".$id]) ? esc_html($_POST['wdform_'.$i."_country".$id]) : NULL;
               if(isset($element)) {
                 $value = $element;
                 break;
@@ -340,7 +340,7 @@ class FMModelForm_maker {
             }
             
             case "type_hidden": {
-              $value = isset($_POST[$label_label[$key]]) ? $_POST[$label_label[$key]] : "";
+              $value = isset($_POST[$label_label[$key]]) ? esc_html($_POST[$label_label[$key]]) : "";
               break;
             }
             
@@ -570,7 +570,7 @@ class FMModelForm_maker {
               break;
             }
           
-            case "type_scale_rating": {											
+            case "type_scale_rating": {
               $value = (isset($_POST['wdform_'.$i."_scale_radio".$id]) ? $_POST['wdform_'.$i."_scale_radio".$id] : 0) . '/' . (isset($_POST['wdform_'.$i."_scale_amount".$id]) ? $_POST['wdform_'.$i."_scale_amount".$id] : "");
               break;
             }
@@ -625,7 +625,7 @@ class FMModelForm_maker {
                 $input_value = "";
                 for($k = 1; $k <= $rows_count; $k++) {
                   for($j = 1; $j <= $columns_count; $j++) {
-                    $input_value .= (isset($_POST['wdform_'.$i."_input_element".$id.$k.'_'.$j]) ? $_POST['wdform_'.$i."_input_element".$id.$k.'_'.$j] : "") . "***";
+                    $input_value .= (isset($_POST['wdform_'.$i."_input_element".$id.$k.'_'.$j]) ? esc_html($_POST['wdform_'.$i."_input_element".$id.$k.'_'.$j]) : "") . "***";
                   }
                 }
               }
@@ -716,7 +716,7 @@ class FMModelForm_maker {
           case "type_own_select":
           case "type_country":
           case "type_number": {
-            $value = isset($_POST[$i . "_element" . $id]) ? $_POST[$i . "_element" . $id] : "";
+            $value = isset($_POST[$i . "_element" . $id]) ? esc_html($_POST[$i . "_element" . $id]) : "";
             break;
           }
           case "type_mark_map": {
@@ -745,12 +745,12 @@ class FMModelForm_maker {
             break;
           }
           case "type_name": {
-            $element_title = isset($_POST[$i . "_element_title" . $id]) ? $_POST[$i . "_element_title" . $id] : NULL;
+            $element_title = isset($_POST[$i . "_element_title" . $id]) ? esc_html($_POST[$i . "_element_title" . $id]) : NULL;
             if (isset($element_title)) {
-              $value = $element_title . ' ' . (isset($_POST[$i . "_element_first" . $id]) ? $_POST[$i . "_element_first" . $id] : "") . ' ' . (isset($_POST[$i . "_element_last" . $id]) ? $_POST[$i . "_element_last" . $id] : "") . ' ' . (isset($_POST[$i . "_element_middle" . $id]) ? $_POST[$i . "_element_middle" . $id] : "");
+              $value = $element_title . ' ' . (isset($_POST[$i . "_element_first" . $id]) ? esc_html($_POST[$i . "_element_first" . $id]) : "") . ' ' . (isset($_POST[$i . "_element_last" . $id]) ? esc_html($_POST[$i . "_element_last" . $id]) : "") . ' ' . (isset($_POST[$i . "_element_middle" . $id]) ? esc_html($_POST[$i . "_element_middle" . $id]) : "");
             }
             else {
-              $value = (isset($_POST[$i . "_element_first" . $id]) ? $_POST[$i . "_element_first" . $id] : "") . ' ' . (isset($_POST[$i . "_element_last" . $id]) ? $_POST[$i . "_element_last" . $id] : "");
+              $value = (isset($_POST[$i . "_element_first" . $id]) ? esc_html($_POST[$i . "_element_first" . $id]) : "") . ' ' . (isset($_POST[$i . "_element_last" . $id]) ? esc_html($_POST[$i . "_element_last" . $id]) : "");
             }
             break;
           }
@@ -818,27 +818,27 @@ class FMModelForm_maker {
           case 'type_address': {
             $value = '*#*#*#';
             if (isset($_POST[$i . "_street1" . $id])) {
-              $value = $_POST[$i . "_street1" . $id];
+              $value = esc_html($_POST[$i . "_street1" . $id]);
               break;
             }
             if (isset($_POST[$i . "_street2" . $id])) {
-              $value = $_POST[$i . "_street2" . $id];
+              $value = esc_html($_POST[$i . "_street2" . $id]);
               break;
             }
             if (isset($_POST[$i . "_city" . $id])) {
-              $value = $_POST[$i . "_city" . $id];
+              $value = esc_html($_POST[$i . "_city" . $id]);
               break;
             }
             if (isset($_POST[$i . "_state" . $id])) {
-              $value = $_POST[$i . "_state" . $id];
+              $value = esc_html($_POST[$i . "_state" . $id]);
               break;
             }
             if (isset($_POST[$i . "_postal" . $id])) {
-              $value = $_POST[$i . "_postal" . $id];
+              $value = esc_html($_POST[$i . "_postal" . $id]);
               break;
             }
             if (isset($_POST[$i . "_country" . $id])) {
-              $value = $_POST[$i . "_country" . $id];
+              $value = esc_html($_POST[$i . "_country" . $id]);
               break;
             }
             break;
@@ -1094,7 +1094,7 @@ class FMModelForm_maker {
               $input_value="";
               foreach($row_ids as $row_id)
                 foreach($column_ids as $column_id)
-                  $input_value .= (isset($_POST[$i."_input_element".$id.$row_id.'_'.$column_id]) ? $_POST[$i."_input_element".$id.$row_id.'_'.$column_id] : "")."***";
+                  $input_value .= (isset($_POST[$i."_input_element".$id.$row_id.'_'.$column_id]) ? esc_html($_POST[$i."_input_element".$id.$row_id.'_'.$column_id]) : "")."***";
             }
             if (isset($_POST[$i."_input_type".$id]) && $_POST[$i."_input_type".$id] == "select") {
               $input_value="";

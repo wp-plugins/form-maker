@@ -21,7 +21,7 @@ class FMModelFormmakerwindow {
 
   public function get_form_data() {
     global $wpdb;
-    $row = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "formmaker order by `id` DESC");
+    $row = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "formmaker WHERE `id` NOT IN(" . get_option('contact_form_forms', 0) . ") order by `title`");
     return $row;
   }
   ////////////////////////////////////////////////////////////////////////////////////////

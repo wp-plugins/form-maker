@@ -25,7 +25,7 @@ class FMModelSubmissions_fm {
 
   public function get_form_titles() {
     global $wpdb;
-    $query = "SELECT id, title FROM " . $wpdb->prefix . "formmaker order by title";
+    $query = "SELECT id, title FROM " . $wpdb->prefix . "formmaker WHERE `id` NOT IN(" . (get_option('contact_form_forms', '') != '' ? get_option('contact_form_forms') : 0) . ") order by title";
     $forms = $wpdb->get_results($query);
     return $forms;
   }

@@ -3,7 +3,7 @@
  * Plugin Name: Form Maker
  * Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
  * Description: This plugin is a modern and advanced tool for easy and fast creating of a WordPress Form. The backend interface is intuitive and user friendly which allows users far from scripting and programming to create WordPress Forms.
- * Version: 1.7.9
+ * Version: 1.7.10
  * Author: http://web-dorado.com/
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -132,7 +132,7 @@ function Form_maker_fornt_end_main($content) {
         $content = str_replace($padron, $replacment, $content);
       }
     }
-    $pattern = '[\[contact_form_for_repace id="([0-9]*)"\]]';
+    /*$pattern = '[\[contact_form_for_repace id="([0-9]*)"\]]';
     $count_forms_in_post = preg_match_all($pattern, $content, $matches_form);
     if ($count_forms_in_post) {
       require_once (WD_FM_DIR . '/frontend/controllers/FMControllerForm_maker.php');
@@ -142,7 +142,7 @@ function Form_maker_fornt_end_main($content) {
         $replacment = $controller->execute($matches_form[1][$jj]);
         $content = str_replace($padron, $replacment, $content);
       }
-    }
+    }*/
   }
   return $content;
 }
@@ -175,7 +175,7 @@ function xapel_shortcode_1($content) {
   }
   return $content;
 }
-add_filter('the_content', 'xapel_shortcode_1', 1);
+// add_filter('the_content', 'xapel_shortcode_1', 1);
 
 // Add the Form Maker button to editor.
 add_action('wp_ajax_formmakerwindow', 'form_maker_ajax');
@@ -219,6 +219,8 @@ function form_maker_activate() {
     form_maker_update($version);
     update_option("wd_form_maker_version", $new_version);
   }
+  require_once WD_FM_DIR . "/form_maker_insert.php";
+  install_demo_forms();
 }
 register_activation_hook(__FILE__, 'form_maker_activate');
 
