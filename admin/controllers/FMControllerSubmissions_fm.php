@@ -248,7 +248,7 @@ class FMControllerSubmissions_fm {
 				}
 				
 				case "type_hidden": {
-					$value = (isset($_POST[$label_label[$key]]) ? $_POST[$label_label[$key]] : NULL); 
+					$value = (isset($_POST[$label_order_original[$key]]) ? $_POST[$label_order_original[$key]] : NULL); 
 					break;
 				}
 				
