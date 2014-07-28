@@ -306,39 +306,69 @@ If you want to update the form builder plugin while preserving your existing for
 
 2.1 On the left menu select Form Maker > Manager  
 2.2 In the upper left corner click on the “Add a form” button.  
-2.3 Form Title. Specify a title for the form (Try to use unique titles).  
+2.3 Form Title. Specify a title for the form (Try to use unique titles).     
 
 
 = Step 3: Configuring Form Builder Options =    
 
-3.1 General Options  
-3.1.1 Email to send submissions to. Here you provide e-mails to which submitted form information is sent. If you need more than one e-mail address, you must separate them by commas. This field is not required. In any case, the submitted information is stored in “Submissions” part, where it can be easily managed.  
-3.1.2 Email From. Here you define the email address from which the users receive the submission email (sender’s email).  
-3.1.3 From Name. Here you define the sender’s name which is shown in submission email.  
-3.1.4 Theme. A distinct theme can be applied to each new form. The themes can be accessed by selecting FormMaker > Themes on the top menu. 41 themes are available for selection. There is an option for creating new themes, which you can access by clicking “New” on the upper right corner of the section.  
+3.1 General Options   
+Published. Choose whether to publish the form or leave it as a draft.    
+Save data (to database). Choose whether to have the submitted forms in the submissions section or have them only sent to the Admin’s email (this should be done in Email Options section).   
+Theme. A distinct theme can be applied to each new form. The themes can be accessed by selecting FormMaker > Themes on the top menu. A large number of themes is available for selection. You can preview the theme as well as make changes in the CSS of the theme to make desired changes with the button right next to it.   
+Required fields mark. The required fields mark can be customized and changes from the default asterisk symbol.   
+      
+3.2 Email Options.   
+3.2.1 Send Email. Choose whether to send out emails based on the submitted forms to the Administrator/Submitter.
+Email to Administrator   
+3.2.2 Email to send submissions to. Here you provide e-mails to which submitted form information is sent. If you need more than one e-mail address, you must separate them by commas.    
+3.2.3 Email From. Here you define the email address from which the users receive the submission email (sender’s email).    
+3.2.4 From Name. Here you define the sender’s name which is shown in submission email.   
+3.2.5 Reply to (if different from "Email From"). Specify an alternative email address to which the administrator will be able to reply upon receiving the submitted form.   
+3.2.6 Custom Text in Email. Here you can add custom texts, images, and custom HTML to the e-mail message that is sent to the administrator, as well as choose which fields of the submitted form are included in the e-mail (set to ‘all’ by default).   
+Email to User   
+3.2.7 Send to. Here you select the Email field in the Form to send out the email to.     
+3.2.8 Email From. Here you define the email address from which the users receive the submission email (sender’s email).    
+3.2.9 From Name. Here you define the sender’s name which is shown in submission email.   
+3.2.10 Reply to (if different from "Email From"). Specify an alternative email address to which the user will be able to reply upon receiving the submitted form.   
+3.2.11 Custom Text in Email. Here you can add custom texts, images, and custom HTML to the e-mail message that is sent to the administrator, as well as choose which fields of the submitted form are included in the e-mail (set to ‘all’ by default).    
 
-3.2 Actions after Submission  
-Form builder allows to select the action that takes place after form submission. Following options are available:  
-- Stay on form: The user stays on the form page.  
-- Article: The user is redirected to the selected article.  
-- Custom text: Custom text is displayed on the screen.  
-- URL: The user is redirected to the provided URL.  
-3.3 Payment Options  
-3.3.1 Turn on PayPal. Allows making PayPal payments using Form Maker.  
-3.3.2 Checkout Mode. Choose the checkout mode:  
-Production (https://developer.paypal.com/webapps/developer/docs/classic/lifecycle/goingLive/)  
-Test Mode (https://developer.paypal.com/webapps/developer/docs/integration/direct/test-the-api/)  
-3.3.3 PayPal Email. Enter your PayPal email.  
-3.3.4 PayPal Currency. Choose your PayPal currency.  
-3.3.5 Tax. Add the tax amount if any.  
-3.4 JavaScript  
-Here you can define new JavaScript functions, which can be applied to the form. Three empty event functions are included:  
-- before_load(): before the form is loaded  
+
+3.3 Actions after Submission    
+Here you can select the action that takes place after form submission. Following options are available:   
+- Stay on form: The user stays on the form page.   
+- Article: The user is redirected to the selected article.   
+- Custom text: Custom text is displayed on the screen.   
+- URL: The user is redirected to the provided URL.   
+
+3.4 Payment Options   
+3.4.1 Turn on PayPal. Allows making PayPal paymentsusing Form Maker.   
+3.4.2 Checkout Mode. Choose the checkout mode:   
+Production(https://developer.paypal.com/webapps/developer/docs/classic/lifecycle/
+goingLive/)   
+Test Mode (https://developer.paypal.com/webapps/developer/docs/integration/
+direct/test-the-api/)   
+3.4.3 PayPal Email. Enter your PayPal email.   
+3.4.4 PayPal Currency. Choose your PayPal currency.  
+3.4.5 Tax. Add the tax amount if any.  
+
+3.5 JavaScript   
+Here you can define new JavaScript functions, which can be applied to the form. Three empty event functions are included:   
+- before_load(): before the form is loaded   
 - before_submit(): before the form is submitted  
-- before_reset(): before the form is reset  
-3.5 Custom Text in Email  
-For Administrator. Here you can add custom texts, images, and custom HTML to the e-mail message that is sent to the administrator, as well as choose which fields of the submitted form are included in the e-mail (set to ‘all’ by default).  
-For User. Here you can add custom texts, images, and custom HTML to the e-mail message that is sent to the users, as well as choose which fields of the submitted form are included in the e-mail (set to ‘all’ by default).  
+- before_reset(): before the form is reset   
+
+3.6 Conditional Fields.  
+3.6.1 Add Condition. Using plus (+) button  on the upper left hand you can connect specific fields. The following field types are allowed to be used as conditional fields: Simple text, Password, Textarea, Name, Address (Country field- only), Email, Number, Phone, Multiple Choice, Single Choice, Select, PayPal fields (with an exception of the Total field).   
+The formula of the conditional fields is the following:   
+For the main condition:   
+Show/Hide+Field 1+if any/all+of the following match   
+For the case(s):   
+Field 2+ is/ is not+Value, e.g.   
+Hide State if all of the following match   
+Country is not United States.    
+
+3.7 Form Layout    
+Here you can customize the layout of the form fields unchecking the Auto-Generate Layout checkbox and edit the HTML. The sample and more details for this option can be found in the back end of the plugin.   
 
 = Step 4: Description of the form fields =    
 
