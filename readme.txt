@@ -343,10 +343,8 @@ Here you can select the action that takes place after form submission. Following
 3.4 Payment Options   
 3.4.1 Turn on PayPal. Allows making PayPal paymentsusing Form Maker.   
 3.4.2 Checkout Mode. Choose the checkout mode:   
-Production(https://developer.paypal.com/webapps/developer/docs/classic/lifecycle/
-goingLive/)   
-Test Mode (https://developer.paypal.com/webapps/developer/docs/integration/
-direct/test-the-api/)   
+Production( https://developer.paypal.com/webapps/developer/docs/classic/lifecycle/goingLive/ )   
+Test Mode ( https://developer.paypal.com/webapps/developer/docs/integration/direct/test-the-api/ )   
 3.4.3 PayPal Email. Enter your PayPal email.   
 3.4.4 PayPal Currency. Choose your PayPal currency.  
 3.4.5 Tax. Add the tax amount if any.  
