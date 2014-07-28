@@ -306,7 +306,7 @@ If you want to update the form builder plugin while preserving your existing for
 
 2.1 On the left menu select Form Maker > Manager  
 2.2 In the upper left corner click on the “Add a form” button.  
-2.3 Form Title. Specify a title for the form (Try to use unique titles).     
+2.3 Form Title. Specify a title for the form (Try to use unique titles).
 
 
 = Step 3: Configuring Form Builder Options =    
