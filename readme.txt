@@ -4,7 +4,7 @@ Donate link: http://web-dorado.com/products/wordpress-form.html
 Tags:  form, forms, form builder, form maker, form manager, form plugin, form with recaptcha,  forms plugin, multiple forms, paypal form, survey form, feedback form, feedback forms, contact form,contact form plugin, contact form builder, form creator, email form, secure form, web form, form to email, contact forms, custom forms, form widget, captcha form, wordpress contact form ,recaptcha contact form, form creation, contact form with auto reply, widget contact form, builder, feedback, contacts form plugin , custom contact form, contact us form,  Formular, formulario 
 Requires at least: 3.0
 Tested up to: 3.9.1
-Stable tag: 1.7.11
+Stable tag: 1.7.12
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 

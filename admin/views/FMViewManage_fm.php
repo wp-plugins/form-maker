@@ -291,6 +291,9 @@ class FMViewManage_fm {
                       if (document.getElementById(id+'_element_labelform_id_temp').innerHTML) {
                         w_field_label = document.getElementById(id + '_element_labelform_id_temp').innerHTML.replace(/(\r\n|\n|\r)/gm," ");
                       }
+                      else {
+                        w_field_label = " ";
+                      }
                       if (document.getElementById(id + '_label_sectionform_id_temp')) {
                         if (document.getElementById(id + '_label_sectionform_id_temp').style.display == "block") {
                           w_field_label_pos = "top";
@@ -356,17 +359,6 @@ class FMViewManage_fm {
       gen = <?php echo (($id != 0) ? $row->counter : 1); ?>;
 
       function enable() {
-        for (iiiii = 0; iiiii < 1000; iiiii++) {
-          if (document.getElementsByTagName("iframe")[iiiii]) {
-            if (document.getElementsByTagName("iframe")[iiiii].id == 'form_maker_editor_ifr') {
-              id_ifr_editor = iiiii;
-              break;
-            }            
-            else {
-              id_ifr_editor = -1;
-            }
-          }
-        }
         alltypes = Array('customHTML', 'text', 'checkbox', 'radio', 'time_and_date', 'select', 'file_upload', 'captcha', 'map', 'button', 'page_break', 'section_break', 'paypal', 'survey');
         for (x = 0; x < 14; x++) {
           document.getElementById('img_' + alltypes[x]).src = "<?php echo WD_FM_URL . '/images/'; ?>" + alltypes[x] + ".png";
@@ -1307,17 +1299,6 @@ class FMViewManage_fm {
       gen = <?php echo (($id != 0) ? $row->counter : 1); ?>;
 
       function enable() {
-        for (iiiii = 0; iiiii < 1000; iiiii++) {
-          if (document.getElementsByTagName("iframe")[iiiii]) {
-            if (document.getElementsByTagName("iframe")[iiiii].id == 'form_maker_editor_ifr') {
-              id_ifr_editor = iiiii;
-              break;
-            }
-            else {
-              id_ifr_editor = -1;
-            }
-          }
-        }
         alltypes = Array('customHTML', 'text', 'checkbox', 'radio', 'time_and_date', 'select', 'file_upload', 'captcha', 'map', 'button', 'page_break', 'section_break', 'paypal', 'survey');
         for (x = 0; x < 14; x++) {
           document.getElementById('img_' + alltypes[x]).src = "<?php echo WD_FM_URL . '/images/'; ?>" + alltypes[x] + ".png";

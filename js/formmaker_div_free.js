@@ -3757,9 +3757,9 @@ function remove_option(id, num)
 function getIFrameDocument(aID){ 
 var rv = null; 
 // if contentDocument exists, W3C compliant (Mozilla) 
-if (document.getElementById(aID).contentDocument){ 
+if (document.getElementById(aID) && document.getElementById(aID).contentDocument){
 rv = document.getElementById(aID).contentDocument; 
-} else { 
+} else if (document.getElementById(aID)) {
 // IE 
 rv = document.frames[aID].document; 
 } 
@@ -27336,9 +27336,13 @@ function edit(id)
 	t=0;
 	
 	/////////shat handipox
-	
-	if(document.getElementById(id+'_element_labelform_id_temp').innerHTML)
-		w_field_label=document.getElementById(id+'_element_labelform_id_temp').innerHTML;
+
+	if (document.getElementById(id+'_element_labelform_id_temp').innerHTML) {
+		w_field_label = document.getElementById(id+'_element_labelform_id_temp').innerHTML;
+  }
+  else {
+    w_field_label = " ";
+  }
 		
 	if(document.getElementById(id+'_label_sectionform_id_temp'))
 	if(document.getElementById(id+'_label_sectionform_id_temp').style.display=="block")

@@ -560,7 +560,7 @@ class FMViewForm_maker {
         $label=$labels[$id1s_key];
         $type=$types[$id1s_key];
         $params=$paramss[$id1s_key];
-        if (strpos($form, '%'.$id1.' - '.$label.'%')) {
+        if (strpos($form, '%'.$id1.' - '.$label.'%') || strpos($form, '%'.$id1.' -'.$label.'%')) {
           $rep='';
           $required=false;
           $param=array();
@@ -634,7 +634,7 @@ class FMViewForm_maker {
                 {
                   if(x.find(jQuery("div[wdid='.$id1.'] input:checked")).length == 0)
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
                     
@@ -681,7 +681,7 @@ class FMViewForm_maker {
                 {
                   if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="'.$param['w_title'].'" || jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="")
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     jQuery("#wdform_'.$id1.'_element'.$form_id.'").addClass( "form-error" );
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
@@ -731,7 +731,7 @@ class FMViewForm_maker {
                 {
                   if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="'.$param['w_title'].'" || jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="")
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     jQuery("#wdform_'.$id1.'_element'.$form_id.'").addClass( "form-error" );
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
@@ -778,7 +778,7 @@ class FMViewForm_maker {
                 {
                   if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="")
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     jQuery("#wdform_'.$id1.'_element'.$form_id.'").addClass( "form-error" );
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
@@ -827,7 +827,7 @@ class FMViewForm_maker {
                 {
                   if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="'.$param['w_title'].'" || jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="")
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     jQuery("#wdform_'.$id1.'_element'.$form_id.'").addClass( "form-error" );
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
@@ -882,7 +882,7 @@ class FMViewForm_maker {
                 {
                   if(tinyMCE.get("wdform_'.$id1.'_wd_editor'.$form_id.'").getContent()=="")
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     jQuery("#wdform_'.$id1.'_wd_editor'.$form_id.'").addClass( "form-error" );
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
@@ -954,7 +954,7 @@ class FMViewForm_maker {
                 {
                   if(jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").val()=="'.$w_title[0].'" || jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_element_last'.$form_id.'").val()=="'.$w_title[1].'" || jQuery("#wdform_'.$id1.'_element_last'.$form_id.'").val()=="")
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
                     jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").focus();
@@ -1059,7 +1059,7 @@ class FMViewForm_maker {
                   {
                     if(jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").val()=="'.$w_title[0].'" || jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_element_last'.$form_id.'").val()=="'.$w_title[1].'" || jQuery("#wdform_'.$id1.'_element_last'.$form_id.'").val()=="")
                     {
-                      alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                      alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                       old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                       x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
                       jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").focus();
@@ -1074,7 +1074,7 @@ class FMViewForm_maker {
                   {
                     if(jQuery("#wdform_'.$id1.'_element_title'.$form_id.'").val()=="'.$w_title[0].'" || jQuery("#wdform_'.$id1.'_element_title'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").val()=="'.$w_title[1].'" || jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_element_last'.$form_id.'").val()=="'.$w_title[2].'" || jQuery("#wdform_'.$id1.'_element_last'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_element_middle'.$form_id.'").val()=="'.$w_title[3].'" || jQuery("#wdform_'.$id1.'_element_middle'.$form_id.'").val()=="")
                     {
-                      alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                      alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                       old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                       x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
                       jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").focus();
@@ -1176,7 +1176,7 @@ class FMViewForm_maker {
                 {
                   if(jQuery("#wdform_'.$id1.'_street1'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_street2'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_city'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_state'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_postal'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_country'.$form_id.'").val()=="")
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
                     jQuery("#wdform_'.$id1.'_street1'.$form_id.'").focus();
@@ -1248,7 +1248,7 @@ class FMViewForm_maker {
                 {
                   if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="'.$param['w_title'].'" || jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="")
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     jQuery("#wdform_'.$id1.'_element'.$form_id.'").addClass( "form-error" );
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
@@ -1349,7 +1349,7 @@ class FMViewForm_maker {
                 {
                   if(x.find(jQuery("div[wdid='.$id1.'] input:checked")).length == 0 || jQuery("#wdform_'.$id1.'_other_input'.$form_id.'").val() == "")
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
                     
@@ -1435,7 +1435,7 @@ class FMViewForm_maker {
                 $check_js.='
                 if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none") {
                   if(x.find(jQuery("div[wdid='.$id1.'] input:checked")).length == 0 || jQuery("#wdform_'.$id1.'_other_input'.$form_id.'").val() == "") {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
                     
@@ -1508,7 +1508,7 @@ class FMViewForm_maker {
                 {
                   if( jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="")
                     {
-                      alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                      alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                       jQuery("#wdform_'.$id1.'_element'.$form_id.'").addClass( "form-error" );
                       old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                       x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
@@ -1567,7 +1567,7 @@ class FMViewForm_maker {
                 {
                   if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="")
                     {
-                      alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                      alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                       jQuery("#wdform_'.$id1.'_element'.$form_id.'").addClass( "form-error" );
                       old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                       x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
@@ -1643,7 +1643,7 @@ class FMViewForm_maker {
                 {
                   if(jQuery("#wdform_'.$id1.'_mm'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_hh'.$form_id.'").val()=="" || (jQuery("#wdform_'.$id1.'_ss'.$form_id.'").length != 0 ? jQuery("#wdform_'.$id1.'_ss'.$form_id.'").val()=="" : false))
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
                     jQuery("#wdform_'.$id1.'_hh'.$form_id.'").focus();
@@ -1690,7 +1690,7 @@ class FMViewForm_maker {
                 {
                   if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="")
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     jQuery("#wdform_'.$id1.'_element'.$form_id.'").addClass( "form-error" );
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
@@ -1798,7 +1798,7 @@ class FMViewForm_maker {
                 {
                   if(jQuery("#wdform_'.$id1.'_day'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_month'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_year'.$form_id.'").val()=="")
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
                     jQuery("#wdform_'.$id1.'_day'.$form_id.'").focus();
@@ -1846,7 +1846,7 @@ class FMViewForm_maker {
                 {
                   if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="")
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
                     jQuery("#wdform_'.$id1.'_element'.$form_id.'").focus();
@@ -1901,7 +1901,7 @@ class FMViewForm_maker {
               {
                 if(jQuery("#wd_captcha_input'.$form_id.'").val()=="")
                 {
-                  alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                  alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                   old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                   x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
                   jQuery("#wd_captcha_input'.$form_id.'").focus();
@@ -2069,7 +2069,7 @@ class FMViewForm_maker {
                 {
                   if(jQuery("#wdform_'.$id1.'_element_dollars'.$form_id.'").val()=="'.$w_title[0].'" || jQuery("#wdform_'.$id1.'_element_dollars'.$form_id.'").val()=="")
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
                     jQuery("#wdform_'.$id1.'_element_dollars'.$form_id.'").focus();
@@ -2215,7 +2215,7 @@ class FMViewForm_maker {
                 {
                   if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="")
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     jQuery("#wdform_'.$id1.'_element'.$form_id.'").addClass( "form-error" );
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
@@ -2312,7 +2312,7 @@ class FMViewForm_maker {
                 {
                   if(x.find(jQuery("div[wdid='.$id1.'] input:checked")).length == 0)
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
                     
@@ -2407,7 +2407,7 @@ class FMViewForm_maker {
                 {
                   if(x.find(jQuery("div[wdid='.$id1.'] input:checked")).length == 0)
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
                     
@@ -2482,7 +2482,7 @@ class FMViewForm_maker {
                 {
                   if(x.find(jQuery("div[wdid='.$id1.'] input:checked")).length == 0)
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
                     
@@ -2583,7 +2583,7 @@ class FMViewForm_maker {
                 {
                   if(jQuery("#wdform_'.$id1.'_selected_star_amount'.$form_id.'").val()=="")
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
                     return false;
@@ -2642,7 +2642,7 @@ class FMViewForm_maker {
                 {
                   if(x.find(jQuery("div[wdid='.$id1.'] input:checked")).length == 0)
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
                     
@@ -2697,7 +2697,7 @@ class FMViewForm_maker {
                 {
                   if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()=="")
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     jQuery("#wdform_'.$id1.'_element'.$form_id.'").addClass( "form-error" );
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
@@ -2757,7 +2757,7 @@ class FMViewForm_maker {
                 {
                   if(jQuery("#wdform_'.$id1.'_slider_value'.$form_id.'").val()=='.$param['w_field_min_value'].')
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
                     return false;
@@ -2814,7 +2814,7 @@ class FMViewForm_maker {
                 {
                   if(jQuery("#wdform_'.$id1.'_element'.$form_id.'0").val()=="" || jQuery("#wdform_'.$id1.'_element'.$form_id.'1").val()=="")
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
                     jQuery("#wdform_'.$id1.'_element'.$form_id.'0").focus();
@@ -2874,7 +2874,7 @@ class FMViewForm_maker {
                 {
                   if('.$required_check.')
                   {
-                    alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                    alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                     x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
                     jQuery("#wdform_'.$id1.'_element'.$form_id.'0").focus();
@@ -2988,7 +2988,7 @@ class FMViewForm_maker {
                     
                     if(radio_checked==false)
                     {
-                      alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                      alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                       old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                       x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
                       return false;
@@ -3002,7 +3002,7 @@ class FMViewForm_maker {
                   {
                     if(x.find(jQuery("div[wdid='.$id1.']")).find(jQuery("input[type=\'checkbox\']:checked")).length == 0)
                     {
-                      alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                      alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                       old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                       x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
                       return false;
@@ -3017,7 +3017,7 @@ class FMViewForm_maker {
                   {
                     if(x.find(jQuery("div[wdid='.$id1.']")).find(jQuery("input[type=\'text\']")).filter(function() {return this.value.length !== 0;}).length == 0)
                     {
-                      alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                      alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                       old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                       x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
                       return false;
@@ -3032,7 +3032,7 @@ class FMViewForm_maker {
                   {
                     if(x.find(jQuery("div[wdid='.$id1.']")).find(jQuery("select")).filter(function() {return this.value.length !== 0;}).length == 0)
                     {
-                      alert("' .$label. ' ' . addslashes(__('field is required.', 'form_maker')) . '");
+                      alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                       old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
                       x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
                       return false;
@@ -3069,6 +3069,7 @@ class FMViewForm_maker {
             }
           }          
           $form=str_replace('%'.$id1.' - '.$labels[$id1s_key].'%', $rep, $form);
+          $form=str_replace('%'.$id1.' -'.$labels[$id1s_key].'%', $rep, $form);
         }        
       }
       
