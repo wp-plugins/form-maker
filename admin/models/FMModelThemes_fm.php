@@ -53,6 +53,7 @@ class FMModelThemes_fm {
       }
     }
     else {
+      $row = new stdClass();
       $row->id = 0;
       $row->title = '';
       $row->css = '';

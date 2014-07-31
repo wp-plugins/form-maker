@@ -2560,8 +2560,8 @@ function close_window() {
   document.getElementById('edit_table').innerHTML = "";
   document.getElementById('show_table').innerHTML = "";
   document.getElementById('main_editor').style.display = "none";
-  if (document.getElementById('form_maker_editor_ifr')) {
-    ifr_id = 'form_maker_editor_ifr';
+  if (document.getElementById("form_maker_editor_ifr")) {
+    ifr_id = "form_maker_editor_ifr";
     ifr = getIFrameDocument(ifr_id);
     ifr.body.innerHTML = "";
   }
@@ -3767,8 +3767,8 @@ return rv;
 }
 
 function delete_last_child() {
-  if (document.getElementById('form_maker_editor_ifr')) {
-    ifr_id = 'form_maker_editor_ifr';
+  if (document.getElementById("form_maker_editor_ifr")) {
+    ifr_id = "form_maker_editor_ifr";
     ifr = getIFrameDocument(ifr_id);
     ifr.body.innerHTML = "";
   }
@@ -4077,8 +4077,8 @@ function type_section_break(i, w_editor) {
 		document.getElementById('main_editor').style.left=iReturnLeft+195+"px";
 		document.getElementById('main_editor').style.top=iReturnTop+70+"px";
 		
-		if (document.getElementById('form_maker_editor_ifr') && document.getElementById('form_maker_editor').style.display == "none") {
-      ifr_id = 'form_maker_editor_ifr';
+		if (document.getElementById("form_maker_editor_ifr") && document.getElementById('form_maker_editor').style.display == "none") {
+      ifr_id = "form_maker_editor_ifr";
       ifr = getIFrameDocument(ifr_id);
       ifr.body.innerHTML = w_editor;
     }
@@ -4113,8 +4113,8 @@ function type_editor(i, w_editor) {
 		document.getElementById('main_editor').style.left=iReturnLeft+195+"px";
 		document.getElementById('main_editor').style.top=iReturnTop+70+"px";
 		
-		if (document.getElementById('form_maker_editor_ifr') && document.getElementById('form_maker_editor').style.display=="none") {
-			ifr_id='form_maker_editor_ifr';
+		if (document.getElementById("form_maker_editor_ifr") && document.getElementById('form_maker_editor').style.display == "none") {
+      ifr_id = "form_maker_editor_ifr";
 			ifr=getIFrameDocument(ifr_id);
 			ifr.body.innerHTML=w_editor;
 		}
@@ -26298,8 +26298,7 @@ function add(key) {
 			wdform_field_in_editor=document.getElementById(i+"_element_sectionform_id_temp");
 
 			
-						
-			ifr_id='form_maker_editor_ifr';
+      ifr_id = "form_maker_editor_ifr";	
 			ifr=getIFrameDocument(ifr_id);
 			if(document.getElementById('form_maker_editor').style.display=="none")
 				wdform_field_in_editor.innerHTML=ifr.body.innerHTML;
@@ -26379,7 +26378,7 @@ function add(key) {
          			in_editor.setAttribute("class", 'wdform_section_break');
 
 
-			ifr_id='form_maker_editor_ifr';
+			ifr_id = "form_maker_editor_ifr";
 			ifr=getIFrameDocument(ifr_id)
 
 			if(document.getElementById('form_maker_editor').style.display=="none")
@@ -26875,7 +26874,7 @@ function add(key) {
 					td_PAGEDOWN.appendChild(img_PAGEDOWN);
 					
 
-		ifr_id='form_maker_editor_ifr';
+		ifr_id = "form_maker_editor_ifr";
 		ifr=getIFrameDocument(ifr_id)
 
 		if(document.getElementById('form_maker_editor').style.display=="none")
@@ -27336,13 +27335,11 @@ function edit(id)
 	t=0;
 	
 	/////////shat handipox
-
-	if (document.getElementById(id+'_element_labelform_id_temp').innerHTML) {
-		w_field_label = document.getElementById(id+'_element_labelform_id_temp').innerHTML;
-  }
-  else {
-    w_field_label = " ";
-  }
+	
+	if(document.getElementById(id+'_element_labelform_id_temp').innerHTML)
+		w_field_label=document.getElementById(id+'_element_labelform_id_temp').innerHTML;
+  else
+    w_field_label=" ";
 		
 	if(document.getElementById(id+'_label_sectionform_id_temp'))
 	if(document.getElementById(id+'_label_sectionform_id_temp').style.display=="block")

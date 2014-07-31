@@ -283,6 +283,25 @@ function before_reset() {
     WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'form_options', 'current_id' => $current_id, 'message' => $message, 'fieldset_id' => $fieldset_id), admin_url('admin.php')));
   }
 
+  public function remove_query() {
+    global $wpdb;
+    $cid = ((isset($_POST['cid']) && $_POST['cid'] != '') ? $_POST['cid'] : NULL); 
+    if (count($cid)) {
+      $cids = implode(',', $cid);
+      $query = 'DELETE FROM ' . $wpdb->prefix . 'formmaker_query WHERE id IN ( ' . $cids . ' )';
+      if ($wpdb->query($query)) {
+        echo WDW_FM_Library::message('Items Succesfully Deleted.', 'updated');
+      }
+      else {
+        echo WDW_FM_Library::message('Error. Please install plugin again.', 'error');
+      }
+    }
+    else {
+      echo WDW_FM_Library::message('You must select at least one item.', 'error');
+    }
+    $this->apply_options();
+  }
+  
   public function cancel_options() {
     $this->edit();
   }

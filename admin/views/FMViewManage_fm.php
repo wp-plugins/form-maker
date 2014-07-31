@@ -1142,18 +1142,9 @@ class FMViewManage_fm {
           }
           document.getElementById('araqel').value = 1;
         }
-        function formAddToOnload() { 
-          if (formOldFunctionOnLoad) {
-            formOldFunctionOnLoad();
-          }
+        jQuery(window).load(function () {
           formOnload();
-        }
-        function formLoadBody() {
-          formOldFunctionOnLoad = window.onload;
-          window.onload = formOnload;
-        }
-        var formOldFunctionOnLoad = null;
-        formLoadBody();
+        });
       </script>
         <?php
       }
@@ -2182,18 +2173,9 @@ class FMViewManage_fm {
           document.getElementById('form').value=document.getElementById('take').innerHTML;
           document.getElementById('araqel').value = 1;
         }
-        function formAddToOnload() { 
-          if (formOldFunctionOnLoad) {
-            formOldFunctionOnLoad();
-          }
+        jQuery(window).load(function () {
           formOnload();
-        }
-        function formLoadBody() {
-          formOldFunctionOnLoad = window.onload;
-          window.onload = formAddToOnload;
-        }
-        var formOldFunctionOnLoad = null;
-        formLoadBody();
+        });
       </script>
 
       <input type="hidden" name="option" value="com_formmaker" />
@@ -2602,6 +2584,7 @@ class FMViewManage_fm {
   public function form_options($id) {
     $row = $this->model->get_row_data($id);
     $themes = $this->model->get_theme_rows_data();
+    $queries = $this->model->get_queries_rows_data($id);
     $page_title = $row->title . ' form options';
     $label_id = array();
     $label_label = array();
@@ -2670,6 +2653,14 @@ class FMViewManage_fm {
         document.getElementById('condition').value = field_condition;
       }      
     </script>
+    <style>
+    .CodeMirror {
+      border: 1px solid #ccc;
+      font-size: 12px;
+      margin-bottom: 6px;
+      background: white;
+    }
+    </style>
     <div style="clear: both; float: left; width: 99%;">
       <div style="float:left; font-size: 14px; font-weight: bold;">
         This section allows you to edit form options.
@@ -2718,10 +2709,13 @@ class FMViewManage_fm {
               <a id="payment" class="fm_fieldset_tab" onclick="form_maker_options_tabs('payment')" href="#">Payment Options</a>
             </li>
             <li>
-              <a id="javascript" class="fm_fieldset_tab" onclick="form_maker_options_tabs('javascript')" href="#">JavaScript</a>
+              <a id="javascript" class="fm_fieldset_tab" onclick="form_maker_options_tabs('javascript'); codemirror_for_javascript();" href="#">JavaScript</a>
             </li>
             <li>
               <a id="conditions" class="fm_fieldset_tab" onclick="form_maker_options_tabs('conditions')" href="#">Conditional Fields</a>
+            </li>
+            <li>
+              <a id="mapping" class="fm_fieldset_tab" onclick="form_maker_options_tabs('mapping')" href="#" >SQL Mapping</a>
             </li>
           </ul>
         </div>
@@ -3337,7 +3331,7 @@ class FMViewManage_fm {
               <label for="tax">Tax</label>
             </td>
             <td class="fm_options_value">
-              <input disabled="disabled" type="text" name="tax" id="tax" value="<?php echo $row->tax; ?>" class="text_area" style="width:30px" onKeyPress="return check_isnum(event)"> %
+              <input type="text" name="tax" id="tax" value="<?php echo $row->tax; ?>" class="text_area" style="width: 40px;" onKeyPress="return check_isnum_point(event)"> %
             </td>
           </tr>
         </table>
@@ -3349,8 +3343,8 @@ class FMViewManage_fm {
             <td class="fm_options_label">
               <label for="javascript">Javascript</label>
             </td>
-            <td class="fm_options_value">
-              <textarea style="margin: 0px;" cols="60" rows="30" name="javascript" id="javascript"><?php echo $row->javascript; ?></textarea>
+            <td class="fm_options_value" style="width:650px;">
+              <textarea style="margin: 0px; height: 400px; width: 600px;" cols="60" rows="30" name="javascript" id="form_javascript"><?php echo $row->javascript; ?></textarea>
             </td>
           </tr>
         </table>
@@ -3444,7 +3438,7 @@ class FMViewManage_fm {
 					?>
 					<div>
 					<span style="font-size:13px;">Add Condition<span/>
-					<img src="<?php echo WD_FM_URL . '/images/add_condition.png'; ?>" title="add" onclick="add_condition('<?php echo $chose_ids; ?>', '<?php echo addslashes($chose_labels); ?>', '<?php echo $chose_types; ?>', '<?php echo $chose_paramss; ?>', '<?php echo $all_ids_cond; ?>', '<?php echo addslashes($all_labels_cond); ?>')" style="cursor: pointer; vertical-align: middle; margin-left:15px;">
+					<img src="<?php echo WD_FM_URL . '/images/add_condition.png'; ?>" title="add" onclick="add_condition('<?php echo $chose_ids; ?>', '<?php echo addslashes($chose_labels); ?>', '<?php echo $chose_types; ?>', '<?php echo addslashes($chose_paramss); ?>', '<?php echo $all_ids_cond; ?>', '<?php echo addslashes($all_labels_cond); ?>')" style="cursor: pointer; vertical-align: middle; margin-left:15px;">
 					</div>
 					<?php
 
@@ -3480,7 +3474,7 @@ class FMViewManage_fm {
 							</select> 
 							
 							<span>of the following match:</span>	
-							<img src="<?php echo WD_FM_URL . '/images/add.png'; ?>" title="add" onclick="add_condition_fields(<?php echo $k; ?>,'<?php echo $chose_ids; ?>', '<?php echo addslashes($chose_labels); ?>', '<?php echo $chose_types; ?>', '<?php echo $chose_paramss; ?>')" style="cursor: pointer; vertical-align: middle;">
+							<img src="<?php echo WD_FM_URL . '/images/add.png'; ?>" title="add" onclick="add_condition_fields(<?php echo $k; ?>,'<?php echo $chose_ids; ?>', '<?php echo addslashes($chose_labels); ?>', '<?php echo $chose_types; ?>', '<?php echo addslashes($chose_paramss); ?>')" style="cursor: pointer; vertical-align: middle;">
 							
 							<img src="<?php echo WD_FM_URL . '/images/page_delete.png'; ?>" onclick="delete_condition('<?php echo $k; ?>')" style="cursor: pointer; vertical-align: middle;">
 						</div>
@@ -3500,7 +3494,7 @@ class FMViewManage_fm {
 							
 								?>
 								<div id="condition_div<?php echo $k; ?>_<?php echo $key; ?>">
-								<select id="field_labels<?php echo $k; ?>_<?php echo $key; ?>" onchange="change_choices(this.options[this.selectedIndex].id+'_<?php echo $key; ?>','<?php echo $chose_ids; ?>', '<?php echo $chose_types; ?>', '<?php echo $chose_paramss; ?>')" style="width:350px;"/>
+								<select id="field_labels<?php echo $k; ?>_<?php echo $key; ?>" onchange="change_choices(this.options[this.selectedIndex].id+'_<?php echo $key; ?>','<?php echo $chose_ids; ?>', '<?php echo $chose_types; ?>', '<?php echo addslashes($chose_paramss); ?>')" style="width:350px;"/>
 									<?php 
 									foreach($labels as $key1 => $value) 		
 									{ 		
@@ -3561,7 +3555,7 @@ class FMViewManage_fm {
 										else
 										$w_choice = $w_choices_array[$m];
 											
-										if(in_array($w_choice,$multiselect))
+										if(in_array(esc_html($w_choice),$multiselect))
 										{
 											$selected = 'selected="selected"';
 										}	
@@ -3615,6 +3609,60 @@ class FMViewManage_fm {
 				<input type="hidden" id="condition" name="condition" value="<?php echo $row->condition; ?>" />	
 				
 			</fieldset>
+      
+      <fieldset id="mapping_fieldset" class="adminform fm_fieldset_deactive">
+        <legend style="color:#0B55C4;font-weight: bold;">SQL Mapping</legend>
+        <div>
+          <a href="<?php echo add_query_arg(array('action' => 'FormMakerSQLMapping', 'id' => 0, 'form_id' => $row->id, 'width' => '1000', 'height' => '500', 'TB_iframe' => '1'), admin_url('admin-ajax.php')); ?>" class="button-secondary thickbox thickbox-preview" id="add_query" title="Add Query" onclick="return false;">
+            Add Query
+          </a>
+          <button class="button-primary thickbox thickbox-preview" onclick="if (spider_check_email('mail') ||
+                           spider_check_email('from_mail') ||
+                           spider_check_email('reply_to') ||
+                           spider_check_email('mail_from_user') ||
+                           spider_check_email('reply_to_user') ||
+                           spider_check_email('mail_from_other') ||
+                           spider_check_email('reply_to_other') ||
+                           spider_check_email('paypal_email')) {return false;}; set_condition(); spider_set_input_value('task', 'remove_query')">Delete</button>
+        </div>
+				<?php 
+				if ($queries)
+				{
+				?>
+				<table class="wp-list-table widefat fixed posts table_content">
+					<thead>
+						<tr>
+							<th style="width:4%;" class="table_small_col count_col sub-align">#</th>
+							<th style="width:4%;" class="table_small_col count_col sub-align">ID</th>
+							<th style="width:6%;" class="manage-column column-cb check-column table_small_col sub-align form_check">
+                <input id="check_all" type="checkbox" style="margin:0;">
+              </th>
+							<th style="width:86%;" class="table_large_col">Query</th>
+						</tr>
+					</thead>
+					<?php
+					$k = 0;
+					for($i=0, $n=count($queries); $i < $n ; $i++) {
+						$query = $queries[$i];
+						$checked = '<input type="checkbox" id="' . $i . '" name="cid[]" value="' . $query->id . '" />';
+						$link = add_query_arg(array('action' => 'FormMakerSQLMapping', 'id' => $query->id, 'form_id' => $row->id, 'width' => '1000', 'height' => '500', 'TB_iframe' => '1'), admin_url('admin-ajax.php'));
+						?>
+						<tr <?php if ($k) echo "class=\"alternate\""; ?>>
+							<td align="center" class="table_small_col"><?php echo $i+1; ?></td>
+							<td align="center" class="table_small_col"><?php echo $query->id; ?></td>
+							<td align="center" class="table_small_col check-column"><?php echo $checked; ?></td>
+							<td align="center"><a href="<?php echo $link; ?>" class="thickbox thickbox-preview" onclick="return false;"><?php echo $query->query; ?></a></td>
+						</tr>
+						<?php
+						$k = 1 - $k;
+          }
+          ?>
+				</table>
+				<?php
+				}
+				?>
+			</fieldset>
+      <input type="hidden" name="boxchecked" value="0">
       <input type="hidden" name="fieldset_id" id="fieldset_id" value="<?php echo WDW_FM_Library::get('fieldset_id', 'general'); ?>" />
 
       <input type="hidden" id="task" name="task" value=""/>
@@ -3644,6 +3692,11 @@ class FMViewManage_fm {
           document.getElementById('mail_subject_user_labels').addEventListener('mouseout',hide_email_labels,true);
         }
       });
+      function wd_fm_apply_options() {
+        set_condition();
+        spider_set_input_value('task', 'apply_options');
+        document.getElementById('adminForm').submit();
+      }
     </script>
     <?php
   }

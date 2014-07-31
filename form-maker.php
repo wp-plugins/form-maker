@@ -3,7 +3,7 @@
  * Plugin Name: Form Maker
  * Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
  * Description: This plugin is a modern and advanced tool for easy and fast creating of a WordPress Form. The backend interface is intuitive and user friendly which allows users far from scripting and programming to create WordPress Forms.
- * Version: 1.7.12
+ * Version: 1.7.13
  * Author: http://web-dorado.com/
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -27,8 +27,8 @@ function form_maker_options_panel() {
   add_action('admin_print_scripts-' . $blocked_ips_page, 'form_maker_manage_scripts');
 
   $themes_page = add_submenu_page('manage_fm', 'Themes', 'Themes', 'manage_options', 'themes_fm', 'form_maker');
-  add_action('admin_print_styles-' . $themes_page, 'form_maker_styles');
-  add_action('admin_print_scripts-' . $themes_page, 'form_maker_scripts');
+  add_action('admin_print_styles-' . $themes_page, 'form_maker_manage_styles');
+  add_action('admin_print_scripts-' . $themes_page, 'form_maker_manage_scripts');
 
   $licensing_plugins_page = add_submenu_page('manage_fm', 'Licensing/Donation', 'Licensing/Donation', 'manage_options', 'licensing_fm', 'form_maker');
 
@@ -64,6 +64,7 @@ add_action('wp_ajax_product_option', 'form_maker_ajax'); // Open product options
 add_action('wp_ajax_frommapeditinpopup', 'form_maker_ajax'); // Open map in submissions.
 add_action('wp_ajax_show_matrix', 'form_maker_ajax'); // Edit matrix in submissions.
 add_action('wp_ajax_FormMakerEditCSS', 'form_maker_ajax'); // Edit css from form options.
+add_action('wp_ajax_FormMakerSQLMapping', 'form_maker_ajax'); // Add/Edit SQLMaping from form options.
 
 // add_action('wp_ajax_checkpaypal', 'form_maker_ajax'); // Notify url from Paypal Sandbox.
 // add_action('wp_ajax_nopriv_checkpaypal', 'form_maker_ajax'); // Notify url from Paypal Sandbox for all users.
@@ -137,32 +138,7 @@ function Form_maker_fornt_end_main($content) {
 }
 add_filter('the_content', 'Form_maker_fornt_end_main', 5000);
 
-function xapel_shortcode_1($content) {
-  $pattern = '[\[contact_form id="([0-9]*)"\]]';
-  $count_forms_in_post = preg_match_all($pattern, $content, $matches_form);
-  if ($count_forms_in_post) {
-    require_once (WD_FM_DIR . '/frontend/controllers/FMControllerForm_maker.php');
-    $controller = new FMControllerForm_maker();
-    for ($jj = 0; $jj < $count_forms_in_post; $jj++) {
-      $padron = $matches_form[0][$jj];
-      $replacment = '[contact_form_for_repace id="' . $matches_form[1][$jj] . '"]';
-      $content = str_replace($padron, $replacment, $content);
-    }
-  }
-  $pattern = '[\[wd_contact_form id="([0-9]*)"\]]';
-  $count_forms_in_post = preg_match_all($pattern, $content, $matches_form);
-  if ($count_forms_in_post) {
-    require_once (WD_FM_DIR . '/frontend/controllers/FMControllerForm_maker.php');
-    $controller = new FMControllerForm_maker();
-    for ($jj = 0; $jj < $count_forms_in_post; $jj++) {
-      $padron = $matches_form[0][$jj];
-      $replacment = '[contact_form_for_repace id="' . $matches_form[1][$jj] . '"]';
-      $content = str_replace($padron, $replacment, $content);
-    }
-  }
-  return $content;
-}
-// add_filter('the_content', 'xapel_shortcode_1', 1);
+
 
 // Add the Form Maker button to editor.
 add_action('wp_ajax_formmakerwindow', 'form_maker_ajax');
@@ -186,7 +162,7 @@ if (class_exists('WP_Widget')) {
 // Activate plugin.
 function form_maker_activate() {
   $version = get_option("wd_form_maker_version");
-  $new_version = '1.7.6';
+  $new_version = '1.7.13';
   if (!$version) {
     add_option("wd_form_maker_version", $new_version, '', 'no');
     global $wpdb;

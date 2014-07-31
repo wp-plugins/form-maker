@@ -56,6 +56,7 @@ class FMViewUninstall_fm {
                   <li><?php echo $prefix; ?>formmaker_views</li>
                   <li><?php echo $prefix; ?>formmaker_themes</li>
                   <li><?php echo $prefix; ?>formmaker_sessions</li>
+                  <li><?php echo $prefix; ?>formmaker_query</li>
               </ol>
             </td>
           </tr>
@@ -98,6 +99,7 @@ class FMViewUninstall_fm {
       <p><?php echo $prefix; ?>formmaker_submits,</p>
       <p><?php echo $prefix; ?>formmaker_themes,</p>
       <p><?php echo $prefix; ?>formmaker_views.</p>
+      <p><?php echo $prefix; ?>formmaker_query.</p>
     </div>
     <div class="wrap">
       <h2>Uninstall Form Maker</h2>

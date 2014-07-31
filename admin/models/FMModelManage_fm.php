@@ -1802,6 +1802,12 @@ class FMModelManage_fm {
     $rows = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "formmaker_themes WHERE css " . ($old ? 'NOT' : '') . " LIKE '%.wdform_section%' ORDER BY title");
     return $rows;
   }
+  
+  public function get_queries_rows_data($id) {
+    global $wpdb;
+    $rows = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "formmaker_query WHERE form_id=" . $id . " ORDER BY id ASC");
+    return $rows;
+  }
 
   public function page_nav() {
     global $wpdb;
