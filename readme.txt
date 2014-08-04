@@ -123,7 +123,7 @@ Upgrade to [WordPress Form Maker Pro](http://web-dorado.com/products/wordpress-f
 	
 ### Supported languages Of Form Maker  
 
- *If you need language of Form Maker which is not included in this list, please contact us and we will do the translation of Form Maker within 3 days. If you find some mistakes in the translation of Form Maker, please contact  us and we will correct it within 3 days.*  
+ *If you need language of Form Maker which is not included in this list, please contact us and we will do the translation of Form Maker within 3 days. If you find any mistakes in the translation, please contact us and we will make relevant corrections within 3 days.*  
 
 Afrikaans (af)  
 Albanian (sq)  
