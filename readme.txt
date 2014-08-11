@@ -431,20 +431,16 @@ Custom: This field can be used for inserting custom buttons into the form. Type 
 
 = Step 5: Publishing the created form. =    
 
-To insert a form into a Page or a Post.  
+To insert a form into a Page or a Post.
 
+5.1. Press the button named Insert Form Maker in a post or a page you want to show the form.
 
+5.2. Select a form from the list.
+
+5.3. Save the page or the post.
+
+Alternatively, you can use form builder without the button on the toolbar. Add the shortcode [Form id="N"] (where N is the id of the form, for the form with id=2, the shortcode must be [Form id="2"]) to the pages and posts, where you want the form to appear. For each form you can find the relevant shortcode from Manager view, it is stored on the right corner of the form title.  
   
-  5.1. Press the button named Insert Form Maker in a post or a page you want to show the form.  
-
-  5.2. Select a form from the list.  
-
-
-  
-  5.3. Save the page or the post.  
-
-Alternatively, you can use form builder without the button on the toolbar: Add the shortcode [Form id="N"] (where N is the id of the form, for the form with id=2, the shortcode must be [Form id="2"]) to the pages and posts, where you want the form to appear.   
-
   
 = Step 6: Managing submissions of the form. =    
   
