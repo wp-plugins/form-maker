@@ -213,6 +213,21 @@ In case you are upgrading your Form Maker to paid version, but still want to pre
 
 == Changelog ==
 
+= 1.7.14 =
+csv, xml export mark on map
+
+= 1.7.13 =
+sql mapping
+
+= 1.7.12 =
+extended name edit bug fixed (if first input is empty)
+
+= 1.7.11 =
+hidden field edit bug fixed
+
+= 1.7.10 =
+security issue fixed
+
 = 1.7.9 =
 line break in custom text in email
 
