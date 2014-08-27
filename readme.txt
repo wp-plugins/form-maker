@@ -110,7 +110,8 @@ Survey tools are also very convenient for adding rating systems for the posts, e
 *   Date picker in the form of drop-down menu for easier date selection.   
 *   Submissions section displays the amount of entries, as well as views and conversion rate for each separate form.  
 *   Conditional fileds.        
-
+*   CC and BCC mail options for sending out the submitted form  
+  
 Upgrade to [WordPress Form Maker Pro](http://web-dorado.com/products/wordpress-form.html) to add features: 
    
 *   unlimited number of form fields       
