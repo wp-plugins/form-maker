@@ -214,6 +214,12 @@ In case you are upgrading your Form Maker to paid version, but still want to pre
 
 == Changelog ==
 
+= 1.7.16 =
+show submitter information in popup (Country, CountryCode, City, Latitude, Longitude)
+
+= 1.7.15 =
+bug fixed
+
 = 1.7.14 =
 csv, xml export mark on map
 
