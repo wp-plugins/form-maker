@@ -11,7 +11,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 WordPress Form Maker is a fresh and innovative form builder. This form builder is for generating various kinds of forms.
 
 == Description ==
-
 [WordPress Form Maker](http://web-dorado.com/products/wordpress-form.html)  
 [Demo](http://wpdemo.web-dorado.com/)  
 [Demo Admin](http://wpdemo.web-dorado.com/wp-admin/admin.php?page=Form_maker)  
