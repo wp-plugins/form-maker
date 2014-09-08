@@ -12,7 +12,7 @@ WordPress Form Maker is a fresh and innovative form builder. This form builder i
 
 == Description ==
 
-### [WordPress Form Maker](http://web-dorado.com/products/wordpress-form.html)  
+[WordPress Form Maker](http://web-dorado.com/products/wordpress-form.html)  
 [Demo](http://wpdemo.web-dorado.com/)  
 [Demo Admin](http://wpdemo.web-dorado.com/wp-admin/admin.php?page=Form_maker)  
 [User Manual](http://web-dorado.com/wordpress-form-maker-guide-1.html)  
