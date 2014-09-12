@@ -51,7 +51,7 @@ Survey tools are also very convenient for adding rating systems for the posts, e
 *   WordPress 3.0+  
 *   Multiple pre-installed sample forms 
 *   Responsive layout and design  
-*   Limited up to 7 fields to add  
+*   Limited up to 7 fields to add   
 *   Twelve form fields with detailed parameters for creating forms
 	*   Custom HTML with standard editor  
 	*   Text Input form fields (included 10 different types)   
