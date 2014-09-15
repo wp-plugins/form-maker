@@ -111,6 +111,7 @@ Survey tools are also very convenient for adding rating systems for the posts, e
 *   Submissions section displays the amount of entries, as well as views and conversion rate for each separate form.  
 *   Conditional fileds.        
 *   CC and BCC mail options for sending out the submitted form  
+*   37 responsive theme with customizable design   
   
 Upgrade to [WordPress Form Maker Pro](http://web-dorado.com/products/wordpress-form.html) to add features: 
    
