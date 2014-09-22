@@ -1,3 +1,8 @@
+#TB_window,
+#TB_overlay {
+  z-index: 10200;
+}
+
 #manage_form fieldset {
   clear: both;
   float: left;

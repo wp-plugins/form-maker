@@ -116,14 +116,14 @@ function form_maker_update_until_mvc() {
   `form_id` int(11) NOT NULL,
   `views` int(50) NOT NULL,
   PRIMARY KEY (`form_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8";
+) DEFAULT CHARSET=utf8";
       $form_maker_theme_table = "CREATE TABLE IF NOT EXISTS `" . $wpdb->prefix . "formmaker_themes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(200) NOT NULL,
   `css` text NOT NULL,
   `default` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17";
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=17";
       $table_name = $wpdb->prefix . "formmaker_themes";
       $plugin_path = WD_FM_URL;
       if ($wpdb->get_var("SHOW TABLES LIKE '" . $wpdb->prefix . "formmaker_themes'") != $wpdb->prefix . "formmaker_themes")
@@ -422,7 +422,7 @@ function before_reset()
       `total` varchar(200) NOT NULL,
       `currency` varchar(24) NOT NULL,
       PRIMARY KEY (`id`)
-    ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17";
+    ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=17";
     $wpdb->query($form_maker_sessions_table);
     if (!get_site_option('formmaker_cureent_version')) {
       // if ($wpdb->get_var("SHOW TABLES LIKE '" . $wpdb->prefix . "formmaker_themes'") == $wpdb->prefix . "formmaker_themes")
