@@ -112,6 +112,7 @@ Survey tools are also very convenient for adding rating systems for the posts, e
 *   Conditional fileds.        
 *   CC and BCC mail options for sending out the submitted form  
 *   37 responsive theme with customizable design   
+*   Displaying the country, country code and other date in the Submissions section IP pop-up   
   
 Upgrade to [WordPress Form Maker Pro](http://web-dorado.com/products/wordpress-form.html) to add features: 
    
