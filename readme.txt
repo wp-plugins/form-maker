@@ -114,6 +114,7 @@ Survey tools are also very convenient for adding rating systems for the posts, e
 *   37 responsive theme with customizable design   
 *   Displaying the country, country code and other date in the Submissions section IP pop-up   
 *   MySQL Mapping possibility for storing entered data to another MySQL database.   
+*   Possibility to choose whether to save the data to database or just have the information emailed to the Administrator.   
 
 Upgrade to [WordPress Form Maker Pro](http://web-dorado.com/products/wordpress-form.html) to add features: 
    
