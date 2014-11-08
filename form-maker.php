@@ -3,8 +3,9 @@
  * Plugin Name: Form Maker
  * Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
  * Description: This plugin is a modern and advanced tool for easy and fast creating of a WordPress Form. The backend interface is intuitive and user friendly which allows users far from scripting and programming to create WordPress Forms.
- * Version: 1.7.17
- * Author: http://web-dorado.com/
+ * Version: 1.7.18
+ * Author: WebDorado
+ * Author URI: http://web-dorado.com/
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 define('WD_FM_DIR', WP_PLUGIN_DIR . "/" . plugin_basename(dirname(__FILE__)));
@@ -32,11 +33,9 @@ function form_maker_options_panel() {
 
   $licensing_plugins_page = add_submenu_page('manage_fm', 'Licensing/Donation', 'Licensing/Donation', 'manage_options', 'licensing_fm', 'form_maker');
 
-  $featured_plugins_page = add_submenu_page('manage_fm', 'Featured Plugins', 'Featured Plugins', 'manage_options', 'featured_plugins_fm', 'form_maker');
-  add_action('admin_print_styles-' . $featured_plugins_page, 'form_maker_featured_plugins_styles');
+  add_submenu_page('manage_fm', 'Featured Plugins', 'Featured Plugins', 'manage_options', 'featured_plugins_fm', 'fm_featured');
 
-  $extensions_page = add_submenu_page('manage_fm', 'Form Maker plugins', 'Form Maker plugins', 'manage_options', 'extensions_fm', 'form_maker');
-  add_action('admin_print_styles-' . $extensions_page, 'form_maker_featured_plugins_styles');
+  add_submenu_page('manage_fm', 'Form Maker plugins', 'Form Maker plugins', 'manage_options', 'extensions_fm', 'fm_extensions');
 
   $uninstall_page = add_submenu_page('manage_fm', 'Uninstall', 'Uninstall', 'manage_options', 'uninstall_fm', 'form_maker');
   add_action('admin_print_styles-' . $uninstall_page, 'form_maker_styles');
@@ -45,6 +44,14 @@ function form_maker_options_panel() {
 add_action('admin_menu', 'form_maker_options_panel');
 
 function form_maker() {
+  if (function_exists('current_user_can')) {
+    if (!current_user_can('manage_options')) {
+      die('Access Denied');
+    }
+  }
+  else {
+    die('Access Denied');
+  }
   require_once(WD_FM_DIR . '/framework/WDW_FM_Library.php');
   $page = WDW_FM_Library::get('page');
   if (($page != '') && (($page == 'manage_fm') || ($page == 'submissions_fm') || ($page == 'blocked_ips_fm') || ($page == 'themes_fm') || ($page == 'licensing_fm') || ($page == 'featured_plugins_fm') || ($page == 'uninstall_fm') || ($page == 'formmakerwindow') || ($page == 'extensions_fm'))) {
@@ -53,6 +60,36 @@ function form_maker() {
     $controller = new $controller_class();
     $controller->execute();
   }
+}
+
+function fm_featured() {
+  if (function_exists('current_user_can')) {
+    if (!current_user_can('manage_options')) {
+      die('Access Denied');
+    }
+  }
+  else {
+    die('Access Denied');
+  }
+  require_once(WD_FM_DIR . '/featured/featured.php');
+  wp_register_style('fm_featured', WD_FM_URL . '/featured/style.css', array(), get_option("wd_form_maker_version"));
+  wp_print_styles('fm_featured');
+  spider_featured('form-maker');
+}
+
+function fm_extensions() {
+  if (function_exists('current_user_can')) {
+    if (!current_user_can('manage_options')) {
+      die('Access Denied');
+    }
+  }
+  else {
+    die('Access Denied');
+  }
+  require_once(WD_FM_DIR . '/featured/featured.php');
+  wp_register_style('fm_featured', WD_FM_URL . '/featured/style.css', array(), get_option("wd_form_maker_version"));
+  wp_print_styles('fm_featured');
+  spider_extensions('form-maker');
 }
 
 add_action('wp_ajax_get_stats', 'form_maker'); //Show statistics
@@ -144,14 +181,6 @@ add_action('wp_ajax_formmakerwindow', 'form_maker_ajax');
 add_filter('mce_external_plugins', 'form_maker_register');
 add_filter('mce_buttons', 'form_maker_add_button', 0);
 
-for ($ii = 0; $ii < 100; $ii++) {
-  remove_filter('the_content', 'do_shortcode', $ii);
-  remove_filter('the_content', 'wpautop', $ii);
-}
-add_filter('the_content', 'wpautop', 10);
-add_filter('the_content', 'do_shortcode', 11);
-
-
 // Form Maker Widget.
 if (class_exists('WP_Widget')) {
   require_once(WD_FM_DIR . '/admin/controllers/FMControllerWidget.php');
@@ -161,7 +190,7 @@ if (class_exists('WP_Widget')) {
 // Activate plugin.
 function form_maker_activate() {
   $version = get_option("wd_form_maker_version");
-  $new_version = '1.7.17';
+  $new_version = '1.7.18';
   if (!$version) {
     add_option("wd_form_maker_version", $new_version, '', 'no');
     global $wpdb;
@@ -287,11 +316,6 @@ function form_maker_submissions_scripts() {
   wp_localize_script('main_div_front_end', 'fm_objectL10n', array(
     'plugin_url' => WD_FM_URL
   ));
-}
-
-// Form Maker Featured plugins page styles.
-function form_maker_featured_plugins_styles() {
-  wp_enqueue_style('Featured_Plugins', WD_FM_URL . '/css/form_maker_featured_plugins.css');
 }
 
 function form_maker_styles() {

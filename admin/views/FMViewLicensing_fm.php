@@ -29,7 +29,7 @@ class FMViewLicensing_fm {
       <br/>
       <a href="http://web-dorado.com/files/fromFormMaker.php" class="button-primary" target="_blank">Purchase a License</a>
       <br/><br/>
-      <p>After the purchasing the commercial version follow this steps:</p>
+      <p>After purchasing the commercial version follow these steps:</p>
       <ol>
         <li>Deactivate Form Maker Plugin.</li>
         <li>Delete Form Maker Plugin.</li>
