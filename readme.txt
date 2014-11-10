@@ -116,6 +116,7 @@ Survey tools are also very convenient for adding rating systems for the posts, e
 *   MySQL Mapping possibility for storing entered data to another MySQL database.   
 *   Possibility to choose whether to save the data to database or just have the information emailed to the Administrator.   
 *   Possibility to insert separate Country select list for the custom fields rather than address.   
+*   Conditional fields, which can be used for hiding/displaying a list of questions based on the selection of specific answers.   
 
 Upgrade to [WordPress Form Maker Pro](http://web-dorado.com/products/wordpress-form.html) to add features: 
    
