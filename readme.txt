@@ -219,8 +219,12 @@ In case you are upgrading your Form Maker to paid version, but still want to pre
 8.  Form Maker - Select form Columns
 
 == Changelog ==
+
+= 1.7.18 =
+pagination with input 
+
 = 1.7.17 =
-bug fixed in condition fileds
+bug fixed in condition fileds 
 
 = 1.7.16 =
 show submitter information in popup (Country, CountryCode, City, Latitude, Longitude)
