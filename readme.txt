@@ -8,11 +8,11 @@ Stable tag: 1.7.19
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-##WordPress Form Maker is a fresh and innovative form builder. This form builder is for generating various kinds of forms.
+WordPress Form Maker is a fresh and innovative form builder. This form builder is for generating various kinds of forms.
 
 == Description ==
 
-If you have updated to WordPress 4.0.1 or got an automatic update to the mentioned version, please also update the Form Maker plugin to the latest version
+##If you have updated to WordPress 4.0.1 or got an automatic update to the mentioned version, please also update the Form Maker plugin to the latest version
 
 [WordPress Form Maker](http://web-dorado.com/products/wordpress-form.html)  
 [Demo](http://wpdemo.web-dorado.com/)  
