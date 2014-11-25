@@ -3,7 +3,7 @@
  * Plugin Name: Form Maker
  * Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
  * Description: This plugin is a modern and advanced tool for easy and fast creating of a WordPress Form. The backend interface is intuitive and user friendly which allows users far from scripting and programming to create WordPress Forms.
- * Version: 1.7.19
+ * Version: 1.7.21
  * Author: WebDorado
  * Author URI: http://web-dorado.com/
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -155,17 +155,28 @@ function do_output_buffer() {
 }
 add_action('init', 'do_output_buffer');
 
+add_shortcode('Form', 'fm_shortcode');
+ 
+function fm_shortcode($attrs) {
+  $new_shortcode = '[Form';
+  foreach ($attrs as $key=>$value) {
+    $new_shortcode .= ' ' . $key . '="' . $value . '"';
+  }
+  $new_shortcode .= ']';
+  return $new_shortcode;
+}
+
 function Form_maker_fornt_end_main($content) {
   global $form_maker_generate_action;
   if ($form_maker_generate_action) {
-    $pattern = '[\[Form id=("|&#8221;)([0-9]*)("|&#8243;)\]]';
+    $pattern = '[\[Form id="([0-9]*)"\]]';
     $count_forms_in_post = preg_match_all($pattern, $content, $matches_form);
     if ($count_forms_in_post) {
       require_once (WD_FM_DIR . '/frontend/controllers/FMControllerForm_maker.php');
       $controller = new FMControllerForm_maker();
       for ($jj = 0; $jj < $count_forms_in_post; $jj++) {
         $padron = $matches_form[0][$jj];
-        $replacment = $controller->execute($matches_form[2][$jj]);
+        $replacment = $controller->execute($matches_form[1][$jj]);
         $content = str_replace($padron, $replacment, $content);
       }
     }
