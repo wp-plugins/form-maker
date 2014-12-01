@@ -223,6 +223,9 @@ In case you are upgrading your Form Maker to paid version, but still want to pre
 
 == Changelog ==
 
+= 1.7.21 =
+wp 4.0.1 shortcode issue fixed
+
 = 1.7.18 =
 pagination with input 
 
