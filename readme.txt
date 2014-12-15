@@ -224,6 +224,12 @@ In case you are upgrading your Form Maker to paid version, but still want to pre
 
 == Changelog ==
 
+= 1.7.23 =
+bug in Recaptcha fixed
+
+= 1.7.22 =
+Form field reordering using Drag&Drop
+
 = 1.7.21 =
 wp 4.0.1 shortcode issue fixed
 
