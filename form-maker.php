@@ -3,7 +3,7 @@
  * Plugin Name: Form Maker
  * Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
  * Description: This plugin is a modern and advanced tool for easy and fast creating of a WordPress Form. The backend interface is intuitive and user friendly which allows users far from scripting and programming to create WordPress Forms.
- * Version: 1.7.24
+ * Version: 1.7.25
  * Author: WebDorado
  * Author URI: http://web-dorado.com/
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -294,7 +294,6 @@ function form_maker_submissions_styles() {
   wp_enqueue_style('form_maker_calendar-jos', WD_FM_URL . '/css/calendar-jos.css');
   wp_enqueue_style('jquery-ui', WD_FM_URL . '/css/jquery-ui-1.10.3.custom.css', array(), '1.10.3');
   wp_enqueue_style('jquery-ui-spinner', WD_FM_URL . '/css/jquery-ui-spinner.css', array(), '1.10.3');
-  wp_enqueue_style('jquery.fancybox', WD_FM_URL . '/js/fancybox/jquery.fancybox.css', array(), '2.1.5');
   wp_enqueue_style('form_maker_style', WD_FM_URL . '/css/style.css', array(), get_option("wd_form_maker_version"));
 }
 // Form Maker submissions page scripts.
@@ -329,8 +328,7 @@ function form_maker_submissions_scripts() {
   wp_enqueue_script('calendar_function', WD_FM_URL . '/js/calendar/calendar_function.js');
   // wp_enqueue_script('form_maker_calendar_setup', WD_FM_URL . '/js/calendar/calendar-setup.js');
   
-  // Fancybox.
-  wp_enqueue_script('jquery.fancybox.pack', WD_FM_URL . '/js/fancybox/jquery.fancybox.pack.js', array(), '2.1.5');
+
   wp_localize_script('main_div_front_end', 'fm_objectL10n', array(
     'plugin_url' => WD_FM_URL
   ));
