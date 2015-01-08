@@ -12,7 +12,7 @@ WordPress Form Maker is a fresh and innovative form builder. This form builder i
 
 == Description ==
 
-### If you have updated to WordPress 4.0.1 or got an automatic update to the mentioned version, please also update the Form Maker plugin to the latest version
+### If you have updated to WordPress 4.0.1 or got an automatic update to the mentioned version, please also update the Form Maker plugin to the latest version.
 
 [WordPress Form Maker](http://web-dorado.com/products/wordpress-form.html)  
 [Demo](http://wpdemo.web-dorado.com/)  
@@ -225,7 +225,7 @@ In case you are upgrading your Form Maker to paid version, but still want to pre
 == Changelog ==
 
 = 1.7.25 =
-remove fancybox
+remove fancybox lightbox
 
 = 1.7.24 =
 display php function to publish form
