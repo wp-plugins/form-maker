@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Form Maker
+ * Plugin Name: Form
  * Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
  * Description: This plugin is a modern and advanced tool for easy and fast creating of a WordPress Form. The backend interface is intuitive and user friendly which allows users far from scripting and programming to create WordPress Forms.
  * Version: 1.7.25
