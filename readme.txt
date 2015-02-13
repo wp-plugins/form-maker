@@ -331,7 +331,8 @@ New themes
 *  Entries of a form: The number of submitted forms in the form builder.  
 *  Views of a form: The number of times the form has been viewed.  
 *  Conversion Rate of a form: The percentage of submitted forms to the overall number of views.  
-
+= 1.0.0 =
+Initial version
 
 ==Wordpress Form Maker Step by step guide==    
 ### Step 1: Installing the [Wordpress Form](http://wordpress.org/plugins/form-maker/) Maker    
