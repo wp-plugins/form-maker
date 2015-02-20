@@ -223,6 +223,9 @@ In case you are upgrading your Form Maker to paid version, but still want to pre
 
 == Changelog ==
 
+= 1.7.27 =
+bug fixed in csv\xml export
+
 = 1.7.26 =
 bug fixed in email content
 
