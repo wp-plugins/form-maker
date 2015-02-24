@@ -12,7 +12,7 @@ WordPress Form Maker is a fresh and innovative form builder. This form builder i
 
 == Description ==
 
-### If you have updated to WordPress 4.0.1 or got an automatic update to the mentioned version, please also update the Form Maker plugin to the latest version.
+### If you have updated to WordPress 4.0.1 or got an automatic update to the mentioned version, please also update the Form Maker plugin to 1.7.21 or higher version.
 
 [WordPress Form Maker](http://web-dorado.com/products/wordpress-form.html)  
 [Demo](http://wpdemo.web-dorado.com/)  
@@ -220,6 +220,61 @@ In case you are upgrading your Form Maker to paid version, but still want to pre
 6.  Form Maker - form Captcha field type  
 7.  Form Maker - Manage submissions of form
 8.  Form Maker - Select form Columns
+
+
+== Frequently Asked Questions ==
+
+= 1. What are the most common usage cases for the Form Maker? =
+The Form Maker can be used for creating multiple types of forms, including contact, evaluation, application forms, quizzes/tests or surveys, online order forms and etc. The Form Maker includes various types of fields which can be modified and edited.  
+
+= 2. Where are the submitted entries stored? =
+
+There is a Submissions section, where you will find the submitted entries. The entries can also be emailed to the Administrator. For this you should provide an email in Email Options section (located within Form Options). You can also fill in the data into a custom table using MySQL Mapping possibility, which makes it possible to store the data into another MySQL database.
+
+= 3. Are there any limitations on the number of forms or entries to be used within a single website? =
+There are no limitations on the number of entries per form. You can use unlimited number of forms within each website.   
+
+= 4. What can I use to avoid Spam entries? =
+
+The Form Maker has two type of word verifications- Standard Captcha and Google ReCaptcha protection. If you are receiving spam entries from a single or a few IPs, you can use Blocking IPs option.
+
+= 5. Is it possible to translate the Form Maker into another language? =
+
+It is only possible to translate the front end of the plugin. To do so, you should set define('WPLANG','[lang_code]') to the desired language code in wp_config.php file of your website. This way the plugin should be translated automatically. Please be informed, that you can modify the translations from wp-content/plugins/form_maker/languages/ (you will need POEdit http://www.poedit.net/download.php). 
+
+= 6. What to do if Administrator and/or user do not receive submissions by email? =
+
+There are a few options to try out first: 
+Check whether the entries are filtered into spam/junk folders or not.
+Try using standard emails (Gmail/Yahoo/Hotmail and etc.) or an email which uses the same domain as the website.
+Check with your hosting provider whether you have your PHP mail activated or not.
+If these options do not work, please install STMP plugin (e.g. http://wordpress.org/plugins/webriti-smtp-mail/). The authentication details for the Gmail are the following:
+Mailer: smtp
+SMTP Authentication: yes
+SMTP Security: SSL
+SMTP Port: 465
+SMTP Username: your gmail full address
+SMTP Password: your gmail password
+SMTP Host: smtp.gmail.com 
+
+After installation please use the test option. If the test email doesn’t get send out contact your hosting provider to fix the issue. 
+
+= 7. Is the Form Maker fully responsive? =
+
+Yes, the WordPress Form Maker is fully responsive and works with various smartphones and tablets.
+
+= 8. How can I analyze the submitted data? =
+
+The Form Maker has separate section for the Statistical type of entries (Select fields, checkboxes and radio buttons). In addition there are two export options- into CSV or XML format.  You can import CSV into Excel for data processing. 
+
+= 9. How can I hide specific form fields/make them appear depending on another field value? =
+
+The Form Maker has support for the Conditional fields. The option can be found in the Form Options. The structure of the conditional fields is the following:  You can specify to show/hide a field, when the condition is true and provide the condition below, e.g. Show “How many visitors will you have” if “Will you have visitors” is “Yes”.
+
+= 10. What payment options does Form Maker support? =
+
+The Form Maker (Pro version) has simple PayPal integration. This allows the user to select specific items and upon hitting submit button get redirected to PayPal. After making the payment, the user gets back to the website.
+
 
 == Changelog ==
 
