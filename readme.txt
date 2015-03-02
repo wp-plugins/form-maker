@@ -112,7 +112,6 @@ Survey tools are also very convenient for adding rating systems for the posts, e
 *   Possibility to have pre-filled texts serving as instructions for the textarea and other text fields.   
 *   Date picker in the form of drop-down menu for easier date selection.   
 *   Submissions section displays the amount of entries, as well as views and conversion rate for each separate form.  
-*   Conditional fileds.        
 *   CC and BCC mail options for sending out the submitted form  
 *   41 responsive theme with customizable design   
 *   Displaying the country, country code and other date in the Submissions section IP pop-up   
@@ -120,7 +119,7 @@ Survey tools are also very convenient for adding rating systems for the posts, e
 *   Possibility to choose whether to save the data to database or just have the information emailed to the Administrator.   
 *   Possibility to insert separate Country select list for the custom fields rather than address.   
 *   Conditional fields, which can be used for hiding/displaying a list of questions based on the selection of specific answers.   
-*   Option of displaying form pages using tabs   
+*   Option of displaying form pages using tabs or percentage.   
 
 Upgrade to [WordPress Form Maker Pro](http://web-dorado.com/products/wordpress-form.html) to add features: 
    
