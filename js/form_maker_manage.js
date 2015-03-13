@@ -251,21 +251,18 @@ function refresh_old() {
           remove_add_(i + "_elementform_id_temp");
           break;
         }
-
         case "type_submit_reset": {
           remove_add_(i + "_element_submitform_id_temp");
           if (document.getElementById(i + "_element_resetform_id_temp"))
             remove_add_(i + "_element_resetform_id_temp");
           break;
         }
-
         case "type_captcha": {
           remove_add_("_wd_captchaform_id_temp");
           remove_add_("_element_refreshform_id_temp");
           remove_add_("_wd_captcha_inputform_id_temp");
           break;
         }
-
         case "type_recaptcha": {
           document.getElementById("public_key").value = document.getElementById("wd_recaptchaform_id_temp").getAttribute("public_key");
           document.getElementById("private_key").value = document.getElementById("wd_recaptchaform_id_temp").getAttribute("private_key");
@@ -274,17 +271,14 @@ function refresh_old() {
           remove_add_("wd_recaptchaform_id_temp");
           break;
         }
-
         case "type_file_upload": {
           remove_add_(i + "_elementform_id_temp");
           break;
         }
-
         case "type_textarea": {
           remove_add_(i + "_elementform_id_temp");
           break;
         }
-
         case "type_name": {
           if (document.getElementById(i + "_element_titleform_id_temp")) {
             remove_add_(i + "_element_titleform_id_temp");
@@ -298,19 +292,16 @@ function refresh_old() {
           }
           break;
         }
-
         case "type_phone": {
           remove_add_(i + "_element_firstform_id_temp");
           remove_add_(i + "_element_lastform_id_temp");
           break;
         }
-
         case "type_paypal_price": {
           remove_add_(i + "_element_dollarsform_id_temp");
           remove_add_(i + "_element_centsform_id_temp");
           break;
         }
-
         case "type_address": {
           if (document.getElementById(id_for_country+"_disable_fieldsform_id_temp")) {
             if (document.getElementById(id_for_country+"_disable_fieldsform_id_temp").getAttribute('street1') == 'no') {
@@ -334,7 +325,6 @@ function refresh_old() {
           }
           break;
         }
-
         case "type_checkbox":
         case "type_radio":
         case "type_paypal_checkbox":
@@ -348,33 +338,27 @@ function refresh_old() {
           }
           break;
         }
-
         case "type_star_rating": {
           remove_add_(i+"_elementform_id_temp");
           break;
         }
-        
         case "type_scale_rating": {
           remove_add_(i+"_elementform_id_temp");
           break;
         }
-
         case "type_spinner": {
           remove_add_(i+"_elementform_id_temp");
           break;
         }
-
         case "type_slider": {
           remove_add_(i+"_elementform_id_temp");
           break;
         }
-
         case "type_range": {
           remove_add_(i+"_elementform_id_temp0");
           remove_add_(i+"_elementform_id_temp1");
           break;
         }
-
         case "type_grading": {
           for (k = 0; k < 100; k++) {
             if (document.getElementById(i+"_elementform_id_temp"+k)) {
@@ -383,12 +367,10 @@ function refresh_old() {
           }
           break;
         }
-
         case "type_matrix": {
           remove_add_(i+"_elementform_id_temp");
           break;
         }
-
         case "type_button": {
           for (j = 0; j < 100; j++) {
             if (document.getElementById(i + "_elementform_id_temp" + j)) {
@@ -397,7 +379,6 @@ function refresh_old() {
           }
           break;
         }
-
         case "type_time": {
           if (document.getElementById(i + "_ssform_id_temp")) {
             remove_add_(i + "_ssform_id_temp");
@@ -410,13 +391,11 @@ function refresh_old() {
           }
           break;
         }
-
         case "type_date": {
           remove_add_(i + "_elementform_id_temp");
           remove_add_(i + "_buttonform_id_temp");
           break;
         }
-
         case "type_date_fields": {
           remove_add_(i + "_dayform_id_temp");
           remove_add_(i + "_monthform_id_temp");
@@ -481,12 +460,11 @@ function cfm_create_input(toAdd_id, value_id, parent_id, cfm_url) {
     jQuery("#" + toAdd_id).val(jQuery("#" + toAdd_id).val() + value + ",");
   }
 }
+
 function fm_delete_mail(img, value) {
   jQuery(img).parent().remove();
   jQuery("#mail").val(jQuery("#mail").val().replace(value + ',', ''));
 }
-
-
 
 function form_maker_options_tabs(id) {
   if (spider_check_email('mailToAdd') || spider_check_email('from_mail') || spider_check_email('reply_to') || spider_check_email('mail_from_user') || spider_check_email('reply_to_user') || spider_check_email('mail_from_other') || spider_check_email('reply_to_other') || spider_check_email('paypal_email')) {
@@ -634,28 +612,21 @@ function wdhide(id) {
 function wdshow(id) {
 	document.getElementById(id).style.display = "block";
 }
-
-function delete_field_condition(id)
-{
+function delete_field_condition(id) {
 	var cond_id = id.split("_");
 	document.getElementById("condition"+cond_id[0]).removeChild(document.getElementById("condition_div"+id));
 }
 
-function change_choices(value, ids, types, params)
-{
-
+function change_choices(value, ids, types, params) {
 	value = value.split("_");
 	global_index = value[0];
 	id = value[1];
 	index = value[2];
-
-
 	ids_array = ids.split("@@**@@");
 	types_array = types.split("@@**@@");
 	params_array = params.split("@@**@@");
 
-	switch(types_array[id])
-	{
+	switch(types_array[id]) {
 		case "type_text":
 		case "type_password":
 		case "type_textarea":
@@ -673,11 +644,8 @@ function change_choices(value, ids, types, params)
 				else
 					var keypress_function = "";
 		
-			if(document.getElementById("field_value"+global_index+"_"+index).tagName=="SELECT")
-			{
-
-				document.getElementById("condition_div"+global_index+"_"+index).removeChild(document.getElementById("field_value"+global_index+"_"+index));
-				
+			if(document.getElementById("field_value"+global_index+"_"+index).tagName=="SELECT") {
+				document.getElementById("condition_div"+global_index+"_"+index).removeChild(document.getElementById("field_value"+global_index+"_"+index));				
 				var label_input = document.createElement('input');
 					label_input.setAttribute("id", "field_value"+global_index+'_'+index);
 					label_input.setAttribute("type", "text");
@@ -688,13 +656,10 @@ function change_choices(value, ids, types, params)
 				document.getElementById("condition_div"+global_index+"_"+index).insertBefore(label_input,document.getElementById("delete_condition"+global_index+"_"+index));
 				document.getElementById("condition_div"+global_index+"_"+index).insertBefore(document.createTextNode(' '),document.getElementById("delete_condition"+global_index+"_"+index));
 			}
-			else
-			{
+			else {
 				document.getElementById("field_value"+global_index+'_'+index).value="";
 				document.getElementById("field_value"+global_index+'_'+index).setAttribute("onKeyPress", keypress_function);
 			}
-				
-		
 		break;
 		
 		case "type_own_select":
@@ -710,12 +675,10 @@ function change_choices(value, ids, types, params)
 			else
 				w_size = params_array[id].split('*:*w_flow*:*');
 		
-		
 			w_choices = w_size[1].split('*:*w_choices*:*');
 			w_choices_array = w_choices[0].split('***');
 			
-			if(types_array[id]== "type_paypal_checkbox")
-			{
+			if(types_array[id]== "type_paypal_checkbox") {
 				w_choices_price = w_choices[1].split('*:*w_choices_price*:*');
 				w_choices_price_array = w_choices_price[0].split('***');
 			}
@@ -723,14 +686,12 @@ function change_choices(value, ids, types, params)
 			var choise_select = document.createElement('select');
 				choise_select.setAttribute("id", "field_value"+global_index+'_'+index);
 				choise_select.style.cssText = "vertical-align: top; width:200px;";
-				if(types_array[id]== "type_checkbox" || types_array[id]== "type_paypal_checkbox")
-				{
+				if(types_array[id]== "type_checkbox" || types_array[id]== "type_paypal_checkbox") {
 					choise_select.setAttribute('multiple', 'multiple');
 					choise_select.setAttribute('class', 'multiple_select');
 				}
 
-			for(k=0; k<w_choices_array.length; k++)	
-			{
+			for(k=0; k<w_choices_array.length; k++) {
 				var choise_option = document.createElement('option');
 					choise_option.setAttribute("id", "choise_"+global_index+'_'+k);
 					if(types_array[id]== "type_paypal_checkbox")
@@ -756,8 +717,7 @@ function change_choices(value, ids, types, params)
 			choise_select.setAttribute("id", "field_value"+global_index+'_'+m);
 			choise_select.style.cssText = "vertical-align: top; width:200px;";
 				
-			for(k=0; k<coutries.length; k++)	
-			{
+			for(k=0; k<coutries.length; k++) {
 				var choise_option = document.createElement('option');
 					choise_select.setAttribute("id", "field_value"+global_index+'_'+index);
 					choise_select.style.cssText = "vertical-align: top; width:200px;";
@@ -773,24 +733,18 @@ function change_choices(value, ids, types, params)
 			
 		break;
 	}
-
 }
 
-
-function add_condition_fields(num, ids1, labels1, types1, params1)
-{
-
+function add_condition_fields(num, ids1, labels1, types1, params1) {
 	ids = ids1.split("@@**@@");
 	labels = labels1.split("@@**@@");
 	types = types1.split("@@**@@");
 	params = params1.split("@@**@@");
 	
-	for(i=100; i>=0; i--)
-	{
+	for(i=100; i>=0; i--) {
 		if(document.getElementById('condition_div'+num+'_'+i))
 			break;
-	}	
-	
+	}
 	m=i+1;
 	
 	var condition_div = document.createElement('div');
@@ -801,10 +755,8 @@ function add_condition_fields(num, ids1, labels1, types1, params1)
 		labels_select.setAttribute("onchange", "change_choices(options[selectedIndex].id+'_"+m+"','"+ids1+"','"+types1+"','"+params1.replace(/\'/g,"\\'")+"')");
 		labels_select.style.cssText="width:350px; vertical-align:top;";
 
-	for(k=0; k<labels.length; k++)	
-	{
-		if(ids[k]!=document.getElementById('fields'+num).value)
-		{
+	for(k=0; k<labels.length; k++) {
+		if(ids[k]!=document.getElementById('fields'+num).value) {
 			var labels_option = document.createElement('option');
 				labels_option.setAttribute("id", num+"_"+k);
 				labels_option.setAttribute("value", ids[k]);
@@ -842,8 +794,7 @@ function add_condition_fields(num, ids1, labels1, types1, params1)
 	else
 		var index_of_field = 1;
 	
-	switch(types[index_of_field])
-	{
+	switch(types[index_of_field]) {
 		case "type_text":
 		case "type_password":
 		case "type_textarea":
@@ -888,8 +839,7 @@ function add_condition_fields(num, ids1, labels1, types1, params1)
 		w_choices = w_size[1].split('*:*w_choices*:*');
 		w_choices_array = w_choices[0].split('***');
 		
-		if(types[index_of_field]== "type_paypal_checkbox")
-		{
+		if(types[index_of_field]== "type_paypal_checkbox") {
 			w_choices_price = w_choices[1].split('*:*w_choices_price*:*');
 			w_choices_price_array = w_choices_price[0].split('***');
 		}
@@ -897,14 +847,12 @@ function add_condition_fields(num, ids1, labels1, types1, params1)
 		var choise_select = document.createElement('select');
 			choise_select.setAttribute("id", "field_value"+num+'_'+m);
 			choise_select.style.cssText = "vertical-align: top; width:200px;";
-			if(types[index_of_field]== "type_checkbox" || types[index_of_field]== "type_paypal_checkbox")
-			{
+			if(types[index_of_field]== "type_checkbox" || types[index_of_field]== "type_paypal_checkbox") {
 				choise_select.setAttribute('multiple', 'multiple');
 				choise_select.setAttribute('class', 'multiple_select');
 			}
 				
-			for(k=0; k<w_choices_array.length; k++)	
-			{
+			for(k=0; k<w_choices_array.length; k++)	 {
 				var choise_option = document.createElement('option');
 					choise_option.setAttribute("id", "choise_"+num+'_'+k);
 					if(types[index_of_field]== "type_paypal_checkbox")
@@ -915,7 +863,6 @@ function add_condition_fields(num, ids1, labels1, types1, params1)
 					
 				choise_select.appendChild(choise_option);	
 			}
-			
 			condition_div.appendChild(choise_select);	
 			
 		break;
@@ -927,8 +874,7 @@ function add_condition_fields(num, ids1, labels1, types1, params1)
 			choise_select.setAttribute("id", "field_value"+num+'_'+m);
 			choise_select.style.cssText = "vertical-align: top; width:200px;";
 				
-			for(k=0; k<coutries.length; k++)	
-			{
+			for(k=0; k<coutries.length; k++) {
 				var choise_option = document.createElement('option');
 					choise_option.setAttribute("id", "choise_"+num+'_'+k);
 					choise_option.setAttribute("value", coutries[k]);
@@ -936,12 +882,9 @@ function add_condition_fields(num, ids1, labels1, types1, params1)
 					
 				choise_select.appendChild(choise_option);	
 			}
-			
 			condition_div.appendChild(choise_select);	
-			
 		break;
 	}
-	
 	condition_div.appendChild(document.createTextNode(' '));
 	
 	var	img=document.createElement('img');
@@ -950,20 +893,15 @@ function add_condition_fields(num, ids1, labels1, types1, params1)
 		img.setAttribute('onClick','delete_field_condition("'+num+'_'+m+'")');
 		img.style.cssText = "vertical-align: top";
 
-	condition_div.appendChild(img);	
-		
-	document.getElementById('condition'+num).appendChild(condition_div);	
-	
+	condition_div.appendChild(img);
+	document.getElementById('condition'+num).appendChild(condition_div);
 }
 
-
-function add_condition(ids1, labels1, types1, params1, all_ids, all_labels)
-{
-	for(i=100; i>=0; i--)
-	{
+function add_condition(ids1, labels1, types1, params1, all_ids, all_labels) {
+	for(i=100; i>=0; i--) {
 		if(document.getElementById('condition'+i))
 			break;
-	}	
+	}
 	
 	num=i+1;
 
@@ -997,14 +935,12 @@ function add_condition(ids1, labels1, types1, params1, all_ids, all_labels)
 		fields_select.setAttribute("name", "fields"+num);
 		fields_select.style.cssText="width:400px;";
 		
-	for(k=0; k<labels.length; k++)	
-	{
+	for(k=0; k<labels.length; k++) {
 		var fields_option = document.createElement('option');
 			fields_option.setAttribute("value", ids[k]);
-			fields_option.innerHTML = labels[k];	
+			fields_option.innerHTML = labels[k];
 			
-		fields_select.appendChild(fields_option);	
-		
+		fields_select.appendChild(fields_option);
 	}
 
 	var span = document.createElement('span');
@@ -1032,7 +968,7 @@ function add_condition(ids1, labels1, types1, params1, all_ids, all_labels)
 
 	var add_img = document.createElement('img');
 		add_img.setAttribute('src',plugin_url + '/images/add.png');
-		add_img.setAttribute('onClick','add_condition_fields("'+num+'", "'+ids1+'", "'+labels1.replace(/\'/g,"\\'").replace(/\"/g,"&quot;")+'", "'+types1.replace(/\'/g,"\\'")+'", "'+params1.replace(/\'/g,"\\'")+'")');
+		add_img.setAttribute('onClick','add_condition_fields("'+num+'", "'+ids1+'", "'+labels1.replace(/\'/g,"\\'").replace(/\"/g,"&quot;")+'", "'+types1.replace(/\'/g,"\\'").replace(/\"/g,"&quot;")+'", "'+params1.replace(/\'/g,"\\'").replace(/\"/g,"&quot;")+'")');
 		add_img.style.cssText = "cursor: pointer; vertical-align: middle;";
 	
 	var delete_img = document.createElement('img');
@@ -1058,8 +994,7 @@ function add_condition(ids1, labels1, types1, params1, all_ids, all_labels)
 	document.getElementById('conditions_fieldset').appendChild(condition_div);	
 }
 
-function delete_condition(num)
-{
+function delete_condition(num) {
 	document.getElementById('conditions_fieldset').removeChild(document.getElementById('condition'+num));	
 }
 

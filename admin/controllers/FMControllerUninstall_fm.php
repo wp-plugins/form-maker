@@ -21,6 +21,7 @@ class FMControllerUninstall_fm {
   public function execute() {
     $task = ((isset($_POST['task'])) ? esc_html(stripslashes($_POST['task'])) : '');
     if (method_exists($this, $task)) {
+      check_admin_referer('nonce_fm', 'nonce_fm');
       $this->$task();
     }
     else {

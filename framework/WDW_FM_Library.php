@@ -404,6 +404,7 @@ class WDW_FM_Library {
   }
 
   public static function spider_redirect($url) {
+    $url = html_entity_decode(wp_nonce_url($url, 'nonce_fm', 'nonce_fm'));
     ?>
     <script>
       window.location = "<?php echo $url; ?>";

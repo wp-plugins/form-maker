@@ -20,8 +20,8 @@ class FMControllerFormMakerSQLMapping {
   ////////////////////////////////////////////////////////////////////////////////////////
   public function execute() {
     $task = ((isset($_GET['task'])) ? esc_html($_GET['task']) : 0);
-    $id = ((isset($_GET['id'])) ? esc_html($_GET['id']) : 0);
-    $form_id = ((isset($_GET['form_id'])) ? esc_html($_GET['form_id']) : 0);
+    $id = ((isset($_GET['id'])) ? (int) $_GET['id'] : 0);
+    $form_id = ((isset($_GET['form_id'])) ? (int) $_GET['form_id'] : 0);
     if ($task && method_exists($this, $task)) {
       $this->$task($form_id);
     }
@@ -73,7 +73,7 @@ class FMControllerFormMakerSQLMapping {
 
   public function save_query() {
     global $wpdb;
-    $form_id = ((isset($_GET['form_id'])) ? esc_html($_GET['form_id']) : 0);
+    $form_id = ((isset($_GET['form_id'])) ? (int) $_GET['form_id'] : 0);
     $query = ((isset($_POST['query'])) ? stripslashes(wp_specialchars_decode($_POST['query'])) : "");
     $details = ((isset($_POST['details'])) ? esc_html($_POST['details']) : "");
     $save = $wpdb->insert($wpdb->prefix . 'formmaker_query', array(
@@ -89,8 +89,8 @@ class FMControllerFormMakerSQLMapping {
 
   public function update_query() {
     global $wpdb;
-    $id = ((isset($_GET['id'])) ? esc_html($_GET['id']) : 0);
-    $form_id = ((isset($_GET['form_id'])) ? esc_html($_GET['form_id']) : 0);
+    $id = ((isset($_GET['id'])) ? (int) $_GET['id'] : 0);
+    $form_id = ((isset($_GET['form_id'])) ? (int) $_GET['form_id'] : 0);
     $query = ((isset($_POST['query'])) ? stripslashes(wp_specialchars_decode($_POST['query'])) : "");
     $details = ((isset($_POST['details'])) ? esc_html($_POST['details']) : "");
     $save = $wpdb->update($wpdb->prefix . 'formmaker_query', array(

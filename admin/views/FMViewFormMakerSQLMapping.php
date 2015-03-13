@@ -110,7 +110,7 @@ class FMViewFormMakerSQLMapping {
             jQuery("#fieldlist").hide();
           }
         });
-        jQuery('.cols input[type="text"]').live('click', function() {
+        jQuery('.cols input[type="text"]').on('click', function() {
           event.stopPropagation();
           jQuery("#fieldlist").css("top",jQuery(this).offset().top+jQuery(this).height()+2);
           jQuery("#fieldlist").css("left",jQuery(this).offset().left);
@@ -483,7 +483,7 @@ class FMViewFormMakerSQLMapping {
           </tr>			
           <tr valign="top">
             <td  class="key">
-              <label>Method: </label>
+              <label>Type: </label>
             </td>
             <td >
               <input type="radio" name="con_method" id="insert" value="insert" <?php if($con_method=='insert') echo 'checked="checked"'?> disabled>
@@ -781,7 +781,7 @@ class FMViewFormMakerSQLMapping {
           </tr>
           <tr valign="top">
             <td  class="key">
-              <label>Method: </label>
+              <label>Type: </label>
             </td>
             <td >
               <input type="radio" name="con_method" id="insert" value="insert" checked="checked">
@@ -942,7 +942,7 @@ class FMViewFormMakerSQLMapping {
         }
       });
 
-      jQuery('.cols input[type="text"]').live('click', function() {
+      jQuery('.cols input[type="text"]').on('click', function() {
         event.stopPropagation();
         jQuery("#fieldlist").css("top",jQuery(this).offset().top+jQuery(this).height()+2);
         jQuery("#fieldlist").css("left",jQuery(this).offset().left);

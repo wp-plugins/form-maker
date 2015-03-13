@@ -23,9 +23,8 @@ class FMControllerThemes_fm {
     $id = WDW_FM_Library::get('current_id', 0);
     $message = WDW_FM_Library::get('message');
     echo WDW_FM_Library::message_id($message);
-    // $task = ((isset($_POST['task'])) ? esc_html($_POST['task']) : '');
-    // $id = ((isset($_POST['current_id'])) ? esc_html($_POST['current_id']) : 0);
     if (method_exists($this, $task)) {
+      check_admin_referer('nonce_fm', 'nonce_fm');
       $this->$task($id);
     }
     else {

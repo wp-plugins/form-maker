@@ -19,13 +19,12 @@ class FMControllerManage_fm {
   // Public Methods                                                                     //
   ////////////////////////////////////////////////////////////////////////////////////////
   public function execute() {
-    // $task = ((isset($_POST['task'])) ? esc_html($_POST['task']) : '');
-    // $id = ((isset($_POST['current_id'])) ? esc_html($_POST['current_id']) : 0);
     $task = WDW_FM_Library::get('task');
     $id = WDW_FM_Library::get('current_id', 0);
     $message = WDW_FM_Library::get('message');
     echo WDW_FM_Library::message_id($message);
     if (method_exists($this, $task)) {
+      check_admin_referer('nonce_fm', 'nonce_fm');
       $this->$task($id);
     }
     else {
@@ -57,7 +56,6 @@ class FMControllerManage_fm {
 
     require_once WD_FM_DIR . "/admin/views/FMViewManage_fm.php";
     $view = new FMViewManage_fm($model);
-    // $id = ((isset($_POST['current_id']) && esc_html($_POST['current_id']) != '') ? esc_html($_POST['current_id']) : 0);
     $id = WDW_FM_Library::get('current_id', 0);
     $view->edit($id);
   }
@@ -68,7 +66,6 @@ class FMControllerManage_fm {
 
     require_once WD_FM_DIR . "/admin/views/FMViewManage_fm.php";
     $view = new FMViewManage_fm($model);
-    // $id = ((isset($_POST['current_id']) && esc_html($_POST['current_id']) != '') ? esc_html($_POST['current_id']) : 0);
     $id = WDW_FM_Library::get('current_id', 0);
     $view->edit_old($id);
   }
@@ -82,7 +79,6 @@ class FMControllerManage_fm {
 
     require_once WD_FM_DIR . "/admin/views/FMViewManage_fm.php";
     $view = new FMViewManage_fm($model);
-    // $id = ((isset($_POST['current_id']) && esc_html($_POST['current_id']) != '') ? esc_html($_POST['current_id']) : 0);
     global $wpdb;
     $id = WDW_FM_Library::get('current_id', $wpdb->get_var("SELECT MAX(id) FROM " . $wpdb->prefix . "formmaker"));
     $view->form_options_old($id);
@@ -125,7 +121,6 @@ function before_reset() {
   
 }";
     global $wpdb;
-    // $id = (isset($_POST['current_id']) ? (int) esc_html(stripslashes($_POST['current_id'])) : 0);
     $id = WDW_FM_Library::get('current_id', 0);
     $mail = (isset($_POST['mail']) ? esc_html(stripslashes($_POST['mail'])) : '');
     $theme = (isset($_POST['theme']) ? esc_html(stripslashes($_POST['theme'])) : 1);
@@ -198,7 +193,6 @@ function before_reset() {
 
     require_once WD_FM_DIR . "/admin/views/FMViewManage_fm.php";
     $view = new FMViewManage_fm($model);
-    // $id = ((isset($_POST['current_id']) && esc_html($_POST['current_id']) != '') ? esc_html($_POST['current_id']) : 0);
     global $wpdb;
     $id = WDW_FM_Library::get('current_id', $wpdb->get_var("SELECT MAX(id) FROM " . $wpdb->prefix . "formmaker"));
     $view->form_layout($id);
@@ -219,7 +213,6 @@ function before_reset() {
 
     require_once WD_FM_DIR . "/admin/views/FMViewManage_fm.php";
     $view = new FMViewManage_fm($model);
-    // $id = ((isset($_POST['current_id']) && esc_html($_POST['current_id']) != '') ? esc_html($_POST['current_id']) : 0);
     $page = WDW_FM_Library::get('page');
     $current_id = WDW_FM_Library::get('current_id', 0);
     WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'form_layout', 'current_id' => $current_id, 'message' => $message), admin_url('admin.php')));
@@ -228,7 +221,6 @@ function before_reset() {
 
   public function save_db_layout() {
     global $wpdb;
-    // $id = (isset($_POST['current_id']) ? (int) esc_html(stripslashes($_POST['current_id'])) : 0);
     $id = WDW_FM_Library::get('current_id', 0);
     $custom_front = (isset($_POST['custom_front']) ? stripslashes($_POST['custom_front']) : '');
     $autogen_layout = (isset($_POST['autogen_layout']) ? 1 : 0);
@@ -656,7 +648,6 @@ function before_submit() {
 // before form reset
 function before_reset() {	
 }";
-    // $id = (isset($_POST['current_id']) ? (int) esc_html(stripslashes($_POST['current_id'])) : 0);
     $id = WDW_FM_Library::get('current_id', 0);
     $title = (isset($_POST['title']) ? esc_html(stripslashes($_POST['title'])) : '');
     $form_front = (isset($_POST['form_front']) ? stripslashes($_POST['form_front']) : '');
@@ -671,7 +662,6 @@ function before_reset() {
     $recaptcha_theme = (isset($_POST['recaptcha_theme']) ? esc_html(stripslashes($_POST['recaptcha_theme'])) : '');
     $label_order_current = (isset($_POST['label_order_current']) ? esc_html(stripslashes($_POST['label_order_current'])) : '');
     $form_fields = (isset($_POST['form_fields']) ? stripslashes($_POST['form_fields']) : '');
-
     if ($id != 0) {
       $save = $wpdb->update($wpdb->prefix . 'formmaker', array(
         'title' => $title,

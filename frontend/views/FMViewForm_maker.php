@@ -2512,7 +2512,7 @@ class FMViewForm_maker {
               break;
             }
 
-            case 'type_submit_reset': {              
+            case 'type_submit_reset': {
               $params_names=array('w_submit_title','w_reset_title','w_class','w_act');
               $temp=$params;
               foreach($params_names as $params_name ) {
@@ -2532,7 +2532,7 @@ class FMViewForm_maker {
               break;
             }
             
-            case 'type_button': {              
+            case 'type_button': {
               $params_names=array('w_title','w_func','w_class');
               $temp=$params;
               foreach($params_names as $params_name ) {

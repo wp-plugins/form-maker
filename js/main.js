@@ -325,6 +325,7 @@ function change_value(id)
 	tag=input.tagName;
 	if(tag=="TEXTAREA")
 	{
+
 	input.innerHTML=input.value;
 	}
 	else
@@ -512,6 +513,7 @@ function display_none_form_views_all(form_id)
 		if(document.getElementById(form_id+'form_view'+t))
 			document.getElementById(form_id+'form_view'+t).parentNode.style.display="none";
 }
+
 function generate_page_bar(form_view, form_id, form_view_count, form_view_max)	
 {	
 		if(document.getElementById(form_id+'pages').getAttribute('type')=='steps')

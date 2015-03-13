@@ -44,6 +44,7 @@ class FMViewManage_fm {
       </div>
     </div>
     <form onkeypress="spider_doNothing(event)" class="wrap" id="manage_form" method="post" action="admin.php?page=manage_fm" style="float: left; width: 99%;">
+      <?php wp_nonce_field('nonce_fm', 'nonce_fm'); ?>
       <span class="form_maker_icon"></span>
       <h2>
         Form Maker
@@ -428,6 +429,7 @@ class FMViewManage_fm {
       </div>
     </div>
     <form class="wrap" id="manage_form" method="post" action="admin.php?page=manage_fm" style="float: left; width: 99%;">
+      <?php wp_nonce_field('nonce_fm', 'nonce_fm'); ?>
       <h2><?php echo $page_title; ?></h2>
       <div style="float: right; margin: 0 5px 0 0;">
         <input class="button-primary" type="submit" onclick="if (spider_check_required('title', 'Form title') || !submitbutton()) {return false;}; spider_set_input_value('task', 'form_options');" value="Form Options"/>
@@ -1392,6 +1394,7 @@ class FMViewManage_fm {
       </div>
     </div>
     <form class="wrap" id="manage_form" method="post" action="admin.php?page=manage_fm" style="float: left; width: 99%;">
+      <?php wp_nonce_field('nonce_fm', 'nonce_fm'); ?>
       <h2><?php echo $page_title; ?></h2>
       <div style="float: right; margin: 0 5px 0 0;">
         <a href="<?php echo add_query_arg(array('action' => 'FormMakerPreview', 'id' => $row->theme, 'width' => '1000', 'height' => '500', 'TB_iframe' => '1'), admin_url('admin-ajax.php')); ?>" class="button-primary thickbox thickbox-preview" id="preview_form" title="Form Preview" onclick="return false;">
@@ -2269,6 +2272,7 @@ class FMViewManage_fm {
       </div>
     </div>
     <form class="wrap" method="post" action="admin.php?page=manage_fm" style="float: left; width: 99%;" name="adminForm" id="adminForm">
+      <?php wp_nonce_field('nonce_fm', 'nonce_fm'); ?>
       <h2><?php echo $page_title; ?></h2>
       <div style="float: right; margin: 0 5px 0 0;">
         <input class="button-secondary" type="submit" onclick="if (spider_check_email('mail') ||
@@ -2714,6 +2718,7 @@ class FMViewManage_fm {
       </div>
     </div>
     <form class="wrap" method="post" action="admin.php?page=manage_fm" style="float: left; width: 99%;" name="adminForm" id="adminForm">
+      <?php wp_nonce_field('nonce_fm', 'nonce_fm'); ?>
       <h2><?php echo $page_title; ?></h2>
       <div style="float: right; margin: 0 5px 0 0;">
         <input class="button-secondary" type="submit" onclick="if (spider_check_email('mailToAdd') ||
@@ -4049,6 +4054,7 @@ class FMViewManage_fm {
 
     <div class="fm_layout" style="width: 99%;">
       <form action="admin.php?page=manage_fm" method="post" name="adminForm" enctype="multipart/form-data">
+        <?php wp_nonce_field('nonce_fm', 'nonce_fm'); ?>
         <div class="buttons_div">
           <input class="button-secondary" type="submit" onclick="submitbutton(); spider_set_input_value('task', 'save_layout')" value="Save"/>
           <input class="button-secondary" type="submit" onclick="submitbutton(); spider_set_input_value('task', 'apply_layout')" value="Apply"/>

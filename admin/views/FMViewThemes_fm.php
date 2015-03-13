@@ -44,6 +44,7 @@ class FMViewThemes_fm {
       </div>
     </div>
     <form class="wrap" id="themes_form" method="post" action="admin.php?page=themes_fm" style="float: left; width: 99%;">
+      <?php wp_nonce_field('nonce_fm', 'nonce_fm'); ?>
       <span class="theme_icon"></span>
       <h2>
         Themes
@@ -178,6 +179,7 @@ class FMViewThemes_fm {
       </div>
     </div>
     <form class="wrap" method="post" action="admin.php?page=themes_fm" style="float: left; width: 99%;">
+      <?php wp_nonce_field('nonce_fm', 'nonce_fm'); ?>
       <span class="theme_icon"></span>
       <h2><?php echo $page_title; ?></h2>
       <div style="float: right; margin: 0 5px 0 0;">

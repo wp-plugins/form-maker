@@ -1964,9 +1964,7 @@ function right_row(id)
 	{
 	    var wdform_column_new = document.createElement('div');
 			wdform_column_new.setAttribute("class", "wdform_column");
-	
-	   // tr_big.appendChild(new_td);
-	
+
 	    wdform_section.appendChild(wdform_column_new);
 	
 	    wdform_column_new.appendChild(wdform_row);
@@ -2594,6 +2592,7 @@ function close_window() {
 }
 
 function change_label(id, label) {
+  label = label.replace(/(<([^>]+)>)/ig, "");
 	document.getElementById(id).innerHTML = label;
 	document.getElementById(id).value = label;
 }
@@ -2615,7 +2614,8 @@ function change_func(id, label) {
 }
 
 function change_in_value(id, label) {
-    label = label.replace(/"/g, "&quot;");
+  label = label.replace(/(<([^>]+)>)/ig, "");
+  label = label.replace(/"/g, "&quot;");
 	document.getElementById(id).setAttribute("value", label);
 }
 
@@ -23468,8 +23468,8 @@ if(need_enable)
 //refresh_attr(i, 'type_checkbox');
 }
 
-function set_page_title(title, id)
-{
+function set_page_title(title, id) {
+  title = title.replace(/(<([^>]+)>)/ig, "");
 	document.getElementById("form_id_tempform_view"+id).setAttribute('page_title',title);
 	show_title_pagebreak();
 }
@@ -24158,8 +24158,8 @@ function set_checkable(type)
 	document.getElementById("_div_between").setAttribute(type+'_checkable',document.getElementById("el_check_"+type+"_input").checked);
 }
 
-function pagebreak_title_change(val)
-{
+function pagebreak_title_change(val) {
+  val = val.replace(/(<([^>]+)>)/ig, "");
 	document.getElementById("_div_between").setAttribute('page_title',val);
 	document.getElementById("div_page_title").innerHTML=val+'<br/><br/>';
 }

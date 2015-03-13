@@ -281,11 +281,16 @@ class FMModelForm_maker {
                   }
                   
                   $fileTemp = $files['tmp_name'][$file_key];
-                  $p=1;
-                  while(file_exists( $destination . "/" . $fileName)) {
-                    $to = strlen($files['name'][$file_key]) - strlen($uploadedFileExtension) - 1;
-                    $fileName = substr($fileName, 0, $to) . '(' . $p . ').' . $uploadedFileExtension;
-                    $p++;
+                  $p = 1;
+                  if (file_exists($destination . "/" . $fileName)) {
+                    $fileName1 = $filename;
+                    while (file_exists($destination . "/" . $fileName1)) {
+                      $to = strlen($file['name']) - strlen($uploadedFileExtension) - 1;
+                      $fileName1 = substr($fileName, 0, $to) . '(' . $p . ').' . $uploadedFileExtension;
+                      $file['name'] = $fileName;
+                      $p++;
+                    }
+                    $fileName = $fileName1;
                   }
                   if(!move_uploaded_file($fileTemp, ABSPATH . $destination . '/' . $fileName)) {	
                     echo "<script> alert('" . addslashes(__('Error, file cannot be moved.', 'form_maker')) . "');</script>";
@@ -797,11 +802,15 @@ class FMModelForm_maker {
               }
               $fileTemp = $file['tmp_name'];
               $p = 1;
-              while (file_exists($destination . "/" . $fileName)) {
-                $to = strlen($file['name']) - strlen($uploadedFileExtension) - 1;
-                $fileName = substr($fileName, 0, $to) . '(' . $p . ').' . $uploadedFileExtension;
-                $file['name'] = $fileName;
-                $p++;
+              if (file_exists($destination . "/" . $fileName)) {
+                $fileName1 = $filename;
+                while (file_exists($destination . "/" . $fileName1)) {
+                  $to = strlen($file['name']) - strlen($uploadedFileExtension) - 1;
+                  $fileName1 = substr($fileName, 0, $to) . '(' . $p . ').' . $uploadedFileExtension;
+                  $file['name'] = $fileName;
+                  $p++;
+                }
+                $fileName = $fileName1;
               }
               if (is_dir(ABSPATH . $destination)) {
                 if (!move_uploaded_file($fileTemp, ABSPATH . $destination . '/' . $fileName)) {
@@ -1628,7 +1637,7 @@ class FMModelForm_maker {
                 break;
               }			
           
-              case "type_paypal_select": {	
+              case "type_paypal_select": {
                 if(isset($_POST['wdform_'.$i."_element_label".$id]) && $_POST['wdform_'.$i."_element".$id] != '') {
                   $value = $_POST['wdform_'.$i."_element_label".$id] . ' : ' . (isset($_POST['wdform_'.$i."_element".$id]) ? $_POST['wdform_'.$i."_element".$id] : "") . $form_currency;
                 }
@@ -1886,7 +1895,7 @@ class FMModelForm_maker {
 				if ($row->mail_attachment_user) {
 					for ($k = 0; $k < count($all_files); $k++) {
 						if (isset($all_files[$k]['tmp_name'])) {
-              $attachment_user[$k]=$all_files[$k]['tmp_name'];
+              $attachment_user[$k] = $all_files[$k]['tmp_name'];
             }
 					}
         }

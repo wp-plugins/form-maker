@@ -44,6 +44,7 @@ class FMViewBlocked_ips_fm {
       </div>
     </div>
     <form onkeypress="spider_doNothing(event)" class="wrap" id="blocked_ips" method="post" action="admin.php?page=blocked_ips_fm" style="float: left; width: 99%;">
+      <?php wp_nonce_field('nonce_fm', 'nonce_fm'); ?>
       <span class="block_icon"></span>
       <h2>Blocked IPs</h2>
       <div class="buttons_div">
