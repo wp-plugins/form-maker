@@ -116,7 +116,7 @@ class FMControllerThemes_fm {
 
   public function delete($id) {
     global $wpdb;
-    $isDefault = $wpdb->get_var($wpdb->prepare('SELECT default FROM ' . $wpdb->prefix . 'formmaker_themes WHERE id="%d"', $id));
+    $isDefault = $wpdb->get_var($wpdb->prepare('SELECT `default` FROM ' . $wpdb->prefix . 'formmaker_themes WHERE id="%d"', $id));
     if ($isDefault) {
       $message = 4;
     }
@@ -141,7 +141,7 @@ class FMControllerThemes_fm {
     $theme_ids_col = $wpdb->get_col('SELECT id FROM ' . $wpdb->prefix . 'formmaker_themes');
     foreach ($theme_ids_col as $theme_id) {
       if (isset($_POST['check_' . $theme_id])) {
-        $isDefault = $wpdb->get_var($wpdb->prepare('SELECT default FROM ' . $wpdb->prefix . 'formmaker_themes WHERE id="%d"', $theme_id));
+        $isDefault = $wpdb->get_var($wpdb->prepare('SELECT `default` FROM ' . $wpdb->prefix . 'formmaker_themes WHERE id="%d"', $theme_id));
         if ($isDefault) {
           $message = 4;
         }

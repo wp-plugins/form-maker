@@ -1939,10 +1939,10 @@ class FMModelForm_maker {
         $send_tos=explode('**',$row->send_to);
 				if ($row->mail_from_user != '') {
           if ($fromname != '') {
-            $from = "From: " . $fromname . " <" . $row->mail_from_user . ">" . "\r\n";
+            $from = "From: '" . $fromname . "' <" . $row->mail_from_user . ">" . "\r\n";
           }
           else {
-            $from = "From: " . $row->mail_from_user . " <" . $row->mail_from_user . ">" . "\r\n";
+            $from = "From: '' <" . $row->mail_from_user . ">" . "\r\n";
           }
         }
         else {
@@ -2009,7 +2009,7 @@ class FMModelForm_maker {
           $fromname = $row->from_name;
         }
         else {
-          $fromname = $row->from_mail;
+          $fromname = '';
         }
         $attachment = array(); 
 				if ($row->mail_attachment) {
@@ -2066,7 +2066,7 @@ class FMModelForm_maker {
 					if (!isset($from)) {
 						$from = $row->from_mail;
           }
-          $from = "From: " . $fromname . " <" . $from . ">" . "\r\n";
+          $from = "From: '" . $fromname . "' <" . $from . ">" . "\r\n";
 				}
 				else {
 					$from = "";
@@ -2493,10 +2493,10 @@ class FMModelForm_maker {
       // add_filter('wp_mail_content_type', create_function('', 'return "text/html";'));
       if ($row->from_mail != '') {
         if ($row->from_name != '') {
-          $from_mail = "From: " . $row->from_name . " <" . $row->from_mail . ">" . "\r\n";
+          $from_mail = "From: '" . $row->from_name . "' <" . $row->from_mail . ">" . "\r\n";
         }
         else {
-          $from_mail = "From: " . $row->from_mail . " <" . $row->from_mail . ">" . "\r\n";
+          $from_mail = "From: '' <" . $row->from_mail . ">" . "\r\n";
         }
       }
       else {
@@ -2947,7 +2947,7 @@ class FMModelForm_maker {
           if ($row->mail) {
             if ($c) {
               // $headers_form_mail = "From: " . $c . " <" . $c . ">" . "\r\n";
-              $headers = "MIME-Version: 1.0\n" . "From: " . $c . " <" . $c . ">" . "\r\n" . "Content-Type: text/html; charset=\"" . get_option('blog_charset') . "\"\n";
+              $headers = "MIME-Version: 1.0\n" . "From: '" . $c . "' <" . $c . ">" . "\r\n" . "Content-Type: text/html; charset=\"" . get_option('blog_charset') . "\"\n";
             }
             // else {
               // $headers_form_mail = "";
