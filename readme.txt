@@ -277,6 +277,13 @@ The Form Maker (Pro version) has simple PayPal integration. This allows the user
 
 == Changelog ==
 
+= 1.7.29 =
+Bug fixed: Empty email "From name".
+
+= 1.7.28 =
+Bug fixed: Edit submissions.
+Bug fixed: Conditional fielsd with quota in labels
+
 = 1.7.27 =
 bug fixed in csv\xml export
 
