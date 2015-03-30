@@ -12,7 +12,7 @@ WordPress Form Maker is a fresh and innovative form builder. This form builder i
 
 == Description ==
 
-### If you have updated to WordPress 4.0.1 or got an automatic update to the mentioned version, please also update the Form Maker plugin to 1.7.21 or higher version.
+Form Maker is a FREE and user-friendly plugin to create highly customizable and responsive forms in a few minutes with simple drag and drop interface.
 
 [WordPress Form Maker](http://web-dorado.com/products/wordpress-form.html)  
 [Demo](http://wpdemo.web-dorado.com/)  
