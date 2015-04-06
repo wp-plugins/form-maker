@@ -279,6 +279,7 @@ The Form Maker (Pro version) has simple PayPal integration. This allows the user
 
 = 1.7.29 =
 Bug fixed: Empty email "From name".
+Bug fixed: Delete theme.
 
 = 1.7.28 =
 Bug fixed: Edit submissions.
