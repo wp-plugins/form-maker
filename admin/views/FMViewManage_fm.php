@@ -170,7 +170,7 @@ class FMViewManage_fm {
     <script type="text/javascript">
       var plugin_url = "<?php echo WD_FM_URL; ?>";
     </script>
-    <script src="<?php echo WD_FM_URL . '/js/formmaker_div_free.js'; ?>" type="text/javascript"></script>
+    <script src="<?php echo WD_FM_URL . '/js/formmaker_div_free.js?ver=' . get_option("wd_form_maker_version"); ?>" type="text/javascript"></script>
     <script type="text/javascript">
       form_view = 1;
       form_view_count = 1;
@@ -1227,7 +1227,7 @@ class FMViewManage_fm {
     <script type="text/javascript">
       var plugin_url = "<?php echo WD_FM_URL; ?>";
     </script>
-    <script src="<?php echo WD_FM_URL . '/js/formmaker_free.js'; ?>" type="text/javascript"></script>
+    <script src="<?php echo WD_FM_URL . '/js/formmaker_free.js?ver=' . get_option("wd_form_maker_version"); ?>" type="text/javascript"></script>
     <script type="text/javascript">
       function submitbutton() {
         if (!document.getElementById('araqel') || (document.getElementById('araqel').value == '0')) {

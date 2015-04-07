@@ -109,7 +109,7 @@ class FMViewForm_maker {
       }
       $form_theme = implode('{', $body_or_classes_implode);
       $form_maker_front_end .= '<style>' . str_replace('[SITE_ROOT]', WD_FM_URL, $form_theme) . '</style>';
-      wp_print_scripts('main' . (($old == false || ($old == true && $row->form=='')) ? '_div' : '') . '_front_end', WD_FM_URL . '/js/main' . (($old == false || ($old == true && $row->form=='')) ? '_div' : '') . '_front_end.js');
+      wp_print_scripts('main' . (($old == false || ($old == true && $row->form=='')) ? '_div' : '') . '_front_end', WD_FM_URL . '/js/main' . (($old == false || ($old == true && $row->form=='')) ? '_div' : '') . '_front_end.js?ver=' . get_option("wd_form_maker_version"));
       // $form_maker_front_end .= '<script src="' . WD_FM_URL . '/js/main' . (($old == false || ($old == true && $row->form=='')) ? '_div' : '') . '_front_end.js"></script>';
       $form_currency = '$';
       $check_js = '';
