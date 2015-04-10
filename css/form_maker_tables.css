@@ -3,6 +3,16 @@
   z-index: 10200;
 }
 
+#main_div input[type="checkbox"], #main_div input[type="radio"] {
+float: right !important;
+margin: 3px 3px 3px 4px;
+}
+
+ .wdform_column  input[type="checkbox"],.wdform_column   input[type="radio"] {
+float: right !important;
+margin: 3px 3px 3px 4px;
+}
+
 #manage_form fieldset {
   clear: both;
   float: left;

@@ -3,7 +3,7 @@
  * Plugin Name: Form Maker
  * Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
  * Description: This plugin is a modern and advanced tool for easy and fast creating of a WordPress Form. The backend interface is intuitive and user friendly which allows users far from scripting and programming to create WordPress Forms.
- * Version: 1.7.30
+ * Version: 1.7.31
  * Author: WebDorado
  * Author URI: http://web-dorado.com/
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -30,13 +30,13 @@ function form_maker_options_panel() {
   $themes_page = add_submenu_page('manage_fm', 'Themes', 'Themes', 'manage_options', 'themes_fm', 'form_maker');
   add_action('admin_print_styles-' . $themes_page, 'form_maker_manage_styles');
   add_action('admin_print_scripts-' . $themes_page, 'form_maker_manage_scripts');
-
+  
   $licensing_plugins_page = add_submenu_page('manage_fm', 'Licensing/Donation', 'Licensing/Donation', 'manage_options', 'licensing_fm', 'form_maker');
 
   add_submenu_page('manage_fm', 'Featured Plugins', 'Featured Plugins', 'manage_options', 'featured_plugins_fm', 'fm_featured');
 
   add_submenu_page('manage_fm', 'Form Maker plugins', 'Form Maker plugins', 'manage_options', 'extensions_fm', 'fm_extensions');
-
+  
   $uninstall_page = add_submenu_page('manage_fm', 'Uninstall', 'Uninstall', 'manage_options', 'uninstall_fm', 'form_maker');
   add_action('admin_print_styles-' . $uninstall_page, 'form_maker_styles');
   add_action('admin_print_scripts-' . $uninstall_page, 'form_maker_scripts');
@@ -54,7 +54,7 @@ function form_maker() {
   }
   require_once(WD_FM_DIR . '/framework/WDW_FM_Library.php');
   $page = WDW_FM_Library::get('page');
-  if (($page != '') && (($page == 'manage_fm') || ($page == 'submissions_fm') || ($page == 'blocked_ips_fm') || ($page == 'themes_fm') || ($page == 'licensing_fm') || ($page == 'featured_plugins_fm') || ($page == 'uninstall_fm') || ($page == 'formmakerwindow') || ($page == 'extensions_fm'))) {
+  if (($page != '') && (($page == 'manage_fm') || ($page == 'submissions_fm')|| ($page == 'licensing_fm') || ($page == 'blocked_ips_fm') || ($page == 'themes_fm') || ($page == 'featured_plugins_fm') || ($page == 'uninstall_fm') || ($page == 'formmakerwindow') || ($page == 'extensions_fm'))) {
     require_once (WD_FM_DIR . '/admin/controllers/FMController' . ucfirst(strtolower($page)) . '.php');
     $controller_class = 'FMController' . ucfirst(strtolower($page));
     $controller = new $controller_class();
@@ -106,6 +106,7 @@ add_action('wp_ajax_show_matrix', 'form_maker_ajax'); // Edit matrix in submissi
 add_action('wp_ajax_FormMakerEditCSS', 'form_maker_ajax'); // Edit css from form options.
 add_action('wp_ajax_FormMakerSQLMapping', 'form_maker_ajax'); // Add/Edit SQLMaping from form options.
 
+add_action('wp_ajax_select_data_from_db', 'form_maker_ajax'); // select data from db.
 function form_maker_ajax() {
   require_once(WD_FM_DIR . '/framework/WDW_FM_Library.php');
   $page = WDW_FM_Library::get('action');
@@ -153,10 +154,10 @@ add_action('admin_head', 'form_maker_admin_ajax');
 function do_output_buffer() {
   ob_start();
 }
-add_action('init', 'do_output_buffer');
-
-add_shortcode('Form', 'fm_shortcode');
+ add_action('init', 'do_output_buffer');
  
+add_shortcode('Form', 'fm_shortcode');
+
 function fm_shortcode($attrs) {
   $new_shortcode = '[Form';
   foreach ($attrs as $key=>$value) {
@@ -192,8 +193,6 @@ function Form_maker_fornt_end_main($content) {
 }
 add_filter('the_content', 'Form_maker_fornt_end_main', 5000);
 
-
-
 // Add the Form Maker button to editor.
 add_action('wp_ajax_formmakerwindow', 'form_maker_ajax');
 add_filter('mce_external_plugins', 'form_maker_register');
@@ -208,7 +207,7 @@ if (class_exists('WP_Widget')) {
 // Activate plugin.
 function form_maker_activate() {
   $version = get_option("wd_form_maker_version");
-  $new_version = '1.7.29';
+  $new_version = '1.7.30';
   if (!$version) {
     add_option("wd_form_maker_version", $new_version, '', 'no');
     global $wpdb;
@@ -328,7 +327,6 @@ function form_maker_submissions_scripts() {
   wp_enqueue_script('calendar_function', WD_FM_URL . '/js/calendar/calendar_function.js');
   // wp_enqueue_script('form_maker_calendar_setup', WD_FM_URL . '/js/calendar/calendar-setup.js');
   
-
   wp_localize_script('main_div_front_end', 'fm_objectL10n', array(
     'plugin_url' => WD_FM_URL
   ));

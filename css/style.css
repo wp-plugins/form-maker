@@ -145,12 +145,12 @@ fieldset input, fieldset textarea, fieldset select, fieldset img, fieldset butto
 }
 
 fieldset select{
-height: 20px;
+height:20px !important;
 border-radius: 2px;
 }
 .multiple_select
 {
-height:initial !important;
+height:20px !important;
 }
 
 fieldset input{

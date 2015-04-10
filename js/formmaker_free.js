@@ -2373,10 +2373,8 @@ function close_window() {
   document.getElementById('editing_id').value = "";
   document.getElementById('element_type').value = "";
 	alltypes = Array('customHTML', 'text', 'checkbox', 'radio', 'time_and_date', 'select', 'file_upload', 'captcha', 'map', 'button', 'page_break', 'section_break', 'paypal', 'survey');
-  for (x = 0; x < 14; x++) {
-    if (alltypes[x] != 'file_upload' && alltypes[x] != 'map' && alltypes[x] != 'paypal') {
-      document.getElementById('img_' + alltypes[x]).parentNode.style.backgroundColor = '';
-    }
+  if (alltypes[x] != 'file_upload' && alltypes[x] != 'map' && alltypes[x] != 'paypal') {
+    document.getElementById('img_' + alltypes[x]).parentNode.style.backgroundColor = '';
   }
 }
 
@@ -23187,10 +23185,8 @@ function addRow(b) {
     document.getElementById('edit_table').innerHTML = "";
   }
 	alltypes = Array('customHTML','text','checkbox','radio','time_and_date','select','file_upload','captcha','map','button','page_break','section_break', 'paypal', 'survey');
-  for (x = 0; x < 14; x++) {
-    if (alltypes[x] != 'file_upload' && alltypes[x] != 'map' && alltypes[x] != 'paypal') {
-      document.getElementById('img_'+alltypes[x]).parentNode.style.backgroundColor = '';
-    }
+  if (alltypes[x] != 'file_upload' && alltypes[x] != 'map' && alltypes[x] != 'paypal') {
+    document.getElementById('img_'+alltypes[x]).parentNode.style.backgroundColor = '';
   }
   document.getElementById('img_' + b).parentNode.style.backgroundColor = '#FE6400';
 	switch(b) {
@@ -24938,15 +24934,22 @@ function add(key) {
       }
     }
   }
-  if (document.getElementById("element_type").value == "type_grading") {
-    for (k = 100; k > 0; k--) {
- 		  if (document.getElementById("el_items" + k)) {
-        break;
-		  }
-    }
-    m = k;
-    var items_input = "";
-    for (i = 0; i <= m; i++) {
+  if(document.getElementById("element_type").value=="type_grading")
+	{
+
+	for(k=100;k>0;k--)
+	{
+		 if(document.getElementById("el_items"+k))
+		 {
+			break;
+		 }
+	}	
+	 m=k;
+
+
+	var items_input="";
+	
+	for(i=0;i<=m;i++){
 	if(document.getElementById("el_items"+i)){
 	items_input = items_input+document.getElementById("el_items"+i).value+":";	
 	}
@@ -27515,7 +27518,7 @@ function edit(id) {
 				w_attr_name=atrs[0];
 				w_attr_value=atrs[1];
 				type_country(id, w_field_label, w_countries, w_field_label_pos, w_size, w_required, w_class,  w_attr_name, w_attr_value); break;
-			}
+			}			
 			case 'type_captcha':
 			{
 				w_digit=document.getElementById("_wd_captchaform_id_temp").getAttribute("digit");
@@ -28461,7 +28464,7 @@ function dublicate(id) {
 				w_attr_value=atrs[1];
 				// type_country(gen, w_field_label, w_countries, w_field_label_pos, w_size, w_required, w_class,  w_attr_name, w_attr_value); add(0); break;
 				type_country(gen, w_field_label, w_countries, w_field_label_pos, w_size, w_required, w_class,  w_attr_name, w_attr_value);break;
-			}
+			}			
 			case 'type_map':
 			{
 				w_lat=[];

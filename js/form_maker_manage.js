@@ -635,7 +635,7 @@ function change_choices(value, ids, types, params) {
 		case "type_number":
 		case "type_phone":
 		case "type_paypal_price":
-		
+		case "type_spinner":
 			if(types_array[id]=="type_number" || types_array[id]=="type_phone")
 				var keypress_function = "return check_isnum_space(event)";
 			else
@@ -699,8 +699,9 @@ function change_choices(value, ids, types, params) {
 					else
 					choise_option.setAttribute("value", w_choices_array[k]);
 					choise_option.innerHTML = w_choices_array[k];	
-					
-				choise_select.appendChild(choise_option);	
+					if(w_choices_array[k].indexOf('[') === -1 && w_choices_array[k].indexOf(']') === -1 && w_choices_array[k].indexOf(':') === -1) {
+            choise_select.appendChild(choise_option);
+          }
 			}
 			
 			document.getElementById("condition_div"+global_index+"_"+index).removeChild(document.getElementById("field_value"+global_index+"_"+index));
@@ -783,8 +784,36 @@ function add_condition_fields(num, ids1, labels1, types1, params1) {
 		is_notoption.setAttribute("value", "!=");
 		is_notoption.innerHTML = "is not";
 	
+	
+	
+	var	is_likoption = document.createElement('option');
+		is_likoption.setAttribute("id", "like");
+		is_likoption.setAttribute("value", "%");
+		is_likoption.innerHTML = "like";
+		
+	var	is_notlikoption = document.createElement('option');
+		is_notlikoption.setAttribute("id", "not_like");
+		is_notlikoption.setAttribute("value", "!%");
+		is_notlikoption.innerHTML = "not like";
+		
+	var	is_emptyoption = document.createElement('option');
+		is_emptyoption.setAttribute("id", "empty");
+		is_emptyoption.setAttribute("value", "=");
+		is_emptyoption.innerHTML = "empty";
+		
+	var	is_notemptyoption = document.createElement('option');
+		is_notemptyoption.setAttribute("id", "not_empty");
+		is_notemptyoption.setAttribute("value", "!");
+		is_notemptyoption.innerHTML = "not empty";
+		
+		
+		
 		is_select.appendChild(is_option);	
-		is_select.appendChild(is_notoption);	
+		is_select.appendChild(is_notoption);
+        is_select.appendChild(is_likoption);
+        is_select.appendChild(is_notlikoption);
+        is_select.appendChild(is_emptyoption);
+        is_select.appendChild(is_notemptyoption);		
 
 		condition_div.appendChild(is_select);
 		condition_div.appendChild(document.createTextNode(' '));
@@ -803,7 +832,7 @@ function add_condition_fields(num, ids1, labels1, types1, params1) {
 		case "type_phone":
 		case "type_number":
 		case "type_paypal_price":
-		
+		case "type_spinner":
 		if(types[index_of_field]=="type_number" || types[index_of_field]=="type_phone")
 				var keypress_function = "return check_isnum_space(event)";
 			else
@@ -861,7 +890,9 @@ function add_condition_fields(num, ids1, labels1, types1, params1) {
 					choise_option.setAttribute("value", w_choices_array[k]);
 					choise_option.innerHTML = w_choices_array[k];	
 					
-				choise_select.appendChild(choise_option);	
+				if(w_choices_array[k].indexOf('[') === -1 && w_choices_array[k].indexOf(']') === -1 && w_choices_array[k].indexOf(':') === -1) {
+            choise_select.appendChild(choise_option);
+          }
 			}
 			condition_div.appendChild(choise_select);	
 			
@@ -917,7 +948,7 @@ function add_condition(ids1, labels1, types1, params1, all_ids, all_labels) {
 	var show_hide_select = document.createElement('select');
 		show_hide_select.setAttribute("id", "show_hide"+num);
 		show_hide_select.setAttribute("name", "show_hide"+num);
-		show_hide_select.style.cssText="width:60px;";
+		show_hide_select.style.cssText="width:80px;";
 
 	var show_option = document.createElement('option');
 		show_option.setAttribute("value", "1");
@@ -949,7 +980,7 @@ function add_condition(ids1, labels1, types1, params1, all_ids, all_labels) {
 	var all_any_select = document.createElement('select');
 		all_any_select.setAttribute("id", "all_any"+num);
 		all_any_select.setAttribute("name", "all_any"+num);
-		all_any_select.style.cssText="width:45px;";
+		all_any_select.style.cssText="width:60px;";
 
 	var all_option = document.createElement('option');
 		all_option.setAttribute("value", "and");

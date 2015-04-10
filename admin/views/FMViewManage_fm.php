@@ -31,6 +31,7 @@ class FMViewManage_fm {
     $order_by = (isset($_POST['order_by']) ? esc_html($_POST['order_by']) : 'id');
     $order_class = 'manage-column column-title sorted ' . $asc_or_desc;
     $ids_string = '';
+
     ?>
     <div style="clear: both; float: left; width: 99%;">
       <div style="float:left; font-size: 14px; font-weight: bold;">
@@ -170,7 +171,7 @@ class FMViewManage_fm {
     <script type="text/javascript">
       var plugin_url = "<?php echo WD_FM_URL; ?>";
     </script>
-    <script src="<?php echo WD_FM_URL . '/js/formmaker_div_free.js?ver=' . get_option("wd_form_maker_version"); ?>" type="text/javascript"></script>
+    <script src="<?php echo WD_FM_URL . '/js/formmaker_div_free.js'; ?>?ver=<?php echo get_option("wd_form_maker_version"); ?>" type="text/javascript"></script>
     <script type="text/javascript">
       form_view = 1;
       form_view_count = 1;
@@ -264,7 +265,7 @@ class FMViewManage_fm {
                         id_for_country = addr_id;
                         if (document.getElementById(id_for_country + "_mini_label_street1"))
                           tox = tox + addr_id + '#**id**#' + document.getElementById(id_for_country + "_mini_label_street1").innerHTML + '#**label**#type_address#****#';
-                        addr_id++;
+                        addr_id++; 
                         if (document.getElementById(id_for_country + "_mini_label_street2"))
                           tox = tox + addr_id + '#**id**#' + document.getElementById(id_for_country + "_mini_label_street2").innerHTML + '#**label**#type_address#****#';
                         addr_id++;
@@ -288,8 +289,10 @@ class FMViewManage_fm {
                       form_fields += wdid + "*:*id*:*";
                       form_fields += wdtype + "*:*type*:*";
                       w_choices = new Array();
+					  w_choices_value=new Array();
                       w_choices_checked = new Array();
                       w_choices_disabled = new Array();
+					  w_choices_params =new Array();
                       w_allow_other_num = 0;
                       w_property = new Array();
                       w_property_type = new Array();
@@ -298,7 +301,7 @@ class FMViewManage_fm {
                       if (document.getElementById(id+'_element_labelform_id_temp').innerHTML) {
                         w_field_label = document.getElementById(id + '_element_labelform_id_temp').innerHTML.replace(/(\r\n|\n|\r)/gm," ");
                       }
-                      else {
+                      else {                      
                         w_field_label = " ";
                       }
                       if (document.getElementById(id + '_label_sectionform_id_temp')) {
@@ -356,7 +359,7 @@ class FMViewManage_fm {
         }
         document.getElementById('label_order').value = tox;
         document.getElementById('form_fields').value = form_fields;
-        refresh_();
+        refresh_(); 
         document.getElementById('pagination').value=document.getElementById('pages').getAttribute("type");
         document.getElementById('show_title').value=document.getElementById('pages').getAttribute("show_title");
         document.getElementById('show_numbers').value=document.getElementById('pages').getAttribute("show_numbers");
@@ -448,7 +451,7 @@ class FMViewManage_fm {
 
       <div class="formmaker_table" width="100%">
         <div style="float: left; text-align: center;"><br />
-          <img src="<?php echo WD_FM_URL . '/images/formmaker.png'; ?>" /><br /><br />
+          <img src="<?php echo WD_FM_URL . '/images/FormMaker.png'; ?>" /><br /><br />
           <img src="<?php echo WD_FM_URL . '/images/logo.png'; ?>" />
         </div>
         <div style="float:right">
@@ -1227,7 +1230,7 @@ class FMViewManage_fm {
     <script type="text/javascript">
       var plugin_url = "<?php echo WD_FM_URL; ?>";
     </script>
-    <script src="<?php echo WD_FM_URL . '/js/formmaker_free.js?ver=' . get_option("wd_form_maker_version"); ?>" type="text/javascript"></script>
+    <script src="<?php echo WD_FM_URL . '/js/formmaker_free.js'; ?>?ver=<?php echo get_option("wd_form_maker_version"); ?>" type="text/javascript"></script>
     <script type="text/javascript">
       function submitbutton() {
         if (!document.getElementById('araqel') || (document.getElementById('araqel').value == '0')) {
@@ -1415,7 +1418,7 @@ class FMViewManage_fm {
 
       <div class="formmaker_table" width="100%">
         <div style="float: left; text-align: center;"><br />
-          <img src="<?php echo WD_FM_URL . '/images/formmaker.png'; ?>" /><br /><br />
+          <img src="<?php echo WD_FM_URL . '/images/FormMaker.png'; ?>" /><br /><br />
           <img src="<?php echo WD_FM_URL . '/images/logo.png'; ?>" />
         </div>
         <div style="float:right">
@@ -2624,7 +2627,7 @@ class FMViewManage_fm {
     </script>
     <?php
   }
-
+    
   public function form_options($id) {
     $row = $this->model->get_row_data($id);
     $themes = $this->model->get_theme_rows_data();
@@ -3036,7 +3039,7 @@ class FMViewManage_fm {
         <legend style="color: #0B55C4; font-weight: bold;">Email Options</legend>
         <table class="admintable">
           <tr valign="top">
-            <td style="padding: 15px; width: 75px;">
+            <td style="padding: 15px; width:75px;">
               <label>Send E-mail</label>
             </td>
             <td style="padding: 15px;">
@@ -3115,7 +3118,7 @@ class FMViewManage_fm {
 								echo '<div style="position:relative; top:-3px;"><div id="mail_from_labels" class="email_labels" style="display:none;">';
                 echo "<a onClick=\"insertAtCursor(".$choise.",'username'); document.getElementById('mail_from_labels').style.display='none';\" style=\"display:block; text-decoration:none;\">Username</a>";
 								for($i=0; $i<count($label_label); $i++)			
-								{ 			
+								{
 									if($label_type[$i]=="type_submit_reset" || $label_type[$i]=="type_editor" || $label_type[$i]=="type_map" || $label_type[$i]=="type_mark_map" || $label_type[$i]=="type_captcha"|| $label_type[$i]=="type_recaptcha" || $label_type[$i]=="type_button" || $label_type[$i]=="type_file_upload" || $label_type[$i]=="type_send_copy" || $label_type[$i]=="type_matrix")			
 									continue;		
 									
@@ -3129,9 +3132,12 @@ class FMViewManage_fm {
 										$fld_label = $fld_label[0] . ' ...';	
 									}
 								
-									echo "<a onClick=\"insertAtCursor(".$choise.",'".$param."'); document.getElementById('mail_from_labels').style.display='none';\" style=\"display:block; text-decoration:none;\">".$fld_label."</a>";	
+									echo "<a onClick=\"insertAtCursor(".$choise.",'".$param."'); document.getElementById('mail_from_labels').style.display='none';\" style=\"display:block; text-decoration:none;\">".$fld_label."</a>";
 
 								}
+								echo "<a onClick=\"insertAtCursor(".$choise.",'subid'); document.getElementById('mail_from_name_user_labels').style.display='none';\" style=\"display:block; text-decoration:none;\">Submission ID</a>";	
+
+								echo "<a onClick=\"insertAtCursor(".$choise.",'username'); document.getElementById('mail_from_name_user_labels').style.display='none';\" style=\"display:block; text-decoration:none;\">Username</a>";
 								echo '</div></div>';								
 								?>
               </td>
@@ -3168,7 +3174,7 @@ class FMViewManage_fm {
 								<label> CC: </label>
 							</td>
 							<td class="fm_options_value">
-								<input type="text" id="mail_cc" name="mail_cc" value="<?php echo $row->mail_cc ?>" style="width:250px;" />
+								<input  type="text" id="mail_cc" name="mail_cc" value="<?php echo $row->mail_cc ?>" style="width:250px;" />
 							</td>
 						</tr>
 						<tr valign="top">
@@ -3207,6 +3213,9 @@ class FMViewManage_fm {
 									echo "<a onClick=\"insertAtCursor(".$choise.",'".$param."'); document.getElementById('mail_subject_labels').style.display='none';\" style=\"display:block; text-decoration:none;\">".$fld_label."</a>";	
 
 								}
+								echo "<a onClick=\"insertAtCursor(".$choise.",'subid'); document.getElementById('mail_from_name_user_labels').style.display='none';\" style=\"display:block; text-decoration:none;\">Submission ID</a>";	
+
+								echo "<a onClick=\"insertAtCursor(".$choise.",'username'); document.getElementById('mail_from_name_user_labels').style.display='none';\" style=\"display:block; text-decoration:none;\">Username</a>";
 								echo '</div></div>';								
 								?>
 							</td>
@@ -3227,7 +3236,7 @@ class FMViewManage_fm {
               <td class="fm_options_value">
                 <input type="radio" disabled="disabled" name="mail_attachment"  value="1" id="en_attach" <?php if($row->mail_attachment==1 ) echo "checked" ?> /> <label for="en_attach">Yes</label>
                 <input type="radio" disabled="disabled" name="mail_attachment" id="dis_attach" value="0" <?php if($row->mail_attachment==0 ) echo "checked" ?> /> <label for="dis_attach">No</label>
-				<div class="error" style="padding: 5px; font-size: 14px;">File attach is disabled in free version.</div>
+                <div class="error" style="padding: 5px; font-size: 14px;">File attach is disabled in free version.</div>
               </td>
             </tr>
             <tr>
@@ -3239,15 +3248,26 @@ class FMViewManage_fm {
                   <?php
                   $choise = "document.getElementById('script_mail')";
                   for ($i = 0; $i < count($label_label); $i++) {
-                    if ($label_type[$i] == "type_submit_reset" || $label_type[$i] == "type_editor" || $label_type[$i] == "type_map" || $label_type[$i] == "type_mark_map" || $label_type[$i] == "type_captcha" || $label_type[$i] == "type_recaptcha" || $label_type[$i] == "type_button" || $label_type[$i] == "type_file_upload" || $label_type[$i] == "type_send_copy") {
+                    if ($label_type[$i]=="type_submit_reset" || $label_type[$i]=="type_editor" || $label_type[$i]=="type_map" || $label_type[$i]=="type_mark_map" || $label_type[$i]=="type_captcha"|| $label_type[$i]=="type_recaptcha" || $label_type[$i]=="type_button"  || $label_type[$i]=="type_send_copy") {
                       continue;
                     }
                     $param = htmlspecialchars(addslashes($label_label[$i]));
+					$fld_label = $param;
+									if(strlen($fld_label)>30)
+									{
+										$fld_label = wordwrap(htmlspecialchars(addslashes($label_label[$i])), 30);
+										$fld_label = explode("\n", $fld_label);
+										$fld_label = $fld_label[0] . ' ...';	
+									}
+									
+							if($label_type[$i]=="type_file_upload")
+								$fld_label .= '(as image)';
                     ?>
-                    <input style="border: 1px solid silver; font-size: 10px;" type="button" value="<?php echo htmlspecialchars(addslashes($label_label[$i])); ?>" onClick="insertAtCursor(<?php echo $choise; ?>, '<?php echo $param; ?>')" />
+                    <input style="border: 1px solid silver; font-size: 10px;" type="button" value="<?php echo $fld_label; ?>" onClick="insertAtCursor(<?php echo $choise; ?>, '<?php echo $param; ?>')" />
                     <?php
                   }
                   ?>
+                  <input style="border: 1px solid silver; font-size: 10px; margin: 3px;" type="button" value="Submission ID" onClick="insertAtCursor(<?php echo $choise; ?>,'subid')" />
                   <input style="border: 1px solid silver; font-size: 10px; margin: 3px;" type="button" value="Ip" onClick="insertAtCursor(<?php echo $choise; ?>,'ip')" />
                   <input style="border: 1px solid silver; font-size: 10px; margin: 3px;" type="button" value="Username" onClick="insertAtCursor(<?php echo $choise; ?>,'username')" />
                   <input style="border: 1px solid silver; font-size: 10px; margin: 3px;" type="button" value="User Email" onClick="insertAtCursor(<?php echo $choise; ?>,'useremail')" />
@@ -3332,6 +3352,9 @@ class FMViewManage_fm {
                   echo "<a onClick=\"insertAtCursor(".$choise.",'".$param."'); document.getElementById('mail_from_name_user_labels').style.display='none';\" style=\"display:block; text-decoration:none;\">".$fld_label."</a>";	
 
                 }
+				echo "<a onClick=\"insertAtCursor(".$choise.",'subid'); document.getElementById('mail_from_name_user_labels').style.display='none';\" style=\"display:block; text-decoration:none;\">Submission ID</a>";	
+
+				echo "<a onClick=\"insertAtCursor(".$choise.",'username'); document.getElementById('mail_from_name_user_labels').style.display='none';\" style=\"display:block; text-decoration:none;\">Username</a>";
                 echo '</div></div>';								
                 ?>
               </td>
@@ -3388,6 +3411,9 @@ class FMViewManage_fm {
 									echo "<a onClick=\"insertAtCursor(".$choise.",'".$param."'); document.getElementById('mail_subject_user_labels').style.display='none';\" style=\"display:block; text-decoration:none;\">".$fld_label."</a>";	
 
 								}
+								echo "<a onClick=\"insertAtCursor(".$choise.",'subid'); document.getElementById('mail_from_name_user_labels').style.display='none';\" style=\"display:block; text-decoration:none;\">Submission ID</a>";	
+
+								echo "<a onClick=\"insertAtCursor(".$choise.",'username'); 			document.getElementById('mail_from_name_user_labels').style.display='none';\" style=\"display:block; text-decoration:none;\">Username</a>";
 								echo '</div></div>';								
 								?>
 							</td>
@@ -3408,7 +3434,7 @@ class FMViewManage_fm {
               <td class="fm_options_value">
                 <input type="radio" disabled="disabled" name="mail_attachment_user"  value="1" id="en_attach_user" <?php if($row->mail_attachment_user==1 ) echo "checked" ?> /> <label for="en_attach_user">Yes</label>
                 <input type="radio" disabled="disabled" name="mail_attachment_user" id="dis_attach_user" value="0" <?php if($row->mail_attachment_user==0 ) echo "checked" ?> /> <label for="dis_attach_user">No</label>
-				<div class="error" style="padding: 5px; font-size: 14px;">File attach is disabled in free version.</div>
+                <div class="error" style="padding: 5px; font-size: 14px;">File attach is disabled in free version.</div>
               </td>
             </tr>
             <tr>
@@ -3424,11 +3450,21 @@ class FMViewManage_fm {
                       continue;
                     }
                     $param = htmlspecialchars(addslashes($label_label[$i]));
+					$fld_label = $param;
+									if(strlen($fld_label)>30)
+									{
+										$fld_label = wordwrap(htmlspecialchars(addslashes($label_label[$i])), 30);
+										$fld_label = explode("\n", $fld_label);
+										$fld_label = $fld_label[0] . ' ...';	
+									}
+										if($label_type[$i]=="type_file_upload")
+									$fld_label .= '(as image)';
                     ?>
                     <input style="border: 1px solid silver; font-size: 10px;" type="button" value="<?php echo htmlspecialchars(addslashes($label_label[$i])); ?>" onClick="insertAtCursor(<?php echo $choise; ?>, '<?php echo $param; ?>')" />
                     <?php
                   }
                   ?>
+				  <input style="border: 1px solid silver; font-size: 10px; margin: 3px;" type="button" value="Submission ID" onClick="insertAtCursor(<?php echo $choise; ?>,'subid')" />
                   <input style="border: 1px solid silver; font-size: 10px; margin: 3px;" type="button" value="Ip" onClick="insertAtCursor(<?php echo $choise; ?>,'ip')" />
                   <input style="border: 1px solid silver; font-size: 10px; margin: 3px;" type="button" value="Username" onClick="insertAtCursor(<?php echo $choise; ?>,'username')" />
                   <input style="border: 1px solid silver; font-size: 10px; margin: 3px;" type="button" value="User Email" onClick="insertAtCursor(<?php echo $choise; ?>,'useremail')" />
@@ -3645,7 +3681,7 @@ class FMViewManage_fm {
 					$all_ids	= array();
 					$all_labels 	= array();
 
-					$select_and_input = array("type_text", "type_password", "type_textarea", "type_name", "type_number", "type_phone", "type_submitter_mail", "type_address", "type_checkbox", "type_radio", "type_own_select", "type_paypal_price", "type_paypal_select", "type_paypal_checkbox", "type_paypal_radio", "type_paypal_shipping");
+					$select_and_input = array("type_text", "type_password", "type_textarea", "type_name", "type_number", "type_phone", "type_submitter_mail", "type_address", "type_spinner", "type_checkbox", "type_radio", "type_own_select", "type_paypal_price", "type_paypal_select", "type_paypal_checkbox", "type_paypal_radio", "type_paypal_shipping");
 					$select_type_fields = array("type_address", "type_checkbox", "type_radio", "type_own_select", "type_paypal_select", "type_paypal_checkbox", "type_paypal_radio", "type_paypal_shipping");
 		
 					$fields=explode('*:*new_field*:*',$row->form_fields);
@@ -3725,7 +3761,7 @@ class FMViewManage_fm {
 					<div>
 					<span style="font-size:13px;">Add Condition<span/>
 					<img src="<?php echo WD_FM_URL . '/images/add_condition.png'; ?>" title="add" onclick="add_condition('<?php echo $chose_ids; ?>', '<?php echo htmlspecialchars(addslashes($chose_labels)); ?>', '<?php echo $chose_types; ?>', '<?php echo htmlspecialchars(addslashes($chose_paramss)); ?>', '<?php echo $all_ids_cond; ?>', '<?php echo htmlspecialchars(addslashes($all_labels_cond)); ?>')" style="cursor: pointer; vertical-align: middle; margin-left:15px;">
-          </div>
+					</div>
 					<?php
 
 					for($k=0; $k<$count_of_conditions; $k++)
@@ -3734,7 +3770,7 @@ class FMViewManage_fm {
 					if(in_array($field_label[$k],$all_ids)) : ?>
 					<div id="condition<?php echo $k; ?>" >
 						<div id="conditional_fileds<?php echo $k; ?>">
-							<select id="show_hide<?php echo $k; ?>" name="show_hide<?php echo $k; ?>" style="width:60px; ">
+							<select id="show_hide<?php echo $k; ?>" name="show_hide<?php echo $k; ?>" style="width:80px; ">
 							<option value="1" <?php if($show_hide[$k]==1) echo 'selected="selected"'; ?>>show</option>
 							<option value="0" <?php if($show_hide[$k]==0) echo 'selected="selected"'; ?>>hide</option>
 							</select> 
@@ -3754,7 +3790,7 @@ class FMViewManage_fm {
 							</select> 
 							<span>if</span>
 							
-							<select id="all_any<?php echo $k; ?>" name="all_any<?php echo $k; ?>" style="width:45px; ">
+							<select id="all_any<?php echo $k; ?>" name="all_any<?php echo $k; ?>" style="width:60px; ">
 							<option value="and" <?php if($all_any[$k]=="and") echo 'selected="selected"'; ?>>all</option>
 							<option value="or" <?php if($all_any[$k]=="or") echo 'selected="selected"'; ?>>any</option>
 							</select> 
@@ -3807,9 +3843,17 @@ class FMViewManage_fm {
 								<select id="is_select<?php echo $k; ?>_<?php echo $key; ?>" style="vertical-align: top;">
 								<option value="==" <?php if($param_values[1]=="==") echo 'selected="selected"'; ?>>is</option>
 								<option value="!=" <?php if($param_values[1]=="!=") echo 'selected="selected"'; ?>>is not</option>
+								<option value="%" <?php if($param_values[1]=="%") echo 'selected="selected"'; ?>>like</option>
+
+								<option value="!%" <?php if($param_values[1]=="!%") echo 'selected="selected"'; ?>>not like</option>
+
+								<option value="=" <?php if($param_values[1]=="=") echo 'selected="selected"'; ?>>empty</option>
+
+								<option value="!" <?php if($param_values[1]=="!") echo 'selected="selected"'; ?>>not empty</option>
+
 								</select>
 								
-								<?php if ($key_select_or_input != '' && in_array($types[$key_select_or_input],$select_type_fields)) : ?>
+								<?php if ($key_select_or_input !== '' && in_array($types[$key_select_or_input],$select_type_fields)) : ?>
 								<select id="field_value<?php echo $k; ?>_<?php echo $key; ?>" <?php echo $multiple; ?> style="vertical-align: top; width: 200px;">
 								<?php  
 								switch($types[$key_select_or_input])
@@ -3848,7 +3892,9 @@ class FMViewManage_fm {
 										else
 											$selected ='';
 
-										echo '<option id="choise_'.$k.'_'.$m.'" value="'.$w_choice.'" '.$selected.'>'.$w_choices_array[$m].'</option>';	
+                    if(strpos($w_choices_array[$m], '[') === false && strpos($w_choices_array[$m], ']') === false && strpos($w_choices_array[$m], ':') === false) {
+										echo '<option id="choise_'.$k.'_'.$m.'" value="'.$w_choice.'" '.$selected.'>'.$w_choices_array[$m].'</option>';
+                    }
 									}
 									
 									if($types[$key_select_or_input]=="type_address")

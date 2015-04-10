@@ -32,7 +32,7 @@ class FMViewFormmakerwindow {
         <script language="javascript" type="text/javascript" src="<?php echo site_url(); ?>/wp-includes/js/tinymce/tiny_mce_popup.js"></script>
         <script language="javascript" type="text/javascript" src="<?php echo site_url(); ?>/wp-includes/js/tinymce/utils/mctabs.js"></script>
         <script language="javascript" type="text/javascript" src="<?php echo site_url(); ?>/wp-includes/js/tinymce/utils/form_utils.js"></script>
-
+        
         <?php
         wp_print_scripts('jquery');
         ?>
@@ -270,7 +270,7 @@ class FMViewFormmakerwindow {
                 window.tinyMCE.execCommand('mceInsertContent', false, tagtext);
                 tinyMCEPopup.close();
               }
-            }            
+            }
             else {
               alert("Front end submissions are disabled in free version.");
             }

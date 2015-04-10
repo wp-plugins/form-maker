@@ -77,6 +77,8 @@ class FMModelSubmissions_fm {
 	
 	$lists['username_search'] = ((isset($_POST['username_search'])) ? esc_html(stripslashes($_POST['username_search'])) : '');
 	$lists['useremail_search'] = ((isset($_POST['useremail_search'])) ? esc_html(stripslashes($_POST['useremail_search'])) : '');
+	$lists['id_search'] = ((isset($_POST['id_search'])) ? esc_html(stripslashes($_POST['id_search'])) : '');
+	
     if ($lists['ip_search']) {
       $where[] = 'ip LIKE "%' . $lists['ip_search'] . '%"';
     }
@@ -94,6 +96,11 @@ class FMModelSubmissions_fm {
 	if ($lists['useremail_search']) {
       $where[] = 'user_id_wd IN (SELECT ID FROM ' . $wpdb->prefix . 'users WHERE user_email LIKE "%'.$lists['useremail_search'].'%")';
     }
+	
+	if ($lists['id_search']) {
+      $where[] = 'group_id ='.$lists['id_search'];
+    }
+	
     $where[] = 'form_id=' . $form_id . '';
     $where = (count($where) ? ' ' . implode(' AND ', $where) : ''); 
     if ($order_by == 'group_id' or $order_by == 'date' or $order_by == 'ip') { 
@@ -598,6 +605,54 @@ class FMModelSubmissions_fm {
     array_push($type_matrix_array, $matrix);
     array_push($type_matrix_array, $new_filename);
     return $type_matrix_array;
+  }
+  
+  public function select_data_from_db_for_labels($db_info,$label_column, $table, $where, $order_by) {
+    global $wpdb;
+        
+		$query = "SELECT `" . $label_column . "` FROM " . $table . $where . " ORDER BY " . $order_by;
+		if($db_info) { 
+      $temp		= explode('@@@wdfhostwdf@@@',$db_info);
+      $host		= $temp[0];
+      $temp		= explode('@@@wdfportwdf@@@',$temp[1]);
+      $port		= $temp[0];
+      $temp		= explode('@@@wdfusernamewdf@@@',$temp[1]);
+      $username	= $temp[0];
+      $temp		= explode('@@@wdfpasswordwdf@@@',$temp[1]);
+      $password	= $temp[0];
+      $temp		= explode('@@@wdfdatabasewdf@@@',$temp[1]);
+      $database	= $temp[0];
+       
+      $wpdb_temp = new wpdb($username, $password, $database, $host);
+      $choices_labels = $wpdb_temp->get_col($query);				
+    }
+		else {
+      $choices_labels = $wpdb->get_col($query);
+    }
+    return $choices_labels;
+  }
+  public function select_data_from_db_for_values($db_info,$value_column, $table, $where, $order_by) {
+    global $wpdb;		  
+		$query = "SELECT `" . $value_column . "` FROM " . $table . $where . " ORDER BY " . $order_by;
+		if($db_info) {
+      $temp		= explode('@@@wdfhostwdf@@@',$db_info);
+      $host		= $temp[0];
+      $temp		= explode('@@@wdfportwdf@@@',$temp[1]);
+      $port		= $temp[0];
+      $temp		= explode('@@@wdfusernamewdf@@@',$temp[1]);
+      $username	= $temp[0];
+      $temp		= explode('@@@wdfpasswordwdf@@@',$temp[1]);
+      $password	= $temp[0];
+      $temp		= explode('@@@wdfdatabasewdf@@@',$temp[1]);
+      $database	= $temp[0];
+       
+      $wpdb_temp = new wpdb($username, $password, $database, $host);
+      $choices_values = $wpdb_temp->get_col($query);				
+    }
+		else {
+      $choices_values = $wpdb->get_col($query);
+    }
+    return $choices_values; 
   }
 }
 

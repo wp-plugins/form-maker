@@ -122,6 +122,59 @@ class FMModelForm_maker {
     return $all_files;
   }
   
+   public function select_data_from_db_for_labels($db_info,$label_column, $table, $where, $order_by) {
+        global $wpdb;
+        
+		$query = "SELECT `".$label_column."` FROM ".$table.$where." ORDER BY ".$order_by;
+		if($db_info)
+			{ 
+			
+			    $temp		= explode('@@@wdfhostwdf@@@',$db_info);
+				$host		= $temp[0];
+				$temp		= explode('@@@wdfportwdf@@@',$temp[1]);
+				$port		= $temp[0];
+				$temp		= explode('@@@wdfusernamewdf@@@',$temp[1]);
+				$username	= $temp[0];
+				$temp		= explode('@@@wdfpasswordwdf@@@',$temp[1]);
+				$password	= $temp[0];
+				$temp		= explode('@@@wdfdatabasewdf@@@',$temp[1]);
+				$database	= $temp[0];
+				 
+				$wpdb_temp = new wpdb($username, $password, $database, $host);
+				$choices_labels = $wpdb_temp->get_results($query,ARRAY_N);				
+			}
+		else{
+            $choices_labels = $wpdb->get_results($query,ARRAY_N);
+        }
+        return $choices_labels;
+  } 
+  
+  public function select_data_from_db_for_values($db_info,$value_column, $table, $where, $order_by) {
+        global $wpdb;
+		  
+		$query = "SELECT `".$value_column."` FROM ".$table.$where." ORDER BY ".$order_by;
+		if($db_info)
+			{ 
+			    $temp		= explode('@@@wdfhostwdf@@@',$db_info);
+				$host		= $temp[0];
+				$temp		= explode('@@@wdfportwdf@@@',$temp[1]);
+				$port		= $temp[0];
+				$temp		= explode('@@@wdfusernamewdf@@@',$temp[1]);
+				$username	= $temp[0];
+				$temp		= explode('@@@wdfpasswordwdf@@@',$temp[1]);
+				$password	= $temp[0];
+				$temp		= explode('@@@wdfdatabasewdf@@@',$temp[1]);
+				$database	= $temp[0];
+				 
+				$wpdb_temp = new wpdb($username, $password, $database, $host);
+				$choices_values = $wpdb_temp->get_results($query,ARRAY_N);				
+			}
+		else{
+            $choices_values = $wpdb->get_results($query,ARRAY_N);
+        }
+        return $choices_values; 
+  }
+  
   public function save_db($counter, $id) {
     global $wpdb;
 	$current_user =  wp_get_current_user();
@@ -348,7 +401,7 @@ class FMModelForm_maker {
             }
             
             case "type_hidden": {
-              $value = isset($_POST[$label_order_original[$key]]) ? esc_html($_POST[$label_order_original[$key]]) : "";
+              $value = isset($_POST[$label_label[$key]]) ? esc_html($_POST[$label_label[$key]]) : "";
               break;
             }
             
@@ -1365,6 +1418,10 @@ class FMModelForm_maker {
     if (!$row->form_front) {
       $id = '';
     }
+	
+	$custom_fields = array('ip', 'useremail', 'username', 'subid', 'all' );
+	$subid = $wpdb->get_var("SELECT MAX( group_id ) FROM " . $wpdb->prefix ."formmaker_submits" );
+		
     $current_user =  wp_get_current_user();
     if ($current_user->ID != 0)
     {
@@ -1914,18 +1971,18 @@ class FMModelForm_maker {
 				foreach($label_order_original as $key => $label_each) {
           $type=$label_type[$key];
           if(strpos($row->script_mail_user, "%".$label_each."%")>-1)	 {
-            $new_value = $this->custom_fields_mail($type, $key, $id);				
+                      $new_value = $this->custom_fields_mail($type, $key, $id, $attachment_user);				
             $new_script = str_replace("%".$label_each."%", $new_value, $new_script);							
           }
           if(strpos($fromname, "%".$label_each."%")>-1) {	
-            $new_value = str_replace('<br>',', ',$this->custom_fields_mail($type, $key, $id));		
+            $new_value = str_replace('<br>',', ',$this->custom_fields_mail($type, $key, $id, ''));		
             if(substr($new_value, -2)==', ') {
               $new_value = substr($new_value, 0, -2);
             }
             $fromname = str_replace("%".$label_each."%", $new_value, $fromname);							
           }						
           if(strpos($subject, "%".$label_each."%")>-1) {	
-            $new_value = str_replace('<br>',', ',$this->custom_fields_mail($type, $key, $id));		
+            $new_value = str_replace('<br>',', ',$this->custom_fields_mail($type, $key, $id, ''));		
             if(substr($new_value, -2)==', ') {
               $new_value = substr($new_value, 0, -2);		
             }
@@ -1959,19 +2016,22 @@ class FMModelForm_maker {
           $headers .= "Bcc: <" . $bcc . ">\r\n";          
         }
         
-				if(strpos($new_script, "%ip%") > -1) {
-					$new_script = str_replace("%ip%", $ip, $new_script);	
-        }
+		$custom_fields_value = array( $ip, $useremail, $username, $subid, $list );	
 				
-				if(strpos($new_script, "%username%")>-1){
-					$new_script = str_replace("%username%", $username, $new_script);
-        }
-				if(strpos($new_script, "%useremail%")>-1){
-					$new_script = str_replace("%useremail%", $useremail, $new_script);
-        }
-				if(strpos($new_script, "%all%") > -1) {
-					$new_script = str_replace("%all%", $list_user, $new_script);	
-        }
+		foreach($custom_fields as $key=>$custom_field)
+		{
+			if(strpos($new_script, "%".$custom_field."%")>-1)
+			$new_script = str_replace("%".$custom_field."%", $custom_fields_value[$key], $new_script);
+
+			if($key==2 || $key==3)
+			{
+				if(strpos($fromname, "%".$custom_field."%")>-1)
+					$fromname = str_replace("%".$custom_field."%", $custom_fields_value[$key], $fromname);
+					
+				if(strpos($subject, "%".$custom_field."%")>-1)
+					$subject = str_replace("%".$custom_field."%", $custom_fields_value[$key], $subject);
+			}
+		}
 				$body = $new_script;
 				
 				$send_copy = isset($_POST["wdform_send_copy_".$id]) ? $_POST["wdform_send_copy_".$id] : NULL;
@@ -2037,12 +2097,12 @@ class FMModelForm_maker {
 				foreach($label_order_original as $key => $label_each) {							
           $type=$label_type[$key];
           if(strpos($row->script_mail, "%".$label_each."%")>-1) {
-            $new_value = $this->custom_fields_mail($type, $key, $id);				
+            $new_value = $this->custom_fields_mail($type, $key, $id, $attachment);				
             $new_script = str_replace("%".$label_each."%", $new_value, $new_script);							
           }
         
           if(strpos($fromname, "%".$label_each."%")>-1) {
-            $new_value = str_replace('<br>',', ',$this->custom_fields_mail($type, $key, $id));		
+            $new_value = str_replace('<br>',', ',$this->custom_fields_mail($type, $key, $id, ''));		
             if(substr($new_value, -2)==', ') {
               $new_value = substr($new_value, 0, -2);
             }
@@ -2053,7 +2113,7 @@ class FMModelForm_maker {
           }
           
           if(strpos($subject, "%".$label_each."%")>-1) {
-            $new_value = str_replace('<br>',', ',$this->custom_fields_mail($type, $key, $id));		
+            $new_value = str_replace('<br>',', ',$this->custom_fields_mail($type, $key, $id, ''));		
             if(substr($new_value, -2)==', ') {
               $new_value = substr($new_value, 0, -2);				
             }
@@ -2084,21 +2144,25 @@ class FMModelForm_maker {
           $headers .= "Bcc: <" . $bcc . ">\r\n";          
         }
         
-				if(strpos($new_script, "%ip%") > -1)
-					$new_script = str_replace("%ip%", $ip, $new_script);	
-					
-				if(strpos($new_script, "%username%")>-1)
-					$new_script = str_replace("%username%", $username, $new_script);
-					
-				if(strpos($new_script, "%useremail%")>-1)
-					$new_script = str_replace("%useremail%", $useremail, $new_script);					
-					
-				if(strpos($new_script, "%all%") > -1)
-					$new_script = str_replace("%all%", $list, $new_script);	
+		$custom_fields_value = array( $ip, $useremail, $username, $subid, $list );	
+		
+		foreach($custom_fields as $key=>$custom_field)
+		{
+			if(strpos($new_script, "%".$custom_field."%")>-1)
+			$new_script = str_replace("%".$custom_field."%", $custom_fields_value[$key], $new_script);
 
-				$body = $new_script;
-				
-				if($row->sendemail) {
+			if($key==2 || $key==3)
+			{
+				if(strpos($fromname, "%".$custom_field."%")>-1)
+					$fromname = str_replace("%".$custom_field."%", $custom_fields_value[$key], $fromname);
+					
+				if(strpos($subject, "%".$custom_field."%")>-1)
+					$subject = str_replace("%".$custom_field."%", $custom_fields_value[$key], $subject);
+			}
+		}
+		$body = $new_script;
+			
+		if($row->sendemail) {
           $send = wp_mail(str_replace(' ', '', $recipient), $subject, stripslashes($body), $headers, $attachment);
 				}
 			}
@@ -3871,7 +3935,7 @@ class FMModelForm_maker {
     }
   }
   
-  function custom_fields_mail($type, $key, $id)
+  function custom_fields_mail($type, $key, $id, $attachment)
 	{
 		$new_value ="";
 		
@@ -3893,12 +3957,27 @@ class FMModelForm_maker {
           }
           break;
         }
-        case "type_wdeditor": {
-          $element = isset($_POST['wdform_'.$key.'_wd_editor'.$id]) ? $_POST['wdform_'.$key.'_wd_editor'.$id] : NULL;
-          if(isset($element)) {
-            $new_value = $element;					
-          }
-          break;
+        case "type_file_upload": {
+          	if($attachment)
+				foreach($attachment as $attachment_temp)
+				{
+					$uploadedFileNameParts = explode('.',$attachment_temp[1]);
+					$uploadedFileExtension = array_pop($uploadedFileNameParts);
+					
+					$invalidFileExts = array('gif', 'jpg', 'jpeg', 'png', 'swf', 'psd', 'bmp', 'tiff', 'jpc', 'jp2', 'jpf', 'jb2', 'swc', 'aiff', 'wbmp', 'xbm' );
+					$extOk = false;
+
+					foreach($invalidFileExts as $key => $valuee)
+					{
+						if(is_numeric(strpos(strtolower($valuee), strtolower($uploadedFileExtension) )) )
+							$extOk = true;
+					}
+					
+					if ($extOk == true) 
+						$new_value .= '<img src="'.site_url().'/'.$attachment_temp.'" alt="'.$attachment_temp[1].'"/>';
+						
+				}
+			break;
         }
         case "type_hidden": {
           $element = isset($_POST[$element_label]) ? $_POST[$element_label] : NULL;

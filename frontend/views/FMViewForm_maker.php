@@ -109,7 +109,7 @@ class FMViewForm_maker {
       }
       $form_theme = implode('{', $body_or_classes_implode);
       $form_maker_front_end .= '<style>' . str_replace('[SITE_ROOT]', WD_FM_URL, $form_theme) . '</style>';
-      wp_print_scripts('main' . (($old == false || ($old == true && $row->form=='')) ? '_div' : '') . '_front_end', WD_FM_URL . '/js/main' . (($old == false || ($old == true && $row->form=='')) ? '_div' : '') . '_front_end.js?ver=' . get_option("wd_form_maker_version"));
+      wp_print_scripts('main' . (($old == false || ($old == true && $row->form=='')) ? '_div' : '') . '_front_end', WD_FM_URL . '/js/main' . (($old == false || ($old == true && $row->form=='')) ? '_div' : '') . '_front_end.js?ver='. get_option("wd_form_maker_version"));
       // $form_maker_front_end .= '<script src="' . WD_FM_URL . '/js/main' . (($old == false || ($old == true && $row->form=='')) ? '_div' : '') . '_front_end.js"></script>';
       $form_currency = '$';
       $check_js = '';
@@ -199,6 +199,13 @@ class FMViewForm_maker {
 				{
 					$cond_params =explode('*:*next_condition*:*',$condition_params[$k]);
 					$cond_params 	= array_slice($cond_params,0, count($cond_params)-1); 
+					for($l=0; $l<count($cond_params); $l++)
+					{
+						$params_value = explode('***',$cond_params[$l]);
+						if(!isset($type_and_id[$params_value[0]]))
+							unset($cond_params[$l]);
+					}
+					$cond_params = array_values($cond_params);
 					
 					$if = '';
 					$keyup = '';
@@ -208,21 +215,39 @@ class FMViewForm_maker {
 					for($m=0; $m<count($cond_params); $m++)
 					{
 						$params_value = explode('***',wp_specialchars_decode($cond_params[$m], 'single'));
-            if(isset($type_and_id[$params_value[0]]))
-			{
+						
+           
 						switch($type_and_id[$params_value[0]])
 						{
 							case "type_text":
 							case "type_password":
 							case "type_textarea":
 							case "type_number":
-							case "type_submitter_mail":		
-								$if .= ' jQuery("#wdform_'.$params_value[0].'_element'.$form_id.'").val()'.$params_value[1].'"'.$params_value[2].'" ';
+							case "type_submitter_mail":	
+							case "type_spinner":
+							    if($params_value[1] == "%" || $params_value[1] == "!%")
+								{
+									$like_or_not = ($params_value[1] == "%" ? ">" : "==");
+									$if .= ' jQuery("#wdform_'.$params_value[0].'_element'.$form_id.'").val().indexOf("'.$params_value[2].'")'.$like_or_not.'-1 ';
+								}
+								else
+								{
+									if($params_value[1] == "=" || $params_value[1] == "!")
+									{
+										$params_value[2] = "";
+										$params_value[1] = $params_value[1]."=";						
+									}		
+									$if .= ' jQuery("#wdform_'.$params_value[0].'_element'.$form_id.'").val()'.$params_value[1].'"'.$params_value[2].'" ';
+								}
+								
 								$keyup .= '#wdform_'.$params_value[0].'_element'.$form_id.', ';	
+								if($type_and_id[$params_value[0]] == "type_spinner")
+									$click .= '#wdform_'.$params_value[0].'_element'.$form_id.' ~ a, ';
 							break;
 							
 							case "type_name":	
-								
+					if($params_value[1] == "%" || $params_value[1] == "!%")
+						{	
 								$extended0 = '';
 								$extended1 = '';
 								$extended2 = '';
@@ -232,30 +257,31 @@ class FMViewForm_maker {
 								$normal2 = '';
 								$normal3 = '';
 								
+								$like_or_not = ($params_value[1] == "%" ? ">" : "==");
 								$name_fields = explode(' ',$params_value[2]);
 								if($name_fields[0]!='')
-								{
-									$extended0 = 'jQuery("#wdform_'.$params_value[0].'_element_title'.$form_id.'").val()'.$params_value[1].'"'.$name_fields[0].'"';
-									$normal0 = 'jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val()'.$params_value[1].'"'.$name_fields[0].'"';
-								}
-								
-								if(isset($name_fields[1]) && $name_fields[1]!='')
-								{
-									$extended1 = 'jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val()'.$params_value[1].'"'.$name_fields[1].'"';
-									$normal1 = 'jQuery("#wdform_'.$params_value[0].'_element_last'.$form_id.'").val()'.$params_value[1].'"'.$name_fields[1].'"';
-								}
-								
-								if(isset($name_fields[2]) && $name_fields[2]!='')
-								{
-									$extended2 = 'jQuery("#wdform_'.$params_value[0].'_element_last'.$form_id.'").val()'.$params_value[1].'"'.$name_fields[2].'"';
-									$normal2 = '';
-								}
-								
-								if(isset($name_fields[3]) && $name_fields[3]!='')
-								{
-									$extended3 = 'jQuery("#wdform_'.$params_value[0].'_element_middle'.$form_id.'").val()'.$params_value[1].'"'.$name_fields[3].'"';
-									$normal3 = '';
-								}
+									{
+										$extended0 = 'jQuery("#wdform_'.$params_value[0].'_element_title'.$form_id.'").val().indexOf("'.$name_fields[0].'")'.$like_or_not.'-1 ';
+										$normal0 = 'jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val().indexOf("'.$name_fields[0].'")'.$like_or_not.'-1 ';
+									}
+									
+									if(isset($name_fields[1]) && $name_fields[1]!='')
+									{
+										$extended1 = 'jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val().indexOf("'.$name_fields[1].'")'.$like_or_not.'-1 ';
+										$normal1 = 'jQuery("#wdform_'.$params_value[0].'_element_last'.$form_id.'").val().indexOf("'.$name_fields[1].'")'.$like_or_not.'-1 ';
+									}
+									
+									if(isset($name_fields[2]) && $name_fields[2]!='')
+									{
+										$extended2 = 'jQuery("#wdform_'.$params_value[0].'_element_last'.$form_id.'").val().indexOf("'.$name_fields[2].'")'.$like_or_not.'-1 ';
+										$normal2 = '';
+									}
+									
+									if(isset($name_fields[3]) && $name_fields[3]!='')
+									{
+										$extended3 = 'jQuery("#wdform_'.$params_value[0].'_element_middle'.$form_id.'").val().indexOf("'.$name_fields[3].'")'.$like_or_not.'-1 ';
+										$normal3 = '';
+									}
 								
 								
 								if(isset($name_fields[3]))
@@ -407,34 +433,282 @@ class FMViewForm_maker {
 									$if .= ' ((jQuery("#wdform_'.$params_value[0].'_element_title'.$form_id.'").length != 0) ?  '.$extended.' : '.$normal.') ';
 								else
 									$if .= ' true';
-								
+						}
+						else
+								{
+									if($params_value[1] == "=" || $params_value[1] == "!")
+									{
+										$name_and_or = $params_value[1] == "=" ? "&&" : "||";			
+										$name_empty_or_not = $params_value[1]."=";	
+										$extended = ' (jQuery("#wdform_'.$params_value[0].'_element_title'.$form_id.'").val()'.$name_empty_or_not.'"" '.$name_and_or.' jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val()'.$name_empty_or_not.'"" '.$name_and_or.' jQuery("#wdform_'.$params_value[0].'_element_last'.$form_id.'").val()'.$name_empty_or_not.'"" '.$name_and_or.' jQuery("#wdform_'.$params_value[0].'_element_middle'.$form_id.'").val()'.$name_empty_or_not.'"") ';		
+										$normal = ' (jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val()'.$name_empty_or_not.'"" '.$name_and_or.' jQuery("#wdform_'.$params_value[0].'_element_last'.$form_id.'").val()'.$name_empty_or_not.'"") ';
+										
+										$if .= ' ((jQuery("#wdform_'.$params_value[0].'_element_title'.$form_id.'").length != 0) ?  '.$extended.' : '.$normal.') ';
+									}
+									else
+									{
+										$extended0 = '';
+										$extended1 = '';
+										$extended2 = '';
+										$extended3 = '';
+										$normal0 = '';
+										$normal1 = '';
+										$normal2 = '';
+										$normal3 = '';
+									
+										$name_fields = explode(' ',$params_value[2]);
+										if($name_fields[0]!='')
+										{
+											$extended0 = 'jQuery("#wdform_'.$params_value[0].'_element_title'.$form_id.'").val()'.$params_value[1].'"'.$name_fields[0].'"';
+											$normal0 = 'jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val()'.$params_value[1].'"'.$name_fields[0].'"';
+										}
+										
+										if(isset($name_fields[1]) && $name_fields[1]!='')
+										{
+											$extended1 = 'jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val()'.$params_value[1].'"'.$name_fields[1].'"';
+											$normal1 = 'jQuery("#wdform_'.$params_value[0].'_element_last'.$form_id.'").val()'.$params_value[1].'"'.$name_fields[1].'"';
+										}
+										
+										if(isset($name_fields[2]) && $name_fields[2]!='')
+										{
+											$extended2 = 'jQuery("#wdform_'.$params_value[0].'_element_last'.$form_id.'").val()'.$params_value[1].'"'.$name_fields[2].'"';
+											$normal2 = '';
+										}
+										
+										if(isset($name_fields[3]) && $name_fields[3]!='')
+										{			
+											$extended3 = 'jQuery("#wdform_'.$params_value[0].'_element_middle'.$form_id.'").val()'.$params_value[1].'"'.$name_fields[3].'"';
+											$normal3 = '';
+										}
+										
+										
+										if(isset($name_fields[3]))
+										{
+											$extended ='';
+											$normal ='';
+		
+											if($extended0)
+											{	
+												$extended = $extended0;
+												if($extended1)
+												{
+													$extended .= ' && '.$extended1;
+													if($extended2)
+														$extended .= ' && '.$extended2;	
+														
+													if($extended3)
+														$extended .= ' && '.$extended3;
+												}
+												else
+												{
+													if($extended2)
+														$extended .= ' && '.$extended2;
+													if($extended3)
+														$extended .= ' && '.$extended3;	
+												}
+											}
+											else
+											{
+												if($extended1)
+												{	
+													$extended = $extended1;
+													if($extended2)
+														$extended .= ' && '.$extended2;
+														
+													if($extended3)
+														$extended .= ' && '.$extended3;
+												}
+												else
+												{
+													if($extended2)
+													{
+														$extended = $extended2;
+														if($extended3)
+															$extended .= ' && '.$extended3;
+													}
+													else
+														if($extended3)
+															$extended = $extended3;
+												}		
+											}
+										
+											if($normal0)
+											{	
+												$normal = $normal0;
+												if($normal1)
+													$normal .= ' && '.$normal1;
+											}
+											else
+											{
+												if($normal1)
+													$normal = $normal1;			
+											}
+										}
+										else
+										{
+											if(isset($name_fields[2]))
+											{
+												$extended ="";
+												$normal ="";
+												if($extended0)
+												{	
+													$extended = $extended0;	
+													if($extended1)
+														$extended .= ' && '.$extended1;
+
+													if($extended2)
+															$extended .= ' && '.$extended2;
+
+												}
+												else
+												{
+													if($extended1)
+													{
+														$extended = $extended1;
+														if($extended2)
+															$extended .= ' && '.$extended2;	
+													}		
+													else
+														if($extended2)
+															$extended = $extended2;	
+												}
+												
+												
+												if($normal0)
+												{	
+													$normal = $normal0;	
+													if($normal1)
+														$normal .= ' && '.$normal1;
+												}
+												else
+												{
+													if($normal1)
+														$normal = $normal1;
+												}
+												
+											}
+											else
+											{
+												if(isset($name_fields[1]))
+												{
+													$extended ='';
+													$normal ='';
+													if($extended0)
+													{	
+														if($extended1)
+															$extended = $extended0.' && '.$extended1;
+														else
+															$extended = $extended0;
+													}
+													else
+													{
+														if($extended1)
+															$extended = $extended1;
+													}
+													
+													
+													if($normal0)
+													{	
+														if($normal1)
+															$normal = $normal0.' && '.$normal1;
+														else
+															$normal = $normal0;
+													}
+													else
+													{
+														if($normal1)
+															$normal = $normal1;
+													}
+												}
+												else
+												{
+													$extended = $extended0;
+													$normal = $normal0;
+												}
+											}	
+										}
+
+										if($extended!="" && $normal!="")			
+											$if .= ' ((jQuery("#wdform_'.$params_value[0].'_element_title'.$form_id.'").length != 0) ?  '.$extended.' : '.$normal.') ';
+										else
+											$if .= ' true';
+									}	
+								}
 								$keyup .= '#wdform_'.$params_value[0].'_element_title'.$form_id.', #wdform_'.$params_value[0].'_element_first'.$form_id.', #wdform_'.$params_value[0].'_element_last'.$form_id.', #wdform_'.$params_value[0].'_element_middle'.$form_id.', ';		
 							break;
 							
 							case "type_phone":
-								$phone_fields = explode(' ',$params_value[2]);
-								if(isset($phone_fields[1]))
+								if($params_value[1] == "==" || $params_value[1] == "!=")
 								{
-									if($phone_fields[0]!='' && $phone_fields[1]!='')
-										$if .= ' (jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val()'.$params_value[1].'"'.$phone_fields[0].'" && jQuery("#wdform_'.$params_value[0].'_element_last'.$form_id.'").val()'.$params_value[1].'"'.$phone_fields[1].'") ';	
-									else
+									$phone_fields = explode(' ',$params_value[2]);
+									if(isset($phone_fields[1]))
 									{
-										if($phone_fields[0]=='')
-											$if .= ' (jQuery("#wdform_'.$params_value[0].'_element_last'.$form_id.'").val()'.$params_value[1].'"'.$phone_fields[1].'") ';	
+										if($phone_fields[0]!='' && $phone_fields[1]!='')
+											$if .= ' (jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val()'.$params_value[1].'"'.$phone_fields[0].'" && jQuery("#wdform_'.$params_value[0].'_element_last'.$form_id.'").val()'.$params_value[1].'"'.$phone_fields[1].'") ';	
 										else
-											if($phone_fields[1]=='')
-												$if .= ' (jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val()'.$params_value[1].'"'.$phone_fields[1].'") ';	
+										{
+											if($phone_fields[0]=='')
+												$if .= ' (jQuery("#wdform_'.$params_value[0].'_element_last'.$form_id.'").val()'.$params_value[1].'"'.$phone_fields[1].'") ';	
+											else
+												if($phone_fields[1]=='')
+													$if .= ' (jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val()'.$params_value[1].'"'.$phone_fields[1].'") ';	
+										}
 									}
+									else
+										$if .= ' jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val()'.$params_value[1].'"'.$params_value[2].'" ';
 								}
-								else
-									$if .= ' jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val()'.$params_value[1].'"'.$params_value[2].'" ';
+								
+								if($params_value[1] == "%" || $params_value[1] == "!%")
+								{
+									$like_or_not = ($params_value[1] == "%" ? ">" : "==");
+									$phone_fields = explode(' ',$params_value[2]);
+									if(isset($phone_fields[1]))
+									{
+										if($phone_fields[0]!='' && $phone_fields[1]!='')
+											$if .= ' (jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val().indexOf("'.$phone_fields[0].'")'.$like_or_not.'-1 && jQuery("#wdform_'.$params_value[0].'_element_last'.$form_id.'").val().indexOf("'.$phone_fields[1].'")'.$like_or_not.'-1)';
+										else
+										{
+											if($phone_fields[0]=='')
+												$if .= ' (jQuery("#wdform_'.$params_value[0].'_element_last'.$form_id.'").val().indexOf("'.$phone_fields[1].'")'.$like_or_not.'-1) ';	
+											else
+												if($phone_fields[1]=='')
+													$if .= ' (jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val().indexOf("'.$phone_fields[0].'")'.$like_or_not.'-1) ';															
+										}
+									}
+									else
+										$if .= ' (jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val().indexOf("'.$phone_fields[0].'")'.$like_or_not.'-1) ';
+								}
+								
+								if($params_value[1] == "=" || $params_value[1] == "!")
+								{
+									$params_value[2] = "";
+									$and_or_phone = ($params_value[1]=="=" ? "&&" : "||");	
+									$params_value[1] = $params_value[1]."=";	
+									
+									$if .= ' (jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val()'.$params_value[1].'"'.$params_value[2].'" '.$and_or_phone.' jQuery("#wdform_'.$params_value[0].'_element_last'.$form_id.'").val()'.$params_value[1].'"'.$params_value[2].'") ';										
+								}
+						
 							
 								$keyup .= '#wdform_'.$params_value[0].'_element_first'.$form_id.', #wdform_'.$params_value[0].'_element_last'.$form_id.', ';
 							break;
 						
 							case "type_paypal_price":	
-								$if .= '	
-								(jQuery("#wdform_'.$params_value[0].'_td_name_cents").attr("style")=="display: none;") ? jQuery("#wdform_'.$params_value[0].'_element_dollars'.$form_id.'").val()'.$params_value[1].'"'.$params_value[2].'" : parseFloat(jQuery("#wdform_'.$params_value[0].'_element_dollars'.$form_id.'").val()+"."+jQuery("#wdform_'.$params_value[0].'_element_cents'.$form_id.'").val())'.$params_value[1].'parseFloat("'.str_replace('.0', '.', $params_value[2]).'")';
+								if($params_value[1] == "==" || $params_value[1] == "!=")
+									$if .= ' (jQuery("#wdform_'.$params_value[0].'_td_name_cents").attr("style")=="display: none;" ? jQuery("#wdform_'.$params_value[0].'_element_dollars'.$form_id.'").val()'.$params_value[1].'"'.$params_value[2].'" : parseFloat(jQuery("#wdform_'.$params_value[0].'_element_dollars'.$form_id.'").val()+"."+jQuery("#wdform_'.$params_value[0].'_element_cents'.$form_id.'").val())'.$params_value[1].'parseFloat("'.str_replace('.0', '.', $params_value[2]).'"))';
+
+								if($params_value[1] == "%" || $params_value[1] == "!%")
+								{
+									$like_or_not = ($params_value[1] == "%" ? ">" : "==");
+									$if .= ' (jQuery("#wdform_'.$params_value[0].'_td_name_cents").attr("style")=="display: none;" ? jQuery("#wdform_'.$params_value[0].'_element_dollars'.$form_id.'").val().indexOf("'.$params_value[2].'")'.$like_or_not.'-1 : (jQuery("#wdform_'.$params_value[0].'_element_dollars'.$form_id.'").val()+"."+jQuery("#wdform_'.$params_value[0].'_element_cents'.$form_id.'").val()).indexOf("'.str_replace('.0', '.', $params_value[2]).'")'.$like_or_not.'-1) ';									
+								}	
+									
+								if($params_value[1] == "=" || $params_value[1] == "!")
+								{
+									$params_value[2] = "";
+									$and_or_price = ($params_value[1]=="=" ? "&&" : "||");	
+									$params_value[1] = $params_value[1]."=";
+									$if .= ' (jQuery("#wdform_'.$params_value[0].'_td_name_cents").attr("style")=="display: none;" ? jQuery("#wdform_'.$params_value[0].'_element_dollars'.$form_id.'").val()'.$params_value[1].'"'.$params_value[2].'" : (jQuery("#wdform_'.$params_value[0].'_element_dollars'.$form_id.'").val()'.$params_value[1].'"'.$params_value[2].'" '.$and_or_price.' jQuery("#wdform_'.$params_value[0].'_element_cents'.$form_id.'").val()'.$params_value[1].'"'.$params_value[2].'"))';										
+								}
 								
 								$keyup .= '#wdform_'.$params_value[0].'_element_dollars'.$form_id.', #wdform_'.$params_value[0].'_element_cents'.$form_id.', ';
 							break;
@@ -442,67 +716,182 @@ class FMViewForm_maker {
 							case "type_own_select":
 							case "type_paypal_select":
 								
-								$if .= ' jQuery("#wdform_'.$params_value[0].'_element'.$form_id.' option:selected").text()'.$params_value[1].'"'.$params_value[2].'" ';
+								if($params_value[1] == "%" || $params_value[1] == "!%")
+								{
+									$like_or_not = ($params_value[1] == "%" ? ">" : "==");
+									$if .= ' jQuery("#wdform_'.$params_value[0].'_element'.$form_id.'").val().indexOf("'.$params_value[2].'")'.$like_or_not.'-1 ';
+								}
+								else
+								{
+									if($params_value[1] == "=" || $params_value[1] == "!")
+									{
+										$params_value[2] = "";
+										$params_value[1] = $params_value[1]."=";						
+									}
+									$if .= ' jQuery("#wdform_'.$params_value[0].'_element'.$form_id.'").val()'.$params_value[1].'"'.$params_value[2].'" ';
+								}
 								$change .= '#wdform_'.$params_value[0].'_element'.$form_id.', ';
 							break;
 							
 							case "type_address":	
-								$if .= ' jQuery("#wdform_'.$params_value[0].'_country'.$form_id.'").val()'.$params_value[1].'"'.$params_value[2].'" ';
+								if($params_value[1] == "%" || $params_value[1] == "!%")
+								{
+									$like_or_not = ($params_value[1] == "%" ? ">" : "==");
+									$if .= ' jQuery("#wdform_'.$params_value[0].'_country'.$form_id.'").val().indexOf("'.$params_value[2].'")'.$like_or_not.'-1 ';
+								}
+								else
+								{
+									if($params_value[1] == "=" || $params_value[1] == "!")
+									{
+										$params_value[2] = "";
+										$params_value[1] = $params_value[1]."=";						
+									}								
+									$if .= ' jQuery("#wdform_'.$params_value[0].'_country'.$form_id.'").val()'.$params_value[1].'"'.$params_value[2].'" ';
+								}	
 								$change .= '#wdform_'.$params_value[0].'_country'.$form_id.', ';
 							break;
-							
+							case "type_country":
+								if($params_value[1] == "%" || $params_value[1] == "!%")
+								{
+									$like_or_not = ($params_value[1] == "%" ? ">" : "==");
+									$if .= ' wdformjQuery("#wdform_'.$params_value[0].'_element'.$form_id.'").val().indexOf("'.$params_value[2].'")'.$like_or_not.'-1 ';
+								}
+								else
+								{
+									if($params_value[1] == "=" || $params_value[1] == "!")
+									{
+										$params_value[2] = "";
+										$params_value[1] = $params_value[1]."=";						
+									}								
+									$if .= ' wdformjQuery("#wdform_'.$params_value[0].'_element'.$form_id.'").val()'.$params_value[1].'"'.$params_value[2].'" ';
+								}	
+								$change .= '#wdform_'.$params_value[0].'_element'.$form_id.', ';
+							break;
 							case "type_radio":
 							case "type_paypal_radio":
 							case "type_paypal_shipping":
 								
-								$if .= ' jQuery("label[for=\'"+jQuery("input[name^=\'wdform_'.$params_value[0].'_element'.$form_id.'\']:checked").attr("id")+"\']").eq(0).text()'.$params_value[1].'"'.$params_value[2].'" ';
-								$click .= 'div[wdid='.$params_value[0].'] input[type=\'radio\'], ';
+								if($params_value[1] == "==" || $params_value[1] == "!=")
+								{
+									
+									$if .= ' jQuery("input[name^=\'wdform_'.$params_value[0].'_element'.$form_id.'\']:checked").val()'.$params_value[1].'"'.$params_value[2].'" ';
+									$click .= 'div[wdid='.$params_value[0].'] input[type=\'radio\'], ';
+								}
+								
+								if($params_value[1] == "%" || $params_value[1] == "!%")
+								{
+									$click .= 'div[wdid='.$params_value[0].'] input[type=\'radio\'], ';
+									$like_or_not = ($params_value[1] == "%" ? ">" : "==");
+									$if .= ' (jQuery("input[name^=\'wdform_'.$params_value[0].'_element'.$form_id.'\']:checked").val() ? (jQuery("input[name^=\'wdform_'.$params_value[0].'_element'.$form_id.'\']:checked").attr("other") ? false  : (jQuery("input[name^=\'wdform_'.$params_value[0].'_element'.$form_id.'\']:checked").val().indexOf("'.$params_value[2].'")'.$like_or_not.'-1 )) : false) ';
+
+								}
+								
+								if($params_value[1] == "=" || $params_value[1] == "!")
+								{	
+									$ckecked_or_no = ($params_value[1] == "=" ? "!" : "");
+									$if .= ' '.$ckecked_or_no.'jQuery("input[name^=\'wdform_'.$params_value[0].'_element'.$form_id.'\']:checked").val()';
+									$click .= 'div[wdid='.$params_value[0].'] input[type=\'radio\'], ';
+								}	
+								
 							break;
 							
 							case "type_checkbox":
 							case "type_paypal_checkbox":	
-							
-								if($params_value[2])
+							if($params_value[1] == "==" || $params_value[1] == "!=")
 								{
-									$choises = explode('@@@',$params_value[2]);
-									$choises 	= array_slice($choises,0, count($choises)-1); 
-									
-									if($params_value[1]=="!=")
-										$is = "!";
-									else
-										$is = "";
-										
-									foreach($choises as $key1=>$choise)
+									if($params_value[2])
 									{
+										$choises = explode('@@@',$params_value[2]);
+										$choises 	= array_slice($choises,0, count($choises)-1); 
+										
+										if($params_value[1]=="!=")
+											$is = "!";
+										else
+											$is = "";
+											
+										foreach($choises as $key1=>$choise)
+										{
+											if($type_and_id[$params_value[0]]=="type_paypal_checkbox")
+											{
+												$choise_and_value = explode("*:*value*:*",$choise);
+												$if .= ' '.$is.'(jQuery("div[wdid='.$params_value[0].'] input[value=\"'.$choise_and_value[1].'\"]").is(":checked") && jQuery("div[wdid='.$params_value[0].'] input[title=\"'.$choise_and_value[0].'\"]"))';
+
+											}
+											else
+											$if .= ' '.$is.'jQuery("div[wdid='.$params_value[0].'] input[value=\"'.$choise.'\"]").is(":checked") ';
+											
+											if($key1!=count($choises)-1)
+												$if .= '&&';
+										}
+									
+										$click .= 'div[wdid='.$params_value[0].'] input[type=\'checkbox\'], ';
+									}
+									else
+									{
+										if($or_and=='&&')
+											$if .= ' true';
+										else
+											$if .= ' false';
+									}
+								}
+								
+								if($params_value[1] == "%" || $params_value[1] == "!%")
+								{
+									$like_or_not = ($params_value[1] == "%" ? ">" : "==");
+									if($params_value[2])
+									{
+										$choises = explode('@@@',$params_value[2]);
+										$choises 	= array_slice($choises,0, count($choises)-1);
+
 										if($type_and_id[$params_value[0]]=="type_paypal_checkbox")
 										{
-											$choise_and_value = explode("*:*value*:*",$choise);
-											$if .= ' '.$is.'(jQuery("div[wdid='.$params_value[0].'] input[value=\"'.$choise_and_value[1].'\"]").is(":checked") && jQuery("div[wdid='.$params_value[0].'] input[title=\"'.$choise_and_value[0].'\"]"))';
-
+											foreach($choises as $key1=>$choise)
+											{
+										
+												$choise_and_value = explode("*:*value*:*",$choise);
+					
+												$if .= ' jQuery("div[wdid='.$params_value[0].']  input[type=\"checkbox\"]:checked").serialize().indexOf("'.$choise_and_value[1].'")'.$like_or_not.'-1 ';
+													
+												if($key1!=count($choises)-1)
+													$if .= '&&';			
+											}																			
 										}
 										else
-										$if .= ' '.$is.'jQuery("div[wdid='.$params_value[0].'] input[value=\"'.$choise.'\"]").is(":checked") ';
-										
-										if($key1!=count($choises)-1)
-											$if .= '&&';
-									}
+										{
+											foreach($choises as $key1=>$choise)
+											{
+												$if .= ' jQuery("div[wdid='.$params_value[0].']  input[type=\"checkbox\"]:checked").serialize().indexOf("'.str_replace(" ","+",$choise).'")'.$like_or_not.'-1 ';
+												
+												if($key1!=count($choises)-1)
+													$if .= '&&';
+											}	
+										}
+									
+											
+											
 								
-									$click .= 'div[wdid='.$params_value[0].'] input[type=\'checkbox\'], ';
+										$click .= 'div[wdid='.$params_value[0].'] input[type=\'checkbox\'], ';
+									}
+									else
+									{
+										if($or_and=='&&')
+											$if .= ' true';
+										else
+											$if .= ' false';
+									}
+						
 								}
-								else
+								
+								if($params_value[1] == "=" || $params_value[1] == "!")
 								{
-									if($or_and=='&&')
-										$if .= ' true';
-									else
-										$if .= ' false';
+									$ckecked_or_no = ($params_value[1] == "=" ? "==" : ">");				
+									$if .= ' jQuery("div[wdid='.$params_value[0].'] input[type=\"checkbox\"]:checked").length'.$ckecked_or_no.'0 ';
+									$click .= 'div[wdid='.$params_value[0].'] input[type=\'checkbox\'], ';	
+									
 								}
-								break;
-                default :
-                  if($or_and=='&&')
-										$if .= ' true';
-									else
-										$if .= ' false';
-                  break;
+
+								
+                             break;
 						}	
 
 						if($m!=count($cond_params)-1)
@@ -511,7 +900,7 @@ class FMViewForm_maker {
 								if(isset($type_and_id[$params_value_next[0]]))
 								$if .= $or_and;
 							}
-					    }
+					    
 					}
 
 					if($if)
@@ -542,13 +931,14 @@ class FMViewForm_maker {
 									jQuery("div[wdid='.$field_label[$k].']").'.$display_none .'; });';
 			
 					if($click)
-						$condition_js .= '
+					{	
+					        $condition_js .= '
 							jQuery("'.substr($click,0,-2).'").click(function() { 
 								if('.$if.')
 									jQuery("div[wdid='.$field_label[$k].']").'.$display .';
 								else
 									jQuery("div[wdid='.$field_label[$k].']").'.$display_none .'; });';
-		
+		            }
 			}
 			
 			
@@ -1288,6 +1678,8 @@ class FMViewForm_maker {
               $params_names=array('w_field_label_size','w_field_label_pos','w_flow','w_choices','w_choices_checked','w_rowcol', 'w_required','w_randomize','w_allow_other','w_allow_other_num','w_class');
               $temp=$params;
 
+              if(strpos($temp, 'w_field_option_pos') > -1)
+				$params_names=array('w_field_label_size','w_field_label_pos','w_field_option_pos','w_flow','w_choices','w_choices_checked','w_rowcol', 'w_required','w_randomize','w_allow_other','w_allow_other_num', 'w_value_disabled','w_choices_value', 'w_choices_params', 'w_class');
               foreach($params_names as $params_name ) {
                 $temp=explode('*:*'.$params_name.'*:*',$temp);
                 $param[$params_name] = $temp[0];
@@ -1301,13 +1693,27 @@ class FMViewForm_maker {
                   $param['attributes'] = $param['attributes'].' '.$attr;
                 }
               }
-            
+			  
+              if(!isset($param['w_value_disabled']))
+						$param['w_value_disabled'] = 'no';
+				
+			  if(!isset($param['w_field_option_pos']))
+						$param['w_field_option_pos'] = 'left';
+						
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
               $param['w_field_label_pos2'] = ($param['w_field_label_pos']=="left" ? "" : "display:block;");
+			  $param['w_field_option_pos1'] = ($param['w_field_option_pos']=="right" ? "style='float: none
+			  !important;'" : "");
+			  $param['w_field_option_pos2'] = ($param['w_field_option_pos']=="right" ? "style='float: left !important; margin:3px 8px 0 0 !important; display: inline-block !important;'" : "");	
               $required = ($param['w_required']=="yes" ? true : false);	
               $param['w_choices']	= explode('***',$param['w_choices']);
               $param['w_choices_checked']	= explode('***',$param['w_choices_checked']);
-            
+			  
+               if(isset($param['w_choices_value']))
+				{
+				   $param['w_choices_value'] = explode('***',$param['w_choices_value']);
+				   $param['w_choices_params'] = explode('***',$param['w_choices_params']);	
+				}
               $post_value = isset($_POST["counter".$form_id]) ? $_POST["counter".$form_id] : NULL;
               $is_other=false;
 
@@ -1330,9 +1736,70 @@ class FMViewForm_maker {
               $rep.='</div><div class="wdform-element-section '.$param['w_class'].'" style="'.$param['w_field_label_pos2'].';">';
             
               $rep.='<div style="display: '.($param['w_flow']=='hor' ? 'inline-block' : 'table-row' ).'; vertical-align:top">';
-
+			  
+              $total_queries = 0;
               foreach ($param['w_choices'] as $key => $choice) {
-                if ($key%$param['w_rowcol']==0 && $key>0) {
+			  
+			     $key1 = $key + $total_queries;
+				 if(isset($param['w_choices_params']) && $param['w_choices_params'][$key])
+						{
+							$choices_labels =array();
+							$choices_values = array();
+
+							$w_choices_params = explode('[where_order_by]',$param['w_choices_params'][$key]);
+							$where = (str_replace(array('[',']'), '', $w_choices_params[0]) ? ' WHERE '.str_replace(array('[',']'), '', $w_choices_params[0]) : '');
+							$w_choices_params = explode('[db_info]',$w_choices_params[1]);
+							
+							$order_by = str_replace(array('[',']'), '', $w_choices_params[0]);
+							$db_info = str_replace(array('[',']'), '', $w_choices_params[1]);
+						
+		
+							$label_table_and_column = explode(':',str_replace(array('[',']'), '', $choice));
+							$table = $label_table_and_column[0];
+							$label_column = $label_table_and_column[1];
+							if($label_column)
+							{
+								$choices_labels = $this->model->select_data_from_db_for_labels($db_info, $label_column, $table, $where, $order_by);					
+							}	
+
+							$value_table_and_column = explode(':',str_replace(array('[',']'), '', $param['w_choices_value'][$key]));
+							$value_column = $value_table_and_column[1];
+
+							if($value_column)
+							{
+								$choices_values = $this->model->select_data_from_db_for_values($db_info, $value_column, $table, $where, $order_by);
+							}		
+							$columns_count_checkbox = count($choices_labels)>0 ?  count($choices_labels) : count($choices_values);
+							
+							if(array_filter($choices_labels) || array_filter($choices_values))
+							{
+								$total_queries = $total_queries + $columns_count_checkbox-1;
+								
+								if(!isset($post_value))
+									$param['w_choices_checked'][$key]=($param['w_choices_checked'][$key]=='true' ? 'checked="checked"' : '');
+									
+								for($k=0; $k<$columns_count_checkbox; $k++)
+								{
+									$choice_label = isset($choices_labels[$k]) ? $choices_labels[$k] : '';
+									$choice_value = isset($choices_values[$k]) ? $choices_values[$k] : $choice_label;
+										
+									if(($key1+$k)%$param['w_rowcol']==0 && ($key1+$k)>0)
+										$rep.='</div><div style="display: '.($param['w_flow']=='hor' ? 'inline-block' : 'table-row' ).';  vertical-align:top">';
+
+									if(isset($post_value))
+									{
+										$post_valuetemp=$_REQUEST['wdform_'.$id1."_element".$form_id.($key1+$k)];
+										$param['w_choices_checked'][$key]=(isset($post_valuetemp) ? 'checked="checked"' : '');
+									}
+
+									$rep.='<div style="display: '.($param['w_flow']!='hor' ? 'table-cell' : 'table-row' ).';"><label class="wdform-ch-rad-label" for="wdform_'.$id1.'_element'.$form_id.''.($key1+$k).'" '.$param['w_field_option_pos1'].'>'.$choice_label[0].'</label><div class="checkbox-div forlabs" '.$param['w_field_option_pos2'].'><input type="checkbox" '.(($param['w_allow_other']=="yes" && $param['w_allow_other_num']==$key) ? 'other="1"' : ''	).' id="wdform_'.$id1.'_element'.$form_id.''.($key1+$k).'" name="wdform_'.$id1.'_element'.$form_id.''.($key1+$k).'" value="'.htmlspecialchars($choice_value[0]).'" '.(($param['w_allow_other']=="yes" && $param['w_allow_other_num']==$key) ? 'onclick="if(set_checked(&quot;wdform_'.$id1.'&quot;,&quot;'.($key1+$k).'&quot;,&quot;'.$form_id.'&quot;)) show_other_input(&quot;wdform_'.$id1.'&quot;,&quot;'.$form_id.'&quot;);"' : '').' '.$param['w_choices_checked'][$key].' '.$param['attributes'].'><label for="wdform_'.$id1.'_element'.$form_id.''.($key1+$k).'"></label></div></div>';
+									
+								}
+							}	
+						}	
+			  else
+			  {
+                if ($key1%$param['w_rowcol']==0 && $key1>0) {
                   $rep.='</div><div style="display: '.($param['w_flow']=='hor' ? 'inline-block' : 'table-row' ).';  vertical-align:top">';
                 }
                 if(!isset($post_value)) {
@@ -1342,9 +1809,13 @@ class FMViewForm_maker {
                   $post_valuetemp = isset($_POST['wdform_'.$id1."_element".$form_id.$key]) ? $_POST['wdform_'.$id1."_element".$form_id.$key] : NULL;
                   $param['w_choices_checked'][$key]=(isset($post_valuetemp) ? 'checked="checked"' : '');
                 }
-                
-                $rep.='<div style="display: '.($param['w_flow']!='hor' ? 'table-cell' : 'table-row' ).';"><label class="wdform-ch-rad-label" for="wdform_'.$id1.'_element'.$form_id.''.$key.'">'.$choice.'</label><div class="checkbox-div forlabs"><input type="checkbox" '.(($param['w_allow_other']=="yes" && $param['w_allow_other_num']==$key) ? 'other="1"' : ''	).' id="wdform_'.$id1.'_element'.$form_id.''.$key.'" name="wdform_'.$id1.'_element'.$form_id.''.$key.'" value="'.htmlspecialchars($choice).'" '.(($param['w_allow_other']=="yes" && $param['w_allow_other_num']==$key) ? 'onclick="if(set_checked(&quot;wdform_'.$id1.'&quot;,&quot;'.$key.'&quot;,&quot;'.$form_id.'&quot;)) show_other_input(&quot;wdform_'.$id1.'&quot;,&quot;'.$form_id.'&quot;);"' : '').' '.$param['w_choices_checked'][$key].' '.$param['attributes'].'><label for="wdform_'.$id1.'_element'.$form_id.''.$key.'"></label></div></div>';
+                $choice_value = isset($param['w_choices_value']) ? $param['w_choices_value'][$key] : $choice;
+				
+                $rep.='<div style="display: '.($param['w_flow']!='hor' ? 'table-cell' : 'table-row' ).';"><label class="wdform-ch-rad-label" for="wdform_'.$id1.'_element'.$form_id.''.$key1.'" '.$param['w_field_option_pos1'].'>'.$choice.'</label><div class="checkbox-div forlabs" '.$param['w_field_option_pos2'].'><input type="checkbox" '.(($param['w_allow_other']=="yes" && $param['w_allow_other_num']==$key) ? 'other="1"' : ''	).' id="wdform_'.$id1.'_element'.$form_id.''.$key1.'" name="wdform_'.$id1.'_element'.$form_id.''.$key1.'" value="'.htmlspecialchars($choice_value).'" '.(($param['w_allow_other']=="yes" && $param['w_allow_other_num']==$key) ? 'onclick="if(set_checked(&quot;wdform_'.$id1.'&quot;,&quot;'.$key1.'&quot;,&quot;'.$form_id.'&quot;)) show_other_input(&quot;wdform_'.$id1.'&quot;,&quot;'.$form_id.'&quot;);"' : '').' '.$param['w_choices_checked'][$key].' '.$param['attributes'].'><label for="wdform_'.$id1.'_element'.$form_id.''.$key1.'"></label></div></div>';
+				
+				$param['w_allow_other_num'] = $param['w_allow_other_num']==$key ? $key1 : $param['w_allow_other_num'];
               }
+			}
               $rep.='</div>';
 
               $rep.='</div></div>';
@@ -1382,6 +1853,8 @@ class FMViewForm_maker {
             case 'type_radio': {
               $params_names=array('w_field_label_size','w_field_label_pos','w_flow','w_choices','w_choices_checked','w_rowcol', 'w_required','w_randomize','w_allow_other','w_allow_other_num','w_class');
               $temp=$params;
+			  if(strpos($temp, 'w_field_option_pos') > -1)
+				$params_names=array('w_field_label_size','w_field_label_pos','w_field_option_pos','w_flow','w_choices','w_choices_checked','w_rowcol', 'w_required','w_randomize','w_allow_other','w_allow_other_num','w_value_disabled','w_choices_value', 'w_choices_params','w_class');
 
               foreach($params_names as $params_name ) {
                 $temp=explode('*:*'.$params_name.'*:*',$temp);
@@ -1396,13 +1869,24 @@ class FMViewForm_maker {
                   $param['attributes'] = $param['attributes'].' '.$attr;
                 }
               }
-            
+              if(!isset($param['w_value_disabled']))
+						$param['w_value_disabled'] = 'no';
+				
+			  if(!isset($param['w_field_option_pos']))
+						$param['w_field_option_pos'] = 'left';
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
               $param['w_field_label_pos2'] = ($param['w_field_label_pos']=="left" ? "" : "display:block;");
+			  $param['w_field_option_pos1'] = ($param['w_field_option_pos']=="right" ? "style='float: none
+			  !important;'" : "");
+			  $param['w_field_option_pos2'] = ($param['w_field_option_pos']=="right" ? "style='float: left !important; margin:3px 8px 0 0 !important; display: inline-block !important;'" : "");
               $required = ($param['w_required']=="yes" ? true : false);	
               $param['w_choices']	= explode('***',$param['w_choices']);
               $param['w_choices_checked']	= explode('***',$param['w_choices_checked']);
-
+              if(isset($param['w_choices_value']))
+			  {
+				$param['w_choices_value'] = explode('***',$param['w_choices_value']);
+				$param['w_choices_params'] = explode('***',$param['w_choices_params']);	
+			  }
               $post_value = isset($_POST["counter".$form_id]) ? $_POST["counter".$form_id] : NULL;
               $is_other=false;
 
@@ -1426,8 +1910,68 @@ class FMViewForm_maker {
             
               $rep.='<div style="display: '.($param['w_flow']=='hor' ? 'inline-block' : 'table-row' ).'; vertical-align:top">';
 
+			  $total_queries =0;
               foreach($param['w_choices'] as $key => $choice) {
-                if($key%$param['w_rowcol']==0 && $key>0) {
+			  
+			    $key1 = $key + $total_queries;
+			  
+			        if(isset($param['w_choices_params']) && $param['w_choices_params'][$key])
+						{	
+							$choices_labels =array();	
+							$choices_values =array();	
+							$w_choices_params = explode('[where_order_by]',$param['w_choices_params'][$key]);
+							$where = (str_replace(array('[',']'), '', $w_choices_params[0]) ? ' WHERE '.str_replace(array('[',']'), '', $w_choices_params[0]) : '');
+							$w_choices_params = explode('[db_info]',$w_choices_params[1]);
+							$order_by = str_replace(array('[',']'), '', $w_choices_params[0]);
+							$db_info = str_replace(array('[',']'), '', $w_choices_params[1]);
+							
+							
+							$label_table_and_column = explode(':',str_replace(array('[',']'), '', $choice));
+							$table = $label_table_and_column[0];
+							$label_column = $label_table_and_column[1];
+							if($label_column)
+							{
+								$choices_labels = $this->model->select_data_from_db_for_labels($db_info, $label_column, $table, $where, $order_by);					
+							}	
+
+							$value_table_and_column = explode(':',str_replace(array('[',']'), '', $param['w_choices_value'][$key]));
+							$value_column = $value_table_and_column[1];
+
+							if($value_column)
+							{
+								$choices_values = $this->model->select_data_from_db_for_values($db_info, $value_column, $table, $where, $order_by);
+							}	
+							
+							$columns_count_radio = count($choices_labels)>0 ?  count($choices_labels) : count($choices_values);
+							if(array_filter($choices_labels) || array_filter($choices_values))
+							{
+								$total_queries = $total_queries + $columns_count_radio-1;
+								
+								if(!isset($post_value))
+									$param['w_choices_checked'][$key]=($param['w_choices_checked'][$key]=='true' ? 'checked="checked"' : '');
+									
+								for($k=0; $k<$columns_count_radio; $k++)
+								{
+									$choice_label = isset($choices_labels[$k]) ? $choices_labels[$k] : '';
+									$choice_value = isset($choices_values[$k]) ? $choices_values[$k] : $choice_label;
+										
+									if(($key1+$k)%$param['w_rowcol']==0 && ($key1+$k)>0)
+										$rep.='</div><div style="display: '.($param['w_flow']=='hor' ? 'inline-block' : 'table-row' ).';  vertical-align:top">';
+
+									if(isset($post_value))
+									{
+										$post_valuetemp=$_REQUEST['wdform_'.$id1."_element".$form_id];
+										$param['w_choices_checked'][$key]=(isset($post_valuetemp) ? 'checked="checked"' : '');
+									}
+									
+									$rep.='<div style="display: '.($param['w_flow']!='hor' ? 'table-cell' : 'table-row' ).';"><label class="wdform-ch-rad-label" for="wdform_'.$id1.'_element'.$form_id.''.($key1+$k).'" '.$param['w_field_option_pos1'].'>'.$choice_label[0].'</label><div class="radio-div forlabs" '.$param['w_field_option_pos2'].'><input type="radio" '.(($param['w_allow_other']=="yes" && $param['w_allow_other_num']==$key) ? 'other="1"' : ''	).' id="wdform_'.$id1.'_element'.$form_id.''.($key1+$k).'" name="wdform_'.$id1.'_element'.$form_id.'" value="'.htmlspecialchars($choice_value[0]).'" onclick="set_default(&quot;wdform_'.$id1.'&quot;,&quot;'.($key1+$k).'&quot;,&quot;'.$form_id.'&quot;); '.(($param['w_allow_other']=="yes" && $param['w_allow_other_num']==$key) ? 'show_other_input(&quot;wdform_'.$id1.'&quot;,&quot;'.$form_id.'&quot;);' : '').'" '.$param['w_choices_checked'][$key].' '.$param['attributes'].'><label for="wdform_'.$id1.'_element'.$form_id.''.($key1+$k).'"></label></div></div>';
+								}
+							}	
+						}	
+		    else
+			    {
+			  
+                if($key1%$param['w_rowcol']==0 && $key1>0) {
                   $rep.='</div><div style="display: '.($param['w_flow']=='hor' ? 'inline-block' : 'table-row' ).';  vertical-align:top">';
                 }
                 if(!isset($post_value)) {
@@ -1436,8 +1980,11 @@ class FMViewForm_maker {
                 else {
                   $param['w_choices_checked'][$key] = (htmlspecialchars($choice) == htmlspecialchars(isset($_POST['wdform_'.$id1."_element".$form_id]) ? $_POST['wdform_'.$id1."_element".$form_id] : "") ? 'checked="checked"' : '');
                 }
-                $rep.='<div style="display: '.($param['w_flow']!='hor' ? 'table-cell' : 'table-row' ).';"><label class="wdform-ch-rad-label" for="wdform_'.$id1.'_element'.$form_id.''.$key.'">'.$choice.'</label><div class="radio-div forlabs"><input type="radio" '.(($param['w_allow_other']=="yes" && $param['w_allow_other_num']==$key) ? 'other="1"' : ''	).' id="wdform_'.$id1.'_element'.$form_id.''.$key.'" name="wdform_'.$id1.'_element'.$form_id.'" value="'.htmlspecialchars($choice).'" onclick="set_default(&quot;wdform_'.$id1.'&quot;,&quot;'.$key.'&quot;,&quot;'.$form_id.'&quot;); '.(($param['w_allow_other']=="yes" && $param['w_allow_other_num']==$key) ? 'show_other_input(&quot;wdform_'.$id1.'&quot;,&quot;'.$form_id.'&quot;);' : '').'" '.$param['w_choices_checked'][$key].' '.$param['attributes'].'><label for="wdform_'.$id1.'_element'.$form_id.''.$key.'"></label></div></div>';
-              }
+				$choice_value = isset($param['w_choices_value']) ? $param['w_choices_value'][$key] : $choice;
+                $rep.='<div style="display: '.($param['w_flow']!='hor' ? 'table-cell' : 'table-row' ).';"><label class="wdform-ch-rad-label" for="wdform_'.$id1.'_element'.$form_id.''.$key1.'" '.$param['w_field_option_pos1'].'>'.$choice.'</label><div class="radio-div forlabs" '.$param['w_field_option_pos2'].'><input type="radio" '.(($param['w_allow_other']=="yes" && $param['w_allow_other_num']==$key) ? 'other="1"' : ''	).' id="wdform_'.$id1.'_element'.$form_id.''.$key1.'" name="wdform_'.$id1.'_element'.$form_id.'" value="'.htmlspecialchars($choice_value).'" onclick="set_default(&quot;wdform_'.$id1.'&quot;,&quot;'.$key1.'&quot;,&quot;'.$form_id.'&quot;); '.(($param['w_allow_other']=="yes" && $param['w_allow_other_num']==$key) ? 'show_other_input(&quot;wdform_'.$id1.'&quot;,&quot;'.$form_id.'&quot;);' : '').'" '.$param['w_choices_checked'][$key].' '.$param['attributes'].'><label for="wdform_'.$id1.'_element'.$form_id.''.$key1.'"></label></div></div>';
+				$param['w_allow_other_num'] = $param['w_allow_other_num']==$key ? $key1 : $param['w_allow_other_num'];
+				}
+             }
               $rep.='</div>';
 
               $rep.='</div></div>';
@@ -1472,7 +2019,10 @@ class FMViewForm_maker {
             case 'type_own_select': {
               $params_names=array('w_field_label_size','w_field_label_pos','w_size','w_choices','w_choices_checked', 'w_choices_disabled','w_required','w_class');
               $temp=$params;
-
+			  
+               if(strpos($temp, 'w_choices_value') > -1)
+				  $params_names=array('w_field_label_size','w_field_label_pos','w_size','w_choices','w_choices_checked', 'w_choices_disabled', 'w_required', 'w_value_disabled', 'w_choices_value', 'w_choices_params', 'w_class');
+				  
               foreach($params_names as $params_name ) {
                 $temp=explode('*:*'.$params_name.'*:*',$temp);
                 $param[$params_name] = $temp[0];
@@ -1493,6 +2043,15 @@ class FMViewForm_maker {
               $param['w_choices_checked']	= explode('***',$param['w_choices_checked']);
               $param['w_choices_disabled']	= explode('***',$param['w_choices_disabled']);
               
+			  if(isset($param['w_choices_value']))
+				{
+				   $param['w_choices_value'] = explode('***',$param['w_choices_value']);
+				   $param['w_choices_params'] = explode('***',$param['w_choices_params']);	
+				}
+					
+			  if(!isset($param['w_value_disabled']))
+				   $param['w_value_disabled'] = 'no';
+					
               $post_value = isset($_POST["counter".$form_id]) ? $_POST["counter".$form_id] : NULL;
               
               $rep='<div type="type_own_select" class="wdform-field"  style="width:'.$wdformfieldsize.'px"><div class="wdform-label-section" style="'.$param['w_field_label_pos1'].'; width: '.$param['w_field_label_size'].'px;"><span class="wdform-label">'.$label.'</span>';
@@ -1500,21 +2059,65 @@ class FMViewForm_maker {
                 $rep.='<span class="wdform-required">'.$required_sym.'</span>';
               }
               $rep.='</div><div class="wdform-element-section '.$param['w_class'].'" style="'.$param['w_field_label_pos2'].' width: '.($param['w_size']).'px; "><select id="wdform_'.$id1.'_element'.$form_id.'" name="wdform_'.$id1.'_element'.$form_id.'" style="width: 100%"  '.$param['attributes'].'>';
-              foreach($param['w_choices'] as $key => $choice) {
-                if(!isset($post_value)) {
-                  $param['w_choices_checked'][$key]=($param['w_choices_checked'][$key]=='true' ? 'selected="selected"' : '');
-                }
-                else {
-                  $param['w_choices_checked'][$key] = (htmlspecialchars($choice) == htmlspecialchars(isset($_POST['wdform_'.$id1."_element".$form_id]) ? $_POST['wdform_'.$id1."_element".$form_id] : "") ? 'selected="selected"' : '');
-                }
-                if($param['w_choices_disabled'][$key]=="true") {
-                  $choice_value='';
-                }
-                else {
-                  $choice_value=$choice;
-                }
-                $rep.='<option id="wdform_'.$id1.'_option'.$key.'" value="'.htmlspecialchars($choice_value).'" '.$param['w_choices_checked'][$key].'>'.$choice.'</option>';
-              }
+            foreach($param['w_choices'] as $key => $choice)
+					{
+						if(isset($param['w_choices_params']) && $param['w_choices_params'][$key])
+						{
+							$choices_labels =array();
+							$choices_values = array();
+							$w_choices_params = explode('[where_order_by]',$param['w_choices_params'][$key]);
+							$where = (str_replace(array('[',']'), '', $w_choices_params[0]) ? ' WHERE '.str_replace(array('[',']'), '', $w_choices_params[0]) : '');
+							$w_choices_params = explode('[db_info]',$w_choices_params[1]);
+							$order_by = str_replace(array('[',']'), '', $w_choices_params[0]);
+							$db_info = str_replace(array('[',']'), '', $w_choices_params[1]);
+							
+							
+							
+							$label_table_and_column = explode(':',str_replace(array('[',']'), '', $choice));
+							$table = $label_table_and_column[0];
+							$label_column = $label_table_and_column[1];
+							if($label_column)
+							{
+								$choices_labels = $this->model->select_data_from_db_for_labels($db_info, $label_column, $table, $where, $order_by);				
+							}	
+
+							$value_table_and_column = explode(':',str_replace(array('[',']'), '', $param['w_choices_value'][$key]));
+							$value_column = $param['w_choices_disabled'][$key]=="true" ? '' : $value_table_and_column[1];
+
+							if($value_column)
+							{
+								$choices_values = $this->model->select_data_from_db_for_values($db_info, $value_column, $table, $where, $order_by);
+							}	
+
+							$columns_count = count($choices_labels)>0 ?  count($choices_labels) : count($choices_values);
+							if(array_filter($choices_labels) || array_filter($choices_values))
+								for($k=0; $k<$columns_count; $k++)
+								{
+									$choice_label = isset($choices_labels[$k]) ? $choices_labels[$k] : '';
+									$choice_value = isset($choices_values[$k]) ? $choices_values[$k] : ($param['w_choices_disabled'][$key]=="true" ? '' : $choice_label);
+									if(!isset($post_value))
+										$param['w_choices_checked'][$key]=(($param['w_choices_checked'][$key]=='true' && $k == 0) ? 'selected="selected"' : '');
+									else
+										$param['w_choices_checked'][$key]=($choice_value==htmlspecialchars($_REQUEST['wdform_'.$id1."_element".$form_id]) ? 'selected="selected"' : '');
+
+									$rep.='<option value="'.htmlspecialchars($choice_value[0]).'" '.$param['w_choices_checked'][$key].'>'.$choice_label[0].'</option>';
+												
+								}		
+						}
+						else
+						{
+							if(!isset($post_value))
+								$param['w_choices_checked'][$key]=($param['w_choices_checked'][$key]=='true' ? 'selected="selected"' : '');
+							else
+								$param['w_choices_checked'][$key]=(htmlspecialchars($choice)==htmlspecialchars($_REQUEST['wdform_'.$id1."_element".$form_id]) ? 'selected="selected"' : '');
+				
+							$choice_value = $param['w_choices_disabled'][$key]=="true" ? '' : (isset($param['w_choices_value']) ? $param['w_choices_value'][$key] : $choice);
+								
+							$rep.='<option value="'.htmlspecialchars($choice_value).'" '.$param['w_choices_checked'][$key].'>'.$choice.'</option>';	
+							
+						}
+
+					}
               $rep.='</select></div></div>';
               
               if($required) {
@@ -2137,6 +2740,9 @@ class FMViewForm_maker {
             case 'type_paypal_select': {
               $params_names=array('w_field_label_size','w_field_label_pos','w_size','w_choices','w_choices_price','w_choices_checked', 'w_choices_disabled','w_required','w_quantity','w_quantity_value','w_class','w_property','w_property_values');
               $temp=$params;
+			  if(strpos($temp, 'w_choices_params') > -1)
+				$params_names=array('w_field_label_size','w_field_label_pos','w_size','w_choices','w_choices_price','w_choices_checked', 'w_choices_disabled','w_required','w_quantity', 'w_quantity_value', 'w_choices_params','w_class','w_property','w_property_values');
+				
               foreach($params_names as $params_name ) {
                 $temp=explode('*:*'.$params_name.'*:*',$temp);
                 $param[$params_name] = $temp[0];
@@ -2159,51 +2765,92 @@ class FMViewForm_maker {
               $param['w_choices_disabled']	= explode('***',$param['w_choices_disabled']);
               $param['w_property']	= explode('***',$param['w_property']);
               $param['w_property_values']	= explode('***',$param['w_property_values']);
-            
+			  
+              if(isset($param['w_choices_params']))
+				$param['w_choices_params'] = explode('***',$param['w_choices_params']);	
+				
               $post_value = isset($_POST['wdform_'.$id1."_element".$form_id]) ? $_POST['wdform_'.$id1."_element".$form_id] : NULL;
-              if(isset($post_value)) {
-                foreach($param['w_choices'] as $key => $choice) {
-                  if($param['w_choices_disabled'][$key]=="true") {
-                    $choice_value='';
-                  }
-                  else {
-                    $choice_value=$param['w_choices_price'][$key];
-                  }
-                  if($post_value==$choice_value && $choice == (isset($_POST["wdform_".$id1."_element_label".$form_id]) ? $_POST["wdform_".$id1."_element_label".$form_id] : "")) {
-                    $param['w_choices_checked'][$key]='selected="selected"';
-                  }
-                  else {
-                    $param['w_choices_checked'][$key]='';
-                  }
-                }
-              }
-              else {
-                foreach($param['w_choices_checked'] as $key => $choices_checked ) {
-                  if($choices_checked=='true') {
-                    $param['w_choices_checked'][$key]='selected="selected"';
-                  }
-                  else {
-                    $param['w_choices_checked'][$key]='';
-                  }
-                }
-              }
-              $rep='<div type="type_paypal_select" class="wdform-field" style="width:'.$wdformfieldsize.'px"><div class="wdform-label-section" style="'.$param['w_field_label_pos1'].'; width: '.$param['w_field_label_size'].'px;"><span class="wdform-label">'.$label.'</span>';
-              if($required) {
-                $rep.='<span class="wdform-required">'.$required_sym.'</span>';
-              }
-              $rep.='</div><div class="wdform-element-section '.$param['w_class'].'" style="'.$param['w_field_label_pos2'].' width: '.$param['w_size'].'px;"><select id="wdform_'.$id1.'_element'.$form_id.'" name="wdform_'.$id1.'_element'.$form_id.'" style="width: 100%;"  '.$param['attributes'].'>';
-              foreach($param['w_choices'] as $key => $choice) {
-                if($param['w_choices_disabled'][$key]=="true") {
-                  $choice_value='';
-                }
-                else {
-                  $choice_value=$param['w_choices_price'][$key];
-                }
-                $rep.='<option id="wdform_'.$id1.'_option'.$key.'" value="'.$choice_value.'" '.$param['w_choices_checked'][$key].'>'.$choice.'</option>';
-              }
+             $rep='<div type="type_paypal_select" class="wdform-field" style="width:'.$wdformfieldsize.'px"><div class="wdform-label-section" style="'.$param['w_field_label_pos1'].'; width: '.$param['w_field_label_size'].'px;"><span class="wdform-label">'.$label.'</span>';
+					if($required)
+						$rep.='<span class="wdform-required">'.$required_sym.'</span>';
+					$rep.='</div><div class="wdform-element-section '.$param['w_class'].'" style="'.$param['w_field_label_pos2'].' width: '.$param['w_size'].'px;"><select id="wdform_'.$id1.'_element'.$form_id.'" name="wdform_'.$id1.'_element'.$form_id.'" style="width: 100%;"  '.$param['attributes'].'>';
+					foreach($param['w_choices'] as $key => $choice)
+					{		
+						if(isset($param['w_choices_params']) && $param['w_choices_params'][$key])
+						{
+					
+							$choices_labels =array();
+							$choices_values =array();
+							$w_choices_params = explode('[where_order_by]',$param['w_choices_params'][$key]);
+							$where = (str_replace(array('[',']'), '', $w_choices_params[0]) ? ' WHERE '.str_replace(array('[',']'), '', $w_choices_params[0]) : '');
+							$w_choices_params = explode('[db_info]',$w_choices_params[1]);
+							$order_by = str_replace(array('[',']'), '', $w_choices_params[0]);
+							$db_info = str_replace(array('[',']'), '', $w_choices_params[1]);
+							
+							
+							
+							$label_table_and_column = explode(':',str_replace(array('[',']'), '', $choice));
+							$table = $label_table_and_column[0];
+							$label_column = $label_table_and_column[1];
+							if($label_column)
+							{
+								 
+								$choices_labels = $this->model->select_data_from_db_for_labels($db_info, $label_column, $table, $where, $order_by);					
+							}	
+
+							$value_table_and_column = explode(':',str_replace(array('[',']'), '', $param['w_choices_price'][$key]));
+							$value_column = $param['w_choices_disabled'][$key]=="true" ? '' : $value_table_and_column[1];
+
+							if($value_column)
+							{
+								$choices_values = $this->model->select_data_from_db_for_values($db_info, $value_column, $table, $where, $order_by);
+							}		
+							
+							$columns_count = count($choices_labels)>0 ?  count($choices_labels) : count($choices_values);
+							
+							for($k=0; $k<$columns_count; $k++)
+							{
+								$choice_label = isset($choices_labels[$k]) ? $choices_labels[$k] : '';
+								$choice_value = isset($choices_values[$k]) ? (float)$choices_values[$k][0] : '';
+								
+								if(isset($post_value))
+								{							
+									if($post_value==$choice_value && $choice_label==$_REQUEST["wdform_".$id1."_element_label".$form_id])
+										$param['w_choices_checked'][$key]='selected="selected"';
+									else
+										$param['w_choices_checked'][$key]='';
+								}	
+								else
+									$param['w_choices_checked'][$key]=(($param['w_choices_checked'][$key]=='true' && $k == 0) ? 'selected="selected"' : '');
+
+								$rep.='<option value="'.$choice_value.'" '.$param['w_choices_checked'][$key].'>'.$choice_label[0].'</option>';
+							}			
+						}
+						else
+						{
+							$choice_value = $param['w_choices_disabled'][$key]=="true" ? '' : $param['w_choices_price'][$key];
+						
+							if(isset($post_value))
+							{	
+								if($post_value==$choice_value && $choice==$_REQUEST["wdform_".$id1."_element_label".$form_id])
+									$param['w_choices_checked'][$key]='selected="selected"';
+								else
+									$param['w_choices_checked'][$key]='';	
+							}	
+							else	
+							{
+								if($param['w_choices_checked'][$key]=='true')
+									$param['w_choices_checked'][$key]='selected="selected"';
+								else
+									$param['w_choices_checked'][$key]='';
+							}
+							
+							$rep.='<option value="'.$choice_value.'" '.$param['w_choices_checked'][$key].'>'.$choice.'</option>';
+						}	
+					}
               $rep.='</select><div id="wdform_'.$id1.'_div'.$form_id.'">';
               if($param['w_quantity']=="yes") {
-                $rep.='<div class="paypal-property"><label class="mini_label" style="margin: 0px 5px;">'.(__("Quantity", 'form_maker')).'</label><input type="text" value="'.(isset($_POST['wdform_'.$id1."_element_quantity".$form_id]) ? $_POST['wdform_'.$id1."_element_quantity".$form_id] : 1).'" id="wdform_'.$id1.'_element_quantity'.$form_id.'" name="wdform_'.$id1.'_element_quantity'.$form_id.'" class="wdform-quantity"></div>';
+                $rep.='<div class="paypal-property"><label class="mini_label" style="margin: 0px 5px;">'.(__("Quantity", 'form_maker')).'</label><input type="text" value="'.(isset($_POST['wdform_'.$id1."_element_quantity".$form_id]) ? $_POST['wdform_'.$id1."_element_quantity".$form_id] : $param['w_quantity_value']).'" id="wdform_'.$id1.'_element_quantity'.$form_id.'" name="wdform_'.$id1.'_element_quantity'.$form_id.'" class="wdform-quantity"></div>';
               }
               if($param['w_property'][0]) {
                 foreach($param['w_property'] as $key => $property) {
@@ -2256,8 +2903,11 @@ class FMViewForm_maker {
             }
             
             case 'type_paypal_checkbox': {
-              $params_names=array('w_field_label_size','w_field_label_pos','w_flow','w_choices','w_choices_price','w_choices_checked','w_required','w_randomize','w_allow_other','w_allow_other_num','w_class','w_property','w_property_values','w_quantity');
+              $params_names=array('w_field_label_size','w_field_label_pos','w_flow','w_choices','w_choices_price','w_choices_checked','w_required','w_randomize','w_allow_other','w_allow_other_num','w_class','w_property','w_property_values','w_quantity','w_quantity_value');
               $temp=$params;
+			  if(strpos($temp, 'w_field_option_pos') > -1)
+				$params_names=array('w_field_label_size','w_field_label_pos', 'w_field_option_pos','w_flow','w_choices','w_choices_price','w_choices_checked','w_required','w_randomize','w_allow_other','w_allow_other_num', 'w_choices_params', 'w_class','w_property','w_property_values','w_quantity','w_quantity_value');	
+				
               foreach($params_names as $params_name ) {
                 $temp=explode('*:*'.$params_name.'*:*',$temp);
                 $param[$params_name] = $temp[0];
@@ -2270,14 +2920,23 @@ class FMViewForm_maker {
                   $param['attributes'] = $param['attributes'].' '.$attr;
                 }
               }
+			  if(!isset($param['w_field_option_pos']))
+				$param['w_field_option_pos'] = 'left';
+				
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
               $param['w_field_label_pos2'] = ($param['w_field_label_pos']=="left" ? "" : "display:block;");
+			  $param['w_field_option_pos1'] = ($param['w_field_option_pos']=="right" ? "style='float: none 
+			  !important;'" : "");
+			  $param['w_field_option_pos2'] = ($param['w_field_option_pos']=="right" ? "style='float: left !important; margin:3px 8px 0 0 !important; display: inline-block !important;'" : "");
               $required = ($param['w_required']=="yes" ? true : false);	
               $param['w_choices']	= explode('***',$param['w_choices']);
               $param['w_choices_price']	= explode('***',$param['w_choices_price']);
               $param['w_choices_checked']	= explode('***',$param['w_choices_checked']);
               $param['w_property']	= explode('***',$param['w_property']);
               $param['w_property_values']	= explode('***',$param['w_property_values']);
+			  if(isset($param['w_choices_params']))
+				$param['w_choices_params'] = explode('***',$param['w_choices_params']);	
+				
               foreach($param['w_choices_checked'] as $key => $choices_checked ) {
                 $param['w_choices_checked'][$key]=($choices_checked=='true' ? 'checked="checked"' : '');
               }
@@ -2286,22 +2945,83 @@ class FMViewForm_maker {
                 $rep.='<span class="wdform-required">'.$required_sym.'</span>';
               }
               $rep.='</div><div class="wdform-element-section '.$param['w_class'].'" style="'.$param['w_field_label_pos2'].';">';
-            
-              foreach($param['w_choices'] as $key => $choice) {
-                $post_value = isset($_POST["counter".$form_id]) ? $_POST["counter".$form_id] : NULL;
-                if(isset($post_value)) {
-                  $param['w_choices_checked'][$key]="";
-                  $post_value = isset($_POST['wdform_'.$id1."_element".$form_id.$key]) ? $_POST['wdform_'.$id1."_element".$form_id.$key] : NULL;
-                  if(isset($post_value)) {
-                    $param['w_choices_checked'][$key]='checked="checked"';							
-                  }
-                }
-                $rep.='<div style="display: '.($param['w_flow']=='hor' ? 'inline-block' : 'table-row' ).';"><label class="wdform-ch-rad-label" for="wdform_'.$id1.'_element'.$form_id.''.$key.'">'.$choice.'</label><div class="checkbox-div forlabs"><input type="checkbox" id="wdform_'.$id1.'_element'.$form_id.''.$key.'" name="wdform_'.$id1.'_element'.$form_id.''.$key.'" value="'.$param['w_choices_price'][$key].'" title="'.htmlspecialchars($choice).'" '.$param['w_choices_checked'][$key].' '.$param['attributes'].'><label for="wdform_'.$id1.'_element'.$form_id.''.$key.'"></label></div><input type="hidden" name="wdform_'.$id1.'_element'.$form_id.$key.'_label" value="'.htmlspecialchars($choice).'" /></div>';
-              }
+              $total_queries = 0;
+              foreach($param['w_choices'] as $key => $choice)
+					{	
+						$key1 = $key + $total_queries;
+						if(isset($param['w_choices_params']) && $param['w_choices_params'][$key])
+						{
+							$w_choices_params = explode('[where_order_by]',$param['w_choices_params'][$key]);
+							$where = (str_replace(array('[',']'), '', $w_choices_params[0]) ? ' WHERE '.str_replace(array('[',']'), '', $w_choices_params[0]) : '');
+							$w_choices_params = explode('[db_info]',$w_choices_params[1]);
+							
+							$order_by = str_replace(array('[',']'), '', $w_choices_params[0]);
+							$db_info = str_replace(array('[',']'), '', $w_choices_params[1]);
+						
+							
+							
+							$label_table_and_column = explode(':',str_replace(array('[',']'), '', $choice));
+							$table = $label_table_and_column[0];
+							$label_column = $label_table_and_column[1];
+							if($label_column)
+							{
+								$choices_labels = $this->model->select_data_from_db_for_labels($db_info, $label_column, $table, $where, $order_by);				
+							}	
+
+							$value_table_and_column = explode(':',str_replace(array('[',']'), '', $param['w_choices_price'][$key]));
+							$value_column = $value_table_and_column[1];
+
+							if($value_column)
+							{
+								$choices_values = $this->model->select_data_from_db_for_values($db_info, $value_column, $table, $where, $order_by);
+							}		
+							
+							$columns_count = count($choices_labels)>0 ?  count($choices_labels) : count($choices_values);
+							
+							if(array_filter($choices_labels) || array_filter($choices_values))
+							{
+								$total_queries = $total_queries + $columns_count-1;
+								if(!isset($post_value))
+									$param['w_choices_checked'][$key]=($param['w_choices_checked'][$key]=='true' ? 'checked="checked"' : '');
+									
+								for($k=0; $k<$columns_count; $k++)
+								{
+									$choice_label = isset($choices_labels) ? $choices_labels[$k] : '';
+									$choice_value = isset($choices_values) ? (float)$choices_values[$k][0] : '';
+									
+									if(isset($post_value))
+									{	
+										$param['w_choices_checked'][$key]="";
+										$checkedvalue = $_REQUEST['wdform_'.$id1."_element".$form_id.($key1+$k)];
+
+										if(isset($checkedvalue))
+											$param['w_choices_checked'][$key]='checked="checked"';							
+									}
+
+									$rep.='<div style="display: '.($param['w_flow']=='hor' ? 'inline-block' : 'table-row' ).';"><label class="wdform-ch-rad-label" for="wdform_'.$id1.'_element'.$form_id.''.($key1+$k).'" '.$param['w_field_option_pos1'].'>'.$choice_label[0].'</label><div class="checkbox-div forlabs" '.$param['w_field_option_pos2'].'><input type="checkbox" id="wdform_'.$id1.'_element'.$form_id.''.($key1+$k).'" name="wdform_'.$id1.'_element'.$form_id.''.($key1+$k).'" value="'.$choice_value.'" title="'.htmlspecialchars($choice_label[0]).'" '.$param['w_choices_checked'][$key].' '.$param['attributes'].'><label for="wdform_'.$id1.'_element'.$form_id.''.($key1+$k).'"></label></div><input type="hidden" name="wdform_'.$id1.'_element'.$form_id.($key1+$k).'_label" value="'.htmlspecialchars($choice_label[0]).'" /></div>';
+								}
+							}	
+						}
+						else
+						{
+							if(isset($post_value))
+							{
+								$param['w_choices_checked'][$key]="";
+								$checkedvalue=$_REQUEST['wdform_'.$id1."_element".$form_id.$key1];
+								if(isset($checkedvalue))
+									$param['w_choices_checked'][$key]='checked="checked"';		
+							}
+							else
+								$param['w_choices_checked'][$key]=($param['w_choices_checked'][$key]=='true' ? 'checked="checked"' : '');
+								
+							$rep.='<div style="display: '.($param['w_flow']=='hor' ? 'inline-block' : 'table-row' ).';"><label class="wdform-ch-rad-label" for="wdform_'.$id1.'_element'.$form_id.''.$key1.'" '.$param['w_field_option_pos1'].'>'.$choice.'</label><div class="checkbox-div forlabs" '.$param['w_field_option_pos2'].'><input type="checkbox" id="wdform_'.$id1.'_element'.$form_id.''.$key1.'" name="wdform_'.$id1.'_element'.$form_id.''.$key1.'" value="'.$param['w_choices_price'][$key].'" title="'.htmlspecialchars($choice).'" '.$param['w_choices_checked'][$key].' '.$param['attributes'].'><label for="wdform_'.$id1.'_element'.$form_id.''.$key1.'"></label></div><input type="hidden" name="wdform_'.$id1.'_element'.$form_id.$key1.'_label" value="'.htmlspecialchars($choice).'" /></div>';
+						
+						}
+					}
           
               $rep.='<div id="wdform_'.$id1.'_div'.$form_id.'">';
               if($param['w_quantity']=="yes") {
-                $rep.='<div class="paypal-property"><label class="mini_label" style="margin: 0px 5px;">'.(__("Quantity", 'form_maker')).'</label><input type="text" value="'.(isset($_POST['wdform_'.$id1."_element_quantity".$form_id]) ? $_POST['wdform_'.$id1."_element_quantity".$form_id] : 1).'" id="wdform_'.$id1.'_element_quantity'.$form_id.'" name="wdform_'.$id1.'_element_quantity'.$form_id.'" class="wdform-quantity"></div>';
+                $rep.='<div class="paypal-property"><label class="mini_label" style="margin: 0px 5px;">'.(__("Quantity", 'form_maker')).'</label><input type="text" value="'.(isset($_POST['wdform_'.$id1."_element_quantity".$form_id]) ? $_POST['wdform_'.$id1."_element_quantity".$form_id] : $param['w_quantity_value']).'" id="wdform_'.$id1.'_element_quantity'.$form_id.'" name="wdform_'.$id1.'_element_quantity'.$form_id.'" class="wdform-quantity"></div>';
               }
               if($param['w_property'][0]) {
                 foreach($param['w_property'] as $key => $property) {
@@ -2350,8 +3070,11 @@ class FMViewForm_maker {
             }
 
             case 'type_paypal_radio': {
-              $params_names=array('w_field_label_size','w_field_label_pos','w_flow','w_choices','w_choices_price','w_choices_checked','w_required','w_randomize','w_allow_other','w_allow_other_num','w_class','w_property','w_property_values','w_quantity');
+              $params_names=array('w_field_label_size','w_field_label_pos','w_flow','w_choices','w_choices_price','w_choices_checked','w_required','w_randomize','w_allow_other','w_allow_other_num','w_class','w_property','w_property_values','w_quantity','w_quantity_value');
               $temp=$params;
+			  if(strpos($temp, 'w_field_option_pos') > -1)
+				$params_names=array('w_field_label_size','w_field_label_pos', 'w_field_option_pos', 'w_flow','w_choices','w_choices_price','w_choices_checked','w_required','w_randomize','w_allow_other','w_allow_other_num', 'w_choices_params', 'w_class', 'w_property','w_property_values','w_quantity','w_quantity_value');
+						
               foreach($params_names as $params_name ) {
                 $temp=explode('*:*'.$params_name.'*:*',$temp);
                 $param[$params_name] = $temp[0];
@@ -2364,16 +3087,23 @@ class FMViewForm_maker {
                   $param['attributes'] = $param['attributes'].' '.$attr;
                 }
               }
-
+              if(!isset($param['w_field_option_pos']))
+				$param['w_field_option_pos'] = 'left';
+				
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
               $param['w_field_label_pos2'] = ($param['w_field_label_pos']=="left" ? "" : "display:block;");
+			  $param['w_field_option_pos1'] = ($param['w_field_option_pos']=="right" ? "style='float: none
+			  !important;'" : "");
+			  $param['w_field_option_pos2'] = ($param['w_field_option_pos']=="right" ? "style='float: left !important; margin-right: 8px !important; display: inline-block !important;'" : "");
               $required = ($param['w_required']=="yes" ? true : false);	
               $param['w_choices']	= explode('***',$param['w_choices']);
               $param['w_choices_price']	= explode('***',$param['w_choices_price']);
               $param['w_choices_checked']	= explode('***',$param['w_choices_checked']);
               $param['w_property']	= explode('***',$param['w_property']);
               $param['w_property_values']	= explode('***',$param['w_property_values']);
-              
+              if(isset($param['w_choices_params']))
+				$param['w_choices_params'] = explode('***',$param['w_choices_params']);	
+				
               foreach($param['w_choices_checked'] as $key => $choices_checked ) {
                 $param['w_choices_checked'][$key]=($choices_checked=='true' ? 'checked="checked"' : '');
               }
@@ -2384,18 +3114,70 @@ class FMViewForm_maker {
               }
               $rep.='</div><div class="wdform-element-section '.$param['w_class'].'" style="'.$param['w_field_label_pos2'].';">';
             
+              $total_queries = 0;
+             foreach($param['w_choices'] as $key => $choice)
+					{
+						$key1 = $key + $total_queries;
+						if(isset($param['w_choices_params']) && $param['w_choices_params'][$key])
+						{
+							$choices_labels =array();
+							$choices_values =array();
+							$w_choices_params = explode('[where_order_by]',$param['w_choices_params'][$key]);
+							$where = (str_replace(array('[',']'), '', $w_choices_params[0]) ? ' WHERE '.str_replace(array('[',']'), '', $w_choices_params[0]) : '');
+							$w_choices_params = explode('[db_info]',$w_choices_params[1]);
+							
+							$order_by = str_replace(array('[',']'), '', $w_choices_params[0]);
+							$db_info = str_replace(array('[',']'), '', $w_choices_params[1]);
+						
+							
+							$label_table_and_column = explode(':',str_replace(array('[',']'), '', $choice));
+							$table = $label_table_and_column[0];
+							$label_column = $label_table_and_column[1];
+							if($label_column)
+							{
+								$choices_labels = $this->model->select_data_from_db_for_labels($db_info, $label_column, $table, $where, $order_by);					
+							}	
 
-              foreach($param['w_choices'] as $key => $choice) {
-                $post_value = isset($_POST['wdform_'.$id1."_element".$form_id]) ? $_POST['wdform_'.$id1."_element".$form_id] : NULL;
-                if(isset($post_value)) {
-                  $param['w_choices_checked'][$key]=(($post_value==$param['w_choices_price'][$key] && htmlspecialchars($choice) == htmlspecialchars(isset($_POST['wdform_'.$id1."_element_label".$form_id]) ? $_POST['wdform_'.$id1."_element_label".$form_id] : "")) ? 'checked="checked"' : '');
-                }
-                $rep.='<div style="display: '.($param['w_flow']=='hor' ? 'inline-block' : 'table-row' ).';"><label class="wdform-ch-rad-label" for="wdform_'.$id1.'_element'.$form_id.''.$key.'">'.$choice.'</label><div class="radio-div forlabs"><input type="radio" id="wdform_'.$id1.'_element'.$form_id.''.$key.'" name="wdform_'.$id1.'_element'.$form_id.'" value="'.$param['w_choices_price'][$key].'" title="'.htmlspecialchars($choice).'" '.$param['w_choices_checked'][$key].' '.$param['attributes'].'><label for="wdform_'.$id1.'_element'.$form_id.''.$key.'"></label></div></div>';
-              }
+							$value_table_and_column = explode(':',str_replace(array('[',']'), '', $param['w_choices_price'][$key]));
+							$value_column = $value_table_and_column[1];
 
-              $rep.='<div id="wdform_'.$id1.'_div'.$form_id.'">';
+							if($value_column)
+							{
+								$choices_values = $this->model->select_data_from_db_for_values($db_info, $value_column, $table, $where, $order_by);
+							}		
+
+							$columns_count_radio = count($choices_labels)>0 ?  count($choices_labels) : count($choices_values);
+							
+							if(array_filter($choices_labels) || array_filter($choices_values))
+							{
+								$total_queries = $total_queries + $columns_count_radio-1;
+								for($k=0; $k<$columns_count_radio; $k++)
+								{
+									$choice_label = isset($choices_labels) ? $choices_labels[$k] : '';
+									$choice_value = isset($choices_values) ? (float)$choices_values[$k][0] : '';
+			
+									if(isset($post_value))
+										$param['w_choices_checked'][$key]=(($post_value==$choice_value && htmlspecialchars($choice_label)==htmlspecialchars($_REQUEST['wdform_'.$id1."_element_label".$form_id])) ? 'checked="checked"' : '');
+									else
+										$param['w_choices_checked'][$key]=($param['w_choices_checked'][$key]=='true' ? 'checked="checked"' : '');	
+		
+									$rep.='<div style="display: '.($param['w_flow']=='hor' ? 'inline-block' : 'table-row' ).';"><label class="wdform-ch-rad-label" for="wdform_'.$id1.'_element'.$form_id.''.($key1+$k).'" '.$param['w_field_option_pos1'].'>'.$choice_label[0].'</label><div class="radio-div forlabs" '.$param['w_field_option_pos2'].'><input type="radio" id="wdform_'.$id1.'_element'.$form_id.''.($key1+$k).'" name="wdform_'.$id1.'_element'.$form_id.'" value="'.$choice_value.'" title="'.htmlspecialchars($choice_label[0]).'" '.$param['w_choices_checked'][$key].' '.$param['attributes'].'><label for="wdform_'.$id1.'_element'.$form_id.''.($key1+$k).'"></label></div></div>';
+								}
+							}			
+						}
+						else
+						{
+							if(isset($post_value))
+								$param['w_choices_checked'][$key]=(($post_value==$param['w_choices_price'][$key] && htmlspecialchars($choice)==htmlspecialchars($_REQUEST['wdform_'.$id1."_element_label".$form_id])) ? 'checked="checked"' : '');
+							else
+								$param['w_choices_checked'][$key]=($param['w_choices_checked'][$key]=='true' ? 'checked="checked"' : '');	
+								
+							$rep.='<div style="display: '.($param['w_flow']=='hor' ? 'inline-block' : 'table-row' ).';"><label class="wdform-ch-rad-label" for="wdform_'.$id1.'_element'.$form_id.''.$key1.'" '.$param['w_field_option_pos1'].'>'.$choice.'</label><div class="radio-div forlabs" '.$param['w_field_option_pos2'].'><input type="radio" id="wdform_'.$id1.'_element'.$form_id.''.$key1.'" name="wdform_'.$id1.'_element'.$form_id.'" value="'.$param['w_choices_price'][$key].'" title="'.htmlspecialchars($choice).'" '.$param['w_choices_checked'][$key].' '.$param['attributes'].'><label for="wdform_'.$id1.'_element'.$form_id.''.$key1.'"></label></div></div>';
+						}
+					}
+			   $rep.='<div id="wdform_'.$id1.'_div'.$form_id.'">';
               if($param['w_quantity']=="yes") {
-                $rep.='<div class="paypal-property"><label class="mini_label" style="margin: 0px 5px;">'.(__("Quantity", 'form_maker')).'</label><input type="text" value="'.(isset($_POST['wdform_'.$id1."_element_quantity".$form_id]) ? $_POST['wdform_'.$id1."_element_quantity".$form_id] : 1).'" id="wdform_'.$id1.'_element_quantity'.$form_id.'" name="wdform_'.$id1.'_element_quantity'.$form_id.'" class="wdform-quantity"></div>';
+                $rep.='<div class="paypal-property"><label class="mini_label" style="margin: 0px 5px;">'.(__("Quantity", 'form_maker')).'</label><input type="text" value="'.(isset($_POST['wdform_'.$id1."_element_quantity".$form_id]) ? $_POST['wdform_'.$id1."_element_quantity".$form_id] : $param['w_quantity_value']).'" id="wdform_'.$id1.'_element_quantity'.$form_id.'" name="wdform_'.$id1.'_element_quantity'.$form_id.'" class="wdform-quantity"></div>';
               }
               if($param['w_property'][0])	{				
                 foreach($param['w_property'] as $key => $property) {
@@ -2451,7 +3233,9 @@ class FMViewForm_maker {
             case 'type_paypal_shipping': {
               $params_names=array('w_field_label_size','w_field_label_pos','w_flow','w_choices','w_choices_price','w_choices_checked','w_required','w_randomize','w_allow_other','w_allow_other_num','w_class');
               $temp=$params;
-
+              if(strpos($temp, 'w_field_option_pos') > -1)
+				$params_names=array('w_field_label_size','w_field_label_pos', 'w_field_option_pos', 'w_flow','w_choices','w_choices_price','w_choices_checked','w_required','w_randomize','w_allow_other','w_allow_other_num','w_choices_params', 'w_class');
+				
               foreach($params_names as $params_name ) {
                 $temp=explode('*:*'.$params_name.'*:*',$temp); 
                 $param[$params_name] = $temp[0];
@@ -2465,13 +3249,22 @@ class FMViewForm_maker {
                   $param['attributes'] = $param['attributes'].' '.$attr;
                 }
               }
+			  if(!isset($param['w_field_option_pos']))
+						$param['w_field_option_pos'] = 'left';
+						
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
               $param['w_field_label_pos2'] = ($param['w_field_label_pos']=="left" ? "" : "display:block;");
+			  $param['w_field_option_pos1'] = ($param['w_field_option_pos']=="right" ? "style='float: none
+			  !important;'" : "");
+			  $param['w_field_option_pos2'] = ($param['w_field_option_pos']=="right" ? "style='float: left !important; margin:3px 8px 0 0 !important; display: inline-block !important;'" : "");
+					
               $required = ($param['w_required']=="yes" ? true : false);	
               $param['w_choices']	= explode('***',$param['w_choices']);
               $param['w_choices_price']	= explode('***',$param['w_choices_price']);
               $param['w_choices_checked']	= explode('***',$param['w_choices_checked']);
-              
+              if(isset($param['w_choices_params']))
+				$param['w_choices_params'] = explode('***',$param['w_choices_params']);	
+						
               foreach($param['w_choices_checked'] as $key => $choices_checked ) {
                 $param['w_choices_checked'][$key]=($choices_checked=='true' ? 'checked="checked"' : '');
               }
@@ -2480,14 +3273,69 @@ class FMViewForm_maker {
                 $rep.='<span class="wdform-required">'.$required_sym.'</span>';
               }
               $rep.='</div><div class="wdform-element-section '.$param['w_class'].'" style="'.$param['w_field_label_pos2'].';">';
-              
-              foreach($param['w_choices'] as $key => $choice) {
-                $post_value = isset($_POST['wdform_'.$id1."_element".$form_id]) ? $_POST['wdform_'.$id1."_element".$form_id] : NULL;
-                if(isset($post_value)) {
-                  $param['w_choices_checked'][$key]=(($post_value==$param['w_choices_price'][$key] && isset($_POST['wdform_'.$id1."_element_label".$form_id]) && htmlspecialchars($choice) == htmlspecialchars($_POST['wdform_'.$id1."_element_label".$form_id])) ? 'checked="checked"' : '');
-                }
-                $rep.='<div style="display: '.($param['w_flow']=='hor' ? 'inline-block' : 'table-row' ).';"><label class="wdform-ch-rad-label" for="wdform_'.$id1.'_element'.$form_id.''.$key.'">'.$choice.'</label><div class="radio-div forlabs"><input type="radio" id="wdform_'.$id1.'_element'.$form_id.''.$key.'" name="wdform_'.$id1.'_element'.$form_id.'" value="'.$param['w_choices_price'][$key].'" title="'.htmlspecialchars($choice).'" '.$param['w_choices_checked'][$key].' '.$param['attributes'].'><label for="wdform_'.$id1.'_element'.$form_id.''.$key.'"></label></div></div>';                
-              }
+              $total_queries = 0;
+             foreach($param['w_choices'] as $key => $choice)
+					{
+						$key1 = $key + $total_queries;
+						if(isset($param['w_choices_params']) && $param['w_choices_params'][$key])
+						{			
+							$choices_labels =array();
+							$choices_values =array();
+							$w_choices_params = explode('[where_order_by]',$param['w_choices_params'][$key]);
+							$where = (str_replace(array('[',']'), '', $w_choices_params[0]) ? ' WHERE '.str_replace(array('[',']'), '', $w_choices_params[0]) : '');
+							$w_choices_params = explode('[db_info]',$w_choices_params[1]);
+							
+							$order_by = str_replace(array('[',']'), '', $w_choices_params[0]);
+							$db_info = str_replace(array('[',']'), '', $w_choices_params[1]);
+						
+							
+							$label_table_and_column = explode(':',str_replace(array('[',']'), '', $choice));
+							$table = $label_table_and_column[0];
+							$label_column = $label_table_and_column[1];
+							if($label_column)
+							{
+								$choices_labels = $this->model->select_data_from_db_for_labels($db_info, $label_column, $table, $where, $order_by);
+						
+							}	
+
+							$value_table_and_column = explode(':',str_replace(array('[',']'), '', $param['w_choices_price'][$key]));
+							$value_column = $value_table_and_column[1];
+
+							if($value_column)
+							{
+								$choices_values = $this->model->select_data_from_db_for_values($db_info, $value_column, $table, $where, $order_by);
+							}		
+
+							$columns_count_shipping = count($choices_labels)>0 ?  count($choices_labels) : count($choices_values);
+							
+							if(array_filter($choices_labels) || array_filter($choices_values))
+							{
+								$total_queries = $total_queries + $columns_count_shipping-1;
+								for($k=0; $k<$columns_count_shipping; $k++)
+								{
+									$choice_label = isset($choices_labels) ? $choices_labels[$k][0] : '';
+									$choice_value = isset($choices_values) ? (float)$choices_values[$k][0] : '';
+			
+									if(isset($post_value))
+										$param['w_choices_checked'][$key]=(($post_value==$choice_value && htmlspecialchars($choice_label)==htmlspecialchars($_REQUEST['wdform_'.$id1."_element_label".$form_id])) ? 'checked="checked"' : '');
+									else
+										$param['w_choices_checked'][$key]=($param['w_choices_checked'][$key]=='true' ? 'checked="checked"' : '');	
+										
+									$rep.='<div style="display: '.($param['w_flow']=='hor' ? 'inline-block' : 'table-row' ).';"><label class="wdform-ch-rad-label" for="wdform_'.$id1.'_element'.$form_id.''.($key1+$k).'" '.$param['w_field_option_pos1'].'>'.$choice_label.'</label><div class="radio-div forlabs" '.$param['w_field_option_pos2'].'><input type="radio" id="wdform_'.$id1.'_element'.$form_id.''.($key1+$k).'" name="wdform_'.$id1.'_element'.$form_id.'" value="'.$choice_value.'" title="'.htmlspecialchars($choice_label[0]).'" '.$param['w_choices_checked'][$key].' '.$param['attributes'].'><label for="wdform_'.$id1.'_element'.$form_id.''.($key1+$k).'"></label></div></div>';
+								}	
+							}	
+						}
+						else
+						{
+							if(isset($post_value))
+								$param['w_choices_checked'][$key]=(($post_value==$param['w_choices_price'][$key] && htmlspecialchars($choice)==htmlspecialchars($_REQUEST['wdform_'.$id1."_element_label".$form_id])) ? 'checked="checked"' : '');
+							else
+								$param['w_choices_checked'][$key]=($param['w_choices_checked'][$key]=='true' ? 'checked="checked"' : '');	
+
+							$rep.='<div style="display: '.($param['w_flow']=='hor' ? 'inline-block' : 'table-row' ).';"><label class="wdform-ch-rad-label" for="wdform_'.$id1.'_element'.$form_id.''.$key1.'" '.$param['w_field_option_pos1'].'>'.$choice.'</label><div class="radio-div forlabs" '.$param['w_field_option_pos2'].'><input type="radio" id="wdform_'.$id1.'_element'.$form_id.''.$key1.'" name="wdform_'.$id1.'_element'.$form_id.'" value="'.$param['w_choices_price'][$key].'" title="'.htmlspecialchars($choice).'" '.$param['w_choices_checked'][$key].' '.$param['attributes'].'><label for="wdform_'.$id1.'_element'.$form_id.''.$key1.'"></label></div></div>';
+						}
+					}
+
               $rep.='</div></div>';
               if($required) {
                 $check_js.='

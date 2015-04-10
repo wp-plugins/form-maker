@@ -4,6 +4,7 @@ var need_enable=true;;
 var a = new Array();
 //var plugin_url = "";
 var count_of_fields_form = 7;
+
 if (ajaxurl.indexOf("://") != -1) {
   var url_for_ajax = ajaxurl;
 }
@@ -35,6 +36,7 @@ function change_field_name(id, x) {
 		x.value="";
 		document.getElementById(id+'_elementform_id_temp').name='';
 		document.getElementById(id+'_element_labelform_id_temp').innerHTML='';
+    document.getElementById(id+'_hidden_nameform_id_temp').innerHTML='';
 		return;
 	}
 		
@@ -45,11 +47,13 @@ function change_field_name(id, x) {
 	else {
 		document.getElementById(id+'_elementform_id_temp').name=value;
 		document.getElementById(id+'_element_labelform_id_temp').innerHTML=value;
+    document.getElementById(id+'_hidden_nameform_id_temp').innerHTML=value;
 	}
 }
 
 function change_field_value(id, value) {
 	document.getElementById(id+'_elementform_id_temp').value=value;
+  document.getElementById(id+'_hidden_valueform_id_temp').innerHTML=value;
 }
 
 function chnage_icons_src(img,icon) {
@@ -855,11 +859,10 @@ function refresh_id_name(i, type)
 		case 'type_radio':
 		{
 			document.getElementById('field_id').value='';
-			for(k=0; k<50;k++)
-			{
-				if(document.getElementById(i+'_elementform_id_temp'+k))
-					document.getElementById('field_id').value	+='wdform_'+i+'_elementform_id_temp'+k+', ';
-			}
+			jQuery('.change_pos').each(function() {
+				var idi = jQuery(this)[0].id;
+				document.getElementById('field_id').value	+='wdform_'+i+'_elementform_id_temp'+idi+', ';
+			});
 			a=document.getElementById('field_id').value.slice(0,-2);
 			document.getElementById('field_id').value=a;
 			document.getElementById('field_name').value	=i+'_element';
@@ -869,13 +872,11 @@ function refresh_id_name(i, type)
 		case 'type_checkbox':
 		{
 			document.getElementById('field_id').value='';
-			for(k=0; k<50;k++)
-			{
-				if(document.getElementById(i+'_elementform_id_temp'+k))
-				{	
-					document.getElementById('field_id').value	+='wdform_'+i+'_elementform_id_temp'+k+', ';
-				}
-			}
+			jQuery('.change_pos').each(function() {
+				var idi = jQuery(this)[0].id;
+				document.getElementById('field_id').value	+='wdform_'+i+'_elementform_id_temp'+idi+', ';
+			});
+
 			a=document.getElementById('field_id').value.slice(0,-2);
 			document.getElementById('field_id').value	=a;
 			document.getElementById('field_name').value	=a;
@@ -1489,18 +1490,19 @@ function set_randomize(id)
 }
 function show_other_input(num)
 {
-		for(k=0;k<50;k++)
-			if(	document.getElementById(num+"_elementform_id_temp"+k)) 
-				if(	document.getElementById(num+"_elementform_id_temp"+k).getAttribute('other')) 
-					if(	document.getElementById(num+"_elementform_id_temp"+k).getAttribute('other')==1)
-					{
-						element_other=document.getElementById(num+"_elementform_id_temp"+k);
-						break;
-					}
+		jQuery('.change_pos').each(function() {
+		var k = jQuery(this)[0].id;
+		if(document.getElementById(num+"_elementform_id_temp"+k)) 
+			if(	document.getElementById(num+"_elementform_id_temp"+k).getAttribute('other')) 
+				if(	document.getElementById(num+"_elementform_id_temp"+k).getAttribute('other')==1)
+				{
+					element_other=document.getElementById(num+"_elementform_id_temp"+k);
+					return false;
+				}
+	});
 
 
-
-	parent=element_other.parentNode;
+	var parent=element_other.parentNode;
 
 	var br = document.createElement('br');
 		br.setAttribute("id", num+"_other_brform_id_temp");
@@ -1520,44 +1522,74 @@ function set_allow_other(num, type)
 	{
 	
 		document.getElementById(num+'_allow_otherform_id_temp').setAttribute("value", "no");
-		for(k=0;k<50;k++)
-			if(	document.getElementById("el_choices"+k)) 
+		jQuery('.change_pos').each(function() {
+			var k = jQuery(this)[0].id;
+			if(document.getElementById("el_choices"+k)) 
 				if(	document.getElementById("el_choices"+k).getAttribute('other')) 
 					if(	document.getElementById("el_choices"+k).getAttribute('other')==1)
 					{
-				
 						remove_choise(k,num,type);
-						break;
+						return false;
 					}
+		});
 					
 	}	
 	else
 	{
 		document.getElementById(num+'_allow_otherform_id_temp').setAttribute("value", "yes");
-		j++;
+		var max_value = 0;
+		jQuery('.change_pos').each(function() {
+			var value = parseInt(jQuery(this)[0].id);
+			max_value = (value > max_value) ? value : max_value;
+		});
+
+		max_value = max_value + 1;
 
 				
 				var choices_td= document.getElementById('choices');
-				var br = document.createElement('br');
-				br.setAttribute("id", "br"+j);
+				var div = document.createElement('div');
+			           div.setAttribute("id", max_value);
+			           div.setAttribute("class", "change_pos");
 				var el_choices = document.createElement('input');
-					el_choices.setAttribute("id", "el_choices"+j);
+					el_choices.setAttribute("id", "el_choices"+max_value);
 					el_choices.setAttribute("type", "text");
 					el_choices.setAttribute("value", "other");
 					el_choices.setAttribute("other", "1");
-					el_choices.style.cssText =   "width:100px; margin:0; padding:0; border-width: 1px";
-					el_choices.setAttribute("onKeyUp", "change_label('"+num+"_label_element"+j+"', this.value); change_in_value('"+num+"_elementform_id_temp"+j+"', this.value)");
+					el_choices.style.cssText =   "width:100px; margin:1px; padding:3px 0; border-width: 1px";
+			        el_choices.setAttribute("onKeyUp", "change_label('"+num+"_label_element"+max_value+"', this.value); change_in_value('"+num+"_elementform_id_temp"+max_value+"', this.value)");
+					
+			    var el_choices_value = document.createElement('input');
+			        el_choices_value.setAttribute("id", "el_option_value"+max_value);
+			        el_choices_value.setAttribute("type", "text");
+			        el_choices_value.setAttribute("value", '');
+			        el_choices_value.style.cssText =   "width:100px; margin:1px; padding:3px 0; border-width: 1px";
+			        el_choices_value.setAttribute("disabled", 'disabled');
 			
 				var el_choices_remove = document.createElement('img');
-					el_choices_remove.setAttribute("id", "el_choices"+j+"_remove");
+					el_choices_remove.setAttribute("id", "el_choices"+max_value+"_remove");
 					el_choices_remove.setAttribute("src", plugin_url + '/images/delete.png');
 					el_choices_remove.style.cssText =  'cursor:pointer;vertical-align:middle; margin:3px; display:none';
 					el_choices_remove.setAttribute("align", 'top');
-					el_choices_remove.setAttribute("onClick", "remove_choise('"+j+"','"+num+"','"+type+"')");
+					el_choices_remove.setAttribute("onClick", "remove_choise('"+max_value+"','"+num+"','"+type+"')");
 			
-				choices_td.appendChild(br);
-				choices_td.appendChild(el_choices);
-				choices_td.appendChild(el_choices_remove);
+				var el_choices_handle = document.createElement('img');
+			        el_choices_handle.setAttribute("class", "el_choices_sortable");
+			        el_choices_handle.setAttribute("src", plugin_url + '/images/move_cursor.png');		
+			        el_choices_handle.style.cssText = 'cursor:move; vertical-align:middle; margin:0 0 0 33px;';
+			        el_choices_handle.setAttribute("align", 'top');
+		
+		        var el_choices_params = document.createElement('input');
+			        el_choices_params.setAttribute("id", "el_option_params"+max_value);
+			        el_choices_params.setAttribute("class", "el_option_params");
+			        el_choices_params.setAttribute("type", "hidden");
+			        el_choices_params.setAttribute("value", "");
+			
+		        div.appendChild(el_choices);
+		        div.appendChild(el_choices_value);
+		        div.appendChild(el_choices_remove);
+		        div.appendChild(el_choices_handle);
+		        div.appendChild(el_choices_params);
+		        choices_td.appendChild(div);
 				
 			if(type=='checkbox')
 			refresh_attr(num, 'type_checkbox');
@@ -1570,6 +1602,21 @@ function set_allow_other(num, type)
 			refresh_rowcol(num, type);
 	}
 
+}
+
+function option_right(id, type)
+{
+	jQuery('#'+id+'_table_little').find(jQuery('.ch-rad-label')).css("cssText", "float: none !important;");
+	jQuery('#'+id+'_table_little').find(jQuery('#main_div input[type="'+type+'"]')).css("cssText", "float: left !important;");
+	jQuery('#'+id+'_option_left_right').val('right');
+}
+
+
+function option_left(id, type)
+{
+	jQuery('#'+id+'_table_little').find(jQuery('.ch-rad-label')).css("cssText", "float: left !important;");
+	jQuery('#'+id+'_table_little').find(jQuery('#main_div input[type="'+type+'"]')).css("cssText", "float: right !important;");
+	jQuery('#'+id+'_option_left_right').val('left');
 }
 
 function flow_hor(id)
@@ -2585,16 +2632,33 @@ function close_window() {
   document.getElementById('element_type').value="";
 	alltypes=Array('customHTML','text','checkbox','radio','time_and_date','select','file_upload','captcha','map','button','page_break','section_break','paypal','survey');
 	for (x = 0; x < 14; x++) {
-    if (alltypes[x] != 'file_upload' && alltypes[x] != 'map' && alltypes[x] != 'paypal') {
-      document.getElementById('img_'+alltypes[x]).parentNode.style.backgroundColor = "";
+	if (alltypes[x] != 'file_upload' && alltypes[x] != 'map' && alltypes[x] != 'paypal') {
+    document.getElementById('img_'+alltypes[x]).parentNode.style.backgroundColor = "";
     }
-	}
+  }
 }
 
 function change_label(id, label) {
   label = label.replace(/(<([^>]+)>)/ig, "");
 	document.getElementById(id).innerHTML = label;
 	document.getElementById(id).value = label;
+}
+
+function change_label_name(num, id, label, type)
+{
+	jQuery('#'+id).html(label);
+	if(!jQuery('#el_disable_value').prop('checked'))
+	{
+		if(!jQuery('#el_choices'+num).attr('other'))
+			jQuery('#el_option_value'+num).val(label);		
+		if(type=='select')
+			jQuery('#'+id).val(label);	
+	}
+}
+
+function change_label_value(id, label)
+{
+	document.getElementById(id).value=label;	
 }
 
 function change_label_1(id, label) {
@@ -2648,47 +2712,57 @@ var q=0;
 		q=1;
 		flow_ver(num);
 	}
-	j++;	
+	var max_value = 0;
+	jQuery('.change_pos').each(function() {
+			var value = parseInt(jQuery(this)[0].id);
+			max_value = (value > max_value) ? value : max_value;
+		});
+
+	max_value = max_value + 1;	
 	if(type=='radio' || type=='checkbox')
 	{
 		element='input';
 	
 		var table = document.getElementById(num+'_table_little');
 		var tr = document.createElement('div');
-			tr.setAttribute("id", num+"_element_tr"+j);
+			tr.setAttribute("id", num+"_element_tr"+max_value);
 			tr.style.display="table-row";
 		var td = document.createElement('div');
 			td.setAttribute("valign", "top");
-			td.setAttribute("id", num+"_td_little"+j);
-			td.setAttribute("idi", j);
+			td.setAttribute("id", num+"_td_little"+max_value);
+			td.setAttribute("idi", max_value);
 			td.style.display="table-cell";
 		
 		var adding = document.createElement(element);
 			adding.setAttribute("type", type);
 			adding.setAttribute("value", "");
-			adding.setAttribute("id", num+"_elementform_id_temp"+j);
+			adding.setAttribute("id", num+"_elementform_id_temp"+max_value);
+			if(document.getElementById(num+"_option_left_right").value=="right")
+				adding.style.cssText = "float: left !important";
 		if(type=='checkbox')
 		{	
-			adding.setAttribute("onClick", "set_checked('"+num+"','"+j+"','form_id_temp')");
-			adding.setAttribute("name", num+"_elementform_id_temp"+j);
+			adding.setAttribute("onClick", "set_checked('"+num+"','"+max_value+"','form_id_temp')");
+			adding.setAttribute("name", num+"_elementform_id_temp"+max_value);
 		}
 			
 		if(type=='radio')
 		{
-			adding.setAttribute("onClick", "set_default('"+num+"','"+j+"','form_id_temp')");
+			adding.setAttribute("onClick", "set_default('"+num+"','"+max_value+"','form_id_temp')");
 			adding.setAttribute("name", num+"_elementform_id_temp");
 		}
 		
 		
 		var label_adding = document.createElement('label');
-			label_adding.setAttribute("id", num+"_label_element"+j);
+			label_adding.setAttribute("id", num+"_label_element"+max_value);
 			label_adding.setAttribute("class", "ch-rad-label");
-			label_adding.setAttribute("for",num+"_elementform_id_temp"+j);
+			label_adding.setAttribute("for",num+"_elementform_id_temp"+max_value);
+			if(document.getElementById(num+"_option_left_right").value=="right")
+				label_adding.style.cssText = "float: none !important";
 			
 		var adding_ch_label = document.createElement('input');
 				adding_ch_label.setAttribute("type", "hidden");
-				adding_ch_label.setAttribute("id", num+"_elementlabel_form_id_temp"+j);
-				adding_ch_label.setAttribute("name", num+"_elementform_id_temp"+j+"_label");
+				adding_ch_label.setAttribute("id", num+"_elementlabel_form_id_temp"+max_value);
+				adding_ch_label.setAttribute("name", num+"_elementform_id_temp"+max_value+"_label");
 				adding_ch_label.setAttribute("value", "");
 			
 		    td.appendChild(adding);
@@ -2698,35 +2772,50 @@ var q=0;
 		    table.appendChild(tr);
 		
 		var choices_td= document.getElementById('choices');
-		var br = document.createElement('br');
-		br.setAttribute("id", "br"+j);
+		var div = document.createElement('div');
+			div.setAttribute("id", max_value);
+			div.setAttribute("class", "change_pos");
 		var el_choices = document.createElement('input');
-		el_choices.setAttribute("id", "el_choices"+j);
+		el_choices.setAttribute("id", "el_choices"+max_value);
 		el_choices.setAttribute("type", "text");
 		el_choices.setAttribute("value", "");
-		el_choices.style.cssText =   "width:100px; margin:0; padding:0; border-width: 1px";
-		el_choices.setAttribute("onKeyUp", "change_label('"+num+"_label_element"+j+"', this.value); change_label_1('"+num+"_elementlabel_form_id_temp"+j+"', this.value); ");
+		el_choices.style.cssText =   "width:100px; margin:1px; padding:3px 0; border-width: 1px";
+		el_choices.setAttribute("onKeyUp", "change_label('"+num+"_label_element"+max_value+"', this.value); change_label_1('"+num+"_elementlabel_form_id_temp"+max_value+"', this.value); ");
 	
 		var el_choices_remove = document.createElement('img');
-			el_choices_remove.setAttribute("id", "el_choices"+j+"_remove");
+			el_choices_remove.setAttribute("id", "el_choices"+max_value+"_remove");
 			el_choices_remove.setAttribute("src", plugin_url + '/images/delete.png');
-			el_choices_remove.style.cssText =  'cursor:pointer;vertical-align:middle; margin:3px';
+			el_choices_remove.style.cssText =  'cursor:pointer;vertical-align:middle; margin:3px;';
 			el_choices_remove.setAttribute("align", 'top');
-			el_choices_remove.setAttribute("onClick", "remove_choise_price('"+j+"','"+num+"')");
+			el_choices_remove.setAttribute("onClick", "remove_choise_price('"+max_value+"','"+num+"')");
 			
 		var el_choices_price = document.createElement('input');
-			el_choices_price.setAttribute("id", "el_option_price"+j);
+			el_choices_price.setAttribute("id", "el_option_price"+max_value);
 			el_choices_price.setAttribute("type", "text");
 			el_choices_price.setAttribute("value", '');
-			el_choices_price.style.cssText =   "width:50px; margin:1px; padding:0; border-width: 1px";
-			el_choices_price.setAttribute("onKeyUp", "change_value_price('"+num+"_elementform_id_temp"+j+"', this.value)");
+			el_choices_price.style.cssText =   "width:50px; margin:1px; padding:3px 0; border-width: 1px";
+			el_choices_price.setAttribute("onKeyUp", "change_value_price('"+num+"_elementform_id_temp"+max_value+"', this.value)");
 			el_choices_price.setAttribute("onKeyPress", "return check_isnum_point(event)");
 	
 	
-	    choices_td.appendChild(br);
-	    choices_td.appendChild(el_choices);
-	    choices_td.appendChild(el_choices_price);
-	    choices_td.appendChild(el_choices_remove);
+	    var el_choices_params = document.createElement('input');
+			el_choices_params.setAttribute("id", "el_option_params"+max_value);
+			el_choices_params.setAttribute("class", "el_option_params");
+			el_choices_params.setAttribute("type", "hidden");
+			el_choices_params.setAttribute("value", "");
+			
+		var el_choices_handle = document.createElement('img');
+			el_choices_handle.setAttribute("class", "el_choices_sortable");
+			el_choices_handle.setAttribute("src", plugin_url + '/images/move_cursor.png');		
+			el_choices_handle.style.cssText = 'cursor:move; vertical-align:middle; margin: 3px 3px 3px 15px;';
+			el_choices_handle.setAttribute("align", 'top');
+		
+			div.appendChild(el_choices);
+			div.appendChild(el_choices_price);
+			div.appendChild(el_choices_remove);
+			div.appendChild(el_choices_handle);
+			div.appendChild(el_choices_params);
+			choices_td.appendChild(div);
 		
 		if(type=='checkbox')
 		{	
@@ -2747,47 +2836,62 @@ var q=0;
 	{
 		var select_ = document.getElementById(num+'_elementform_id_temp');
 		var option = document.createElement('option');
-			option.setAttribute("id", num+"_option"+j);
+			option.setAttribute("id", num+"_option"+max_value);
 			
 		    select_.appendChild(option);
 		
 		var choices_td= document.getElementById('choices');
-		var br = document.createElement('br');
-		br.setAttribute("id", "br"+j);
+		var div = document.createElement('div');
+			div.setAttribute("id", max_value);
+			div.setAttribute("class", "change_pos");
 		var el_choices = document.createElement('input');
-			el_choices.setAttribute("id", "el_option"+j);
+			el_choices.setAttribute("id", "el_option"+max_value);
 			el_choices.setAttribute("type", "text");
 			el_choices.setAttribute("value", "");
-			el_choices.style.cssText =   "width:100px; margin:1px; padding:0; border-width: 1px";
-			el_choices.setAttribute("onKeyUp", "change_label_price('"+num+"_option"+j+"', this.value)");
+			el_choices.style.cssText =   "width:100px; margin:1px; padding:3px 0; border-width: 1px";
+			el_choices.setAttribute("onKeyUp", "change_label_price('"+num+"_option"+max_value+"', this.value)");
 			
 		var el_choices_price = document.createElement('input');
-			el_choices_price.setAttribute("id", "el_option_price"+j);
+			el_choices_price.setAttribute("id", "el_option_price"+max_value);
 			el_choices_price.setAttribute("type", "text");
 			el_choices_price.setAttribute("value", '');
-			el_choices_price.style.cssText =   "width:50px; margin:1px; padding:0; border-width: 1px";
-			el_choices_price.setAttribute("onKeyUp", "change_value_price('"+num+"_option"+j+"', this.value)");
+			el_choices_price.style.cssText =   "width:50px; margin:1px; padding:3px 0; border-width: 1px";
+			el_choices_price.setAttribute("onKeyUp", "change_value_price('"+num+"_option"+max_value+"', this.value)");
 			el_choices_price.setAttribute("onKeyPress", "return check_isnum_point(event)");
-	
+			
+	    var el_choices_params = document.createElement('input');
+			el_choices_params.setAttribute("id", "el_option_params"+max_value);
+			el_choices_params.setAttribute("class", "el_option_params");
+			el_choices_params.setAttribute("type", "hidden");
+			el_choices_params.setAttribute("value", "");
+			
 		var el_choices_remove = document.createElement('img');
-			el_choices_remove.setAttribute("id", "el_option"+j+"_remove");
+			el_choices_remove.setAttribute("id", "el_option"+max_value+"_remove");
 			el_choices_remove.setAttribute("src", plugin_url + '/images/delete.png');
 			el_choices_remove.style.cssText = 'cursor:pointer; vertical-align:middle;  margin-left:4px;';
 			el_choices_remove.setAttribute("align", 'top');
-			el_choices_remove.setAttribute("onClick", "remove_option_price('"+j+"','"+num+"')");
+			el_choices_remove.setAttribute("onClick", "remove_option_price('"+max_value+"','"+num+"')");
 			
 		var el_choices_dis = document.createElement('input');
 			el_choices_dis.setAttribute("type", 'checkbox');
-			el_choices_dis.setAttribute("id", "el_option"+j+"_dis");
-			el_choices_dis.setAttribute("onClick", "dis_option_price('"+num+"','"+j+"', this.checked)");
+			el_choices_dis.setAttribute("id", "el_option"+max_value+"_dis");
+			el_choices_dis.setAttribute("onClick", "dis_option_price('"+num+"','"+max_value+"', this.checked)");
 			el_choices_dis.style.cssText ="vertical-align: middle; margin-right:24px; margin-left:24px;";
 
 
-	    choices_td.appendChild(br);
-	    choices_td.appendChild(el_choices);
-	    choices_td.appendChild(el_choices_price);
-	    choices_td.appendChild(el_choices_dis);
-	    choices_td.appendChild(el_choices_remove);
+	    var el_choices_handle = document.createElement('img');
+			el_choices_handle.setAttribute("class", "el_choices_sortable");
+			el_choices_handle.setAttribute("src", plugin_url + '/images/move_cursor.png');		
+			el_choices_handle.style.cssText = 'cursor:move; vertical-align:middle; margin:3px 3px 3px 20px;';
+			el_choices_handle.setAttribute("align", 'top');
+		
+		div.appendChild(el_choices);
+		div.appendChild(el_choices_price);
+		div.appendChild(el_choices_dis);
+		div.appendChild(el_choices_remove);
+		div.appendChild(el_choices_handle);
+		div.appendChild(el_choices_params);
+		choices_td.appendChild(div);	
     }
 	if(q==1)
 	{
@@ -2798,34 +2902,56 @@ var q=0;
 
 function add_choise(type, num)
 {
+	var max_value = 0;
+	jQuery('.change_pos').each(function() {
+			var value = parseInt(jQuery(this)[0].id);
+			max_value = (value > max_value) ? value : max_value;
+		});
 
-
-	j++;	
+	max_value = max_value + 1;
 	if(type=='radio' || type=='checkbox')
 	{
-	
 		var choices_td= document.getElementById('choices');
-		var br = document.createElement('br');
-		br.setAttribute("id", "br"+j);
+	
+		var div = document.createElement('div');
+			div.setAttribute("id", max_value);
+			div.setAttribute("class", "change_pos");
+			
 		var el_choices = document.createElement('input');
-		el_choices.setAttribute("id", "el_choices"+j);
-		el_choices.setAttribute("type", "text");
-		el_choices.setAttribute("value", "");
-		el_choices.style.cssText =   "width:100px; margin:0; padding:0; border-width: 1px";
-		el_choices.setAttribute("onKeyUp", "change_label('"+num+"_label_element"+j+"', this.value); change_in_value('"+num+"_elementform_id_temp"+j+"', this.value)");
+			el_choices.setAttribute("id", "el_choices"+max_value);
+			el_choices.setAttribute("type", "text");
+			el_choices.setAttribute("value", "");
+			el_choices.style.cssText =   "width:100px; margin:1px; padding:3px 0; border-width: 1px";
+			el_choices.setAttribute("onKeyUp", "change_label_name('"+max_value+"', '"+num+"_label_element"+max_value+"', this.value, '"+type+"'); change_label_value('"+num+"_elementform_id_temp"+max_value+"', jQuery('#el_option_value"+max_value+"').val())");
+	
+		var el_choices_value = document.createElement('input');
+			el_choices_value.setAttribute("id", "el_option_value"+max_value);
+			el_choices_value.setAttribute("class", "el_option_value");
+			el_choices_value.setAttribute("type", "text");
+			el_choices_value.setAttribute("value", "");	
+			el_choices_value.style.cssText = "width:100px; margin:1px; padding:3px 0; border-width: 1px";
+			if(!jQuery('#el_disable_value').prop('checked'))
+				el_choices_value.setAttribute("disabled", "disabled");
+			el_choices_value.setAttribute("onKeyUp", "change_label_value('"+num+"_elementform_id_temp"+max_value+"', this.value)");
 	
 		var el_choices_remove = document.createElement('img');
-			el_choices_remove.setAttribute("id", "el_choices"+j+"_remove");
+			el_choices_remove.setAttribute("id", "el_choices"+max_value+"_remove");
 			el_choices_remove.setAttribute("src", plugin_url + '/images/delete.png');
-			el_choices_remove.style.cssText =  'cursor:pointer;vertical-align:middle; margin:3px';
+			el_choices_remove.style.cssText =  'cursor:pointer;vertical-align:middle; margin:3px;';
 			el_choices_remove.setAttribute("align", 'top');
-			el_choices_remove.setAttribute("onClick", "remove_choise('"+j+"','"+num+"','"+type+"')");
-	
-	    choices_td.appendChild(br);
-	    choices_td.appendChild(el_choices);
-	    choices_td.appendChild(el_choices_remove);
+			el_choices_remove.setAttribute("onClick", "remove_choise('"+max_value+"','"+num+"','"+type+"')");
 		
+		var el_choices_handle = document.createElement('img');
+			el_choices_handle.setAttribute("class", "el_choices_sortable");
+			el_choices_handle.setAttribute("src", plugin_url + '/images/move_cursor.png');		
+			el_choices_handle.style.cssText = 'cursor:move; vertical-align:middle; margin: 0 0 0 9px;';
+			el_choices_handle.setAttribute("align", 'top');
 		
+			div.appendChild(el_choices);
+			div.appendChild(el_choices_value);
+			div.appendChild(el_choices_remove);
+			div.appendChild(el_choices_handle);
+			choices_td.appendChild(div);
 		
 		refresh_rowcol(num, type);
 		
@@ -2841,46 +2967,76 @@ function add_choise(type, num)
 			refresh_id_name(num, 'type_radio');
 			refresh_attr(num, 'type_radio');
 		}
-		
-    
-	
-	
+
 	}
 	
 	if(type=='select')
 	{
 		var select_ = document.getElementById(num+'_elementform_id_temp');
 		var option = document.createElement('option');
-			option.setAttribute("id", num+"_option"+j);
+			option.setAttribute("id", num+"_option"+max_value);
 			
 		    select_.appendChild(option);
 		
 		var choices_td= document.getElementById('choices');
-		var br = document.createElement('br');
-		br.setAttribute("id", "br"+j);
+		
+		var div = document.createElement('div');
+			div.setAttribute("id", max_value);
+			div.setAttribute("class", "change_pos");
+			
 		var el_choices = document.createElement('input');
-			el_choices.setAttribute("id", "el_option"+j);
+			el_choices.setAttribute("id", "el_option"+max_value);
 			el_choices.setAttribute("type", "text");
 			el_choices.setAttribute("value", "");
-			el_choices.style.cssText =   "width:100px; margin:0; padding:0; border-width: 1px";
-			el_choices.setAttribute("onKeyUp", "change_label('"+num+"_option"+j+"', this.value)");
+			el_choices.style.cssText =   "width:100px; margin:1px; padding:3px 0; border-width: 1px";
+			el_choices.setAttribute("onKeyUp", "change_label_name('"+max_value+"', '"+num+"_option"+max_value+"', this.value, 'select')");
 			
 		var el_choices_remove = document.createElement('img');
-			el_choices_remove.setAttribute("id", "el_option"+j+"_remove");
+			el_choices_remove.setAttribute("id", "el_option"+max_value+"_remove");
 			el_choices_remove.setAttribute("src", plugin_url + '/images/delete.png');
 			el_choices_remove.style.cssText = 'cursor:pointer; vertical-align:middle; margin:3px';
 			el_choices_remove.setAttribute("align", 'top');
-			el_choices_remove.setAttribute("onClick", "remove_option('"+j+"','"+num+"')");
+			el_choices_remove.setAttribute("onClick", "remove_option('"+max_value+"','"+num+"')");
+			
+		var el_choices_value = document.createElement('input');
+			el_choices_value.setAttribute("id", "el_option_value"+max_value);
+			el_choices_value.setAttribute("class", "el_option_value");
+			el_choices_value.setAttribute("type", "text");
+			el_choices_value.setAttribute("value", "");	
+			el_choices_value.style.cssText = "width:100px; margin:1px; padding:3px 0; border-width: 1px";
+			if(!jQuery('#el_disable_value').prop('checked'))
+				el_choices_value.setAttribute("disabled", "disabled");
+			el_choices_value.setAttribute("onKeyUp", "change_label_value('"+num+"_option"+max_value+"', this.value)");
 			
 		var el_choices_dis = document.createElement('input');
 			el_choices_dis.setAttribute("type", 'checkbox');
-			el_choices_dis.setAttribute("id", "el_option"+j+"_dis");
-			el_choices_dis.setAttribute("onClick", "dis_option('"+num+"_option"+j+"', this.checked)");	
-			el_choices_dis.style.cssText ="vertical-align: middle; margin-left:24px; margin-right:24px;";
-	    choices_td.appendChild(br);
-	    choices_td.appendChild(el_choices);
-	    choices_td.appendChild(el_choices_dis);
-	    choices_td.appendChild(el_choices_remove);
+			el_choices_dis.setAttribute("id", "el_option"+max_value+"_dis");
+			el_choices_dis.setAttribute("class", "el_option_dis");
+			el_choices_dis.setAttribute("onClick", "dis_option('"+num+"_option"+max_value+"', this.checked, '"+j+"')");
+			el_choices_dis.style.cssText ="vertical-align: middle; margin-left:24px; margin-right:24px;";			
+			if(jQuery('#el_disable_value').prop('checked'))
+				el_choices_dis.setAttribute("disabled", "disabled");
+				
+		var el_choices_params = document.createElement('input');
+			el_choices_params.setAttribute("id", "el_option_params"+max_value);
+			el_choices_params.setAttribute("class", "el_option_params");
+			el_choices_params.setAttribute("type", "hidden");
+			el_choices_params.setAttribute("value", "");
+
+		var el_choices_handle = document.createElement('img');
+			el_choices_handle.setAttribute("class", "el_choices_sortable");
+			el_choices_handle.setAttribute("src", plugin_url + '/images/move_cursor.png');		
+			el_choices_handle.style.cssText = 'cursor:move; vertical-align:middle; margin:3px 3px 3px 10px;';
+			el_choices_handle.setAttribute("align", 'top');
+		
+		div.appendChild(el_choices);
+		div.appendChild(el_choices_value);
+		div.appendChild(el_choices_dis);
+		div.appendChild(el_choices_remove);
+		div.appendChild(el_choices_handle);
+		div.appendChild(el_choices_params);
+		choices_td.appendChild(div);
+
     }
 
 
@@ -2888,357 +3044,234 @@ function add_choise(type, num)
 
 function refresh_rowcol(num, type)
 {
-	if(document.getElementById('edit_for_rowcol').value)
-	{
+	if(!document.getElementById('edit_for_rowcol').value)
+		document.getElementById('edit_for_rowcol').value =1;
+		
 		document.getElementById(num+'_rowcol_numform_id_temp').value = document.getElementById('edit_for_rowcol').value;
 
 		var table = document.getElementById(num+'_table_little');
 			table.removeAttribute("for_hor");
 			table.innerHTML="";
-			
-		var choeices=0;
 
+		choeices = jQuery('.change_pos').length;	
 		if(document.getElementById('edit_for_flow_vertical').checked==true)
 		{
-			var columns = document.getElementById('edit_for_rowcol').value;
-
-			for(i=0;i<=100;i++)	
-			{
-				if(document.getElementById('el_choices'+i))
-				choeices++;
-			} 
-
-			element='input';
-			rows = parseInt((choeices+1)/columns);
+			var columns = document.getElementById('edit_for_rowcol').value;		
+			var rows = parseInt((choeices+1)/columns);
 			
 			var gago=0;
-				var vaxo=1;
+			var vaxo=1;
 				
-				var tr_row = document.createElement('div');
-					tr_row.setAttribute("id", num+"_element_tr0");
-					tr_row.style.display = 'table-row';
-				for(i=0;i<=100;i++)	
-				{
-					if(document.getElementById('el_choices'+i))
-					{
+			tr_row = document.createElement('div');
+			tr_row.setAttribute("id", num+"_element_tr0");
+			tr_row.style.display = 'table-row';
+					
+			jQuery('.change_pos').each(function() {
+				var index = jQuery(this)[0].id;
 				
-										
-						if(gago >= columns)
-						{  
-								gago=0;
-								
-								var tr_row = document.createElement('div');
-									tr_row.setAttribute("id", num+"_element_tr"+vaxo);
-									tr_row.style.display = 'table-row';								
-								
-								vaxo++;
-						}								
-									
-								var td = document.createElement('div');
-									td.setAttribute("valign", "top");
-									td.setAttribute("id", num+"_td_little"+i);
-									td.setAttribute("idi", i);
-									td.style.display = 'table-cell';	
-								
-								
-								var adding = document.createElement(element);
-								adding.setAttribute("type", type);
-								adding.setAttribute("value", document.getElementById("el_choices"+i).value);
-								if(document.getElementById("el_choices"+i).getAttribute("checked")=="true")
-									adding.setAttribute("checked", "checked");									
-								adding.setAttribute("id", num+"_elementform_id_temp"+i);
-								if(type=='checkbox')
-								{
-									if(document.getElementById(num+"_allow_otherform_id_temp").value=="yes" && document.getElementById("el_choices"+i).getAttribute('other')=='1')
-									{
-										adding.setAttribute("other", "1");
-										adding.setAttribute("onclick", "if(set_checked('"+num+"','"+i+"','form_id_temp')) show_other_input('"+num+"','form_id_temp');");
-									}
-									else
-										adding.setAttribute("onclick", "set_checked('"+num+"','"+i+"','form_id_temp')");
-			
-										adding.setAttribute("name", num+"_elementform_id_temp"+i);
-								}
-									
-								if(type=='radio')
-								{
-								adding.setAttribute("name", num+"_elementform_id_temp");
-									if(document.getElementById(num+"_allow_otherform_id_temp").value=="yes" && document.getElementById("el_choices"+i).getAttribute('other')=='1')
-									{
-										adding.setAttribute("other", "1");
-										adding.setAttribute("onClick", "set_default('"+num+"','"+i+"','form_id_temp'); show_other_input('"+num+"','form_id_temp');");
-									}
-									else
-									adding.setAttribute("onClick", "set_default('"+num+"','"+i+"','form_id_temp')");
-								}
-								
-								var label_adding = document.createElement('label');
-									label_adding.setAttribute("id", num+"_label_element"+i);
-									label_adding.setAttribute("class", "ch-rad-label");
-									label_adding.setAttribute("for",num+"_elementform_id_temp"+i);
-									label_adding.innerHTML=document.getElementById("el_choices"+i).value;
-									
-									td.appendChild(adding);
-									td.appendChild(label_adding);
-									
-								tr_row.appendChild(td);	
-								table.appendChild(tr_row);	
-						
-						
-						gago++;
-						
-				
-					}
-				
-
-				
+				if(gago >= columns)
+				{  
+					gago=0;
+					tr_row = document.createElement('div');
+					tr_row.setAttribute("id", num+"_element_tr"+vaxo);
+					tr_row.style.display = 'table-row';								
+					
+					vaxo++;
 				}
-
 				
-		}
-
-		else{
-
-				var rows = document.getElementById('edit_for_rowcol').value;
-
-				for(i=0;i<=100;i++)	
-				{
-					if(document.getElementById('el_choices'+i))
-					choeices++;
-				} 
-
-				element='input';
-				columns = parseInt((choeices+1)/rows);
-
-				
-				var gago=0;
-				var vaxo=0;
-				for(i=0;i<=100;i++)	
-				{
-					if(document.getElementById('el_choices'+i))
-					{
-				
-						if(gago < rows)
-						{
-							var tr_row = document.createElement('div');
-								tr_row.setAttribute("id", num+"_element_tr"+i);
-								tr_row.style.display = 'table-row';
-								
-						}
-						  
-								var td = document.createElement('div');
-									td.setAttribute("valign", "top");
-									td.setAttribute("id", num+"_td_little"+i);
-									td.setAttribute("idi", i);
-									td.style.display = 'table-cell';
-								
-								
-								var adding = document.createElement(element);
-								adding.setAttribute("type", type);
-								adding.setAttribute("value", document.getElementById("el_choices"+i).value);
-								if(document.getElementById("el_choices"+i).getAttribute("checked")=="true")
-									adding.setAttribute("checked", "checked");									
-								adding.setAttribute("id", num+"_elementform_id_temp"+i);
-								if(type=='checkbox')
-								{
-									if(document.getElementById(num+"_allow_otherform_id_temp").value=="yes" && document.getElementById("el_choices"+i).getAttribute('other')=='1')
-									{
-										adding.setAttribute("other", "1");
-										adding.setAttribute("onclick", "if(set_checked('"+num+"','"+i+"','form_id_temp')) show_other_input('"+num+"','form_id_temp');");
-									}
-									else
-										adding.setAttribute("onclick", "set_checked('"+num+"','"+i+"','form_id_temp')");
-			
-										adding.setAttribute("name", num+"_elementform_id_temp"+i);
-								}
-									
-								if(type=='radio')
-								{
-								adding.setAttribute("name", num+"_elementform_id_temp");
-									if(document.getElementById(num+"_allow_otherform_id_temp").value=="yes" && document.getElementById("el_choices"+i).getAttribute('other')=='1')
-									{
-										adding.setAttribute("other", "1");
-										adding.setAttribute("onClick", "set_default('"+num+"','"+i+"','form_id_temp'); show_other_input('"+num+"','form_id_temp')");
-										
-									}
-									else
-									adding.setAttribute("onClick", "set_default('"+num+"','"+i+"','form_id_temp')");
-								}
-								
-								var label_adding = document.createElement('label');
-									label_adding.setAttribute("id", num+"_label_element"+i);
-									label_adding.setAttribute("class", "ch-rad-label");
-									label_adding.setAttribute("for",num+"_elementform_id_temp"+i);
-									label_adding.innerHTML=document.getElementById("el_choices"+i).value;
-									td.appendChild(adding);
-									td.appendChild(label_adding);
-							
-							
-								if(gago < rows)
-								{
-									tr_row.appendChild(td);	
-									table.appendChild(tr_row);
-								}
-								else
-								{
-									if(vaxo==rows)
-									vaxo=0;
-									
-									tr_row = document.getElementById(num+'_table_little').childNodes[vaxo];
-									tr_row.appendChild(td);	
-									vaxo++;
-								}					
-									
-								
-								gago++;
-							
-						
-						
-						
-				
-					}
-				
-
-				
-				}
-				table.setAttribute("for_hor", num+"_hor");
-			}
-		}
-	else
-	{
-		document.getElementById(num+'_rowcol_numform_id_temp').value = '';
-
-		var table = document.getElementById(num+'_table_little');
-			table.innerHTML="";
-		
-		var tr0 = document.createElement('div');
-			tr0.setAttribute("id", num+"_hor");
-			tr0.style.display = 'table-row';
-			
-			
-			for(i=0;i<=100;i++)	
-				{
-					if(document.getElementById('el_choices'+i))
-					{
-			
-						element='input';
-		
-				if(document.getElementById('edit_for_flow_vertical').checked==true)
-				{
-				var tr = document.createElement('div');
-					tr.setAttribute("id", num+"_element_tr"+i);
-					tr.style.display = 'table-row';
 				var td = document.createElement('div');
 					td.setAttribute("valign", "top");
-					td.setAttribute("id", num+"_td_little"+i);
-					td.setAttribute("idi", i);
-					td.style.display = 'table-cell';
-				
-				var adding = document.createElement(element);
+					td.setAttribute("id", num+"_td_little"+index);
+					td.setAttribute("idi", index);
+					td.style.display = 'table-cell';	
+
+				var adding = document.createElement('input');
 					adding.setAttribute("type", type);
-					adding.setAttribute("value", document.getElementById("el_choices"+i).value);
-								if(document.getElementById("el_choices"+i).getAttribute("checked")=="true")
-									adding.setAttribute("checked", "checked");									
-					adding.setAttribute("id", num+"_elementform_id_temp"+i);
-									if(type=='checkbox')
-									{
-										if(document.getElementById(num+"_allow_otherform_id_temp").value=="yes" && document.getElementById("el_choices"+i).getAttribute('other')=='1')
-										{
-											adding.setAttribute("other", "1");
-											adding.setAttribute("onclick", "if(set_checked('"+num+"','"+i+"','form_id_temp')) show_other_input('"+num+"','form_id_temp');");
-										}
-										else
-											adding.setAttribute("onclick", "set_checked('"+num+"','"+i+"','form_id_temp')");
+					adding.setAttribute("id", num+"_elementform_id_temp"+index);					
+					if(jQuery(this).find('#el_choices'+index)[0].getAttribute("checked")=="true")
+						adding.setAttribute("checked", "checked");	
+					if(document.getElementById(num+"_option_left_right").value=="right")
+						adding.style.cssText = "float: left !important";		
+						
+				if(type=='checkbox')
+				{
+					adding.setAttribute("name", num+"_elementform_id_temp"+index);
+					if(document.getElementById(num+"_allow_otherform_id_temp").value=="yes" && jQuery(this).find('#el_choices'+index).attr("other")=='1')
+					{
+						adding.setAttribute("value", "");	
+						adding.setAttribute("other", "1");
+						adding.setAttribute("onclick", "if(set_checked('"+num+"','"+index+"','form_id_temp')) show_other_input('"+num+"','form_id_temp');");
+					}
+					else
+					{
+						if(document.getElementById(num+"_value_disabledform_id_temp").value=="no")
+							adding.setAttribute("value", jQuery(this).find('#el_choices'+index).val());	
+						else
+							adding.setAttribute("value", jQuery(this).find('#el_option_value'+index).val());	
+						adding.setAttribute("onclick", "set_checked('"+num+"','"+index+"','form_id_temp')");
+					}	
+						
+				}
+					
+				if(type=='radio')
+				{
+					adding.setAttribute("name", num+"_elementform_id_temp");
+					if(document.getElementById(num+"_allow_otherform_id_temp").value=="yes" && jQuery(this).find('#el_choices'+index).attr("other")=='1')
+					{
+						adding.setAttribute("value", "");
+						adding.setAttribute("other", "1");
+						adding.setAttribute("onClick", "set_default('"+num+"','"+index+"','form_id_temp'); show_other_input('"+num+"','form_id_temp');");
+					}
+					else
+					{
+						if(document.getElementById(num+"_value_disabledform_id_temp").value=="no")
+							adding.setAttribute("value", jQuery(this).find('#el_choices'+index).val());	
+						else
+							adding.setAttribute("value", jQuery(this).find('#el_option_value'+index).val());	
+						adding.setAttribute("onClick", "set_default('"+num+"','"+index+"','form_id_temp')");
+					}	
+				}
+			
+				var label_adding = document.createElement('label');
+					label_adding.setAttribute("id", num+"_label_element"+index);
+					label_adding.setAttribute("class", "ch-rad-label");
+					label_adding.setAttribute("for",num+"_elementform_id_temp"+index);
+					label_adding.innerHTML= jQuery(this).find('#el_choices'+index).val();
+					if(document.getElementById(num+"_option_left_right").value=="right")
+						label_adding.style.cssText = "float: none !important";	
+					if(jQuery(this).find('#el_option_params'+index).val())
+					{
+						w_params = jQuery(this).find('#el_option_params'+index).val().split("[where_order_by]");
+						label_adding.setAttribute("where", w_params[0]);
+						w_params = w_params[1].split("[db_info]");		
+						label_adding.setAttribute("order_by", w_params[0]);
+						label_adding.setAttribute("db_info", w_params[1]);
+					}	
+					
+					td.appendChild(label_adding);						
+					td.appendChild(adding);
+
+				tr_row.appendChild(td);	
+				table.appendChild(tr_row);	
+
+				gago++;		
+			});
+			
+		}
+
+		else
+		{
+
+			var rows = document.getElementById('edit_for_rowcol').value;
+			var columns = parseInt((choeices+1)/rows);
+	
+			var gago=0;
+			var vaxo=0;
+			
+			jQuery('.change_pos').each(function(key) {
+				var index = jQuery(this)[0].id;
+			
+				if(gago < rows)
+				{
+					tr_row = document.createElement('div');
+					tr_row.setAttribute("id", num+"_element_tr"+key);
+					tr_row.style.display = 'table-row';
+						
+				}
 				
-											adding.setAttribute("name", num+"_elementform_id_temp"+i);
-									}
-										
-									if(type=='radio')
-									{
-										adding.setAttribute("name", num+"_elementform_id_temp");
-									
-										if(document.getElementById(num+"_allow_otherform_id_temp").value=="yes" && document.getElementById("el_choices"+i).getAttribute('other')=='1')
-										{
-											adding.setAttribute("other", "1");
-											adding.setAttribute("onClick", "set_default('"+num+"','"+i+"','form_id_temp'); show_other_input('"+num+"','form_id_temp')");
-											
-										}
-										else
-										adding.setAttribute("onClick", "set_default('"+num+"','"+i+"','form_id_temp')");
-									}
+				var td = document.createElement('div');
+					td.setAttribute("valign", "top");
+					td.setAttribute("id", num+"_td_little"+index);
+					td.setAttribute("idi", index);
+					td.style.display = 'table-cell';
+					
+				var adding = document.createElement('input');
+					adding.setAttribute("type", type);
+					adding.setAttribute("id", num+"_elementform_id_temp"+index);	
+					if(jQuery(this).find('#el_choices'+index)[0].getAttribute("checked")=="true")
+						adding.setAttribute("checked", "checked");		
+					if(document.getElementById(num+"_option_left_right").value=="right")
+						adding.style.cssText = "float: left !important";			
+					
+				if(type=='checkbox')
+				{
+					adding.setAttribute("name", num+"_elementform_id_temp"+index);	
+					if(document.getElementById(num+"_allow_otherform_id_temp").value=="yes" && jQuery(this).find('#el_choices'+index).attr('other')=='1')
+					{
+						adding.setAttribute("value", "");	
+						adding.setAttribute("other", "1");
+						adding.setAttribute("onclick", "if(set_checked('"+num+"','"+index+"','form_id_temp')) show_other_input('"+num+"','form_id_temp');");
+					}
+					else
+					{
+						if(document.getElementById(num+"_value_disabledform_id_temp").value=="no")
+							adding.setAttribute("value", jQuery(this).find('#el_choices'+index).val());	
+						else
+							adding.setAttribute("value", jQuery(this).find('#el_option_value'+index).val());	
+						adding.setAttribute("onclick", "set_checked('"+num+"','"+index+"','form_id_temp')");
+						
+					}	
+						
+				}
 				
+				if(type=='radio')
+				{
+					adding.setAttribute("name", num+"_elementform_id_temp");
+					if(document.getElementById(num+"_allow_otherform_id_temp").value=="yes" && jQuery(this).find('#el_choices'+index).attr('other')=='1')
+					{
+						adding.setAttribute("other", "1");
+						adding.setAttribute("onClick", "set_default('"+num+"','"+index+"','form_id_temp'); show_other_input('"+num+"','form_id_temp')");
+						
+					}
+					else
+					{
+						if(document.getElementById(num+"_value_disabledform_id_temp").value=="no")
+							adding.setAttribute("value", jQuery(this).find('#el_choices'+index).val());	
+						else
+							adding.setAttribute("value", jQuery(this).find('#el_option_value'+index).val());	
+						adding.setAttribute("onClick", "set_default('"+num+"','"+index+"','form_id_temp')");
+					}	
+				}
 				
 				var label_adding = document.createElement('label');
-					label_adding.setAttribute("id", num+"_label_element"+i);
+					label_adding.setAttribute("id", num+"_label_element"+index);
 					label_adding.setAttribute("class", "ch-rad-label");
-					label_adding.setAttribute("for",num+"_elementform_id_temp"+i);
-					label_adding.innerHTML=document.getElementById("el_choices"+i).value;
-					td.appendChild(adding);
-					td.appendChild(label_adding);
-					tr.appendChild(td);
-					table.appendChild(tr);
-					}
+					label_adding.setAttribute("for",num+"_elementform_id_temp"+index);
+					label_adding.innerHTML=jQuery(this).find('#el_choices'+index).val();
+					if(document.getElementById(num+"_option_left_right").value=="right")
+						label_adding.style.cssText = "float: none !important";	
+					if(jQuery(this).find('#el_option_params'+index).val())
+					{
+						w_params = jQuery(this).find('#el_option_params'+index).val().split("[where_order_by]");
+						label_adding.setAttribute("where", w_params[0]);
+						w_params = w_params[1].split("[db_info]");		
+						label_adding.setAttribute("order_by", w_params[0]);
+						label_adding.setAttribute("db_info", w_params[1]);
+					}	
 					
+				td.appendChild(label_adding);	
+				td.appendChild(adding);
+				
+				if(gago < rows)
+				{
+					tr_row.appendChild(td);	
+					table.appendChild(tr_row);
+				}
 				else
 				{
-					var td = document.createElement('div');
-						td.setAttribute("valign", "top");
-						td.setAttribute("id", num+"_td_little"+i);
-						td.setAttribute("idi", i);
-						td.style.display = 'table-cell';
+					if(vaxo==rows)
+					vaxo=0;
 					
-					var adding = document.createElement(element);
-						adding.setAttribute("type", type);
-						adding.setAttribute("value", document.getElementById("el_choices"+i).value);
-						adding.setAttribute("id", num+"_elementform_id_temp"+i);
-								if(document.getElementById("el_choices"+i).getAttribute("checked")=="true")
-									adding.setAttribute("checked", "checked");									
-					
-								if(type=='checkbox')
-									{
-										if(document.getElementById(num+"_allow_otherform_id_temp").value=="yes" && document.getElementById("el_choices"+i).getAttribute('other')=='1')
-										{
-											adding.setAttribute("other", "1");
-											adding.setAttribute("onclick", "if(set_checked('"+num+"','"+i+"','form_id_temp')) show_other_input('"+num+"','form_id_temp');");
-										}
-										else
-											adding.setAttribute("onclick", "set_checked('"+num+"','"+i+"','form_id_temp')");
-				
-											adding.setAttribute("name", num+"_elementform_id_temp"+i);
-									}
-										
-									if(type=='radio')
-									{
-									adding.setAttribute("name", num+"_elementform_id_temp");
-										if(document.getElementById(num+"_allow_otherform_id_temp").value=="yes" && document.getElementById("el_choices"+i).getAttribute('other')=='1')
-										{
-											adding.setAttribute("other", "1");
-											adding.setAttribute("onClick", "set_default('"+num+"','"+i+"','form_id_temp'); show_other_input('"+num+"','form_id_temp')");	
-										}
-										else
-										adding.setAttribute("onClick", "set_default('"+num+"','"+i+"','form_id_temp')");
-									}
-					
-					
-					var label_adding = document.createElement('label');
-						label_adding.setAttribute("id", num+"_label_element"+i);
-						label_adding.setAttribute("class", "ch-rad-label");
-						label_adding.setAttribute("for",num+"_elementform_id_temp"+i);
-						label_adding.innerHTML=document.getElementById("el_choices"+i).value;
-						
-						td.appendChild(adding);
-						td.appendChild(label_adding);
-						tr0.appendChild(td);
-						table.appendChild(tr0);
-					
-				
-				}
-					
-				
-				}
-			}
-    refresh_attr(num, 'type_checkbox');
-	}
+					tr_row = document.getElementById(num+'_table_little').childNodes[vaxo];
+					tr_row.appendChild(td);	
+					vaxo++;
+				}					
+							
+				gago++;	
+			});
+			
+			table.setAttribute("for_hor", num+"_hor");
+		}
 }
 
 
@@ -3247,14 +3280,10 @@ function remove_choise(id, num, type)
 {
 
 	var choices_td= document.getElementById('choices');
-		var el_choices = document.getElementById('el_choices'+id);
-		var el_choices_remove = document.getElementById('el_choices'+id+'_remove');
-		var br = document.getElementById('br'+id);
+	var div = document.getElementById(id);
 		
-		choices_td.removeChild(el_choices);
-		choices_td.removeChild(el_choices_remove);
-		choices_td.removeChild(br);
-		
+		choices_td.removeChild(div);
+
 
 refresh_rowcol(num,type);
 
@@ -3272,21 +3301,16 @@ var q=0;
 		q=1;
 		flow_ver(num);
 	}
-	j++;	
+		
 		var table = document.getElementById(num+'_table_little');
 		var tr = document.getElementById(num+'_element_tr'+id);
 		table.removeChild(tr);
 		
 		var choices_td= document.getElementById('choices');
-		var el_choices = document.getElementById('el_choices'+id);
-		var el_choices_price = document.getElementById('el_option_price'+id);
-		var el_choices_remove = document.getElementById('el_choices'+id+'_remove');
-		var br = document.getElementById('br'+id);
+		var div = document.getElementById(id);
 		
-		choices_td.removeChild(el_choices);
-		choices_td.removeChild(el_choices_price);
-		choices_td.removeChild(el_choices_remove);
-		choices_td.removeChild(br);
+		
+		choices_td.removeChild(div);
 			
 		if(q==1)
 		{
@@ -3304,17 +3328,9 @@ function remove_option_price(id, num)
 		select_.removeChild(option);
 		
 		var choices_td= document.getElementById('choices');
-		var el_choices = document.getElementById('el_option'+id);
-		var el_choices_price = document.getElementById('el_option_price'+id);
-		var el_choices_dis = document.getElementById('el_option'+id+'_dis');
-		var el_choices_remove = document.getElementById('el_option'+id+'_remove');
-		var br = document.getElementById('br'+id);
+		var div = document.getElementById(id);
 		
-		choices_td.removeChild(el_choices);
-		choices_td.removeChild(el_choices_price);
-		choices_td.removeChild(el_choices_dis);
-		choices_td.removeChild(el_choices_remove);
-		choices_td.removeChild(br);
+		choices_td.removeChild(div);
 }
 
 function add_grading_items(num){
@@ -3760,15 +3776,10 @@ function remove_option(id, num)
 		select_.removeChild(option);
 		
 		var choices_td= document.getElementById('choices');
-		var el_choices = document.getElementById('el_option'+id);
-		var el_choices_dis = document.getElementById('el_option'+id+'_dis');
-		var el_choices_remove = document.getElementById('el_option'+id+'_remove');
-		var br = document.getElementById('br'+id);
+		var div = document.getElementById(id);
 		
-		choices_td.removeChild(el_choices);
-		choices_td.removeChild(el_choices_dis);
-		choices_td.removeChild(el_choices_remove);
-		choices_td.removeChild(br);
+		
+		choices_td.removeChild(div);
 }
 
 function getIFrameDocument(aID){ 
@@ -10372,7 +10383,7 @@ change_class(w_class, i);
 refresh_attr(i, 'type_text');
 }
 
-function type_checkbox(i, w_field_label, w_field_label_size, w_field_label_pos, w_flow, w_choices, w_choices_checked, w_rowcol,  w_required, w_randomize, w_allow_other,w_allow_other_num, w_class, w_attr_name, w_attr_value) {
+function type_checkbox(i, w_field_label, w_field_label_size, w_field_label_pos, w_field_option_pos, w_flow, w_choices, w_choices_checked, w_rowcol,  w_required, w_randomize, w_allow_other,w_allow_other_num, w_class, w_attr_name, w_attr_value, w_value_disabled, w_choices_value, w_choices_params) {
 
 	document.getElementById("element_type").value="type_checkbox";
 
@@ -10401,7 +10412,8 @@ function type_checkbox(i, w_field_label, w_field_label_size, w_field_label_pos, 
 			
 	var edit_main_tr10 = document.createElement('tr');
 	var edit_main_tr11 = document.createElement('tr');
-      				
+    var edit_main_tr12 = document.createElement('tr');
+    var edit_main_tr13 = document.createElement('tr');  				
 
 	var edit_main_td1 = document.createElement('td');
 	var edit_main_td1_1 = document.createElement('td');
@@ -10412,9 +10424,11 @@ function type_checkbox(i, w_field_label, w_field_label_size, w_field_label_pos, 
 
 		
 	var edit_main_td4 = document.createElement('td');
-	var edit_main_td4_1 = document.createElement('td');
-		edit_main_td4_1.style.cssText = "padding-top:10px; vertical-align:top;";
-      	edit_main_td4.setAttribute("id", "choices");
+		edit_main_td4.setAttribute("id", "choices");
+	var edit_main_td4_1 = document.createElement('td');	
+		edit_main_td4_1.style.cssText = "padding:20px 0 0 25px; vertical-align:top;";
+		
+		
 	var edit_main_td5 = document.createElement('td');
 	var edit_main_td5_1 = document.createElement('td');
 	var edit_main_td6 = document.createElement('td');
@@ -10433,7 +10447,13 @@ function type_checkbox(i, w_field_label, w_field_label_size, w_field_label_pos, 
 	
 	var edit_main_td11 = document.createElement('td');
 	var edit_main_td11_1 = document.createElement('td');
-			
+	
+	var edit_main_td12 = document.createElement('td');
+	var edit_main_td12_1 = document.createElement('td');
+	
+	var edit_main_td13 = document.createElement('td');
+	var edit_main_td13_1 = document.createElement('td');
+		  		
 		  
 	var el_label_label = document.createElement('label');
 			        el_label_label.setAttribute("for", "edit_for_label");
@@ -10484,6 +10504,30 @@ function type_checkbox(i, w_field_label, w_field_label_size, w_field_label_pos, 
 				el_label_position2.setAttribute("checked", "checked");
 	else
 				el_label_position1.setAttribute("checked", "checked");
+				
+	var el_option_position_label = document.createElement('label');
+		el_option_position_label.innerHTML = "Field option label position";
+	
+	var el_option_position1 = document.createElement('input');
+		el_option_position1.setAttribute("id", "edit_for_option_position_right");
+		el_option_position1.setAttribute("type", "radio");        
+		el_option_position1.setAttribute("name", "edit_for_option_position");
+		el_option_position1.setAttribute("onchange", "option_left("+i+",'checkbox')");
+		
+		Left_option = document.createTextNode("Left");
+		
+	var el_option_position2 = document.createElement('input');
+		el_option_position2.setAttribute("id", "edit_for_option_position_left");
+		el_option_position2.setAttribute("type", "radio");
+    	el_option_position2.setAttribute("name", "edit_for_option_position");
+		el_option_position2.setAttribute("onchange", "option_right("+i+",'checkbox')");
+		Right_option = document.createTextNode("Right");
+		
+	if(w_field_option_pos=="right")
+		el_option_position2.setAttribute("checked", "checked");
+	else
+		el_option_position1.setAttribute("checked", "checked");					
+				
 	var el_label_flow = document.createElement('label');
 			        el_label_flow.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
 		el_label_flow.innerHTML = "Relative Position";
@@ -10544,7 +10588,16 @@ function type_checkbox(i, w_field_label, w_field_label_size, w_field_label_pos, 
 	if(w_required=="yes")
 			
                 el_required.setAttribute("checked", "checked");
-		
+	var el_disable_value_label = document.createElement('label');
+		el_disable_value_label.setAttribute("for", "el_disable_value");
+		el_disable_value_label.innerHTML = "Enable option's value";
+	
+	var el_disable_value = document.createElement('input');
+		el_disable_value.setAttribute("id", "el_disable_value");
+		el_disable_value.setAttribute("type", "checkbox");   
+		el_disable_value.setAttribute("onclick", "refresh_sel_options('"+i+"', 'checkbox')");
+	if(w_value_disabled =="yes")
+		el_disable_value.setAttribute("checked", "checked");		
 		
 				
 	var el_randomize_label = document.createElement('label');
@@ -10664,7 +10717,18 @@ function type_checkbox(i, w_field_label, w_field_label_size, w_field_label_pos, 
             	el_choices_add.style.cssText = 'cursor:pointer;';
             	el_choices_add.setAttribute("title", 'add');
                 el_choices_add.setAttribute("onClick", "add_choise('checkbox',"+i+")");
+	var	el_choices_add_text = document.createElement("span");
+		el_choices_add_text.style.cssText ="font-size: 12px; padding-left:7px; font-weight:bold; cursor:pointer;";
+		el_choices_add_text.innerHTML ="Add option(s)";				
+		el_choices_add_text.setAttribute("onClick", "add_choise('checkbox',"+i+")");
 	
+	var el_choices_select = document.createElement('a');
+	    el_choices_select.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px; cursor:pointer; padding-top:10px; display:block;";
+		el_choices_select.innerHTML = "Select options from database";
+		el_choices_select.setAttribute("rel", "{handler: 'iframe', size: {x: 670, y: 450}}"	);
+		el_choices_select.setAttribute("onclick","tb_show('', 'admin-ajax.php?action=select_data_from_db&field_id="+i+"&field_type=checkbox&value_disabled="+w_value_disabled+"&width=670&height=450&TB_iframe=1')");
+		el_choices_select.setAttribute("class","modal");
+		
 	var t  = document.getElementById('edit_table');
 	
 	var br = document.createElement('br');
@@ -10674,7 +10738,7 @@ function type_checkbox(i, w_field_label, w_field_label_size, w_field_label_pos, 
 	var br4 = document.createElement('br');
 	var br5 = document.createElement('br');
 	var br6 = document.createElement('br');
-	
+	var br7 = document.createElement('br');
 	edit_main_td1.appendChild(el_label_label);
 	edit_main_td1_1.appendChild(el_label_textarea);
 	
@@ -10695,11 +10759,21 @@ function type_checkbox(i, w_field_label, w_field_label_size, w_field_label_pos, 
 	edit_main_td3_1.appendChild(el_flow_horizontal);
 	edit_main_td3_1.appendChild(Horizontal);
 	
+	edit_main_td13.appendChild(el_disable_value_label);
+	edit_main_td13_1.appendChild(el_disable_value);
+	
 	edit_main_td5.appendChild(el_required_label);
 	edit_main_td5_1.appendChild(el_required);
 	
 	edit_main_td8.appendChild(el_randomize_label);
 	edit_main_td8_1.appendChild(el_randomize);
+	
+	edit_main_td12.appendChild(el_option_position_label);
+	edit_main_td12_1.appendChild(el_option_position1);
+	edit_main_td12_1.appendChild(Left_option);
+	edit_main_td12_1.appendChild(br5);
+	edit_main_td12_1.appendChild(el_option_position2);
+	edit_main_td12_1.appendChild(Right_option);
 	
 	edit_main_td9.appendChild(el_allow_other_label);
 	edit_main_td9_1.appendChild(el_allow_other);
@@ -10717,14 +10791,46 @@ function type_checkbox(i, w_field_label, w_field_label_size, w_field_label_pos, 
 	edit_main_td7.setAttribute("colspan", "2");
 	
 	edit_main_td4.appendChild(el_choices_label);
+	edit_main_td4_1.appendChild(br7);
 	edit_main_td4_1.appendChild(el_choices_add);
+	edit_main_td4_1.appendChild(el_choices_add_text);
+	edit_main_td4_1.appendChild(el_choices_select);
+	
+	var div_ = document.createElement('div');
+		div_.style.cssText = 'border-bottom:1px dotted black; width: 260px;';
+	var br = document.createElement('br');
+		
+		var el_choices_mini_label = document.createElement('b');
+			el_choices_mini_label.innerHTML="Name";
+			el_choices_mini_label.style.cssText='padding-right: 40px; padding-left: 40px; font-size:9px';
+
+		var el_choices_value_mini_label = document.createElement('b');
+			el_choices_value_mini_label.innerHTML="Value";
+			el_choices_value_mini_label.style.cssText='padding-right: 40px; padding-left: 40px; font-size:9px';
+			
+		var el_choices_dis_mini_label = document.createElement('b');
+			el_choices_dis_mini_label.innerHTML="Delete";
+			el_choices_dis_mini_label.style.cssText='padding-left: 2px; padding-right: 2px; font-size:9px';
+		
+		var el_choices_move_mini_label = document.createElement('b');
+			el_choices_move_mini_label.innerHTML="Move";
+			el_choices_move_mini_label.style.cssText='padding-left: 2px; padding-right: 2px; font-size:9px';		
+		
+		div_.appendChild(br);
+		div_.appendChild(el_choices_mini_label);
+		div_.appendChild(el_choices_value_mini_label);
+		div_.appendChild(el_choices_dis_mini_label);
+		div_.appendChild(el_choices_move_mini_label);
+		edit_main_td4.appendChild(div_);
+	
 	
 	aaa=false;
 	n=w_choices.length;
 	for(j=0; j<n; j++)
 	{	
-		var br = document.createElement('br');
-			br.setAttribute("id", "br"+j);
+		var div = document.createElement('div');
+			div.setAttribute("id", j);
+			div.setAttribute("class", "change_pos");
 			
 		var el_choices = document.createElement('input');
 			el_choices.setAttribute("id", "el_choices"+j);
@@ -10733,8 +10839,28 @@ function type_checkbox(i, w_field_label, w_field_label_size, w_field_label_pos, 
 			el_choices.setAttribute("other", '1');
 			el_choices.setAttribute("value", w_choices[j]);
 			el_choices.setAttribute("checked", w_choices_checked[j]);
-			el_choices.style.cssText =   "width:100px; margin:0; padding:0; border-width: 1px";
-			el_choices.setAttribute("onKeyUp", "change_label('"+i+"_label_element"+j+"', this.value); change_in_value('"+i+"_elementform_id_temp"+j+"', this.value)");
+			el_choices.style.cssText =   "width:100px; margin:1px; padding:3px 0; border-width: 1px";
+			el_choices.setAttribute("onKeyUp", "change_label_name("+j+", '"+i+"_label_element"+j+"', this.value, 'checkbox'); change_label_value('"+i+"_elementform_id_temp"+j+"', jQuery('#el_option_value"+j+"').val());");
+			if(w_choices_params[j])
+				el_choices.setAttribute("disabled", 'disabled');	
+	
+		var el_choices_value = document.createElement('input');
+			el_choices_value.setAttribute("id", "el_option_value"+j);		
+			if(!w_choices_params[j] && (w_allow_other!="yes" || j!=w_allow_other_num))
+			el_choices_value.setAttribute("class", "el_option_value");
+			el_choices_value.setAttribute("type", "text");
+			el_choices_value.setAttribute("value", w_choices_value[j]);
+			el_choices_value.style.cssText =   "width:100px; margin:1px; padding:3px 0; border-width: 1px";
+			el_choices_value.setAttribute("onKeyUp", "change_label_value('"+i+"_elementform_id_temp"+j+"', this.value)");
+			if(w_value_disabled=='no' || w_choices_params[j] || (w_allow_other=="yes" && j==w_allow_other_num))
+				el_choices_value.setAttribute("disabled", 'disabled');
+	
+		var el_choices_params = document.createElement('input');
+			el_choices_params.setAttribute("id", "el_option_params"+j);
+			el_choices_params.setAttribute("class", "el_option_params");
+			el_choices_params.setAttribute("type", "hidden");
+			el_choices_params.setAttribute("value", w_choices_params[j]);
+
 	
 		var el_choices_remove = document.createElement('img');
 			el_choices_remove.setAttribute("id", "el_choices"+j+"_remove");
@@ -10746,10 +10872,23 @@ function type_checkbox(i, w_field_label, w_field_label_size, w_field_label_pos, 
 			el_choices_remove.setAttribute("align", 'top');
 			el_choices_remove.setAttribute("onClick", "remove_choise("+j+","+i+",'checkbox')");
 			
-		edit_main_td4.appendChild(br);
-		edit_main_td4.appendChild(el_choices);
-		edit_main_td4.appendChild(el_choices_remove);
-		if(w_choices_checked[j]=='1')
+		var el_choices_handle = document.createElement('img');
+			el_choices_handle.setAttribute("class", "el_choices_sortable");
+			el_choices_handle.setAttribute("src", plugin_url + '/images/move_cursor.png');	
+			if(w_allow_other=="yes" && j==w_allow_other_num)			
+				el_choices_handle.style.cssText = 'cursor:move; vertical-align:middle; margin:0 0 0 33px;';
+			else	
+				el_choices_handle.style.cssText = 'cursor:move; vertical-align:middle; margin:0 0 0 9px;';
+			el_choices_handle.setAttribute("align", 'top');
+	
+		
+		div.appendChild(el_choices);
+		div.appendChild(el_choices_value);	
+		div.appendChild(el_choices_remove);
+		div.appendChild(el_choices_handle);
+		div.appendChild(el_choices_params);
+		edit_main_td4.appendChild(div);
+		if(w_choices_checked[j]==true)
 			if(w_allow_other=="yes" && j==w_allow_other_num)
 				aaa=true;
 	
@@ -10765,6 +10904,8 @@ function type_checkbox(i, w_field_label, w_field_label_size, w_field_label_pos, 
 	edit_main_tr3.appendChild(edit_main_td3_1);
 	edit_main_tr6.appendChild(edit_main_td6);
 	edit_main_tr6.appendChild(edit_main_td6_1);
+	edit_main_tr13.appendChild(edit_main_td13);
+	edit_main_tr13.appendChild(edit_main_td13_1);
 	edit_main_tr5.appendChild(edit_main_td5);
 	edit_main_tr5.appendChild(edit_main_td5_1);
 	edit_main_tr7.appendChild(edit_main_td7);
@@ -10772,6 +10913,8 @@ function type_checkbox(i, w_field_label, w_field_label_size, w_field_label_pos, 
 	edit_main_tr4.appendChild(edit_main_td4_1);
 	edit_main_tr8.appendChild(edit_main_td8);
 	edit_main_tr8.appendChild(edit_main_td8_1);
+	edit_main_tr12.appendChild(edit_main_td12);
+	edit_main_tr12.appendChild(edit_main_td12_1);
 	edit_main_tr9.appendChild(edit_main_td9);
 	edit_main_tr9.appendChild(edit_main_td9_1);
 	edit_main_tr11.appendChild(edit_main_td11);
@@ -10784,6 +10927,8 @@ function type_checkbox(i, w_field_label, w_field_label_size, w_field_label_pos, 
 	edit_main_table.appendChild(edit_main_tr6);
 	edit_main_table.appendChild(edit_main_tr5);
 	edit_main_table.appendChild(edit_main_tr8);
+	edit_main_table.appendChild(edit_main_tr12);
+	edit_main_table.appendChild(edit_main_tr13);
 	edit_main_table.appendChild(edit_main_tr9);
 	edit_main_table.appendChild(edit_main_tr4);
 	edit_main_table.appendChild(edit_main_tr7);
@@ -10828,7 +10973,16 @@ function type_checkbox(i, w_field_label, w_field_label_size, w_field_label_pos, 
             adding_rowcol.setAttribute("value", w_rowcol);
             adding_rowcol.setAttribute("name", i+"_rowcol_numform_id_temp");			
             adding_rowcol.setAttribute("id", i+"_rowcol_numform_id_temp");		
-	    
+	var adding_option_left_right= document.createElement("input");
+            adding_option_left_right.setAttribute("type", "hidden");
+            adding_option_left_right.setAttribute("value", w_field_option_pos);	
+            adding_option_left_right.setAttribute("id", i+"_option_left_right");		 
+
+	var adding_value_disabled = document.createElement("input");
+            adding_value_disabled.setAttribute("type", "hidden");
+            adding_value_disabled.setAttribute("value", w_value_disabled);
+            adding_value_disabled.setAttribute("name", i+"_value_disabledform_id_temp");	
+            adding_value_disabled.setAttribute("id", i+"_value_disabledform_id_temp"); 	    
    var div = document.createElement('div');
        	div.setAttribute("id", "main_div");
 //tbody sarqac
@@ -10890,6 +11044,8 @@ function type_checkbox(i, w_field_label, w_field_label_size, w_field_label_pos, 
        	div_element.appendChild(adding_allow_other);
        	div_element.appendChild(adding_allow_other_id);
 		div_element.appendChild(adding_rowcol);
+		div_element.appendChild(adding_option_left_right);
+		div_element.appendChild(adding_value_disabled);
 		div_element.appendChild(table_little_t);
       	div_field.appendChild(div_label);
       	div_field.appendChild(div_element);
@@ -10913,10 +11069,21 @@ if(aaa)
 {
 	show_other_input(i);
 }
-
+//enable_modals();
+jQuery(function() {
+	jQuery( "#choices" ).sortable({ 
+		items: ".change_pos" ,
+		handle: ".el_choices_sortable",
+		update: function(event, ui) {		
+			refresh_rowcol(i, 'checkbox');
+			refresh_id_name(i, 'type_checkbox');
+		}
+	
+	});	
+  });
 }
 
-function type_radio(i, w_field_label, w_field_label_size, w_field_label_pos, w_flow, w_choices, w_choices_checked, w_rowcol, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value ){
+function type_radio(i, w_field_label, w_field_label_size, w_field_label_pos, w_field_option_pos, w_flow, w_choices, w_choices_checked, w_rowcol, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value,w_value_disabled, w_choices_value, w_choices_params ){
 
 	document.getElementById("element_type").value="type_radio";
 
@@ -10946,7 +11113,8 @@ function type_radio(i, w_field_label, w_field_label_size, w_field_label_pos, w_f
       				
 	var edit_main_tr10  = document.createElement('tr');
 	var edit_main_tr11  = document.createElement('tr');
-      				
+    var edit_main_tr12  = document.createElement('tr');
+    var edit_main_tr13  = document.createElement('tr'); 				
 
 	var edit_main_td1 = document.createElement('td');
 	var edit_main_td1_1 = document.createElement('td');
@@ -10956,10 +11124,9 @@ function type_radio(i, w_field_label, w_field_label_size, w_field_label_pos, w_f
 	var edit_main_td3_1 = document.createElement('td');
 
 	var edit_main_td4 = document.createElement('td');
-	var edit_main_td4_1 = document.createElement('td');
-		edit_main_td4_1.style.cssText = "padding-top:10px; vertical-align:top;";
-		
 		edit_main_td4.setAttribute("id", "choices");
+	var edit_main_td4_1 = document.createElement('td');
+		edit_main_td4_1.style.cssText = "padding:20px 0 0 25px; vertical-align:top;";
 		
 	var edit_main_td5 = document.createElement('td');
 	var edit_main_td5_1 = document.createElement('td');
@@ -10979,7 +11146,11 @@ function type_radio(i, w_field_label, w_field_label_size, w_field_label_pos, w_f
 	
 	var edit_main_td11 = document.createElement('td');
 	var edit_main_td11_1 = document.createElement('td');
-			
+	var edit_main_td12 = document.createElement('td');
+	var edit_main_td12_1 = document.createElement('td');
+	
+	var edit_main_td13 = document.createElement('td');
+	var edit_main_td13_1 = document.createElement('td');		
 		  
 	var el_label_label = document.createElement('label');
 			        el_label_label.setAttribute("for", "edit_for_label");
@@ -11034,7 +11205,29 @@ function type_radio(i, w_field_label, w_field_label_size, w_field_label_pos, w_f
 				el_label_position2.setAttribute("checked", "checked");
 	else
 				el_label_position1.setAttribute("checked", "checked");
+				
+	var el_option_position_label = document.createElement('label');
+		el_option_position_label.innerHTML = "Field option label position";
 	
+	var el_option_position1 = document.createElement('input');
+		el_option_position1.setAttribute("id", "edit_for_option_position_right");
+		el_option_position1.setAttribute("type", "radio");        
+		el_option_position1.setAttribute("name", "edit_for_option_position");
+		el_option_position1.setAttribute("onchange", "option_left("+i+",'radio')");
+		
+		Left_option = document.createTextNode("Left");
+		
+	var el_option_position2 = document.createElement('input');
+		el_option_position2.setAttribute("id", "edit_for_option_position_left");
+		el_option_position2.setAttribute("type", "radio");
+    	el_option_position2.setAttribute("name", "edit_for_option_position");
+		el_option_position2.setAttribute("onchange", "option_right("+i+",'radio')");
+		Right_option = document.createTextNode("Right");
+		
+	if(w_field_option_pos=="right")
+		el_option_position2.setAttribute("checked", "checked");
+	else
+		el_option_position1.setAttribute("checked", "checked");	
 	var el_label_flow = document.createElement('label');
 			        el_label_flow.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
 		el_label_flow.innerHTML = "Relative Position";
@@ -11097,7 +11290,18 @@ function type_radio(i, w_field_label, w_field_label_size, w_field_label_pos, w_f
 			
                 el_required.setAttribute("checked", "checked");
 
-				
+	var el_disable_value_label = document.createElement('label');
+		el_disable_value_label.setAttribute("for", "el_disable_value");
+		el_disable_value_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px;  margin-right:27px";
+		el_disable_value_label.innerHTML = "Enable option's value";
+	
+	var el_disable_value = document.createElement('input');
+		el_disable_value.setAttribute("id", "el_disable_value");
+		el_disable_value.setAttribute("type", "checkbox");   
+		el_disable_value.setAttribute("onclick", "refresh_sel_options('"+i+"', 'radio')");
+	if(w_value_disabled =="yes")
+		el_disable_value.setAttribute("checked", "checked");
+		
 	var el_randomize_label = document.createElement('label');
 				el_randomize_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
 				el_randomize_label.innerHTML = "Randomize in frontend";
@@ -11217,7 +11421,17 @@ function type_radio(i, w_field_label, w_field_label_size, w_field_label_pos, w_f
             	el_choices_add.style.cssText = 'cursor:pointer;';
             	el_choices_add.setAttribute("title", 'add');
                 el_choices_add.setAttribute("onClick", "add_choise('radio',"+i+")");
-				
+	var	el_choices_add_text = document.createElement("span");
+		el_choices_add_text.style.cssText ="font-size: 12px; padding-left:7px; font-weight:bold; cursor:pointer;";
+		el_choices_add_text.innerHTML ="Add option(s)";				
+		el_choices_add_text.setAttribute("onClick", "add_choise('radio',"+i+")");
+		
+	var el_choices_select = document.createElement('a');
+	    el_choices_select.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px; cursor:pointer; padding-top:10px; display:block;";
+		el_choices_select.innerHTML = "Select options from database";
+		el_choices_select.setAttribute("rel", "{handler: 'iframe', size: {x: 670, y: 450}}"	);
+		el_choices_select.setAttribute("onclick","tb_show('', 'admin-ajax.php?action=select_data_from_db&field_id="+i+"&field_type=radio&value_disabled="+w_value_disabled+"&width=670&height=450&TB_iframe=1')");
+		el_choices_select.setAttribute("class","modal");			
 	var t  = document.getElementById('edit_table');
 	
 	var br = document.createElement('br');
@@ -11227,7 +11441,7 @@ function type_radio(i, w_field_label, w_field_label_size, w_field_label_pos, w_f
 	var br4 = document.createElement('br');
 	var br5 = document.createElement('br');
 	var br6 = document.createElement('br');
-	
+	var br7 = document.createElement('br');
 
 	edit_main_td1.appendChild(el_label_label);
 	edit_main_td1_1.appendChild(el_label_textarea);
@@ -11249,6 +11463,9 @@ function type_radio(i, w_field_label, w_field_label_size, w_field_label_pos, w_f
 	edit_main_td3_1.appendChild(el_flow_horizontal);
 	edit_main_td3_1.appendChild(Horizontal);
 	
+	edit_main_td13.appendChild(el_disable_value_label);
+	edit_main_td13_1.appendChild(el_disable_value);
+	
 	edit_main_td11.appendChild(el_rowcol_label);
 	edit_main_td11_1.appendChild(el_rowcol_textarea);
 
@@ -11261,6 +11478,13 @@ function type_radio(i, w_field_label, w_field_label_size, w_field_label_pos, w_f
 	edit_main_td8.appendChild(el_randomize_label);
 	edit_main_td8_1.appendChild(el_randomize);
 	
+	edit_main_td12.appendChild(el_option_position_label);
+	edit_main_td12_1.appendChild(el_option_position1);
+	edit_main_td12_1.appendChild(Left_option);
+	edit_main_td12_1.appendChild(br5);
+	edit_main_td12_1.appendChild(el_option_position2);
+	edit_main_td12_1.appendChild(Right_option);
+	
 	edit_main_td9.appendChild(el_allow_other_label);
 	edit_main_td9_1.appendChild(el_allow_other);
 	
@@ -11271,15 +11495,47 @@ function type_radio(i, w_field_label, w_field_label_size, w_field_label_pos, w_f
 	edit_main_td7.setAttribute("colspan", "2");
 	
 	edit_main_td4.appendChild(el_choices_label);
+	edit_main_td4_1.appendChild(br7);
 	edit_main_td4_1.appendChild(el_choices_add);
+	edit_main_td4_1.appendChild(el_choices_add_text);
+	edit_main_td4_1.appendChild(el_choices_select);
+
+	var div_ = document.createElement('div');
+		div_.style.cssText = 'border-bottom:1px dotted black; width: 260px;';
+	var br = document.createElement('br');
+		
+	var el_choices_mini_label = document.createElement('b');
+		el_choices_mini_label.innerHTML="Name";
+		el_choices_mini_label.style.cssText='padding-right: 40px; padding-left: 40px; font-size:9px';
+
+	var el_choices_value_mini_label = document.createElement('b');
+		el_choices_value_mini_label.innerHTML="Value";
+		el_choices_value_mini_label.style.cssText='padding-right: 40px; padding-left: 40px; font-size:9px';
+		
+	var el_choices_dis_mini_label = document.createElement('b');
+		el_choices_dis_mini_label.innerHTML="Delete";
+		el_choices_dis_mini_label.style.cssText='padding-left: 2px; padding-right: 2px; font-size:9px';
+	
+	var el_choices_move_mini_label = document.createElement('b');
+		el_choices_move_mini_label.innerHTML="Move";
+		el_choices_move_mini_label.style.cssText='padding-left: 2px; padding-right: 2px; font-size:9px';		
+	
+	div_.appendChild(br);
+	div_.appendChild(el_choices_mini_label);
+	div_.appendChild(el_choices_value_mini_label);
+	div_.appendChild(el_choices_dis_mini_label);
+	div_.appendChild(el_choices_move_mini_label);
+	edit_main_td4.appendChild(div_);
+
 
 				aaa=false;
 	
 	n=w_choices.length;
 	for(j=0; j<n; j++)
 	{	
-		var br = document.createElement('br');
-			br.setAttribute("id", "br"+j);
+		var div = document.createElement('div');
+			div.setAttribute("id", j);
+			div.setAttribute("class", "change_pos");
 			
 		var el_choices = document.createElement('input');
 			el_choices.setAttribute("id", "el_choices"+j);
@@ -11288,8 +11544,27 @@ function type_radio(i, w_field_label, w_field_label_size, w_field_label_pos, w_f
 			el_choices.setAttribute("other", '1');
 			el_choices.setAttribute("value", w_choices[j]);
 			el_choices.setAttribute("checked", w_choices_checked[j]);
-			el_choices.style.cssText =   "width:100px; margin:0; padding:0; border-width: 1px";
-			el_choices.setAttribute("onKeyUp", "change_label('"+i+"_label_element"+j+"', this.value); change_in_value('"+i+"_elementform_id_temp"+j+"', this.value)");
+			el_choices.style.cssText =   "width:100px; margin:1px; padding:3px 0; border-width: 1px";
+			el_choices.setAttribute("onKeyUp", "change_label('"+i+"_label_element"+j+"', this.value)");
+			if(w_choices_params[j])
+				el_choices.setAttribute("disabled", 'disabled');
+	
+		var el_choices_value = document.createElement('input');
+			el_choices_value.setAttribute("id", "el_option_value"+j);		
+			if(!w_choices_params[j] && (w_allow_other!="yes" || j!=w_allow_other_num))
+			el_choices_value.setAttribute("class", "el_option_value");
+			el_choices_value.setAttribute("type", "text");
+			el_choices_value.setAttribute("value", w_choices_value[j]);
+			el_choices_value.style.cssText =   "width:100px; margin:1px; padding:3px 0; border-width: 1px";
+			el_choices_value.setAttribute("onKeyUp", "change_label_value('"+i+"_elementform_id_temp"+j+"', this.value)");
+			if(w_value_disabled=='no' || w_choices_params[j] || (w_allow_other=="yes" && j==w_allow_other_num))
+				el_choices_value.setAttribute("disabled", 'disabled');
+	
+		var el_choices_params = document.createElement('input');
+			el_choices_params.setAttribute("id", "el_option_params"+j);
+			el_choices_params.setAttribute("class", "el_option_params");
+			el_choices_params.setAttribute("type", "hidden");
+			el_choices_params.setAttribute("value", w_choices_params[j]);
 	
 		var el_choices_remove = document.createElement('img');
 			el_choices_remove.setAttribute("id", "el_choices"+j+"_remove");
@@ -11301,10 +11576,23 @@ function type_radio(i, w_field_label, w_field_label_size, w_field_label_pos, w_f
 			el_choices_remove.setAttribute("align", 'top');
 			el_choices_remove.setAttribute("onClick", "remove_choise("+j+","+i+",'radio')");
 			
-		edit_main_td4.appendChild(br);
-		edit_main_td4.appendChild(el_choices);
-		edit_main_td4.appendChild(el_choices_remove);
-		if(w_choices_checked[j]=='1')
+		var el_choices_handle = document.createElement('img');
+			el_choices_handle.setAttribute("class", "el_choices_sortable");
+			el_choices_handle.setAttribute("src", plugin_url + '/images/move_cursor.png');		
+			if(w_allow_other=="yes" && j==w_allow_other_num)			
+				el_choices_handle.style.cssText = 'cursor:move; vertical-align:middle; margin:0 0 0 33px;';
+			else	
+				el_choices_handle.style.cssText = 'cursor:move; vertical-align:middle; margin:0 0 0 9px;';
+			el_choices_handle.setAttribute("align", 'top');
+	
+			
+		div.appendChild(el_choices);
+		div.appendChild(el_choices_value);	
+		div.appendChild(el_choices_remove);
+		div.appendChild(el_choices_handle);
+		div.appendChild(el_choices_params);
+		edit_main_td4.appendChild(div);
+		if(w_choices_checked[j]==true)
 			if(w_allow_other=="yes" && j==w_allow_other_num)
 				aaa=true;
 	
@@ -11322,6 +11610,8 @@ function type_radio(i, w_field_label, w_field_label_size, w_field_label_pos, w_f
 	
 	edit_main_tr6.appendChild(edit_main_td6);
 	edit_main_tr6.appendChild(edit_main_td6_1);
+	edit_main_tr13.appendChild(edit_main_td13);
+	edit_main_tr13.appendChild(edit_main_td13_1);
 	edit_main_tr7.appendChild(edit_main_td7);
 	edit_main_tr5.appendChild(edit_main_td5);
 	edit_main_tr5.appendChild(edit_main_td5_1);
@@ -11329,6 +11619,8 @@ function type_radio(i, w_field_label, w_field_label_size, w_field_label_pos, w_f
 	edit_main_tr4.appendChild(edit_main_td4_1);
 	edit_main_tr8.appendChild(edit_main_td8);
 	edit_main_tr8.appendChild(edit_main_td8_1);
+	edit_main_tr12.appendChild(edit_main_td12);
+	edit_main_tr12.appendChild(edit_main_td12_1);
 	edit_main_tr9.appendChild(edit_main_td9);
 	edit_main_tr9.appendChild(edit_main_td9_1);
 	edit_main_tr11.appendChild(edit_main_td11);
@@ -11341,6 +11633,8 @@ function type_radio(i, w_field_label, w_field_label_size, w_field_label_pos, w_f
 	edit_main_table.appendChild(edit_main_tr6);
 	edit_main_table.appendChild(edit_main_tr5);
 	edit_main_table.appendChild(edit_main_tr8);
+	edit_main_table.appendChild(edit_main_tr12);
+	edit_main_table.appendChild(edit_main_tr13);
 	edit_main_table.appendChild(edit_main_tr9);
 	edit_main_table.appendChild(edit_main_tr4);
 	edit_main_table.appendChild(edit_main_tr7);
@@ -11379,6 +11673,17 @@ function type_radio(i, w_field_label, w_field_label_size, w_field_label_pos, w_f
             adding_rowcol.setAttribute("value", w_rowcol);
             adding_rowcol.setAttribute("name", i+"_rowcol_numform_id_temp");			
             adding_rowcol.setAttribute("id", i+"_rowcol_numform_id_temp");
+			
+	var adding_option_left_right= document.createElement("input");
+			adding_option_left_right.setAttribute("type", "hidden");
+			adding_option_left_right.setAttribute("value", w_field_option_pos);	
+			adding_option_left_right.setAttribute("id", i+"_option_left_right");	
+			
+	var adding_value_disabled = document.createElement("input");
+            adding_value_disabled.setAttribute("type", "hidden");
+            adding_value_disabled.setAttribute("value", w_value_disabled);
+            adding_value_disabled.setAttribute("name", i+"_value_disabledform_id_temp");	
+            adding_value_disabled.setAttribute("id", i+"_value_disabledform_id_temp"); 				
 	
 	 
      var div = document.createElement('div');
@@ -11457,6 +11762,8 @@ function type_radio(i, w_field_label, w_field_label_size, w_field_label_pos, w_f
        	div_element.appendChild(adding_randomize);
        	div_element.appendChild(adding_allow_other);
 		div_element.appendChild(adding_rowcol);
+		div_element.appendChild(adding_option_left_right);
+		div_element.appendChild(adding_value_disabled);
 		div_element.appendChild(table_little_t);
       	div_field.appendChild(div_label);
       	div_field.appendChild(div_element);
@@ -11480,6 +11787,18 @@ if(aaa)
 {
 	show_other_input(i);
 }
+//enable_modals();
+jQuery(function() {
+	jQuery( "#choices" ).sortable({ 
+		items: ".change_pos" ,
+		handle: ".el_choices_sortable",
+		update: function(event, ui) {		
+			refresh_rowcol(i, 'radio');
+			refresh_id_name(i, 'type_radio');
+		}
+	
+	});	
+  });
 }
 
 function type_time(i, w_field_label, w_field_label_size, w_field_label_pos, w_time_type, w_am_pm, w_sec, w_hh, w_mm, w_ss, w_mini_labels, w_required, w_class, w_attr_name, w_attr_value) {
@@ -13579,7 +13898,7 @@ jQuery(document).ready(function() {
 
 }
 
-function type_own_select(i, w_field_label, w_field_label_size, w_field_label_pos, w_size, w_choices, w_choices_checked, w_required, w_class, w_attr_name, w_attr_value, w_choices_disabled){
+function type_own_select(i, w_field_label, w_field_label_size, w_field_label_pos, w_size, w_choices, w_choices_checked, w_required, w_value_disabled, w_class, w_attr_name, w_attr_value, w_choices_disabled, w_choices_value, w_choices_params){
 	document.getElementById("element_type").value="type_own_select";
 	delete_last_child();
 // edit table	
@@ -13600,13 +13919,14 @@ function type_own_select(i, w_field_label, w_field_label_size, w_field_label_pos
 	var edit_main_tr6  = document.createElement('tr');
 	var edit_main_tr7  = document.createElement('tr');
 	var edit_main_tr8  = document.createElement('tr');
+	var edit_main_tr9  = document.createElement('tr');
 	var edit_main_td1 = document.createElement('td');
 	var edit_main_td1_1 = document.createElement('td');
 	var edit_main_td2 = document.createElement('td');
 	var edit_main_td2_1 = document.createElement('td');
 	var edit_main_td3 = document.createElement('td');
 	var edit_main_td3_1 = document.createElement('td');
-		edit_main_td3_1.style.cssText = "padding-top:10px; vertical-align:top;";
+		edit_main_td3_1.style.cssText = "padding:60px 0 0 20px; vertical-align:top;";
 		edit_main_td3.setAttribute("id", "choices");
 		
 	var edit_main_td4 = document.createElement('td');
@@ -13622,7 +13942,10 @@ function type_own_select(i, w_field_label, w_field_label_size, w_field_label_pos
 		edit_main_td8.style.cssText = "padding-top:10px;";
 	var edit_main_td8_1 = document.createElement('td');
 		edit_main_td8_1.style.cssText = "padding-top:10px";	
-		
+	var edit_main_td9 = document.createElement('td');
+		edit_main_td9.style.cssText = "padding-top:10px;";
+	var edit_main_td9_1 = document.createElement('td');
+		edit_main_td9_1.style.cssText = "padding-top:10px";		
 		  
 	var el_label_label = document.createElement('label');
 			        el_label_label.setAttribute("for", "edit_for_label");
@@ -13713,7 +14036,18 @@ function type_own_select(i, w_field_label, w_field_label_size, w_field_label_pos
 	if(w_required=="yes")
 			
                 el_required.setAttribute("checked", "checked");
+				
+	var el_disable_value_label = document.createElement('label');
+		el_disable_value_label.setAttribute("for", "el_disable_value");
+		el_disable_value_label.innerHTML = "Enable option's value";
 	
+	var el_disable_value = document.createElement('input');
+		el_disable_value.setAttribute("id", "el_disable_value");
+		el_disable_value.setAttribute("type", "checkbox");   
+		el_disable_value.setAttribute("onclick", "refresh_sel_options('"+i+"','select')");
+	if(w_value_disabled =="yes")
+		el_disable_value.setAttribute("checked", "checked");
+		
 	var el_attr_label = document.createElement('label');
 	                
 			el_attr_label.innerHTML = "Additional Attributes";
@@ -13805,12 +14139,23 @@ function type_own_select(i, w_field_label, w_field_label_size, w_field_label_pos
             	el_choices_add.style.cssText = 'cursor:pointer;';
             	el_choices_add.setAttribute("title", 'add');
                 el_choices_add.setAttribute("onClick", "add_choise('select',"+i+")");
-
+				
+    var	el_choices_add_text = document.createElement("span");
+		el_choices_add_text.style.cssText ="font-size: 12px; padding-left:7px; font-weight:bold; cursor:pointer;";
+		el_choices_add_text.innerHTML ="Add option(s)";				
+		el_choices_add_text.setAttribute("onClick", "add_choise('select',"+i+")");
+		
 	var el_choices_important = document.createElement('div');			
 	    el_choices_important.style.cssText = 'color:red; padding:14px';
 		el_choices_important.innerHTML = 'IMPORTANT! Check the "Empty value" checkbox only if you want the option to be considered as empty.';
 
-
+    var el_choices_select = document.createElement('a');
+	    el_choices_select.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px; cursor:pointer; padding-top:10px; display:block;";
+		el_choices_select.innerHTML = "Select options from database";
+		el_choices_select.setAttribute("rel", "{handler: 'iframe', size: {x: 670, y: 450}}"	);
+		el_choices_select.setAttribute("onclick","tb_show('', 'admin-ajax.php?action=select_data_from_db&field_id="+i+"&field_type=select&value_disabled="+w_value_disabled+"&width=670&height=450&TB_iframe=1')");
+		el_choices_select.setAttribute("class","modal");
+	
 
 
 	var t  = document.getElementById('edit_table');
@@ -13824,7 +14169,7 @@ function type_own_select(i, w_field_label, w_field_label_size, w_field_label_pos
         br4.setAttribute("id", "br2");
 	var br5 = document.createElement('br');
 	var br6 = document.createElement('br');
-	
+	var br7 = document.createElement('br');
 	edit_main_td1.appendChild(el_label_label);
 	edit_main_td1_1.appendChild(el_label_textarea);
 	
@@ -13849,24 +14194,31 @@ function type_own_select(i, w_field_label, w_field_label_size, w_field_label_pos
 	edit_main_td4.appendChild(el_required_label);
 	edit_main_td4_1.appendChild(el_required);
 	
+	edit_main_td9.appendChild(el_disable_value_label);
+	edit_main_td9_1.appendChild(el_disable_value);
+	
 	edit_main_td5.appendChild(el_size_label);
 	edit_main_td5_1.appendChild(el_size);
 	
 	edit_main_td3.appendChild(el_choices_label);
+	edit_main_td3.appendChild(el_choices_important);
+	edit_main_td3_1.appendChild(br7);
 	edit_main_td3_1.appendChild(el_choices_add);
-	edit_main_td3_1.appendChild(el_choices_important);
+	edit_main_td3_1.appendChild(el_choices_add_text);
+	edit_main_td3_1.appendChild(el_choices_select);
+	
 	
 	var div_ = document.createElement('div');
-			div_.style.cssText = 'border-bottom:1px dotted black; width: 248px;';
+			div_.style.cssText = 'border-bottom:1px dotted black; width: 330px;';
 		var br = document.createElement('br');
 		
 		var el_choices_mini_label = document.createElement('b');
-			el_choices_mini_label.innerHTML="Option name";
-			el_choices_mini_label.style.cssText='padding-right: 20px; padding-left: 20px; font-size:9px';
-			
-		var el_choices_price_mini_label = document.createElement('b');
-			el_choices_price_mini_label.innerHTML="Price";
-			el_choices_price_mini_label.style.cssText='padding-right: 15px; padding-left: 15px;  font-size:9px';
+			el_choices_mini_label.innerHTML="Name";
+			el_choices_mini_label.style.cssText='padding-right: 40px; padding-left: 40px; font-size:9px';
+
+		var el_choices_value_mini_label = document.createElement('b');
+			el_choices_value_mini_label.innerHTML="Value";
+			el_choices_value_mini_label.style.cssText='padding-right: 40px; padding-left: 40px; font-size:9px';
 	
 		var el_choices_remove_mini_label = document.createElement('b');
 			el_choices_remove_mini_label.innerHTML="Empty value";
@@ -13875,27 +14227,34 @@ function type_own_select(i, w_field_label, w_field_label_size, w_field_label_pos
 		var el_choices_dis_mini_label = document.createElement('b');
 			el_choices_dis_mini_label.innerHTML="Delete";
 			el_choices_dis_mini_label.style.cssText='padding-left: 2px; padding-right: 2px; font-size:9px';
-			
+		
+		var el_choices_move_mini_label = document.createElement('b');
+			el_choices_move_mini_label.innerHTML="Move";
+			el_choices_move_mini_label.style.cssText='padding-left: 2px; padding-right: 2px; font-size:9px';		
+		
 		div_.appendChild(br);
 		div_.appendChild(el_choices_mini_label);
-		
+		div_.appendChild(el_choices_value_mini_label);
 		div_.appendChild(el_choices_remove_mini_label);
 		div_.appendChild(el_choices_dis_mini_label);
+		div_.appendChild(el_choices_move_mini_label);
 		edit_main_td3.appendChild(div_);
-
 	
 	
 	n=w_choices.length;
 	for(j=0; j<n; j++)
 	{	
-		var br = document.createElement('br');
-		br.setAttribute("id", "br"+j);
+		var div = document.createElement('div');
+			div.setAttribute("id", j);
+			div.setAttribute("class", "change_pos");
 		var el_choices = document.createElement('input');
 			el_choices.setAttribute("id", "el_option"+j);
 			el_choices.setAttribute("type", "text");
 			el_choices.setAttribute("value", w_choices[j]);
-			el_choices.style.cssText =   "width:100px; margin:0; padding:0; border-width: 1px";
-			el_choices.setAttribute("onKeyUp", "change_label('"+i+"_option"+j+"', this.value)");
+			el_choices.style.cssText =   "width:100px; margin:1px; padding:3px 0; border-width: 1px";
+			el_choices.setAttribute("onKeyUp", "change_label_name('"+j+"', '"+i+"_option"+j+"',  this.value, 'select')");
+			if(w_choices_params[j])
+				el_choices.setAttribute("disabled", 'disabled');
 	
 		var el_choices_remove = document.createElement('img');
 			el_choices_remove.setAttribute("id", "el_option"+j+"_remove");
@@ -13908,15 +14267,46 @@ function type_own_select(i, w_field_label, w_field_label_size, w_field_label_pos
 			el_choices_dis.setAttribute("type", 'checkbox');
 			el_choices_dis.setAttribute("title", 'Empty value');
 			el_choices_dis.setAttribute("id", "el_option"+j+"_dis");
+			el_choices_dis.setAttribute("class", "el_option_dis");
 			el_choices_dis.setAttribute("onClick", "dis_option('"+i+"_option"+j+"', this.checked)");
 			el_choices_dis.style.cssText ="vertical-align: middle; margin-left:24px; margin-right:24px;";
 			if(w_choices_disabled[j])
 				el_choices_dis.setAttribute("checked", "checked");
 			
-		edit_main_td3.appendChild(br);
-		edit_main_td3.appendChild(el_choices);
-		edit_main_td3.appendChild(el_choices_dis);
-		edit_main_td3.appendChild(el_choices_remove);
+		if(w_value_disabled =='yes')
+				el_choices_dis.setAttribute("disabled", 'disabled');
+		
+		var el_choices_value = document.createElement('input');
+			el_choices_value.setAttribute("id", "el_option_value"+j);
+			if(!w_choices_params[j])
+			el_choices_value.setAttribute("class", "el_option_value");
+			el_choices_value.setAttribute("type", "text");
+			el_choices_value.setAttribute("value", w_choices_value[j]);
+			el_choices_value.style.cssText =   "width:100px; margin:1px; padding:3px 0; border-width: 1px";
+			el_choices_value.setAttribute("onKeyUp", "change_label_value('"+i+"_option"+j+"', this.value)");
+			if(w_value_disabled=='no' || w_choices_params[j])
+				el_choices_value.setAttribute("disabled", 'disabled');
+		
+		var el_choices_params = document.createElement('input');
+			el_choices_params.setAttribute("id", "el_option_params"+j);
+			el_choices_params.setAttribute("class", "el_option_params");
+			el_choices_params.setAttribute("type", "hidden");
+			el_choices_params.setAttribute("value", w_choices_params[j]);
+
+		var el_choices_handle = document.createElement('img');
+			el_choices_handle.setAttribute("class", "el_choices_sortable");
+			el_choices_handle.setAttribute("src", plugin_url + '/images/move_cursor.png');		
+			el_choices_handle.style.cssText = 'cursor:move; vertical-align:middle; margin:3px 3px 3px 10px;';
+			el_choices_handle.setAttribute("align", 'top');
+		
+		div.appendChild(el_choices);
+		div.appendChild(el_choices_value);
+		div.appendChild(el_choices_dis);
+		div.appendChild(el_choices_remove);
+		div.appendChild(el_choices_handle);
+		div.appendChild(el_choices_params);
+
+		edit_main_td3.appendChild(div);
 	
 	}
 
@@ -13934,6 +14324,8 @@ function type_own_select(i, w_field_label, w_field_label_size, w_field_label_pos
 	edit_main_tr6.appendChild(edit_main_td6_1);
 	edit_main_tr4.appendChild(edit_main_td4);
 	edit_main_tr4.appendChild(edit_main_td4_1);
+	edit_main_tr9.appendChild(edit_main_td9);
+	edit_main_tr9.appendChild(edit_main_td9_1);
 	edit_main_tr7.appendChild(edit_main_td7);
 	edit_main_tr7.appendChild(edit_main_td7_1);
 	
@@ -13945,7 +14337,7 @@ function type_own_select(i, w_field_label, w_field_label_size, w_field_label_pos
 	edit_main_table.appendChild(edit_main_tr5);
 	edit_main_table.appendChild(edit_main_tr6);
 	edit_main_table.appendChild(edit_main_tr4);
-	
+	edit_main_table.appendChild(edit_main_tr9);
 	edit_main_table.appendChild(edit_main_tr3);
 	edit_main_table.appendChild(edit_main_tr7);
 	edit_div.appendChild(edit_main_table);
@@ -13966,7 +14358,12 @@ function type_own_select(i, w_field_label, w_field_label_size, w_field_label_pos
             adding_required.setAttribute("name", i+"_requiredform_id_temp");
 			
             adding_required.setAttribute("id", i+"_requiredform_id_temp");
-	    
+	 var adding_value_disabled = document.createElement("input");
+            adding_value_disabled.setAttribute("type", "hidden");
+            adding_value_disabled.setAttribute("value", w_value_disabled);
+            adding_value_disabled.setAttribute("name", i+"_value_disabledform_id_temp");	
+            adding_value_disabled.setAttribute("id", i+"_value_disabledform_id_temp");
+			
      	var div = document.createElement('div');
       	    div.setAttribute("id", "main_div");
 			
@@ -14036,11 +14433,24 @@ function type_own_select(i, w_field_label, w_field_label_size, w_field_label_pos
 	{      	
 		var option = document.createElement('option');
 		option.setAttribute("id", i+"_option"+j);
-	if(w_choices_disabled[j])
-		option.value="";
-	else
-		option.setAttribute("value", w_choices[j]);
-		
+	if(w_value_disabled =='yes')
+				option.setAttribute("value", w_choices_value[j]);
+			else
+			{
+				if(w_choices_disabled[j])
+					option.value="";
+				else
+					option.setAttribute("value", w_choices[j]);
+			}
+			
+			if(w_choices_params[j])
+			{
+				w_params = w_choices_params[j].split("[where_order_by]");
+				option.setAttribute("where", w_params[0]);
+				w_params = w_params[1].split("[db_info]");		
+				option.setAttribute("order_by", w_params[0]);
+				option.setAttribute("db_info", w_params[1]);
+			}
 		option.setAttribute("onselect", "set_select('"+i+"_option"+j+"')");
            	option.innerHTML = w_choices[j];
 	if(w_choices_checked[j]==1)
@@ -14056,7 +14466,8 @@ function type_own_select(i, w_field_label, w_field_label_size, w_field_label_pos
       	div_label.appendChild(required);
 	div_element.appendChild(adding_type);
 	
-	div_element.appendChild(adding_required);
+	    div_element.appendChild(adding_required);
+	    div_element.appendChild(adding_value_disabled);
       	div_element.appendChild(select_);
       	div_field.appendChild(div_label);
       	div_field.appendChild(div_element);
@@ -14070,6 +14481,17 @@ function type_own_select(i, w_field_label, w_field_label_size, w_field_label_pos
 				label_top(i);
 change_class(w_class, i);
 refresh_attr(i, 'type_text');
+//enable_modals();
+jQuery(function() {
+	jQuery( "#choices" ).sortable({ 
+		items: ".change_pos" ,
+		handle: ".el_choices_sortable",
+		update: function(event, ui) {		
+			refresh_sel_options(i,'select');
+		}
+	
+	});	
+  });
 }
 
 function form_maker_getElementsByAttribute(node,tag,attr,value){
@@ -14090,6 +14512,85 @@ function form_maker_getElementsByAttribute(node,tag,attr,value){
   return returnElems;
 }
 
+
+function refresh_sel_options(id, type)
+{
+	if(type=='checkbox' || type=='radio')
+	{
+		if(jQuery('#el_disable_value').prop( 'checked' ))
+		{
+			jQuery('#'+id+'_value_disabledform_id_temp').val('yes');
+			jQuery('.el_option_value').removeAttr('disabled');			
+		}
+		else
+		{
+			jQuery('#'+id+'_value_disabledform_id_temp').val('no');
+			jQuery('.el_option_value').attr('disabled', 'disabled');	
+		}
+
+		refresh_rowcol(id, type);
+	}	
+	
+	
+	if(type=='select')
+	{
+		if(jQuery('#el_disable_value').prop( 'checked' ))
+		{
+			jQuery('#'+id+'_value_disabledform_id_temp').val('yes');
+			jQuery('.el_option_value').removeAttr('disabled');
+			jQuery('.el_option_dis').attr('disabled', 'disabled');	
+			
+		}
+		else
+		{
+			jQuery('#'+id+'_value_disabledform_id_temp').val('no');
+			jQuery('.el_option_value').attr('disabled', 'disabled');
+			jQuery('.el_option_dis').removeAttr('disabled');		
+		}
+
+		var select = document.getElementById(id+'_elementform_id_temp');
+			select.innerHTML='';
+
+		jQuery('.change_pos').each(function() {
+			var idi = jQuery(this)[0].id;
+
+			var option = document.createElement('option');
+				option.setAttribute("id", id+"_option"+idi);
+
+			if(jQuery('#el_disable_value').prop( 'checked' ))
+			{
+				option.setAttribute("value", jQuery(this).find(jQuery("input[type='text']"))[1].value);
+			}
+			else
+			{
+				if(jQuery(this).find(jQuery("input[type='checkbox']")).prop( 'checked' ))
+					option.value="";
+				else
+					option.setAttribute("value", jQuery(this).find(jQuery("input[type='text']"))[0].value);
+			}	
+			
+			
+			if(jQuery(this).find(jQuery(".el_option_params")).val())
+			{
+				w_params = jQuery(this).find(jQuery(".el_option_params")).val().split("[where_order_by]");
+				option.setAttribute("where", w_params[0]);
+				w_params = w_params[1].split("[db_info]");		
+				option.setAttribute("order_by", w_params[0]);
+				option.setAttribute("db_info", w_params[1]);
+			}
+		
+			option.setAttribute("onselect", "set_select('"+id+"_option"+idi+"')");
+			option.innerHTML =	jQuery(this).find(jQuery("input[type='text']"))[0].value;
+			
+			select.appendChild(option);
+		});
+	}	
+
+	jQuery('#el_choices_add').parent().find(jQuery('a')).attr("onclick","tb_show('', 'admin-ajax.php?action=select_data_from_db&field_id="+id+"&field_type="+type+"&value_disabled="+jQuery("#"+id+"_value_disabledform_id_temp").val()+"&width=670&height=450&TB_iframe=1')");
+	
+}
+
+
 function add_quantity(i, w_quantity_value) {
 	div_=document.getElementById(i+"_divform_id_temp");
 	// if (div_.getElementById( i+"_element_quantityform_id_temp")) {
@@ -14104,7 +14605,7 @@ function add_quantity(i, w_quantity_value) {
 	select_.setAttribute("name", i+"_element_quantityform_id_temp");
 	select_.setAttribute("onKeyPress", "return check_isnum(event)");
 	select_.setAttribute("onChange", "change_value('"+i+"_element_quantityform_id_temp', this.value)");
-	select_.style.cssText = "width:30px; margin:2px 0px";;
+	select_.style.cssText = "width:30px; margin:2px 0px";
 		
 	var select_label = document.createElement('label');
 			select_label.innerHTML =  "<!--repstart-->Quantity<!--repend-->";
@@ -14125,7 +14626,7 @@ function add_quantity(i, w_quantity_value) {
 
 }
 
-function type_paypal_select(i, w_field_label, w_field_label_size, w_field_label_pos, w_size, w_choices, w_choices_price, w_choices_checked, w_required, w_quantity, w_quantity_value, w_class, w_attr_name, w_attr_value, w_choices_disabled, w_property,  w_property_values){
+function type_paypal_select(i, w_field_label, w_field_label_size, w_field_label_pos, w_size, w_choices, w_choices_price, w_choices_checked, w_required, w_quantity, w_quantity_value, w_class, w_attr_name, w_attr_value, w_choices_disabled, w_property, w_property_values, w_choices_params){
 	document.getElementById("element_type").value="type_paypal_select";
 	delete_last_child();
 // edit table	
@@ -14157,8 +14658,9 @@ function type_paypal_select(i, w_field_label, w_field_label_size, w_field_label_
 	var edit_main_td2 = document.createElement('td');
 	var edit_main_td2_1 = document.createElement('td');
 	var edit_main_td3 = document.createElement('td');
-	var edit_main_td3_1 = document.createElement('td');
 		edit_main_td3.setAttribute("id", "choices");
+	var edit_main_td3_1 = document.createElement('td');
+		edit_main_td3_1.style.cssText = "padding:70px 0 0 20px; vertical-align:top;";
 		
 	var edit_main_td4 = document.createElement('td');
 	var edit_main_td4_1 = document.createElement('td');
@@ -14392,16 +14894,25 @@ function type_paypal_select(i, w_field_label, w_field_label_size, w_field_label_
 	var el_choices_add = document.createElement('img');
                 el_choices_add.setAttribute("id", "el_choices_add");
            	el_choices_add.setAttribute("src", plugin_url + '/images/add.png');
-            	el_choices_add.style.cssText = 'cursor:pointer; padding-left:15px';
+            	el_choices_add.style.cssText = 'cursor:pointer;';
             	el_choices_add.setAttribute("title", 'add');
                 el_choices_add.setAttribute("onClick", "add_choise_price('select',"+i+")");
 				
+	var	el_choices_add_text = document.createElement("span");
+		el_choices_add_text.style.cssText ="font-size: 12px; padding-left:7px; font-weight:bold; cursor:pointer;";
+		el_choices_add_text.innerHTML ="Add option(s)";				
+		el_choices_add_text.setAttribute("onClick", "add_choise_price('select',"+i+")");			
 				
 	var el_choices_important = document.createElement('div');			
-	    el_choices_important.style.cssText = 'color:red; padding:4px';
+	    el_choices_important.style.cssText = 'color:red;';
 		el_choices_important.innerHTML = 'IMPORTANT! Check the "Empty value" checkbox only if you want the option to be considered as empty.';
 				
-				
+	var el_choices_select = document.createElement('a');
+	    el_choices_select.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px; cursor:pointer;  padding-top:10px;  display:block;";
+		el_choices_select.innerHTML = "Select options from database";
+		el_choices_select.setAttribute("onclick","tb_show('', 'admin-ajax.php?action=select_data_from_db&field_id="+i+"&field_type=paypal_select&width=670&height=450&TB_iframe=1')");
+		el_choices_select.setAttribute("class","modal");			
+						
 				
 				
 				
@@ -14417,7 +14928,7 @@ function type_paypal_select(i, w_field_label, w_field_label_size, w_field_label_
         br4.setAttribute("id", "br2");
 	var br5 = document.createElement('br');
 	var br6 = document.createElement('br');
-	
+	var br7 = document.createElement('br');
 	edit_main_td1.appendChild(el_label_label);
 	edit_main_td1_1.appendChild(el_label_textarea);
 	
@@ -14450,9 +14961,11 @@ function type_paypal_select(i, w_field_label, w_field_label_size, w_field_label_
 	edit_main_td5_1.appendChild(el_size);
 	
 	edit_main_td3.appendChild(el_choices_label);
-	edit_main_td3.appendChild(el_choices_add);
 	edit_main_td3.appendChild(el_choices_important);
-	edit_main_td3.setAttribute("colspan", "2");
+	edit_main_td3_1.appendChild(br7);
+	edit_main_td3_1.appendChild(el_choices_add);
+	edit_main_td3_1.appendChild(el_choices_add_text);
+	edit_main_td3_1.appendChild(el_choices_select);
 	
 	edit_main_td8.appendChild(el_product_option_label);
 	edit_main_td8.appendChild(el_product_option_add_ul);
@@ -14469,7 +14982,7 @@ function type_paypal_select(i, w_field_label, w_field_label_size, w_field_label_
 	edit_main_td8_1.appendChild(br6);*/
 	
 		var div_ = document.createElement('div');
-			div_.style.cssText = 'border-bottom:1px dotted black; width: 248px;';
+			div_.style.cssText = 'border-bottom:1px dotted black; width: 330px;';
 		var br = document.createElement('br');
 		
 		var el_choices_mini_label = document.createElement('b');
@@ -14488,34 +15001,49 @@ function type_paypal_select(i, w_field_label, w_field_label_size, w_field_label_
 			el_choices_dis_mini_label.innerHTML="Delete";
 			el_choices_dis_mini_label.style.cssText='padding-left: 2px; padding-right: 2px; font-size:9px';
 			
+		var el_choices_move_mini_label = document.createElement('b');
+			el_choices_move_mini_label.innerHTML="Move";
+			el_choices_move_mini_label.style.cssText='padding-left: 7px; padding-right: 2px; font-size:9px';	
+			
 		div_.appendChild(br);
 		div_.appendChild(el_choices_mini_label);
 		div_.appendChild(el_choices_price_mini_label);
 		div_.appendChild(el_choices_remove_mini_label);
 		div_.appendChild(el_choices_dis_mini_label);
+		div_.appendChild(el_choices_move_mini_label);
 		edit_main_td3.appendChild(div_);
 
 	
 	n=w_choices.length;
 	for(j=0; j<n; j++)
 	{	
-		var br = document.createElement('br');
-		br.setAttribute("id", "br"+j);
+		var div = document.createElement('div');
+			div.setAttribute("id", j);
+			div.setAttribute("class", "change_pos");
 		var el_choices = document.createElement('input');
 			el_choices.setAttribute("id", "el_option"+j);
 			el_choices.setAttribute("type", "text");
 			el_choices.setAttribute("value", w_choices[j]);
-			el_choices.style.cssText =   "width:100px; margin:1px; padding:0; border-width: 1px";
+			el_choices.style.cssText =   "width:100px; margin:1px; padding:3px 0; border-width: 1px";
 			el_choices.setAttribute("onKeyUp", "change_label_price('"+i+"_option"+j+"', this.value)");
-			
+			   if(w_choices_params[j])
+				  el_choices.setAttribute("disabled", 'disabled');
 		var el_choices_price = document.createElement('input');
 			el_choices_price.setAttribute("id", "el_option_price"+j);
 			el_choices_price.setAttribute("type", "text");
 			el_choices_price.setAttribute("value", w_choices_price[j]);
-			el_choices_price.style.cssText =   "width:50px; margin:1px; padding:0; border-width: 1px";
+			el_choices_price.style.cssText =   "width:50px; margin:1px; padding:3px 0; border-width: 1px";
 			el_choices_price.setAttribute("onKeyUp", "change_value_price('"+i+"_option"+j+"', this.value)");
 			el_choices_price.setAttribute("onKeyPress", "return check_isnum_point(event)");
+	            if(w_choices_params[j])
+				   el_choices_price.setAttribute("disabled", 'disabled');	
 	
+		var el_choices_params = document.createElement('input');
+			el_choices_params.setAttribute("id", "el_option_params"+j);
+			el_choices_params.setAttribute("class", "el_option_params");
+			el_choices_params.setAttribute("type", "hidden");
+			el_choices_params.setAttribute("value", w_choices_params[j]);
+			
 		var el_choices_remove = document.createElement('img');
 			el_choices_remove.setAttribute("id", "el_option"+j+"_remove");
 			el_choices_remove.setAttribute("src", plugin_url + '/images/delete.png');
@@ -14534,11 +15062,20 @@ function type_paypal_select(i, w_field_label, w_field_label_size, w_field_label_
 				el_choices_dis.setAttribute("checked", "checked");
 			}
 			
-		edit_main_td3.appendChild(br);
-		edit_main_td3.appendChild(el_choices);
-		edit_main_td3.appendChild(el_choices_price);
-		edit_main_td3.appendChild(el_choices_dis);
-		edit_main_td3.appendChild(el_choices_remove);
+		var el_choices_handle = document.createElement('img');
+			el_choices_handle.setAttribute("class", "el_choices_sortable");
+			el_choices_handle.setAttribute("src", plugin_url + '/images/move_cursor.png');		
+			el_choices_handle.style.cssText = 'cursor:move; vertical-align:middle; margin: 3px 3px 3px 20px;';
+			el_choices_handle.setAttribute("align", 'top');
+			
+			
+		div.appendChild(el_choices);
+		div.appendChild(el_choices_price);
+		div.appendChild(el_choices_dis);
+		div.appendChild(el_choices_remove);
+		div.appendChild(el_choices_handle);
+		div.appendChild(el_choices_params);
+		edit_main_td3.appendChild(div);
 	
 	}
 
@@ -14562,6 +15099,7 @@ function type_paypal_select(i, w_field_label, w_field_label_size, w_field_label_
 	edit_main_tr7.appendChild(edit_main_td7_1);
 	
 	edit_main_tr3.appendChild(edit_main_td3);
+	edit_main_tr3.appendChild(edit_main_td3_1);
 	edit_main_tr8.appendChild(edit_main_td8);
 	edit_main_tr8.appendChild(edit_main_td8_1);
 	
@@ -14667,6 +15205,15 @@ function type_paypal_select(i, w_field_label, w_field_label_size, w_field_label_
 		option.value="";
 	else
 		option.setAttribute("value", w_choices_price[j]);
+	
+    if(w_choices_params[j])
+		{
+			w_params = w_choices_params[j].split("[where_order_by]");
+			option.setAttribute("where", w_params[0]);
+			w_params = w_params[1].split("[db_info]");		
+			option.setAttribute("order_by", w_params[0]);
+			option.setAttribute("db_info", w_params[1]);
+		}
 		
 		option.setAttribute("onselect", "set_select('"+i+"_option"+j+"')");
            	option.innerHTML = w_choices[j];
@@ -14709,6 +15256,16 @@ refresh_attr(i, 'type_text');
 add_properties(i, w_property, w_property_values);
 // form_maker_open_in_popup(11);
 spider_popup();
+jQuery(function() {
+	jQuery( "#choices" ).sortable({ 
+		items: ".change_pos" ,
+		handle: ".el_choices_sortable",
+		update: function(event, ui) {		
+			refresh_paypal_fields(i,'select');
+		}
+	
+	});	
+  });
 }
 
 function remove_property(id,i)
@@ -14792,13 +15349,20 @@ function add_properties(id, w_property, w_property_values)
 }
 
 
-function dis_option(id, value)
+function dis_option(id, value, num)
 {
-	//document.getElementById(id).disabled=value;
 	if(value)
-		document.getElementById(id).value='';
+	{
+		jQuery(id).val('');
+		
+		jQuery('#el_option_value'+num).val('');
+	}	
 	else
-		document.getElementById(id).value=document.getElementById(id).innerHTML;
+	{
+		jQuery(id).val(jQuery(id).html());
+		jQuery('#el_option_value'+num).val(jQuery('#el_option'+num).val());
+	}	
+
 }
 
 function dis_option_price(id, i, value)
@@ -14811,7 +15375,7 @@ function dis_option_price(id, i, value)
 }
 
 
-function type_paypal_checkbox(i, w_field_label, w_field_label_size, w_field_label_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other,w_allow_other_num, w_class, w_attr_name, w_attr_value,  w_property,  w_property_values, w_quantity, w_quantity_value) {
+function type_paypal_checkbox(i, w_field_label, w_field_label_size, w_field_label_pos, w_field_option_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other,w_allow_other_num, w_class, w_attr_name, w_attr_value,  w_property,  w_property_values, w_quantity, w_quantity_value, w_choices_params) {
 
 	document.getElementById("element_type").value="type_paypal_checkbox";
 
@@ -14845,7 +15409,7 @@ function type_paypal_checkbox(i, w_field_label, w_field_label_size, w_field_labe
 	var edit_main_tr11  = document.createElement('tr');
       		
 	var edit_main_tr12  = document.createElement('tr');
-      				
+    var edit_main_tr13  = document.createElement('tr');   				
 
 	var edit_main_td1 = document.createElement('td');
 	var edit_main_td1_1 = document.createElement('td');
@@ -14861,7 +15425,7 @@ function type_paypal_checkbox(i, w_field_label, w_field_label_size, w_field_labe
 		
 	var edit_main_td4 = document.createElement('td');
 	var edit_main_td4_1 = document.createElement('td');
-		edit_main_td4_1.style.cssText = "padding-top:10px; vertical-align:top;";
+		edit_main_td4_1.style.cssText = "padding: 20px 0px 0px 25px; vertical-align:top;";
       	edit_main_td4.setAttribute("id", "choices");
 	var edit_main_td5 = document.createElement('td');
 	var edit_main_td5_1 = document.createElement('td');
@@ -14882,7 +15446,8 @@ function type_paypal_checkbox(i, w_field_label, w_field_label_size, w_field_labe
 	var edit_main_td12 = document.createElement('td');
 	var edit_main_td12_1 = document.createElement('td');
 		edit_main_td12_1.style.cssText = "padding-top:10px";	
-		  
+	var edit_main_td13 = document.createElement('td');
+	var edit_main_td13_1 = document.createElement('td');	  
 	var el_label_label = document.createElement('label');
 			        el_label_label.setAttribute("for", "edit_for_label");
 			el_label_label.innerHTML = "Field label";
@@ -14932,6 +15497,29 @@ function type_paypal_checkbox(i, w_field_label, w_field_label_size, w_field_labe
 				el_label_position2.setAttribute("checked", "checked");
 	else
 				el_label_position1.setAttribute("checked", "checked");
+				
+	var el_option_position_label = document.createElement('label');
+		el_option_position_label.innerHTML = "Field option label position";
+	
+	var el_option_position1 = document.createElement('input');
+		el_option_position1.setAttribute("id", "edit_for_option_position_right");
+		el_option_position1.setAttribute("type", "radio");        
+		el_option_position1.setAttribute("name", "edit_for_option_position");
+		el_option_position1.setAttribute("onchange", "option_left("+i+",'checkbox')");
+		
+		Left_option = document.createTextNode("Left");
+		
+	var el_option_position2 = document.createElement('input');
+		el_option_position2.setAttribute("id", "edit_for_option_position_left");
+		el_option_position2.setAttribute("type", "radio");
+    	el_option_position2.setAttribute("name", "edit_for_option_position");
+		el_option_position2.setAttribute("onchange", "option_right("+i+",'checkbox')");
+		Right_option = document.createTextNode("Right");
+		
+	if(w_field_option_pos=="right")
+		el_option_position2.setAttribute("checked", "checked");
+	else
+		el_option_position1.setAttribute("checked", "checked");				
 	var el_label_flow = document.createElement('label');
 			        el_label_flow.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
 		el_label_flow.innerHTML = "Relative Position";
@@ -15135,6 +15723,17 @@ function type_paypal_checkbox(i, w_field_label, w_field_label_size, w_field_labe
             	el_choices_add.style.cssText = 'cursor:pointer;';
             	el_choices_add.setAttribute("title", 'add');
                 el_choices_add.setAttribute("onClick", "add_choise_price('checkbox',"+i+")");
+				
+	var	el_choices_add_text = document.createElement("span");
+		el_choices_add_text.style.cssText ="font-size: 12px; padding-left:7px; font-weight:bold; cursor:pointer;";
+		el_choices_add_text.innerHTML ="Add option(s)";				
+		el_choices_add_text.setAttribute("onClick", "add_choise_price('checkbox',"+i+")");
+	
+	var el_choices_select = document.createElement('a');
+	    el_choices_select.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px; cursor:pointer;  padding-top:10px; display:block;";
+		el_choices_select.innerHTML = "Select options from database";
+		el_choices_select.setAttribute("onclick","tb_show('', 'admin-ajax.php?action=select_data_from_db&field_id="+i+"&field_type=paypal_checkbox&width=670&height=450&TB_iframe=1')");
+		el_choices_select.setAttribute("class","modal");
 	
 	var t  = document.getElementById('edit_table');
 	
@@ -15145,7 +15744,7 @@ function type_paypal_checkbox(i, w_field_label, w_field_label_size, w_field_labe
 	var br4 = document.createElement('br');
 	var br5 = document.createElement('br');
 	var br6 = document.createElement('br');
-	
+	var br7 = document.createElement('br');
 	edit_main_td1.appendChild(el_label_label);
 	edit_main_td1_1.appendChild(el_label_textarea);
 	
@@ -15168,6 +15767,13 @@ function type_paypal_checkbox(i, w_field_label, w_field_label_size, w_field_labe
 	
 	edit_main_td5.appendChild(el_required_label);
 	edit_main_td5_1.appendChild(el_required);
+	
+	edit_main_td13.appendChild(el_option_position_label);
+	edit_main_td13_1.appendChild(el_option_position1);
+	edit_main_td13_1.appendChild(Left_option);
+	edit_main_td13_1.appendChild(br5);
+	edit_main_td13_1.appendChild(el_option_position2);
+	edit_main_td13_1.appendChild(Right_option);
 	
 	edit_main_td8.appendChild(el_randomize_label);
 	edit_main_td8_1.appendChild(el_randomize);
@@ -15194,11 +15800,14 @@ function type_paypal_checkbox(i, w_field_label, w_field_label_size, w_field_labe
 	edit_main_td7.setAttribute("colspan", "2");
 	
 	edit_main_td4.appendChild(el_choices_label);
+	edit_main_td4_1.appendChild(br7);
 	edit_main_td4_1.appendChild(el_choices_add);
+	edit_main_td4_1.appendChild(el_choices_add_text);
+	edit_main_td4_1.appendChild(el_choices_select);
 	
 	
 	var div_ = document.createElement('div');
-			div_.style.cssText = 'border-bottom:1px dotted black; width: 187px;';
+			div_.style.cssText = 'border-bottom:1px dotted black; width: 220px;';
 		var br = document.createElement('br');
 		
 		var el_choices_mini_label = document.createElement('b');
@@ -15217,37 +15826,51 @@ function type_paypal_checkbox(i, w_field_label, w_field_label_size, w_field_labe
 			el_choices_dis_mini_label.innerHTML="Delete";
 			el_choices_dis_mini_label.style.cssText='padding-left: 2px; padding-right: 2px; font-size:9px';
 			
+		var el_choices_move_mini_label = document.createElement('b');
+			el_choices_move_mini_label.innerHTML="Move";
+			el_choices_move_mini_label.style.cssText='padding-left: 7px; padding-right: 2px; font-size:9px';	
 		div_.appendChild(br);
 		div_.appendChild(el_choices_mini_label);
 		div_.appendChild(el_choices_price_mini_label);
 		div_.appendChild(el_choices_dis_mini_label);
+		div_.appendChild(el_choices_move_mini_label);
 		edit_main_td4.appendChild(div_);
 		
 		
 	n=w_choices.length;
 	for(j=0; j<n; j++)
 	{	
-		var br = document.createElement('br');
-			br.setAttribute("id", "br"+j);
+		var div = document.createElement('div');
+			div.setAttribute("id", j);
+			div.setAttribute("class", "change_pos");
 			
 		var el_choices = document.createElement('input');
 			el_choices.setAttribute("id", "el_choices"+j);
 			el_choices.setAttribute("type", "text");
 			el_choices.setAttribute("value", w_choices[j]);
 			el_choices.setAttribute("checked", w_choices_checked[j]);
-			el_choices.style.cssText =   "width:100px; margin:0; padding:0; border-width: 1px";
+			el_choices.style.cssText =   "width:100px; margin:1px; padding:3px 0px; border-width: 1px";
 			el_choices.setAttribute("onKeyUp", "change_label('"+i+"_label_element"+j+"', this.value); change_label_1('"+i+"_elementlabel_form_id_temp"+j+"', this.value); ");
-	
+	           if(w_choices_params[j])
+				   el_choices.setAttribute("disabled", 'disabled');
 		var el_choices_price = document.createElement('input');
 			el_choices_price.setAttribute("id", "el_option_price"+j);
 			el_choices_price.setAttribute("type", "text");
 			el_choices_price.setAttribute("value", w_choices_price[j]);
-			el_choices_price.style.cssText =   "width:50px; margin:1px; padding:0; border-width: 1px";
+			el_choices_price.style.cssText =   "width:50px; margin:1px; padding:3px; border-width: 1px";
 		if(w_allow_other=="yes" && j==w_allow_other_num)
 			el_choices_price.style.display = 'none';
 			el_choices_price.setAttribute("onKeyUp", "change_value_price('"+i+"_elementform_id_temp"+j+"', this.value)");
 			el_choices_price.setAttribute("onKeyPress", "return check_isnum_point(event)");
+	        if(w_choices_params[j])
+				el_choices_price.setAttribute("disabled", 'disabled');
 	
+		var el_choices_params = document.createElement('input');
+			el_choices_params.setAttribute("id", "el_option_params"+j);
+			el_choices_params.setAttribute("class", "el_option_params");
+			el_choices_params.setAttribute("type", "hidden");
+			el_choices_params.setAttribute("value", w_choices_params[j]);
+			
 		var el_choices_remove = document.createElement('img');
 			el_choices_remove.setAttribute("id", "el_choices"+j+"_remove");
 			el_choices_remove.setAttribute("src", plugin_url + '/images/delete.png');
@@ -15258,10 +15881,18 @@ function type_paypal_checkbox(i, w_field_label, w_field_label_size, w_field_labe
 			el_choices_remove.setAttribute("align", 'top');
 			el_choices_remove.setAttribute("onClick", "remove_choise_price("+j+","+i+")");
 			
-		edit_main_td4.appendChild(br);
-		edit_main_td4.appendChild(el_choices);
-		edit_main_td4.appendChild(el_choices_price);
-		edit_main_td4.appendChild(el_choices_remove);
+		var el_choices_handle = document.createElement('img');
+			el_choices_handle.setAttribute("class", "el_choices_sortable");
+			el_choices_handle.setAttribute("src", plugin_url + '/images/move_cursor.png');		
+			el_choices_handle.style.cssText = 'cursor:move; vertical-align:middle; margin: 3px 3px 3px 15px;';
+			el_choices_handle.setAttribute("align", 'top');
+	
+		div.appendChild(el_choices);
+		div.appendChild(el_choices_price);
+		div.appendChild(el_choices_remove);
+		div.appendChild(el_choices_handle);
+		div.appendChild(el_choices_params);
+		edit_main_td4.appendChild(div);
 	
 	}
 
@@ -15287,6 +15918,8 @@ function type_paypal_checkbox(i, w_field_label, w_field_label_size, w_field_labe
 	edit_main_tr8.appendChild(edit_main_td8);
 	edit_main_tr8.appendChild(edit_main_td8_1);
 	edit_main_tr8.style.display="none";
+	edit_main_tr13.appendChild(edit_main_td13);
+	edit_main_tr13.appendChild(edit_main_td13_1);
 	edit_main_tr9.appendChild(edit_main_td9);
 	edit_main_tr9.appendChild(edit_main_td9_1);
 	edit_main_tr9.style.display="none";
@@ -15298,6 +15931,7 @@ function type_paypal_checkbox(i, w_field_label, w_field_label_size, w_field_labe
 	edit_main_table.appendChild(edit_main_tr6);
 	edit_main_table.appendChild(edit_main_tr5);
 	edit_main_table.appendChild(edit_main_tr8);
+	edit_main_table.appendChild(edit_main_tr13);
 	edit_main_table.appendChild(edit_main_tr9);
 	edit_main_table.appendChild(edit_main_tr4);
 	edit_main_table.appendChild(edit_main_tr11);
@@ -15338,7 +15972,10 @@ function type_paypal_checkbox(i, w_field_label, w_field_label_size, w_field_labe
             adding_allow_other_id.setAttribute("value", w_allow_other_num);
             adding_allow_other_id.setAttribute("name", i+"_allow_other_numform_id_temp");			
             adding_allow_other_id.setAttribute("id", i+"_allow_other_numform_id_temp");
-	    
+	var adding_option_left_right= document.createElement("input");
+            adding_option_left_right.setAttribute("type", "hidden");
+            adding_option_left_right.setAttribute("value", w_field_option_pos);	
+            adding_option_left_right.setAttribute("id", i+"_option_left_right");	    
    var div = document.createElement('div');
        	div.setAttribute("id", "main_div");
 //tbody sarqac
@@ -15406,6 +16043,8 @@ function type_paypal_checkbox(i, w_field_label, w_field_label_size, w_field_labe
 				adding.setAttribute("id", i+"_elementform_id_temp"+j);
 				adding.setAttribute("name", i+"_elementform_id_temp"+j);
 				adding.setAttribute("value", w_choices_price[j]);
+				if(w_field_option_pos=="right")
+					adding.style.cssText = "float: left !important";
 			if(w_allow_other=="yes" && j==w_allow_other_num)
 			{
 				adding.setAttribute("other", "1");
@@ -15424,7 +16063,17 @@ function type_paypal_checkbox(i, w_field_label, w_field_label_size, w_field_labe
 				label_adding.setAttribute("class","ch-rad-label");
 				label_adding.setAttribute("for",i+"_elementform_id_temp"+j);
 				label_adding.innerHTML = w_choices[j];
-				
+		if(w_field_option_pos=="right")
+				label_adding.style.cssText = "float: none !important";
+			if(w_choices_params[j])
+			{
+				w_params = w_choices_params[j].split("[where_order_by]");
+				label_adding.setAttribute("where", w_params[0]);
+				w_params = w_params[1].split("[db_info]");		
+				label_adding.setAttribute("order_by", w_params[0]);
+				label_adding.setAttribute("db_info", w_params[1]);
+			}
+			
 		var adding_ch_label = document.createElement('input');
 				adding_ch_label.setAttribute("type", "hidden");
 				adding_ch_label.setAttribute("id", i+"_elementlabel_form_id_temp"+j);
@@ -15457,6 +16106,7 @@ function type_paypal_checkbox(i, w_field_label, w_field_label_size, w_field_labe
         div_element.appendChild(adding_randomize);
        	div_element.appendChild(adding_allow_other);
        	div_element.appendChild(adding_allow_other_id);
+		div_element.appendChild(adding_option_left_right);
 		div_element.appendChild(table_little_t);
 		div_element.appendChild(div_);
       	div_field.appendChild(div_label);
@@ -15490,9 +16140,130 @@ if(aaa)
 add_properties(i, w_property, w_property_values);
 // form_maker_open_in_popup(11);
 spider_popup();
+jQuery(function() {
+	jQuery( "#choices" ).sortable({ 
+		items: ".change_pos" ,
+		handle: ".el_choices_sortable",
+		update: function(event, ui) {		
+			refresh_paypal_fields(i,'checkbox');
+			refresh_id_name(i, 'type_checkbox');
+		}
+	
+	});	
+  });
 }
 
-function type_paypal_radio(i, w_field_label, w_field_label_size, w_field_label_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value,  w_property, w_property_values, w_quantity, w_quantity_value){
+function refresh_paypal_fields(id, type)
+{
+	
+	if(type=='radio' || type=='checkbox')
+	{
+		var table_little = document.getElementById(id+'_table_little');
+		table_little.innerHTML = '';
+		
+		jQuery('.change_pos').each(function() {
+			var idi = jQuery(this)[0].id;
+
+			var tr_little = document.createElement('div');
+				tr_little.setAttribute("id", id+"_element_tr"+idi);
+				tr_little.style.display="table-row";
+			
+			var td_little = document.createElement('div');
+				td_little.setAttribute("valign", 'top');
+				td_little.setAttribute("id", id+"_td_little"+idi);
+				td_little.setAttribute("idi", idi);
+				td_little.style.display="table-cell";
+			
+			var adding = document.createElement(element);
+				adding.setAttribute("type", type);
+				adding.setAttribute("id", id+"_elementform_id_temp"+idi);
+				adding.setAttribute("value", jQuery(this).find(jQuery("#el_option_price"+idi))[0].value);
+			if(type=='checkbox')
+			{	
+				adding.setAttribute("onClick", "set_checked('"+id+"','"+idi+"','form_id_temp')");
+				adding.setAttribute("name", id+"_elementform_id_temp"+idi);
+			}
+				
+			if(type=='radio')
+			{
+				adding.setAttribute("onClick", "set_default('"+id+"','"+idi+"','form_id_temp')");
+				adding.setAttribute("name", id+"_elementform_id_temp");
+			}
+			
+			
+			var label_adding = document.createElement('label');
+				label_adding.setAttribute("id", id+"_label_element"+idi);
+				label_adding.setAttribute("class","ch-rad-label");
+				label_adding.setAttribute("for",id+"_elementform_id_temp"+idi);
+				label_adding.innerHTML = jQuery(this).find(jQuery("#el_choices"+idi))[0].value;
+			
+			if(jQuery(this).find(jQuery(".el_option_params")).val())
+			{
+				w_params = jQuery(this).find(jQuery(".el_option_params")).val().split("[where_order_by]");
+				label_adding.setAttribute("where", w_params[0]);
+				w_params = w_params[1].split("[db_info]");		
+				label_adding.setAttribute("order_by", w_params[0]);
+				label_adding.setAttribute("db_info", w_params[1]);		
+			}
+			
+			var adding_ch_label = document.createElement('input');
+				adding_ch_label.setAttribute("type", "hidden");
+				adding_ch_label.setAttribute("id", id+"_elementlabel_form_id_temp"+idi);
+				adding_ch_label.setAttribute("name", id+"_elementform_id_temp"+idi+"_label");
+				adding_ch_label.setAttribute("value", jQuery(this).find(jQuery("#el_choices"+idi))[0].value);
+			
+	
+			td_little.appendChild(adding);
+			td_little.appendChild(label_adding);
+			td_little.appendChild(adding_ch_label);
+			tr_little.appendChild(td_little);
+			table_little.appendChild(tr_little);
+
+		});
+		
+		if(document.getElementById('edit_for_flow_horizontal').checked)	
+			flow_hor(id);
+	}
+
+	if(type=='select')
+	{
+
+		var select = document.getElementById(id+'_elementform_id_temp');
+		select.innerHTML='';
+
+		jQuery('.change_pos').each(function() {
+			var idi = jQuery(this)[0].id;
+
+			var option = document.createElement('option');
+				option.setAttribute("id", id+"_option"+idi);
+
+			if(jQuery(this).find(jQuery("input[type='checkbox']")).prop( 'checked' ))
+				option.value="";
+			else
+				option.setAttribute("value", jQuery(this).find(jQuery("#el_option_price"+idi))[0].value);
+			
+
+			if(jQuery(this).find(jQuery(".el_option_params")).val())
+			{
+				w_params = jQuery(this).find(jQuery(".el_option_params")).val().split("[where_order_by]");
+				option.setAttribute("where", w_params[0]);
+				w_params = w_params[1].split("[db_info]");		
+				option.setAttribute("order_by", w_params[0]);
+				option.setAttribute("db_info", w_params[1]);	
+
+			}
+			
+			option.setAttribute("onselect", "set_select('"+id+"_option"+idi+"')");
+			option.innerHTML =	jQuery(this).find(jQuery("#el_option"+idi))[0].value;
+			
+			select.appendChild(option);
+		});
+	
+	
+	}
+}
+
+function type_paypal_radio(i, w_field_label, w_field_label_size, w_field_label_pos, w_field_option_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value,  w_property,  w_property_values, w_quantity, w_quantity_value, w_choices_params){
 
 	document.getElementById("element_type").value="type_paypal_radio";
 
@@ -15529,7 +16300,7 @@ function type_paypal_radio(i, w_field_label, w_field_label_size, w_field_label_p
       		
 			
 	var edit_main_tr12  = document.createElement('tr');
-      				
+    var edit_main_tr13  = document.createElement('tr');	
 
 	var edit_main_td1 = document.createElement('td');
 	var edit_main_td1_1 = document.createElement('td');
@@ -15540,7 +16311,7 @@ function type_paypal_radio(i, w_field_label, w_field_label_size, w_field_label_p
 
 	var edit_main_td4 = document.createElement('td');
 	var edit_main_td4_1 = document.createElement('td');
-		edit_main_td4_1.style.cssText = "padding-top:10px; vertical-align:top;";
+		edit_main_td4_1.style.cssText = "padding:20px 0 0 25px; vertical-align:top;";
 		
 		edit_main_td4.setAttribute("id", "choices");
 		
@@ -15568,7 +16339,10 @@ function type_paypal_radio(i, w_field_label, w_field_label_size, w_field_label_p
 	var edit_main_td12 = document.createElement('td');
 	var edit_main_td12_1 = document.createElement('td');
 		edit_main_td12_1.style.cssText = "padding-top:10px";	
-		  
+	
+    var edit_main_td13 = document.createElement('td');
+	var edit_main_td13_1 = document.createElement('td');
+	
 	var el_label_label = document.createElement('label');
 			        el_label_label.setAttribute("for", "edit_for_label");
 			el_label_label.innerHTML = "Field label";
@@ -15622,7 +16396,29 @@ function type_paypal_radio(i, w_field_label, w_field_label_size, w_field_label_p
 				el_label_position2.setAttribute("checked", "checked");
 	else
 				el_label_position1.setAttribute("checked", "checked");
+				
+	var el_option_position_label = document.createElement('label');
+		el_option_position_label.innerHTML = "Field option label position";
 	
+	var el_option_position1 = document.createElement('input');
+		el_option_position1.setAttribute("id", "edit_for_option_position_right");
+		el_option_position1.setAttribute("type", "radio");        
+		el_option_position1.setAttribute("name", "edit_for_option_position");
+		el_option_position1.setAttribute("onchange", "option_left("+i+",'radio')");
+		
+		Left_option = document.createTextNode("Left");
+		
+	var el_option_position2 = document.createElement('input');
+		el_option_position2.setAttribute("id", "edit_for_option_position_left");
+		el_option_position2.setAttribute("type", "radio");
+    	el_option_position2.setAttribute("name", "edit_for_option_position");
+		el_option_position2.setAttribute("onchange", "option_right("+i+",'radio')");
+		Right_option = document.createTextNode("Right");
+		
+	if(w_field_option_pos=="right")
+		el_option_position2.setAttribute("checked", "checked");
+	else
+		el_option_position1.setAttribute("checked", "checked");		
 	var el_label_flow = document.createElement('label');
 			        el_label_flow.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
 		el_label_flow.innerHTML = "Relative Position";
@@ -15821,6 +16617,17 @@ function type_paypal_radio(i, w_field_label, w_field_label_size, w_field_label_p
             	el_choices_add.setAttribute("title", 'add');
                 el_choices_add.setAttribute("onClick", "add_choise_price('radio',"+i+")");
 				
+	var	el_choices_add_text = document.createElement("span");
+		el_choices_add_text.style.cssText ="font-size: 12px; padding-left:7px; font-weight:bold; cursor:pointer;";
+		el_choices_add_text.innerHTML ="Add option(s)";				
+		el_choices_add_text.setAttribute("onClick", "add_choise_price('radio',"+i+")");
+	
+	var el_choices_select = document.createElement('a');
+	    el_choices_select.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px; cursor:pointer;  padding-top:10px; display:block;";
+		el_choices_select.innerHTML = "Select options from database";
+		el_choices_select.setAttribute("onclick","tb_show('', 'admin-ajax.php?action=select_data_from_db&field_id="+i+"&field_type=paypal_radio&width=670&height=450&TB_iframe=1')");
+		el_choices_select.setAttribute("class","modal");	
+		
 	var t  = document.getElementById('edit_table');
 	
 	var br = document.createElement('br');
@@ -15830,7 +16637,7 @@ function type_paypal_radio(i, w_field_label, w_field_label_size, w_field_label_p
 	var br4 = document.createElement('br');
 	var br5 = document.createElement('br');
 	var br6 = document.createElement('br');
-	
+	var br7 = document.createElement('br');
 
 	edit_main_td1.appendChild(el_label_label);
 	edit_main_td1_1.appendChild(el_label_textarea);
@@ -15858,6 +16665,13 @@ function type_paypal_radio(i, w_field_label, w_field_label_size, w_field_label_p
 	edit_main_td5.appendChild(el_required_label);
 	edit_main_td5_1.appendChild(el_required);
 	
+	edit_main_td13.appendChild(el_option_position_label);
+	edit_main_td13_1.appendChild(el_option_position1);
+	edit_main_td13_1.appendChild(Left_option);
+	edit_main_td13_1.appendChild(br5);
+	edit_main_td13_1.appendChild(el_option_position2);
+	edit_main_td13_1.appendChild(Right_option);
+	
 	edit_main_td8.appendChild(el_randomize_label);
 	edit_main_td8_1.appendChild(el_randomize);
 	
@@ -15878,10 +16692,13 @@ function type_paypal_radio(i, w_field_label, w_field_label_size, w_field_label_p
 	edit_main_td7.setAttribute("colspan", "2");
 	
 	edit_main_td4.appendChild(el_choices_label);
+	edit_main_td4_1.appendChild(br7);
 	edit_main_td4_1.appendChild(el_choices_add);
+	edit_main_td4_1.appendChild(el_choices_add_text);
+	edit_main_td4_1.appendChild(el_choices_select);
 
 	var div_ = document.createElement('div');
-			div_.style.cssText = 'border-bottom:1px dotted black; width: 187px;';
+			div_.style.cssText = 'border-bottom:1px dotted black; width: 220px;';
 		var br = document.createElement('br');
 		
 		var el_choices_mini_label = document.createElement('b');
@@ -15899,11 +16716,14 @@ function type_paypal_radio(i, w_field_label, w_field_label_size, w_field_label_p
 		var el_choices_dis_mini_label = document.createElement('b');
 			el_choices_dis_mini_label.innerHTML="Delete";
 			el_choices_dis_mini_label.style.cssText='padding-left: 2px; padding-right: 2px; font-size:9px';
-			
+		var el_choices_move_mini_label = document.createElement('b');
+			el_choices_move_mini_label.innerHTML="Move";
+			el_choices_move_mini_label.style.cssText='padding-left: 7px; padding-right: 2px; font-size:9px';	
 		div_.appendChild(br);
 		div_.appendChild(el_choices_mini_label);
 		div_.appendChild(el_choices_price_mini_label);
 		div_.appendChild(el_choices_dis_mini_label);
+		div_.appendChild(el_choices_move_mini_label);
 		edit_main_td4.appendChild(div_);
 
 	
@@ -15911,16 +16731,19 @@ function type_paypal_radio(i, w_field_label, w_field_label_size, w_field_label_p
 	n=w_choices.length;
 	for(j=0; j<n; j++)
 	{	
-		var br = document.createElement('br');
-			br.setAttribute("id", "br"+j);
+		var div = document.createElement('div');
+			div.setAttribute("id", j);
+			div.setAttribute("class", "change_pos");
 			
 		var el_choices = document.createElement('input');
 			el_choices.setAttribute("id", "el_choices"+j);
 			el_choices.setAttribute("type", "text");
 			el_choices.setAttribute("value", w_choices[j]);
 			el_choices.setAttribute("checked", w_choices_checked[j]);
-			el_choices.style.cssText =   "width:100px; margin:0; padding:0; border-width: 1px";
+			el_choices.style.cssText =   "width:100px; margin:1px; padding:3px 0; border-width: 1px";
 			el_choices.setAttribute("onKeyUp", "change_label('"+i+"_label_element"+j+"', this.value); change_label_1('"+i+"_elementlabel_form_id_temp"+j+"', this.value); ");
+			if(w_choices_params[j])
+				el_choices.setAttribute("disabled", 'disabled');	
 	
 		var el_choices_price = document.createElement('input');
 			el_choices_price.setAttribute("id", "el_option_price"+j);
@@ -15931,7 +16754,15 @@ function type_paypal_radio(i, w_field_label, w_field_label_size, w_field_label_p
 			el_choices_price.style.display = 'none';
 			el_choices_price.setAttribute("onKeyUp", "change_value_price('"+i+"_elementform_id_temp"+j+"', this.value)");
 			el_choices_price.setAttribute("onKeyPress", "return check_isnum_point(event)");
-
+        if(w_choices_params[j])
+				el_choices_price.setAttribute("disabled", 'disabled');	
+		
+		var el_choices_params = document.createElement('input');
+			el_choices_params.setAttribute("id", "el_option_params"+j);
+			el_choices_params.setAttribute("class", "el_option_params");
+			el_choices_params.setAttribute("type", "hidden");
+			el_choices_params.setAttribute("value", w_choices_params[j]);
+			
 		var el_choices_remove = document.createElement('img');
 			el_choices_remove.setAttribute("id", "el_choices"+j+"_remove");
 			el_choices_remove.setAttribute("src", plugin_url + '/images/delete.png');
@@ -15942,10 +16773,19 @@ function type_paypal_radio(i, w_field_label, w_field_label_size, w_field_label_p
 			el_choices_remove.setAttribute("align", 'top');
 			el_choices_remove.setAttribute("onClick", "remove_choise_price("+j+","+i+")");
 			
-		edit_main_td4.appendChild(br);
-		edit_main_td4.appendChild(el_choices);
-		edit_main_td4.appendChild(el_choices_price);
-		edit_main_td4.appendChild(el_choices_remove);
+		var el_choices_handle = document.createElement('img');
+			el_choices_handle.setAttribute("class", "el_choices_sortable");
+			el_choices_handle.setAttribute("src", plugin_url + '/images/move_cursor.png');		
+			el_choices_handle.style.cssText = 'cursor:move; vertical-align:middle; margin: 3px 3px 3px 15px;';
+			el_choices_handle.setAttribute("align", 'top');
+			
+			
+		div.appendChild(el_choices);
+		div.appendChild(el_choices_price);
+		div.appendChild(el_choices_remove);
+		div.appendChild(el_choices_handle);
+		div.appendChild(el_choices_params);
+		edit_main_td4.appendChild(div);
 	
 	}
 
@@ -15969,6 +16809,8 @@ function type_paypal_radio(i, w_field_label, w_field_label_size, w_field_label_p
 	edit_main_tr8.appendChild(edit_main_td8);
 	edit_main_tr8.appendChild(edit_main_td8_1);
 	edit_main_tr8.style.display="none";
+	edit_main_tr13.appendChild(edit_main_td13);
+	edit_main_tr13.appendChild(edit_main_td13_1);
 	edit_main_tr9.appendChild(edit_main_td9);
 	edit_main_tr9.appendChild(edit_main_td9_1);
 	edit_main_tr9.style.display="none";
@@ -15983,6 +16825,7 @@ function type_paypal_radio(i, w_field_label, w_field_label_size, w_field_label_p
 	edit_main_table.appendChild(edit_main_tr6);
 	edit_main_table.appendChild(edit_main_tr5);
 	edit_main_table.appendChild(edit_main_tr8);
+	edit_main_table.appendChild(edit_main_tr13);
 	edit_main_table.appendChild(edit_main_tr9);
 	edit_main_table.appendChild(edit_main_tr4);
 	edit_main_table.appendChild(edit_main_tr11);
@@ -16017,7 +16860,11 @@ function type_paypal_radio(i, w_field_label, w_field_label_size, w_field_label_p
             adding_allow_other.setAttribute("value", w_allow_other);
             adding_allow_other.setAttribute("name", i+"_allow_otherform_id_temp");			
             adding_allow_other.setAttribute("id", i+"_allow_otherform_id_temp");
-	    
+	var adding_option_left_right= document.createElement("input");
+            adding_option_left_right.setAttribute("type", "hidden");
+            adding_option_left_right.setAttribute("value", w_field_option_pos);	
+            adding_option_left_right.setAttribute("id", i+"_option_left_right");
+			
      var div = document.createElement('div');
       	    div.setAttribute("id", "main_div");
 			
@@ -16102,6 +16949,8 @@ function type_paypal_radio(i, w_field_label, w_field_label_size, w_field_label_p
 				adding.setAttribute("id", i+"_elementform_id_temp"+j);
 				adding.setAttribute("name", i+"_elementform_id_temp");
 				adding.setAttribute("value", w_choices_price[j]);
+				if(w_field_option_pos=="right")
+					adding.style.cssText = "float: left !important";
 			if(w_allow_other=="yes" && j==w_allow_other_num)
 			{
 				adding.setAttribute("other", "1");
@@ -16121,7 +16970,16 @@ function type_paypal_radio(i, w_field_label, w_field_label_size, w_field_label_p
 				label_adding.setAttribute("class","ch-rad-label");
 				label_adding.setAttribute("for",i+"_elementform_id_temp"+j);
 				label_adding.innerHTML = w_choices[j];
-				
+				if(w_field_option_pos=="right")
+				     label_adding.style.cssText = "float: none !important";
+			    if(w_choices_params[j])
+			    {
+				   w_params = w_choices_params[j].split("[where_order_by]");
+				   label_adding.setAttribute("where", w_params[0]);
+				   w_params = w_params[1].split("[db_info]");		
+				   label_adding.setAttribute("order_by", w_params[0]);
+				   label_adding.setAttribute("db_info", w_params[1]);	
+			     }	
 		var adding_ch_label = document.createElement('input');
 				adding_ch_label.setAttribute("type", "hidden");
 				adding_ch_label.setAttribute("id", i+"_elementlabel_form_id_temp"+j);
@@ -16153,6 +17011,7 @@ function type_paypal_radio(i, w_field_label, w_field_label_size, w_field_label_p
        	div_element.appendChild(adding_required);
        	div_element.appendChild(adding_randomize);
        	div_element.appendChild(adding_allow_other);
+		div_element.appendChild(adding_option_left_right);
 		div_element.appendChild(table_little_t);
   		div_element.appendChild(div_);
     	div_field.appendChild(div_label);
@@ -16183,10 +17042,21 @@ if(aaa)
 add_properties(i, w_property, w_property_values);
 // form_maker_open_in_popup(11);
 spider_popup();
+jQuery(function() {
+	jQuery( "#choices" ).sortable({ 
+		items: ".change_pos" ,
+		handle: ".el_choices_sortable",
+		update: function(event, ui) {		
+			refresh_paypal_fields(i,'radio');
+			refresh_id_name(i, 'type_radio');
+		}
+	
+	});	
+  });
 }
 
 
-function type_paypal_shipping(i, w_field_label, w_field_label_size, w_field_label_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value,  w_property,  w_property_values ){
+function type_paypal_shipping(i, w_field_label, w_field_label_size, w_field_label_pos, w_field_option_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value,  w_property,  w_property_values, w_choices_params ){
 
 	document.getElementById("element_type").value="type_paypal_shipping";
 
@@ -16220,7 +17090,7 @@ function type_paypal_shipping(i, w_field_label, w_field_label_size, w_field_labe
       		
 			
 	var edit_main_tr11  = document.createElement('tr');
-      		
+    var edit_main_tr12  = document.createElement('tr');   		
 		
 
 	var edit_main_td1 = document.createElement('td');
@@ -16232,7 +17102,7 @@ function type_paypal_shipping(i, w_field_label, w_field_label_size, w_field_labe
 
 	var edit_main_td4 = document.createElement('td');
 	var edit_main_td4_1 = document.createElement('td');
-		edit_main_td4_1.style.cssText = "padding-top:10px; vertical-align:top;";
+		edit_main_td4_1.style.cssText = "padding:20px 0 0 25px; vertical-align:top;";
 		
 		edit_main_td4.setAttribute("id", "choices");
 		
@@ -16256,6 +17126,8 @@ function type_paypal_shipping(i, w_field_label, w_field_label_size, w_field_labe
 	var edit_main_td11 = document.createElement('td');
 	var edit_main_td11_1 = document.createElement('td');
 	
+	var edit_main_td12 = document.createElement('td');
+	var edit_main_td12_1 = document.createElement('td');
 	var el_label_label = document.createElement('label');
 			        el_label_label.setAttribute("for", "edit_for_label");
 			el_label_label.innerHTML = "Field label";
@@ -16310,7 +17182,30 @@ function type_paypal_shipping(i, w_field_label, w_field_label_size, w_field_labe
 				el_label_position2.setAttribute("checked", "checked");
 	else
 				el_label_position1.setAttribute("checked", "checked");
+				
+	var el_option_position_label = document.createElement('label');
+		el_option_position_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px;  margin-right:27px";
+		el_option_position_label.innerHTML = "Field option label position";
 	
+	var el_option_position1 = document.createElement('input');
+		el_option_position1.setAttribute("id", "edit_for_option_position_right");
+		el_option_position1.setAttribute("type", "radio");        
+		el_option_position1.setAttribute("name", "edit_for_option_position");
+		el_option_position1.setAttribute("onchange", "option_left("+i+",'radio')");
+		
+		Left_option = document.createTextNode("Left");
+		
+	var el_option_position2 = document.createElement('input');
+		el_option_position2.setAttribute("id", "edit_for_option_position_left");
+		el_option_position2.setAttribute("type", "radio");
+    	el_option_position2.setAttribute("name", "edit_for_option_position");
+		el_option_position2.setAttribute("onchange", "option_right("+i+",'radio')");
+		Right_option = document.createTextNode("Right");
+		
+	if(w_field_option_pos=="right")
+		el_option_position2.setAttribute("checked", "checked");
+	else
+		el_option_position1.setAttribute("checked", "checked");	
 	var el_label_flow = document.createElement('label');
 			        el_label_flow.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
 		el_label_flow.innerHTML = "Relative Position";
@@ -16496,7 +17391,18 @@ function type_paypal_shipping(i, w_field_label, w_field_label_size, w_field_labe
             	el_choices_add.style.cssText = 'cursor:pointer;';
             	el_choices_add.setAttribute("title", 'add');
                 el_choices_add.setAttribute("onClick", "add_choise_price('radio',"+i+")");
-				
+	var	el_choices_add_text = document.createElement("span");
+		el_choices_add_text.style.cssText ="font-size: 12px; padding-left:7px; font-weight:bold; cursor:pointer;";
+		el_choices_add_text.innerHTML ="Add option(s)";				
+		el_choices_add_text.setAttribute("onClick", "add_choise_price('radio',"+i+")");
+		
+	var el_choices_select = document.createElement('a');
+	    el_choices_select.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px; cursor:pointer; padding-top:10px; display:block;";
+		el_choices_select.innerHTML = "Select options from database";
+		el_choices_select.setAttribute("rel", "{handler: 'iframe', size: {x: 670, y: 450}}"	);
+		el_choices_select.setAttribute("onclick","tb_show('', 'admin-ajax.php?action=select_data_from_db&field_id="+i+"&field_type=paypal_shipping&width=670&height=450&TB_iframe=1')");
+		el_choices_select.setAttribute("class","modal");
+		
 	var t  = document.getElementById('edit_table');
 	
 	var br = document.createElement('br');
@@ -16506,7 +17412,7 @@ function type_paypal_shipping(i, w_field_label, w_field_label_size, w_field_labe
 	var br4 = document.createElement('br');
 	var br5 = document.createElement('br');
 	var br6 = document.createElement('br');
-	
+	var br7 = document.createElement('br');
 
 	edit_main_td1.appendChild(el_label_label);
 	edit_main_td1_1.appendChild(el_label_textarea);
@@ -16534,6 +17440,13 @@ function type_paypal_shipping(i, w_field_label, w_field_label_size, w_field_labe
 	edit_main_td5.appendChild(el_required_label);
 	edit_main_td5_1.appendChild(el_required);
 	
+	edit_main_td12.appendChild(el_option_position_label);
+	edit_main_td12_1.appendChild(el_option_position1);
+	edit_main_td12_1.appendChild(Left_option);
+	edit_main_td12_1.appendChild(br5);
+	edit_main_td12_1.appendChild(el_option_position2);
+	edit_main_td12_1.appendChild(Right_option);
+	
 	edit_main_td8.appendChild(el_randomize_label);
 	edit_main_td8_1.appendChild(el_randomize);
 	
@@ -16551,10 +17464,13 @@ function type_paypal_shipping(i, w_field_label, w_field_label_size, w_field_labe
 	edit_main_td7.setAttribute("colspan", "2");
 	
 	edit_main_td4.appendChild(el_choices_label);
+	edit_main_td4_1.appendChild(br7);
 	edit_main_td4_1.appendChild(el_choices_add);
+	edit_main_td4_1.appendChild(el_choices_add_text);
+	edit_main_td4_1.appendChild(el_choices_select);
 
 		var div_ = document.createElement('div');
-			div_.style.cssText = 'border-bottom:1px dotted black; width: 187px;';
+			div_.style.cssText = 'border-bottom:1px dotted black; width: 220px;';
 		var br = document.createElement('br');
 		
 		var el_choices_mini_label = document.createElement('b');
@@ -16572,11 +17488,15 @@ function type_paypal_shipping(i, w_field_label, w_field_label_size, w_field_labe
 		var el_choices_dis_mini_label = document.createElement('b');
 			el_choices_dis_mini_label.innerHTML="Delete";
 			el_choices_dis_mini_label.style.cssText='padding-left: 2px; padding-right: 2px; font-size:9px';
+		var el_choices_move_mini_label = document.createElement('b');
+			el_choices_move_mini_label.innerHTML="Move";
+			el_choices_move_mini_label.style.cssText='padding-left: 7px; padding-right: 2px; font-size:9px';
 			
 		div_.appendChild(br);
 		div_.appendChild(el_choices_mini_label);
 		div_.appendChild(el_choices_price_mini_label);
 		div_.appendChild(el_choices_dis_mini_label);
+		div_.appendChild(el_choices_move_mini_label);
 		edit_main_td4.appendChild(div_);
 
 	
@@ -16584,16 +17504,19 @@ function type_paypal_shipping(i, w_field_label, w_field_label_size, w_field_labe
 	n=w_choices.length;
 	for(j=0; j<n; j++)
 	{	
-		var br = document.createElement('br');
-			br.setAttribute("id", "br"+j);
+		var div = document.createElement('div');
+			div.setAttribute("id", j);
+			div.setAttribute("class", "change_pos");
 			
 		var el_choices = document.createElement('input');
 			el_choices.setAttribute("id", "el_choices"+j);
 			el_choices.setAttribute("type", "text");
 			el_choices.setAttribute("value", w_choices[j]);
 			el_choices.setAttribute("checked", w_choices_checked[j]);
-			el_choices.style.cssText =   "width:100px; margin:0; padding:0; border-width: 1px";
+			el_choices.style.cssText =   "width:100px; margin:1px; padding:3px 0; border-width: 1px";
 			el_choices.setAttribute("onKeyUp", "change_label('"+i+"_label_element"+j+"', this.value); change_label_1('"+i+"_elementlabel_form_id_temp"+j+"', this.value); ");
+			if(w_choices_params[j])
+				el_choices.setAttribute("disabled", 'disabled');
 	
 		var el_choices_price = document.createElement('input');
 			el_choices_price.setAttribute("id", "el_option_price"+j);
@@ -16604,7 +17527,15 @@ function type_paypal_shipping(i, w_field_label, w_field_label_size, w_field_labe
 			el_choices_price.style.display = 'none';
 			el_choices_price.setAttribute("onKeyUp", "change_value_price('"+i+"_elementform_id_temp"+j+"', this.value)");
 			el_choices_price.setAttribute("onKeyPress", "return check_isnum_point(event)");
+            if(w_choices_params[j])
+				el_choices_price.setAttribute("disabled", 'disabled');
 
+		var el_choices_params = document.createElement('input');
+			el_choices_params.setAttribute("id", "el_option_params"+j);
+			el_choices_params.setAttribute("class", "el_option_params");
+			el_choices_params.setAttribute("type", "hidden");
+			el_choices_params.setAttribute("value", w_choices_params[j]);
+			
 		var el_choices_remove = document.createElement('img');
 			el_choices_remove.setAttribute("id", "el_choices"+j+"_remove");
 			el_choices_remove.setAttribute("src", plugin_url + '/images/delete.png');
@@ -16615,10 +17546,18 @@ function type_paypal_shipping(i, w_field_label, w_field_label_size, w_field_labe
 			el_choices_remove.setAttribute("align", 'top');
 			el_choices_remove.setAttribute("onClick", "remove_choise_price("+j+","+i+")");
 			
-		edit_main_td4.appendChild(br);
-		edit_main_td4.appendChild(el_choices);
-		edit_main_td4.appendChild(el_choices_price);
-		edit_main_td4.appendChild(el_choices_remove);
+		var el_choices_handle = document.createElement('img');
+			el_choices_handle.setAttribute("class", "el_choices_sortable");
+			el_choices_handle.setAttribute("src", plugin_url + '/images/move_cursor.png');		
+			el_choices_handle.style.cssText = 'cursor:move; vertical-align:middle; margin: 3px 3px 3px 15px;';
+			el_choices_handle.setAttribute("align", 'top');
+
+		div.appendChild(el_choices);
+		div.appendChild(el_choices_price);
+		div.appendChild(el_choices_remove);
+		div.appendChild(el_choices_handle);
+		div.appendChild(el_choices_params);
+		edit_main_td4.appendChild(div);
 	
 	}
 
@@ -16642,6 +17581,8 @@ function type_paypal_shipping(i, w_field_label, w_field_label_size, w_field_labe
 	edit_main_tr8.appendChild(edit_main_td8);
 	edit_main_tr8.appendChild(edit_main_td8_1);
 	edit_main_tr8.style.display="none";
+	edit_main_tr12.appendChild(edit_main_td12);
+	edit_main_tr12.appendChild(edit_main_td12_1);
 	edit_main_tr9.appendChild(edit_main_td9);
 	edit_main_tr9.appendChild(edit_main_td9_1);
 	edit_main_tr9.style.display="none";
@@ -16655,6 +17596,7 @@ function type_paypal_shipping(i, w_field_label, w_field_label_size, w_field_labe
 	edit_main_table.appendChild(edit_main_tr6);
 	edit_main_table.appendChild(edit_main_tr5);
 	edit_main_table.appendChild(edit_main_tr8);
+	edit_main_table.appendChild(edit_main_tr12);
 	edit_main_table.appendChild(edit_main_tr9);
 	edit_main_table.appendChild(edit_main_tr4);
 	edit_main_table.appendChild(edit_main_tr10);
@@ -16688,8 +17630,12 @@ function type_paypal_shipping(i, w_field_label, w_field_label_size, w_field_labe
             adding_allow_other.setAttribute("value", w_allow_other);
             adding_allow_other.setAttribute("name", i+"_allow_otherform_id_temp");			
             adding_allow_other.setAttribute("id", i+"_allow_otherform_id_temp");
-	    
-     var div = document.createElement('div');
+	var adding_option_left_right= document.createElement("input");
+		adding_option_left_right.setAttribute("type", "hidden");
+		adding_option_left_right.setAttribute("value", w_field_option_pos);	
+		adding_option_left_right.setAttribute("id", i+"_option_left_right");
+		
+    var div = document.createElement('div');
       	    div.setAttribute("id", "main_div");
 			
 	var div_field = document.createElement('div');
@@ -16772,6 +17718,8 @@ function type_paypal_shipping(i, w_field_label, w_field_label_size, w_field_labe
 				adding.setAttribute("id", i+"_elementform_id_temp"+j);
 				adding.setAttribute("name", i+"_elementform_id_temp");
 				adding.setAttribute("value", w_choices_price[j]);
+				if(w_field_option_pos=="right")
+					adding.style.cssText = "float: left !important";
 			if(w_allow_other=="yes" && j==w_allow_other_num)
 			{
 				adding.setAttribute("other", "1");
@@ -16791,7 +17739,16 @@ function type_paypal_shipping(i, w_field_label, w_field_label_size, w_field_labe
 				label_adding.setAttribute("class","ch-rad-label");
 				label_adding.setAttribute("for",i+"_elementform_id_temp"+j);
 				label_adding.innerHTML = w_choices[j];
-				
+			    if(w_field_option_pos=="right")
+					label_adding.style.cssText = "float: none !important";
+				if(w_choices_params[j])
+				{
+					w_params = w_choices_params[j].split("[where_order_by]");
+					label_adding.setAttribute("where", w_params[0]);
+					w_params = w_params[1].split("[db_info]");		
+					label_adding.setAttribute("order_by", w_params[0]);
+					label_adding.setAttribute("db_info", w_params[1]);
+				}		
 		var adding_ch_label = document.createElement('input');
 				adding_ch_label.setAttribute("type", "hidden");
 				adding_ch_label.setAttribute("id", i+"_elementlabel_form_id_temp"+j);
@@ -16823,6 +17780,7 @@ function type_paypal_shipping(i, w_field_label, w_field_label_size, w_field_labe
        	div_element.appendChild(adding_required);
        	div_element.appendChild(adding_randomize);
        	div_element.appendChild(adding_allow_other);
+		div_element.appendChild(adding_option_left_right);
 		div_element.appendChild(table_little_t);
   		div_element.appendChild(div_);
     	div_field.appendChild(div_label);
@@ -16851,6 +17809,17 @@ if(aaa)
 add_properties(i, w_property, w_property_values);
 // form_maker_open_in_popup(11);
 spider_popup();
+jQuery(function() {
+	jQuery( "#choices" ).sortable({ 
+		items: ".change_pos" ,
+		handle: ".el_choices_sortable",
+		update: function(event, ui) {		
+			refresh_paypal_fields(i,'radio');
+			refresh_id_name(i, 'type_radio');
+		}
+	
+	});	
+  });
 }
 
 
@@ -24281,7 +25250,8 @@ function addRow(b)
       document.getElementById('img_'+alltypes[x]).parentNode.style.backgroundColor = '';
     }
 	}
-  document.getElementById('img_'+b).parentNode.style.backgroundColor='#FE6400';
+	
+		document.getElementById('img_'+b).parentNode.style.backgroundColor='#FE6400';
 	/*	document.getElementById('img_'+b).style.width='90px';*/
 	
 	switch(b)
@@ -24462,7 +25432,7 @@ else
 			
 	go_to_type_star_rating(new_id);
 		
-	type_star_rating(new_id,'Star Rating:', '150', 'left', 'yellow', '5', 'no', 'wdform_star_rating',w_attr_name, w_attr_value);			
+	type_star_rating(new_id,'Star Rating:', '100', 'left', 'yellow', '5', 'no', 'wdform_star_rating',w_attr_name, w_attr_value);			
 }
 
 function go_to_type_star_rating(new_id)
@@ -24541,13 +25511,14 @@ function go_to_type_paypal_select(new_id)
  	w_choices=[ "Select product", "product 1", "product 2"];
  	w_choices_price=[ "", "100", "200"];
  	w_choices_checked=["1", "0", "0"];
+	w_choices_params=["", "", ""];
 	w_choices_disabled=[true, false, false];
  	w_attr_name=[];
  	w_attr_value=[];
  	w_property=[];
  	w_property_values=[];
 	
-	type_paypal_select(new_id, 'Select Product:', '100', 'left', '200',w_choices, w_choices_price, w_choices_checked, 'no','no', '1', 'wdform_select',w_attr_name, w_attr_value, w_choices_disabled, w_property, w_property_values);
+	type_paypal_select(new_id, 'Select Product:', '100', 'left', '200',w_choices, w_choices_price, w_choices_checked, 'no','no', '1', 'wdform_select',w_attr_name, w_attr_value, w_choices_disabled, w_property, w_property_values, w_choices_params);
 }
 
 function go_to_type_paypal_checkbox(new_id)
@@ -24555,13 +25526,14 @@ function go_to_type_paypal_checkbox(new_id)
  	w_choices=[ "product 1", "product 2"];
  	w_choices_price=[ "100", "200"];
  	w_choices_checked=["0", "0"];
+    w_choices_params=["", "", ""];
 	
  	w_attr_name=[];
  	w_attr_value=[];
  	w_property=[];
  	w_property_values=[];
 	
-	type_paypal_checkbox(new_id,'Checkbox:', '100', 'left', 'ver', w_choices,w_choices_price, w_choices_checked, 'no', 'no', 'no','0', '',w_attr_name, w_attr_value, w_property, w_property_values, 'no','1');
+	type_paypal_checkbox(new_id,'Checkbox:', '100', 'left', 'left', 'ver', w_choices,w_choices_price, w_choices_checked, 'no', 'no', 'no','0', '',w_attr_name, w_attr_value, w_property, w_property_values, 'no','1', w_choices_params);
 }
 
 function go_to_type_paypal_radio(new_id)
@@ -24569,12 +25541,13 @@ function go_to_type_paypal_radio(new_id)
  	w_choices=[ "product 1", "product 2"];  
 	w_choices_price=[ "100", "200"];	
 	w_choices_checked=["0", "0"];	
+	w_choices_params=["", "", ""];
  	w_attr_name=[]; 
 	w_attr_value=[]; 
 	w_property=[];
  	w_property_values=[];	
 		
-	type_paypal_radio(new_id,'Radio:', '100', 'left', 'ver', w_choices, w_choices_price, w_choices_checked, 'no', 'no', 'no','0','',w_attr_name, w_attr_value,  w_property,  w_property_values,'no', '1');
+	type_paypal_radio(new_id,'Radio:', '100', 'left', 'left', 'ver', w_choices, w_choices_price, w_choices_checked, 'no', 'no', 'no','0','',w_attr_name, w_attr_value,  w_property, w_property_values,'no', '1', w_choices_params);
 }
 	
 function go_to_type_paypal_shipping(new_id){
@@ -24584,6 +25557,7 @@ function go_to_type_paypal_shipping(new_id){
   	w_choices_price=[ "100", "200"];
 
 	w_choices_checked=["0", "0"];
+	w_choices_params=["", "", ""];
 
 	w_attr_name=[];
 
@@ -24593,7 +25567,7 @@ function go_to_type_paypal_shipping(new_id){
 
 	w_property_values=[];	
 
-	type_paypal_shipping(new_id,'Shipping:', '100', 'left', 'ver', w_choices, w_choices_price, w_choices_checked, 'no', 'no', 'no','0','',w_attr_name, w_attr_value,  w_property, w_property_values);
+	type_paypal_shipping(new_id,'Shipping:', '100', 'left', 'left', 'ver', w_choices, w_choices_price, w_choices_checked, 'no', 'no', 'no','0','',w_attr_name, w_attr_value,  w_property, w_property_values, w_choices_params);
 	
 }
 
@@ -25117,11 +26091,13 @@ else
 
 
  	w_choices=[ "option 1", "option 2"];
- 	w_choices_checked=["0", "0"];
+ 	w_choices_checked=[false, false];
+	w_choices_value=[ "option 1", "option 2"]; 
+	w_choices_params=["", ""];
 	
  	w_attr_name=[];
  	w_attr_value=[];
-	type_checkbox(new_id,'Checkbox:', '100', 'left', 'ver', w_choices, w_choices_checked, '1', 'no', 'no', 'no','0', '',w_attr_name, w_attr_value);
+	type_checkbox(new_id,'Checkbox:', '100', 'left', 'left', 'ver', w_choices, w_choices_checked, '1', 'no', 'no', 'no','0', '',w_attr_name, w_attr_value, 'no', w_choices_value, w_choices_params);
 }
 
 function el_radio()
@@ -25142,12 +26118,14 @@ else
 
 
  	w_choices=[ "option 1", "option 2"];
- 	w_choices_checked=["0", "0"];
+ 	w_choices_checked=[false, false];
+	w_choices_value=[ "option 1", "option 2"]; 
+	w_choices_params=["", ""];
 	
  	w_attr_name=[];
  	w_attr_value=[];
 	
-	type_radio(new_id,'Radio:', '100', 'left', 'ver', w_choices, w_choices_checked, '1', 'no', 'no', 'no','0','',w_attr_name, w_attr_value);
+	type_radio(new_id,'Radio:', '100', 'left', 'left', 'ver', w_choices, w_choices_checked, '1', 'no', 'no', 'no','0','',w_attr_name, w_attr_value, 'no', w_choices_value, w_choices_params);
 }
 
 function el_time_and_date()
@@ -25238,11 +26216,13 @@ else
 function go_to_type_own_select(new_id)
 {
  	w_choices=[ "Select value", "option 1", "option 2"];
+	w_choices_value=[ "", "option 1", "option 2"];
+	w_choices_params=["", "", ""];
  	w_choices_checked=["1", "0", "0"];
 	w_choices_disabled=[true, false, false];
  	w_attr_name=[];
  	w_attr_value=[];
-	type_own_select(new_id, 'Select:', '100', 'left', '200',w_choices, w_choices_checked, 'no','wdform_select',w_attr_name, w_attr_value, w_choices_disabled);
+	type_own_select(new_id, 'Select:', '100', 'left', '200',w_choices, w_choices_checked, 'no', 'no','wdform_select',w_attr_name, w_attr_value, w_choices_disabled, w_choices_value, w_choices_params);
 }
 
 function go_to_type_country(new_id)
@@ -27420,6 +28400,8 @@ function edit(id)
 	k=0;
 	
 	w_choices=new Array();	
+	w_choices_value=new Array();
+	w_choices_params=new Array();
 	w_choices_checked=new Array();
 	w_choices_disabled=new Array();
 	w_allow_other_num=0;
@@ -27697,20 +28679,6 @@ function edit(id)
 
 				w_randomize=document.getElementById(id+"_randomizeform_id_temp").value;
 				w_allow_other=document.getElementById(id+"_allow_otherform_id_temp").value;
-		
-				v=0;
-				for(k=0;k<100;k++)
-					if(document.getElementById(id+"_elementform_id_temp"+k))
-					{
-						if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other'))
-							if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other')=='1')
-								w_allow_other_num=t;
-						w_choices[t]=document.getElementById(id+"_elementform_id_temp"+k).value;
-						w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+k).checked;
-
-						t++;
-						v=k;
-					}
 
 				if(document.getElementById(id+"_rowcol_numform_id_temp").value)	
 				{
@@ -27723,17 +28691,83 @@ function edit(id)
 				}
 				else
 				{
-				if(document.getElementById(id+'_hor'))
-					w_flow="hor"	
-				else
-					w_flow="ver";
-				
-				w_rowcol = '';
+					if(document.getElementById(id+'_hor'))
+						w_flow="hor"	
+					else
+						w_flow="ver";
+					
+					w_rowcol = 1;
 				}
+				
+				v=0;
+				if(w_flow=="ver")
+				{
+					var table_little = document.getElementById(id+'_table_little');
+					for(k=0;k < table_little.childNodes.length; k++)
+					{
+						var td_little = table_little.childNodes[k];
+							for(m=0; m < td_little.childNodes.length; m++)
+							{
+								var idi = td_little.childNodes[m].getAttribute('idi');
+								if(document.getElementById(id+"_elementform_id_temp"+idi).getAttribute('other'))
+									if(document.getElementById(id+"_elementform_id_temp"+idi).getAttribute('other')=='1')
+										w_allow_other_num=t;
+								w_choices[t]=document.getElementById(id+"_label_element"+idi).innerHTML;
+								w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+idi).checked;
+								w_choices_value[t]=document.getElementById(id+"_elementform_id_temp"+idi).value;
+								if(document.getElementById(id+"_label_element"+idi).getAttribute('where'))
+									w_choices_params[t]=document.getElementById(id+"_label_element"+idi).getAttribute('where')+'[where_order_by]'+document.getElementById(id+"_label_element"+idi).getAttribute('order_by')+'[db_info]'+document.getElementById(id+"_label_element"+idi).getAttribute('db_info');
+								else
+									w_choices_params[t]='';
+								t++;
+								v=idi;
+							}
+					}
+				
+				}
+				else
+				{
+					var table_little = document.getElementById(id+'_table_little');
+					var	tr_little = table_little.childNodes;
+					var td_max = tr_little[0].childNodes;
+					
+					for(k=0;k < td_max.length; k++)
+					{
+						for(m=0; m < tr_little.length; m++)
+						{
+							if(tr_little[m].childNodes[k])
+							{
+								var td_little = tr_little[m].childNodes[k];
+								var idi = td_little.getAttribute('idi');
+								if(document.getElementById(id+"_elementform_id_temp"+idi).getAttribute('other'))
+									if(document.getElementById(id+"_elementform_id_temp"+idi).getAttribute('other')=='1')
+										w_allow_other_num=t;
+								w_choices[t]=document.getElementById(id+"_label_element"+idi).innerHTML;
+								w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+idi).checked;
+								w_choices_value[t]=document.getElementById(id+"_elementform_id_temp"+idi).value;
+								if(document.getElementById(id+"_label_element"+idi).getAttribute('where'))
+									w_choices_params[t]=document.getElementById(id+"_label_element"+idi).getAttribute('where')+'[where_order_by]'+document.getElementById(id+"_label_element"+idi).getAttribute('order_by')+'[db_info]'+document.getElementById(id+"_label_element"+idi).getAttribute('db_info');
+								else
+									w_choices_params[t]='';
+								t++;
+								v=idi;
+							}
+						}
+					}
+				
+				}
+					
+				if(document.getElementById(id+"_option_left_right"))
+					w_field_option_pos = document.getElementById(id+"_option_left_right").value;
+				else
+					w_field_option_pos = 'left';
+
+				w_value_disabled = document.getElementById(id+"_value_disabledform_id_temp").value;
+				
 				atrs=return_attributes(id+'_elementform_id_temp'+v);
 				w_attr_name=atrs[0];
 				w_attr_value=atrs[1];
-				type_checkbox(id, w_field_label,w_field_label_size, w_field_label_pos, w_flow, w_choices, w_choices_checked, w_rowcol, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value); break;
+				type_checkbox(id, w_field_label,w_field_label_size, w_field_label_pos, w_field_option_pos, w_flow, w_choices, w_choices_checked, w_rowcol, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value, w_value_disabled, w_choices_value, w_choices_params); break;
 			}
 			
 			case 'type_paypal_checkbox':
@@ -27748,20 +28782,32 @@ function edit(id)
 				w_allow_other=document.getElementById(id+"_allow_otherform_id_temp").value;
 		
 				v=0;
-				for(k=0;k<100;k++)
+				var w_allow_other_num =0;
+				var table_little = document.getElementById(id+'_table_little');
+				for(k=0;k < table_little.childNodes.length; k++)
 				{
-					if(document.getElementById(id+"_elementform_id_temp"+k))
+					var td_little = table_little.childNodes[k];
+					for(m=0; m < td_little.childNodes.length; m++)
 					{
-						if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other'))
-							if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other')=='1')
-								w_allow_other_num=t;
-						w_choices[t]=document.getElementById(id+"_label_element"+k).innerHTML;
-						w_choices_price[t]=document.getElementById(id+"_elementform_id_temp"+k).value;
-						w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+k).checked;
+						var idi = td_little.childNodes[m].getAttribute('idi');
+						w_choices[t]=document.getElementById(id+"_label_element"+idi).innerHTML;
+						w_choices_price[t]=document.getElementById(id+"_elementform_id_temp"+idi).value;
+						w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+idi).checked;
+						
+						if(document.getElementById(id+"_label_element"+idi).getAttribute('where'))
+							w_choices_params[t]=document.getElementById(id+"_label_element"+idi).getAttribute('where')+'[where_order_by]'+document.getElementById(id+"_label_element"+idi).getAttribute('order_by')+'[db_info]'+document.getElementById(id+"_label_element"+idi).getAttribute('db_info');
+						else
+							w_choices_params[t]='';
+						
 						t++;
-						v=k;
+						v=idi;
 					}
+				}	
+				
+				if(w_flow == 'hor')
+					flow_hor(id);
 					
+				for(k=0;k<100;k++)
 					if(document.getElementById(id+"_propertyform_id_temp"+k))
 					{
 						w_property.push(document.getElementById(id+"_property_label_form_id_temp"+k).innerHTML);
@@ -27779,8 +28825,6 @@ function edit(id)
 							w_property_values.push('');
 						}
 					}
-					
-				}
 				
 				w_quantity="no";
 				w_quantity_value =1;
@@ -27789,11 +28833,15 @@ function edit(id)
 					w_quantity='yes';
 					w_quantity_value = document.getElementById(id+"_element_quantityform_id_temp").value;
 				}
-			
+				if(document.getElementById(id+"_option_left_right"))
+					w_field_option_pos = document.getElementById(id+"_option_left_right").value;
+				else
+					w_field_option_pos = 'left';
+
 				atrs=return_attributes(id+'_elementform_id_temp'+v);
 				w_attr_name=atrs[0];
 				w_attr_value=atrs[1];
-				type_paypal_checkbox(id, w_field_label, w_field_label_size, w_field_label_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value,  w_property,  w_property_values,w_quantity, w_quantity_value); break;
+				type_paypal_checkbox(id, w_field_label, w_field_label_size, w_field_label_pos, w_field_option_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value,  w_property,  w_property_values,w_quantity, w_quantity_value,  w_choices_params); break;
 			}
 			
 			
@@ -27802,19 +28850,6 @@ function edit(id)
 		
 				w_randomize=document.getElementById(id+"_randomizeform_id_temp").value;
 				w_allow_other=document.getElementById(id+"_allow_otherform_id_temp").value;
-
-				v=0;
-				for(k=0;k<100;k++)
-					if(document.getElementById(id+"_elementform_id_temp"+k))
-					{
-						if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other'))
-							if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other')=='1')
-								w_allow_other_num=t;
-						w_choices[t]=document.getElementById(id+"_elementform_id_temp"+k).value;
-						w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+k).checked;
-						t++;
-						v=k;
-					}
 
 				if(document.getElementById(id+"_rowcol_numform_id_temp").value)	
 				{
@@ -27827,18 +28862,82 @@ function edit(id)
 				}
 				else
 				{
-                if(document.getElementById(id+'_table_little').getAttribute('for_hor'))
-					w_flow="hor"	
-				else
-					w_flow="ver";
-				
-				w_rowcol = '';
+					if(document.getElementById(id+'_table_little').getAttribute('for_hor'))
+						w_flow="hor"	
+					else
+						w_flow="ver";
+					
+					w_rowcol = 1;
 				}
+				
+				v=0;
+				if(w_flow=="ver")
+				{	
+					var table_little = document.getElementById(id+'_table_little');
+					for(k=0;k < table_little.childNodes.length; k++)
+					{
+						var td_little = table_little.childNodes[k];
+							for(m=0; m < td_little.childNodes.length; m++)
+							{
+								var idi = td_little.childNodes[m].getAttribute('idi');
+								if(document.getElementById(id+"_elementform_id_temp"+idi).getAttribute('other'))
+									if(document.getElementById(id+"_elementform_id_temp"+idi).getAttribute('other')=='1')
+										w_allow_other_num=t;
+								w_choices[t]=document.getElementById(id+"_label_element"+idi).innerHTML;
+								w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+idi).checked;
+								w_choices_value[t]=document.getElementById(id+"_elementform_id_temp"+idi).value;
+								if(document.getElementById(id+"_label_element"+idi).getAttribute('where'))
+									w_choices_params[t]=document.getElementById(id+"_label_element"+idi).getAttribute('where')+'[where_order_by]'+document.getElementById(id+"_label_element"+idi).getAttribute('order_by')+'[db_info]'+document.getElementById(id+"_label_element"+idi).getAttribute('db_info');
+								else
+									w_choices_params[t]='';
+								t++;
+								v=idi;
+							}
+					}
+				}
+				else
+				{
+					var table_little = document.getElementById(id+'_table_little');
+					var	tr_little = table_little.childNodes;
+					var td_max = tr_little[0].childNodes;
+					
+					for(k=0;k < td_max.length; k++)
+					{
+						for(m=0; m < tr_little.length; m++)
+						{
+							if(tr_little[m].childNodes[k])
+							{
+								var td_little = tr_little[m].childNodes[k];
+								var idi = td_little.getAttribute('idi');
+								if(document.getElementById(id+"_elementform_id_temp"+idi).getAttribute('other'))
+									if(document.getElementById(id+"_elementform_id_temp"+idi).getAttribute('other')=='1')
+										w_allow_other_num=t;
+								w_choices[t]=document.getElementById(id+"_label_element"+idi).innerHTML;
+								w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+idi).checked;
+								w_choices_value[t]=document.getElementById(id+"_elementform_id_temp"+idi).value;
+								if(document.getElementById(id+"_label_element"+idi).getAttribute('where'))
+									w_choices_params[t]=document.getElementById(id+"_label_element"+idi).getAttribute('where')+'[where_order_by]'+document.getElementById(id+"_label_element"+idi).getAttribute('order_by')+'[db_info]'+document.getElementById(id+"_label_element"+idi).getAttribute('db_info');
+								else
+									w_choices_params[t]='';
+								t++;
+								v=idi;
+							}
+						}
+					}
+				
+				}
+
+				if(document.getElementById(id+"_option_left_right"))
+					w_field_option_pos = document.getElementById(id+"_option_left_right").value;
+				else
+					w_field_option_pos = 'left';
+				
+				w_value_disabled = document.getElementById(id+"_value_disabledform_id_temp").value;
+				
 				atrs=return_attributes(id+'_elementform_id_temp'+v);
 				w_attr_name=atrs[0];
 				w_attr_value=atrs[1];
-
-				type_radio(id, w_field_label, w_field_label_size, w_field_label_pos, w_flow, w_choices, w_choices_checked, w_rowcol, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value); break;
+				type_radio(id, w_field_label, w_field_label_size, w_field_label_pos, w_field_option_pos, w_flow, w_choices, w_choices_checked, w_rowcol, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value, w_value_disabled, w_choices_value, w_choices_params); break;
 			}
 			
 			case 'type_paypal_radio':
@@ -27852,20 +28951,31 @@ function edit(id)
 				w_allow_other=document.getElementById(id+"_allow_otherform_id_temp").value;
 
 				v=0;
+				var w_allow_other_num =0;
+				var table_little = document.getElementById(id+'_table_little');
+				for(k=0;k < table_little.childNodes.length; k++)
+				{
+					var td_little = table_little.childNodes[k];
+					for(m=0; m < td_little.childNodes.length; m++)
+					{
+						var idi = td_little.childNodes[m].getAttribute('idi');
+						w_choices[t]=document.getElementById(id+"_label_element"+idi).innerHTML;
+						w_choices_price[t]=document.getElementById(id+"_elementform_id_temp"+idi).value;
+						w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+idi).checked;
+						if(document.getElementById(id+"_label_element"+idi).getAttribute('where'))
+							w_choices_params[t]=document.getElementById(id+"_label_element"+idi).getAttribute('where')+'[where_order_by]'+document.getElementById(id+"_label_element"+idi).getAttribute('order_by')+'[db_info]'+document.getElementById(id+"_label_element"+idi).getAttribute('db_info');
+						else
+							w_choices_params[t]='';
+						t++;
+						v=idi;
+					}
+				}	
+				
+				if(w_flow == 'hor')
+					flow_hor(id);
+					
 				for(k=0;k<100;k++)
 				{
-					if(document.getElementById(id+"_elementform_id_temp"+k))
-					{
-						if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other'))
-							if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other')=='1')
-								w_allow_other_num=t;
-						w_choices[t]=document.getElementById(id+"_label_element"+k).innerHTML;
-						w_choices_price[t]=document.getElementById(id+"_elementform_id_temp"+k).value;
-						w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+k).checked;
-						t++;
-						v=k;
-					}
-					
 					if(document.getElementById(id+"_propertyform_id_temp"+k))
 					{
 						w_property.push(document.getElementById(id+"_property_label_form_id_temp"+k).innerHTML);
@@ -27893,11 +29003,15 @@ function edit(id)
 					w_quantity='yes';
 					w_quantity_value = document.getElementById(id+"_element_quantityform_id_temp").value;
 				}
+				if(document.getElementById(id+"_option_left_right"))
+					w_field_option_pos = document.getElementById(id+"_option_left_right").value;
+				else
+					w_field_option_pos = 'left';
 			
 				atrs=return_attributes(id+'_elementform_id_temp'+v);
 				w_attr_name=atrs[0];
 				w_attr_value=atrs[1];
-				type_paypal_radio(id, w_field_label, w_field_label_size, w_field_label_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value, w_property,  w_property_values, w_quantity, w_quantity_value); break;
+				type_paypal_radio(id, w_field_label, w_field_label_size, w_field_label_pos, w_field_option_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value, w_property,  w_property_values, w_quantity, w_quantity_value, w_choices_params); break;
 			}
 			
 			case 'type_paypal_shipping':
@@ -27911,44 +29025,40 @@ function edit(id)
 				w_allow_other=document.getElementById(id+"_allow_otherform_id_temp").value;
 
 				v=0;
-				for(k=0;k<100;k++)
+				var w_allow_other_num =0;
+				var table_little = document.getElementById(id+'_table_little');
+				for(k=0;k < table_little.childNodes.length; k++)
 				{
-					if(document.getElementById(id+"_elementform_id_temp"+k))
+					var td_little = table_little.childNodes[k];
+					for(m=0; m < td_little.childNodes.length; m++)
 					{
-						if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other'))
-							if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other')=='1')
-								w_allow_other_num=t;
-						w_choices[t]=document.getElementById(id+"_label_element"+k).innerHTML;
-						w_choices_price[t]=document.getElementById(id+"_elementform_id_temp"+k).value;
-						w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+k).checked;
-						t++;
-						v=k;
-					}
-					
-					if(document.getElementById(id+"_propertyform_id_temp"+k))
-					{
-						w_property.push(document.getElementById(id+"_property_label_form_id_temp"+k).innerHTML);
-						
-						if(document.getElementById(id+"_propertyform_id_temp"+k).childNodes.length)
-						{	
-							w_property_values[w_property.length-1]=new Array();	
-							for(m=0;m < document.getElementById(id+"_propertyform_id_temp"+k).childNodes.length;m++)
-							{				
-								w_property_values[w_property.length-1].push(document.getElementById(id+"_propertyform_id_temp"+k).childNodes[m].value);
-							}
-						}
+						var idi = td_little.childNodes[m].getAttribute('idi');
+						w_choices[t]=document.getElementById(id+"_label_element"+idi).innerHTML;
+						w_choices_price[t]=document.getElementById(id+"_elementform_id_temp"+idi).value;
+						w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+idi).checked;
+						if(document.getElementById(id+"_label_element"+idi).getAttribute('where'))
+							w_choices_params[t]=document.getElementById(id+"_label_element"+idi).getAttribute('where')+'[where_order_by]'+document.getElementById(id+"_label_element"+idi).getAttribute('order_by')+'[db_info]'+document.getElementById(id+"_label_element"+idi).getAttribute('db_info');
 						else
-						{
-							w_property_values.push('');
-						}
+							w_choices_params[t]='';
+						t++;
+						v=idi;
 					}
+				}	
 				
-				}
+				if(w_flow == 'hor')
+					flow_hor(id);
+					
+				var	w_property = [];
+				var w_property_values = [];		
 				
+				if(document.getElementById(id+"_option_left_right"))
+					w_field_option_pos = document.getElementById(id+"_option_left_right").value;
+				else
+					w_field_option_pos = 'left';
 				atrs=return_attributes(id+'_elementform_id_temp'+v);
 				w_attr_name=atrs[0];
 				w_attr_value=atrs[1];
-				type_paypal_shipping(id, w_field_label, w_field_label_size, w_field_label_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value, w_property,  w_property_values); break;
+				type_paypal_shipping(id, w_field_label, w_field_label_size, w_field_label_pos, w_field_option_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value, w_property,  w_property_values, w_choices_params); break;
 			}
 
 			case 'type_paypal_total':
@@ -28161,41 +29271,51 @@ function edit(id)
 			}
 			case 'type_own_select':
 			{	
-				for(k=0;k<100;k++)
-					if(document.getElementById(id+"_option"+k))
-					{
-						w_choices[t]=document.getElementById(id+"_option"+k).innerHTML;
-						w_choices_checked[t]=document.getElementById(id+"_option"+k).selected;
-						if(document.getElementById(id+"_option"+k).value=="")
-							w_choices_disabled[t]=true;
-						else
-							w_choices_disabled[t]=false;
-						t++;
-					}
-					
+				jQuery('#'+id+'_elementform_id_temp option').each(function() {
+					w_choices[t]=jQuery(this).html();
+					w_choices_value[t]=jQuery(this).val();
+					w_choices_checked[t]=jQuery(this)[0].selected;
+					if(jQuery(this).attr('where'))
+						w_choices_params[t]=jQuery(this).attr('where')+'[where_order_by]'+jQuery(this).attr('order_by')+'[db_info]'+jQuery(this).attr('db_info');
+					else
+						w_choices_params[t]='';
+						
+					if(jQuery(this).val())
+						w_choices_disabled[t]=false;	
+					else
+						w_choices_disabled[t]=true;
+					t++;		
+				});
+
+				w_value_disabled = document.getElementById(id+'_value_disabledform_id_temp').value;
+				
 				atrs=return_attributes(id+'_elementform_id_temp');
 				w_attr_name=atrs[0];
 				w_attr_value=atrs[1];
-				type_own_select(id, w_field_label, w_field_label_size, w_field_label_pos, w_size, w_choices, w_choices_checked, w_required, w_class, w_attr_name, w_attr_value, w_choices_disabled); break;
+				type_own_select(id, w_field_label, w_field_label_size, w_field_label_pos, w_size, w_choices, w_choices_checked, w_required, w_value_disabled, w_class, w_attr_name, w_attr_value, w_choices_disabled, w_choices_value, w_choices_params); break;
 			}
 			
 			case 'type_paypal_select':
 			{	
 				
-				for(k=0;k<100;k++)
-				{
-					if(document.getElementById(id+"_option"+k))
-					{
-						w_choices[t]=document.getElementById(id+"_option"+k).innerHTML;
-						w_choices_price[t]=document.getElementById(id+"_option"+k).value;
-						w_choices_checked[t]=document.getElementById(id+"_option"+k).selected;
-						if(document.getElementById(id+"_option"+k).value=="")
+				jQuery('#'+id+'_elementform_id_temp option').each(function() {
+					w_choices[t]=jQuery(this).html();
+					w_choices_price[t]=jQuery(this).val();
+					w_choices_checked[t]=jQuery(this)[0].selected;
+					if(jQuery(this).attr('where'))
+						w_choices_params[t]=jQuery(this).attr('where')+'[where_order_by]'+jQuery(this).attr('order_by')+'[db_info]'+jQuery(this).attr('db_info');
+					else
+						w_choices_params[t]='';
+						
+					if(jQuery(this)[0].value=="")
 							w_choices_disabled[t]=true;
 						else
 							w_choices_disabled[t]=false;
-						t++;
-					}
-					
+					t++;		
+				});
+				
+				for(k=0;k<100;k++)
+				{
 					if(document.getElementById(id+"_propertyform_id_temp"+k))
 					{
 						w_property.push(document.getElementById(id+"_property_label_form_id_temp"+k).innerHTML);
@@ -28227,7 +29347,7 @@ function edit(id)
 				atrs=return_attributes(id+'_elementform_id_temp');
 				w_attr_name=atrs[0];
 				w_attr_value=atrs[1];
-				type_paypal_select(id, w_field_label, w_field_label_size, w_field_label_pos, w_size, w_choices,w_choices_price, w_choices_checked, w_required,  w_quantity, w_quantity_value, w_class, w_attr_name, w_attr_value, w_choices_disabled, w_property, w_property_values); break;
+				type_paypal_select(id, w_field_label, w_field_label_size, w_field_label_pos, w_size, w_choices,w_choices_price, w_choices_checked, w_required,  w_quantity, w_quantity_value, w_class, w_attr_name, w_attr_value, w_choices_disabled, w_property, w_property_values, w_choices_params); break;
 			}
 			
 			case 'type_country':
@@ -28245,7 +29365,7 @@ function edit(id)
 				w_attr_name=atrs[0];
 				w_attr_value=atrs[1];
 				type_country(id, w_field_label, w_field_label_size, w_countries, w_field_label_pos, w_size, w_required, w_class,  w_attr_name, w_attr_value); break;
-			}
+			}			
 			case 'type_captcha':
 			{
 				w_digit=document.getElementById("_wd_captchaform_id_temp").getAttribute("digit");
@@ -28664,20 +29784,6 @@ function dublicate(id) {
 
 				w_randomize=document.getElementById(id+"_randomizeform_id_temp").value;
 				w_allow_other=document.getElementById(id+"_allow_otherform_id_temp").value;
-		
-				v=0;
-				for(k=0;k<100;k++)
-					if(document.getElementById(id+"_elementform_id_temp"+k))
-					{
-						if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other'))
-							if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other')=='1')
-								w_allow_other_num=t;
-						w_choices[t]=document.getElementById(id+"_elementform_id_temp"+k).value;
-						w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+k).checked;
-
-						t++;
-						v=k;
-					}
 
 				if(document.getElementById(id+"_rowcol_numform_id_temp").value)	
 				{
@@ -28690,17 +29796,83 @@ function dublicate(id) {
 				}
 				else
 				{
-				if(document.getElementById(id+'_hor'))
-					w_flow="hor"	
-				else
-					w_flow="ver";
-				
-				w_rowcol = '';
+					if(document.getElementById(id+'_hor'))
+						w_flow="hor"	
+					else
+						w_flow="ver";
+					
+					w_rowcol = 1;
 				}
+				
+				v=0;
+				if(w_flow=="ver")
+				{
+					var table_little = document.getElementById(id+'_table_little');
+					for(k=0;k < table_little.childNodes.length; k++)
+					{
+						var td_little = table_little.childNodes[k];
+							for(m=0; m < td_little.childNodes.length; m++)
+							{
+								var idi = td_little.childNodes[m].getAttribute('idi');
+								if(document.getElementById(id+"_elementform_id_temp"+idi).getAttribute('other'))
+									if(document.getElementById(id+"_elementform_id_temp"+idi).getAttribute('other')=='1')
+										w_allow_other_num=t;
+								w_choices[t]=document.getElementById(id+"_label_element"+idi).innerHTML;
+								w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+idi).checked;
+								w_choices_value[t]=document.getElementById(id+"_elementform_id_temp"+idi).value;
+								if(document.getElementById(id+"_label_element"+idi).getAttribute('where'))
+									w_choices_params[t]=document.getElementById(id+"_label_element"+idi).getAttribute('where')+'[where_order_by]'+document.getElementById(id+"_label_element"+idi).getAttribute('order_by')+'[db_info]'+document.getElementById(id+"_label_element"+idi).getAttribute('db_info');
+								else
+									w_choices_params[t]='';
+								t++;
+								v=idi;
+							}
+					}
+				
+				}
+				else
+				{
+					var table_little = document.getElementById(id+'_table_little');
+					var	tr_little = table_little.childNodes;
+					var td_max = tr_little[0].childNodes;
+					
+					for(k=0;k < td_max.length; k++)
+					{
+						for(m=0; m < tr_little.length; m++)
+						{
+							if(tr_little[m].childNodes[k])
+							{
+								var td_little = tr_little[m].childNodes[k];
+								var idi = td_little.getAttribute('idi');
+								if(document.getElementById(id+"_elementform_id_temp"+idi).getAttribute('other'))
+									if(document.getElementById(id+"_elementform_id_temp"+idi).getAttribute('other')=='1')
+										w_allow_other_num=t;
+								w_choices[t]=document.getElementById(id+"_label_element"+idi).innerHTML;
+								w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+idi).checked;
+								w_choices_value[t]=document.getElementById(id+"_elementform_id_temp"+idi).value;
+								if(document.getElementById(id+"_label_element"+idi).getAttribute('where'))
+									w_choices_params[t]=document.getElementById(id+"_label_element"+idi).getAttribute('where')+'[where_order_by]'+document.getElementById(id+"_label_element"+idi).getAttribute('order_by')+'[db_info]'+document.getElementById(id+"_label_element"+idi).getAttribute('db_info');
+								else
+									w_choices_params[t]='';
+								t++;
+								v=idi;
+							}
+						}
+					}
+				
+				}
+					
+				if(document.getElementById(id+"_option_left_right"))
+					w_field_option_pos = document.getElementById(id+"_option_left_right").value;
+				else
+					w_field_option_pos = 'left';
+
+				w_value_disabled = document.getElementById(id+"_value_disabledform_id_temp").value;
+				
 				atrs=return_attributes(id+'_elementform_id_temp'+v);
 				w_attr_name=atrs[0];
 				w_attr_value=atrs[1];
-				type_checkbox(gen, w_field_label,w_field_label_size, w_field_label_pos, w_flow, w_choices, w_choices_checked, w_rowcol, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value); break;
+				type_checkbox(gen, w_field_label,w_field_label_size, w_field_label_pos, w_field_option_pos, w_flow, w_choices, w_choices_checked, w_rowcol, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value, w_value_disabled, w_choices_value, w_choices_params); break;
 			}
 			
 			case 'type_paypal_checkbox':
@@ -28725,6 +29897,10 @@ function dublicate(id) {
 						w_choices[t]=document.getElementById(id+"_label_element"+k).innerHTML;
 						w_choices_price[t]=document.getElementById(id+"_elementform_id_temp"+k).value;
 						w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+k).checked;
+						if(document.getElementById(id+"_label_element"+k).getAttribute('where'))
+							w_choices_params[t]=document.getElementById(id+"_label_element"+k).getAttribute('where')+'[where_order_by]'+document.getElementById(id+"_label_element"+k).getAttribute('order_by')+'[db_info]'+document.getElementById(id+"_label_element"+k).getAttribute('db_info');
+						else
+							w_choices_params[t]='';
 						t++;
 						v=k;
 					}
@@ -28757,31 +29933,20 @@ function dublicate(id) {
 					w_quantity_value = document.getElementById(id+"_element_quantityform_id_temp").value;
 				}
 			
+				if(document.getElementById(id+"_option_left_right"))
+					w_field_option_pos = document.getElementById(id+"_option_left_right").value;
+				else
+					w_field_option_pos = 'left';
 				atrs=return_attributes(id+'_elementform_id_temp'+v);
 				w_attr_name=atrs[0];
 				w_attr_value=atrs[1];
-				type_paypal_checkbox(gen, w_field_label, w_field_label_size, w_field_label_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value,  w_property,  w_property_values,w_quantity, w_quantity_value); break;
+				type_paypal_checkbox(gen, w_field_label, w_field_label_size, w_field_label_pos, w_field_option_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value,  w_property, w_property_values,w_quantity, w_quantity_value, w_choices_params); break;
 			}
-			
-			
 			case 'type_radio':
 			{	
 		
 				w_randomize=document.getElementById(id+"_randomizeform_id_temp").value;
 				w_allow_other=document.getElementById(id+"_allow_otherform_id_temp").value;
-
-				v=0;
-				for(k=0;k<100;k++)
-					if(document.getElementById(id+"_elementform_id_temp"+k))
-					{
-						if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other'))
-							if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other')=='1')
-								w_allow_other_num=t;
-						w_choices[t]=document.getElementById(id+"_elementform_id_temp"+k).value;
-						w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+k).checked;
-						t++;
-						v=k;
-					}
 
 				if(document.getElementById(id+"_rowcol_numform_id_temp").value)	
 				{
@@ -28794,19 +29959,83 @@ function dublicate(id) {
 				}
 				else
 				{
-				if(document.getElementById(id+'_hor'))
-					w_flow="hor"	
-				else
-					w_flow="ver";
-				
-				w_rowcol = '';
+					if(document.getElementById(id+'_table_little').getAttribute('for_hor'))
+						w_flow="hor"	
+					else
+						w_flow="ver";
+					
+					w_rowcol = 1;
 				}
+				
+				v=0;
+				if(w_flow=="ver")
+				{	
+					var table_little = document.getElementById(id+'_table_little');
+					for(k=0;k < table_little.childNodes.length; k++)
+					{
+						var td_little = table_little.childNodes[k];
+							for(m=0; m < td_little.childNodes.length; m++)
+							{
+								var idi = td_little.childNodes[m].getAttribute('idi');
+								if(document.getElementById(id+"_elementform_id_temp"+idi).getAttribute('other'))
+									if(document.getElementById(id+"_elementform_id_temp"+idi).getAttribute('other')=='1')
+										w_allow_other_num=t;
+								w_choices[t]=document.getElementById(id+"_label_element"+idi).innerHTML;
+								w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+idi).checked;
+								w_choices_value[t]=document.getElementById(id+"_elementform_id_temp"+idi).value;
+								if(document.getElementById(id+"_label_element"+idi).getAttribute('where'))
+									w_choices_params[t]=document.getElementById(id+"_label_element"+idi).getAttribute('where')+'[where_order_by]'+document.getElementById(id+"_label_element"+idi).getAttribute('order_by')+'[db_info]'+document.getElementById(id+"_label_element"+idi).getAttribute('db_info');
+								else
+									w_choices_params[t]='';
+								t++;
+								v=idi;
+							}
+					}
+				}
+				else
+				{
+					var table_little = document.getElementById(id+'_table_little');
+					var	tr_little = table_little.childNodes;
+					var td_max = tr_little[0].childNodes;
+					
+					for(k=0;k < td_max.length; k++)
+					{
+						for(m=0; m < tr_little.length; m++)
+						{
+							if(tr_little[m].childNodes[k])
+							{
+								var td_little = tr_little[m].childNodes[k];
+								var idi = td_little.getAttribute('idi');
+								if(document.getElementById(id+"_elementform_id_temp"+idi).getAttribute('other'))
+									if(document.getElementById(id+"_elementform_id_temp"+idi).getAttribute('other')=='1')
+										w_allow_other_num=t;
+								w_choices[t]=document.getElementById(id+"_label_element"+idi).innerHTML;
+								w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+idi).checked;
+								w_choices_value[t]=document.getElementById(id+"_elementform_id_temp"+idi).value;
+								if(document.getElementById(id+"_label_element"+idi).getAttribute('where'))
+									w_choices_params[t]=document.getElementById(id+"_label_element"+idi).getAttribute('where')+'[where_order_by]'+document.getElementById(id+"_label_element"+idi).getAttribute('order_by')+'[db_info]'+document.getElementById(id+"_label_element"+idi).getAttribute('db_info');
+								else
+									w_choices_params[t]='';
+								t++;
+								v=idi;
+							}
+						}
+					}
+				
+				}
+
+				if(document.getElementById(id+"_option_left_right"))
+					w_field_option_pos = document.getElementById(id+"_option_left_right").value;
+				else
+					w_field_option_pos = 'left';
+				
+				w_value_disabled = document.getElementById(id+"_value_disabledform_id_temp").value;
+				
 				atrs=return_attributes(id+'_elementform_id_temp'+v);
 				w_attr_name=atrs[0];
 				w_attr_value=atrs[1];
-				type_radio(gen, w_field_label, w_field_label_size, w_field_label_pos, w_flow, w_choices, w_choices_checked, w_rowcol, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value); break;
+				type_radio(gen, w_field_label, w_field_label_size, w_field_label_pos, w_field_option_pos, w_flow, w_choices, w_choices_checked, w_rowcol, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value, w_value_disabled, w_choices_value, w_choices_params); break;
 			}
-			
 			case 'type_paypal_radio':
 			{	
 				if(document.getElementById(id+'_hor'))
@@ -28828,6 +30057,10 @@ function dublicate(id) {
 						w_choices[t]=document.getElementById(id+"_label_element"+k).innerHTML;
 						w_choices_price[t]=document.getElementById(id+"_elementform_id_temp"+k).value;
 						w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+k).checked;
+						if(document.getElementById(id+"_label_element"+k).getAttribute('where'))
+							w_choices_params[t]=document.getElementById(id+"_label_element"+k).getAttribute('where')+'[where_order_by]'+document.getElementById(id+"_label_element"+k).getAttribute('order_by')+'[db_info]'+document.getElementById(id+"_label_element"+k).getAttribute('db_info');
+						else
+							w_choices_params[t]='';
 						t++;
 						v=k;
 					}
@@ -28859,11 +30092,15 @@ function dublicate(id) {
 					w_quantity='yes';
 					w_quantity_value = document.getElementById(id+"_element_quantityform_id_temp").value;
 				}
+				if(document.getElementById(id+"_option_left_right"))
+					w_field_option_pos = document.getElementById(id+"_option_left_right").value;
+				else
+					w_field_option_pos = 'left';
 			
 				atrs=return_attributes(id+'_elementform_id_temp'+v);
 				w_attr_name=atrs[0];
 				w_attr_value=atrs[1];
-				type_paypal_radio(gen, w_field_label, w_field_label_size, w_field_label_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value, w_property,  w_property_values, w_quantity, w_quantity_value); break;
+				type_paypal_radio(gen, w_field_label, w_field_label_size, w_field_label_pos, w_field_option_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value, w_property,  w_property_values, w_quantity, w_quantity_value, w_choices_params); break;
 			}
 			
 			case 'type_paypal_shipping':
@@ -28887,6 +30124,10 @@ function dublicate(id) {
 						w_choices[t]=document.getElementById(id+"_label_element"+k).innerHTML;
 						w_choices_price[t]=document.getElementById(id+"_elementform_id_temp"+k).value;
 						w_choices_checked[t]=document.getElementById(id+"_elementform_id_temp"+k).checked;
+						if(document.getElementById(id+"_label_element"+k).getAttribute('where'))
+							w_choices_params[t]=document.getElementById(id+"_label_element"+k).getAttribute('where')+'[where_order_by]'+document.getElementById(id+"_label_element"+k).getAttribute('order_by')+'[db_info]'+document.getElementById(id+"_label_element"+k).getAttribute('db_info');
+						else
+							w_choices_params[t]='';
 						t++;
 						v=k;
 					}
@@ -28910,10 +30151,15 @@ function dublicate(id) {
 					}
 				
 				}
+				if(document.getElementById(id+"_option_left_right"))
+					w_field_option_pos = document.getElementById(id+"_option_left_right").value;
+				else
+					w_field_option_pos = 'left';
+				
 				atrs=return_attributes(id+'_elementform_id_temp'+v);
 				w_attr_name=atrs[0];
 				w_attr_value=atrs[1];
-				type_paypal_shipping(gen, w_field_label, w_field_label_size, w_field_label_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value, w_property,  w_property_values);   break;
+				type_paypal_shipping(gen, w_field_label, w_field_label_size, w_field_label_pos, w_field_option_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value, w_property, w_property_values, w_choices_params);   break;
 			}
 
 			case 'type_paypal_total':
@@ -29126,42 +30372,52 @@ function dublicate(id) {
 				type_date_fields(gen, w_field_label, w_field_label_size, w_field_label_pos, w_day, w_month, w_year, w_day_type, w_month_type, w_year_type, w_day_label, w_month_label, w_year_label, w_day_size, w_month_size, w_year_size, w_required, w_class, w_from, w_to, w_divider, w_attr_name, w_attr_value); break;
 			}
 			
-			case 'type_own_select':
+			
 			{	
-				for(k=0;k<100;k++)
-					if(document.getElementById(id+"_option"+k))
-					{
-						w_choices[t]=document.getElementById(id+"_option"+k).innerHTML;
-						w_choices_checked[t]=document.getElementById(id+"_option"+k).selected;
-						if(document.getElementById(id+"_option"+k).value=="")
-							w_choices_disabled[t]=true;
-						else
-							w_choices_disabled[t]=false;
-						t++;
-					}
+				jQuery('#'+id+'_elementform_id_temp option').each(function() {
+					w_choices[t]=jQuery(this).html();
+					w_choices_value[t]=jQuery(this).val();
+					w_choices_checked[t]=jQuery(this)[0].selected;
+					if(jQuery(this).attr('where'))
+						w_choices_params[t]=jQuery(this).attr('where')+'[where_order_by]'+jQuery(this).attr('order_by')+'[db_info]'+jQuery(this).attr('db_info');
+					else
+						w_choices_params[t]='';
+						
+					if(jQuery(this).val())
+						w_choices_disabled[t]=false;	
+					else
+						w_choices_disabled[t]=true;
+					t++;		
+				});
+
+				w_value_disabled = document.getElementById(id+'_value_disabledform_id_temp').value;
 					
 				atrs=return_attributes(id+'_elementform_id_temp');
 				w_attr_name=atrs[0];
 				w_attr_value=atrs[1];
-				type_own_select(gen, w_field_label, w_field_label_size, w_field_label_pos, w_size, w_choices, w_choices_checked, w_required, w_class, w_attr_name, w_attr_value, w_choices_disabled); break;
+				type_own_select(gen, w_field_label, w_field_label_size, w_field_label_pos, w_size, w_choices, w_choices_checked, w_required, w_class, w_attr_name, w_attr_value, w_choices_disabled, w_choices_value, w_choices_params); break;
 			}
 			
 			case 'type_paypal_select':
 			{	
-				for(k=0;k<100;k++)
-				{
-					if(document.getElementById(id+"_option"+k))
-					{
-						w_choices[t]=document.getElementById(id+"_option"+k).innerHTML;
-						w_choices_price[t]=document.getElementById(id+"_option"+k).value;
-						w_choices_checked[t]=document.getElementById(id+"_option"+k).selected;
-						if(document.getElementById(id+"_option"+k).value=="")
+				jQuery('#'+id+'_elementform_id_temp option').each(function() {
+					w_choices[t]=jQuery(this).html();
+					w_choices_price[t]=jQuery(this).val();
+					w_choices_checked[t]=jQuery(this)[0].selected;
+					if(jQuery(this).attr('where'))
+						w_choices_params[t]=jQuery(this).attr('where')+'[where_order_by]'+jQuery(this).attr('order_by')+'[db_info]'+jQuery(this).attr('db_info');
+					else
+						w_choices_params[t]='';
+						
+					if(jQuery(this)[0].value=="")
 							w_choices_disabled[t]=true;
 						else
 							w_choices_disabled[t]=false;
-						t++;
-					}
-					
+					t++;		
+				});
+				
+				for(k=0;k<100;k++)
+				{
 					if(document.getElementById(id+"_propertyform_id_temp"+k))
 					{
 						w_property.push(document.getElementById(id+"_property_label_form_id_temp"+k).innerHTML);
@@ -29189,13 +30445,11 @@ function dublicate(id) {
 					w_quantity='yes';
 					w_quantity_value = document.getElementById(id+"_element_quantityform_id_temp").value;
 				}
-				
-				
 
 				atrs=return_attributes(id+'_elementform_id_temp');
 				w_attr_name=atrs[0];
 				w_attr_value=atrs[1];
-				type_paypal_select(gen, w_field_label, w_field_label_size, w_field_label_pos, w_size, w_choices,w_choices_price, w_choices_checked, w_required,w_quantity, w_quantity_value, w_class, w_attr_name, w_attr_value, w_choices_disabled, w_property,  w_property_values);  break;
+				type_paypal_select(gen, w_field_label, w_field_label_size, w_field_label_pos, w_size, w_choices,w_choices_price, w_choices_checked, w_required,  w_quantity, w_quantity_value, w_class, w_attr_name, w_attr_value, w_choices_disabled, w_property, w_property_values, w_choices_params); break;
 			}
 			
 			case 'type_country':
@@ -29213,7 +30467,7 @@ function dublicate(id) {
 				w_attr_name=atrs[0];
 				w_attr_value=atrs[1];
 				type_country(gen, w_field_label, w_field_label_size, w_countries, w_field_label_pos, w_size, w_required, w_class,  w_attr_name, w_attr_value);  break;
-			}
+			}			
 			case 'type_map':
 			{
 				w_lat=[];
@@ -29724,27 +30978,14 @@ function gen_form_fields()
 			}
 		case 'type_checkbox':
 		{	
-		
+			w_randomize=document.getElementById(id+"_randomizeform_id_temp").value;
+			w_allow_other=document.getElementById(id+"_allow_otherform_id_temp").value;
+			tt=0;
+			v=0;
 		
 			w_randomize=document.getElementById(id+"_randomizeform_id_temp").value;
 			w_allow_other=document.getElementById(id+"_allow_otherform_id_temp").value;
-			tt=0
-			v=0;
-			for(k=0;k<100;k++)
-				if(document.getElementById(id+"_elementform_id_temp"+k))
-				{
-					if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other'))
-						if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other')=='1')
-							w_allow_other_num=tt;
-					w_choices[tt]=document.getElementById(id+"_elementform_id_temp"+k).value;
-					w_choices[tt] = w_choices[tt].replace(/"/g, "&quot;");
-					if(w_choices[tt][w_choices[tt].length-1]==' ')
-						w_choices[tt]=w_choices[tt].substring(0, w_choices[tt].length-1);
-					w_choices_checked[tt]=document.getElementById(id+"_elementform_id_temp"+k).checked;
-					tt++;
-					v=k;
-				}
-				
+
 			if(document.getElementById(id+"_rowcol_numform_id_temp").value)	
 			{
 				
@@ -29761,35 +31002,102 @@ function gen_form_fields()
 				else
 					w_flow="ver";
 				
-				w_rowcol = '';
-			}	
+				w_rowcol = 1;
+			}
 				
+			if(w_flow=="ver")
+			{
+				var table_little = document.getElementById(id+'_table_little');
+				for(k=0;k < table_little.childNodes.length; k++)
+				{
+					var td_little = table_little.childNodes[k];
+						for(m=0; m < td_little.childNodes.length; m++)
+						{
+							var idi = td_little.childNodes[m].getAttribute('idi');
+							if(document.getElementById(id+"_elementform_id_temp"+idi).getAttribute('other'))
+								if(document.getElementById(id+"_elementform_id_temp"+idi).getAttribute('other')=='1')
+									w_allow_other_num=tt;
+							w_choices[tt]=document.getElementById(id+"_label_element"+idi).innerHTML;
+							w_choices_checked[tt]=document.getElementById(id+"_elementform_id_temp"+idi).checked;
+							w_choices_value[tt]=document.getElementById(id+"_elementform_id_temp"+idi).value;
+							if(document.getElementById(id+"_label_element"+idi).getAttribute('where'))
+								w_choices_params[tt]=document.getElementById(id+"_label_element"+idi).getAttribute('where')+'[where_order_by]'+document.getElementById(id+"_label_element"+idi).getAttribute('order_by')+'[db_info]'+document.getElementById(id+"_label_element"+idi).getAttribute('db_info');
+							else
+								w_choices_params[tt]='';
+							tt++;
+							v=idi;
+						}
+				}
+			
+			}
+			else
+			{
+				var table_little = document.getElementById(id+'_table_little');
+				var	tr_little = table_little.childNodes;
+				var td_max = tr_little[0].childNodes;
 				
+				for(k=0;k < td_max.length; k++)
+				{
+					for(m=0; m < tr_little.length; m++)
+					{
+						if(tr_little[m].childNodes[k])
+						{
+							var td_little = tr_little[m].childNodes[k];
+							var idi = td_little.getAttribute('idi');
+							if(document.getElementById(id+"_elementform_id_temp"+idi).getAttribute('other'))
+								if(document.getElementById(id+"_elementform_id_temp"+idi).getAttribute('other')=='1')
+									w_allow_other_num=tt;
+							w_choices[tt]=document.getElementById(id+"_label_element"+idi).innerHTML;
+							w_choices_checked[tt]=document.getElementById(id+"_elementform_id_temp"+idi).checked;
+							w_choices_value[tt]=document.getElementById(id+"_elementform_id_temp"+idi).value;
+							if(document.getElementById(id+"_label_element"+idi).getAttribute('where'))
+								w_choices_params[tt]=document.getElementById(id+"_label_element"+idi).getAttribute('where')+'[where_order_by]'+document.getElementById(id+"_label_element"+idi).getAttribute('order_by')+'[db_info]'+document.getElementById(id+"_label_element"+idi).getAttribute('db_info');
+							else
+								w_choices_params[tt]='';
+							tt++;
+							v=idi;
+						}
+					}
+				}
+			
+			}
+			
+			if(document.getElementById(id+"_option_left_right"))
+				w_field_option_pos = document.getElementById(id+"_option_left_right").value;
+			else
+				w_field_option_pos = 'left';
+				
+			w_value_disabled = document.getElementById(id+"_value_disabledform_id_temp").value;
+
 			atrs=return_attributes(id+'_elementform_id_temp'+v);
 			w_attr_name=atrs[0];
 			w_attr_value=atrs[1];
 			
-				form_fields+=w_field_label+"*:*w_field_label*:*";
-				form_fields+=w_field_label_size+"*:*w_field_label_size*:*";
-				form_fields+=w_field_label_pos+"*:*w_field_label_pos*:*";
-				form_fields+=w_flow+"*:*w_flow*:*";
-				form_fields+=w_choices.join('***')+"*:*w_choices*:*";
-				form_fields+=w_choices_checked.join('***')+"*:*w_choices_checked*:*";
-				form_fields+=w_rowcol+"*:*w_rowcol*:*";
-				form_fields+=w_required+"*:*w_required*:*";
-				form_fields+=w_randomize+"*:*w_randomize*:*";
-				form_fields+=w_allow_other+"*:*w_allow_other*:*";
-				form_fields+=w_allow_other_num+"*:*w_allow_other_num*:*";
-				form_fields+=w_class+"*:*w_class*:*";
-				
-				for(j=0; j<w_attr_name.length; j++)
-				{
-				form_fields+=w_attr_name[j]+"="+w_attr_value[j]+"*:*w_attr_name*:*";
-				}
-				
-				form_fields+="*:*new_field*:*";	
-				break;
+			form_fields+=w_field_label+"*:*w_field_label*:*";
+			form_fields+=w_field_label_size+"*:*w_field_label_size*:*";
+			form_fields+=w_field_label_pos+"*:*w_field_label_pos*:*";
+			form_fields+=w_field_option_pos+"*:*w_field_option_pos*:*";
+			form_fields+=w_flow+"*:*w_flow*:*";
+			form_fields+=w_choices.join('***')+"*:*w_choices*:*";
+			form_fields+=w_choices_checked.join('***')+"*:*w_choices_checked*:*";
+			form_fields+=w_rowcol+"*:*w_rowcol*:*";
+			form_fields+=w_required+"*:*w_required*:*";
+			form_fields+=w_randomize+"*:*w_randomize*:*";
+			form_fields+=w_allow_other+"*:*w_allow_other*:*";
+			form_fields+=w_allow_other_num+"*:*w_allow_other_num*:*";
+			form_fields+=w_value_disabled+"*:*w_value_disabled*:*";
+			form_fields+=w_choices_value.join('***')+"*:*w_choices_value*:*";
+			form_fields+=w_choices_params.join('***')+"*:*w_choices_params*:*";
+			form_fields+=w_class+"*:*w_class*:*";
+			
+			for(j=0; j<w_attr_name.length; j++)
+			{
+			form_fields+=w_attr_name[j]+"="+w_attr_value[j]+"*:*w_attr_name*:*";
 			}
+			
+			form_fields+="*:*new_field*:*";	
+			break;
+		}
 		
 		case 'type_paypal_checkbox':
 		{	
@@ -29815,6 +31123,10 @@ function gen_form_fields()
 						w_choices[tt]=w_choices[tt].substring(0, w_choices[tt].length-1);
 					w_choices_price[tt]=document.getElementById(id+"_elementform_id_temp"+k).value;
 					w_choices_checked[tt]=document.getElementById(id+"_elementform_id_temp"+k).checked;
+					if(document.getElementById(id+"_label_element"+k).getAttribute('where'))
+						w_choices_params[tt]=document.getElementById(id+"_label_element"+k).getAttribute('where')+'[where_order_by]'+document.getElementById(id+"_label_element"+k).getAttribute('order_by')+'[db_info]'+document.getElementById(id+"_label_element"+k).getAttribute('db_info');
+					else
+						w_choices_params[tt]='';
 					tt++;
 					v=k;
 				}
@@ -29846,7 +31158,10 @@ function gen_form_fields()
 				w_quantity='yes';
 				w_quantity_value = document.getElementById(id+"_element_quantityform_id_temp").value;
 			}
-		
+			if(document.getElementById(id+"_option_left_right"))
+				w_field_option_pos = document.getElementById(id+"_option_left_right").value;
+			else
+				w_field_option_pos = 'left';
 			atrs=return_attributes(id+'_elementform_id_temp'+v);
 			w_attr_name=atrs[0];
 			w_attr_value=atrs[1];
@@ -29855,6 +31170,7 @@ function gen_form_fields()
 				form_fields+=w_field_label+"*:*w_field_label*:*";
 				form_fields+=w_field_label_size+"*:*w_field_label_size*:*";
 				form_fields+=w_field_label_pos+"*:*w_field_label_pos*:*";
+				form_fields+=w_field_option_pos+"*:*w_field_option_pos*:*";
 				form_fields+=w_flow+"*:*w_flow*:*";
 				form_fields+=w_choices.join('***')+"*:*w_choices*:*";
 				form_fields+=w_choices_price.join('***')+"*:*w_choices_price*:*";
@@ -29862,7 +31178,8 @@ function gen_form_fields()
 				form_fields+=w_required+"*:*w_required*:*";
 				form_fields+=w_randomize+"*:*w_randomize*:*";
 				form_fields+=w_allow_other+"*:*w_allow_other*:*";
-				form_fields+=w_allow_other_num+"*:*w_allow_other_num*:*";
+				form_fields+=w_allow_other_num+"*:*w_allow_other_num*:*";	
+				form_fields+=w_choices_params.join('***')+"*:*w_choices_params*:*";
 				form_fields+=w_class+"*:*w_class*:*";
 				form_fields+=w_property.join('***')+"*:*w_property*:*";
 				
@@ -29885,62 +31202,109 @@ function gen_form_fields()
 			w_randomize=document.getElementById(id+"_randomizeform_id_temp").value;
 			w_allow_other=document.getElementById(id+"_allow_otherform_id_temp").value;
 
+			if(document.getElementById(id+"_rowcol_numform_id_temp").value)	
+			{
+				if(document.getElementById(id+'_table_little').getAttribute('for_hor'))
+					w_flow="hor"	
+				else
+					w_flow="ver";				
+				w_rowcol = 	document.getElementById(id+"_rowcol_numform_id_temp").value;
+			}
+			else
+			{
+				if(document.getElementById(id+'_table_little').getAttribute('for_hor'))
+					w_flow="hor"	
+				else
+					w_flow="ver";
+				
+				w_rowcol = 1;
+			}
+				
 			v=0;
 			tt=0;
-			for(k=0;k<100;k++)
-				if(document.getElementById(id+"_elementform_id_temp"+k))
+			if(w_flow=="ver")
+			{	
+				var table_little = document.getElementById(id+'_table_little');
+				for(k=0;k < table_little.childNodes.length; k++)
 				{
-					if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other'))
-						if(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('other')=='1')
-							w_allow_other_num=tt;
-					w_choices[tt]=document.getElementById(id+"_elementform_id_temp"+k).value;
-          w_choices[tt] = w_choices[tt].replace(/"/g, "&quot;");
-					if(w_choices[tt][w_choices[tt].length-1]==' ')
-						w_choices[tt]=w_choices[tt].substring(0, w_choices[tt].length-1);
-					w_choices_checked[tt]=document.getElementById(id+"_elementform_id_temp"+k).checked;
+					var td_little = table_little.childNodes[k];
+						for(m=0; m < td_little.childNodes.length; m++)
+						{
+							var idi = td_little.childNodes[m].getAttribute('idi');
+							if(document.getElementById(id+"_elementform_id_temp"+idi).getAttribute('other'))
+								if(document.getElementById(id+"_elementform_id_temp"+idi).getAttribute('other')=='1')
+									w_allow_other_num=tt;
+							w_choices[tt]=document.getElementById(id+"_label_element"+idi).innerHTML;
+							w_choices_checked[tt]=document.getElementById(id+"_elementform_id_temp"+idi).checked;
+							w_choices_value[tt]=document.getElementById(id+"_elementform_id_temp"+idi).value;
+							if(document.getElementById(id+"_label_element"+idi).getAttribute('where'))
+								w_choices_params[tt]=document.getElementById(id+"_label_element"+idi).getAttribute('where')+'[where_order_by]'+document.getElementById(id+"_label_element"+idi).getAttribute('order_by')+'[db_info]'+document.getElementById(id+"_label_element"+idi).getAttribute('db_info');
+							else
+								w_choices_params[tt]='';
+							tt++;
+							v=idi;
+						}
+				}
+			}
+			else
+			{
+				var table_little = document.getElementById(id+'_table_little');
+				var	tr_little = table_little.childNodes;
+				var td_max = tr_little[0].childNodes;
 				
-			
-					tt++;
-					v=k;
+				for(k=0;k < td_max.length; k++)
+				{
+					for(m=0; m < tr_little.length; m++)
+					{
+						if(tr_little[m].childNodes[k])
+						{
+							var td_little = tr_little[m].childNodes[k];
+							var idi = td_little.getAttribute('idi');
+							if(document.getElementById(id+"_elementform_id_temp"+idi).getAttribute('other'))
+								if(document.getElementById(id+"_elementform_id_temp"+idi).getAttribute('other')=='1')
+									w_allow_other_num=tt;
+							w_choices[tt]=document.getElementById(id+"_label_element"+idi).innerHTML;
+							w_choices_checked[tt]=document.getElementById(id+"_elementform_id_temp"+idi).checked;
+							w_choices_value[tt]=document.getElementById(id+"_elementform_id_temp"+idi).value;
+							if(document.getElementById(id+"_label_element"+idi).getAttribute('where'))
+								w_choices_params[tt]=document.getElementById(id+"_label_element"+idi).getAttribute('where')+'[where_order_by]'+document.getElementById(id+"_label_element"+idi).getAttribute('order_by')+'[db_info]'+document.getElementById(id+"_label_element"+idi).getAttribute('db_info');
+							else
+								w_choices_params[tt]='';
+							tt++;
+							v=idi;
+						}
+					}
 				}
 			
-								
-				if(document.getElementById(id+"_rowcol_numform_id_temp").value)	
-				{
-				
-					if(document.getElementById(id+'_table_little').getAttribute('for_hor'))
-						w_flow="hor"	
-					else
-						w_flow="ver";				
-					w_rowcol = 	document.getElementById(id+"_rowcol_numform_id_temp").value;
-				}
-				else
-				{
-					if(document.getElementById(id+'_hor'))
-						w_flow="hor"	
-					else
-						w_flow="ver";
-					
-					w_rowcol = '';
-				}
-				
+			}
+
+			if(document.getElementById(id+"_option_left_right"))
+				w_field_option_pos = document.getElementById(id+"_option_left_right").value;
+			else
+				w_field_option_pos = 'left';
 			
+			w_value_disabled = document.getElementById(id+"_value_disabledform_id_temp").value;
+	
 			atrs=return_attributes(id+'_elementform_id_temp'+v);
 			w_attr_name=atrs[0];
 			w_attr_value=atrs[1];
 			
-				form_fields+=w_field_label+"*:*w_field_label*:*";
-				form_fields+=w_field_label_size+"*:*w_field_label_size*:*";
-				form_fields+=w_field_label_pos+"*:*w_field_label_pos*:*";
-				form_fields+=w_flow+"*:*w_flow*:*";
-				form_fields+=w_choices.join('***')+"*:*w_choices*:*";
-				form_fields+=w_choices_checked.join('***')+"*:*w_choices_checked*:*";
-				form_fields+=w_rowcol+"*:*w_rowcol*:*";
-				form_fields+=w_required+"*:*w_required*:*";
-				form_fields+=w_randomize+"*:*w_randomize*:*";
-				form_fields+=w_allow_other+"*:*w_allow_other*:*";
-				form_fields+=w_allow_other_num+"*:*w_allow_other_num*:*";
-				form_fields+=w_class+"*:*w_class*:*";
+			form_fields+=w_field_label+"*:*w_field_label*:*";
+			form_fields+=w_field_label_size+"*:*w_field_label_size*:*";
+			form_fields+=w_field_label_pos+"*:*w_field_label_pos*:*";
+			form_fields+=w_field_option_pos+"*:*w_field_option_pos*:*";
+			form_fields+=w_flow+"*:*w_flow*:*";
+			form_fields+=w_choices.join('***')+"*:*w_choices*:*";
+			form_fields+=w_choices_checked.join('***')+"*:*w_choices_checked*:*";
+			form_fields+=w_rowcol+"*:*w_rowcol*:*";
+			form_fields+=w_required+"*:*w_required*:*";
+			form_fields+=w_randomize+"*:*w_randomize*:*";
+			form_fields+=w_allow_other+"*:*w_allow_other*:*";
+			form_fields+=w_allow_other_num+"*:*w_allow_other_num*:*";
+			form_fields+=w_value_disabled+"*:*w_value_disabled*:*";
+			form_fields+=w_choices_value.join('***')+"*:*w_choices_value*:*";
+			form_fields+=w_choices_params.join('***')+"*:*w_choices_params*:*";
+			form_fields+=w_class+"*:*w_class*:*";
 				
 				for(j=0; j<w_attr_name.length; j++)
 				{
@@ -29975,6 +31339,10 @@ function gen_form_fields()
 						w_choices[tt]=w_choices[tt].substring(0, w_choices[tt].length-1);
 					w_choices_price[tt]=document.getElementById(id+"_elementform_id_temp"+k).value;
 					w_choices_checked[tt]=(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('checked')=='checked');
+					if(document.getElementById(id+"_label_element"+k).getAttribute('where'))
+						w_choices_params[tt]=document.getElementById(id+"_label_element"+k).getAttribute('where')+'[where_order_by]'+document.getElementById(id+"_label_element"+k).getAttribute('order_by')+'[db_info]'+document.getElementById(id+"_label_element"+k).getAttribute('db_info');
+					else
+						w_choices_params[tt]='';
 					tt++;
 					v=k;
 				}
@@ -30006,7 +31374,10 @@ function gen_form_fields()
 				w_quantity='yes';
 				w_quantity_value=document.getElementById(id+"_element_quantityform_id_temp").value;
 			}
-		
+			if(document.getElementById(id+"_option_left_right"))
+				w_field_option_pos = document.getElementById(id+"_option_left_right").value;
+			else
+				w_field_option_pos = 'left';
 			atrs=return_attributes(id+'_elementform_id_temp'+v);
 			w_attr_name=atrs[0];
 			w_attr_value=atrs[1];
@@ -30014,6 +31385,7 @@ function gen_form_fields()
 				form_fields+=w_field_label+"*:*w_field_label*:*";
 				form_fields+=w_field_label_size+"*:*w_field_label_size*:*";
 				form_fields+=w_field_label_pos+"*:*w_field_label_pos*:*";
+				form_fields+=w_field_option_pos+"*:*w_field_option_pos*:*";
 				form_fields+=w_flow+"*:*w_flow*:*";
 				form_fields+=w_choices.join('***')+"*:*w_choices*:*";
 				form_fields+=w_choices_price.join('***')+"*:*w_choices_price*:*";
@@ -30022,6 +31394,7 @@ function gen_form_fields()
 				form_fields+=w_randomize+"*:*w_randomize*:*";
 				form_fields+=w_allow_other+"*:*w_allow_other*:*";
 				form_fields+=w_allow_other_num+"*:*w_allow_other_num*:*";
+				form_fields+=w_choices_params.join('***')+"*:*w_choices_params*:*";
 				form_fields+=w_class+"*:*w_class*:*";
 				form_fields+=w_property.join('***')+"*:*w_property*:*";
 				
@@ -30061,6 +31434,10 @@ function gen_form_fields()
 						w_choices[tt]=w_choices[tt].substring(0, w_choices[tt].length-1);
 					w_choices_price[tt]=document.getElementById(id+"_elementform_id_temp"+k).value;
 					w_choices_checked[tt]=(document.getElementById(id+"_elementform_id_temp"+k).getAttribute('checked')=='checked');
+					if(document.getElementById(id+"_label_element"+k).getAttribute('where'))
+						w_choices_params[tt]=document.getElementById(id+"_label_element"+k).getAttribute('where')+'[where_order_by]'+document.getElementById(id+"_label_element"+k).getAttribute('order_by')+'[db_info]'+document.getElementById(id+"_label_element"+k).getAttribute('db_info');
+					else
+						w_choices_params[tt]='';
 					tt++;
 					v=k;
 				}
@@ -30084,7 +31461,10 @@ function gen_form_fields()
 				}
 			
 			}
-			
+			if(document.getElementById(id+"_option_left_right"))
+				w_field_option_pos = document.getElementById(id+"_option_left_right").value;
+			else
+				w_field_option_pos = 'left';
 			atrs=return_attributes(id+'_elementform_id_temp'+v);
 			w_attr_name=atrs[0];
 			w_attr_value=atrs[1];
@@ -30093,6 +31473,7 @@ function gen_form_fields()
 				form_fields+=w_field_label+"*:*w_field_label*:*";
 				form_fields+=w_field_label_size+"*:*w_field_label_size*:*";
 				form_fields+=w_field_label_pos+"*:*w_field_label_pos*:*";
+				form_fields+=w_field_option_pos+"*:*w_field_option_pos*:*";
 				form_fields+=w_flow+"*:*w_flow*:*";
 				form_fields+=w_choices.join('***')+"*:*w_choices*:*";
 				form_fields+=w_choices_price.join('***')+"*:*w_choices_price*:*";
@@ -30101,6 +31482,7 @@ function gen_form_fields()
 				form_fields+=w_randomize+"*:*w_randomize*:*";
 				form_fields+=w_allow_other+"*:*w_allow_other*:*";
 				form_fields+=w_allow_other_num+"*:*w_allow_other_num*:*";
+				form_fields+=w_choices_params.join('***')+"*:*w_choices_params*:*";
 				form_fields+=w_class+"*:*w_class*:*";
 				
 				for(j=0; j<w_attr_name.length; j++)
@@ -30507,18 +31889,25 @@ function gen_form_fields()
 		case 'type_own_select':
 		{	
 			tt=0;
-			for(k=0;k<100;k++)
-				if(document.getElementById(id+"_option"+k))
-				{
-					w_choices[tt]=document.getElementById(id+"_option"+k).innerHTML;
-					w_choices_checked[tt]=document.getElementById(id+"_option"+k).selected;
-					if(document.getElementById(id+"_option"+k).value=="")
-						w_choices_disabled[tt]=true;
-					else
-						w_choices_disabled[tt]=false;
-					tt++;
-				}
-				
+			jQuery('#'+id+'_elementform_id_temp option').each(function() {
+				w_choices[tt]=jQuery(this).html();
+				w_choices_value[tt]=jQuery(this).val();
+				w_choices_checked[tt]=jQuery(this)[0].selected;
+				if(jQuery(this).attr('where'))
+					w_choices_params[tt]=jQuery(this).attr('where')+'[where_order_by]'+jQuery(this).attr('order_by')+'[db_info]'+jQuery(this).attr('db_info');
+				else
+					w_choices_params[tt]='';
+					
+				if(jQuery(this).val())
+					w_choices_disabled[tt]=false;	
+				else
+					w_choices_disabled[tt]=true;
+					
+				tt++;		
+			});
+
+			w_value_disabled = document.getElementById(id+'_value_disabledform_id_temp').value;
+			
 			atrs=return_attributes(id+'_elementform_id_temp');
 			w_attr_name=atrs[0];
 			w_attr_value=atrs[1];
@@ -30532,6 +31921,9 @@ function gen_form_fields()
 				form_fields+=w_choices_checked.join('***')+"*:*w_choices_checked*:*";
 				form_fields+=w_choices_disabled.join('***')+"*:*w_choices_disabled*:*";
 				form_fields+=w_required+"*:*w_required*:*";
+				form_fields+=w_value_disabled+"*:*w_value_disabled*:*";
+				form_fields+=w_choices_value.join('***')+"*:*w_choices_value*:*";
+				form_fields+=w_choices_params.join('***')+"*:*w_choices_params*:*";
 				form_fields+=w_class+"*:*w_class*:*";
 				
 				for(j=0; j<w_attr_name.length; j++)
@@ -30547,21 +31939,25 @@ function gen_form_fields()
 		case 'type_paypal_select':
 		{	
 			tt=0;
-			
+			jQuery('#'+id+'_elementform_id_temp option').each(function() {
+				w_choices[tt]=jQuery(this).html();
+				w_choices_price[tt]=jQuery(this).val();
+				w_choices_checked[tt]=jQuery(this)[0].selected;
+				if(jQuery(this).attr('where'))
+					w_choices_params[tt]=jQuery(this).attr('where')+'[where_order_by]'+jQuery(this).attr('order_by')+'[db_info]'+jQuery(this).attr('db_info');
+				else
+					w_choices_params[tt]='';
+					
+				if(jQuery(this)[0].value=="")
+					w_choices_disabled[tt]=true;
+				else
+					w_choices_disabled[tt]=false;
+					
+				tt++;		
+			});
+	
 			for(k=0;k<100;k++)
-			{
-				if(document.getElementById(id+"_option"+k))
-				{
-					w_choices[tt]=document.getElementById(id+"_option"+k).innerHTML;
-					w_choices_price[tt]=document.getElementById(id+"_option"+k).value;
-					w_choices_checked[tt]=document.getElementById(id+"_option"+k).selected;
-					if(document.getElementById(id+"_option"+k).value=="")
-						w_choices_disabled[tt]=true;
-					else
-						w_choices_disabled[tt]=false;
-					tt++;
-				}
-				
+			{	
 				if(document.getElementById(id+"_propertyform_id_temp"+k))
 				{
 					w_property.push(document.getElementById(id+"_property_label_form_id_temp"+k).innerHTML);
@@ -30605,6 +32001,7 @@ function gen_form_fields()
 				form_fields+=w_required+"*:*w_required*:*";
 				form_fields+=w_quantity+"*:*w_quantity*:*";
 				form_fields+=w_quantity_value+"*:*w_quantity_value*:*";	
+				form_fields+=w_choices_params.join('***')+"*:*w_choices_params*:*";
 				form_fields+=w_class+"*:*w_class*:*";
 				form_fields+=w_property.join('***')+"*:*w_property*:*";
 				
