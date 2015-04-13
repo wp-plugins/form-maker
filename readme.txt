@@ -278,13 +278,13 @@ The Form Maker (Pro version) has simple PayPal integration. This allows the user
 == Changelog ==
 
 = 1.7.31 =
-Bug fixed: Hidden field save to DB.
-New: Drag and drop options in multiple, single choices and select box.
-New: Select options from database.
-New: Add image in email as image.
-New: Additional clauses within conditional fields.
-New: Search submissions by ID.
-New: Submission ID in email.
+Bug fixed: Hidden field save to DB.  
+New: Drag and drop options in multiple, single choices and select box.   
+New: Select options from database.   
+New: Add image in email as image.   
+New: Additional clauses within conditional fields.   
+New: Search submissions by ID.   
+New: Submission ID in email.   
 
 = 1.7.30 =
 Cache issue fixed
