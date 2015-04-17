@@ -1573,7 +1573,7 @@ class FMViewForm_maker {
                 $check_js.='
                 if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                 {
-                  if(jQuery("#wdform_'.$id1.'_street1'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_street2'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_city'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_state'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_postal'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_country'.$form_id.'").val()=="")
+                  if(jQuery("#wdform_'.$id1.'_street1'.$form_id.'").val()=="" || (jQuery("#wdform_'.$id1.'_street1'.$form_id.'").val()=="" && jQuery("#wdform_'.$id1.'_street2'.$form_id.'").val()=="") || jQuery("#wdform_'.$id1.'_city'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_state'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_postal'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_country'.$form_id.'").val()=="")
                   {
                     alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
                     old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");

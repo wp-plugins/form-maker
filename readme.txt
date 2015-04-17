@@ -4,7 +4,7 @@ Donate link: http://web-dorado.com/products/wordpress-form.html
 Tags:  form, forms, form builder, form maker, form manager, form plugin, form with recaptcha,  forms plugin, multiple forms, paypal form, survey form, feedback form, feedback forms, contact form,contact form plugin, contact form builder, form creator, email form, secure form, web form, form to email, contact forms, custom forms, form widget, captcha form, wordpress contact form ,recaptcha contact form, form creation, contact form with auto reply, widget contact form, builder, feedback, contacts form plugin , custom contact form, contact us form,  formular, formulario, admin, captcha, contact, database, email, javascript, jquery, page, plugin, survey, widget, custom form, forms creator, input, validation, send copy, form with captcha
 Requires at least: 3.4
 Tested up to: 4.1
-Stable tag: 1.7.32
+Stable tag: 1.7.33
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -277,8 +277,14 @@ The Form Maker (Pro version) has simple PayPal integration. This allows the user
 
 == Changelog ==
 
+= 1.7.33 =
+bug in address field fixed 
+
+= 1.7.32 =
+bug fixed
+
 = 1.7.31 =
-Bug fixed: Hidden field save to DB.  
+Bug fixed: Hidden field save to DB.    
 New: Drag and drop options in multiple, single choices and select box.   
 New: Select options from database.   
 New: Add image in email as image.   
