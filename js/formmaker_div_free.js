@@ -5428,8 +5428,7 @@ function type_send_copy(i, w_field_label, w_field_label_size, w_field_label_pos,
 refresh_attr(i, 'type_text');
 }
 
-
-function type_text(i, w_field_label, w_field_label_size, w_field_label_pos, w_size, w_first_val, w_title, w_required, w_unique, w_attr_name, w_attr_value) {
+function type_text(i, w_field_label, w_field_label_size, w_field_label_pos, w_size, w_first_val, w_title, w_required, w_regExp_status, w_regExp_value, w_regExp_common, w_regExp_arg, w_regExp_alert, w_unique, w_attr_name, w_attr_value) {
 
     document.getElementById("element_type").value="type_text";
     
@@ -5454,7 +5453,22 @@ function type_text(i, w_field_label, w_field_label_size, w_field_label_pos, w_si
 	var edit_main_tr8  = document.createElement('tr');
 	var edit_main_tr9  = document.createElement('tr');
 	var edit_main_tr10  = document.createElement('tr');
-
+	var edit_main_tr11 = document.createElement('tr');
+	var edit_main_tr12 = document.createElement('tr');
+		edit_main_tr12.setAttribute("id", "edit_main_tr12");
+	var edit_main_tr13 = document.createElement('tr');
+		edit_main_tr13.setAttribute("id", "edit_main_tr13");
+	var edit_main_tr14 = document.createElement('tr');
+		edit_main_tr14.setAttribute("id", "edit_main_tr14");
+	var edit_main_tr15 = document.createElement('tr');
+		edit_main_tr15.setAttribute("id", "edit_main_tr15");
+	if(w_regExp_status == 'no' || w_regExp_status == "")
+	{
+		edit_main_tr12.style.cssText = 'display:none;';
+		edit_main_tr13.style.cssText = 'display:none;';
+		edit_main_tr14.style.cssText = 'display:none;';
+		edit_main_tr15.style.cssText = 'display:none;';
+	}	
 	var edit_main_td1 = document.createElement('td');
 	var edit_main_td1_1 = document.createElement('td');
 
@@ -5480,7 +5494,17 @@ function type_text(i, w_field_label, w_field_label_size, w_field_label_pos, w_si
 
 	var edit_main_td10 = document.createElement('td');
 	var edit_main_td10_1 = document.createElement('td');
-		  
+	var edit_main_td11 = document.createElement('td');
+	var edit_main_td11_1 = document.createElement('td');
+	var edit_main_td12 = document.createElement('td');	  
+	var	edit_main_td12_1 = document.createElement('td');	  
+	var edit_main_td13 = document.createElement('td');
+	var edit_main_td13_1 = document.createElement('td');
+	var edit_main_td14 = document.createElement('td');
+	var edit_main_td14_1 = document.createElement('td');
+	var edit_main_td15 = document.createElement('td');
+	var edit_main_td15_1 = document.createElement('td');
+	
 	var el_label_label = document.createElement('label');
 	    el_label_label.setAttribute("for", "edit_for_label");
 		el_label_label.innerHTML = "Field label";
@@ -5559,7 +5583,100 @@ function type_text(i, w_field_label, w_field_label_size, w_field_label_pos, w_si
 	if(w_required=="yes")
         el_required.setAttribute("checked", "checked");
 			
+	/********************** REGULAR EXPRESSION ************************/
+	var el_add_regExp_label = document.createElement('label');
+	    el_add_regExp_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_add_regExp_label.setAttribute("for", "el_regExp_"+i);
+		el_add_regExp_label.innerHTML = "Validation (Regular Exp.)";
+
+	var el_add_regExp = document.createElement('input');
+        el_add_regExp.setAttribute("id", "el_regExp_"+i);
+        el_add_regExp.setAttribute("type", "checkbox");
+        el_add_regExp.setAttribute("onclick", "set_regExpStatus('"+i+"_regExpStatus')");
+	if(w_regExp_status == "yes")
+        el_add_regExp.setAttribute("checked", "checked");
+
+	var el_reg_value_label = document.createElement('label');
+		el_reg_value_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px";
+		el_reg_value_label.setAttribute("class","regExp_cell");
+		el_reg_value_label.innerHTML = "Regular Expression";
 	
+	var el_reg_value = document.createElement('textarea');
+		el_reg_value.style.cssText = "width:205px";
+		el_reg_value.setAttribute("id", "regExp_value"+i);
+		el_reg_value.setAttribute("class","regExp_cell");
+		el_reg_value.setAttribute("onKeyUp", "change_regExpValue('"+i+"', this.value ,'"+i+"_regExp_valueform_id_temp','')");
+		el_reg_value.innerHTML = w_regExp_value;
+	
+	var count = 0;
+	var common_val_arr = [];
+		common_val_arr["Select"] = "";
+		common_val_arr["Name(Latin letters and some symbols)"] = "^[a-zA-Z'-'\\s]+$";
+		common_val_arr["Phone Number(Digits and dashes)"] = "^(\\+)?[0-9]+(-[0-9]+)?(-[0-9]+)?(-[0-9]+)?$";
+		common_val_arr["Integer Number"] = "^(-)?[0-9]+$";
+		common_val_arr["Decimal Number"] = "^(-)?[0-9]+(\\.[0-9]+)?$";
+		common_val_arr["Latin letters and Numbers"] = "^[a-z&A-Z0-9]*$";
+		common_val_arr["Credit Card (16 Digits)"] = "^([0-9](\\.)?){15}[0-9]$";
+		common_val_arr["Zip Code"] = "^(\\d{5}-\\d{4}|\\d{5}|\\d{9})$|^([a-zA-Z]\\d[a-zA-Z] \\d[a-zA-Z]\\d)$";
+		common_val_arr["IP Address"] = "^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})$";
+		common_val_arr["Date m/d/y (e.g. 12/21/2013)"] = "^([0-9]|1[0,1,2])/([0-9]|[0,1,2][0-9]|3[0,1])/[0-9]{4}$";
+		common_val_arr["Date d.m.y (e.g. 21.12.2013)"] = "^([0-9]|[0,1,2][0-9]|3[0,1])\\.([0-9]|1[0,1,2])\\.[0-9]{4}$";
+		common_val_arr["MySQL Date Format (2013-12-21)"] = "^\\d{4}-(0[0-9]|1[0,1,2])-([0,1,2][0-9]|3[0,1])$";
+				
+	var el_reg_com_val_label = document.createElement('label');
+		el_reg_com_val_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px";
+		el_reg_com_val_label.setAttribute("class","regExp_cell");
+		el_reg_com_val_label.innerHTML = "Common Regular Expressions ";
+				
+	var el_reg_com_val = document.createElement('select');
+		el_reg_com_val.setAttribute("id", "common_RegExp"+i);
+		el_reg_com_val.setAttribute("name", "common_RegExp"+i);
+		el_reg_com_val.setAttribute("onChange", "change_regExpValue('"+i+"','"+w_regExp_value+"','"+i+"_regExp_valueform_id_temp', this.value)");
+				
+	for (var keys  in common_val_arr)
+	{
+		if (!common_val_arr.hasOwnProperty(keys)) 
+			continue;
+			
+		var el_option_common = "el_com_val"+count;
+			el_option_common = document.createElement('option');
+			el_option_common.setAttribute("id", "edit_for_label_common"+count);
+			el_option_common.setAttribute("value",common_val_arr[keys]);
+			if(w_regExp_common == count)
+				el_option_common.setAttribute("selected", "selected");
+			el_option_common.innerHTML = keys;
+			
+		el_reg_com_val.appendChild(el_option_common);
+		count++;
+	}
+
+	var el_reg_arg_label = document.createElement('label');
+		el_reg_arg_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px";
+		el_reg_arg_label.setAttribute("class","regExp_cell");
+		el_reg_arg_label.innerHTML = "Case Insensitive";
+			
+	var el_reg_arg = document.createElement('input');
+		el_reg_arg.setAttribute("id", "el_regArg_"+i+" ");
+		el_reg_arg.setAttribute("type", "checkbox");
+		el_reg_arg.setAttribute("onclick", "set_regExpArgument('"+i+"_regArgument')");
+	if(w_regExp_arg == 'i')
+		el_reg_arg.setAttribute("checked", "checked");
+					
+	var el_reg_alert_label = document.createElement('label');
+		el_reg_alert_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px";
+		el_reg_alert_label.innerHTML = "Alert Message";
+		el_reg_alert_label.setAttribute("class","regExp_cell");
+			
+	var el_reg_alert = document.createElement('textarea');
+		el_reg_alert.setAttribute("type", "text");
+		el_reg_alert.style.cssText = "width:205px";
+		el_reg_alert.setAttribute("id", "regExp_alert"+i);
+		el_reg_alert.setAttribute("class","regExp_cell");
+		el_reg_alert.setAttribute("onKeyUp", "change_regExpAlert(this.value,'"+i+"_regExp_alertform_id_temp')");
+		el_reg_alert.innerHTML = w_regExp_alert;
+	
+	/**************************************************************************/	
+
 	var el_unique_label = document.createElement('label');
 	    el_unique_label.setAttribute("for", "el_unique");
 		el_unique_label.innerHTML = "Allow only unique values";
@@ -5681,6 +5798,20 @@ function type_text(i, w_field_label, w_field_label_size, w_field_label_pos, w_si
 	edit_main_td10.appendChild(el_label_size_label);
 	edit_main_td10_1.appendChild(el_label_size);
 
+	edit_main_td11.appendChild(el_add_regExp_label);
+	edit_main_td11_1.appendChild(el_add_regExp);
+	
+	edit_main_td12.appendChild(el_reg_value_label);
+	edit_main_td12_1.appendChild(el_reg_value);
+	
+	edit_main_td13.appendChild(el_reg_com_val_label);
+	edit_main_td13_1.appendChild(el_reg_com_val);
+	
+	edit_main_td14.appendChild(el_reg_arg_label);
+	edit_main_td14_1.appendChild(el_reg_arg);
+	
+	edit_main_td15.appendChild(el_reg_alert_label);
+	edit_main_td15_1.appendChild(el_reg_alert);
 	edit_main_td2.appendChild(el_label_position_label);
 	edit_main_td2.appendChild(br);
 	edit_main_td2_1.appendChild(el_label_position1);
@@ -5717,6 +5848,21 @@ function type_text(i, w_field_label, w_field_label_size, w_field_label_pos, w_si
 	edit_main_tr1.appendChild(edit_main_td1_1);
 	edit_main_tr10.appendChild(edit_main_td10);
 	edit_main_tr10.appendChild(edit_main_td10_1);
+	edit_main_tr11.appendChild(edit_main_td11);
+	edit_main_tr11.appendChild(edit_main_td11_1);
+	
+	edit_main_tr12.appendChild(edit_main_td12);
+	edit_main_tr12.appendChild(edit_main_td12_1);
+	
+	edit_main_tr13.appendChild(edit_main_td13);
+	edit_main_tr13.appendChild(edit_main_td13_1);
+	
+	edit_main_tr14.appendChild(edit_main_td14);
+	edit_main_tr14.appendChild(edit_main_td14_1);
+	
+	edit_main_tr15.appendChild(edit_main_td15);
+	edit_main_tr15.appendChild(edit_main_td15_1);
+	
 	edit_main_tr2.appendChild(edit_main_td2);
 	edit_main_tr2.appendChild(edit_main_td2_1);
 	edit_main_tr3.appendChild(edit_main_td3);
@@ -5740,6 +5886,11 @@ function type_text(i, w_field_label, w_field_label_size, w_field_label_pos, w_si
 	edit_main_table.appendChild(edit_main_tr5);
 	edit_main_table.appendChild(edit_main_tr9);
 	edit_main_table.appendChild(edit_main_tr6);
+	edit_main_table.appendChild(edit_main_tr11);
+	edit_main_table.appendChild(edit_main_tr12);
+	edit_main_table.appendChild(edit_main_tr13);
+	edit_main_table.appendChild(edit_main_tr14);
+	edit_main_table.appendChild(edit_main_tr15);
 	edit_main_table.appendChild(edit_main_tr8);
 	edit_main_table.appendChild(edit_main_tr7);
 	edit_div.appendChild(edit_main_table);
@@ -5768,7 +5919,7 @@ function type_text(i, w_field_label, w_field_label_size, w_field_label_pos, w_si
             adding_unique.setAttribute("name", i+"_uniqueform_id_temp");
             adding_unique.setAttribute("id", i+"_uniqueform_id_temp");
 			
-	var adding = document.createElement(element);
+		var adding = document.createElement(element);
             adding.setAttribute("type", type);
 		
 		if(w_title==w_first_val)
@@ -5789,7 +5940,36 @@ function type_text(i, w_field_label, w_field_label_size, w_field_label_pos, w_si
 			adding.setAttribute("onBlur", 'return_value("'+i+'_elementform_id_temp")');
 			adding.setAttribute("onChange", 'change_value("'+i+'_elementform_id_temp")');
 			
-	 
+		var adding_regExp_status = document.createElement("input");
+			adding_regExp_status.setAttribute("type", "hidden");
+			adding_regExp_status.setAttribute("value", w_regExp_status);
+			adding_regExp_status.setAttribute("name", i+"_regExpStatusform_id_temp");
+			adding_regExp_status.setAttribute("id", i+"_regExpStatusform_id_temp");
+	
+		var adding_regArg = document.createElement("input");
+			adding_regArg.setAttribute("type", "hidden");
+			adding_regArg.setAttribute("value", w_regExp_arg);
+			adding_regArg.setAttribute("name", i+"_regArgumentform_id_temp");
+			adding_regArg.setAttribute("id", i+"_regArgumentform_id_temp");
+		
+		var adding_regExp_common = document.createElement("input");
+			adding_regExp_common.setAttribute("type", "hidden");
+			adding_regExp_common.setAttribute("value", w_regExp_common);
+			adding_regExp_common.setAttribute("name", i+"_regExp_commonform_id_temp");
+			adding_regExp_common.setAttribute("id", i+"_regExp_commonform_id_temp");
+		
+		var adding_regExp_value = document.createElement("input");
+			adding_regExp_value.setAttribute("type", "hidden");
+			adding_regExp_value.setAttribute("value", escape(w_regExp_value));
+			adding_regExp_value.setAttribute("name", i+"_regExp_valueform_id_temp");
+			adding_regExp_value.setAttribute("id", i+"_regExp_valueform_id_temp");
+						
+		var adding_regExp_alert = document.createElement("input");
+			adding_regExp_alert.setAttribute("type", "hidden");
+			adding_regExp_alert.setAttribute("value", w_regExp_alert);
+			adding_regExp_alert.setAttribute("name", i+"_regExp_alertform_id_temp");
+			adding_regExp_alert.setAttribute("id", i+"_regExp_alertform_id_temp");	
+
      	var div = document.createElement('div');
       	    div.setAttribute("id", "main_div");
 					
@@ -5807,13 +5987,8 @@ function type_text(i, w_field_label, w_field_label_size, w_field_label_pos, w_si
           	div_element.style.display="table-cell";
           	div_element.setAttribute("id", i+"_element_sectionform_id_temp");
 			
-      	var br1 = document.createElement('br');
-      	var br2 = document.createElement('br');
-     	var br3 = document.createElement('br');
-      	var br4 = document.createElement('br');
-      
-
-	    
+      	var br = document.createElement('br');
+    
       	var label = document.createElement('span');
 			label.setAttribute("id", i+"_element_labelform_id_temp");
 			label.innerHTML = w_field_label;
@@ -5826,26 +6001,72 @@ function type_text(i, w_field_label, w_field_label_size, w_field_label_pos, w_si
 			required.innerHTML = "";
 			required.setAttribute("class", "required");
 			required.style.verticalAlign="top";
-	if(w_required=="yes")
+		if(w_required=="yes")
 			required.innerHTML = " *";
-      	var main_td  = document.getElementById('show_table');
+      	
+		var main_td  = document.getElementById('show_table');
       
-      	div_label.appendChild(label);
-      	div_label.appendChild(required);
-      	div_element.appendChild(adding_type);
-      	div_element.appendChild(adding_required);
-      	div_element.appendChild(adding_unique);
-      	div_element.appendChild(adding);
-      	div_field.appendChild(div_label);
-      	div_field.appendChild(div_element);
-      
-      	div.appendChild(div_field);
-      	div.appendChild(br3);
-      	main_td.appendChild(div);
-	if(w_field_label_pos=="top")
-				label_top(i);
-refresh_attr(i, 'type_text');
+		div_label.appendChild(label);
+		div_label.appendChild(required);
+		div_element.appendChild(adding_type);
+		div_element.appendChild(adding_required);
+		div_element.appendChild(adding_regExp_status);
+		div_element.appendChild(adding_regExp_value); 
+		div_element.appendChild(adding_regExp_common); 
+		div_element.appendChild(adding_regExp_alert);
+		div_element.appendChild(adding_regArg); 
+		div_element.appendChild(adding_unique);
+		div_element.appendChild(adding);
+		div_field.appendChild(div_label);
+		div_field.appendChild(div_element);
+	  
+		div.appendChild(div_field);
+		div.appendChild(br);
+		main_td.appendChild(div);
+		
+		if(w_field_label_pos == "top")
+			label_top(i);
+			
+		refresh_attr(i, 'type_text');
 }
+
+function set_regExpStatus(id)
+{	
+	jQuery('#edit_main_tr12, #edit_main_tr13, #edit_main_tr14, #edit_main_tr15').toggle(200);
+	if(document.getElementById(id+"form_id_temp").value == "yes")
+		document.getElementById(id+"form_id_temp").setAttribute("value", "no");
+	else
+		document.getElementById(id+"form_id_temp").setAttribute("value", "yes");
+}
+
+function set_regExpArgument(id)
+{	
+	if(document.getElementById(id+"form_id_temp").value.length <= 0)
+		document.getElementById(id+"form_id_temp").setAttribute("value", "i");
+	else
+		document.getElementById(id+"form_id_temp").setAttribute("value", "");
+}
+
+function change_regExpValue(i, regValue, regVal_id, com_option)
+{
+	if(com_option.length > 0)
+	{
+		document.getElementById("regExp_value"+i).value = com_option;
+		document.getElementById(regVal_id).value = com_option;
+		document.getElementById(i+"_regExp_commonform_id_temp").value = document.getElementById("common_RegExp"+i).selectedIndex; 
+	}
+	else
+	{
+		document.getElementById(regVal_id).value = regValue;
+		document.getElementById(i+"_regExp_commonform_id_temp").value = regValue;
+	}	
+}
+
+function change_regExpAlert(regAlert,id)
+{
+	document.getElementById(id).value = regAlert;
+}
+
 
 function type_number(i, w_field_label, w_field_label_size, w_field_label_pos, w_size, w_first_val, w_title, w_required, w_unique, w_class, w_attr_name, w_attr_value) {
 
@@ -25947,7 +26168,7 @@ function go_to_type_text(new_id)
 {
  	w_attr_name=[];
  	w_attr_value=[];
-	type_text(new_id,'Text:', '100', 'left', '200', '', '', 'no', 'no', w_attr_name, w_attr_value);
+	type_text(new_id,'Text:', '100', 'left', '200', '', '', 'no', 'no', '', '', '', 'Incorrect Value', 'no', w_attr_name, w_attr_value);
 }
 
 function go_to_type_send_copy(new_id)
@@ -28475,10 +28696,15 @@ function edit(id)
 			{
 				w_first_val=document.getElementById(id+"_elementform_id_temp").value;
 				w_title=document.getElementById(id+"_elementform_id_temp").title;
+				w_regExp_status = document.getElementById(id+"_regExpStatusform_id_temp").value;
+				w_regExp_value = unescape(document.getElementById(id+"_regExp_valueform_id_temp").value);
+				w_regExp_common = document.getElementById(id+"_regExp_commonform_id_temp").value;
+				w_regExp_arg = document.getElementById(id+"_regArgumentform_id_temp").value;
+				w_regExp_alert = document.getElementById(id+"_regExp_alertform_id_temp").value;
 				atrs=return_attributes(id+'_elementform_id_temp');
 				w_attr_name=atrs[0];
 				w_attr_value=atrs[1];
-				type_text(id, w_field_label, w_field_label_size, w_field_label_pos, w_size, w_first_val, w_title, w_required, w_unique,  w_attr_name, w_attr_value); break;
+				type_text(id, w_field_label, w_field_label_size, w_field_label_pos, w_size, w_first_val, w_title, w_required, w_regExp_status, w_regExp_value, w_regExp_common, w_regExp_arg, w_regExp_alert, w_unique, w_attr_name, w_attr_value); break;
 			}
 			case 'type_number':
 			{
@@ -29514,6 +29740,8 @@ function dublicate(id) {
 	k=0;
 	
 	w_choices=new Array();	
+	w_choices_value=new Array();
+	w_choices_params=new Array();
 	w_choices_checked=new Array();
 	w_choices_disabled=new Array();
 	w_allow_other_num=0;
@@ -29580,10 +29808,15 @@ function dublicate(id) {
 			{
 				w_first_val=document.getElementById(id+"_elementform_id_temp").value;
 				w_title=document.getElementById(id+"_elementform_id_temp").title;
-				atrs=return_attributes(id+'_elementform_id_temp');
-				w_attr_name=atrs[0];
-				w_attr_value=atrs[1];
-				type_text(gen, w_field_label, w_field_label_size, w_field_label_pos, w_size, w_first_val, w_title, w_required, w_unique, w_attr_name, w_attr_value);  break;
+				w_regExp_status = document.getElementById(id+"_regExpStatusform_id_temp").value;
+				w_regExp_value = unescape(document.getElementById(id+"_regExp_valueform_id_temp").value);
+				w_regExp_common = document.getElementById(id+"_regExp_commonform_id_temp").value;
+				w_regExp_arg = document.getElementById(id+"_regArgumentform_id_temp").value;
+				w_regExp_alert = document.getElementById(id+"_regExp_alertform_id_temp").value;
+				atrs = return_attributes(id+'_elementform_id_temp');
+				w_attr_name = atrs[0];
+				w_attr_value = atrs[1];
+				type_text(gen, w_field_label, w_field_label_size, w_field_label_pos, w_size, w_first_val, w_title, w_required, w_regExp_status, w_regExp_value, w_regExp_common, w_regExp_arg, w_regExp_alert, w_unique, w_attr_name, w_attr_value);  break;
 			}
 			case 'type_number':
 			{
@@ -30372,7 +30605,7 @@ function dublicate(id) {
 				type_date_fields(gen, w_field_label, w_field_label_size, w_field_label_pos, w_day, w_month, w_year, w_day_type, w_month_type, w_year_type, w_day_label, w_month_label, w_year_label, w_day_size, w_month_size, w_year_size, w_required, w_class, w_from, w_to, w_divider, w_attr_name, w_attr_value); break;
 			}
 			
-			
+			case 'type_own_select':
 			{	
 				jQuery('#'+id+'_elementform_id_temp option').each(function() {
 					w_choices[t]=jQuery(this).html();
@@ -30391,12 +30624,13 @@ function dublicate(id) {
 				});
 
 				w_value_disabled = document.getElementById(id+'_value_disabledform_id_temp').value;
-					
+				
 				atrs=return_attributes(id+'_elementform_id_temp');
 				w_attr_name=atrs[0];
 				w_attr_value=atrs[1];
-				type_own_select(gen, w_field_label, w_field_label_size, w_field_label_pos, w_size, w_choices, w_choices_checked, w_required, w_class, w_attr_name, w_attr_value, w_choices_disabled, w_choices_value, w_choices_params); break;
+				type_own_select(gen, w_field_label, w_field_label_size, w_field_label_pos, w_size, w_choices, w_choices_checked, w_required, w_value_disabled, w_class, w_attr_name, w_attr_value, w_choices_disabled, w_choices_value, w_choices_params); break;
 			}
+			
 			
 			case 'type_paypal_select':
 			{	
@@ -30603,6 +30837,11 @@ function gen_form_fields()
 		{
 			w_first_val=document.getElementById(id+"_elementform_id_temp").value;
 			w_title=document.getElementById(id+"_elementform_id_temp").title;
+			w_regExp_status = document.getElementById(id+"_regExpStatusform_id_temp").value;
+			w_regExp_value = document.getElementById(id+"_regExp_valueform_id_temp").value;
+			w_regExp_common = document.getElementById(id+"_regExp_commonform_id_temp").value;
+			w_regExp_arg = document.getElementById(id+"_regArgumentform_id_temp").value;
+			w_regExp_alert = document.getElementById(id+"_regExp_alertform_id_temp").value;
 			atrs=return_attributes(id+'_elementform_id_temp');
 			w_attr_name=atrs[0];
 			w_attr_value=atrs[1];
@@ -30614,6 +30853,11 @@ function gen_form_fields()
 			form_fields+=w_first_val+"*:*w_first_val*:*";
 			form_fields+=w_title+"*:*w_title*:*";
 			form_fields+=w_required+"*:*w_required*:*";
+			form_fields+=w_regExp_status+"*:*w_regExp_status*:*";
+			form_fields+=w_regExp_value+"*:*w_regExp_value*:*";
+			form_fields+=w_regExp_common+"*:*w_regExp_common*:*";
+			form_fields+=w_regExp_arg+"*:*w_regExp_arg*:*";
+			form_fields+=w_regExp_alert+"*:*w_regExp_alert*:*";
 			form_fields+=w_unique+"*:*w_unique*:*";
 									
 			for(j=0; j<w_attr_name.length; j++)

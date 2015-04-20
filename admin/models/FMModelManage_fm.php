@@ -209,28 +209,39 @@ class FMModelManage_fm {
               $rep ='<div id="wdform_field'.$id.'" type="type_send_copy" class="wdform_field" style="display: table-cell;">'.$arrows.'<div align="left" id="'.$id.'_label_sectionform_id_temp" style="display: '.$param['w_field_label_pos'].'; width: '.$param['w_field_label_size'].'px;"><span id="'.$id.'_element_labelform_id_temp" class="label" style="vertical-align: top;">'.$label.'</span><span id="'.$id.'_required_elementform_id_temp" class="required" style="vertical-align: top;">'.$required_sym.'</span></div><div align="left" id="'.$id.'_element_sectionform_id_temp" style="display: '.$param['w_field_label_pos'].'"><input type="hidden" value="type_send_copy" name="'.$id.'_typeform_id_temp" id="'.$id.'_typeform_id_temp" /><input type="hidden" value="'.$param['w_required'].'" name="'.$id.'_requiredform_id_temp" id="'.$id.'_requiredform_id_temp" /><input type="checkbox" id="'.$id.'_elementform_id_temp" name="'.$id.'_elementform_id_temp" onclick="set_checked(&quot;'.$id.'&quot;,&quot;&quot;,&quot;form_id_temp&quot;)" '.$input_active.' '.$param['attributes'].' disabled /></div></div>';
               break;
             }
-            case 'type_text': {
-              $params_names = array('w_field_label_size', 'w_field_label_pos', 'w_size', 'w_first_val', 'w_title', 'w_required', 'w_unique');
-              $temp = $params;
-              foreach ($params_names as $params_name) {
-                $temp = explode('*:*' . $params_name . '*:*', $temp);
-                $param[$params_name] = $temp[0];
-                $temp = $temp[1];
-              }
-              if ($temp) {
-                $temp	= explode('*:*w_attr_name*:*', $temp);
-                $attrs = array_slice($temp, 0, count($temp) - 1);
-                foreach ($attrs as $attr) {
-                  $param['attributes'] = $param['attributes'] . ' add_' . $attr;
-                }
-              }
-              $param['w_field_label_pos'] = ($param['w_field_label_pos'] == "left" ? "table-cell" : "block");
-              $input_active = ($param['w_first_val'] == $param['w_title'] ? "input_deactive" : "input_active");
-              $required_sym = ($param['w_required'] == "yes" ? " *" : "");
-              $rep ='<div id="wdform_field'.$id.'" type="type_text" class="wdform_field" style="display: table-cell;">'.$arrows.'<div align="left" id="'.$id.'_label_sectionform_id_temp" style="display: '.$param['w_field_label_pos'].'; width: '.$param['w_field_label_size'].'px;"><span id="'.$id.'_element_labelform_id_temp" class="label" style="vertical-align: top;">'.$label.'</span><span id="'.$id.'_required_elementform_id_temp" class="required" style="vertical-align: top;">'.$required_sym.'</span></div><div align="left" id="'.$id.'_element_sectionform_id_temp" style="display: '.$param['w_field_label_pos'].'"><input type="hidden" value="type_text" name="'.$id.'_typeform_id_temp" id="'.$id.'_typeform_id_temp" /><input type="hidden" value="'.$param['w_required'].'" name="'.$id.'_requiredform_id_temp" id="'.$id.'_requiredform_id_temp" /><input type="hidden" value="'.$param['w_unique'].'" name="'.$id.'_uniqueform_id_temp" id="'.$id.'_uniqueform_id_temp" /><input type="text" class="'.$input_active.'" id="'.$id.'_elementform_id_temp" name="'.$id.'_elementform_id_temp" value="'.$param['w_first_val'].'" title="'.$param['w_title'].'" onfocus="delete_value(&quot;'.$id.'_elementform_id_temp&quot;)" onblur="return_value(&quot;'.$id.'_elementform_id_temp&quot;)" onchange="change_value(&quot;'.$id.'_elementform_id_temp&quot;)" style="width: '.$param['w_size'].'px;" '.$param['attributes'].' disabled /></div></div>';
-              break;
+           case 'type_text': {
+				$params_names = array('w_field_label_size', 'w_field_label_pos', 'w_size', 'w_first_val', 'w_title', 'w_required', 'w_unique');
+				$temp = $params;
+				if(strpos($temp, 'w_regExp_status') > -1)
+					$params_names = array('w_field_label_size','w_field_label_pos','w_size','w_first_val','w_title','w_required', 'w_regExp_status', 'w_regExp_value', 'w_regExp_common', 'w_regExp_arg', 'w_regExp_alert', 'w_unique');
+				foreach ($params_names as $params_name) {
+					$temp = explode('*:*' . $params_name . '*:*', $temp);
+					$param[$params_name] = $temp[0];
+					$temp = $temp[1];
+				}
+				if ($temp) {
+					$temp	= explode('*:*w_attr_name*:*', $temp);
+					$attrs = array_slice($temp, 0, count($temp) - 1);
+					foreach ($attrs as $attr) {
+					  $param['attributes'] = $param['attributes'] . ' add_' . $attr;
+					}
+				}
+				
+				$param['w_field_label_pos'] = ($param['w_field_label_pos'] == "left" ? "table-cell" : "block");
+				$input_active = ($param['w_first_val'] == $param['w_title'] ? "input_deactive" : "input_active");
+				$required_sym = ($param['w_required'] == "yes" ? " *" : "");
+				
+				$param['w_regExp_status'] = (isset($param['w_regExp_status']) ? $param['w_regExp_status'] : "no");
+				$param['w_regExp_value'] = (isset($param['w_regExp_value']) ? $param['w_regExp_value'] : "");
+				$param['w_regExp_common'] = (isset($param['w_regExp_common']) ? $param['w_regExp_common'] : "");
+				$param['w_regExp_arg'] = (isset($param['w_regExp_arg']) ? $param['w_regExp_arg'] : "");
+				$param['w_regExp_alert'] = (isset($param['w_regExp_alert']) ? $param['w_regExp_alert'] : "Incorrect Value");
+				
+				$rep ='<div id="wdform_field'.$id.'" type="type_text" class="wdform_field" style="display: table-cell;">'.$arrows.'<div align="left" id="'.$id.'_label_sectionform_id_temp" style="display: '.$param['w_field_label_pos'].'; width: '.$param['w_field_label_size'].'px;"><span id="'.$id.'_element_labelform_id_temp" class="label" style="vertical-align: top;">'.$label.'</span><span id="'.$id.'_required_elementform_id_temp" class="required" style="vertical-align: top;">'.$required_sym.'</span></div><div align="left" id="'.$id.'_element_sectionform_id_temp" style="display: '.$param['w_field_label_pos'].'"><input type="hidden" value="type_text" name="'.$id.'_typeform_id_temp" id="'.$id.'_typeform_id_temp" /><input type="hidden" value="'.$param['w_required'].'" name="'.$id.'_requiredform_id_temp" id="'.$id.'_requiredform_id_temp" /><input type="hidden" value="'.$param['w_regExp_status'].'" name="'.$id.'_regExpStatusform_id_temp" id="'.$id.'_regExpStatusform_id_temp"><input type="hidden" value="'.$param['w_regExp_value'].'" name="'.$id.'_regExp_valueform_id_temp" id="'.$id.'_regExp_valueform_id_temp"><input type="hidden" value="'.$param['w_regExp_common'].'" name="'.$id.'_regExp_commonform_id_temp" id="'.$id.'_regExp_commonform_id_temp"><input type="hidden" value="'.$param['w_regExp_alert'].'" name="'.$id.'_regExp_alertform_id_temp" id="'.$id.'_regExp_alertform_id_temp"><input type="hidden" value="'.$param['w_regExp_arg'].'" name="'.$id.'_regArgumentform_id_temp" id="'.$id.'_regArgumentform_id_temp"><input type="hidden" value="'.$param['w_unique'].'" name="'.$id.'_uniqueform_id_temp" id="'.$id.'_uniqueform_id_temp" /><input type="text" class="'.$input_active.'" id="'.$id.'_elementform_id_temp" name="'.$id.'_elementform_id_temp" value="'.$param['w_first_val'].'" title="'.$param['w_title'].'" onfocus="delete_value(&quot;'.$id.'_elementform_id_temp&quot;)" onblur="return_value(&quot;'.$id.'_elementform_id_temp&quot;)" onchange="change_value(&quot;'.$id.'_elementform_id_temp&quot;)" style="width: '.$param['w_size'].'px;" '.$param['attributes'].' disabled /></div></div>';
+				
+				break;
             }
-            case 'type_number': {
+          case 'type_number': {
               $params_names = array('w_field_label_size', 'w_field_label_pos', 'w_size', 'w_first_val', 'w_title', 'w_required', 'w_unique', 'w_class');
               $temp = $params;
               foreach ($params_names as $params_name) {
