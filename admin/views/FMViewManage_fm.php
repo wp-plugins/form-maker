@@ -3239,6 +3239,15 @@ class FMViewManage_fm {
                 <div class="error" style="padding: 5px; font-size: 14px;">File attach is disabled in free version.</div>
               </td>
             </tr>
+			<tr valign="top">
+              <td class="fm_options_label" style="vertical-align: middle;">
+                <label> Email empty fields: </label>
+              </td>
+              <td class="fm_options_value">
+                <input type="radio" name="mail_emptyfields"  value="1" id="en_mail_emptyfields" <?php if($row->mail_emptyfields==1 ) echo "checked" ?> /> <label for="en_mail_emptyfields">Yes</label>
+                <input type="radio" name="mail_emptyfields" id="dis_mail_emptyfields" value="0" <?php if($row->mail_emptyfields==0 ) echo "checked" ?> /> <label for="dis_mail_emptyfields">No</label>
+              </td>
+            </tr>
             <tr>
               <td class="fm_options_label" valign="top">
                 <label>Custom Text in Email For Administrator</label>

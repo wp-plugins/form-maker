@@ -1410,2531 +1410,2577 @@ class FMModelForm_maker {
     }
   }
 
-  public function gen_mail($counter, $all_files, $id, $str) {
-    $ip = $_SERVER['REMOTE_ADDR'];
-    $replyto = '';
-    global $wpdb;
-    $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM " . $wpdb->prefix . "formmaker WHERE id=%d", $id));
-    if (!$row->form_front) {
-      $id = '';
-    }
-	
-	$custom_fields = array('ip', 'useremail', 'username', 'subid', 'all' );
-	$subid = $wpdb->get_var("SELECT MAX( group_id ) FROM " . $wpdb->prefix ."formmaker_submits" );
+ public function gen_mail($counter, $all_files, $id, $str) {
+		$ip = $_SERVER['REMOTE_ADDR'];
+		$replyto = '';
+		global $wpdb;
+		$row = $wpdb->get_row($wpdb->prepare("SELECT * FROM " . $wpdb->prefix . "formmaker WHERE id=%d", $id));
+		if (!$row->form_front) {
+			$id = '';
+		}
+
+		$custom_fields = array('ip', 'useremail', 'username', 'subid', 'all' );
+		$subid = $wpdb->get_var("SELECT MAX( group_id ) FROM " . $wpdb->prefix ."formmaker_submits" );
 		
-    $current_user =  wp_get_current_user();
-    if ($current_user->ID != 0)
-    {
-      $username =  $current_user->display_name;
-      $useremail =  $current_user->user_email;
-    }
-    else
-    {
-      $username = '';
-      $useremail = '';
-    }
+		$current_user =  wp_get_current_user();
+		if ($current_user->ID != 0)
+		{
+			$username =  $current_user->display_name;
+			$useremail =  $current_user->user_email;
+		}
+		else
+		{
+			$username = '';
+			$useremail = '';
+		}
 		
-    $label_order_original = array();
-    $label_order_ids = array();
-    $label_label = array();
-    $label_type = array();
-    $total = 0;
-    $form_currency = '$';
-    $currency_code = array('USD', 'EUR', 'GBP', 'JPY', 'CAD', 'MXN', 'HKD', 'HUF', 'NOK', 'NZD', 'SGD', 'SEK', 'PLN', 'AUD', 'DKK', 'CHF', 'CZK', 'ILS', 'BRL', 'TWD', 'MYR', 'PHP', 'THB');
-    $currency_sign = array('$', '&#8364;', '&#163;', '&#165;', 'C$', 'Mex$', 'HK$', 'Ft', 'kr', 'NZ$', 'S$', 'kr', 'zl', 'A$', 'kr', 'CHF', 'Kc', '&#8362;', 'R$', 'NT$', 'RM', '&#8369;', '&#xe3f;');
-    if ($row->payment_currency) {
-      $form_currency = $currency_sign[array_search($row->payment_currency, $currency_code)];
-    }
-    
-    $old = false;		
+		$label_order_original = array();
+		$label_order_ids = array();
+		$label_label = array();
+		$label_type = array();
+		$total = 0;
+		$form_currency = '$';
+		$currency_code = array('USD', 'EUR', 'GBP', 'JPY', 'CAD', 'MXN', 'HKD', 'HUF', 'NOK', 'NZD', 'SGD', 'SEK', 'PLN', 'AUD', 'DKK', 'CHF', 'CZK', 'ILS', 'BRL', 'TWD', 'MYR', 'PHP', 'THB');
+		$currency_sign = array('$', '&#8364;', '&#163;', '&#165;', 'C$', 'Mex$', 'HK$', 'Ft', 'kr', 'NZ$', 'S$', 'kr', 'zl', 'A$', 'kr', 'CHF', 'Kc', '&#8362;', 'R$', 'NT$', 'RM', '&#8369;', '&#xe3f;');
+		if ($row->payment_currency) {
+		  $form_currency = $currency_sign[array_search($row->payment_currency, $currency_code)];
+		}
+
+		$old = false;		
 		if(isset($row->form)) {
 			$old = true;
-    }
-    
-    $cc = array();
-    $row_mail_one_time = 1;
-    
-    $label_type= array();
-		
+		}
+
+		$cc = array();
+		$row_mail_one_time = 1;
+		$label_type = array();
+			
 		if($old == false || ($old == true && $row->form == '')) {
 			$label_all	= explode('#****#',$row->label_order_current);
-    }
+		}
 		else {
 			$label_all	= explode('#****#',$row->label_order);    
-    }
-    $label_all = array_slice($label_all, 0, count($label_all) - 1);
-    foreach ($label_all as $key => $label_each) {
-      $label_id_each = explode('#**id**#', $label_each);
-      $label_id = $label_id_each[0];
-      array_push($label_order_ids, $label_id);
-      $label_order_each = explode('#**label**#', $label_id_each[1]);
-      $label_order_original[$label_id] = $label_order_each[0];
-      $label_type[$label_id] = $label_order_each[1];
-      array_push($label_label, $label_order_each[0]);
-      array_push($label_type, $label_order_each[1]);
-    }
-    
-    $disabled_fields	= explode(',', isset($_REQUEST["disabled_fields".$id]) ? $_REQUEST["disabled_fields".$id] : "");
-		$disabled_fields 	= array_slice($disabled_fields,0, count($disabled_fields)-1);   
+		}
+		$label_all = array_slice($label_all, 0, count($label_all) - 1);
+		foreach ($label_all as $key => $label_each) {
+			$label_id_each = explode('#**id**#', $label_each);
+			$label_id = $label_id_each[0];
+			array_push($label_order_ids, $label_id);
+			$label_order_each = explode('#**label**#', $label_id_each[1]);
+			$label_order_original[$label_id] = $label_order_each[0];
+			$label_type[$label_id] = $label_order_each[1];
+			array_push($label_label, $label_order_each[0]);
+			array_push($label_type, $label_order_each[1]);
+		}
 
+		$disabled_fields = explode(',', isset($_REQUEST["disabled_fields".$id]) ? $_REQUEST["disabled_fields".$id] : "");
+		$disabled_fields = array_slice($disabled_fields,0, count($disabled_fields)-1);   
+		
 		$list='<table border="1" cellpadding="3" cellspacing="0" style="width:600px;">';
 		$list_text_mode = '';
-
-    if($old == false || ($old == true && $row->form == '')) {
-      foreach($label_order_ids as $key => $label_order_id) {
+		if($old == false || ($old == true && $row->form == '')) {
+			foreach($label_order_ids as $key => $label_order_id) {
 				$i = $label_order_id;
 				$type = $label_type[$i];
 
 				if($type != "type_map" and  $type != "type_submit_reset" and  $type != "type_editor" and  $type != "type_captcha" and  $type != "type_recaptcha" and  $type != "type_button") {	
 					$element_label=$label_order_original[$i];
-          if(!in_array($i,$disabled_fields)) {
-            switch ($type) {
-              case 'type_text':
-              case 'type_password':
-              case 'type_textarea':
-              case "type_date":
-              case "type_own_select":					
-              case "type_country":				
-              case "type_number": {
-                $element = isset($_POST['wdform_'.$i."_element".$id]) ? $_POST['wdform_'.$i."_element".$id] : NULL;
-                if(isset($element)) {
-                  $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td><pre style="margin:0px; padding:0px">' . $element . '</pre></td></tr>';
-                  $list_text_mode=$list_text_mode.$element_label.' - '.$element."\r\n";
-                }
-                break;
-              }
-              case "type_wdeditor": {
-                $element = isset($_POST['wdform_'.$i.'_wd_editor'.$id]) ? $_POST['wdform_'.$i.'_wd_editor'.$id] : NULL;
-                $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td><pre style="margin:0px; padding:0px">' . $element . '</pre></td></tr>';
-                $list_text_mode=$list_text_mode.$element_label.' - '.$element."\r\n";
-                break;
-              }
-              case "type_hidden": {
-                $element = isset($_POST[$element_label]) ? $_POST[$element_label] : NULL;
-                if(isset($element)) {
-                  $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td><pre style="margin:0px; padding:0px">' . $element . '</pre></td></tr>';
-                  $list_text_mode=$list_text_mode.$element_label.' - '.$element."\r\n";
-                }
-                break;
-              }
-              case "type_mark_map": {
-                $element = isset($_POST['wdform_'.$i."_long".$id]) ? $_POST['wdform_'.$i."_long".$id] : NULL;
-                if(isset($element)) {
-                  $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td>Longitude:' . $element . '<br/>Latitude:' . (isset($_POST['wdform_'.$i."_lat".$id]) ? $_POST['wdform_'.$i."_lat".$id] : "") . '</td></tr>';
-                  $list_text_mode=$list_text_mode.$element_label.' - Longitude:'.$element.' Latitude:'.(isset($_POST['wdform_'.$i."_lat".$id]) ? $_POST['wdform_'.$i."_lat".$id] : "")."\r\n";
-                }
-                break;		
-              }
-              case "type_submitter_mail": {
-                $element = isset($_POST['wdform_'.$i."_element".$id]) ? $_POST['wdform_'.$i."_element".$id] : NULL;
-                if(isset($element)) {
-                  $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $element . '</pre></td></tr>';
-                  $list_text_mode=$list_text_mode.$element_label.' - '.$element."\r\n";
-                }
-                break;		
-              }						
-              case "type_time": {							
-                $hh = isset($_POST['wdform_'.$i."_hh".$id]) ? $_POST['wdform_'.$i."_hh".$id] : NULL;
-                if(isset($hh)) {
-                  $ss = isset($_POST['wdform_'.$i."_ss".$id]) ? $_POST['wdform_'.$i."_ss".$id] : NULL;
-                  if(isset($ss)) {
-                    $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $hh . ':' . (isset($_POST['wdform_'.$i."_mm".$id]) ? $_POST['wdform_'.$i."_mm".$id] : "") . ':' . $ss;
-                    $list_text_mode=$list_text_mode.$element_label.' - '.$hh.':'.(isset($_POST['wdform_'.$i."_mm".$id]) ? $_POST['wdform_'.$i."_mm".$id] : "").':'.$ss;
-                  }
-                  else {
-                    $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $hh . ':' . (isset($_POST['wdform_'.$i."_mm".$id]) ? $_POST['wdform_'.$i."_mm".$id] : "");
-                    $list_text_mode=$list_text_mode.$element_label.' - '.$hh.':'.(isset($_POST['wdform_'.$i."_mm".$id]) ? $_POST['wdform_'.$i."_mm".$id] : "");
-                  }
-                  $am_pm = isset($_POST['wdform_'.$i."_am_pm".$id]) ? $_POST['wdform_'.$i."_am_pm".$id] : NULL;
-                  if(isset($am_pm)) {
-                    $list = $list . ' ' . $am_pm . '</td></tr>';
-                    $list_text_mode=$list_text_mode.$am_pm."\r\n";
-                  }
-                  else {
-                    $list = $list.'</td></tr>';
-                    $list_text_mode=$list_text_mode."\r\n";
-                  }
-                }								
-                break;
-              }
-              
-              case "type_phone": {
-                $element_first = isset($_POST['wdform_'.$i."_element_first".$id]) ? $_POST['wdform_'.$i."_element_first".$id] : NULL;
-                if(isset($element_first)) {
-                    $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $element_first . ' ' . (isset($_POST['wdform_'.$i."_element_last".$id]) ? $_POST['wdform_'.$i."_element_last".$id] : "") . '</td></tr>';
-                    $list_text_mode=$list_text_mode.$element_label.' - '.$element_first.' '.(isset($_POST['wdform_'.$i."_element_last".$id]) ? $_POST['wdform_'.$i."_element_last".$id] : "")."\r\n";
-                }	
-                break;
-              }
-              
-              case "type_name": {
-                $element_first = isset($_POST['wdform_'.$i."_element_first".$id]) ? $_POST['wdform_'.$i."_element_first".$id] : NULL;
-                if(isset($element_first)) {
-                  $element_title = isset($_POST['wdform_'.$i."_element_title".$id]) ? $_POST['wdform_'.$i."_element_title".$id] : NULL;
-                  if(isset($element_title)) {
-                    $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $element_title . ' ' . $element_first . ' ' . (isset($_POST['wdform_'.$i."_element_last".$id]) ? $_POST['wdform_'.$i."_element_last".$id] : "") . ' ' . (isset($_POST['wdform_'.$i."_element_middle".$id]) ? $_POST['wdform_'.$i."_element_middle".$id] : "") . '</td></tr>';
-                    $list_text_mode=$list_text_mode.$element_label.' - '.$element_title.' '.$element_first.' '.(isset($_POST['wdform_'.$i."_element_last".$id]) ? $_POST['wdform_'.$i."_element_last".$id] : "").' '.(isset($_POST['wdform_'.$i."_element_middle".$id]) ? $_POST['wdform_'.$i."_element_middle".$id] : "")."\r\n";
-                  }
-                  else {
-                    $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $element_first . ' ' . (isset($_POST['wdform_'.$i."_element_last".$id]) ? $_POST['wdform_'.$i."_element_last".$id] : "") . '</td></tr>';
-                    $list_text_mode=$list_text_mode.$element_label.' - '.$element_first.' '.(isset($_POST['wdform_'.$i."_element_last".$id]) ? $_POST['wdform_'.$i."_element_last".$id] : "")."\r\n";
-                  }
-                }	   
-                break;		
-              }
-              
-              case "type_address": {
-                $element = isset($_POST['wdform_'.$i."_street1".$id]) ? $_POST['wdform_'.$i."_street1".$id] : NULL;
-                if(isset($element)) {
-                  $list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $element . '</td></tr>';
-                  $list_text_mode=$list_text_mode.$label_order_original[$i].' - '.$element."\r\n";
-                  break;
-                }
-                $element = isset($_POST['wdform_'.$i."_street2".$id]) ? $_POST['wdform_'.$i."_street2".$id] : NULL;
-                if(isset($element)) {
-                  $list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $element . '</td></tr>';
-                  $list_text_mode=$list_text_mode.$label_order_original[$i].' - '.$element."\r\n";
-                  break;
-                }
-                $element = isset($_POST['wdform_'.$i."_city".$id]) ? $_POST['wdform_'.$i."_city".$id] : NULL;
-                if(isset($element)) {
-                  $list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $element . '</td></tr>';
-                  $list_text_mode=$list_text_mode.$label_order_original[$i].' - '.$element."\r\n";
-                  break;
-                }
-                $element = isset($_POST['wdform_'.$i."_state".$id]) ? $_POST['wdform_'.$i."_state".$id] : NULL;
-                if(isset($element)) {
-                  $list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $element . '</td></tr>';
-                  $list_text_mode=$list_text_mode.$label_order_original[$i].' - '.$element."\r\n";
-                  break;
-                }
-                $element = isset($_POST['wdform_'.$i."_postal".$id]) ? $_POST['wdform_'.$i."_postal".$id] : NULL;
-                if(isset($element)) {
-                  $list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $element . '</td></tr>';
-                  $list_text_mode=$list_text_mode.$label_order_original[$i].' - '.$element."\r\n";
-                  break;
-                }
-                $element = isset($_POST['wdform_'.$i."_country".$id]) ? $_POST['wdform_'.$i."_country".$id] : NULL;
-                if(isset($element)) {
-                  $list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $element . '</td></tr>';
-                  $list_text_mode=$list_text_mode.$label_order_original[$i].' - '.$element."\r\n";
-                  break;
-                }
-                break;							
-              }
-              case "type_date_fields": {
-                $day = isset($_POST['wdform_'.$i."_day".$id]) ? $_POST['wdform_'.$i."_day".$id] : NULL;
-				$month = isset($_POST['wdform_'.$i."_month".$id]) ? $_POST['wdform_'.$i."_month".$id] : "";
-				$year = isset($_POST['wdform_'.$i."_year".$id]) ? $_POST['wdform_'.$i."_year".$id] : "";
-                if(isset($day)) {
-                  $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' .(($day || $month || $year) ? $day . '-' . $month . '-' . $year : '' ). '</td></tr>';
-                  $list_text_mode=$list_text_mode.$element_label.(($day || $month || $year) ? $day.'-'.$month.'-'.$year : '')."\r\n";
-                }
-                break;
-              }						
-              case "type_radio": {
-                $element = isset($_POST['wdform_'.$i."_other_input".$id]) ? $_POST['wdform_'.$i."_other_input".$id] : NULL;
-                if(isset($element)) {
-                  $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $element . '</td></tr>';
-                  $list_text_mode=$list_text_mode.$element_label.' - '.$element."\r\n";
-                  break;
-                }								
-                $element = isset($_POST['wdform_'.$i."_element".$id]) ? $_POST['wdform_'.$i."_element".$id] : NULL;
-                if(isset($element)) {
-                  $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $element . '</pre></td></tr>';
-                  $list_text_mode=$list_text_mode.$element_label.' - '.$element."\r\n";
-                }
-                break;	
-              }						
-              case "type_checkbox": {
-                $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >';
-                $list_text_mode=$list_text_mode.$element_label.' - ';                
-                $start = -1;
-                for($j = 0; $j < 100; $j++) {
-                  $element = isset($_POST['wdform_'.$i."_element".$id.$j]) ? $_POST['wdform_'.$i."_element".$id.$j] : NULL;
-                  if(isset($element)) {
-                    $start = $j;
-                    break;
-                  }
-                }								
-                $other_element_id = -1;
-                $is_other = isset($_POST['wdform_'.$i."_allow_other".$id]) ? $_POST['wdform_'.$i."_allow_other".$id] : "";
-                if($is_other == "yes") {
-                  $other_element_id = isset($_POST['wdform_'.$i."_allow_other_num".$id]) ? $_POST['wdform_'.$i."_allow_other_num".$id] : "";
-                }
-                if($start != -1) {
-                  for($j = $start; $j < 100; $j++) {									
-                    $element = isset($_POST['wdform_'.$i."_element".$id.$j]) ? $_POST['wdform_'.$i."_element".$id.$j] : NULL;
-                    if(isset($element)) {
-                      if($j == $other_element_id) {
-                        $list = $list . (isset($_POST['wdform_'.$i."_other_input".$id]) ? $_POST['wdform_'.$i."_other_input".$id] : "") . '<br>';
-                        $list_text_mode=$list_text_mode.(isset($_POST['wdform_'.$i."_other_input".$id]) ? $_POST['wdform_'.$i."_other_input".$id] : "").', ';	
-                      }
-                      else {									
-                        $list = $list . (isset($_POST['wdform_'.$i."_element".$id.$j]) ? $_POST['wdform_'.$i."_element".$id.$j] : "") . '<br>';
-                        $list_text_mode=$list_text_mode.(isset($_POST['wdform_'.$i."_element".$id.$j]) ? $_POST['wdform_'.$i."_element".$id.$j] : "").', ';
-                      }
-                    }
-                  }
-                  $list = $list . '</td></tr>';
-                  $list_text_mode=$list_text_mode."\r\n";
-                }
-                break;
-              }
-              case "type_paypal_price":	{
-                $value = 0;
-                if(isset($_POST['wdform_'.$i."_element_dollars".$id])) {
-                  $value = $_POST['wdform_'.$i."_element_dollars".$id];
-                }
-                if(isset($_POST['wdform_'.$i."_element_cents".$id])) {
-                  $value = $value . '.' . $_POST['wdform_'.$i."_element_cents".$id];
-                }
-                $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $value . $form_currency . '</td></tr>';
-                $list_text_mode=$list_text_mode.$element_label.' - '.$value.$form_currency."\r\n";
-                break;
-              }			
-          
-              case "type_paypal_select": {
-                if(isset($_POST['wdform_'.$i."_element_label".$id]) && $_POST['wdform_'.$i."_element".$id] != '') {
-                  $value = $_POST['wdform_'.$i."_element_label".$id] . ' : ' . (isset($_POST['wdform_'.$i."_element".$id]) ? $_POST['wdform_'.$i."_element".$id] : "") . $form_currency;
-                }
-                else {
-                  $value='';
-                }
-                $element_quantity_label = (isset($_POST['wdform_'.$i."_element_quantity_label".$id]) && $_POST['wdform_'.$i."_element_quantity_label".$id]) ? $_POST['wdform_'.$i."_element_quantity_label".$id] : NULL;
-                $element_quantity = (isset($_POST['wdform_'.$i."_element_quantity".$id]) && $_POST['wdform_'.$i."_element_quantity".$id]) ? $_POST['wdform_'.$i."_element_quantity".$id] : NULL;
-                if($value != '' && isset($element_quantity)) {
-                  $value .= '<br/>' . $element_quantity_label . ': ' . $element_quantity;
-                }
-                for($k = 0; $k < 50; $k++) {
-                  $temp_val = isset($_POST['wdform_'.$i."_property".$id.$k]) ? $_POST['wdform_'.$i."_property".$id.$k] : NULL;
-                  if(isset($temp_val)) {			
-                    $value .= '<br/>' . (isset($_POST['wdform_'.$i."_element_property_label".$id.$k]) ? $_POST['wdform_'.$i."_element_property_label".$id.$k] : "") . ': ' . $temp_val;
-                  }
-                }							
-                $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $value . '</pre></td></tr>';
-                $list_text_mode=$list_text_mode.$element_label.' - '.str_replace('<br/>',', ',$value)."\r\n";
-                break;
-              }
-          
-              case "type_paypal_radio": {
-                if(isset($_POST['wdform_'.$i."_element_label".$id])) {
-                  $value = $_POST['wdform_'.$i."_element_label".$id] . ' : ' . (isset($_POST['wdform_'.$i."_element".$id]) ? $_POST['wdform_'.$i."_element".$id] : "") . $form_currency;
-                }
-                else {
-                  $value='';
-                }
-                $element_quantity_label = isset($_POST['wdform_'.$i."_element_quantity_label".$id]) ? $_POST['wdform_'.$i."_element_quantity_label".$id] : NULL;
-                $element_quantity = (isset($_POST['wdform_'.$i."_element_quantity".$id]) && $_POST['wdform_'.$i."_element_quantity".$id]) ? $_POST['wdform_'.$i."_element_quantity".$id] : NULL;
-                if (isset($element_quantity)) {
-                  $value .= '<br/>' . $element_quantity_label . ': ' . $element_quantity;
-                }
-                for($k = 0; $k < 50; $k++) {
-                  $temp_val = isset($_POST['wdform_'.$i."_property".$id.$k]) ? $_POST['wdform_'.$i."_property".$id.$k] : NULL;
-                  if(isset($temp_val)) {
-                    $value .= '<br/>' . (isset($_POST['wdform_'.$i."_element_property_label".$id.$k]) ? $_POST['wdform_'.$i."_element_property_label".$id.$k] : "") . ': ' . $temp_val;
-                  }
-                }							
-                $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $value . '</pre></td></tr>';
-                $list_text_mode=$list_text_mode.$element_label.' - '.str_replace('<br/>',', ',$value)."\r\n";
-                break;	
-              }
+					if(!in_array($i,$disabled_fields)) {
+						switch ($type) {
+							case 'type_text':
+							case 'type_password':
+							case 'type_textarea':
+							case "type_date":
+							case "type_own_select":					
+							case "type_country":				
+							case "type_number": {
+								$element = isset($_POST['wdform_'.$i."_element".$id]) ? $_POST['wdform_'.$i."_element".$id] : NULL;
+								if(isset($element) && $this->empty_field($element, $row->mail_emptyfields)) {
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td><pre style="margin:0px; padding:0px">' . $element . '</pre></td></tr>';
+									$list_text_mode=$list_text_mode.$element_label.' - '.$element."\r\n";
+								}	
+							
+								break;
+							}
+							case "type_hidden": {
+								$element = isset($_POST[$element_label]) ? $_POST[$element_label] : NULL;
+								if(isset($element) && $this->empty_field($element, $row->mail_emptyfields)) {
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td><pre style="margin:0px; padding:0px">' . $element . '</pre></td></tr>';
+									$list_text_mode=$list_text_mode.$element_label.' - '.$element."\r\n";
+								}
+								break;
+							}
+							case "type_mark_map": {
+								$element = isset($_POST['wdform_'.$i."_long".$id]) ? $_POST['wdform_'.$i."_long".$id] : NULL;
+								if(isset($element) && $this->empty_field($element, $row->mail_emptyfields)) {
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td>Longitude:' . $element . '<br/>Latitude:' . (isset($_POST['wdform_'.$i."_lat".$id]) ? $_POST['wdform_'.$i."_lat".$id] : "") . '</td></tr>';
+									$list_text_mode=$list_text_mode.$element_label.' - Longitude:'.$element.' Latitude:'.(isset($_POST['wdform_'.$i."_lat".$id]) ? $_POST['wdform_'.$i."_lat".$id] : "")."\r\n";
+								}
+								break;		
+							}
+							case "type_submitter_mail": {
+								$element = isset($_POST['wdform_'.$i."_element".$id]) ? $_POST['wdform_'.$i."_element".$id] : NULL;
+								if(isset($element) && $this->empty_field($element, $row->mail_emptyfields)) {
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; 	padding:0px">' . $element . '</pre></td></tr>';
+									$list_text_mode=$list_text_mode.$element_label.' - '.$element."\r\n";
+								}
+								break;		
+							}						
+							
+							case "type_time": {							
+								$hh = isset($_POST['wdform_'.$i."_hh".$id]) ? $_POST['wdform_'.$i."_hh".$id] : NULL;
+								if(isset($hh) && ($this->empty_field($hh, $row->mail_emptyfields) || $this->empty_field($_POST['wdform_'.$i."_mm".$id], $row->mail_emptyfields) || $this->empty_field($_POST['wdform_'.$i."_ss".$id], $row->mail_emptyfields))) {
+									$ss = isset($_POST['wdform_'.$i."_ss".$id]) ? $_POST['wdform_'.$i."_ss".$id] : NULL;
+									if(isset($ss)) {
+										$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $hh . ':' . (isset($_POST['wdform_'.$i."_mm".$id]) ? $_POST['wdform_'.$i."_mm".$id] : "") . ':' . $ss;
+										$list_text_mode=$list_text_mode.$element_label.' - '.$hh.':'.(isset($_POST['wdform_'.$i."_mm".$id]) ? $_POST['wdform_'.$i."_mm".$id] : "").':'.$ss;
+									}
+									else {
+										$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $hh . ':' . (isset($_POST['wdform_'.$i."_mm".$id]) ? $_POST['wdform_'.$i."_mm".$id] : "");
+										$list_text_mode=$list_text_mode.$element_label.' - '.$hh.':'.(isset($_POST['wdform_'.$i."_mm".$id]) ? $_POST['wdform_'.$i."_mm".$id] : "");
+									}
+									$am_pm = isset($_POST['wdform_'.$i."_am_pm".$id]) ? $_POST['wdform_'.$i."_am_pm".$id] : NULL;
+									if(isset($am_pm)) {
+										$list = $list . ' ' . $am_pm . '</td></tr>';
+										$list_text_mode=$list_text_mode.$am_pm."\r\n";
+									}
+									else {
+										$list = $list.'</td></tr>';
+										$list_text_mode=$list_text_mode."\r\n";
+									}
+								}								
+								break;
+							}
+						  
+							case "type_phone": {
+								$element_first = isset($_POST['wdform_'.$i."_element_first".$id]) ? $_POST['wdform_'.$i."_element_first".$id] : NULL;
+								if(isset($element_first) && $this->empty_field($element_first, $row->mail_emptyfields)) {
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $element_first . ' ' . (isset($_POST['wdform_'.$i."_element_last".$id]) ? $_POST['wdform_'.$i."_element_last".$id] : "") . '</td></tr>';
+									$list_text_mode=$list_text_mode.$element_label.' - '.$element_first.' '.(isset($_POST['wdform_'.$i."_element_last".$id]) ? $_POST['wdform_'.$i."_element_last".$id] : "")."\r\n";
+								}	
+								break;
+							}
+						  
+							case "type_name": {
+								$element_first = isset($_POST['wdform_'.$i."_element_first".$id]) ? $_POST['wdform_'.$i."_element_first".$id] : NULL;
+								if(isset($element_first)) {
+									$element_title = isset($_POST['wdform_'.$i."_element_title".$id]) ? $_POST['wdform_'.$i."_element_title".$id] : NULL;
+									if(isset($element_title) && ($this->empty_field($element_title, $row->mail_emptyfields) || $this->empty_field($element_first, $row->mail_emptyfields) || $this->empty_field($_POST['wdform_'.$i."_element_last".$id], $row->mail_emptyfields) || $this->empty_field($_POST['wdform_'.$i."_element_middle".$id], $row->mail_emptyfields))) {
+										$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $element_title . ' ' . $element_first . ' ' . (isset($_POST['wdform_'.$i."_element_last".$id]) ? $_POST['wdform_'.$i."_element_last".$id] : "") . ' ' . (isset($_POST['wdform_'.$i."_element_middle".$id]) ? $_POST['wdform_'.$i."_element_middle".$id] : "") . '</td></tr>';
+										$list_text_mode=$list_text_mode.$element_label.' - '.$element_title.' '.$element_first.' '.(isset($_POST['wdform_'.$i."_element_last".$id]) ? $_POST['wdform_'.$i."_element_last".$id] : "").' '.(isset($_POST['wdform_'.$i."_element_middle".$id]) ? $_POST['wdform_'.$i."_element_middle".$id] : "")."\r\n";
+									}
+									else {
+										if($this->empty_field($element_first, $row->mail_emptyfields) || $this->empty_field($_POST['wdform_'.$i."_element_last".$id], $row->mail_emptyfields)) {
+											$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $element_first . ' ' . (isset($_POST['wdform_'.$i."_element_last".$id]) ? $_POST['wdform_'.$i."_element_last".$id] : "") . '</td></tr>';
+											$list_text_mode=$list_text_mode.$element_label.' - '.$element_first.' '.(isset($_POST['wdform_'.$i."_element_last".$id]) ? $_POST['wdform_'.$i."_element_last".$id] : "")."\r\n";
+										}
+									}
+								}	   
+								break;		
+							}
+						  
+							case "type_address": {
+								$element = isset($_POST['wdform_'.$i."_street1".$id]) ? $_POST['wdform_'.$i."_street1".$id] : NULL;
+								if(isset($element) && $this->empty_field($element, $row->mail_emptyfields)) {
+									$list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $element . '</td></tr>';
+									$list_text_mode=$list_text_mode.$label_order_original[$i].' - '.$element."\r\n";
+									break;
+								}
+								$element = isset($_POST['wdform_'.$i."_street2".$id]) ? $_POST['wdform_'.$i."_street2".$id] : NULL;
+								if(isset($element) && $this->empty_field($element, $row->mail_emptyfields)) {
+									$list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $element . '</td></tr>';
+									$list_text_mode=$list_text_mode.$label_order_original[$i].' - '.$element."\r\n";
+									break;
+								}
+								$element = isset($_POST['wdform_'.$i."_city".$id]) ? $_POST['wdform_'.$i."_city".$id] : NULL;
+								if(isset($element) && $this->empty_field($element, $row->mail_emptyfields)) {
+									$list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $element . '</td></tr>';
+									$list_text_mode=$list_text_mode.$label_order_original[$i].' - '.$element."\r\n";
+									break;
+								}
+								$element = isset($_POST['wdform_'.$i."_state".$id]) ? $_POST['wdform_'.$i."_state".$id] : NULL;
+								if(isset($element) && $this->empty_field($element, $row->mail_emptyfields)) {
+									$list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $element . '</td></tr>';
+									$list_text_mode=$list_text_mode.$label_order_original[$i].' - '.$element."\r\n";
+									break;
+								}
+								$element = isset($_POST['wdform_'.$i."_postal".$id]) ? $_POST['wdform_'.$i."_postal".$id] : NULL;
+								if(isset($element) && $this->empty_field($element, $row->mail_emptyfields)) {
+									$list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $element . '</td></tr>';
+									$list_text_mode=$list_text_mode.$label_order_original[$i].' - '.$element."\r\n";
+									break;
+								}
+								$element = isset($_POST['wdform_'.$i."_country".$id]) ? $_POST['wdform_'.$i."_country".$id] : NULL;
+								if(isset($element) && $this->empty_field($element, $row->mail_emptyfields)) {
+									$list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $element . '</td></tr>';
+									$list_text_mode=$list_text_mode.$label_order_original[$i].' - '.$element."\r\n";
+									break;
+								}
+								break;							
+							}
+							
+							case "type_date_fields": {
+								$day = isset($_POST['wdform_'.$i."_day".$id]) ? $_POST['wdform_'.$i."_day".$id] : NULL;
+								$month = isset($_POST['wdform_'.$i."_month".$id]) ? $_POST['wdform_'.$i."_month".$id] : "";
+								$year = isset($_POST['wdform_'.$i."_year".$id]) ? $_POST['wdform_'.$i."_year".$id] : "";
+								if(isset($day) && $this->empty_field($day, $row->mail_emptyfields)) {
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' .(($day || $month || $year) ? $day . '-' . $month . '-' . $year : '' ). '</td></tr>';
+									$list_text_mode=$list_text_mode.$element_label.(($day || $month || $year) ? $day.'-'.$month.'-'.$year : '')."\r\n";
+								}
+								break;
+							}
+							
+							case "type_radio": {
+								$element = isset($_POST['wdform_'.$i."_other_input".$id]) ? $_POST['wdform_'.$i."_other_input".$id] : NULL;
+								if(isset($element) && $this->empty_field($element, $row->mail_emptyfields)) {
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $element . '</td></tr>';
+									$list_text_mode=$list_text_mode.$element_label.' - '.$element."\r\n";
+									break;
+								}								
+								$element = isset($_POST['wdform_'.$i."_element".$id]) ? $_POST['wdform_'.$i."_element".$id] : NULL;
+								if(isset($element) && $this->empty_field($element, $row->mail_emptyfields)) {
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $element . '</pre></td></tr>';
+									$list_text_mode=$list_text_mode.$element_label.' - '.$element."\r\n";
+								}
+								break;	
+							}	
+							
+							case "type_checkbox": {
+								$start = -1;
+								for($j = 0; $j < 100; $j++) {
+									$element = isset($_POST['wdform_'.$i."_element".$id.$j]) ? $_POST['wdform_'.$i."_element".$id.$j] : NULL;
+									if(isset($element)) {
+										$start = $j;
+										break;
+									}
+								}								
+								$other_element_id = -1;
+								$is_other = isset($_POST['wdform_'.$i."_allow_other".$id]) ? $_POST['wdform_'.$i."_allow_other".$id] : "";
+								if($is_other == "yes") {
+									$other_element_id = isset($_POST['wdform_'.$i."_allow_other_num".$id]) ? $_POST['wdform_'.$i."_allow_other_num".$id] : "";
+								}
+				
+								if($start != -1 || ($start == -1 && $row->mail_emptyfields))
+								{
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >';
+									$list_text_mode=$list_text_mode.$element_label.' - '; 
+								}
+								
+								if($start != -1) {
+									for($j = $start; $j < 100; $j++) {									
+										$element = isset($_POST['wdform_'.$i."_element".$id.$j]) ? $_POST['wdform_'.$i."_element".$id.$j] : NULL;
+										if(isset($element)) {
+											if($j == $other_element_id) {
+												$list = $list . (isset($_POST['wdform_'.$i."_other_input".$id]) ? $_POST['wdform_'.$i."_other_input".$id] : "") . '<br>';
+												$list_text_mode=$list_text_mode.(isset($_POST['wdform_'.$i."_other_input".$id]) ? $_POST['wdform_'.$i."_other_input".$id] : "").', ';	
+											}
+											else {									
+												$list = $list . (isset($_POST['wdform_'.$i."_element".$id.$j]) ? $_POST['wdform_'.$i."_element".$id.$j] : "") . '<br>';
+												$list_text_mode=$list_text_mode.(isset($_POST['wdform_'.$i."_element".$id.$j]) ? $_POST['wdform_'.$i."_element".$id.$j] : "").', ';
+											}
+										}
+									}
+								}
+								
+								if($start != -1 || ($start == -1 && $row->mail_emptyfields))
+								{
+									$list = $list . '</td></tr>';
+									$list_text_mode=$list_text_mode."\r\n";
+								}	
+								break;
+							}
+							
+							case "type_paypal_price":	{
+								$value = 0;
+								if(isset($_POST['wdform_'.$i."_element_dollars".$id])) {
+									$value = $_POST['wdform_'.$i."_element_dollars".$id];
+								}
+								if(isset($_POST['wdform_'.$i."_element_cents".$id]) && $_POST['wdform_'.$i."_element_cents".$id]) {
+									$value = $value . '.' . $_POST['wdform_'.$i."_element_cents".$id];
+								}
+							
+								if($this->empty_field($value, $row->mail_emptyfields) && $value!='.')
+								{
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $value . $form_currency . '</td></tr>';
+									$list_text_mode=$list_text_mode.$element_label.' - '.$value.$form_currency."\r\n";
+								}	
+								break;
+							}			
+					  
+							case "type_paypal_select": {
+								if(isset($_POST['wdform_'.$i."_element_label".$id]) && $_POST['wdform_'.$i."_element".$id] != '') {
+									$value = $_POST['wdform_'.$i."_element_label".$id] . ' : ' . (isset($_POST['wdform_'.$i."_element".$id]) ? $_POST['wdform_'.$i."_element".$id] : "") . $form_currency;
+								}
+								else {
+									$value='';
+								}
+								$element_quantity_label = (isset($_POST['wdform_'.$i."_element_quantity_label".$id]) && $_POST['wdform_'.$i."_element_quantity_label".$id]) ? $_POST['wdform_'.$i."_element_quantity_label".$id] : NULL;
+								$element_quantity = (isset($_POST['wdform_'.$i."_element_quantity".$id]) && $_POST['wdform_'.$i."_element_quantity".$id]) ? $_POST['wdform_'.$i."_element_quantity".$id] : NULL;
+								if($value != '' && isset($element_quantity)) {
+									$value .= '<br/>' . $element_quantity_label . ': ' . $element_quantity;
+								}
+								for($k = 0; $k < 50; $k++) {
+									$temp_val = isset($_POST['wdform_'.$i."_property".$id.$k]) ? $_POST['wdform_'.$i."_property".$id.$k] : NULL;
+									if(isset($temp_val)) {			
+										$value .= '<br/>' . (isset($_POST['wdform_'.$i."_element_property_label".$id.$k]) ? $_POST['wdform_'.$i."_element_property_label".$id.$k] : "") . ': ' . $temp_val;
+									}
+								}
 
-              case "type_paypal_shipping": {							
-                if(isset($_POST['wdform_'.$i."_element_label".$id])) {
-                  $value = $_POST['wdform_'.$i."_element_label".$id] . ' : ' . (isset($_POST['wdform_'.$i."_element".$id]) ? $_POST['wdform_'.$i."_element".$id] : "") . $form_currency;
-                }
-                else {
-                  $value='';
-                }							
-                $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $value . '</pre></td></tr>';
-                $list_text_mode=$list_text_mode.$element_label.' - '.$value."\r\n";
-                break;
-              }
+								if($this->empty_field($value, $row->mail_emptyfields))
+								{
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $value . '</pre></td></tr>';
+									$list_text_mode=$list_text_mode.$element_label.' - '.str_replace('<br/>',', ',$value)."\r\n";
+								}	
+								break;
+							}
+					  
+							case "type_paypal_radio": {
+								if(isset($_POST['wdform_'.$i."_element".$id])) {
+									$value = $_POST['wdform_'.$i."_element_label".$id] . ' : ' . (isset($_POST['wdform_'.$i."_element".$id]) ? $_POST['wdform_'.$i."_element".$id] : "") . $form_currency;
+							  
+									$element_quantity_label = isset($_POST['wdform_'.$i."_element_quantity_label".$id]) ? $_POST['wdform_'.$i."_element_quantity_label".$id] : NULL;
+									$element_quantity = (isset($_POST['wdform_'.$i."_element_quantity".$id]) && $_POST['wdform_'.$i."_element_quantity".$id]) ? $_POST['wdform_'.$i."_element_quantity".$id] : NULL;
+									if (isset($element_quantity)) {
+										$value .= '<br/>' . $element_quantity_label . ': ' . $element_quantity;
+									}
+									for($k = 0; $k < 50; $k++) {
+										$temp_val = isset($_POST['wdform_'.$i."_property".$id.$k]) ? $_POST['wdform_'.$i."_property".$id.$k] : NULL;
+										if(isset($temp_val)) {
+											$value .= '<br/>' . (isset($_POST['wdform_'.$i."_element_property_label".$id.$k]) ? $_POST['wdform_'.$i."_element_property_label".$id.$k] : "") . ': ' . $temp_val;
+										}
+									}
+								}
+								else {
+									$value='';
+								}
 
-              case "type_paypal_checkbox": {
-                $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >';		
-                $list_text_mode=$list_text_mode.$element_label.' - ';                
-                $start = -1;
-                for($j = 0; $j < 100; $j++) {
-                  $element = isset($_POST['wdform_'.$i."_element".$id.$j]) ? $_POST['wdform_'.$i."_element".$id.$j] : NULL;
-                  if(isset($element)) {
-                    $start=$j;
-                    break;
-                  }
-                }	
-                
-                if($start!=-1) {
-                  for($j = $start; $j < 100; $j++) {									
-                    $element = isset($_POST['wdform_'.$i."_element".$id.$j]) ? $_POST['wdform_'.$i."_element".$id.$j] : NULL;
-                    if(isset($element)) {
-                      $list = $list . (isset($_POST['wdform_'.$i."_element".$id.$j."_label"]) ? $_POST['wdform_'.$i."_element".$id.$j."_label"] : "") . ' - ' . ($element == '' ? '0' . $form_currency : $element) . $form_currency . '<br>';
-                      $list_text_mode=$list_text_mode.(isset($_POST['wdform_'.$i."_element".$id.$j."_label"]) ? $_POST['wdform_'.$i."_element".$id.$j."_label"] : "").' - '.($element == '' ? '0' . $form_currency : $element).$form_currency.', ';
-                    }
-                  }
-                }
-                $element_quantity_label = isset($_POST['wdform_'.$i."_element_quantity_label".$id]) ? $_POST['wdform_'.$i."_element_quantity_label".$id] : NULL;
-                $element_quantity = (isset($_POST['wdform_'.$i."_element_quantity".$id]) && $_POST['wdform_'.$i."_element_quantity".$id]) ? $_POST['wdform_'.$i."_element_quantity".$id] : NULL;
-                if (isset($element_quantity)) {
-                  $list = $list . '<br/>' . $element_quantity_label . ': ' . $element_quantity;
-                  $list_text_mode=$list_text_mode.$element_quantity_label . ': ' . $element_quantity.', ';		
-                }
-                for($k = 0; $k < 50; $k++) {
-                  $temp_val = isset($_POST['wdform_'.$i."_element_property_value".$id.$k]) ? $_POST['wdform_'.$i."_element_property_value".$id.$k] : NULL;
-                  if(isset($temp_val)) {			
-                    $list = $list . '<br/>' . (isset($_POST['wdform_'.$i."_element_property_label".$id.$k]) ? $_POST['wdform_'.$i."_element_property_label".$id.$k] : "") . ': ' . $temp_val;
-                    $list_text_mode=$list_text_mode.(isset($_POST['wdform_'.$i."_element_property_label".$id.$k]) ? $_POST['wdform_'.$i."_element_property_label".$id.$k] : "") . ': ' . $temp_val.', ';	
-                  }
-                }
-                $list = $list . '</td></tr>';
-                $list_text_mode=$list_text_mode."\r\n";	
-                break;
-              }
-              
-              case "type_paypal_total": {
-                $element = isset($_POST['wdform_'.$i."_paypal_total".$id]) ? $_POST['wdform_'.$i."_paypal_total".$id] : "";
-                $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $element . '</pre></td></tr>';
-                $list_text_mode=$list_text_mode.$element_label.' - '.$element."\r\n";
-                break;
-              }
-              case "type_star_rating": {
-                $element = isset($_POST['wdform_'.$i."_star_amount".$id]) ? $_POST['wdform_'.$i."_star_amount".$id] : NULL;
-                $selected = isset($_POST['wdform_'.$i."_selected_star_amount".$id]) ? $_POST['wdform_'.$i."_selected_star_amount".$id] : 0;
-                if(isset($element)) {
-                  $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $selected . '/' . $element . '</pre></td></tr>';
-                  $list_text_mode=$list_text_mode.$element_label.' - '.$selected.'/'.$element."\r\n";
-                }
-                break;
-              }
-              case "type_scale_rating": {
-                $element = isset($_POST['wdform_'.$i."_scale_amount".$id]) ? $_POST['wdform_'.$i."_scale_amount".$id] : NULL;
-                $selected = isset($_POST['wdform_'.$i."_scale_radio".$id]) ? $_POST['wdform_'.$i."_scale_radio".$id] : 0;
-                if(isset($element)) {
-                  $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $selected . '/' . $element . '</pre></td></tr>';	
-                  $list_text_mode=$list_text_mode.$element_label.' - '.$selected.'/'.$element."\r\n";
-                }
-                break;
-              }
-              
-              case "type_spinner": {
-                $element = isset($_POST['wdform_'.$i."_element".$id]) ? $_POST['wdform_'.$i."_element".$id] : NULL;
-                if(isset($element)) {
-                  $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $element . '</pre></td></tr>';
-                  $list_text_mode=$list_text_mode.$element_label.' - '.$element."\r\n";
-                }
-                break;
-              }
-              
-              case "type_slider": {
-                $element = isset($_POST['wdform_'.$i."_slider_value".$id]) ? $_POST['wdform_'.$i."_slider_value".$id] : NULL;
-                if(isset($element)) {
-                  $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $element . '</pre></td></tr>';
-                  $list_text_mode=$list_text_mode.$element_label.' - '.$element."\r\n";
-                }
-                break;
-              }
-              case "type_range": {
-                $element0 = isset($_POST['wdform_'.$i."_element".$id.'0']) ? $_POST['wdform_'.$i."_element".$id.'0'] : NULL;
-                $element1 = isset($_POST['wdform_'.$i."_element".$id.'1']) ? $_POST['wdform_'.$i."_element".$id.'1'] : NULL;
-                if(isset($element0) || isset($element1)) {
-                  $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">From:' . $element0 . '<span style="margin-left:6px">To</span>:' . $element1 . '</pre></td></tr>';					
-                  $list_text_mode=$list_text_mode.$element_label.' - From:'.$element0.' To:'.$element1."\r\n";
-                }
-                break;
-              }
-              
-              case "type_grading": {
-                $element = isset($_POST['wdform_'.$i."_hidden_item".$id]) ? $_POST['wdform_'.$i."_hidden_item".$id] : "";
-                $grading = explode(":", $element);
-                $items_count = sizeof($grading) - 1;							
-                $element = "";
-                $total = "";							
-                for($k = 0;$k < $items_count; $k++) {
-                  $element .= $grading[$k] . ":" . (isset($_POST['wdform_'.$i."_element".$id.'_'.$k]) ? $_POST['wdform_'.$i."_element".$id.'_'.$k] : "") . " ";
-                  $total += (isset($_POST['wdform_'.$i."_element".$id.'_'.$k]) ? $_POST['wdform_'.$i."_element".$id.'_'.$k] : 0);
-                }
-                $element .= "Total:" . $total;
-                if(isset($element)) {
-                  $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $element . '</pre></td></tr>';
-                  $list_text_mode=$list_text_mode.$element_label.' - '.$element."\r\n";
-                }
-                break;
-              }
-              case "type_matrix": {
-                $input_type = isset($_POST['wdform_'.$i."_input_type".$id]) ? $_POST['wdform_'.$i."_input_type".$id] : "";
-                $mat_rows = explode("***", isset($_POST['wdform_'.$i."_hidden_row".$id]) ? $_POST['wdform_'.$i."_hidden_row".$id] : "");
-                $rows_count = sizeof($mat_rows) - 1;
-                $mat_columns = explode("***", isset($_POST['wdform_'.$i."_hidden_column".$id]) ? $_POST['wdform_'.$i."_hidden_column".$id] : "");
-                $columns_count = sizeof($mat_columns) - 1;
-                $matrix = "<table>";
-                $matrix .= '<tr><td></td>';							
-                for($k = 1; $k < count($mat_columns); $k++) {
-                  $matrix .= '<td style="background-color:#BBBBBB; padding:5px; ">' . $mat_columns[$k] . '</td>';
-                }
-                $matrix .= '</tr>';							
-                $aaa = Array();							
-                for($k = 1; $k <= $rows_count; $k++) {
-                  $matrix .= '<tr><td style="background-color:#BBBBBB; padding:5px;">' . $mat_rows[$k] . '</td>';							
-                  if($input_type == "radio") {
-                    $mat_radio = isset($_POST['wdform_'.$i."_input_element".$id.$k]) ? $_POST['wdform_'.$i."_input_element".$id.$k] : 0;
-                    if($mat_radio == 0) {
-                      $checked = "";
-                      $aaa[1] = "";
-                    }
-                    else {
-                      $aaa = explode("_", $mat_radio);
-                    }
-                    for($j = 1; $j <= $columns_count; $j++) {
-                      if($aaa[1] == $j) {
-                        $checked = "checked";
-                      }
-                      else {
-                        $checked = "";
-                      }
-                      $matrix .= '<td style="text-align:center"><input  type="radio" ' . $checked . ' disabled /></td>';									
-                    }
-                  }
-                  else {
-                    if($input_type == "checkbox") {                
-                      for($j = 1; $j <= $columns_count; $j++) {
-                        $checked = isset($_POST['wdform_'.$i."_input_element".$id.$k.'_'.$j]) ? $_POST['wdform_'.$i."_input_element".$id.$k.'_'.$j] : "";
-                        if($checked == 1) {
-                          $checked = "checked";
-                        }
-                        else {
-                          $checked = "";
-                        }
-                        $matrix .= '<td style="text-align:center"><input  type="checkbox" ' . $checked . ' disabled /></td>';									
-                      }								
-                    }
-                    else {
-                      if($input_type == "text") {																  
-                        for($j = 1; $j <= $columns_count; $j++) {
-                          $checked = isset($_POST['wdform_'.$i."_input_element".$id.$k.'_'.$j]) ? $_POST['wdform_'.$i."_input_element".$id.$k.'_'.$j] : "";
-                          $matrix .= '<td style="text-align:center"><input  type="text" value="' . $checked . '" disabled /></td>';								
-                        }										
-                      }
-                      else {
-                        for($j = 1; $j <= $columns_count; $j++) {
-                          $checked = isset($_POST['wdform_'.$i."_select_yes_no".$id.$k.'_'.$j]) ? $_POST['wdform_'.$i."_select_yes_no".$id.$k.'_'.$j] : "";
-                          $matrix .= '<td style="text-align:center">' . $checked . '</td>';
-                        }
-                      }									
-                    }									
-                  }
-                  $matrix .= '</tr>';							
-                }
-                $matrix .= '</table>';	
-                if(isset($matrix)) {
-                  $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $matrix . '</pre></td></tr>';
-                }						
-                break;
-              }
-              default: break;
-            }
-          }
+								if($this->empty_field($value, $row->mail_emptyfields))		
+								{
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $value . '</pre></td></tr>';
+									$list_text_mode=$list_text_mode.$element_label.' - '.str_replace('<br/>',', ',$value)."\r\n";
+								}
+								break;	
+							}
+
+							case "type_paypal_shipping": {							
+								if(isset($_POST['wdform_'.$i."_element".$id])) {
+									$value = $_POST['wdform_'.$i."_element_label".$id] . ' : ' . (isset($_POST['wdform_'.$i."_element".$id]) ? $_POST['wdform_'.$i."_element".$id] : "") . $form_currency;
+									
+									if($this->empty_field($value, $row->mail_emptyfields))		
+									{
+										$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $value . '</pre></td></tr>';
+										$list_text_mode=$list_text_mode.$element_label.' - '.$value."\r\n";
+									}	
+								}
+								else {
+									$value='';
+								}	
+								
+								break;
+							}
+
+							case "type_paypal_checkbox": {
+								              
+								$start = -1;
+								for($j = 0; $j < 100; $j++) {
+									$element = isset($_POST['wdform_'.$i."_element".$id.$j]) ? $_POST['wdform_'.$i."_element".$id.$j] : NULL;
+									if(isset($element)) {
+										$start=$j;
+										break;
+									}
+								}	
+							
+								if($start != -1 || ($start == -1 && $row->mail_emptyfields))
+								{
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >';		
+									$list_text_mode=$list_text_mode.$element_label.' - ';  
+								}
+								if($start!=-1) {
+									for($j = $start; $j < 100; $j++) {									
+										$element = isset($_POST['wdform_'.$i."_element".$id.$j]) ? $_POST['wdform_'.$i."_element".$id.$j] : NULL;
+										if(isset($element)) {
+											$list = $list . (isset($_POST['wdform_'.$i."_element".$id.$j."_label"]) ? $_POST['wdform_'.$i."_element".$id.$j."_label"] : "") . ' - ' . ($element == '' ? '0' . $form_currency : $element) . $form_currency . '<br>';
+											$list_text_mode=$list_text_mode.(isset($_POST['wdform_'.$i."_element".$id.$j."_label"]) ? $_POST['wdform_'.$i."_element".$id.$j."_label"] : "").' - '.($element == '' ? '0' . $form_currency : $element).$form_currency.', ';
+										}
+									}
+								}
+								$element_quantity_label = isset($_POST['wdform_'.$i."_element_quantity_label".$id]) ? $_POST['wdform_'.$i."_element_quantity_label".$id] : NULL;
+								$element_quantity = (isset($_POST['wdform_'.$i."_element_quantity".$id]) && $_POST['wdform_'.$i."_element_quantity".$id]) ? $_POST['wdform_'.$i."_element_quantity".$id] : NULL;
+								if (isset($element_quantity)) {
+									$list = $list . '<br/>' . $element_quantity_label . ': ' . $element_quantity;
+									$list_text_mode=$list_text_mode.$element_quantity_label . ': ' . $element_quantity.', ';		
+								}
+								for($k = 0; $k < 50; $k++) {
+									$temp_val = isset($_POST['wdform_'.$i."_element_property_value".$id.$k]) ? $_POST['wdform_'.$i."_element_property_value".$id.$k] : NULL;
+									if(isset($temp_val)) {			
+										$list = $list . '<br/>' . (isset($_POST['wdform_'.$i."_element_property_label".$id.$k]) ? $_POST['wdform_'.$i."_element_property_label".$id.$k] : "") . ': ' . $temp_val;
+										$list_text_mode=$list_text_mode.(isset($_POST['wdform_'.$i."_element_property_label".$id.$k]) ? $_POST['wdform_'.$i."_element_property_label".$id.$k] : "") . ': ' . $temp_val.', ';	
+									}
+								}
+								if($start != -1 || ($start == -1 && $row->mail_emptyfields))
+								{
+									$list = $list . '</td></tr>';
+									$list_text_mode=$list_text_mode."\r\n";	
+								}
+								break;
+							}
+						  
+							case "type_paypal_total": {
+								$element = isset($_POST['wdform_'.$i."_paypal_total".$id]) ? $_POST['wdform_'.$i."_paypal_total".$id] : "";
+								if($this->empty_field($element, $row->mail_emptyfields))		
+								{
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $element . '</pre></td></tr>';
+									$list_text_mode=$list_text_mode.$element_label.' - '.$element."\r\n";
+								}	
+								break;
+							}
+						
+							case "type_star_rating": {
+								$element = isset($_POST['wdform_'.$i."_star_amount".$id]) ? $_POST['wdform_'.$i."_star_amount".$id] : NULL;
+								$selected = isset($_POST['wdform_'.$i."_selected_star_amount".$id]) ? $_POST['wdform_'.$i."_selected_star_amount".$id] : 0;
+								if(isset($element) && $this->empty_field($selected, $row->mail_emptyfields)) {
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $selected . '/' . $element . '</pre></td></tr>';
+									$list_text_mode=$list_text_mode.$element_label.' - '.$selected.'/'.$element."\r\n";
+								}
+								break;
+							}
+						  
+							case "type_scale_rating": {
+								$element = isset($_POST['wdform_'.$i."_scale_amount".$id]) ? $_POST['wdform_'.$i."_scale_amount".$id] : NULL;
+								$selected = isset($_POST['wdform_'.$i."_scale_radio".$id]) ? $_POST['wdform_'.$i."_scale_radio".$id] : 0;
+								if(isset($element) && $this->empty_field($selected, $row->mail_emptyfields)) {
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $selected . '/' . $element . '</pre></td></tr>';	
+									$list_text_mode=$list_text_mode.$element_label.' - '.$selected.'/'.$element."\r\n";
+								}
+								break;
+							}
+						  
+							case "type_spinner": {
+								$element = isset($_POST['wdform_'.$i."_element".$id]) ? $_POST['wdform_'.$i."_element".$id] : NULL;
+								if(isset($element) && $this->empty_field($element, $row->mail_emptyfields)) {
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $element . '</pre></td></tr>';
+									$list_text_mode=$list_text_mode.$element_label.' - '.$element."\r\n";
+								}
+								break;
+							}
+						  
+							case "type_slider": {
+								$element = isset($_POST['wdform_'.$i."_slider_value".$id]) ? $_POST['wdform_'.$i."_slider_value".$id] : NULL;
+								if(isset($element) && $this->empty_field($element, $row->mail_emptyfields)) {
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $element . '</pre></td></tr>';
+									$list_text_mode=$list_text_mode.$element_label.' - '.$element."\r\n";
+								}
+								break;
+							}
+						  
+							case "type_range": {
+								$element0 = isset($_POST['wdform_'.$i."_element".$id.'0']) ? $_POST['wdform_'.$i."_element".$id.'0'] : NULL;
+								$element1 = isset($_POST['wdform_'.$i."_element".$id.'1']) ? $_POST['wdform_'.$i."_element".$id.'1'] : NULL;
+								if((isset($element0) && $this->empty_field($element0, $row->mail_emptyfields)) || (isset($element1) && $this->empty_field($element1, $row->mail_emptyfields))) {
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">From:' . $element0 . '<span style="margin-left:6px">To</span>:' . $element1 . '</pre></td></tr>';					
+									$list_text_mode=$list_text_mode.$element_label.' - From:'.$element0.' To:'.$element1."\r\n";
+								}
+								break;
+							}
+						  
+							case "type_grading": {
+								$element = isset($_POST['wdform_'.$i."_hidden_item".$id]) ? $_POST['wdform_'.$i."_hidden_item".$id] : "";
+								$grading = explode(":", $element);
+								$items_count = sizeof($grading) - 1;							
+								$element = "";
+								$total = "";	
+								$form_empty_field = 1;
+								for($k = 0;$k < $items_count; $k++) {
+									$element .= $grading[$k] . ":" . (isset($_POST['wdform_'.$i."_element".$id.'_'.$k]) ? $_POST['wdform_'.$i."_element".$id.'_'.$k] : "") . " ";
+									$total += (isset($_POST['wdform_'.$i."_element".$id.'_'.$k]) ? $_POST['wdform_'.$i."_element".$id.'_'.$k] : 0);
+									if(isset($_POST['wdform_'.$i."_element".$id.'_'.$k]))
+										$form_empty_field = 0;
+								}
+								$element .= "Total:" . $total;
+								if(isset($element) && $this->empty_field($form_empty_field, $row->mail_emptyfields)) {
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $element . '</pre></td></tr>';
+									$list_text_mode=$list_text_mode.$element_label.' - '.$element."\r\n";
+								}
+								break;
+							}
+						
+							case "type_matrix": {
+								$input_type = isset($_POST['wdform_'.$i."_input_type".$id]) ? $_POST['wdform_'.$i."_input_type".$id] : "";
+								$mat_rows = explode("***", isset($_POST['wdform_'.$i."_hidden_row".$id]) ? $_POST['wdform_'.$i."_hidden_row".$id] : "");
+								$rows_count = sizeof($mat_rows) - 1;
+								$mat_columns = explode("***", isset($_POST['wdform_'.$i."_hidden_column".$id]) ? $_POST['wdform_'.$i."_hidden_column".$id] : "");
+								$columns_count = sizeof($mat_columns) - 1;
+								$matrix = "<table>";
+								$matrix .= '<tr><td></td>';							
+								for($k = 1; $k < count($mat_columns); $k++) {
+									$matrix .= '<td style="background-color:#BBBBBB; padding:5px; ">' . $mat_columns[$k] . '</td>';
+								}
+								$matrix .= '</tr>';							
+								$aaa = Array();							
+								for($k = 1; $k <= $rows_count; $k++) {
+									$matrix .= '<tr><td style="background-color:#BBBBBB; padding:5px;">' . $mat_rows[$k] . '</td>';
+									if($input_type == "radio") {
+										$mat_radio = isset($_POST['wdform_'.$i."_input_element".$id.$k]) ? $_POST['wdform_'.$i."_input_element".$id.$k] : 0;
+										if($mat_radio == 0) {
+											$checked = "";
+											$aaa[1] = "";
+										}
+										else {
+											$aaa = explode("_", $mat_radio);
+										}
+										for($j = 1; $j <= $columns_count; $j++) {
+											if($aaa[1] == $j) {
+												$checked = "checked";
+											}
+											else {
+												$checked = "";
+											}
+											$matrix .= '<td style="text-align:center"><input  type="radio" ' . $checked . ' disabled /></td>';
+										}
+									}
+									else {
+										if($input_type == "checkbox") {                
+											for($j = 1; $j <= $columns_count; $j++) {
+												$checked = isset($_POST['wdform_'.$i."_input_element".$id.$k.'_'.$j]) ? $_POST['wdform_'.$i."_input_element".$id.$k.'_'.$j] : "";
+												if($checked == 1) {
+													$checked = "checked";
+												}
+												else {
+													$checked = "";
+												}
+												$matrix .= '<td style="text-align:center"><input  type="checkbox" ' . $checked . ' disabled /></td>';									
+											}								
+										}
+										else {
+											if($input_type == "text") {																  
+												for($j = 1; $j <= $columns_count; $j++) {
+													$checked = isset($_POST['wdform_'.$i."_input_element".$id.$k.'_'.$j]) ? $_POST['wdform_'.$i."_input_element".$id.$k.'_'.$j] : "";
+													$matrix .= '<td style="text-align:center"><input  type="text" value="' . $checked . '" disabled /></td>';								
+												}										
+											}
+											else {
+												for($j = 1; $j <= $columns_count; $j++) {
+													$checked = isset($_POST['wdform_'.$i."_select_yes_no".$id.$k.'_'.$j]) ? $_POST['wdform_'.$i."_select_yes_no".$id.$k.'_'.$j] : "";
+													$matrix .= '<td style="text-align:center">' . $checked . '</td>';
+												}
+											}									
+										}									
+									}
+									$matrix .= '</tr>';							
+								}
+								$matrix .= '</table>';	
+								if(isset($matrix)) {
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $matrix . '</pre></td></tr>';
+								}						
+								break;
+							}
+							default: break;
+						}
+					}
 				}				
 			}
-    
-      //////
-      $list = $list . '</table>';
-			if($row->sendemail)
-			if($row->send_to) {
-        $fromname = $row->mail_from_name_user;        
-        if($row->mail_subject_user)	
-					$subject 	= $row->mail_subject_user;
-				else
-					$subject 	= $row->title;
-				if($row->reply_to_user) {
-					$replyto = $row->reply_to_user;
-        }
-        $attachment_user = array(); 	
-				if ($row->mail_attachment_user) {
-					for ($k = 0; $k < count($all_files); $k++) {
-						if (isset($all_files[$k]['tmp_name'])) {
-              $attachment_user[$k] = $all_files[$k]['tmp_name'];
-            }
-					}
-        }
-				if ($row->mail_mode_user) {
-          $content_type = "text/html";
-					$mode = 1;
-					$list_user = wordwrap($list, 70, "\n", true);
-					$new_script = wpautop($row->script_mail_user);
-				}	
-				else {
-          $content_type = "text/plain";
-					$mode = 0; 
-					$list_user = wordwrap($list_text_mode, 1000, "\n", true);
-					$new_script = str_replace(array('<p>','</p>'),'',$row->script_mail_user);
-				}
-				foreach($label_order_original as $key => $label_each) {
-          $type=$label_type[$key];
-          if(strpos($row->script_mail_user, "%".$label_each."%")>-1)	 {
-                      $new_value = $this->custom_fields_mail($type, $key, $id, $attachment_user);				
-            $new_script = str_replace("%".$label_each."%", $new_value, $new_script);							
-          }
-          if(strpos($fromname, "%".$label_each."%")>-1) {	
-            $new_value = str_replace('<br>',', ',$this->custom_fields_mail($type, $key, $id, ''));		
-            if(substr($new_value, -2)==', ') {
-              $new_value = substr($new_value, 0, -2);
-            }
-            $fromname = str_replace("%".$label_each."%", $new_value, $fromname);							
-          }						
-          if(strpos($subject, "%".$label_each."%")>-1) {	
-            $new_value = str_replace('<br>',', ',$this->custom_fields_mail($type, $key, $id, ''));		
-            if(substr($new_value, -2)==', ') {
-              $new_value = substr($new_value, 0, -2);		
-            }
-            $subject = str_replace("%".$label_each."%", $new_value, $subject);							
-          }
-				}
-        
-        $recipient = '';
-        $cca = $row->mail_cc_user;
-				$bcc = $row->mail_bcc_user;
-        $send_tos=explode('**',$row->send_to);
-				if ($row->mail_from_user != '') {
-          if ($fromname != '') {
-            $from = "From: '" . $fromname . "' <" . $row->mail_from_user . ">" . "\r\n";
-          }
-          else {
-            $from = "From: '' <" . $row->mail_from_user . ">" . "\r\n";
-          }
-        }
-        else {
-          $from = '';
-        }
-        $headers = "MIME-Version: 1.0\n" . $from . " Content-Type: " . $content_type . "; charset=\"" . get_option('blog_charset') . "\"\n";
-        if ($replyto) {
-          $headers .= "Reply-To: <" . $replyto . ">\r\n";
-        }
-        if ($cca) {
-          $headers .= "Cc: <" . $cca . ">\r\n";          
-        }
-        if ($bcc) {
-          $headers .= "Bcc: <" . $bcc . ">\r\n";          
-        }
-        
-		$custom_fields_value = array( $ip, $useremail, $username, $subid, $list );	
-				
-		foreach($custom_fields as $key=>$custom_field)
-		{
-			if(strpos($new_script, "%".$custom_field."%")>-1)
-			$new_script = str_replace("%".$custom_field."%", $custom_fields_value[$key], $new_script);
 
-			if($key==2 || $key==3)
-			{
-				if(strpos($fromname, "%".$custom_field."%")>-1)
-					$fromname = str_replace("%".$custom_field."%", $custom_fields_value[$key], $fromname);
+			$list = $list . '</table>';
+			if($row->sendemail)
+				if($row->send_to) {
+					$fromname = $row->mail_from_name_user;        
+					if($row->mail_subject_user)	
+						$subject 	= $row->mail_subject_user;
+					else
+						$subject 	= $row->title;
+					if($row->reply_to_user) {
+						$replyto = $row->reply_to_user;
+					}
+					$attachment_user = array(); 	
+					if ($row->mail_attachment_user) {
+						for ($k = 0; $k < count($all_files); $k++) {
+							if (isset($all_files[$k]['tmp_name'])) {
+								$attachment_user[$k] = $all_files[$k]['tmp_name'];
+							}
+						}
+					}
 					
-				if(strpos($subject, "%".$custom_field."%")>-1)
-					$subject = str_replace("%".$custom_field."%", $custom_fields_value[$key], $subject);
-			}
-		}
-				$body = $new_script;
-				
-				$send_copy = isset($_POST["wdform_send_copy_".$id]) ? $_POST["wdform_send_copy_".$id] : NULL;
+					if ($row->mail_mode_user) {
+						$content_type = "text/html";
+						$mode = 1;
+						$list_user = wordwrap($list, 70, "\n", true);
+						$new_script = wpautop($row->script_mail_user);
+					}	
+					else {
+						$content_type = "text/plain";
+						$mode = 0; 
+						$list_user = wordwrap($list_text_mode, 1000, "\n", true);
+						$new_script = str_replace(array('<p>','</p>'),'',$row->script_mail_user);
+					}
+					
+					foreach($label_order_original as $key => $label_each) {
+						$type=$label_type[$key];
+						if(strpos($row->script_mail_user, "%".$label_each."%")>-1)	 {
+							$new_value = $this->custom_fields_mail($type, $key, $id, $attachment_user);				
+							$new_script = str_replace("%".$label_each."%", $new_value, $new_script);
+						}
+						
+						if(strpos($fromname, "%".$label_each."%")>-1) {	
+							$new_value = str_replace('<br>',', ',$this->custom_fields_mail($type, $key, $id, ''));		
+							if(substr($new_value, -2)==', ') {
+								$new_value = substr($new_value, 0, -2);
+							}
+							$fromname = str_replace("%".$label_each."%", $new_value, $fromname);							
+						}	
+						
+						if(strpos($subject, "%".$label_each."%")>-1) {	
+							$new_value = str_replace('<br>',', ',$this->custom_fields_mail($type, $key, $id, ''));		
+							if(substr($new_value, -2)==', ') {
+								$new_value = substr($new_value, 0, -2);		
+							}
+							$subject = str_replace("%".$label_each."%", $new_value, $subject);							
+						}
+					}
+
+					$recipient = '';
+					$cca = $row->mail_cc_user;
+					$bcc = $row->mail_bcc_user;
+					$send_tos=explode('**',$row->send_to);
+					if ($row->mail_from_user != '') {
+						if ($fromname != '') {
+							$from = "From: '" . $fromname . "' <" . $row->mail_from_user . ">" . "\r\n";
+						}	
+						else {
+							$from = "From: '' <" . $row->mail_from_user . ">" . "\r\n";
+						}
+					}
+					else {
+						$from = '';
+					}
+					
+					$headers = "MIME-Version: 1.0\n" . $from . " Content-Type: " . $content_type . "; charset=\"" . get_option('blog_charset') . "\"\n";
+					if ($replyto) {
+						$headers .= "Reply-To: <" . $replyto . ">\r\n";
+					}
+					if ($cca) {
+						$headers .= "Cc: <" . $cca . ">\r\n";          
+					}
+					if ($bcc) {
+						$headers .= "Bcc: <" . $bcc . ">\r\n";          
+					}
+
+					$custom_fields_value = array( $ip, $useremail, $username, $subid, $list );	
+					foreach($custom_fields as $key=>$custom_field)
+					{
+						if(strpos($new_script, "%".$custom_field."%")>-1)
+						$new_script = str_replace("%".$custom_field."%", $custom_fields_value[$key], $new_script);
+
+						if($key==2 || $key==3)
+						{
+							if(strpos($fromname, "%".$custom_field."%")>-1)
+								$fromname = str_replace("%".$custom_field."%", $custom_fields_value[$key], $fromname);
+								
+							if(strpos($subject, "%".$custom_field."%")>-1)
+								$subject = str_replace("%".$custom_field."%", $custom_fields_value[$key], $subject);
+						}
+					}
+					$body = $new_script;
+					$send_copy = isset($_POST["wdform_send_copy_".$id]) ? $_POST["wdform_send_copy_".$id] : NULL;
 			
-				if(isset($send_copy)) {
-					$send=true;
-        }
-				else {
-					foreach($send_tos as $send_to) {
-						$recipient = isset($_POST['wdform_'.str_replace('*', '', $send_to)."_element".$id]) ? $_POST['wdform_'.str_replace('*', '', $send_to)."_element".$id] : NULL;
-						if($recipient) {
-							$send = wp_mail(str_replace(' ', '', $recipient), $subject, stripslashes($body), $headers, $attachment_user);
-            }
+					if(isset($send_copy)) {
+						$send=true;
+					}
+					else {
+						foreach($send_tos as $send_to) {
+							$recipient = isset($_POST['wdform_'.str_replace('*', '', $send_to)."_element".$id]) ? $_POST['wdform_'.str_replace('*', '', $send_to)."_element".$id] : NULL;
+							if($recipient) {
+								$send = wp_mail(str_replace(' ', '', $recipient), $subject, stripslashes($body), $headers, $attachment_user);
+							}
+						}
 					}
 				}
-			}
-      
+		  
 			if($row->sendemail)
-			if ($row->mail) {
-				if($row->reply_to) {
-					$replyto = isset($_POST['wdform_'.$row->reply_to."_element".$id]) ? $_POST['wdform_'.$row->reply_to."_element".$id] : NULL;
-					if(!isset($replyto)) {
-						$replyto = $row->reply_to;
-          }
-				}
-				$recipient = $row->mail;
-				if($row->mail_subject) {
-					$subject 	= $row->mail_subject;
-        }
-				else {
-					$subject 	= $row->title;
-        }
-        
-        if ($row->from_name) {
-          $fromname = $row->from_name;
-        }
-        else {
-          $fromname = '';
-        }
-        $attachment = array(); 
-				if ($row->mail_attachment) {
-          for ($k = 0; $k < count($all_files); $k++) {
-            if (isset($all_files[$k]['tmp_name'])) {
-              $attachment[$k] = $all_files[$k]['tmp_name'];
-            }
-          }
-        }
-				
-				if ($row->mail_mode) {
-          $content_type = "text/html";
-					$mode = 1; 
-					$list = wordwrap($list, 70, "\n", true);
-					$new_script = wpautop($row->script_mail);
-				}	
-				else {
-          $content_type = "text/plain";
-					$mode = 0; 
-					$list = $list_text_mode;
-					$list = wordwrap($list, 1000, "\n", true);
-					$new_script = str_replace(array('<p>','</p>'),'',$row->script_mail);
-				}
-				
-				foreach($label_order_original as $key => $label_each) {							
-          $type=$label_type[$key];
-          if(strpos($row->script_mail, "%".$label_each."%")>-1) {
-            $new_value = $this->custom_fields_mail($type, $key, $id, $attachment);				
-            $new_script = str_replace("%".$label_each."%", $new_value, $new_script);							
-          }
-        
-          if(strpos($fromname, "%".$label_each."%")>-1) {
-            $new_value = str_replace('<br>',', ',$this->custom_fields_mail($type, $key, $id, ''));		
-            if(substr($new_value, -2)==', ') {
-              $new_value = substr($new_value, 0, -2);
-            }
-            $fromname = str_replace("%".$label_each."%", $new_value, $fromname);							
-          }
-          if(strpos($fromname, "%username%")>-1){
-            $fromname = str_replace("%username%", $username, $fromname);
-          }
-          
-          if(strpos($subject, "%".$label_each."%")>-1) {
-            $new_value = str_replace('<br>',', ',$this->custom_fields_mail($type, $key, $id, ''));		
-            if(substr($new_value, -2)==', ') {
-              $new_value = substr($new_value, 0, -2);				
-            }
-            $subject = str_replace("%".$label_each."%", $new_value, $subject);							
-          }
-				}
-        
-        if ($row->from_mail) {
-					$from = isset($_POST['wdform_'.$row->from_mail."_element".$id]) ? $_POST['wdform_'.$row->from_mail."_element".$id] : NULL;
-					if (!isset($from)) {
-						$from = $row->from_mail;
-          }
-          $from = "From: '" . $fromname . "' <" . $from . ">" . "\r\n";
-				}
-				else {
-					$from = "";
-				}
-        $headers = "MIME-Version: 1.0\n" . $from . " Content-Type: " . $content_type . "; charset=\"" . get_option('blog_charset') . "\"\n";
-        if ($replyto) {
-          $headers .= "Reply-To: <" . $replyto . ">\r\n";
-        }
-        $cca = $row->mail_cc;
-				$bcc = $row->mail_bcc;
-        if ($cca) {
-          $headers .= "Cc: <" . $cca . ">\r\n";          
-        }
-        if ($bcc) {
-          $headers .= "Bcc: <" . $bcc . ">\r\n";          
-        }
-        
-		$custom_fields_value = array( $ip, $useremail, $username, $subid, $list );	
-		
-		foreach($custom_fields as $key=>$custom_field)
-		{
-			if(strpos($new_script, "%".$custom_field."%")>-1)
-			$new_script = str_replace("%".$custom_field."%", $custom_fields_value[$key], $new_script);
-
-			if($key==2 || $key==3)
-			{
-				if(strpos($fromname, "%".$custom_field."%")>-1)
-					$fromname = str_replace("%".$custom_field."%", $custom_fields_value[$key], $fromname);
-					
-				if(strpos($subject, "%".$custom_field."%")>-1)
-					$subject = str_replace("%".$custom_field."%", $custom_fields_value[$key], $subject);
-			}
-		}
-		$body = $new_script;
+				if ($row->mail) {
+					if($row->reply_to) {
+						$replyto = isset($_POST['wdform_'.$row->reply_to."_element".$id]) ? $_POST['wdform_'.$row->reply_to."_element".$id] : NULL;
+						if(!isset($replyto)) {
+							$replyto = $row->reply_to;
+						}
+					}
+					$recipient = $row->mail;
+					if($row->mail_subject) {
+						$subject 	= $row->mail_subject;
+					}
+					else {
+						$subject 	= $row->title;
+					}
 			
-		if($row->sendemail) {
-          $send = wp_mail(str_replace(' ', '', $recipient), $subject, stripslashes($body), $headers, $attachment);
+					if ($row->from_name) {
+						$fromname = $row->from_name;
+					}
+					else {
+						$fromname = '';
+					}
+					$attachment = array(); 
+					if ($row->mail_attachment) {
+						for ($k = 0; $k < count($all_files); $k++) {
+							if (isset($all_files[$k]['tmp_name'])) {
+							$attachment[$k] = $all_files[$k]['tmp_name'];
+							}
+						}
+					}
+					
+					if ($row->mail_mode) {
+						$content_type = "text/html";
+						$mode = 1; 
+						$list = wordwrap($list, 70, "\n", true);
+						$new_script = wpautop($row->script_mail);
+					}	
+					else {
+						$content_type = "text/plain";
+						$mode = 0; 
+						$list = $list_text_mode;
+						$list = wordwrap($list, 1000, "\n", true);
+						$new_script = str_replace(array('<p>','</p>'),'',$row->script_mail);
+					}
+					
+					foreach($label_order_original as $key => $label_each) {							
+						$type=$label_type[$key];
+						if(strpos($row->script_mail, "%".$label_each."%")>-1) {
+							$new_value = $this->custom_fields_mail($type, $key, $id, $attachment);				
+							$new_script = str_replace("%".$label_each."%", $new_value, $new_script);							
+						}
+			
+						if(strpos($fromname, "%".$label_each."%")>-1) {
+							$new_value = str_replace('<br>',', ',$this->custom_fields_mail($type, $key, $id, ''));		
+							if(substr($new_value, -2)==', ') {
+								$new_value = substr($new_value, 0, -2);
+							}
+							$fromname = str_replace("%".$label_each."%", $new_value, $fromname);							
+						}
+						
+						if(strpos($fromname, "%username%")>-1){
+							$fromname = str_replace("%username%", $username, $fromname);
+						}
+			  
+						if(strpos($subject, "%".$label_each."%")>-1) {
+							$new_value = str_replace('<br>',', ',$this->custom_fields_mail($type, $key, $id, ''));		
+							if(substr($new_value, -2)==', ') {
+								$new_value = substr($new_value, 0, -2);				
+							}
+							$subject = str_replace("%".$label_each."%", $new_value, $subject);							
+						}
+					}
+			
+					if ($row->from_mail) {
+						$from = isset($_POST['wdform_'.$row->from_mail."_element".$id]) ? $_POST['wdform_'.$row->from_mail."_element".$id] : NULL;
+						if (!isset($from)) {
+							$from = $row->from_mail;
+						}
+						$from = "From: '" . $fromname . "' <" . $from . ">" . "\r\n";
+					}
+					else {
+						$from = "";
+					}
+					
+					$headers = "MIME-Version: 1.0\n" . $from . " Content-Type: " . $content_type . "; charset=\"" . get_option('blog_charset') . "\"\n";
+					if ($replyto) {
+						$headers .= "Reply-To: <" . $replyto . ">\r\n";
+					}
+					$cca = $row->mail_cc;
+					$bcc = $row->mail_bcc;
+					if ($cca) {
+						$headers .= "Cc: <" . $cca . ">\r\n";          
+					}
+					if ($bcc) {
+						$headers .= "Bcc: <" . $bcc . ">\r\n";          
+					}
+			
+					$custom_fields_value = array( $ip, $useremail, $username, $subid, $list );	
+					foreach($custom_fields as $key=>$custom_field)
+					{
+						if(strpos($new_script, "%".$custom_field."%")>-1)
+						$new_script = str_replace("%".$custom_field."%", $custom_fields_value[$key], $new_script);
+
+						if($key==2 || $key==3)
+						{
+							if(strpos($fromname, "%".$custom_field."%")>-1)
+								$fromname = str_replace("%".$custom_field."%", $custom_fields_value[$key], $fromname);
+								
+							if(strpos($subject, "%".$custom_field."%")>-1)
+								$subject = str_replace("%".$custom_field."%", $custom_fields_value[$key], $subject);
+						}
+					}
+					$body = $new_script;
+						
+					if($row->sendemail) {
+						$send = wp_mail(str_replace(' ', '', $recipient), $subject, stripslashes($body), $headers, $attachment);
+					}
 				}
-			}
+			
 			$_SESSION['error_or_no' . $id] = 0;
-      $msg = addslashes(__('Your form was successfully submitted.', 'form_maker'));
+			$msg = addslashes(__('Your form was successfully submitted.', 'form_maker'));
 			$succes = 1;
 
 			if($row->sendemail)
-			if($row->mail || $row->send_to) {
-				if ($send) {
-					if ($send !== true ) {
-						$_SESSION['error_or_no' . $id] = 1;
-            $msg = addslashes(__('Error, email was not sent.', 'form_maker'));
-						$succes = 0;
+				if($row->mail || $row->send_to) {
+					if ($send) {
+						if ($send !== true ) {
+							$_SESSION['error_or_no' . $id] = 1;
+							$msg = addslashes(__('Error, email was not sent.', 'form_maker'));
+							$succes = 0;
+						}
+						else {
+							$_SESSION['error_or_no' . $id] = 0;
+							$msg = addslashes(__('Your form was successfully submitted.', 'form_maker'));
+						}
 					}
-					else {
-						$_SESSION['error_or_no' . $id] = 0;
-            $msg = addslashes(__('Your form was successfully submitted.', 'form_maker'));
-          }
+				}
+		}
+		else { /* Old form.*/
+			foreach ($label_order_ids as $key => $label_order_id) {
+				$i = $label_order_id;
+				$type = $_POST[$i . "_type" . $id];
+				if (isset($_POST[$i . "_type" . $id]))
+					if ($type != "type_map" and  $type != "type_submit_reset" and  $type != "type_editor" and  $type != "type_captcha" and  $type != "type_recaptcha" and  $type != "type_button") {
+						$element_label = $label_order_original[$i];
+						switch ($type) {
+							case 'type_text':
+							case 'type_password':
+							case 'type_textarea':
+							case "type_date":
+							case "type_own_select":
+							case "type_country":
+							case "type_number":
+							{
+								$element = $_POST[$i . "_element" . $id];
+								if (isset($_POST[$i . "_element" . $id])) {
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $element . '</pre></td></tr>';
+								}
+								break;
+							}
+							case "type_hidden": {
+								$element = $_POST[$element_label];
+								if (isset($element)) {
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $element . '</pre></td></tr>';
+								}
+								break;
+							}
+							case "type_submitter_mail":
+							{
+								$element = $_POST[$i . "_element" . $id];
+								if (isset($_POST[$i . "_element" . $id])) {
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $element . '</pre></td></tr>';
+									if ($_POST[$i . "_send" . $id] == "yes")
+										array_push($cc, $element);
+								}
+								break;
+							}
+							case "type_time":
+							{
+								$hh = $_POST[$i . "_hh" . $id];
+								if (isset($_POST[$i . "_hh" . $id])) {
+									$ss = $_POST[$i . "_ss" . $id];
+									if (isset($_POST[$i . "_ss" . $id]))
+										$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $_POST[$i . "_hh" . $id] . ':' . $_POST[$i . "_mm" . $id] . ':' . $_POST[$i . "_ss" . $id];
+									else
+										$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $_POST[$i . "_hh" . $id] . ':' . $_POST[$i . "_mm" . $id];
+									$am_pm = $_POST[$i . "_am_pm" . $id];
+									if (isset($_POST[$i . "_am_pm" . $id]))
+										$list = $list . ' ' . $_POST[$i . "_am_pm" . $id] . '</td></tr>';
+									else
+										$list = $list . '</td></tr>';
+								}
+								break;
+							}
+							case "type_phone":
+							{
+								$element_first = $_POST[$i . "_element_first" . $id];
+								if (isset($_POST[$i . "_element_first" . $id])) {
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $_POST[$i . "_element_first" . $id] . ' ' . $_POST[$i . "_element_last" . $id] . '</td></tr>';
+								}
+								break;
+							}
+							case "type_name":
+							{
+								$element_first = $_POST[$i . "_element_first" . $id];
+								if (isset($_POST[$i . "_element_first" . $id])) {
+									$element_title = $_POST[$i . "_element_title" . $id];
+									if (isset($_POST[$i . "_element_title" . $id]))
+										$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $_POST[$i . "_element_title" . $id] . ' ' . $_POST[$i . "_element_first" . $id] . ' ' . $_POST[$i . "_element_last" . $id] . ' ' . $_POST[$i . "_element_middle" . $id] . '</td></tr>';
+									else
+										$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $_POST[$i . "_element_first" . $id] . ' ' . $_POST[$i . "_element_last" . $id] . '</td></tr>';
+								}
+								break;
+							}
+							case "type_mark_map":
+							{
+								if (isset($_POST[$i . "_long" . $id])) {
+									$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >Longitude:' . $_POST[$i . "_long" . $id] . '<br/>Latitude:' . $_POST[$i . "_lat" . $id] . '</td></tr>';
+								}
+								break;
+							}
+							case "type_address":
+							{
+								if (isset($_POST[$i . "_street1" . $id]))
+									$list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $_POST[$i . "_street1" . $id] . '</td></tr>';
+								$i++;
+								if (isset($_POST[$i."_street2".$id]))
+									$list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $_POST[$i . "_street2" . $id] . '</td></tr>';
+								$i++;
+								if (isset($_POST[$i."_city".$id]))
+									$list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $_POST[$i . "_city" . $id] . '</td></tr>';
+								$i++;
+								if (isset($_POST[$i."_state".$id]))
+									$list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $_POST[$i . "_state" . $id] . '</td></tr>';
+								$i++;
+								if (isset($_POST[$i."_postal".$id]))
+									$list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $_POST[$i . "_postal" . $id] . '</td></tr>';
+								$i++;
+								if (isset($_POST[$i."_country".$id]))
+									$list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $_POST[$i . "_country" . $id] . '</td></tr>';
+								$i++;
+							break;
+						}
+						case "type_date_fields":
+						{
+							$day = $_POST[$i . "_day" . $id];
+							if (isset($_POST[$i . "_day" . $id])) {
+								$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $_POST[$i . "_day" . $id] . '-' . $_POST[$i . "_month" . $id] . '-' . $_POST[$i . "_year" . $id] . '</td></tr>';
+							}
+							break;
+						}
+						case "type_radio":
+						{
+							$element = $_POST[$i . "_other_input" . $id];
+							if (isset($_POST[$i . "_other_input" . $id])) {
+								$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $_POST[$i . "_other_input" . $id] . '</td></tr>';
+								break;
+							}
+							$element = $_POST[$i . "_element" . $id];
+							if (isset($_POST[$i . "_element" . $id])) {
+								$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $element . '</pre></td></tr>';
+							}
+							break;
+						}
+						case "type_checkbox":
+						{
+							$list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >';
+							$start = -1;
+							for ($j = 0; $j < 100; $j++) {
+								if (isset($_POST[$i . "_element" . $id . $j])) {
+									$start = $j;
+									break;
+								}
+							}
+							$other_element_id = -1;
+							$is_other = $_POST[$i . "_allow_other" . $id];
+							if ($is_other == "yes") {
+								$other_element_id = $_POST[$i . "_allow_other_num" . $id];
+							}
+							if ($start != -1) {
+								for ($j = $start; $j < 100; $j++) {
+									$element = $_POST[$i . "_element" . $id . $j];
+									if (isset($_POST[$i . "_element" . $id . $j]))
+										if ($j == $other_element_id) {
+											$list = $list . $_POST[$i . "_other_input" . $id] . '<br>';
+										}
+										else
+											$list = $list . $_POST[$i . "_element" . $id . $j] . '<br>';
+								}
+								$list = $list . '</td></tr>';
+							}
+							break;
+						}
+						case "type_paypal_price":	 {		
+							$value = 0;
+							if ($_POST[$i."_element_dollars".$id]) {
+								$value = $_POST[$i."_element_dollars".$id];
+							}
+							if ($_POST[$i."_element_cents".$id]) {
+								$value = $value.'.'.$_POST[$i."_element_cents".$id];
+							}
+							$list = $list.'<tr valign="top"><td >'.$element_label.'</td><td >'.$value.$form_currency.'</td></tr>';
+							break;
+						}
+						case "type_paypal_select": {
+							$value = $_POST[$i."_element_label".$id].':'.$_POST[$i."_element".$id].$form_currency;
+							$element_quantity_label = $_POST[$i."_element_quantity_label".$id];
+							if (isset($element_quantity_label)) {
+								$quantity = ((isset($_POST[$i . "_element_quantity" . $id]) && ($_POST[$i . "_element_quantity" . $id] >= 1)) ? $_POST[$i . "_element_quantity" . $id] : 1);
+								$value .= '<br/>'.$_POST[$i."_element_quantity_label".$id].': '.$quantity;
+							}
+							for ($k = 0; $k < 50; $k++) {
+								$temp_val = $_POST[$i."_element_property_value".$id.$k];
+								if (isset($temp_val)) {			
+									$value .= '<br/>'.$_POST[$i."_element_property_label".$id.$k].': '.$_POST[$i."_element_property_value".$id.$k];
+								}
+							}
+							$list = $list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="margin:0px; padding:0px">'.$value.'</pre></td></tr>';					
+							break;
+						}
+						case "type_paypal_radio": {
+							$value = $_POST[$i."_element_label".$id].' - '.$_POST[$i."_element".$id].$form_currency;
+							$element_quantity_label = $_POST[$i."_element_quantity_label".$id];
+							if (isset($element_quantity_label)) {
+								$quantity = ((isset($_POST[$i . "_element_quantity" . $id]) && ($_POST[$i . 	"_element_quantity" . $id] >= 1)) ? $_POST[$i . "_element_quantity" . $id] : 1);
+								$value .= '<br/>' . $_POST[$i."_element_quantity_label".$id] . ': ' . $quantity;
+							}
+							for ($k = 0; $k < 50; $k++) {
+								$temp_val = $_POST[$i."_element_property_value".$id.$k];
+								if (isset($temp_val)) {			
+									$value .= '<br/>'.$_POST[$i."_element_property_label".$id.$k].': '.$_POST[$i."_element_property_value".$id.$k];
+								}
+							}
+							$list = $list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="margin:0px; padding:0px">'.$value.'</pre></td></tr>';				
+							break;	
+						}
+						case "type_paypal_shipping": {
+							$value = $_POST[$i."_element_label".$id].' - '.$_POST[$i."_element".$id].$form_currency;		
+							$list = $list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="margin:0px; padding:0px">'.$value.'</pre></td></tr>';				
+							break;
+						}
+						case "type_paypal_checkbox": {
+							$list = $list.'<tr valign="top"><td >'.$element_label.'</td><td >';
+							$start = -1;
+							for ($j = 0; $j < 100; $j++) {
+								$element = $_POST[$i."_element".$id.$j];
+								if (isset($element)) {
+									$start = $j;
+									break;
+								}
+							}
+							if ($start != -1) {
+								for ($j = $start; $j < 100; $j++) {
+									$element = $_POST[$i."_element".$id.$j];
+									if (isset($element)) {
+										$list = $list.$_POST[$i."_element".$id.$j."_label"].' - '.($_POST[$i."_element".$id.$j]=='' ? '0'.$form_currency : $_POST[$i."_element".$id.$j]).$form_currency.'<br>';
+									}
+								}
+							}
+							$element_quantity_label = $_POST[$i."_element_quantity_label".$id];
+							if (isset($element_quantity_label)) {
+								$quantity = ((isset($_POST[$i . "_element_quantity" . $id]) && ($_POST[$i . "_element_quantity" . $id] >= 1)) ? $_POST[$i . "_element_quantity" . $id] : 1);
+								$list = $list.'<br/>'.$_POST[$i."_element_quantity_label".$id].': '.$quantity;
+							}
+							for ($k = 0; $k < 50; $k++) {
+								$temp_val = $_POST[$i."_element_property_value".$id.$k];
+								if (isset($temp_val)) {			
+									$list = $list.'<br/>'.$_POST[$i."_element_property_label".$id.$k].': '.$_POST[$i."_element_property_value".$id.$k];
+								}
+							}
+							$list = $list.'</td></tr>';
+							break;
+						}
+						case "type_star_rating": {
+							$selected = (isset($_POST[$i."_selected_star_amount".$id]) ? $_POST[$i."_selected_star_amount".$id] : 0);
+							if (isset($_POST[$i."_star_amount".$id])) {
+								$list = $list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="margin:0px; padding:0px">'.$selected.'/'.$_POST[$i."_star_amount".$id].'</pre></td></tr>';
+							}
+							break;
+						}
+						case "type_scale_rating": {
+							$selected = (isset($_POST[$i."_scale_radio".$id]) ? $_POST[$i."_scale_radio".$id] : 0);
+							if (isset($_POST[$i."_scale_amount".$id])) {
+								$list = $list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="margin:0px; padding:0px">'.$selected.'/'.$_POST[$i."_scale_radio".$id].'</pre></td></tr>';
+							}
+							break;
+						}
+						case "type_spinner": {
+							if (isset($_POST[$i."_element".$id])) {
+								$list=$list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="margin:0px; padding:0px">'.$_POST[$i."_element".$id].'</pre></td></tr>';					
+							}
+							break;
+						}
+						case "type_slider": {
+							if (isset($_POST[$i."_slider_value".$id])) {
+								$list=$list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="margin:0px; padding:0px">'.$_POST[$i."_slider_value".$id].'</pre></td></tr>';					
+							}
+							break;
+						}
+						case "type_range": {
+							if(isset($_POST[$i."_element".$id.'0']) || isset($_POST[$i."_element".$id.'1'])) {
+								$list = $list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="margin:0px; padding:0px">From:'.$_POST[$i."_element".$id.'0'].'<span style="margin-left:6px">To</span>:'.$_POST[$i."_element".$id.'1'].'</pre></td></tr>';
+							}
+							break;
+						}
+						case "type_grading": {
+							if (isset($_POST[$i."_hidden_item".$id])) {
+								$element = $_POST[$i."_hidden_item".$id];
+								$grading = explode(":", $element);
+								$items_count = sizeof($grading) - 1;
+								$total = "";
+								for ($k = 0; $k < $items_count; $k++) {
+									if (isset($_POST[$i."_element".$id.$k])) {
+										$element .= $grading[$k].":".$_POST[$i."_element".$id.$k]." ";
+										$total += $_POST[$i."_element".$id.$k];
+									}
+								}
+								$element .= "Total:".$total;
+								$list = $list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="margin:0px; padding:0px">'.$element.'</pre></td></tr>';
+							}
+							break;
+						}
+						case "type_matrix": {
+							$input_type=$_POST[$i."_input_type".$id]; 
+							$mat_rows = $_POST[$i."_hidden_row".$id];
+							$mat_rows = explode('***', $mat_rows);
+							$mat_rows = array_slice($mat_rows,0, count($mat_rows)-1);
+							$mat_columns = $_POST[$i."_hidden_column".$id];
+							$mat_columns = explode('***', $mat_columns);
+							$mat_columns = array_slice($mat_columns,0, count($mat_columns)-1);
+							$row_ids=explode(",",substr($_POST[$i."_row_ids".$id], 0, -1));
+							$column_ids=explode(",",substr($_POST[$i."_column_ids".$id], 0, -1));
+							$matrix = "<table>";
+							$matrix .= '<tr><td></td>';
+							for ($k = 0; $k < count($mat_columns); $k++) {
+								$matrix .='<td style="background-color:#BBBBBB; padding:5px; ">'.$mat_columns[$k].'</td>';
+							}
+							$matrix .= '</tr>';
+							$aaa = Array();
+							$k = 0;
+							foreach ($row_ids as $row_id) {
+								$matrix .= '<tr><td style="background-color:#BBBBBB; padding:5px;">'.$mat_rows[$k].'</td>';
+								if ($input_type=="radio") {
+									$mat_radio = (isset($_POST[$i."_input_element".$id.$row_id]) ? $_POST[$i."_input_element".$id.$row_id] : 0);											
+									if ($mat_radio == 0) {
+										$checked = "";
+										$aaa[1] = "";
+									}
+									else {
+										$aaa = explode("_", $mat_radio);
+									}
+									foreach ($column_ids as $column_id) {
+										if ($aaa[1] == $column_id) {
+											$checked = "checked";
+										}
+										else {
+											$checked = "";
+										}
+										$matrix .= '<td style="text-align:center"><input  type="radio" '.$checked.' disabled /></td>';
+									}
+								}
+								else {
+									if ($input_type=="checkbox") {
+										foreach($column_ids as $column_id) {
+											$checked = $_POST[$i."_input_element".$id.$row_id.'_'.$column_id];                     
+											if ($checked == 1) {			
+												$checked = "checked";
+											}
+											else {		
+												$checked = "";
+											}
+											$matrix .= '<td style="text-align:center"><input  type="checkbox" '.$checked.' disabled /></td>';
+										} 
+									}
+									else {
+										if ($input_type=="text") {
+											foreach ($column_ids as $column_id) {
+												$checked = $_POST[$i."_input_element".$id.$row_id.'_'.$column_id];
+												$matrix .='<td style="text-align:center"><input  type="text" value="'.$checked.'" disabled /></td>';
+											}
+										}
+										else {
+											foreach ($column_ids as $column_id) {
+												$checked = $_POST[$i."_select_yes_no".$id.$row_id.'_'.$column_id];
+												$matrix .='<td style="text-align:center">'.$checked.'</td>';
+											}
+										}
+									}
+								}
+								$matrix .= '</tr>';
+								$k++;
+							}
+							$matrix .= '</table>';
+							if (isset($matrix)) {
+								$list = $list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="margin:0px; padding:0px">'.$matrix.'</pre></td></tr>';
+							}
+							break;
+						}
+						default:
+						break;
+					}
 				}
 			}
-    }
-    else { /* Old form.*/
-      foreach ($label_order_ids as $key => $label_order_id) {
-        $i = $label_order_id;
-        $type = $_POST[$i . "_type" . $id];
-        if (isset($_POST[$i . "_type" . $id]))
-          if ($type != "type_map" and  $type != "type_submit_reset" and  $type != "type_editor" and  $type != "type_captcha" and  $type != "type_recaptcha" and  $type != "type_button") {
-            $element_label = $label_order_original[$i];
-            switch ($type) {
-              case 'type_text':
-              case 'type_password':
-              case 'type_textarea':
-              case "type_date":
-              case "type_own_select":
-              case "type_country":
-              case "type_number":
-                {
-                $element = $_POST[$i . "_element" . $id];
-                if (isset($_POST[$i . "_element" . $id])) {
-                  $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $element . '</pre></td></tr>';
-                }
-                break;
-                }
-              case "type_hidden": {
-                $element = $_POST[$element_label];
-                if (isset($element)) {
-                  $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $element . '</pre></td></tr>';
-                }
-                break;
-              }
-              case "type_submitter_mail":
-                {
-                $element = $_POST[$i . "_element" . $id];
-                if (isset($_POST[$i . "_element" . $id])) {
-                  $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $element . '</pre></td></tr>';
-                  if ($_POST[$i . "_send" . $id] == "yes")
-                    array_push($cc, $element);
-                }
-                break;
-                }
-              case "type_time":
-                {
-                $hh = $_POST[$i . "_hh" . $id];
-                if (isset($_POST[$i . "_hh" . $id])) {
-                  $ss = $_POST[$i . "_ss" . $id];
-                  if (isset($_POST[$i . "_ss" . $id]))
-                    $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $_POST[$i . "_hh" . $id] . ':' . $_POST[$i . "_mm" . $id] . ':' . $_POST[$i . "_ss" . $id];
-                  else
-                    $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $_POST[$i . "_hh" . $id] . ':' . $_POST[$i . "_mm" . $id];
-                  $am_pm = $_POST[$i . "_am_pm" . $id];
-                  if (isset($_POST[$i . "_am_pm" . $id]))
-                    $list = $list . ' ' . $_POST[$i . "_am_pm" . $id] . '</td></tr>';
-                  else
-                    $list = $list . '</td></tr>';
-                }
-                break;
-                }
-              case "type_phone":
-                {
-                $element_first = $_POST[$i . "_element_first" . $id];
-                if (isset($_POST[$i . "_element_first" . $id])) {
-                  $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $_POST[$i . "_element_first" . $id] . ' ' . $_POST[$i . "_element_last" . $id] . '</td></tr>';
-                }
-                break;
-                }
-              case "type_name":
-                {
-                $element_first = $_POST[$i . "_element_first" . $id];
-                if (isset($_POST[$i . "_element_first" . $id])) {
-                  $element_title = $_POST[$i . "_element_title" . $id];
-                  if (isset($_POST[$i . "_element_title" . $id]))
-                    $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $_POST[$i . "_element_title" . $id] . ' ' . $_POST[$i . "_element_first" . $id] . ' ' . $_POST[$i . "_element_last" . $id] . ' ' . $_POST[$i . "_element_middle" . $id] . '</td></tr>';
-                  else
-                    $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $_POST[$i . "_element_first" . $id] . ' ' . $_POST[$i . "_element_last" . $id] . '</td></tr>';
-                }
-                break;
-                }
-              case "type_mark_map":
-                {
-                if (isset($_POST[$i . "_long" . $id])) {
-                  $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >Longitude:' . $_POST[$i . "_long" . $id] . '<br/>Latitude:' . $_POST[$i . "_lat" . $id] . '</td></tr>';
-                }
-                break;
-                }
-              case "type_address":
-                {
-                if (isset($_POST[$i . "_street1" . $id]))
-                  $list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $_POST[$i . "_street1" . $id] . '</td></tr>';
-                $i++;
-                if (isset($_POST[$i."_street2".$id]))
-                  $list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $_POST[$i . "_street2" . $id] . '</td></tr>';
-                $i++;
-                if (isset($_POST[$i."_city".$id]))
-                  $list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $_POST[$i . "_city" . $id] . '</td></tr>';
-                $i++;
-                if (isset($_POST[$i."_state".$id]))
-                  $list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $_POST[$i . "_state" . $id] . '</td></tr>';
-                $i++;
-                if (isset($_POST[$i."_postal".$id]))
-                  $list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $_POST[$i . "_postal" . $id] . '</td></tr>';
-                $i++;
-                if (isset($_POST[$i."_country".$id]))
-                  $list = $list . '<tr valign="top"><td >' . $label_order_original[$i] . '</td><td >' . $_POST[$i . "_country" . $id] . '</td></tr>';
-                $i++;
-                break;
-              }
-              case "type_date_fields":
-                {
-                $day = $_POST[$i . "_day" . $id];
-                if (isset($_POST[$i . "_day" . $id])) {
-                  $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $_POST[$i . "_day" . $id] . '-' . $_POST[$i . "_month" . $id] . '-' . $_POST[$i . "_year" . $id] . '</td></tr>';
-                }
-                break;
-                }
-              case "type_radio":
-                {
-                $element = $_POST[$i . "_other_input" . $id];
-                if (isset($_POST[$i . "_other_input" . $id])) {
-                  $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >' . $_POST[$i . "_other_input" . $id] . '</td></tr>';
-                  break;
-                }
-                $element = $_POST[$i . "_element" . $id];
-                if (isset($_POST[$i . "_element" . $id])) {
-                  $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td ><pre style="margin:0px; padding:0px">' . $element . '</pre></td></tr>';
-                }
-                break;
-                }
-              case "type_checkbox":
-                {
-                $list = $list . '<tr valign="top"><td >' . $element_label . '</td><td >';
-                $start = -1;
-                for ($j = 0; $j < 100; $j++) {
-                  if (isset($_POST[$i . "_element" . $id . $j])) {
-                    $start = $j;
-                    break;
-                  }
-                }
-                $other_element_id = -1;
-                $is_other = $_POST[$i . "_allow_other" . $id];
-                if ($is_other == "yes") {
-                  $other_element_id = $_POST[$i . "_allow_other_num" . $id];
-                }
-                if ($start != -1) {
-                  for ($j = $start; $j < 100; $j++) {
-                    $element = $_POST[$i . "_element" . $id . $j];
-                    if (isset($_POST[$i . "_element" . $id . $j]))
-                      if ($j == $other_element_id) {
-                        $list = $list . $_POST[$i . "_other_input" . $id] . '<br>';
-                      }
-                      else
+			$list = $list . '</table>';
+			$list = wordwrap($list, 70, "\n", TRUE);
+			// add_filter('wp_mail_content_type', create_function('', 'return "text/html";'));
+			if ($row->from_mail != '') {
+				if ($row->from_name != '') {
+					$from_mail = "From: '" . $row->from_name . "' <" . $row->from_mail . ">" . "\r\n";
+				}
+				else {
+					$from_mail = "From: '' <" . $row->from_mail . ">" . "\r\n";
+				}
+			}
+			else {
+				$from_mail = '';
+			}
+			$headers = "MIME-Version: 1.0\n" . $from_mail . " Content-Type: text/html; charset=\"" . get_option('blog_charset') . "\"\n";
+			for ($k = 0; $k < count($all_files); $k++) {
+				// $attachment[$k] = dirname(__FILE__) . '/uploads/' . $all_files[$k]['name'];
+				$attachment[$k]= $all_files[$k]['name'];
+			}
+			if (isset($cc[0])) {
+				foreach ($cc as $c) {
+					if ($c) {
+						$recipient = $c;
+						$subject = $row->title;
+						$new_script = wpautop($row->script_mail_user);
+						foreach ($label_order_original as $key => $label_each) {
+							if (strpos($row->script_mail_user, "%" . $label_each . "%") !== FALSE) {
+								$type = $label_type[$key];
+								if ($type != "type_submit_reset" or $type != "type_map" or $type != "type_editor" or  $type != "type_captcha" or  $type != "type_recaptcha" or  $type != "type_button") {
+									$new_value = "";
+								switch ($type) {
+									case 'type_text':
+									case 'type_password':
+									case 'type_textarea':
+									case "type_date":
+									case "type_own_select":					
+									case "type_country":				
+									case "type_number":	 {
+										$element = $_POST[$key."_element".$id];
+										if (isset($element)) {
+											$new_value = $element;					
+										}
+										break;
+									}
+						case "type_hidden": {
+						  $element = $_POST[$element_label];
+						  if (isset($element)) {
+							$new_value = $element;	
+						  }
+						  break;
+						}                
+						case "type_mark_map": {
+						  $element = $_POST[$key."_long".$id];
+						  if (isset($element)) {
+							$new_value = 'Longitude:'.$_POST[$key."_long".$id].'<br/>Latitude:' . $_POST[$key."_lat".$id];
+						  }
+						  break;
+						}
+						case "type_submitter_mail": {
+						  $element = $_POST[$key."_element".$id];
+						  if (isset($element)) {
+							$new_value = $element;					
+						  }
+						  break;
+						}
+						case "type_time": {
+						  $hh = $_POST[$key."_hh".$id];
+						  if (isset($hh)) {
+							$ss = $_POST[$key."_ss".$id];
+							if (isset($ss)) {
+							  $new_value = $_POST[$key."_hh".$id].':'.$_POST[$key."_mm".$id].':'.$_POST[$key."_ss".$id];
+							}
+							else {
+							  $new_value = $_POST[$key."_hh".$id].':'.$_POST[$key."_mm".$id];
+							}
+							$am_pm = $_POST[$key."_am_pm".$id];
+							if (isset($am_pm)) {
+							  $new_value = $new_value.' '.$_POST[$key."_am_pm".$id];
+							}
+						  }
+						  break;
+						}
+						case "type_phone": {
+						  $element_first = $_POST[$key."_element_first".$id];
+						  if (isset($element_first)) {
+							$new_value = $_POST[$key."_element_first".$id].' '.$_POST[$key."_element_last".$id];
+						  }	
+						  break;
+						}
+						case "type_name": {
+						  $element_first = $_POST[$key."_element_first".$id];
+						  if (isset($element_first)) {
+							$element_title = $_POST[$key."_element_title".$id];
+							if (isset($element_title)) {
+							  $new_value = $_POST[$key."_element_title".$id].' '.$_POST[$key."_element_first".$id].' '.$_POST[$key."_element_last".$id].' '.$_POST[$key."_element_middle".$id];
+							}
+							else {
+							  $new_value = $_POST[$key."_element_first".$id].' '.$_POST[$key."_element_last".$id];
+							}
+						  }	   
+						  break;		
+						}
+						case "type_address": {
+						  if (isset($_POST[$key."_street1".$id])) {
+							$new_value = $new_value.$_POST[$key."_street1".$id];
+							break;
+						  }
+						  if (isset($_POST[$key."_street2".$id])) {
+							$new_value = $new_value.$_POST[$key."_street2".$id];
+							break;
+						  }
+						  if (isset($_POST[$key."_city".$id])) {
+							$new_value = $new_value.$_POST[$key."_city".$id];
+							break;
+						  }
+						  if (isset($_POST[$key."_state".$id])) {
+							$new_value = $new_value.$_POST[$key."_state".$id];
+							break;
+						  }
+						  if (isset($_POST[$key."_postal".$id])) {
+							$new_value = $new_value.$_POST[$key."_postal".$id];
+							break;
+						  }
+						  if (isset($_POST[$key."_country".$id])) {
+							$new_value = $new_value.$_POST[$key."_country".$id];
+							break;
+						  }
+						}
+						case "type_date_fields": {
+						  $day = $_POST[$key."_day".$id];
+						  if (isset($day)) {
+							$new_value = $_POST[$key."_day".$id].'-'.$_POST[$key."_month".$id].'-'.$_POST[$key."_year".$id];
+						  }
+						  break;
+						}
+						case "type_radio": {
+						  $element = $_POST[$key."_other_input".$id];
+						  if (isset($element)) {
+							$new_value = $_POST[$key."_other_input".$id];
+							break;
+						  }
+						  $element = $_POST[$key."_element".$id];
+						  if (isset($element)) {
+							$new_value = $element;					
+						  }
+						  break;	
+						}
+						case "type_checkbox": {
+						  $start = -1;
+						  for ($j = 0; $j < 100; $j++) {
+							$element = $_POST[$key."_element".$id.$j];
+							if (isset($element)) {
+							  $start = $j;
+							  break;
+							}
+						  }
+						  $other_element_id = -1;
+						  $is_other = $_POST[$key."_allow_other".$id];
+						  if ($is_other == "yes") {
+							$other_element_id = $_POST[$key."_allow_other_num".$id];
+						  }
+						  if ($start != -1) {
+							for ($j = $start; $j < 100; $j++) {
+							  $element = $_POST[$key."_element".$id.$j];
+							  if (isset($element)) {
+								if ($j == $other_element_id) {
+								  $new_value = $new_value.$_POST[$key."_other_input".$id].'<br>';
+								}
+								else {
+								  $new_value = $new_value.$_POST[$key."_element".$id.$j].'<br>';
+								}
+							  }
+							}
+						  }
+						  break;
+						}
+						case "type_paypal_price":	{		
+						  $new_value = 0;
+						  if ($_POST[$key."_element_dollars".$id]) {
+							$new_value = $_POST[$key."_element_dollars".$id];
+						  }
+						  if ($_POST[$key."_element_cents".$id]) {
+							$new_value = $new_value.'.'.$_POST[$key."_element_cents".$id];
+						  }
+						  $new_value = $new_value.$form_currency;
+						  break;
+						}
+						case "type_paypal_select": {	
+						  $new_value = $_POST[$key."_element_label".$id].':'.$_POST[$key."_element".$id].$form_currency;
+						  $element_quantity_label = $_POST[$key."_element_quantity_label".$id];
+						  if (isset($element_quantity_label)) {
+							$quantity = ((isset($_POST[$key . "_element_quantity" . $id]) && ($_POST[$key . "_element_quantity" . $id] >= 1)) ? $_POST[$key . "_element_quantity" . $id] : 1);
+							$new_value.='<br/>'.$_POST[$key."_element_quantity_label".$id].': '.$quantity;
+						  }
+						  for ($k = 0; $k < 50; $k++) {
+							$temp_val = $_POST[$key."_element_property_value".$id.$k];
+							if (isset($temp_val)) {			
+							  $new_value .= '<br/>'.$_POST[$key."_element_property_label".$id.$k].': '.$_POST[$i."_element_property_value".$id.$k];
+							}
+						  }
+						  break;
+						}
+						case "type_paypal_radio": {
+						  $new_value = $_POST[$key."_element_label".$id].' - '.$_POST[$key."_element".$id].$form_currency;
+						  $element_quantity_label = $_POST[$key."_element_quantity_label".$id];
+						  if (isset($element_quantity_label)) {
+							$quantity = ((isset($_POST[$key . "_element_quantity" . $id]) && ($_POST[$key . "_element_quantity" . $id] >= 1)) ? $_POST[$key . "_element_quantity" . $id] : 1);
+							$new_value .= '<br/>'.$_POST[$key."_element_quantity_label".$id].': '.$quantity;
+						  }
+						  for ($k = 0; $k < 50; $k++) {
+							$temp_val = $_POST[$key."_element_property_value".$id.$k];
+							if (isset($temp_val)) {	
+							  $new_value .= '<br/>' . $_POST[$key."_element_property_label".$id.$k].': '.$_POST[$key."_element_property_value".$id.$k];
+							}
+						  }
+						  break;	
+						}
+						case "type_paypal_shipping": {
+						  $new_value = $_POST[$key."_element_label".$id].' : '.$_POST[$key."_element".$id].$form_currency;		
+						  break;
+						}
+						case "type_paypal_checkbox": {
+						  $start = -1;
+						  for($j = 0; $j < 100; $j++) {
+							$element = $_POST[$key."_element".$id.$j];
+							if (isset($element)) {
+							  $start = $j;
+							  break;
+							}
+						  }
+						  if ($start != -1) {
+							for ($j = $start; $j<100; $j++) {
+							  $element = $_POST[$key."_element".$id.$j];
+							  if (isset($element)) {
+								$new_value = $new_value.$_POST[$key."_element".$id.$j."_label"].' - '.(($_POST[$key."_element".$id.$j] == '') ? '0'.$form_currency : $_POST[$key."_element".$id.$j]).$form_currency.'<br>';
+							  }
+							}
+						  }
+						  $element_quantity_label = $_POST[$key."_element_quantity_label".$id];
+						  if (isset($element_quantity_label)) {
+							$quantity = ((isset($_POST[$key . "_element_quantity" . $id]) && ($_POST[$key . "_element_quantity" . $id] >= 1)) ? $_POST[$key . "_element_quantity" . $id] : 1);
+							$new_value .= '<br/>'.$_POST[$key."_element_quantity_label".$id].': '.$quantity;
+						  }
+						  for ($k = 0; $k < 50; $k++) {
+							$temp_val = $_POST[$key."_element_property_value".$id.$k];
+							if (isset($temp_val)) {			
+							  $new_value .= '<br/>'.$_POST[$key."_element_property_label".$id.$k].': '.$_POST[$key."_element_property_value".$id.$k];
+							}
+						  }
+						  break;
+						}
+						case "type_star_rating":
+									  {
+										$element=$_POST[$key."_star_amount".$id];
+										$selected=(isset($_POST[$key."_selected_star_amount".$id]) ? $_POST[$key."_selected_star_amount".$id] : 0);
+										
+										
+										if(isset($element))
+										{
+										  $new_value=$new_value.$selected.'/'.$element;					
+										}
+										break;
+									  }
+									  
 
-                        $list = $list . $_POST[$i . "_element" . $id . $j] . '<br>';
-                  }
-                  $list = $list . '</td></tr>';
-                }
-                break;
-                }
-              case "type_paypal_price":	 {		
-                $value = 0;
-                if ($_POST[$i."_element_dollars".$id]) {
-                  $value = $_POST[$i."_element_dollars".$id];
-                }
-                if ($_POST[$i."_element_cents".$id]) {
-                  $value = $value.'.'.$_POST[$i."_element_cents".$id];
-                }
-                $list = $list.'<tr valign="top"><td >'.$element_label.'</td><td >'.$value.$form_currency.'</td></tr>';
-                break;
-              }
-              case "type_paypal_select": {
-                $value = $_POST[$i."_element_label".$id].':'.$_POST[$i."_element".$id].$form_currency;
-                $element_quantity_label = $_POST[$i."_element_quantity_label".$id];
-                if (isset($element_quantity_label)) {
-                  $quantity = ((isset($_POST[$i . "_element_quantity" . $id]) && ($_POST[$i . "_element_quantity" . $id] >= 1)) ? $_POST[$i . "_element_quantity" . $id] : 1);
-                  $value .= '<br/>'.$_POST[$i."_element_quantity_label".$id].': '.$quantity;
-                }
-                for ($k = 0; $k < 50; $k++) {
-                  $temp_val = $_POST[$i."_element_property_value".$id.$k];
-                  if (isset($temp_val)) {			
-                    $value .= '<br/>'.$_POST[$i."_element_property_label".$id.$k].': '.$_POST[$i."_element_property_value".$id.$k];
-                  }
-                }
-                $list = $list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="margin:0px; padding:0px">'.$value.'</pre></td></tr>';					
-                break;
-              }
-              case "type_paypal_radio": {
-                $value = $_POST[$i."_element_label".$id].' - '.$_POST[$i."_element".$id].$form_currency;
-                $element_quantity_label = $_POST[$i."_element_quantity_label".$id];
-                if (isset($element_quantity_label)) {
-                  $quantity = ((isset($_POST[$i . "_element_quantity" . $id]) && ($_POST[$i . "_element_quantity" . $id] >= 1)) ? $_POST[$i . "_element_quantity" . $id] : 1);
-                  $value .= '<br/>' . $_POST[$i."_element_quantity_label".$id] . ': ' . $quantity;
-                }
-                for ($k = 0; $k < 50; $k++) {
-                  $temp_val = $_POST[$i."_element_property_value".$id.$k];
-                  if (isset($temp_val)) {			
-                    $value .= '<br/>'.$_POST[$i."_element_property_label".$id.$k].': '.$_POST[$i."_element_property_value".$id.$k];
-                  }
-                }
-                $list = $list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="margin:0px; padding:0px">'.$value.'</pre></td></tr>';				
-                break;	
-              }
-              case "type_paypal_shipping": {
-                $value = $_POST[$i."_element_label".$id].' - '.$_POST[$i."_element".$id].$form_currency;		
-                $list = $list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="margin:0px; padding:0px">'.$value.'</pre></td></tr>';				
-                break;
-              }
-              case "type_paypal_checkbox": {
-                $list = $list.'<tr valign="top"><td >'.$element_label.'</td><td >';
-                $start = -1;
-                for ($j = 0; $j < 100; $j++) {
-                  $element = $_POST[$i."_element".$id.$j];
-                  if (isset($element)) {
-                    $start = $j;
-                    break;
-                  }
-                }
-                if ($start != -1) {
-                  for ($j = $start; $j < 100; $j++) {
-                    $element = $_POST[$i."_element".$id.$j];
-                    if (isset($element)) {
-                      $list = $list.$_POST[$i."_element".$id.$j."_label"].' - '.($_POST[$i."_element".$id.$j]=='' ? '0'.$form_currency : $_POST[$i."_element".$id.$j]).$form_currency.'<br>';
-                    }
-                  }
-                }
-                $element_quantity_label = $_POST[$i."_element_quantity_label".$id];
-                if (isset($element_quantity_label)) {
-                  $quantity = ((isset($_POST[$i . "_element_quantity" . $id]) && ($_POST[$i . "_element_quantity" . $id] >= 1)) ? $_POST[$i . "_element_quantity" . $id] : 1);
-                  $list = $list.'<br/>'.$_POST[$i."_element_quantity_label".$id].': '.$quantity;
-                }
-                for ($k = 0; $k < 50; $k++) {
-                  $temp_val = $_POST[$i."_element_property_value".$id.$k];
-                  if (isset($temp_val)) {			
-                    $list = $list.'<br/>'.$_POST[$i."_element_property_label".$id.$k].': '.$_POST[$i."_element_property_value".$id.$k];
-                  }
-                }
-                $list = $list.'</td></tr>';
-                break;
-              }
-              case "type_star_rating": {
-                $selected = (isset($_POST[$i."_selected_star_amount".$id]) ? $_POST[$i."_selected_star_amount".$id] : 0);
-                if (isset($_POST[$i."_star_amount".$id])) {
-                  $list = $list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="margin:0px; padding:0px">'.$selected.'/'.$_POST[$i."_star_amount".$id].'</pre></td></tr>';
-                }
-                break;
-              }
-              case "type_scale_rating": {
-                $selected = (isset($_POST[$i."_scale_radio".$id]) ? $_POST[$i."_scale_radio".$id] : 0);
-                if (isset($_POST[$i."_scale_amount".$id])) {
-                  $list = $list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="margin:0px; padding:0px">'.$selected.'/'.$_POST[$i."_scale_radio".$id].'</pre></td></tr>';
-                }
-                break;
-              }
-              case "type_spinner": {
-                if (isset($_POST[$i."_element".$id])) {
-                  $list=$list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="margin:0px; padding:0px">'.$_POST[$i."_element".$id].'</pre></td></tr>';					
-                }
-                break;
-              }
-              case "type_slider": {
-                if (isset($_POST[$i."_slider_value".$id])) {
-                  $list=$list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="margin:0px; padding:0px">'.$_POST[$i."_slider_value".$id].'</pre></td></tr>';					
-                }
-                break;
-              }
-              case "type_range": {
-                if(isset($_POST[$i."_element".$id.'0']) || isset($_POST[$i."_element".$id.'1'])) {
-                  $list = $list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="margin:0px; padding:0px">From:'.$_POST[$i."_element".$id.'0'].'<span style="margin-left:6px">To</span>:'.$_POST[$i."_element".$id.'1'].'</pre></td></tr>';
-                }
-                break;
-              }
-              case "type_grading": {
-                if (isset($_POST[$i."_hidden_item".$id])) {
-                  $element = $_POST[$i."_hidden_item".$id];
-                  $grading = explode(":", $element);
-                  $items_count = sizeof($grading) - 1;
-                  $total = "";
-                  for ($k = 0; $k < $items_count; $k++) {
-                    if (isset($_POST[$i."_element".$id.$k])) {
-                      $element .= $grading[$k].":".$_POST[$i."_element".$id.$k]." ";
-                      $total += $_POST[$i."_element".$id.$k];
-                    }
-                  }
-                  $element .= "Total:".$total;
-                  $list = $list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="margin:0px; padding:0px">'.$element.'</pre></td></tr>';
-                }
-                break;
-              }
-              case "type_matrix": {
-                $input_type=$_POST[$i."_input_type".$id]; 
-                            
-                $mat_rows = $_POST[$i."_hidden_row".$id];
-                $mat_rows = explode('***', $mat_rows);
-                $mat_rows = array_slice($mat_rows,0, count($mat_rows)-1);
-                $mat_columns = $_POST[$i."_hidden_column".$id];
-                $mat_columns = explode('***', $mat_columns);
-                $mat_columns = array_slice($mat_columns,0, count($mat_columns)-1);
-                $row_ids=explode(",",substr($_POST[$i."_row_ids".$id], 0, -1));
-                $column_ids=explode(",",substr($_POST[$i."_column_ids".$id], 0, -1));
-                $matrix = "<table>";
-                $matrix .= '<tr><td></td>';
-                for ($k = 0; $k < count($mat_columns); $k++) {
-                  $matrix .='<td style="background-color:#BBBBBB; padding:5px; ">'.$mat_columns[$k].'</td>';
-                }
-                $matrix .= '</tr>';
-                $aaa = Array();
-                $k = 0;
-                foreach ($row_ids as $row_id) {
-                  $matrix .= '<tr><td style="background-color:#BBBBBB; padding:5px;">'.$mat_rows[$k].'</td>';
-                  if ($input_type=="radio") {
-                    $mat_radio = (isset($_POST[$i."_input_element".$id.$row_id]) ? $_POST[$i."_input_element".$id.$row_id] : 0);											
-                    if ($mat_radio == 0) {
-                      $checked = "";
-                      $aaa[1] = "";
-                    }
-                    else {
-                      $aaa = explode("_", $mat_radio);
-                    }
-                    foreach ($column_ids as $column_id) {
-                      if ($aaa[1] == $column_id) {
-                        $checked = "checked";
-                      }
-                      else {
-                        $checked = "";
-                      }
-                      $matrix .= '<td style="text-align:center"><input  type="radio" '.$checked.' disabled /></td>';
-                    }
-                  }
-                  else {
-                    if ($input_type=="checkbox") {
-                      foreach($column_ids as $column_id) {
-                        $checked = $_POST[$i."_input_element".$id.$row_id.'_'.$column_id];                     
-                        if ($checked == 1) {			
-                          $checked = "checked";
-                        }
-                        else {		
-                          $checked = "";
-                        }
-                        $matrix .= '<td style="text-align:center"><input  type="checkbox" '.$checked.' disabled /></td>';
-                      } 
-                    }
-                    else {
-                      if ($input_type=="text") {
-                        foreach ($column_ids as $column_id) {
-                          $checked = $_POST[$i."_input_element".$id.$row_id.'_'.$column_id];
-                          $matrix .='<td style="text-align:center"><input  type="text" value="'.$checked.'" disabled /></td>';
-                        }
-                      }
-                      else {
-                        foreach ($column_ids as $column_id) {
-                          $checked = $_POST[$i."_select_yes_no".$id.$row_id.'_'.$column_id];
-                          $matrix .='<td style="text-align:center">'.$checked.'</td>';
-                        }
-                      }
-                    }
-                  }
-                  $matrix .= '</tr>';
-                  $k++;
-                }
-                $matrix .= '</table>';
-                if (isset($matrix)) {
-                  $list = $list.'<tr valign="top"><td >'.$element_label.'</td><td ><pre style="margin:0px; padding:0px">'.$matrix.'</pre></td></tr>';
-                }
-                break;
-              }
-              default:
-                break;
-            }
-          }
-      }
-      $list = $list . '</table>';
-      $list = wordwrap($list, 70, "\n", TRUE);
-      // add_filter('wp_mail_content_type', create_function('', 'return "text/html";'));
-      if ($row->from_mail != '') {
-        if ($row->from_name != '') {
-          $from_mail = "From: '" . $row->from_name . "' <" . $row->from_mail . ">" . "\r\n";
-        }
-        else {
-          $from_mail = "From: '' <" . $row->from_mail . ">" . "\r\n";
-        }
-      }
-      else {
-        $from_mail = '';
-      }
-      $headers = "MIME-Version: 1.0\n" . $from_mail . " Content-Type: text/html; charset=\"" . get_option('blog_charset') . "\"\n";
-      for ($k = 0; $k < count($all_files); $k++) {
-        // $attachment[$k] = dirname(__FILE__) . '/uploads/' . $all_files[$k]['name'];
-        $attachment[$k]= $all_files[$k]['name'];
-      }
-      if (isset($cc[0])) {
-        foreach ($cc as $c) {
-          if ($c) {
-            $recipient = $c;
-            $subject = $row->title;
-            $new_script = wpautop($row->script_mail_user);
-            foreach ($label_order_original as $key => $label_each) {
-              if (strpos($row->script_mail_user, "%" . $label_each . "%") !== FALSE) {
-                $type = $label_type[$key];
-                if ($type != "type_submit_reset" or $type != "type_map" or $type != "type_editor" or  $type != "type_captcha" or  $type != "type_recaptcha" or  $type != "type_button") {
-                  $new_value = "";
-                  switch ($type) {
-                    case 'type_text':
-                    case 'type_password':
-                    case 'type_textarea':
-                    case "type_date":
-                    case "type_own_select":					
-                    case "type_country":				
-                    case "type_number":	 {
-                      $element = $_POST[$key."_element".$id];
-                      if (isset($element)) {
-                        $new_value = $element;					
-                      }
-                      break;
-                    }
-                    case "type_hidden": {
-                      $element = $_POST[$element_label];
-                      if (isset($element)) {
-                        $new_value = $element;	
-                      }
-                      break;
-                    }                
-                    case "type_mark_map": {
-                      $element = $_POST[$key."_long".$id];
-                      if (isset($element)) {
-                        $new_value = 'Longitude:'.$_POST[$key."_long".$id].'<br/>Latitude:' . $_POST[$key."_lat".$id];
-                      }
-                      break;
-                    }
-                    case "type_submitter_mail": {
-                      $element = $_POST[$key."_element".$id];
-                      if (isset($element)) {
-                        $new_value = $element;					
-                      }
-                      break;
-                    }
-                    case "type_time": {
-                      $hh = $_POST[$key."_hh".$id];
-                      if (isset($hh)) {
-                        $ss = $_POST[$key."_ss".$id];
-                        if (isset($ss)) {
-                          $new_value = $_POST[$key."_hh".$id].':'.$_POST[$key."_mm".$id].':'.$_POST[$key."_ss".$id];
-                        }
-                        else {
-                          $new_value = $_POST[$key."_hh".$id].':'.$_POST[$key."_mm".$id];
-                        }
-                        $am_pm = $_POST[$key."_am_pm".$id];
-                        if (isset($am_pm)) {
-                          $new_value = $new_value.' '.$_POST[$key."_am_pm".$id];
-                        }
-                      }
-                      break;
-                    }
-                    case "type_phone": {
-                      $element_first = $_POST[$key."_element_first".$id];
-                      if (isset($element_first)) {
-                        $new_value = $_POST[$key."_element_first".$id].' '.$_POST[$key."_element_last".$id];
-                      }	
-                      break;
-                    }
-                    case "type_name": {
-                      $element_first = $_POST[$key."_element_first".$id];
-                      if (isset($element_first)) {
-                        $element_title = $_POST[$key."_element_title".$id];
-                        if (isset($element_title)) {
-                          $new_value = $_POST[$key."_element_title".$id].' '.$_POST[$key."_element_first".$id].' '.$_POST[$key."_element_last".$id].' '.$_POST[$key."_element_middle".$id];
-                        }
-                        else {
-                          $new_value = $_POST[$key."_element_first".$id].' '.$_POST[$key."_element_last".$id];
-                        }
-                      }	   
-                      break;		
-                    }
-                    case "type_address": {
-                      if (isset($_POST[$key."_street1".$id])) {
-                        $new_value = $new_value.$_POST[$key."_street1".$id];
-                        break;
-                      }
-                      if (isset($_POST[$key."_street2".$id])) {
-                        $new_value = $new_value.$_POST[$key."_street2".$id];
-                        break;
-                      }
-                      if (isset($_POST[$key."_city".$id])) {
-                        $new_value = $new_value.$_POST[$key."_city".$id];
-                        break;
-                      }
-                      if (isset($_POST[$key."_state".$id])) {
-                        $new_value = $new_value.$_POST[$key."_state".$id];
-                        break;
-                      }
-                      if (isset($_POST[$key."_postal".$id])) {
-                        $new_value = $new_value.$_POST[$key."_postal".$id];
-                        break;
-                      }
-                      if (isset($_POST[$key."_country".$id])) {
-                        $new_value = $new_value.$_POST[$key."_country".$id];
-                        break;
-                      }
-                    }
-                    case "type_date_fields": {
-                      $day = $_POST[$key."_day".$id];
-                      if (isset($day)) {
-                        $new_value = $_POST[$key."_day".$id].'-'.$_POST[$key."_month".$id].'-'.$_POST[$key."_year".$id];
-                      }
-                      break;
-                    }
-                    case "type_radio": {
-                      $element = $_POST[$key."_other_input".$id];
-                      if (isset($element)) {
-                        $new_value = $_POST[$key."_other_input".$id];
-                        break;
-                      }
-                      $element = $_POST[$key."_element".$id];
-                      if (isset($element)) {
-                        $new_value = $element;					
-                      }
-                      break;	
-                    }
-                    case "type_checkbox": {
-                      $start = -1;
-                      for ($j = 0; $j < 100; $j++) {
-                        $element = $_POST[$key."_element".$id.$j];
-                        if (isset($element)) {
-                          $start = $j;
-                          break;
-                        }
-                      }
-                      $other_element_id = -1;
-                      $is_other = $_POST[$key."_allow_other".$id];
-                      if ($is_other == "yes") {
-                        $other_element_id = $_POST[$key."_allow_other_num".$id];
-                      }
-                      if ($start != -1) {
-                        for ($j = $start; $j < 100; $j++) {
-                          $element = $_POST[$key."_element".$id.$j];
-                          if (isset($element)) {
-                            if ($j == $other_element_id) {
-                              $new_value = $new_value.$_POST[$key."_other_input".$id].'<br>';
-                            }
-                            else {
-                              $new_value = $new_value.$_POST[$key."_element".$id.$j].'<br>';
-                            }
-                          }
-                        }
-                      }
-                      break;
-                    }
-                    case "type_paypal_price":	{		
-                      $new_value = 0;
-                      if ($_POST[$key."_element_dollars".$id]) {
-                        $new_value = $_POST[$key."_element_dollars".$id];
-                      }
-                      if ($_POST[$key."_element_cents".$id]) {
-                        $new_value = $new_value.'.'.$_POST[$key."_element_cents".$id];
-                      }
-                      $new_value = $new_value.$form_currency;
-                      break;
-                    }
-                    case "type_paypal_select": {	
-                      $new_value = $_POST[$key."_element_label".$id].':'.$_POST[$key."_element".$id].$form_currency;
-                      $element_quantity_label = $_POST[$key."_element_quantity_label".$id];
-                      if (isset($element_quantity_label)) {
-                        $quantity = ((isset($_POST[$key . "_element_quantity" . $id]) && ($_POST[$key . "_element_quantity" . $id] >= 1)) ? $_POST[$key . "_element_quantity" . $id] : 1);
-                        $new_value.='<br/>'.$_POST[$key."_element_quantity_label".$id].': '.$quantity;
-                      }
-                      for ($k = 0; $k < 50; $k++) {
-                        $temp_val = $_POST[$key."_element_property_value".$id.$k];
-                        if (isset($temp_val)) {			
-                          $new_value .= '<br/>'.$_POST[$key."_element_property_label".$id.$k].': '.$_POST[$i."_element_property_value".$id.$k];
-                        }
-                      }
-                      break;
-                    }
-                    case "type_paypal_radio": {
-                      $new_value = $_POST[$key."_element_label".$id].' - '.$_POST[$key."_element".$id].$form_currency;
-                      $element_quantity_label = $_POST[$key."_element_quantity_label".$id];
-                      if (isset($element_quantity_label)) {
-                        $quantity = ((isset($_POST[$key . "_element_quantity" . $id]) && ($_POST[$key . "_element_quantity" . $id] >= 1)) ? $_POST[$key . "_element_quantity" . $id] : 1);
-                        $new_value .= '<br/>'.$_POST[$key."_element_quantity_label".$id].': '.$quantity;
-                      }
-                      for ($k = 0; $k < 50; $k++) {
-                        $temp_val = $_POST[$key."_element_property_value".$id.$k];
-                        if (isset($temp_val)) {	
-                          $new_value .= '<br/>' . $_POST[$key."_element_property_label".$id.$k].': '.$_POST[$key."_element_property_value".$id.$k];
-                        }
-                      }
-                      break;	
-                    }
-                    case "type_paypal_shipping": {
-                      $new_value = $_POST[$key."_element_label".$id].' : '.$_POST[$key."_element".$id].$form_currency;		
-                      break;
-                    }
-                    case "type_paypal_checkbox": {
-                      $start = -1;
-                      for($j = 0; $j < 100; $j++) {
-                        $element = $_POST[$key."_element".$id.$j];
-                        if (isset($element)) {
-                          $start = $j;
-                          break;
-                        }
-                      }
-                      if ($start != -1) {
-                        for ($j = $start; $j<100; $j++) {
-                          $element = $_POST[$key."_element".$id.$j];
-                          if (isset($element)) {
-                            $new_value = $new_value.$_POST[$key."_element".$id.$j."_label"].' - '.(($_POST[$key."_element".$id.$j] == '') ? '0'.$form_currency : $_POST[$key."_element".$id.$j]).$form_currency.'<br>';
-                          }
-                        }
-                      }
-                      $element_quantity_label = $_POST[$key."_element_quantity_label".$id];
-                      if (isset($element_quantity_label)) {
-                        $quantity = ((isset($_POST[$key . "_element_quantity" . $id]) && ($_POST[$key . "_element_quantity" . $id] >= 1)) ? $_POST[$key . "_element_quantity" . $id] : 1);
-                        $new_value .= '<br/>'.$_POST[$key."_element_quantity_label".$id].': '.$quantity;
-                      }
-                      for ($k = 0; $k < 50; $k++) {
-                        $temp_val = $_POST[$key."_element_property_value".$id.$k];
-                        if (isset($temp_val)) {			
-                          $new_value .= '<br/>'.$_POST[$key."_element_property_label".$id.$k].': '.$_POST[$key."_element_property_value".$id.$k];
-                        }
-                      }
-                      break;
-                    }
-                    case "type_star_rating":
-                                  {
-                                    $element=$_POST[$key."_star_amount".$id];
-                                    $selected=(isset($_POST[$key."_selected_star_amount".$id]) ? $_POST[$key."_selected_star_amount".$id] : 0);
-                                    
-                                    
-                                    if(isset($element))
-                                    {
-                                      $new_value=$new_value.$selected.'/'.$element;					
-                                    }
-                                    break;
-                                  }
-                                  
+									  case "type_scale_rating":
+									  {
+									  $element=$_POST[$key."_scale_amount".$id];
+									  $selected=(isset($_POST[$key."_scale_radio".$id]) ? $_POST[$key."_scale_radio".$id] : 0);
+									  
+										
+										if(isset($element))
+										{
+										  $new_value=$new_value.$selected.'/'.$element;					
+										}
+										break;
+									  }
+									  
+									  case "type_spinner":
+									  {
 
-                                  case "type_scale_rating":
-                                  {
-                                  $element=$_POST[$key."_scale_amount".$id];
-                                  $selected=(isset($_POST[$key."_scale_radio".$id]) ? $_POST[$key."_scale_radio".$id] : 0);
-                                  
-                                    
-                                    if(isset($element))
-                                    {
-                                      $new_value=$new_value.$selected.'/'.$element;					
-                                    }
-                                    break;
-                                  }
-                                  
-                                  case "type_spinner":
-                                  {
+										if (isset($_POST[$key."_element".$id])) {
+										  $new_value = $new_value . $_POST[$key."_element".$id];					
+										}
+										break;
+									  }
+									  
+									  case "type_slider":
+									  {
 
-                                    if (isset($_POST[$key."_element".$id])) {
-                                      $new_value = $new_value . $_POST[$key."_element".$id];					
-                                    }
-                                    break;
-                                  }
-                                  
-                                  case "type_slider":
-                                  {
+										$element=$_POST[$key."_slider_value".$id];
+										if(isset($element))
+										{
+										  $new_value=$new_value.$element;					
+										}
+										break;
+									  }
+									  case "type_range":
+									  {
 
-                                    $element=$_POST[$key."_slider_value".$id];
-                                    if(isset($element))
-                                    {
-                                      $new_value=$new_value.$element;					
-                                    }
-                                    break;
-                                  }
-                                  case "type_range":
-                                  {
+										$element0=$_POST[$key."_element".$id.'0'];
+										$element1=$_POST[$key."_element".$id.'1'];
+										if(isset($element0) || isset($element1))
+										{
+										  $new_value=$new_value.$element0.'-'.$element1;					
+										}
+										break;
+									  }
+									  
+									  case "type_grading":
+									  {
+										$element=$_POST[$key."_hidden_item".$id];
+										$grading = explode(":",$element);
+										$items_count = sizeof($grading)-1;
+										
+										$element = "";
+										$total = "";
+										
+										for($k=0;$k<$items_count;$k++)
 
-                                    $element0=$_POST[$key."_element".$id.'0'];
-                                    $element1=$_POST[$key."_element".$id.'1'];
-                                    if(isset($element0) || isset($element1))
-                                    {
-                                      $new_value=$new_value.$element0.'-'.$element1;					
-                                    }
-                                    break;
-                                  }
-                                  
-                                  case "type_grading":
-                                  {
-                                    $element=$_POST[$key."_hidden_item".$id];
-                                    $grading = explode(":",$element);
-                                    $items_count = sizeof($grading)-1;
-                                    
-                                    $element = "";
-                                    $total = "";
-                                    
-                                    for($k=0;$k<$items_count;$k++)
+										{
+										  $element .= $grading[$k].":".$_POST[$key."_element".$id.$k]." ";
+									  $total += $_POST[$key."_element".$id.$k];
+									}
 
-                                    {
-                                      $element .= $grading[$k].":".$_POST[$key."_element".$id.$k]." ";
-                                  $total += $_POST[$key."_element".$id.$k];
-                                }
+									$element .="Total:".$total;
 
-                                $element .="Total:".$total;
+															  
+									if(isset($element))
+									{
+									  $new_value=$new_value.$element;					
+									}
+									break;
+								  }
+								  
+									case "type_matrix":
+								  {
+								  
+									
+									$input_type=$_POST[$key."_input_type".$id]; 
+												
+									$mat_rows = $_POST[$key."_hidden_row".$id];
+									$mat_rows = explode('***', $mat_rows);
+									$mat_rows = array_slice($mat_rows,0, count($mat_rows)-1);
+									
+									$mat_columns = $_POST[$key."_hidden_column".$id];
+									$mat_columns = explode('***', $mat_columns);
+									$mat_columns = array_slice($mat_columns,0, count($mat_columns)-1);
+								  
+									$row_ids=explode(",",substr($_POST[$key."_row_ids".$id], 0, -1));
+									$column_ids=explode(",",substr($_POST[$key."_column_ids".$id], 0, -1)); 
+						
+										  
+									$matrix="<table>";
+										  
+									  $matrix .='<tr><td></td>';
+									
+									for( $k=0;$k< count($mat_columns) ;$k++)
+									  $matrix .='<td style="background-color:#BBBBBB; padding:5px; ">'.$mat_columns[$k].'</td>';
+									  $matrix .='</tr>';
+									
+									$aaa=Array();
+									   $k=0;
+									foreach( $row_ids as $row_id){
+									$matrix .='<tr><td style="background-color:#BBBBBB; padding:5px;">'.$mat_rows[$k].'</td>';
+									
+									  if($input_type=="radio"){
+									 
+									$mat_radio = (isset($_POST[$key."_input_element".$id.$row_id]) ? $_POST[$key."_input_element".$id.$row_id] : 0);											
+									  if($mat_radio==0){
+										$checked="";
+										$aaa[1]="";
+										}
+										else{
+										$aaa=explode("_",$mat_radio);
+										}
+										
+										foreach( $column_ids as $column_id){
+										  if($aaa[1]==$column_id)
+										  $checked="checked";
+										  else
+										  $checked="";
+										$matrix .='<td style="text-align:center"><input  type="radio" '.$checked.' disabled /></td>';
+										
+										}
+										
+									  } 
+									  else{
+									  if($input_type=="checkbox")
+									  {                
+										foreach( $column_ids as $column_id){
+										 $checked = $_POST[$key."_input_element".$id.$row_id.'_'.$column_id];                              
+										 if($checked==1)							
+										 $checked = "checked";						
+										 else									 
+										 $checked = "";
 
-                                                          
-                                if(isset($element))
-                                {
-                                  $new_value=$new_value.$element;					
-                                }
-                                break;
-                              }
-                              
-                                case "type_matrix":
-                              {
-                              
-                                
-                                $input_type=$_POST[$key."_input_type".$id]; 
-                                            
-                                $mat_rows = $_POST[$key."_hidden_row".$id];
-                                $mat_rows = explode('***', $mat_rows);
-                                $mat_rows = array_slice($mat_rows,0, count($mat_rows)-1);
-                                
-                                $mat_columns = $_POST[$key."_hidden_column".$id];
-                                $mat_columns = explode('***', $mat_columns);
-                                $mat_columns = array_slice($mat_columns,0, count($mat_columns)-1);
-                              
-                                $row_ids=explode(",",substr($_POST[$key."_row_ids".$id], 0, -1));
-                                $column_ids=explode(",",substr($_POST[$key."_column_ids".$id], 0, -1)); 
-                    
-                                      
-                                $matrix="<table>";
-                                      
-                                  $matrix .='<tr><td></td>';
-                                
-                                for( $k=0;$k< count($mat_columns) ;$k++)
-                                  $matrix .='<td style="background-color:#BBBBBB; padding:5px; ">'.$mat_columns[$k].'</td>';
-                                  $matrix .='</tr>';
-                                
-                                $aaa=Array();
-                                   $k=0;
-                                foreach( $row_ids as $row_id){
-                                $matrix .='<tr><td style="background-color:#BBBBBB; padding:5px;">'.$mat_rows[$k].'</td>';
-                                
-                                  if($input_type=="radio"){
-                                 
-                                $mat_radio = (isset($_POST[$key."_input_element".$id.$row_id]) ? $_POST[$key."_input_element".$id.$row_id] : 0);											
-                                  if($mat_radio==0){
-                                    $checked="";
-                                    $aaa[1]="";
-                                    }
-                                    else{
-                                    $aaa=explode("_",$mat_radio);
-                                    }
-                                    
-                                    foreach( $column_ids as $column_id){
-                                      if($aaa[1]==$column_id)
-                                      $checked="checked";
-                                      else
-                                      $checked="";
-                                    $matrix .='<td style="text-align:center"><input  type="radio" '.$checked.' disabled /></td>';
-                                    
-                                    }
-                                    
-                                  } 
-                                  else{
-                                  if($input_type=="checkbox")
-                                  {                
-                                    foreach( $column_ids as $column_id){
-                                     $checked = $_POST[$key."_input_element".$id.$row_id.'_'.$column_id];                              
-                                     if($checked==1)							
-                                     $checked = "checked";						
-                                     else									 
-                                     $checked = "";
+										$matrix .='<td style="text-align:center"><input  type="checkbox" '.$checked.' disabled /></td>';
+									  
+									  }
+									  
+									  }
+									  else
+									  {
+									  if($input_type=="text")
+									  {
+													
+										foreach( $column_ids as $column_id){
+										 $checked = $_POST[$key."_input_element".$id.$row_id.'_'.$column_id];
+										  
+										$matrix .='<td style="text-align:center"><input  type="text" value="'.$checked.'" disabled /></td>';
+								  
+									  }
+									  
+									  }
+									  else{
+										foreach( $column_ids as $column_id){
+										 $checked = $_POST[$key."_select_yes_no".$id.$row_id.'_'.$column_id];
+										   $matrix .='<td style="text-align:center">'.$checked.'</td>';
+										
+								
+									  
+										}
+									  }
+									  
+									  }
+									  
+									  }
+									  $matrix .='</tr>';
+									  $k++;
+									}
+									 $matrix .='</table>';
 
-                                    $matrix .='<td style="text-align:center"><input  type="checkbox" '.$checked.' disabled /></td>';
-                                  
-                                  }
-                                  
-                                  }
-                                  else
-                                  {
-                                  if($input_type=="text")
-                                  {
-                                                
-                                    foreach( $column_ids as $column_id){
-                                     $checked = $_POST[$key."_input_element".$id.$row_id.'_'.$column_id];
-                                      
-                                    $matrix .='<td style="text-align:center"><input  type="text" value="'.$checked.'" disabled /></td>';
-                              
-                                  }
-                                  
-                                  }
-                                  else{
-                                    foreach( $column_ids as $column_id){
-                                     $checked = $_POST[$key."_select_yes_no".$id.$row_id.'_'.$column_id];
-                                       $matrix .='<td style="text-align:center">'.$checked.'</td>';
-                                    
-                            
-                                  
-                                    }
-                                  }
-                                  
-                                  }
-                                  
-                                  }
-                                  $matrix .='</tr>';
-                                  $k++;
-                                }
-                                 $matrix .='</table>';
+						  
+						  
+						  
+															
+									if(isset($matrix))
+									{
+									  $new_value=$new_value.$matrix;					
+									}
+								  
+									break;
+								  }
+						default: break;
+					  }
+					  $new_script = str_replace("%".$label_each."%", $new_value, $new_script);	
+					}
+				  }
+				}       
+				if (strpos($new_script, "%all%") !== FALSE) {
+				  $new_script = str_replace("%all%", $list, $new_script);
+				}
+				$body = $new_script;
+				$send = wp_mail(str_replace(' ', '', $recipient), $subject, stripslashes($body), $headers, $attachment);
+			  }
+			  if ($row->mail) {
+				if ($c) {
+				  // $headers_form_mail = "From: " . $c . " <" . $c . ">" . "\r\n";
+				  $headers = "MIME-Version: 1.0\n" . "From: '" . $c . "' <" . $c . ">" . "\r\n" . "Content-Type: text/html; charset=\"" . get_option('blog_charset') . "\"\n";
+				}
+				// else {
+				  // $headers_form_mail = "";
+				// }
+				if ($row_mail_one_time) {
+				  $recipient = $row->mail;
+				  $subject = $row->title;
+				  $new_script = wpautop($row->script_mail);
+				  foreach($label_order_original as $key => $label_each) {	
+					if (strpos($row->script_mail, "%" . $label_each . "%") !== FALSE) {
+					  $type = $label_type[$key];
+					  if ($type != "type_submit_reset" or $type!="type_map" or $type!="type_editor" or  $type!="type_captcha" or  $type!="type_recaptcha" or  $type!="type_button") {
+						$new_value ="";
+						switch ($type) {
+						  case 'type_text':
+						  case 'type_password':
+						  case 'type_textarea':
+						  case "type_date":
+						  case "type_own_select":					
+						  case "type_country":				
+						  case "type_number":	 {
+							$element = $_POST[$key."_element".$id];
+							if (isset($element)) {
+							  $new_value = $element;					
+							}
+							break;
+						  }
+						  case "type_hidden": {
+							$element = $_POST[$element_label];
+							if(isset($element))
+							{
+							  $new_value = $element;	
+							}
+							break;
+						  }
+						  case "type_mark_map": {
+							$element = $_POST[$key."_long".$id];
+							if (isset($element)) {
+							  $new_value = 'Longitude:'.$_POST[$key."_long".$id].'<br/>Latitude:'.$_POST[$key."_lat".$id];
+							}
+							break;		
+						  }
+						  case "type_submitter_mail": {
+							$element = $_POST[$key."_element".$id];
+							if (isset($element)) {
+							  $new_value = $element;					
+							}
+							break;
+						  }
+						  case "type_time": {
+							$hh = $_POST[$key."_hh".$id];
+							if (isset($hh)) {
+							  $ss = $_POST[$key."_ss".$id];
+							  if (isset($ss)) {
+								$new_value = $_POST[$key."_hh".$id].':'.$_POST[$key."_mm".$id].':'.$_POST[$key."_ss".$id];
+							  }
+							  else {
+								$new_value = $_POST[$key."_hh".$id].':'.$_POST[$key."_mm".$id];
+							  }
+							  $am_pm = $_POST[$key."_am_pm".$id];
+							  if (isset($am_pm)) {
+								$new_value = $new_value.' '.$_POST[$key."_am_pm".$id];
+							  }
+							}
+							break;
+						  }
+						  case "type_phone": {
+							$element_first = $_POST[$key."_element_first".$id];
+							if (isset($element_first)) {
+							  $new_value = $_POST[$key."_element_first".$id].' '.$_POST[$key."_element_last".$id];
+							}	
+							break;
+						  }
+						  case "type_name": {
+							$element_first = $_POST[$key."_element_first".$id];
+							if (isset($element_first)) {
+							  $element_title = $_POST[$key."_element_title".$id];
+							  if (isset($element_title)) {
+								$new_value = $_POST[$key."_element_title".$id].' '.$_POST[$key."_element_first".$id].' '.$_POST[$key."_element_last".$id].' '.$_POST[$key."_element_middle".$id];
+							  }
+							  else {
+								$new_value = $_POST[$key."_element_first".$id].' '.$_POST[$key."_element_last".$id];
+							  }
+							}	   
+							break;		
+						  }
+						  case "type_address": {
+							$street1 = $_POST[$key."_street1".$id];
+							if (isset($_POST[$key."_street1".$id])) {
+							  $new_value = $new_value.$_POST[$key."_street1".$id];
+							  break;
+							}
+							if (isset($_POST[$key."_street2".$id])) {
+							  $new_value=$new_value.$_POST[$key."_street2".$id];
+							  break;
+							}
+							if (isset($_POST[$key."_city".$id])) {
+							  $new_value=$new_value.$_POST[$key."_city".$id];
+							  break;
+							}
+							if (isset($_POST[$key."_state".$id])) {
+							  $new_value=$new_value.$_POST[$key."_state".$id];
+							  break;
+							}
+							if (isset($_POST[$key."_postal".$id])) {
+							  $new_value=$new_value.$_POST[$key."_postal".$id];
+							  break;
+							}
+							if (isset($_POST[$key."_country".$id])) {
+							  $new_value=$new_value.$_POST[$key."_country".$id];
+							  break;
+							}
+						  }
+						  case "type_date_fields": {
+							$day = $_POST[$key."_day".$id];
+							if (isset($day)) {
+							  $new_value = $_POST[$key."_day".$id].'-'.$_POST[$key."_month".$id].'-'.$_POST[$key."_year".$id];
+							}
+							break;
+						  }
+						  case "type_radio": {
+							$element = $_POST[$key."_other_input".$id];
+							if (isset($element)) {
+							  $new_value = $_POST[$key."_other_input".$id];
+							  break;
+							}
+							$element = $_POST[$key."_element".$id];
+							if (isset($element)) {
+							  $new_value = $element;					
+							}
+							break;
+						  }
+						  case "type_checkbox": {
+							$start = -1;
+							for ($j=0; $j<100; $j++) {
+							  $element = $_POST[$key."_element".$id.$j];
+							  if (isset($element)) {
+								$start = $j;
+								break;
+							  }
+							}	
+							$other_element_id=-1;
+							$is_other = $_POST[$key."_allow_other".$id];
+							if ($is_other == "yes") {
+							  $other_element_id = $_POST[$key."_allow_other_num".$id];
+							}
+							if ($start != -1) {
+							  for ($j = $start; $j < 100; $j++) {
+								$element = $_POST[$key."_element".$id.$j];
+								if (isset($element)) {
+								  if ($j == $other_element_id) {
+									$new_value = $new_value.$_POST[$key."_other_input".$id].'<br>';
+								  }
+								  else {
+									$new_value = $new_value.$_POST[$key."_element".$id.$j].'<br>';
+								  }
+								}
+							  }
+							}
+							break;
+						  }
+						  case "type_paypal_price": {
+							$new_value = 0;
+							if ($_POST[$key."_element_dollars".$id]) {
+							  $new_value = $_POST[$key."_element_dollars".$id];
+							}
+							if ($_POST[$key."_element_cents".$id]) {
+							  $new_value = $new_value.'.'.$_POST[$key."_element_cents".$id];
+							}
+							$new_value = $new_value.$form_currency;
+							break;
+						  }
+						  case "type_paypal_select": {
+							$new_value = $_POST[$key."_element_label".$id].':'.$_POST[$key."_element".$id].$form_currency;
+							$element_quantity_label = $_POST[$key."_element_quantity_label".$id];
+							if (isset($element_quantity_label)) {
+							  $quantity = ((isset($_POST[$key . "_element_quantity" . $id]) && ($_POST[$key . "_element_quantity" . $id] >= 1)) ? $_POST[$key . "_element_quantity" . $id] : 1);
+							  $new_value .= '<br/>'.$_POST[$key."_element_quantity_label".$id].': '.$quantity;
+							}
+							for($k = 0; $k < 50; $k++) {
+							  $temp_val = $_POST[$key."_element_property_value".$id.$k];
+							  if (isset($temp_val)) {
+								$new_value .= '<br/>'.$_POST[$key."_element_property_label".$id.$k].': '.$_POST[$key."_element_property_value".$id.$k];
+							  }
+							}
+							break;
+						  }
+						  case "type_paypal_radio": {
+							$new_value = $_POST[$key."_element_label".$id].' - '.$_POST[$key."_element".$id].$form_currency;
+							$element_quantity_label = $_POST[$key."_element_quantity_label".$id];
+							if (isset($element_quantity_label)) {
+							  $quantity = ((isset($_POST[$key . "_element_quantity" . $id]) && ($_POST[$key . "_element_quantity" . $id] >= 1)) ? $_POST[$key . "_element_quantity" . $id] : 1);
+							  $new_value .= '<br/>'.$_POST[$key."_element_quantity_label".$id].': '.$quantity;
+							}
+							for ($k = 0; $k < 50; $k++) {
+							  $temp_val = $_POST[$key."_element_property_value".$id.$k];
+							  if (isset($temp_val)) {
+								$new_value .= '<br/>'.$_POST[$key."_element_property_label".$id.$k].': '.$_POST[$key."_element_property_value".$id.$k];
+							  }
+							}
+							break;
+						  }
+						  case "type_paypal_shipping": {
+							$new_value = $_POST[$key."_element_label".$id].' : '.$_POST[$key."_element".$id].$form_currency;
+							break;
+						  }
+						  case "type_paypal_checkbox": {
+							$start = -1;
+							for ($j = 0; $j < 100; $j++) {
+							  $element = $_POST[$key."_element".$id.$j];
+							  if (isset($element)) {
+								$start = $j;
+								break;
+							  }
+							}
+							if ($start != -1) {
+							  for ($j = $start; $j < 100; $j++) {
+								$element = $_POST[$key."_element".$id.$j];
+								if (isset($element)) {
+								  $new_value = $new_value.$_POST[$key."_element".$id.$j."_label"].' - '.(($_POST[$key."_element".$id.$j] == '') ? '0'.$form_currency : $_POST[$key."_element".$id.$j]).$form_currency.'<br>';
+								}
+							  }
+							}
+							$element_quantity_label = $_POST[$key."_element_quantity_label".$id];
+							if (isset($element_quantity_label)) {
+							  $quantity = ((isset($_POST[$key . "_element_quantity" . $id]) && ($_POST[$key . "_element_quantity" . $id] >= 1)) ? $_POST[$key . "_element_quantity" . $id] : 1);
+							  $new_value .= '<br/>'.$_POST[$key."_element_quantity_label".$id].': '.$quantity;
+							}
+							for ($k = 0; $k < 50; $k++) {
+							  $temp_val = $_POST[$key."_element_property_value".$id.$k];
+							  if (isset($temp_val)) {
+								$new_value .= '<br/>'.$_POST[$key."_element_property_label".$id.$k].': '.$_POST[$key."_element_property_value".$id.$k];
+							  }
+							}
+							break;
+						  }
+						  case "type_star_rating": {
+							if (isset($_POST[$key."_star_amount".$id])) {
+							  $selected = (isset($_POST[$key."_selected_star_amount".$id]) ? $_POST[$key."_selected_star_amount".$id] : 0);
+							  $new_value = $new_value.$selected.'/'.$_POST[$key."_star_amount".$id];					
+							}
+							break;
+						  }
+						  case "type_scale_rating": {
+							if (isset($_POST[$key."_scale_amount".$id])) {
+							  $selected = (isset($_POST[$key."_scale_radio".$id]) ? $_POST[$key."_scale_radio".$id] : 0);
+							  $new_value=$new_value.$selected.'/'.$_POST[$key."_scale_amount".$id];					
+							}
+							break;
+						  }
+						  case "type_spinner": {
+							if(isset($_POST[$key."_element".$id])) {
+							  $new_value = $new_value.$_POST[$key."_element".$id];					
+							}
+							break;
+						  }
+						  case "type_slider": {
+							if (isset($_POST[$key."_slider_value".$id])) {
+							  $new_value = $new_value.$_POST[$key."_slider_value".$id];
+							}
+							break;
+						  }
+						  case "type_range": {
+							if (isset($_POST[$key."_element".$id.'0']) || isset($_POST[$key."_element".$id.'1'])) {
+							  $new_value=$new_value.$_POST[$key."_element".$id.'0'].'-'.$_POST[$key."_element".$id.'1'];
+							}
+							break;
+						  }
+									  
+									  case "type_grading":
+									  {
+										$element=$_POST[$key."_hidden_item".$id];
+										$grading = explode(":",$element);
+										$items_count = sizeof($grading)-1;
+										
+										$element = "";
+										$total = "";
+										
+										for($k=0;$k<$items_count;$k++) {
+										  $element .= $grading[$k].":".$_POST[$key."_element".$id.$k]." ";
+									  $total += $_POST[$key."_element".$id.$k];
+									}
 
-                      
-                      
-                      
-                                                        
-                                if(isset($matrix))
-                                {
-                                  $new_value=$new_value.$matrix;					
-                                }
-                              
-                                break;
-                              }
-                    default: break;
-                  }
-                  $new_script = str_replace("%".$label_each."%", $new_value, $new_script);	
-                }
-              }
-            }       
-            if (strpos($new_script, "%all%") !== FALSE) {
-              $new_script = str_replace("%all%", $list, $new_script);
-            }
-            $body = $new_script;
-            $send = wp_mail(str_replace(' ', '', $recipient), $subject, stripslashes($body), $headers, $attachment);
-          }
-          if ($row->mail) {
-            if ($c) {
-              // $headers_form_mail = "From: " . $c . " <" . $c . ">" . "\r\n";
-              $headers = "MIME-Version: 1.0\n" . "From: '" . $c . "' <" . $c . ">" . "\r\n" . "Content-Type: text/html; charset=\"" . get_option('blog_charset') . "\"\n";
-            }
-            // else {
-              // $headers_form_mail = "";
-            // }
-            if ($row_mail_one_time) {
-              $recipient = $row->mail;
-              $subject = $row->title;
-              $new_script = wpautop($row->script_mail);
-              foreach($label_order_original as $key => $label_each) {	
-                if (strpos($row->script_mail, "%" . $label_each . "%") !== FALSE) {
-                  $type = $label_type[$key];
-                  if ($type != "type_submit_reset" or $type!="type_map" or $type!="type_editor" or  $type!="type_captcha" or  $type!="type_recaptcha" or  $type!="type_button") {
-                    $new_value ="";
-                    switch ($type) {
-                      case 'type_text':
-                      case 'type_password':
-                      case 'type_textarea':
-                      case "type_date":
-                      case "type_own_select":					
-                      case "type_country":				
-                      case "type_number":	 {
-                        $element = $_POST[$key."_element".$id];
-                        if (isset($element)) {
-                          $new_value = $element;					
-                        }
-                        break;
-                      }
-                      case "type_hidden": {
-                        $element = $_POST[$element_label];
-                        if(isset($element))
-                        {
-                          $new_value = $element;	
-                        }
-                        break;
-                      }
-                      case "type_mark_map": {
-                        $element = $_POST[$key."_long".$id];
-                        if (isset($element)) {
-                          $new_value = 'Longitude:'.$_POST[$key."_long".$id].'<br/>Latitude:'.$_POST[$key."_lat".$id];
-                        }
-                        break;		
-                      }
-                      case "type_submitter_mail": {
-                        $element = $_POST[$key."_element".$id];
-                        if (isset($element)) {
-                          $new_value = $element;					
-                        }
-                        break;
-                      }
-                      case "type_time": {
-                        $hh = $_POST[$key."_hh".$id];
-                        if (isset($hh)) {
-                          $ss = $_POST[$key."_ss".$id];
-                          if (isset($ss)) {
-                            $new_value = $_POST[$key."_hh".$id].':'.$_POST[$key."_mm".$id].':'.$_POST[$key."_ss".$id];
-                          }
-                          else {
-                            $new_value = $_POST[$key."_hh".$id].':'.$_POST[$key."_mm".$id];
-                          }
-                          $am_pm = $_POST[$key."_am_pm".$id];
-                          if (isset($am_pm)) {
-                            $new_value = $new_value.' '.$_POST[$key."_am_pm".$id];
-                          }
-                        }
-                        break;
-                      }
-                      case "type_phone": {
-                        $element_first = $_POST[$key."_element_first".$id];
-                        if (isset($element_first)) {
-                          $new_value = $_POST[$key."_element_first".$id].' '.$_POST[$key."_element_last".$id];
-                        }	
-                        break;
-                      }
-                      case "type_name": {
-                        $element_first = $_POST[$key."_element_first".$id];
-                        if (isset($element_first)) {
-                          $element_title = $_POST[$key."_element_title".$id];
-                          if (isset($element_title)) {
-                            $new_value = $_POST[$key."_element_title".$id].' '.$_POST[$key."_element_first".$id].' '.$_POST[$key."_element_last".$id].' '.$_POST[$key."_element_middle".$id];
-                          }
-                          else {
-                            $new_value = $_POST[$key."_element_first".$id].' '.$_POST[$key."_element_last".$id];
-                          }
-                        }	   
-                        break;		
-                      }
-                      case "type_address": {
-                        $street1 = $_POST[$key."_street1".$id];
-                        if (isset($_POST[$key."_street1".$id])) {
-                          $new_value = $new_value.$_POST[$key."_street1".$id];
-                          break;
-                        }
-                        if (isset($_POST[$key."_street2".$id])) {
-                          $new_value=$new_value.$_POST[$key."_street2".$id];
-                          break;
-                        }
-                        if (isset($_POST[$key."_city".$id])) {
-                          $new_value=$new_value.$_POST[$key."_city".$id];
-                          break;
-                        }
-                        if (isset($_POST[$key."_state".$id])) {
-                          $new_value=$new_value.$_POST[$key."_state".$id];
-                          break;
-                        }
-                        if (isset($_POST[$key."_postal".$id])) {
-                          $new_value=$new_value.$_POST[$key."_postal".$id];
-                          break;
-                        }
-                        if (isset($_POST[$key."_country".$id])) {
-                          $new_value=$new_value.$_POST[$key."_country".$id];
-                          break;
-                        }
-                      }
-                      case "type_date_fields": {
-                        $day = $_POST[$key."_day".$id];
-                        if (isset($day)) {
-                          $new_value = $_POST[$key."_day".$id].'-'.$_POST[$key."_month".$id].'-'.$_POST[$key."_year".$id];
-                        }
-                        break;
-                      }
-                      case "type_radio": {
-                        $element = $_POST[$key."_other_input".$id];
-                        if (isset($element)) {
-                          $new_value = $_POST[$key."_other_input".$id];
-                          break;
-                        }
-                        $element = $_POST[$key."_element".$id];
-                        if (isset($element)) {
-                          $new_value = $element;					
-                        }
-                        break;
-                      }
-                      case "type_checkbox": {
-                        $start = -1;
-                        for ($j=0; $j<100; $j++) {
-                          $element = $_POST[$key."_element".$id.$j];
-                          if (isset($element)) {
-                            $start = $j;
-                            break;
-                          }
-                        }	
-                        $other_element_id=-1;
-                        $is_other = $_POST[$key."_allow_other".$id];
-                        if ($is_other == "yes") {
-                          $other_element_id = $_POST[$key."_allow_other_num".$id];
-                        }
-                        if ($start != -1) {
-                          for ($j = $start; $j < 100; $j++) {
-                            $element = $_POST[$key."_element".$id.$j];
-                            if (isset($element)) {
-                              if ($j == $other_element_id) {
-                                $new_value = $new_value.$_POST[$key."_other_input".$id].'<br>';
-                              }
-                              else {
-                                $new_value = $new_value.$_POST[$key."_element".$id.$j].'<br>';
-                              }
-                            }
-                          }
-                        }
-                        break;
-                      }
-                      case "type_paypal_price": {
-                        $new_value = 0;
-                        if ($_POST[$key."_element_dollars".$id]) {
-                          $new_value = $_POST[$key."_element_dollars".$id];
-                        }
-                        if ($_POST[$key."_element_cents".$id]) {
-                          $new_value = $new_value.'.'.$_POST[$key."_element_cents".$id];
-                        }
-                        $new_value = $new_value.$form_currency;
-                        break;
-                      }
-                      case "type_paypal_select": {
-                        $new_value = $_POST[$key."_element_label".$id].':'.$_POST[$key."_element".$id].$form_currency;
-                        $element_quantity_label = $_POST[$key."_element_quantity_label".$id];
-                        if (isset($element_quantity_label)) {
-                          $quantity = ((isset($_POST[$key . "_element_quantity" . $id]) && ($_POST[$key . "_element_quantity" . $id] >= 1)) ? $_POST[$key . "_element_quantity" . $id] : 1);
-                          $new_value .= '<br/>'.$_POST[$key."_element_quantity_label".$id].': '.$quantity;
-                        }
-                        for($k = 0; $k < 50; $k++) {
-                          $temp_val = $_POST[$key."_element_property_value".$id.$k];
-                          if (isset($temp_val)) {
-                            $new_value .= '<br/>'.$_POST[$key."_element_property_label".$id.$k].': '.$_POST[$key."_element_property_value".$id.$k];
-                          }
-                        }
-                        break;
-                      }
-                      case "type_paypal_radio": {
-                        $new_value = $_POST[$key."_element_label".$id].' - '.$_POST[$key."_element".$id].$form_currency;
-                        $element_quantity_label = $_POST[$key."_element_quantity_label".$id];
-                        if (isset($element_quantity_label)) {
-                          $quantity = ((isset($_POST[$key . "_element_quantity" . $id]) && ($_POST[$key . "_element_quantity" . $id] >= 1)) ? $_POST[$key . "_element_quantity" . $id] : 1);
-                          $new_value .= '<br/>'.$_POST[$key."_element_quantity_label".$id].': '.$quantity;
-                        }
-                        for ($k = 0; $k < 50; $k++) {
-                          $temp_val = $_POST[$key."_element_property_value".$id.$k];
-                          if (isset($temp_val)) {
-                            $new_value .= '<br/>'.$_POST[$key."_element_property_label".$id.$k].': '.$_POST[$key."_element_property_value".$id.$k];
-                          }
-                        }
-                        break;
-                      }
-                      case "type_paypal_shipping": {
-                        $new_value = $_POST[$key."_element_label".$id].' : '.$_POST[$key."_element".$id].$form_currency;
-                        break;
-                      }
-                      case "type_paypal_checkbox": {
-                        $start = -1;
-                        for ($j = 0; $j < 100; $j++) {
-                          $element = $_POST[$key."_element".$id.$j];
-                          if (isset($element)) {
-                            $start = $j;
-                            break;
-                          }
-                        }
-                        if ($start != -1) {
-                          for ($j = $start; $j < 100; $j++) {
-                            $element = $_POST[$key."_element".$id.$j];
-                            if (isset($element)) {
-                              $new_value = $new_value.$_POST[$key."_element".$id.$j."_label"].' - '.(($_POST[$key."_element".$id.$j] == '') ? '0'.$form_currency : $_POST[$key."_element".$id.$j]).$form_currency.'<br>';
-                            }
-                          }
-                        }
-                        $element_quantity_label = $_POST[$key."_element_quantity_label".$id];
-                        if (isset($element_quantity_label)) {
-                          $quantity = ((isset($_POST[$key . "_element_quantity" . $id]) && ($_POST[$key . "_element_quantity" . $id] >= 1)) ? $_POST[$key . "_element_quantity" . $id] : 1);
-                          $new_value .= '<br/>'.$_POST[$key."_element_quantity_label".$id].': '.$quantity;
-                        }
-                        for ($k = 0; $k < 50; $k++) {
-                          $temp_val = $_POST[$key."_element_property_value".$id.$k];
-                          if (isset($temp_val)) {
-                            $new_value .= '<br/>'.$_POST[$key."_element_property_label".$id.$k].': '.$_POST[$key."_element_property_value".$id.$k];
-                          }
-                        }
-                        break;
-                      }
-                      case "type_star_rating": {
-                        if (isset($_POST[$key."_star_amount".$id])) {
-                          $selected = (isset($_POST[$key."_selected_star_amount".$id]) ? $_POST[$key."_selected_star_amount".$id] : 0);
-                          $new_value = $new_value.$selected.'/'.$_POST[$key."_star_amount".$id];					
-                        }
-                        break;
-                      }
-                      case "type_scale_rating": {
-                        if (isset($_POST[$key."_scale_amount".$id])) {
-                          $selected = (isset($_POST[$key."_scale_radio".$id]) ? $_POST[$key."_scale_radio".$id] : 0);
-                          $new_value=$new_value.$selected.'/'.$_POST[$key."_scale_amount".$id];					
-                        }
-                        break;
-                      }
-                      case "type_spinner": {
-                        if(isset($_POST[$key."_element".$id])) {
-                          $new_value = $new_value.$_POST[$key."_element".$id];					
-                        }
-                        break;
-                      }
-                      case "type_slider": {
-                        if (isset($_POST[$key."_slider_value".$id])) {
-                          $new_value = $new_value.$_POST[$key."_slider_value".$id];
-                        }
-                        break;
-                      }
-                      case "type_range": {
-                        if (isset($_POST[$key."_element".$id.'0']) || isset($_POST[$key."_element".$id.'1'])) {
-                          $new_value=$new_value.$_POST[$key."_element".$id.'0'].'-'.$_POST[$key."_element".$id.'1'];
-                        }
-                        break;
-                      }
-                                  
-                                  case "type_grading":
-                                  {
-                                    $element=$_POST[$key."_hidden_item".$id];
-                                    $grading = explode(":",$element);
-                                    $items_count = sizeof($grading)-1;
-                                    
-                                    $element = "";
-                                    $total = "";
-                                    
-                                    for($k=0;$k<$items_count;$k++) {
-                                      $element .= $grading[$k].":".$_POST[$key."_element".$id.$k]." ";
-                                  $total += $_POST[$key."_element".$id.$k];
-                                }
+									$element .="Total:".$total;
 
-                                $element .="Total:".$total;
+															  
+									if(isset($element))
+									{
+									  $new_value=$new_value.$element;					
+									}
+									break;
+								  }
+								  
+									case "type_matrix":
+								  {
+								  
+									
+									$input_type=$_POST[$key."_input_type".$id]; 
+												
+									$mat_rows = $_POST[$key."_hidden_row".$id];
+									$mat_rows = explode('***', $mat_rows);
+									$mat_rows = array_slice($mat_rows,0, count($mat_rows)-1);
+									
+									$mat_columns = $_POST[$key."_hidden_column".$id];
+									$mat_columns = explode('***', $mat_columns);
+									$mat_columns = array_slice($mat_columns,0, count($mat_columns)-1);
+								  
+									$row_ids=explode(",",substr($_POST[$key."_row_ids".$id], 0, -1));
+									$column_ids=explode(",",substr($_POST[$key."_column_ids".$id], 0, -1)); 
+									$matrix="<table>";
+										  
+									$matrix .='<tr><td></td>';
+									
+									for( $k=0;$k< count($mat_columns) ;$k++)
+									  $matrix .='<td style="background-color:#BBBBBB; padding:5px; ">'.$mat_columns[$k].'</td>';
+									  $matrix .='</tr>';
+									
+									$aaa=Array();
+									   $k=0;
+									foreach( $row_ids as $row_id){
+									$matrix .='<tr><td style="background-color:#BBBBBB; padding:5px;">'.$mat_rows[$k].'</td>';
+									
+									  if($input_type=="radio"){
+									 
+									$mat_radio = (isset($_POST[$key."_input_element".$id.$row_id]) ? $_POST[$key."_input_element".$id.$row_id] : 0);											
+									  if($mat_radio==0){
+										$checked="";
+										$aaa[1]="";
+										}
+										else{
+										$aaa=explode("_",$mat_radio);
+										}
+										
+										foreach( $column_ids as $column_id){
+										  if($aaa[1]==$column_id)
+										  $checked="checked";
+										  else
+										  $checked="";
+										$matrix .='<td style="text-align:center"><input  type="radio" '.$checked.' disabled /></td>';
+										
+										}
+										
+									  } 
+									  else{
+									  if($input_type=="checkbox")
+									  {                
+										foreach( $column_ids as $column_id){
+										 $checked = $_POST[$key."_input_element".$id.$row_id.'_'.$column_id];                              
+										 if($checked==1)							
+										 $checked = "checked";						
+										 else									 
+										 $checked = "";
 
-                                                          
-                                if(isset($element))
-                                {
-                                  $new_value=$new_value.$element;					
-                                }
-                                break;
-                              }
-                              
-                                case "type_matrix":
-                              {
-                              
-                                
-                                $input_type=$_POST[$key."_input_type".$id]; 
-                                            
-                                $mat_rows = $_POST[$key."_hidden_row".$id];
-                                $mat_rows = explode('***', $mat_rows);
-                                $mat_rows = array_slice($mat_rows,0, count($mat_rows)-1);
-                                
-                                $mat_columns = $_POST[$key."_hidden_column".$id];
-                                $mat_columns = explode('***', $mat_columns);
-                                $mat_columns = array_slice($mat_columns,0, count($mat_columns)-1);
-                              
-                                $row_ids=explode(",",substr($_POST[$key."_row_ids".$id], 0, -1));
-                                $column_ids=explode(",",substr($_POST[$key."_column_ids".$id], 0, -1)); 
-                                $matrix="<table>";
-                                      
-                                $matrix .='<tr><td></td>';
-                                
-                                for( $k=0;$k< count($mat_columns) ;$k++)
-                                  $matrix .='<td style="background-color:#BBBBBB; padding:5px; ">'.$mat_columns[$k].'</td>';
-                                  $matrix .='</tr>';
-                                
-                                $aaa=Array();
-                                   $k=0;
-                                foreach( $row_ids as $row_id){
-                                $matrix .='<tr><td style="background-color:#BBBBBB; padding:5px;">'.$mat_rows[$k].'</td>';
-                                
-                                  if($input_type=="radio"){
-                                 
-                                $mat_radio = (isset($_POST[$key."_input_element".$id.$row_id]) ? $_POST[$key."_input_element".$id.$row_id] : 0);											
-                                  if($mat_radio==0){
-                                    $checked="";
-                                    $aaa[1]="";
-                                    }
-                                    else{
-                                    $aaa=explode("_",$mat_radio);
-                                    }
-                                    
-                                    foreach( $column_ids as $column_id){
-                                      if($aaa[1]==$column_id)
-                                      $checked="checked";
-                                      else
-                                      $checked="";
-                                    $matrix .='<td style="text-align:center"><input  type="radio" '.$checked.' disabled /></td>';
-                                    
-                                    }
-                                    
-                                  } 
-                                  else{
-                                  if($input_type=="checkbox")
-                                  {                
-                                    foreach( $column_ids as $column_id){
-                                     $checked = $_POST[$key."_input_element".$id.$row_id.'_'.$column_id];                              
-                                     if($checked==1)							
-                                     $checked = "checked";						
-                                     else									 
-                                     $checked = "";
+										$matrix .='<td style="text-align:center"><input  type="checkbox" '.$checked.' disabled /></td>';
+									  
+									  }
+									  
+									  }
+									  else
+									  {
+									  if($input_type=="text")
+									  {
+													
+										foreach( $column_ids as $column_id){
+										 $checked = $_POST[$key."_input_element".$id.$row_id.'_'.$column_id];
+										  
+										$matrix .='<td style="text-align:center"><input  type="text" value="'.$checked.'" disabled /></td>';
+								  
+									  }
+									  
+									  }
+									  else{
+										foreach( $column_ids as $column_id){
+										 $checked = $_POST[$key."_select_yes_no".$id.$row_id.'_'.$column_id];
+										   $matrix .='<td style="text-align:center">'.$checked.'</td>';
+										
+								
+									  
+									  }
+									  }
+									  
+									  }
+									  
+									  }
+									  $matrix .='</tr>';
+									  $k++;
+									}
+									 $matrix .='</table>';
 
-                                    $matrix .='<td style="text-align:center"><input  type="checkbox" '.$checked.' disabled /></td>';
-                                  
-                                  }
-                                  
-                                  }
-                                  else
-                                  {
-                                  if($input_type=="text")
-                                  {
-                                                
-                                    foreach( $column_ids as $column_id){
-                                     $checked = $_POST[$key."_input_element".$id.$row_id.'_'.$column_id];
-                                      
-                                    $matrix .='<td style="text-align:center"><input  type="text" value="'.$checked.'" disabled /></td>';
-                              
-                                  }
-                                  
-                                  }
-                                  else{
-                                    foreach( $column_ids as $column_id){
-                                     $checked = $_POST[$key."_select_yes_no".$id.$row_id.'_'.$column_id];
-                                       $matrix .='<td style="text-align:center">'.$checked.'</td>';
-                                    
-                            
-                                  
-                                  }
-                                  }
-                                  
-                                  }
-                                  
-                                  }
-                                  $matrix .='</tr>';
-                                  $k++;
-                                }
-                                 $matrix .='</table>';
+						  
+						  
+						  
+															
+									if(isset($matrix))
+									{
+									  $new_value=$new_value.$matrix;					
+									}
+								  
+									break;
+								  }
+						  default: break;
+						}
+						$new_script = str_replace("%".$label_each."%", $new_value, $new_script);	
+					  }
+					}
+				  }
+				  if (strpos($new_script, "%all%") !== FALSE) {
+					$new_script = str_replace("%all%", $list, $new_script);
+				  }
+				  $body = $new_script;
+				  $mode = 1;
+				  $send = wp_mail(str_replace(' ', '', $recipient), $subject, stripslashes($body), $headers, $attachment);
+				  $row_mail_one_time = 0;
+				}
+			  }
+			}
+		  }
+		  else {
+			if ($row->mail) {
+			  $recipient = $row->mail;
+			  $subject = $row->title;
+			  $new_script = wpautop($row->script_mail);
+			  foreach($label_order_original as $key => $label_each) {
+				if (strpos($row->script_mail, "%" . $label_each . "%") !== FALSE) {
+				  $type = $label_type[$key];
+				  if ($type != "type_submit_reset" or $type != "type_map" or $type != "type_editor" or  $type!="type_captcha" or  $type!="type_recaptcha" or  $type!="type_button") {
+					$new_value = "";
+					switch ($type) {
+					  case 'type_text':
+					  case 'type_password':
+					  case 'type_textarea':
+					  case "type_date":
+					  case "type_own_select":					
+					  case "type_country":				
+					  case "type_number":	{
+						$element = $_POST[$key."_element".$id];
+						if (isset($element)) {
+						  $new_value = $element;					
+						}
+						break;
+					  }
+					  case "type_hidden": {
+						$element = $_POST[$element_label];
+						if (isset($element)) {
+						  $new_value = $element;	
+						}
+						break;
+					  }
+					  case "type_mark_map": {
+						$element = $_POST[$key."_long".$id];
+						if (isset($element)) {
+						  $new_value = 'Longitude:'.$_POST[$key."_long".$id].'<br/>Latitude:'.$_POST[$key."_lat".$id];
+						}
+						break;
+					  }
+					  case "type_submitter_mail": {
+						$element = $_POST[$key."_element".$id];
+						if (isset($element)) {
+						  $new_value = $element;					
+						}
+						break;		
+					  }
+					  case "type_time": {
+						$hh = $_POST[$key."_hh".$id];
+						if (isset($hh)) {
+						  $ss = $_POST[$key."_ss".$id];
+						  if (isset($ss)) {
+							$new_value = $_POST[$key."_hh".$id].':'.$_POST[$key."_mm".$id].':'.$_POST[$key."_ss".$id];
+						  }
+						  else {
+							$new_value = $_POST[$key."_hh".$id].':'.$_POST[$key."_mm".$id];
+						  }
+						  $am_pm = $_POST[$key."_am_pm".$id];
+						  if (isset($am_pm)) {
+							$new_value = $new_value.' '.$_POST[$key."_am_pm".$id];
+						  }
+						}
+						break;
+					  }
+					  case "type_phone": {
+						$element_first = $_POST[$key."_element_first".$id];
+						if (isset($element_first)) {
+						  $new_value = $_POST[$key."_element_first".$id].' '.$_POST[$key."_element_last".$id];
+						}
+						break;
+					  }
+					  case "type_name": {
+						$element_first = $_POST[$key."_element_first".$id];
+						if (isset($element_first)) {
+						  $element_title = $_POST[$key."_element_title".$id];
+						  if (isset($element_title)) {
+							$new_value = $_POST[$key."_element_title".$id].' '.$_POST[$key."_element_first".$id].' '.$_POST[$key."_element_last".$id].' '.$_POST[$key."_element_middle".$id];
+						  }
+						  else {
+							$new_value = $_POST[$key."_element_first".$id].' '.$_POST[$key."_element_last".$id];
+						  }
+						}	   
+						break;
+					  }
+					  case "type_address": {
+						if (isset($_POST[$key."_street1".$id])) {
+						  $new_value = $new_value.$_POST[$key."_street1".$id];
+						  break;
+						}
+						if (isset($_POST[$key."_street2".$id])) {
+						  $new_value = $new_value.$_POST[$key."_street2".$id];
+						  break;
+						}
+						if (isset($_POST[$key."_city".$id])) {
+						  $new_value = $new_value.$_POST[$key."_city".$id];
+						  break;
+						}
+						if (isset($_POST[$key."_state".$id])) {
+						  $new_value = $new_value.$_POST[$key."_state".$id];
+						  break;
+						}
+						if (isset($_POST[$key."_postal".$id])) {
+						  $new_value = $new_value.$_POST[$key."_postal".$id];
+						  break;
+						}
+						if (isset($_POST[$key."_country".$id])) {
+						  $new_value = $new_value.$_POST[$key."_country".$id];
+						  break;
+						}
+					  }
+					  case "type_date_fields": {
+						$day = $_POST[$key."_day".$id];
+						if (isset($day)) {
+						  $new_value = $_POST[$key."_day".$id].'-'.$_POST[$key."_month".$id].'-'.$_POST[$key."_year".$id];
+						}
+						break;
+					  }
+					  case "type_radio": {
+						$element = $_POST[$key."_other_input".$id];
+						if (isset($element)) {
+						  $new_value = $_POST[$key."_other_input".$id];
+						  break;
+						}
+						$element = $_POST[$key."_element".$id];
+						if (isset($element)) {
+						  $new_value = $element;
+						}
+						break;
+					  }
+					  case "type_checkbox": {
+						$start = -1;
+						for ($j = 0; $j < 100; $j++) {
+						  $element = $_POST[$key."_element".$id.$j];
+						  if (isset($element)) {
+							$start = $j;
+							break;
+						  }
+						}
+						$other_element_id = -1;
+						$is_other = $_POST[$key."_allow_other".$id];
+						if ($is_other == "yes") {
+						  $other_element_id = $_POST[$key."_allow_other_num".$id];
+						}
+						if ($start != -1) {
+						  for ($j = $start; $j < 100; $j++) {
+							$element = $_POST[$key."_element".$id.$j];
+							if (isset($element)) {
+							  if ($j == $other_element_id) {
+								$new_value = $new_value.$_POST[$key."_other_input".$id].'<br>';
+							  }
+							  else {
+								$new_value = $new_value.$_POST[$key."_element".$id.$j].'<br>';
+							  }
+							}
+						  }
+						}
+						break;
+					  }
+					  case "type_paypal_price": {		
+						$new_value = 0;
+						if ($_POST[$key."_element_dollars".$id]) {
+						  $new_value = $_POST[$key."_element_dollars".$id];
+						}
+						if ($_POST[$key."_element_cents".$id]) {
+						  $new_value = $new_value.'.'.$_POST[$key."_element_cents".$id];
+						}
+						$new_value = $new_value.$form_currency;
+						break;
+					  }
+					  case "type_paypal_select": {	
+						$new_value = $_POST[$key."_element_label".$id].':'.$_POST[$key."_element".$id].$form_currency;
+						$element_quantity_label = $_POST[$key."_element_quantity_label".$id];
+						if (isset($element_quantity_label)) {
+						  $quantity = ((isset($_POST[$key . "_element_quantity" . $id]) && ($_POST[$key . "_element_quantity" . $id] >= 1)) ? $_POST[$key . "_element_quantity" . $id] : 1);
+						  $new_value .= '<br/>'.$_POST[$key."_element_quantity_label".$id].': '.$quantity;
+						}
+						for ($k = 0; $k < 50; $k++) {
+						  $temp_val = $_POST[$key."_element_property_value".$id.$k];
+						  if (isset($temp_val)) {			
+							$new_value .= '<br/>'.$_POST[$key."_element_property_label".$id.$k].': '.$_POST[$key."_element_property_value".$id.$k];
+						  }
+						}
+						break;
+					  }
+					  case "type_paypal_radio": {
+						$new_value = $_POST[$key."_element_label".$id].' - '.$_POST[$key."_element".$id].$form_currency;
+						$element_quantity_label = $_POST[$key."_element_quantity_label".$id];
+						if (isset($element_quantity_label)) {
+						  $quantity = ((isset($_POST[$key . "_element_quantity" . $id]) && ($_POST[$key . "_element_quantity" . $id] >= 1)) ? $_POST[$key . "_element_quantity" . $id] : 1);
+						  $new_value .= '<br/>'.$_POST[$key."_element_quantity_label".$id].': '.$quantity;
+						}
+						for ($k = 0; $k < 50; $k++) {
+						  $temp_val = $_POST[$key."_element_property_value".$id.$k];
+						  if (isset($temp_val)) {			
+							$new_value .= '<br/>'.$_POST[$key."_element_property_label".$id.$k].': '.$_POST[$key."_element_property_value".$id.$k];
+						  }
+						}
+						break;	
+					  }
+					  case "type_paypal_shipping": {
+						$new_value = $_POST[$key."_element_label".$id].' : '.$_POST[$key."_element".$id].$form_currency;
+						break;
+					  }
+					  case "type_paypal_checkbox": {
+						$start = -1;
+						for ($j = 0; $j < 100; $j++) {
+						  $element = $_POST[$key."_element".$id.$j];
+						  if (isset($element)) {
+							$start = $j;
+							break;
+						  }
+						}
+						if ($start != -1) {
+						  for ($j = $start; $j < 100; $j++) {
+							$element = $_POST[$key."_element".$id.$j];
+							if (isset($element)) {
+							  $new_value = $new_value.$_POST[$key."_element".$id.$j."_label"].' - '.(($_POST[$key."_element".$id.$j] == '') ? '0'.$form_currency : $_POST[$key."_element".$id.$j]).$form_currency.'<br>';
+							}
+						  }
+						}
+						$element_quantity_label = $_POST[$key."_element_quantity_label".$id];
+						if (isset($element_quantity_label)) {
+						  $quantity = ((isset($_POST[$key . "_element_quantity" . $id]) && ($_POST[$key . "_element_quantity" . $id] >= 1)) ? $_POST[$key . "_element_quantity" . $id] : 1);
+						  $new_value .= '<br/>'.$_POST[$key."_element_quantity_label".$id].': '.$quantity;
+						}
+						for ($k = 0; $k < 50; $k++) {
+						  $temp_val = $_POST[$key."_element_property_value".$id.$k];
+						  if (isset($temp_val)) {			
+							$new_value .= '<br/>'.$_POST[$key."_element_property_label".$id.$k].': '.$_POST[$key."_element_property_value".$id.$k];
+						  }
+						}
+						break;
+					  }
+					  case "type_star_rating":
+									  {
+										$element=$_POST[$key."_star_amount".$id];
+										$selected=(isset($_POST[$key."_selected_star_amount".$id]) ? $_POST[$key."_selected_star_amount".$id] : 0);
+										if(isset($element))
+										{
+										  $new_value=$new_value.$selected.'/'.$element;					
+										}
+										break;
+									  }
+									  
 
-                      
-                      
-                      
-                                                        
-                                if(isset($matrix))
-                                {
-                                  $new_value=$new_value.$matrix;					
-                                }
-                              
-                                break;
-                              }
-                      default: break;
-                    }
-                    $new_script = str_replace("%".$label_each."%", $new_value, $new_script);	
-                  }
-                }
-              }
-              if (strpos($new_script, "%all%") !== FALSE) {
-                $new_script = str_replace("%all%", $list, $new_script);
-              }
-              $body = $new_script;
-              $mode = 1;
-              $send = wp_mail(str_replace(' ', '', $recipient), $subject, stripslashes($body), $headers, $attachment);
-              $row_mail_one_time = 0;
-            }
-          }
-        }
-      }
-      else {
-        if ($row->mail) {
-          $recipient = $row->mail;
-          $subject = $row->title;
-          $new_script = wpautop($row->script_mail);
-          foreach($label_order_original as $key => $label_each) {
-            if (strpos($row->script_mail, "%" . $label_each . "%") !== FALSE) {
-              $type = $label_type[$key];
-              if ($type != "type_submit_reset" or $type != "type_map" or $type != "type_editor" or  $type!="type_captcha" or  $type!="type_recaptcha" or  $type!="type_button") {
-                $new_value = "";
-                switch ($type) {
-                  case 'type_text':
-                  case 'type_password':
-                  case 'type_textarea':
-                  case "type_date":
-                  case "type_own_select":					
-                  case "type_country":				
-                  case "type_number":	{
-                    $element = $_POST[$key."_element".$id];
-                    if (isset($element)) {
-                      $new_value = $element;					
-                    }
-                    break;
-                  }
-                  case "type_hidden": {
-                    $element = $_POST[$element_label];
-                    if (isset($element)) {
-                      $new_value = $element;	
-                    }
-                    break;
-                  }
-                  case "type_mark_map": {
-                    $element = $_POST[$key."_long".$id];
-                    if (isset($element)) {
-                      $new_value = 'Longitude:'.$_POST[$key."_long".$id].'<br/>Latitude:'.$_POST[$key."_lat".$id];
-                    }
-                    break;
-                  }
-                  case "type_submitter_mail": {
-                    $element = $_POST[$key."_element".$id];
-                    if (isset($element)) {
-                      $new_value = $element;					
-                    }
-                    break;		
-                  }
-                  case "type_time": {
-                    $hh = $_POST[$key."_hh".$id];
-                    if (isset($hh)) {
-                      $ss = $_POST[$key."_ss".$id];
-                      if (isset($ss)) {
-                        $new_value = $_POST[$key."_hh".$id].':'.$_POST[$key."_mm".$id].':'.$_POST[$key."_ss".$id];
-                      }
-                      else {
-                        $new_value = $_POST[$key."_hh".$id].':'.$_POST[$key."_mm".$id];
-                      }
-                      $am_pm = $_POST[$key."_am_pm".$id];
-                      if (isset($am_pm)) {
-                        $new_value = $new_value.' '.$_POST[$key."_am_pm".$id];
-                      }
-                    }
-                    break;
-                  }
-                  case "type_phone": {
-                    $element_first = $_POST[$key."_element_first".$id];
-                    if (isset($element_first)) {
-                      $new_value = $_POST[$key."_element_first".$id].' '.$_POST[$key."_element_last".$id];
-                    }
-                    break;
-                  }
-                  case "type_name": {
-                    $element_first = $_POST[$key."_element_first".$id];
-                    if (isset($element_first)) {
-                      $element_title = $_POST[$key."_element_title".$id];
-                      if (isset($element_title)) {
-                        $new_value = $_POST[$key."_element_title".$id].' '.$_POST[$key."_element_first".$id].' '.$_POST[$key."_element_last".$id].' '.$_POST[$key."_element_middle".$id];
-                      }
-                      else {
-                        $new_value = $_POST[$key."_element_first".$id].' '.$_POST[$key."_element_last".$id];
-                      }
-                    }	   
-                    break;
-                  }
-                  case "type_address": {
-                    if (isset($_POST[$key."_street1".$id])) {
-                      $new_value = $new_value.$_POST[$key."_street1".$id];
-                      break;
-                    }
-                    if (isset($_POST[$key."_street2".$id])) {
-                      $new_value = $new_value.$_POST[$key."_street2".$id];
-                      break;
-                    }
-                    if (isset($_POST[$key."_city".$id])) {
-                      $new_value = $new_value.$_POST[$key."_city".$id];
-                      break;
-                    }
-                    if (isset($_POST[$key."_state".$id])) {
-                      $new_value = $new_value.$_POST[$key."_state".$id];
-                      break;
-                    }
-                    if (isset($_POST[$key."_postal".$id])) {
-                      $new_value = $new_value.$_POST[$key."_postal".$id];
-                      break;
-                    }
-                    if (isset($_POST[$key."_country".$id])) {
-                      $new_value = $new_value.$_POST[$key."_country".$id];
-                      break;
-                    }
-                  }
-                  case "type_date_fields": {
-                    $day = $_POST[$key."_day".$id];
-                    if (isset($day)) {
-                      $new_value = $_POST[$key."_day".$id].'-'.$_POST[$key."_month".$id].'-'.$_POST[$key."_year".$id];
-                    }
-                    break;
-                  }
-                  case "type_radio": {
-                    $element = $_POST[$key."_other_input".$id];
-                    if (isset($element)) {
-                      $new_value = $_POST[$key."_other_input".$id];
-                      break;
-                    }
-                    $element = $_POST[$key."_element".$id];
-                    if (isset($element)) {
-                      $new_value = $element;
-                    }
-                    break;
-                  }
-                  case "type_checkbox": {
-                    $start = -1;
-                    for ($j = 0; $j < 100; $j++) {
-                      $element = $_POST[$key."_element".$id.$j];
-                      if (isset($element)) {
-                        $start = $j;
-                        break;
-                      }
-                    }
-                    $other_element_id = -1;
-                    $is_other = $_POST[$key."_allow_other".$id];
-                    if ($is_other == "yes") {
-                      $other_element_id = $_POST[$key."_allow_other_num".$id];
-                    }
-                    if ($start != -1) {
-                      for ($j = $start; $j < 100; $j++) {
-                        $element = $_POST[$key."_element".$id.$j];
-                        if (isset($element)) {
-                          if ($j == $other_element_id) {
-                            $new_value = $new_value.$_POST[$key."_other_input".$id].'<br>';
-                          }
-                          else {
-                            $new_value = $new_value.$_POST[$key."_element".$id.$j].'<br>';
-                          }
-                        }
-                      }
-                    }
-                    break;
-                  }
-                  case "type_paypal_price": {		
-                    $new_value = 0;
-                    if ($_POST[$key."_element_dollars".$id]) {
-                      $new_value = $_POST[$key."_element_dollars".$id];
-                    }
-                    if ($_POST[$key."_element_cents".$id]) {
-                      $new_value = $new_value.'.'.$_POST[$key."_element_cents".$id];
-                    }
-                    $new_value = $new_value.$form_currency;
-                    break;
-                  }
-                  case "type_paypal_select": {	
-                    $new_value = $_POST[$key."_element_label".$id].':'.$_POST[$key."_element".$id].$form_currency;
-                    $element_quantity_label = $_POST[$key."_element_quantity_label".$id];
-                    if (isset($element_quantity_label)) {
-                      $quantity = ((isset($_POST[$key . "_element_quantity" . $id]) && ($_POST[$key . "_element_quantity" . $id] >= 1)) ? $_POST[$key . "_element_quantity" . $id] : 1);
-                      $new_value .= '<br/>'.$_POST[$key."_element_quantity_label".$id].': '.$quantity;
-                    }
-                    for ($k = 0; $k < 50; $k++) {
-                      $temp_val = $_POST[$key."_element_property_value".$id.$k];
-                      if (isset($temp_val)) {			
-                        $new_value .= '<br/>'.$_POST[$key."_element_property_label".$id.$k].': '.$_POST[$key."_element_property_value".$id.$k];
-                      }
-                    }
-                    break;
-                  }
-                  case "type_paypal_radio": {
-                    $new_value = $_POST[$key."_element_label".$id].' - '.$_POST[$key."_element".$id].$form_currency;
-                    $element_quantity_label = $_POST[$key."_element_quantity_label".$id];
-                    if (isset($element_quantity_label)) {
-                      $quantity = ((isset($_POST[$key . "_element_quantity" . $id]) && ($_POST[$key . "_element_quantity" . $id] >= 1)) ? $_POST[$key . "_element_quantity" . $id] : 1);
-                      $new_value .= '<br/>'.$_POST[$key."_element_quantity_label".$id].': '.$quantity;
-                    }
-                    for ($k = 0; $k < 50; $k++) {
-                      $temp_val = $_POST[$key."_element_property_value".$id.$k];
-                      if (isset($temp_val)) {			
-                        $new_value .= '<br/>'.$_POST[$key."_element_property_label".$id.$k].': '.$_POST[$key."_element_property_value".$id.$k];
-                      }
-                    }
-                    break;	
-                  }
-                  case "type_paypal_shipping": {
-                    $new_value = $_POST[$key."_element_label".$id].' : '.$_POST[$key."_element".$id].$form_currency;
-                    break;
-                  }
-                  case "type_paypal_checkbox": {
-                    $start = -1;
-                    for ($j = 0; $j < 100; $j++) {
-                      $element = $_POST[$key."_element".$id.$j];
-                      if (isset($element)) {
-                        $start = $j;
-                        break;
-                      }
-                    }
-                    if ($start != -1) {
-                      for ($j = $start; $j < 100; $j++) {
-                        $element = $_POST[$key."_element".$id.$j];
-                        if (isset($element)) {
-                          $new_value = $new_value.$_POST[$key."_element".$id.$j."_label"].' - '.(($_POST[$key."_element".$id.$j] == '') ? '0'.$form_currency : $_POST[$key."_element".$id.$j]).$form_currency.'<br>';
-                        }
-                      }
-                    }
-                    $element_quantity_label = $_POST[$key."_element_quantity_label".$id];
-                    if (isset($element_quantity_label)) {
-                      $quantity = ((isset($_POST[$key . "_element_quantity" . $id]) && ($_POST[$key . "_element_quantity" . $id] >= 1)) ? $_POST[$key . "_element_quantity" . $id] : 1);
-                      $new_value .= '<br/>'.$_POST[$key."_element_quantity_label".$id].': '.$quantity;
-                    }
-                    for ($k = 0; $k < 50; $k++) {
-                      $temp_val = $_POST[$key."_element_property_value".$id.$k];
-                      if (isset($temp_val)) {			
-                        $new_value .= '<br/>'.$_POST[$key."_element_property_label".$id.$k].': '.$_POST[$key."_element_property_value".$id.$k];
-                      }
-                    }
-                    break;
-                  }
-                  case "type_star_rating":
-                                  {
-                                    $element=$_POST[$key."_star_amount".$id];
-                                    $selected=(isset($_POST[$key."_selected_star_amount".$id]) ? $_POST[$key."_selected_star_amount".$id] : 0);
-                                    if(isset($element))
-                                    {
-                                      $new_value=$new_value.$selected.'/'.$element;					
-                                    }
-                                    break;
-                                  }
-                                  
+									  case "type_scale_rating":
+									  {
+									  $element=$_POST[$key."_scale_amount".$id];
+									  $selected=(isset($_POST[$key."_scale_radio".$id]) ? $_POST[$key."_scale_radio".$id] : 0);
+									  
+										
+										if(isset($element))
+										{
+										  $new_value=$new_value.$selected.'/'.$element;					
+										}
+										break;
+									  }
+									  
+									  case "type_spinner":
+									  {
 
-                                  case "type_scale_rating":
-                                  {
-                                  $element=$_POST[$key."_scale_amount".$id];
-                                  $selected=(isset($_POST[$key."_scale_radio".$id]) ? $_POST[$key."_scale_radio".$id] : 0);
-                                  
-                                    
-                                    if(isset($element))
-                                    {
-                                      $new_value=$new_value.$selected.'/'.$element;					
-                                    }
-                                    break;
-                                  }
-                                  
-                                  case "type_spinner":
-                                  {
+										if(isset($_POST[$key."_element".$id]))
+										{
+										  $new_value=$new_value.$_POST[$key."_element".$id];					
+										}
+										break;
+									  }
+									  
+									  case "type_slider":
+									  {
 
-                                    if(isset($_POST[$key."_element".$id]))
-                                    {
-                                      $new_value=$new_value.$_POST[$key."_element".$id];					
-                                    }
-                                    break;
-                                  }
-                                  
-                                  case "type_slider":
-                                  {
+										$element=$_POST[$key."_slider_value".$id];
+										if(isset($element))
+										{
+										  $new_value=$new_value.$element;					
+										}
+										break;
+									  }
+									  case "type_range":
+									  {
 
-                                    $element=$_POST[$key."_slider_value".$id];
-                                    if(isset($element))
-                                    {
-                                      $new_value=$new_value.$element;					
-                                    }
-                                    break;
-                                  }
-                                  case "type_range":
-                                  {
+										$element0=$_POST[$key."_element".$id.'0'];
+										$element1=$_POST[$key."_element".$id.'1'];
+										if(isset($element0) || isset($element1))
+										{
+										  $new_value=$new_value.$element0.'-'.$element1;					
+										}
+										break;
+									  }
+									  
+									  case "type_grading":
+									  {
+										$element=$_POST[$key."_hidden_item".$id];
+										$grading = explode(":",$element);
+										$items_count = sizeof($grading)-1;
+										
+										$element = "";
+										$total = "";
+										
+										for($k=0;$k<$items_count;$k++)
 
-                                    $element0=$_POST[$key."_element".$id.'0'];
-                                    $element1=$_POST[$key."_element".$id.'1'];
-                                    if(isset($element0) || isset($element1))
-                                    {
-                                      $new_value=$new_value.$element0.'-'.$element1;					
-                                    }
-                                    break;
-                                  }
-                                  
-                                  case "type_grading":
-                                  {
-                                    $element=$_POST[$key."_hidden_item".$id];
-                                    $grading = explode(":",$element);
-                                    $items_count = sizeof($grading)-1;
-                                    
-                                    $element = "";
-                                    $total = "";
-                                    
-                                    for($k=0;$k<$items_count;$k++)
+										{
+										  $element .= $grading[$k].":".$_POST[$key."_element".$id.$k]." ";
+									  $total += $_POST[$key."_element".$id.$k];
+									}
 
-                                    {
-                                      $element .= $grading[$k].":".$_POST[$key."_element".$id.$k]." ";
-                                  $total += $_POST[$key."_element".$id.$k];
-                                }
+									$element .="Total:".$total;
 
-                                $element .="Total:".$total;
+															  
+									if(isset($element))
+									{
+									  $new_value=$new_value.$element;					
+									}
+									break;
+								  }
+								  
+									case "type_matrix":
+								  {
+								  
+									
+									$input_type=$_POST[$key."_input_type".$id]; 
+												
+									$mat_rows = $_POST[$key."_hidden_row".$id];
+									$mat_rows = explode('***', $mat_rows);
+									$mat_rows = array_slice($mat_rows,0, count($mat_rows)-1);
+									
+									$mat_columns = $_POST[$key."_hidden_column".$id];
+									$mat_columns = explode('***', $mat_columns);
+									$mat_columns = array_slice($mat_columns,0, count($mat_columns)-1);
+								  
+									$row_ids=explode(",",substr($_POST[$key."_row_ids".$id], 0, -1));
+									$column_ids=explode(",",substr($_POST[$key."_column_ids".$id], 0, -1)); 
+												  
+										  
+									$matrix="<table>";
+										  
+									  $matrix .='<tr><td></td>';
+									
+									for( $k=0;$k< count($mat_columns) ;$k++)
+									  $matrix .='<td style="background-color:#BBBBBB; padding:5px; ">'.$mat_columns[$k].'</td>';
+									  $matrix .='</tr>';
+									
+									$aaa=Array();
+									   $k=0;
+									foreach($row_ids as $row_id)
+									{
+									$matrix .='<tr><td style="background-color:#BBBBBB; padding:5px;">'.$mat_rows[$k].'</td>';
+									
+									  if($input_type=="radio"){
+									 
+									$mat_radio = (isset($_POST[$key."_input_element".$id.$row_id]) ? $_POST[$key."_input_element".$id.$row_id] : 0);											
+									  if($mat_radio==0){
+										$checked="";
+										$aaa[1]="";
+										}
+										else{
+										$aaa=explode("_",$mat_radio);
+										}
+										
+										foreach($column_ids as $column_id){
+										  if($aaa[1]==$column_id)
+										  $checked="checked";
+										  else
+										  $checked="";
+										$matrix .='<td style="text-align:center"><input  type="radio" '.$checked.' disabled /></td>';
+										
+										}
+										
+									  } 
+									  else{
+									  if($input_type=="checkbox")
+									  {                
+										foreach($column_ids as $column_id){
+										 $checked = $_POST[$key."_input_element".$id.$row_id.'_'.$column_id];                              
+										 if($checked==1)							
+										 $checked = "checked";						
+										 else									 
+										 $checked = "";
 
-                                                          
-                                if(isset($element))
-                                {
-                                  $new_value=$new_value.$element;					
-                                }
-                                break;
-                              }
-                              
-                                case "type_matrix":
-                              {
-                              
-                                
-                                $input_type=$_POST[$key."_input_type".$id]; 
-                                            
-                                $mat_rows = $_POST[$key."_hidden_row".$id];
-                                $mat_rows = explode('***', $mat_rows);
-                                $mat_rows = array_slice($mat_rows,0, count($mat_rows)-1);
-                                
-                                $mat_columns = $_POST[$key."_hidden_column".$id];
-                                $mat_columns = explode('***', $mat_columns);
-                                $mat_columns = array_slice($mat_columns,0, count($mat_columns)-1);
-                              
-                                $row_ids=explode(",",substr($_POST[$key."_row_ids".$id], 0, -1));
-                                $column_ids=explode(",",substr($_POST[$key."_column_ids".$id], 0, -1)); 
-                                              
-                                      
-                                $matrix="<table>";
-                                      
-                                  $matrix .='<tr><td></td>';
-                                
-                                for( $k=0;$k< count($mat_columns) ;$k++)
-                                  $matrix .='<td style="background-color:#BBBBBB; padding:5px; ">'.$mat_columns[$k].'</td>';
-                                  $matrix .='</tr>';
-                                
-                                $aaa=Array();
-                                   $k=0;
-                                foreach($row_ids as $row_id)
-                                {
-                                $matrix .='<tr><td style="background-color:#BBBBBB; padding:5px;">'.$mat_rows[$k].'</td>';
-                                
-                                  if($input_type=="radio"){
-                                 
-                                $mat_radio = (isset($_POST[$key."_input_element".$id.$row_id]) ? $_POST[$key."_input_element".$id.$row_id] : 0);											
-                                  if($mat_radio==0){
-                                    $checked="";
-                                    $aaa[1]="";
-                                    }
-                                    else{
-                                    $aaa=explode("_",$mat_radio);
-                                    }
-                                    
-                                    foreach($column_ids as $column_id){
-                                      if($aaa[1]==$column_id)
-                                      $checked="checked";
-                                      else
-                                      $checked="";
-                                    $matrix .='<td style="text-align:center"><input  type="radio" '.$checked.' disabled /></td>';
-                                    
-                                    }
-                                    
-                                  } 
-                                  else{
-                                  if($input_type=="checkbox")
-                                  {                
-                                    foreach($column_ids as $column_id){
-                                     $checked = $_POST[$key."_input_element".$id.$row_id.'_'.$column_id];                              
-                                     if($checked==1)							
-                                     $checked = "checked";						
-                                     else									 
-                                     $checked = "";
+										$matrix .='<td style="text-align:center"><input  type="checkbox" '.$checked.' disabled /></td>';
+									  
+									  }
+									  
+									  }
+									  else
+									  {
+									  if($input_type=="text")
+									  {
+													
+										foreach($column_ids as $column_id){
+										 $checked = $_POST[$key."_input_element".$id.$row_id.'_'.$column_id];
+										  
+										$matrix .='<td style="text-align:center"><input  type="text" value="'.$checked.'" disabled /></td>';
+								  
+									  }
+									  
+									  }
+									  else{
+										foreach($column_ids as $column_id){
+										 $checked = $_POST[$i."_select_yes_no".$id.$row_id.'_'.$column_id];
+										   $matrix .='<td style="text-align:center">'.$checked.'</td>';
+										
+								
+									  
+										}
+									  }
+									  
+									  }
+									  
+									  }
+									  $matrix .='</tr>';
+									  $k++;
+									}
+									 $matrix .='</table>';
 
-                                    $matrix .='<td style="text-align:center"><input  type="checkbox" '.$checked.' disabled /></td>';
-                                  
-                                  }
-                                  
-                                  }
-                                  else
-                                  {
-                                  if($input_type=="text")
-                                  {
-                                                
-                                    foreach($column_ids as $column_id){
-                                     $checked = $_POST[$key."_input_element".$id.$row_id.'_'.$column_id];
-                                      
-                                    $matrix .='<td style="text-align:center"><input  type="text" value="'.$checked.'" disabled /></td>';
-                              
-                                  }
-                                  
-                                  }
-                                  else{
-                                    foreach($column_ids as $column_id){
-                                     $checked = $_POST[$i."_select_yes_no".$id.$row_id.'_'.$column_id];
-                                       $matrix .='<td style="text-align:center">'.$checked.'</td>';
-                                    
-                            
-                                  
-                                    }
-                                  }
-                                  
-                                  }
-                                  
-                                  }
-                                  $matrix .='</tr>';
-                                  $k++;
-                                }
-                                 $matrix .='</table>';
+						  
+						  
+						  
+															
+									if(isset($matrix))
+									{
+									  $new_value=$new_value.$matrix;					
+									}
+								  
+									break;
+								  }
+					  default: break;
+					}
+					$new_script = str_replace("%".$label_each."%", $new_value, $new_script);
+				  }
+				}
+			  }
+			  if (strpos($new_script, "%all%") !== FALSE) {
+				$new_script = str_replace("%all%", $list, $new_script);
+			  }
+			  $body = $new_script;
+			  $send = wp_mail(str_replace(' ', '', $recipient), $subject, stripslashes($body), $headers, $attachment);
+			}
+		  }
+		  if ($row->mail) {
+			if ($send != TRUE) {
+			  $_SESSION['error_or_no' . $id] = 1;
+			  $msg = addslashes(__('Error, email was not sent.', 'form_maker'));
+			}
+			else {
+			  $_SESSION['error_or_no' . $id] = 0;
+			  $msg = addslashes(__('Your form was successfully submitted.', 'form_maker'));
+			}
+		  }
+		  else {
+			$_SESSION['error_or_no' . $id] = 0;
+			$msg = addslashes(__('Your form was successfully submitted.', 'form_maker'));
+		  }
+		}
+		$https = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://');
+		switch ($row->submit_text_type) {
+			case "2":
+			case "5": {
+				if ($row->submit_text_type != 4) {
+				  $_SESSION['massage_after_submit' . $id] = $msg;
+				}
+				$_SESSION['form_submit_type' . $id] = $row->submit_text_type . "," . $row->id;
+				if ($row->article_id) {
+				  $redirect_url = $row->article_id;
+				}
+				else {
+				  $redirect_url = $https . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+				}
+				break;
+			}
+			case "3": {
+				if ($row->submit_text_type != 4) {
+				  $_SESSION['massage_after_submit' . $id] = $msg;
+				}
+				$_SESSION['form_submit_type' . $id] = $row->submit_text_type . "," . $row->id;
+				$redirect_url = $https . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+				break;
+			}
+			case "4": {
+				if ($row->submit_text_type != 4) {
+				  $_SESSION['massage_after_submit' . $id] = $msg;
+				}
+				$_SESSION['form_submit_type' . $id] = $row->submit_text_type . "," . $row->id;
+				$redirect_url = $row->url;
+				break;
+			}
+			default: {
+				if ($row->submit_text_type != 4) {
+					$_SESSION['massage_after_submit' . $id] = $msg;
+				}
+				$_SESSION['form_submit_type' . $id] = $row->submit_text_type . "," . $row->id;
+				$redirect_url = $https . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+				break;
+			}
+		}
+		if (!$str) {
+			wp_redirect($redirect_url);
+			exit;
+		}
+		else {
+			$_SESSION['redirect_paypal'.$id] = 1;
+		  
+			$str .= "&return=" . urlencode($redirect_url);
+			wp_redirect($str);
+			exit;
+		}
+	}
 
-                      
-                      
-                      
-                                                        
-                                if(isset($matrix))
-                                {
-                                  $new_value=$new_value.$matrix;					
-                                }
-                              
-                                break;
-                              }
-                  default: break;
-                }
-                $new_script = str_replace("%".$label_each."%", $new_value, $new_script);
-              }
-            }
-          }
-          if (strpos($new_script, "%all%") !== FALSE) {
-            $new_script = str_replace("%all%", $list, $new_script);
-          }
-          $body = $new_script;
-          $send = wp_mail(str_replace(' ', '', $recipient), $subject, stripslashes($body), $headers, $attachment);
-        }
-      }
-      if ($row->mail) {
-        if ($send != TRUE) {
-          $_SESSION['error_or_no' . $id] = 1;
-          $msg = addslashes(__('Error, email was not sent.', 'form_maker'));
-        }
-        else {
-          $_SESSION['error_or_no' . $id] = 0;
-          $msg = addslashes(__('Your form was successfully submitted.', 'form_maker'));
-        }
-      }
-      else {
-        $_SESSION['error_or_no' . $id] = 0;
-        $msg = addslashes(__('Your form was successfully submitted.', 'form_maker'));
-      }
-    }
-    $https = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://');
-    switch ($row->submit_text_type) {
-      case "2":
-      case "5": {
-        if ($row->submit_text_type != 4) {
-          $_SESSION['massage_after_submit' . $id] = $msg;
-        }
-        $_SESSION['form_submit_type' . $id] = $row->submit_text_type . "," . $row->id;
-        if ($row->article_id) {
-          $redirect_url = $row->article_id;
-        }
-        else {
-          $redirect_url = $https . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
-        }
-        break;
-      }
-      case "3": {
-        if ($row->submit_text_type != 4) {
-          $_SESSION['massage_after_submit' . $id] = $msg;
-        }
-        $_SESSION['form_submit_type' . $id] = $row->submit_text_type . "," . $row->id;
-        $redirect_url = $https . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
-        break;
-      }
-      case "4": {
-        if ($row->submit_text_type != 4) {
-          $_SESSION['massage_after_submit' . $id] = $msg;
-        }
-        $_SESSION['form_submit_type' . $id] = $row->submit_text_type . "," . $row->id;
-        $redirect_url = $row->url;
-        break;
-      }
-      default: {
-        if ($row->submit_text_type != 4) {
-          $_SESSION['massage_after_submit' . $id] = $msg;
-        }
-        $_SESSION['form_submit_type' . $id] = $row->submit_text_type . "," . $row->id;
-        $redirect_url = $https . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
-        break;
-      }
-    }
-    if (!$str) {
-      wp_redirect($redirect_url);
-      exit;
-    }
-    else {
-      $_SESSION['redirect_paypal'.$id] = 1;
-      
-      $str .= "&return=" . urlencode($redirect_url);
-      wp_redirect($str);
-      exit;
-    }
-  }
-  
   function custom_fields_mail($type, $key, $id, $attachment)
 	{
 		$new_value ="";
@@ -4333,6 +4379,13 @@ class FMModelForm_maker {
     return $new_value;
   }
 
+	public function empty_field($element, $mail_emptyfields) {		
+		if(!$mail_emptyfields)
+			if(empty($element))
+				return 0;
+
+		return 1;
+	}
   ////////////////////////////////////////////////////////////////////////////////////////
   // Getters & Setters                                                                  //
   ////////////////////////////////////////////////////////////////////////////////////////

@@ -358,7 +358,8 @@ function before_reset() {
     $user_id_wd = (isset($_POST['user_id_wd']) ? stripslashes($_POST['user_id_wd']) : 'administrator,');
     $frontend_submit_fields = (isset($_POST['frontend_submit_fields']) ? stripslashes($_POST['frontend_submit_fields']) : '');
     $frontend_submit_stat_fields = (isset($_POST['frontend_submit_stat_fields']) ? stripslashes($_POST['frontend_submit_stat_fields']) : '');
-    $send_to = '';
+    $mail_emptyfields = (isset($_POST['mail_emptyfields']) ? esc_html(stripslashes($_POST['mail_emptyfields'])) : 0);
+	$send_to = '';
     for ($i = 0; $i < 20; $i++) {
       if (isset($_POST['send_to' . $i])) {
         $send_to .= '*' . esc_html(stripslashes($_POST['send_to' . $i])) . '*';
@@ -417,6 +418,7 @@ function before_reset() {
       'send_to' => $send_to,
       'frontend_submit_fields' => $frontend_submit_fields,
       'frontend_submit_stat_fields' => $frontend_submit_stat_fields,
+	  'mail_emptyfields' => $mail_emptyfields,
     ), array('id' => $id));
     if ($save !== FALSE) {
       return 8;

@@ -96,6 +96,9 @@ function form_maker_update($version) {
     $wpdb->query("ALTER TABLE `" . $wpdb->prefix . "formmaker` ADD `frontend_submit_stat_fields` text NOT NULL DEFAULT ''");
     $wpdb->query('UPDATE ' . $wpdb->prefix . 'formmaker_themes SET `css` = CONCAT(css,"\r\n.wdform_column {\r\n	border-right: none !important;\r\n }")');
   }
+  if (version_compare($version, '1.7.35') == -1) {
+    $wpdb->query("ALTER TABLE `" . $wpdb->prefix . "formmaker` ADD `mail_emptyfields` tinyint(4) NOT NULL DEFAULT '0'");
+  }
   return;
 }
 
