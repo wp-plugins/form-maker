@@ -25,7 +25,7 @@ class FMViewLicensing_fm {
   public function display() {
     ?>
     <div style="width:99%">
-      <p>This plugin is the non-commercial version of the Form Maker. Use of this plugin is free. You can add not more than 7 fields. The limitation is on the some types of the fields (File Upload, Map and Paypal). If you want to use those fields, you are required to purchase a license. </p>
+      <p>This is the non-commercial version of the Form Maker. If you want to expand the functionality of the plugin you are required to purchase a license. The commercial version will allow to add unlimited amount of fields (currently limited to 7), as well as use File Upload field, Google Map and PayPal integration and Front-End Submissions.</p>
       <br/>
       <a href="http://web-dorado.com/files/fromFormMaker.php" class="button-primary" target="_blank">Purchase a License</a>
       <br/><br/>
