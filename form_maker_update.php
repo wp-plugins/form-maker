@@ -99,6 +99,9 @@ function form_maker_update($version) {
   if (version_compare($version, '1.7.35') == -1) {
     $wpdb->query("ALTER TABLE `" . $wpdb->prefix . "formmaker` ADD `mail_emptyfields` tinyint(4) NOT NULL DEFAULT '0'");
   }
+  if (version_compare($version, '1.7.38') == -1) {
+    $wpdb->query("ALTER TABLE `" . $wpdb->prefix . "formmaker` CHANGE `form_fields` `form_fields` longtext NOT NULL");
+  }
   return;
 }
 

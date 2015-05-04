@@ -30,7 +30,7 @@ function from_maker_insert() {
     `paypal_email` varchar(50) NOT NULL,
     `payment_currency` varchar(20) NOT NULL,
     `tax` float NOT NULL,
-    `form_fields` text NOT NULL,
+    `form_fields` longtext NOT NULL,
     `savedb` tinyint(4) NOT NULL DEFAULT '1',
     `sendemail` tinyint(4) NOT NULL DEFAULT '1',
     `requiredmark` varchar(20) NOT NULL DEFAULT '*',

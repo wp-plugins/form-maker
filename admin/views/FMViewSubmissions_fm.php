@@ -641,6 +641,7 @@ class  FMViewSubmissions_fm {
           }
         }
         if ($is_stats) {
+			$ajax_nonce = wp_create_nonce( "nonce_fm_ajax" );
 	      ?>
 		  <br /><br />
 		  <h1 style="border-bottom: 1px solid; padding-bottom:7px; width:99%; color: hsl(197, 100%, 32%);">Statistics</h1>		
@@ -699,7 +700,8 @@ class  FMViewSubmissions_fm {
 		    'form_id' : '<?php echo $form_id; ?>',
 		    'sorted_label_key' : jQuery('#sorted_label_key').val(),
 			'startdate' : jQuery('#startstats').val(), 
-			'enddate' : jQuery('#endstats').val()
+			'enddate' : jQuery('#endstats').val(),
+			'nonce_fm_ajax': '<?php echo $ajax_nonce; ?>'
 		    });
 	    }		
 		else

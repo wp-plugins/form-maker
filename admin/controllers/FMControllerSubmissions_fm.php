@@ -23,8 +23,11 @@ class FMControllerSubmissions_fm {
     $id = ((isset($_POST['current_id'])) ? esc_html($_POST['current_id']) : 0);
     $form_id = ((isset($_POST['form_id']) && esc_html($_POST['form_id']) != '') ? esc_html($_POST['form_id']) : 0);	
     if (method_exists($this, $task)) {
-      check_admin_referer('nonce_fm', 'nonce_fm');
-      $this->$task($id); 
+		if($task != 'show_stats')
+			check_admin_referer('nonce_fm', 'nonce_fm');
+		else
+			check_ajax_referer('nonce_fm_ajax', 'nonce_fm_ajax');
+		$this->$task($id); 
     }
     else {
       $this->display($form_id); 
