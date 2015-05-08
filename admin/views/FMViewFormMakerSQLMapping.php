@@ -85,6 +85,10 @@ class FMViewFormMakerSQLMapping {
     foreach($label_id as $key => $lid) {
       $form_fields.='<a onclick="insert_field('.$lid.'); jQuery(\'#fieldlist\').hide();" style="display:block; text-decoration:none;">'.$label_order_original[$key].'</a>';
     }
+	$user_fields = array("subid"=>"Submission ID", "ip"=>"Submitter's IP", "userid"=>"User ID", "username"=>"Username", "useremail"=>"User Email");
+	foreach($user_fields as $user_key=>$user_field) {
+		$form_fields.='<a onclick="insert_field(\''.$user_key.'\'); jQuery(\'#fieldlist\').hide();" style="display:block; text-decoration:none;">'.$user_field.'</a>';
+	}
     $cond='<div id="condid"><select id="sel_condid" style="width: 110px">';    
     foreach($table_struct as $col) {
       $cond.='<option>'.$col->Field.'</option>';
@@ -631,7 +635,10 @@ class FMViewFormMakerSQLMapping {
         echo '<div>{'.$lid.'} - <button onclick="insert_field('.$lid.');">'.$label_order_original[$key].'</button></div>';
 
       }
-      
+      $user_fields = array("subid"=>"Submission ID", "ip"=>"Submitter's IP", "userid"=>"User ID", "username"=>"Username", "useremail"=>"User Email");
+	  foreach($user_fields as $user_key=>$user_field) {
+	    echo '<div>{'.$user_key.'} - <button onclick="insert_field(\''.$user_key.'\');">'.$user_field.'</button></div>';
+	  }
       ?>
       </div>
     </div>
@@ -809,6 +816,10 @@ class FMViewFormMakerSQLMapping {
       foreach($label_id as $key => $lid) {
         echo '<div>{'.$lid.'} - <button onclick="insert_field('.$lid.');">'.$label_order_original[$key].'</button></div>';
       }
+	  $user_fields = array("subid"=>"Submission ID", "ip"=>"Submitter's IP", "userid"=>"User ID", "username"=>"Username", "useremail"=>"User Email");
+	  foreach($user_fields as $user_key=>$user_field) {
+	    echo '<div>{'.$user_key.'} - <button onclick="insert_field(\''.$user_key.'\');">'.$user_field.'</button></div>';
+	  }
       ?>
       </div>
     </div>	
@@ -881,6 +892,10 @@ class FMViewFormMakerSQLMapping {
 		$form_fields='';
 		foreach($label_id as $key => $id) {
 			$form_fields.='<a onclick="insert_field('.$id.'); jQuery(\'#fieldlist\').hide();" style="display:block; text-decoration:none;">'.$label_order_original[$key].'</a>';
+		}
+		$user_fields = array("subid"=>"Submission ID", "ip"=>"Submitter's IP", "userid"=>"User ID", "username"=>"Username", "useremail"=>"User Email");
+		foreach($user_fields as $user_key=>$user_field) {
+			$form_fields.='<a onclick="insert_field(\''.$user_key.'\'); jQuery(\'#fieldlist\').hide();" style="display:block; text-decoration:none;">'.$user_field.'</a>';
 		}
 		$cond='<div id="condid"><select id="sel_condid" style="width: 110px">';		
 		foreach($table_struct as $col) {

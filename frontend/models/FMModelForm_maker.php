@@ -178,7 +178,20 @@ class FMModelForm_maker {
   public function save_db($counter, $id) {
     global $wpdb;
 	$current_user =  wp_get_current_user();
-	 
+	if ($current_user->ID != 0)
+	{
+		$wp_userid =  $current_user->ID;
+		$wp_username =  $current_user->display_name;
+		$wp_useremail =  $current_user->user_email;
+	}
+	else
+	{
+		$wp_userid = '';
+		$wp_username = '';
+		$wp_useremail = '';
+	}
+	$ip = $_SERVER['REMOTE_ADDR'];
+	
     $chgnac = TRUE;
     $all_files = array();
     $paypal = array();
@@ -1188,7 +1201,7 @@ class FMModelForm_maker {
             return array($max + 1);
           }
         }
-        $ip = $_SERVER['REMOTE_ADDR'];
+      
         $r = $wpdb->prefix . "formmaker_submits";
         
         $save_or_no = $wpdb->insert($r, array(
@@ -1215,6 +1228,9 @@ class FMModelForm_maker {
       }
     }
 
+		$subid = $wpdb->get_var("SELECT MAX( group_id ) FROM " . $wpdb->prefix ."formmaker_submits" );
+		$user_fields = array("subid"=>$subid, "ip"=>$ip, "userid"=>$wp_userid, "username"=>$wp_username, "useremail"=>$wp_useremail);
+
 		$queries = $wpdb->get_results( $wpdb->prepare("SELECT * FROM " .$wpdb->prefix. "formmaker_query WHERE form_id=%d",(int)$id ));
 		
 		if($queries)
@@ -1238,7 +1254,9 @@ class FMModelForm_maker {
 				$temp		= explode('***wdfdatabasewdf***',$temp[1]);
 				$database	= $temp[0];
 				
-				$query=str_replace(array_keys($fvals), $fvals ,$query->query);				
+				$query=str_replace(array_keys($fvals), $fvals ,$query->query);
+				foreach($user_fields as $user_key=>$user_field)
+					$query=str_replace('{'.$user_key.'}', $user_field , $query);					
 				if($con_type == 'remote')
 				{ 
 					$wpdb_temp = new wpdb($username, $password, $database, $host);
