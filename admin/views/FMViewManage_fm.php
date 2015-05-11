@@ -3567,6 +3567,30 @@ class FMViewManage_fm {
               <label for="submit_text">Text</label>
             </td>
             <td class="fm_options_value">
+				<?php $choise = "document.getElementById('submit_text')"; 
+				for ($i = 0; $i < count($label_label); $i++) {
+                    if ($label_type[$i]=="type_submit_reset" || $label_type[$i]=="type_editor" || $label_type[$i]=="type_map" || $label_type[$i]=="type_mark_map" || $label_type[$i]=="type_captcha"|| $label_type[$i]=="type_recaptcha" || $label_type[$i]=="type_button"  || $label_type[$i]=="type_send_copy" || $label_type[$i]=="type_file_upload") {
+                      continue;
+                    }
+                    $param = htmlspecialchars(addslashes($label_label[$i]));
+					$fld_label = $param;
+					if(strlen($fld_label)>30)
+					{
+						$fld_label = wordwrap(htmlspecialchars(addslashes($label_label[$i])), 30);
+						$fld_label = explode("\n", $fld_label);
+						$fld_label = $fld_label[0] . ' ...';	
+					}
+
+                    ?>
+                    <input style="border: 1px solid silver; font-size: 10px;" type="button" value="<?php echo $fld_label; ?>" onClick="insertAtCursor(<?php echo $choise; ?>, '<?php echo $param; ?>')" />
+                    <?php
+                }
+                ?>
+				<input style="border: 1px solid silver; font-size: 10px; margin: 3px;" type="button" value="Submission ID" onClick="insertAtCursor(<?php echo $choise; ?>,'subid')" />
+                <input style="border: 1px solid silver; font-size: 10px; margin: 3px;" type="button" value="Ip" onClick="insertAtCursor(<?php echo $choise; ?>,'ip')" />
+				<input style="border: 1px solid silver; font-size: 10px; margin:3px;" type="button" value="User Id" onClick="insertAtCursor(<?php echo $choise; ?>, 'userid')" />
+                <input style="border: 1px solid silver; font-size: 10px; margin: 3px;" type="button" value="Username" onClick="insertAtCursor(<?php echo $choise; ?>,'username')" />
+                <input style="border: 1px solid silver; font-size: 10px; margin: 3px;" type="button" value="User Email" onClick="insertAtCursor(<?php echo $choise; ?>,'useremail')" />
               <?php
               if (user_can_richedit()) {
                 wp_editor($row->submit_text, 'submit_text', array('teeny' => FALSE, 'textarea_name' => 'submit_text', 'media_buttons' => FALSE, 'textarea_rows' => 5));

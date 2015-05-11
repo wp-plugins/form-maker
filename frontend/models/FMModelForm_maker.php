@@ -1201,7 +1201,7 @@ class FMModelForm_maker {
             return array($max + 1);
           }
         }
-      
+        
         $r = $wpdb->prefix . "formmaker_submits";
         
         $save_or_no = $wpdb->insert($r, array(
@@ -1401,9 +1401,63 @@ class FMModelForm_maker {
     $wpdb->query($wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'formmaker_submits WHERE group_id= %d', $group_id));
   }
   
-  public function get_after_submission_text($form_id) {
+ public function get_after_submission_text($form_id) {
     global $wpdb;
-    return $wpdb->get_var("SELECT submit_text FROM " . $wpdb->prefix . "formmaker WHERE id='" . $form_id . "'");
+	$submit_text = $wpdb->get_var("SELECT submit_text FROM " . $wpdb->prefix . "formmaker WHERE id='" . $form_id . "'");
+	$current_user =  wp_get_current_user();
+	if ($current_user->ID != 0){
+		$userid =  $current_user->ID;
+		$username =  $current_user->display_name;
+		$useremail =  $current_user->user_email;
+	} else{
+		$userid =  '';
+		$username = '';
+		$useremail = '';
+	}
+	$ip = $_SERVER['REMOTE_ADDR'];
+	$subid = $wpdb->get_var("SELECT MAX( group_id ) FROM " . $wpdb->prefix ."formmaker_submits" );	
+	$row = $wpdb->get_row($wpdb->prepare("SELECT * FROM " . $wpdb->prefix . "formmaker WHERE id=%d", $form_id));
+	
+	$old = false;		
+	if(isset($row->form)) {
+		$old = true;
+	}
+	$label_order_original = array();
+	$label_order_ids = array();
+	$submission_array = array();
+	if($old == false || ($old == true && $row->form == '')) {
+		$label_all = explode('#****#',$row->label_order_current);
+	} else {
+		$label_all = explode('#****#',$row->label_order);    
+	}
+	$label_all = array_slice($label_all, 0, count($label_all) - 1);
+	foreach ($label_all as $key => $label_each) {
+		$label_id_each = explode('#**id**#', $label_each);
+		$label_id = $label_id_each[0];
+		array_push($label_order_ids, $label_id);
+		$label_order_each = explode('#**label**#', $label_id_each[1]);
+		$label_order_original[$label_id] = $label_order_each[0];
+	}
+	
+	$submissions_row = $wpdb->get_results($wpdb->prepare("SELECT `element_label`, `element_value` FROM " . $wpdb->prefix . "formmaker_submits WHERE form_id=%d AND group_id=%d", $form_id, $subid));
+	foreach ($submissions_row as $sub_row){
+		$submission_array[$sub_row->element_label] = $sub_row->element_value;
+	}
+
+	foreach($label_order_original as $key => $label_each) {
+		if(strpos($submit_text, "%".$label_each."%")>-1)	 {				
+			$submit_text = str_replace("%".$label_each."%", $submission_array[$key], $submit_text);
+		}
+	}
+	
+	$custom_fields = array( "subid"=>$subid, "ip"=>$ip, "userid"=>$userid, "username"=>$username, "useremail"=>$useremail);	
+	foreach($custom_fields as $key=>$custom_field)
+	{
+		if(strpos($submit_text, "%".$key."%")>-1)
+			$submit_text = str_replace("%".$key."%", $custom_field, $submit_text);
+	}
+	
+    return $submit_text;
   }
   
   public function increment_views_count($id) {
