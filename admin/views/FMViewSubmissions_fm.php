@@ -199,10 +199,10 @@ class  FMViewSubmissions_fm {
     <div style="clear: both; float: left; width: 99%;">
       <div style="float:left; font-size: 14px; font-weight: bold;">
         This section allows you to view and manage form submissions.
-        <a style="color: blue; text-decoration: none;" target="_blank" href="http://web-dorado.com/wordpress-form-maker-guide-6.html">Read More in User Manual</a>
+        <a style="color: blue; text-decoration: none;" target="_blank" href="https://web-dorado.com/wordpress-form-maker-guide-6.html">Read More in User Manual</a>
       </div>
       <div style="float: right; text-align: right;">
-        <a style="text-decoration: none;" target="_blank" href="http://web-dorado.com/files/fromFormMaker.php">
+        <a style="text-decoration: none;" target="_blank" href="https://web-dorado.com/files/fromFormMaker.php">
           <img width="215" border="0" alt="web-dorado.com" src="<?php echo WD_FM_URL . '/images/wd_logo.png'; ?>" />
         </a>
       </div>

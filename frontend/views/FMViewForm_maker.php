@@ -2579,8 +2579,9 @@ class FMViewForm_maker {
               $publickey=($row->public_key ? $row->public_key : '0');
               $error = null;
               require_once(WD_FM_DIR . '/recaptchalib.php');
+			  $secure_server = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? recaptcha_get_html($publickey, $error, true) : recaptcha_get_html($publickey, $error);
               $rep ='<script>var RecaptchaOptions = {theme: "'.$param['w_theme'].'"};</script><div type="type_recaptcha" class="wdform-field"><div class="wdform-label-section" style="'.$param['w_field_label_pos1'].'; width: '.$param['w_field_label_size'].'px;"><span class="wdform-label">'.$label.'</span></div><div class="wdform-element-section '.$param['w_class'].'" style="'.$param['w_field_label_pos2'].';">
-              <div id="wd_recaptcha'.$form_id.'" '.$param['attributes'].'>'.recaptcha_get_html($publickey, $error).'</div></div></div>';
+              <div id="wd_recaptcha'.$form_id.'" '.$param['attributes'].'>'.$secure_server.'</div></div></div>';
               break;
             }
             

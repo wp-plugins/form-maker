@@ -43,7 +43,7 @@ class FMViewFeatured_plugins_fm {
             <div class="description">
                 <p>Photo Gallery is a fully responsive WordPress Gallery plugin with advanced functionality. 
                 It allows having different image galleries for your posts and pages, as well as different widgets.</p>
-                <a target="_blank" href="http://web-dorado.com/products/wordpress-photo-gallery-plugin.html" class="download">Download</a>
+                <a target="_blank" href="https://web-dorado.com/products/wordpress-photo-gallery-plugin.html" class="download">Download</a>
             </div>
           </li>
           <li class="spider-calendar">
@@ -55,7 +55,7 @@ class FMViewFeatured_plugins_fm {
             </div>
             <div class="description">
                 <p>Spider Event Calendar is a highly configurable product which allows you to have multiple organized events.</p>
-                <a target="_blank" href="http://web-dorado.com/products/wordpress-calendar.html" class="download">Download</a>
+                <a target="_blank" href="https://web-dorado.com/products/wordpress-calendar.html" class="download">Download</a>
             </div>
           </li>
           <li class="catalog">
@@ -67,7 +67,7 @@ class FMViewFeatured_plugins_fm {
             </div>
             <div class="description">
                 <p>Spider Catalog for WordPress is a convenient tool for organizing the products represented on your website into catalogs.</p>
-                <a target="_blank" href="http://web-dorado.com/products/wordpress-catalog.html" class="download">Download</a>
+                <a target="_blank" href="https://web-dorado.com/products/wordpress-catalog.html" class="download">Download</a>
             </div>
           </li>
           <li class="player">
@@ -79,7 +79,7 @@ class FMViewFeatured_plugins_fm {
             </div>
             <div class="description">
                 <p>Spider Video Player for WordPress is a Flash & HTML5 video player plugin that allows you to easily add videos to your website with the possibility</p>
-                <a target="_blank" href="http://web-dorado.com/products/wordpress-player.html" class="download">Download</a>
+                <a target="_blank" href="https://web-dorado.com/products/wordpress-player.html" class="download">Download</a>
             </div>
           </li>
           <li class="contacts">
@@ -91,7 +91,7 @@ class FMViewFeatured_plugins_fm {
             </div>
             <div class="description">
                 <p>Spider Contacts helps you to display information about the group of people more intelligible, effective and convenient.</p>
-                <a target="_blank" href="http://web-dorado.com/products/wordpress-contacts-plugin.html" class="download">Download</a>
+                <a target="_blank" href="https://web-dorado.com/products/wordpress-contacts-plugin.html" class="download">Download</a>
             </div>
           </li>
           <li class="facebook">
@@ -103,7 +103,7 @@ class FMViewFeatured_plugins_fm {
             </div>
             <div class="description">
                 <p>Spider Facebook is a WordPress integration tool for Facebook.It includes all the available Facebook social plugins and widgets to be added to your web</p>
-                <a target="_blank" href="http://web-dorado.com/products/wordpress-facebook.html" class="download">Download</a>
+                <a target="_blank" href="https://web-dorado.com/products/wordpress-facebook.html" class="download">Download</a>
             </div>
           </li>
           <li class="twitter-widget">
@@ -115,7 +115,7 @@ class FMViewFeatured_plugins_fm {
             </div>
             <div class="description">
               <p>The Widget Twitter plugin lets you to fully integrate your WordPress site with your Twitter account.</p>
-              <a target="_blank" href="http://web-dorado.com/products/wordpress-twitter-integration-plugin.html" class="download">Download</a>
+              <a target="_blank" href="https://web-dorado.com/products/wordpress-twitter-integration-plugin.html" class="download">Download</a>
             </div>
           </li>
           <li class="faq">
@@ -127,7 +127,7 @@ class FMViewFeatured_plugins_fm {
             </div>
             <div class="description">
                 <p>The Spider FAQ WordPress plugin is for creating an FAQ (Frequently Asked Questions) section for your website.</p>
-                <a target="_blank" href="http://web-dorado.com/products/wordpress-faq-plugin.html" class="download">Download</a>
+                <a target="_blank" href="https://web-dorado.com/products/wordpress-faq-plugin.html" class="download">Download</a>
             </div>
           </li>
           <li class="zoom">
@@ -139,7 +139,7 @@ class FMViewFeatured_plugins_fm {
             </div>
             <div class="description">
                 <p>Zoom enables site users to resize the predefined areas of the web site.</p>
-                <a target="_blank" href="http://web-dorado.com/products/wordpress-zoom.html" class="download">Download</a>
+                <a target="_blank" href="https://web-dorado.com/products/wordpress-zoom.html" class="download">Download</a>
             </div>
           </li>
           <li class="flash-calendar">
@@ -151,7 +151,7 @@ class FMViewFeatured_plugins_fm {
             </div>
             <div class="description">
                 <p>Spider Flash Calendar is a highly configurable Flash calendar plugin which allows you to have multiple organized events.</p>
-                <a target="_blank" href="http://web-dorado.com/products/wordpress-events-calendar.html" class="download">Download</a>
+                <a target="_blank" href="https://web-dorado.com/products/wordpress-events-calendar.html" class="download">Download</a>
             </div>
           </li>
         </ul>

@@ -41,7 +41,7 @@ class FMViewExtensions_fm {
             </div>
             <div class="description">
               <p>Form Maker Export/Import WordPress plugin allows exporting and importing forms with/without submissions.</p>
-              <a target="_blank" href="http://web-dorado.com/products/wordpress-form/export-import.html" class="download">Download</a>
+              <a target="_blank" href="https://web-dorado.com/products/wordpress-form/export-import.html" class="download">Download</a>
             </div>
           </li>
         </ul>
