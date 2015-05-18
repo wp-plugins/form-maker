@@ -3,7 +3,7 @@
  * Plugin Name: Form Maker
  * Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
  * Description: This plugin is a modern and advanced tool for easy and fast creating of a WordPress Form. The backend interface is intuitive and user friendly which allows users far from scripting and programming to create WordPress Forms.
- * Version: 1.7.42
+ * Version: 1.7.43
  * Author: WebDorado
  * Author URI: http://web-dorado.com/
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -167,6 +167,15 @@ function fm_shortcode($attrs) {
   return $new_shortcode;
 }
 
+add_shortcode('email_verification', 'fm_email_verification_shortcode');
+function fm_email_verification_shortcode() {
+	require_once(WD_FM_DIR . '/framework/WDW_FM_Library.php');
+	require_once(WD_FM_DIR . '/frontend/controllers/FMControllerVerify_email.php');
+    $controller_class = 'FMControllerVerify_email';
+    $controller = new $controller_class();
+    $controller->execute();
+}
+
 function wd_form_maker($id) {
   require_once (WD_FM_DIR . '/frontend/controllers/FMControllerForm_maker.php');
   $controller = new FMControllerForm_maker();
@@ -207,7 +216,7 @@ if (class_exists('WP_Widget')) {
 // Activate plugin.
 function form_maker_activate() {
   $version = get_option("wd_form_maker_version");
-  $new_version = '1.7.42';
+  $new_version = '1.7.43';
   if (!$version) {
     add_option("wd_form_maker_version", $new_version, '', 'no');
     global $wpdb;
@@ -220,6 +229,18 @@ function form_maker_activate() {
     else {
       require_once WD_FM_DIR . "/form_maker_insert.php";
       from_maker_insert();
+	  $email_verification_post = array(
+		  'post_title'    => 'Email Verification',
+		  'post_content'  => '[email_verification]',
+		  'post_status'   => 'publish',
+		  'post_author'   => 1,
+		);
+	  $mail_verification_post_id = wp_insert_post( $email_verification_post, $wp_error );
+	  $wpdb->update($wpdb->prefix . "formmaker", array(
+        'mail_verification_post_id' => $mail_verification_post_id,
+      ), array('id' => 1), array(
+        '%d',
+      ), array('%d'));
     }
   }
   elseif (version_compare($version, $new_version, '<')) {

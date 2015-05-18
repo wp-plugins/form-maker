@@ -359,6 +359,8 @@ function before_reset() {
     $frontend_submit_fields = (isset($_POST['frontend_submit_fields']) ? stripslashes($_POST['frontend_submit_fields']) : '');
     $frontend_submit_stat_fields = (isset($_POST['frontend_submit_stat_fields']) ? stripslashes($_POST['frontend_submit_stat_fields']) : '');
     $mail_emptyfields = (isset($_POST['mail_emptyfields']) ? esc_html(stripslashes($_POST['mail_emptyfields'])) : 0);
+	$mail_verify = (isset($_POST['mail_verify']) ? esc_html(stripslashes($_POST['mail_verify'])) : 0);
+	$mail_verify_expiretime = (isset($_POST['mail_verify_expiretime']) ? esc_html(stripslashes($_POST['mail_verify_expiretime'])) : '');
 	$send_to = '';
     for ($i = 0; $i < 20; $i++) {
       if (isset($_POST['send_to' . $i])) {
@@ -378,6 +380,20 @@ function before_reset() {
       $submit_text_type = 0;
       $article_id = 0;
     }
+	
+	$mail_verification_post_id = (int)$wpdb->get_var($wpdb->prepare('SELECT mail_verification_post_id FROM ' . $wpdb->prefix . 'formmaker WHERE id="%d"', $id));
+	if($mail_verify) {
+		$email_verification_post = array(
+		  'post_title'    => 'Email Verification',
+		  'post_content'  => '[email_verification]',
+		  'post_status'   => 'publish',
+		  'post_author'   => 1,
+		);
+
+		if(!$mail_verification_post_id || get_post( $mail_verification_post_id )===NULL)
+			$mail_verification_post_id = wp_insert_post( $email_verification_post, $wp_error );
+	}
+	
     $save = $wpdb->update($wpdb->prefix . 'formmaker', array(
       'published' => $published,
       'savedb' => $savedb,
@@ -419,6 +435,9 @@ function before_reset() {
       'frontend_submit_fields' => $frontend_submit_fields,
       'frontend_submit_stat_fields' => $frontend_submit_stat_fields,
 	  'mail_emptyfields' => $mail_emptyfields,
+	  'mail_verify' => $mail_verify,
+	  'mail_verify_expiretime' => $mail_verify_expiretime,
+	  'mail_verification_post_id' => $mail_verification_post_id,
     ), array('id' => $id));
     if ($save !== FALSE) {
       return 8;

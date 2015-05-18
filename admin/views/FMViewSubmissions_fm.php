@@ -593,18 +593,36 @@ class  FMViewSubmissions_fm {
                       <?php
                     }
                     else {
-                      if (strpos($temp[$g]->element_value, "***quantity***")) {
-                        $temp[$g]->element_value = str_replace("***quantity***", " ", $temp[$g]->element_value);
-                      }
-                      if (strpos($temp[$g]->element_value, "***property***")) {
-                        $temp[$g]->element_value = str_replace("***property***", " ", $temp[$g]->element_value);
-                      }
-                      ?>
-              <td class="<?php echo $sorted_labels_id[$h];?>_fc sub-align" id="<?php echo $sorted_labels_id[$h]; ?>_fc" <?php echo $styleStr; ?>>
-                <p><?php echo str_replace("***br***", '<br>', stripslashes($temp[$g]->element_value)) ; ?></p>
-              </td>
-                      <?php   
-                    }
+						if (strpos($temp[$g]->element_value, "***quantity***")) {
+									$temp[$g]->element_value = str_replace("***quantity***", " ", $temp[$g]->element_value);
+								}
+								if (strpos($temp[$g]->element_value, "***property***")) {
+									$temp[$g]->element_value = str_replace("***property***", " ", $temp[$g]->element_value);
+								}
+
+								if($sorted_label_types[$h]=="type_submitter_mail"){	
+									$query = $wpdb->prepare('SELECT id FROM ' . $wpdb->prefix . 'formmaker_submits WHERE form_id ="%d" AND group_id="%d" AND element_value="verified**%d"', $form_id, $i, $sorted_labels_id[$h]);
+									$isverified = $wpdb->get_var($query);
+				
+									if($isverified) { ?>
+										<td class="<?php echo $sorted_labels_id[$h];?>_fc" id="<?php echo $sorted_labels_id[$h]; ?>_fc" <?php echo $styleStr; ?>>
+											<p><?php echo $temp[$g]->element_value; ?> <span style="color:#2DA068;">( Verified <img src="<?php echo WD_FM_URL . '/images/verified.png'; ?>" /> )</span></p>
+										</td>
+									<?php }	
+									else {?>
+										<td class="<?php echo $sorted_labels_id[$h];?>_fc" id="<?php echo $sorted_labels_id[$h]; ?>_fc" <?php echo $styleStr; ?>>
+											<p><?php echo $temp[$g]->element_value; ?></p>
+										</td>	
+									<?php }	
+								}	
+								else{
+									?>
+									<td class="<?php echo $sorted_labels_id[$h];?>_fc sub-align" id="<?php echo $sorted_labels_id[$h]; ?>_fc" <?php echo $styleStr; ?>>
+									<p><?php echo str_replace("***br***", '<br>', stripslashes($temp[$g]->element_value)) ; ?></p>
+								</td>
+								<?php   
+								}
+					}
                     $not_label = FALSE;
                   }
                 }

@@ -1383,6 +1383,43 @@ class FMModelForm_maker {
         }
       }
     }
+	
+	if($form->mail_verify){	
+		unset($_SESSION['hash']);
+		unset($_SESSION['gid']);
+		$ip = $_SERVER['REMOTE_ADDR'];	
+		$_SESSION['gid']  = $max+1;
+		$send_tos = explode('**',$form->send_to);
+		if($send_tos){
+			foreach($send_tos as $send_index => $send_to)
+			{
+				$_SESSION['hash'][] = md5($ip.time().rand());
+				$send_to = str_replace('*', '',$send_to);		
+				$save_or_no = $wpdb->insert($wpdb->prefix . "formmaker_submits", array(
+					'form_id' => $id,
+					'element_label' => 'verifyInfo@'.$send_to,
+					'element_value' => $_SESSION['hash'][$send_index]."**".$form->mail_verify_expiretime."**".$send_to,
+					'group_id' => ($max + 1),
+					'date' => date('Y-m-d H:i:s'),
+					'ip' => $ip,
+					'user_id_wd' => $current_user->ID,
+				  ), array(
+					'%d',
+					'%s',
+					'%s',
+					'%d',
+					'%s',
+					'%s',
+					'%d'
+				  ));
+				if (!$save_or_no) {
+					return false;
+				}  
+			}
+		}
+	}
+	
+	
     if ($chgnac) {
       global $wpdb;
       if ($form->submit_text_type != 4) {
@@ -2158,8 +2195,16 @@ class FMModelForm_maker {
 						$send=true;
 					}
 					else {
-						foreach($send_tos as $send_to) {
+						$mail_verification_post_id = (int)$wpdb->get_var($wpdb->prepare('SELECT mail_verification_post_id FROM ' . $wpdb->prefix . 'formmaker WHERE id="%d"', $id));
+						$verification_link = get_post( $mail_verification_post_id );
+						foreach($send_tos as $index => $send_to) {
 							$recipient = isset($_POST['wdform_'.str_replace('*', '', $send_to)."_element".$id]) ? $_POST['wdform_'.str_replace('*', '', $send_to)."_element".$id] : NULL;
+							if(strpos($new_script, "%Verification link%")>-1 && $verification_link !== NULL) {
+								$ver_link = $row->mail_mode_user ? "<a href =".add_query_arg(array('gid' => $_SESSION['gid'], 'h' => $_SESSION['hash'][$index].'@'.str_replace("*", "", $send_to)), get_post_permalink($mail_verification_post_id)).">".add_query_arg(array('gid' => $_SESSION['gid'], 'h' => $_SESSION['hash'][$index].'@'.str_replace("*", "", $send_to)), get_post_permalink($mail_verification_post_id))."</a><br/>" : add_query_arg(array('gid' => $_SESSION['gid'], 'h' => $_SESSION['hash'][$index].'@'.str_replace("*", "", $send_to)), get_post_permalink($mail_verification_post_id));
+								
+								$body = $row->mail_verify ? str_replace("%Verification link%", $ver_link, $new_script) : str_replace("%Verification link%", '', $new_script);
+							}
+							
 							if($recipient) {
 								$send = wp_mail(str_replace(' ', '', $recipient), $subject, stripslashes($body), $headers, $attachment_user);
 							}

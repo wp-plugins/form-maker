@@ -2699,7 +2699,18 @@ class FMViewManage_fm {
           }
         }
         document.getElementById('condition').value = field_condition;
-      }      
+      }
+		
+		function show_verify_options(s){
+			if(s){
+				jQuery(".verification_div").removeAttr( "style" );
+				jQuery(".expire_link").removeAttr( "style" );
+					
+			} else{
+				jQuery(".verification_div").css( 'display', 'none' );
+				jQuery(".expire_link").css( 'display', 'none' );
+			}
+		}      
     </script>
     <style>
     .CodeMirror {
@@ -3446,6 +3457,23 @@ class FMViewManage_fm {
                 <div class="error" style="padding: 5px; font-size: 14px;">File attach is disabled in free version.</div>
               </td>
             </tr>
+			<tr valign="top">
+				<td class="fm_options_label" style="vertical-align: middle;">
+					<label> Email verification: </label>
+				</td>
+				<td class="fm_options_value">
+					<input type="radio" name="mail_verify"  value="1" id="en_mail_verify" <?php if($row->mail_verify==1 ) echo "checked" ?> onClick = "show_verify_options(true)" /> <label for="en_mail_verify">Yes</label>
+					<input type="radio" name="mail_verify" id="dis_mail_verify" value="0" <?php if($row->mail_verify==0 ) echo "checked" ?> onClick = "show_verify_options(false)"/> <label for="dis_mail_verify">No</label>
+				</td>
+            </tr>
+			<tr valign="top" class="expire_link" <?php echo ($row->mail_verify==0 ? 'style="display:none;"' : '')?>>
+				<td class="fm_options_label" valign="top">
+					<label> Verification link expires in: </label>
+				</td>
+				<td class="fm_options_value">
+					<input class="inputbox" type="text" name="mail_verify_expiretime" maxlength="10"  value = "<?php echo ($row->mail_verify_expiretime ? $row->mail_verify_expiretime : 0); ?>" style="width:95px;" onkeypress="return check_isnum_point(event)"/><small> -- hours (0 - never expires).</small>
+				</td>
+			</tr>
             <tr>
               <td class="fm_options_label" valign="top">
                 <label>Custom Text in Email For User</label>
@@ -3478,6 +3506,7 @@ class FMViewManage_fm {
                   <input style="border: 1px solid silver; font-size: 10px; margin: 3px;" type="button" value="Username" onClick="insertAtCursor(<?php echo $choise; ?>,'username')" />
                   <input style="border: 1px solid silver; font-size: 10px; margin: 3px;" type="button" value="User Email" onClick="insertAtCursor(<?php echo $choise; ?>,'useremail')" />
                   <input style="border: 1px solid silver; font-size: 10px; margin:3px;" type="button" value="All fields list" onClick="insertAtCursor(<?php echo $choise; ?>, 'all')" />
+				  <div class="verification_div" <?php echo ($row->mail_verify==0 ? 'style="display:none;"' : '')?>><input style="border: 1px solid silver; font-size: 10px; margin:3px;" type="button" value="Verification link" onClick="insertAtCursor(<?php echo $choise; ?>,'Verification link')" /> </div>
                 </div>
                 <?php
                 if (user_can_richedit()) {

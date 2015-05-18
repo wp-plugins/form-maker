@@ -102,6 +102,11 @@ function form_maker_update($version) {
   if (version_compare($version, '1.7.38') == -1) {
     $wpdb->query("ALTER TABLE `" . $wpdb->prefix . "formmaker` CHANGE `form_fields` `form_fields` longtext NOT NULL");
   }
+  if (version_compare($version, '1.7.43') == -1) {
+    $wpdb->query("ALTER TABLE `" . $wpdb->prefix . "formmaker` ADD `mail_verify` tinyint(4) NOT NULL DEFAULT '0'");
+	$wpdb->query("ALTER TABLE `" . $wpdb->prefix . "formmaker` ADD `mail_verify_expiretime` float NOT NULL");
+	$wpdb->query("ALTER TABLE `" . $wpdb->prefix . "formmaker` ADD `mail_verification_post_id` int(11) NOT NULL");
+  }
   return;
 }
 
