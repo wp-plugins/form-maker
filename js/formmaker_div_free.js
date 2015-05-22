@@ -3592,7 +3592,7 @@ function refresh_matrix(num){
 			break;
 		 }
 	}	
-	 m=i;
+	m=i;
 
 	for(i=100;i>0;i--)
 	{
@@ -3603,152 +3603,132 @@ function refresh_matrix(num){
 	}	
 	n=i;
 	
+
+	var table = document.getElementById(num+'_table_little');
+		table.innerHTML='';
 	
-
-
-
-var table = document.getElementById(num+'_table_little');
-	table.innerHTML='';
-
+	var tr0 = document.createElement('div');
+		tr0.setAttribute("id", num+"_element_tr0");
+		tr0.style.display="table-row";
 	
-		var tr0 = document.createElement('div');
-			tr0.setAttribute("id", num+"_element_tr0");
-			tr0.style.display="table-row";
+	table.appendChild(tr0);
 		
-		table.appendChild(tr0);
-		
-		var td0 = document.createElement('div');
-			td0.setAttribute("id", num+"_element_td0_0");		
-			td0.style.display="table-cell";
-			td0.innerHTML="";		
-		tr0.appendChild(td0);
+	var td0 = document.createElement('div');
+		td0.setAttribute("id", num+"_element_td0_0");		
+		td0.style.display="table-cell";
+		td0.innerHTML="";		
+	tr0.appendChild(td0);
 
-
-		for(k=1;k<=n;k++)
-		{
-			if(document.getElementById("el_columns"+k))
-			{
-			
-				var td = document.createElement('div');
-					td.setAttribute("id", num+"_element_td0_"+k);	
-					td.setAttribute("class", "matrix_");
-					td.style.display="table-cell";
-
-					
-				var label_column = document.createElement('label');
-						label_column.setAttribute("id", num+"_label_elementform_id_temp"+"0_"+k);
-						label_column.setAttribute("name", num+"_label_elementform_id_temp"+"0_"+k);
-						label_column.setAttribute("class", "ch-rad-label");
-						label_column.setAttribute("for",num+"_elementform_id_temp"+k);	
-						label_column.innerHTML=document.getElementById("el_columns"+k).value;	
-                
-			
-						
-						td.appendChild(label_column);
-							
-						tr0.appendChild(td);
-						
-						
-			}
-		}
-		
-                    
-
-for(i=1;i<=m;i++)
-{
-
-	if(document.getElementById("el_rows"+i))
+	for(k=1;k<=n;k++)
 	{
-		var tr = document.createElement('div');
-			tr.setAttribute("id", num+"_element_tr"+i);
-			tr.style.display="table-row";
-		var td0 = document.createElement('div');
-			td0.setAttribute("id", num+"_element_td"+i+"_0");		
-			td0.setAttribute("class", "matrix_");	
-			td0.style.display="table-cell";
+		if(document.getElementById("el_columns"+k))
+		{
+			var td = document.createElement('div');
+				td.setAttribute("id", num+"_element_td0_"+k);	
+				td.setAttribute("class", "matrix_");
+				td.style.display="table-cell";
+
+			var label_column = document.createElement('label');
+				label_column.setAttribute("id", num+"_label_elementform_id_temp"+"0_"+k);
+				label_column.setAttribute("name", num+"_label_elementform_id_temp"+"0_"+k);
+				label_column.setAttribute("class", "ch-rad-label");
+				label_column.setAttribute("for",num+"_elementform_id_temp"+k);	
+				label_column.innerHTML=document.getElementById("el_columns"+k).value;	
 			
-		var label_row = document.createElement('label');
+				td.appendChild(label_column);
+				tr0.appendChild(td);
+		}
+	}			
+
+	for(i=1;i<=m;i++)
+	{
+		if(document.getElementById("el_rows"+i))
+		{
+			var tr = document.createElement('div');
+				tr.setAttribute("id", num+"_element_tr"+i);
+				tr.style.display="table-row";
+			var td0 = document.createElement('div');
+				td0.setAttribute("id", num+"_element_td"+i+"_0");		
+				td0.setAttribute("class", "matrix_");	
+				td0.style.display="table-cell";
+				
+			var label_row = document.createElement('label');
 				label_row.setAttribute("id", num+"_label_elementform_id_temp"+i+"_0");
 				label_row.setAttribute("class", "ch-rad-label");
 				label_row.setAttribute("for",num+"_elementform_id_temp"+i);	
 				label_row.innerHTML=document.getElementById("el_rows"+i).value;	
-		
-       
-
-		
-		td0.appendChild(label_row);	
-		tr.appendChild(td0);
-		
-		table.appendChild(tr);
-		
-		for(k=1;k<=n;k++)
-		{
-			if(document.getElementById("el_columns"+k))
+			
+			td0.appendChild(label_row);	
+			tr.appendChild(td0);
+			table.appendChild(tr);
+			
+			if(document.getElementById("edit_for_select_input_type").value=="text")
+				document.getElementById("el_textbox").removeAttribute("style");
+			else
+				document.getElementById("el_textbox").style.display="none";
+			
+			for(k=1;k<=n;k++)
 			{
-				
-				var td = document.createElement('div');
-					td.setAttribute("id", num+"_element_td"+i+"_"+k);	
-					td.style.cssText="display:table-cell; text-align:center; padding:5px 0 0 5px;";
+				if(document.getElementById("el_columns"+k)) {
+					var td = document.createElement('div');
+						td.setAttribute("id", num+"_element_td"+i+"_"+k);	
+						td.style.cssText="display:table-cell; text-align:center; padding:5px 0 0 5px;";
 
-							
-		if(document.getElementById("edit_for_select_input_type").value=="select"){
-					var select_yes_no = document.createElement('select');
-					    select_yes_no.setAttribute("id", num+"_select_yes_noform_id_temp"+i+"_"+k);
-						select_yes_no.setAttribute("name", num+"_select_yes_noform_id_temp"+i+"_"+k);
-					var option_yes_no1 = document.createElement('option');
-						option_yes_no1.setAttribute("value", "");
-                    Nothing = document.createTextNode(" ");
+					if(document.getElementById("edit_for_select_input_type").value=="select"){
+						var select_yes_no = document.createElement('select');
+							select_yes_no.setAttribute("id", num+"_select_yes_noform_id_temp"+i+"_"+k);
+							select_yes_no.setAttribute("name", num+"_select_yes_noform_id_temp"+i+"_"+k);
+						var option_yes_no1 = document.createElement('option');
+							option_yes_no1.setAttribute("value", "");
+						Nothing = document.createTextNode(" ");
+						
+						var option_yes_no2 = document.createElement('option');
+							option_yes_no2.setAttribute("value", "yes");
+						Yes = document.createTextNode("Yes");
 					
-					var option_yes_no2 = document.createElement('option');
-						option_yes_no2.setAttribute("value", "yes");
-                    Yes = document.createTextNode("Yes");
+						var option_yes_no3 = document.createElement('option');
+							option_yes_no3.setAttribute("value", "no");
+						No = document.createTextNode("No");
 					
-					var option_yes_no3 = document.createElement('option');
-						option_yes_no3.setAttribute("value", "no");
-                    No = document.createTextNode("No");
-                
-				        option_yes_no1.appendChild(Nothing);
-					    option_yes_no2.appendChild(Yes);
-					    option_yes_no3.appendChild(No);
-                        select_yes_no.appendChild(option_yes_no1);
-					    select_yes_no.appendChild(option_yes_no2);
-					    select_yes_no.appendChild(option_yes_no3);
-					    td.appendChild(select_yes_no);
+							option_yes_no1.appendChild(Nothing);
+							option_yes_no2.appendChild(Yes);
+							option_yes_no3.appendChild(No);
+							select_yes_no.appendChild(option_yes_no1);
+							select_yes_no.appendChild(option_yes_no2);
+							select_yes_no.appendChild(option_yes_no3);
+							td.appendChild(select_yes_no);
 					}			
 					else{		
-					var input_of_matrix = document.createElement('input');
+						var input_of_matrix = document.createElement('input');
 							input_of_matrix.setAttribute("id", num+"_input_elementform_id_temp"+i+"_"+k);
 							input_of_matrix.setAttribute("align", "center"); 
 							input_of_matrix.setAttribute("size", "14"); 							
-
 							input_of_matrix.setAttribute("type", document.getElementById("edit_for_select_input_type").value);	
 									
 						
-                    if(document.getElementById("edit_for_select_input_type").value=="radio"){
-					   input_of_matrix.setAttribute("name", num+"_input_elementform_id_temp"+i);
-					   input_of_matrix.setAttribute("value", i+"_"+k);
-					   }
-					else {
-					    if(document.getElementById("edit_for_select_input_type").value=="checkbox"){
-                          input_of_matrix.setAttribute("name", num+"_input_elementform_id_temp"+i+"_"+k);
-                          input_of_matrix.setAttribute("value", 1);
-					    }
-					    else{
-					      input_of_matrix.setAttribute("name", num+"_input_elementform_id_temp"+i+"_"+k);
-                          input_of_matrix.setAttribute("value", '');
-					    }
-					}
-							td.appendChild(input_of_matrix);
-							
+						if(document.getElementById("edit_for_select_input_type").value=="radio"){
+							input_of_matrix.setAttribute("name", num+"_input_elementform_id_temp"+i);
+							input_of_matrix.setAttribute("value", i+"_"+k);
+						}else {
+							if(document.getElementById("edit_for_select_input_type").value=="checkbox"){
+								input_of_matrix.setAttribute("name", num+"_input_elementform_id_temp"+i+"_"+k);
+								input_of_matrix.setAttribute("value", 1);
 							}
-						
+							else{
+								document.getElementById( num+"_textbox_sizeform_id_temp").value = document.getElementById("edit_for_label_textbox_size").value;
 								
-				tr.appendChild(td);
+								input_of_matrix.setAttribute("name", num+"_input_elementform_id_temp"+i+"_"+k);
+								input_of_matrix.setAttribute("value", '');
+								input_of_matrix.style.cssText = "width:"+document.getElementById("edit_for_label_textbox_size").value+"px;";
+							}
+						}
+						td.appendChild(input_of_matrix);
+					}
+					tr.appendChild(td);
+				}
 			}
-		}
-	}   
-}
-               
+		}   
+	}              
 }
 
 function remove_rowcols(id, num, type)
@@ -12638,6 +12618,7 @@ function type_date(i, w_field_label, w_field_label_size, w_field_label_pos, w_da
 	var edit_main_tr2  = document.createElement('tr');
 	var edit_main_tr3  = document.createElement('tr');
 	var edit_main_tr4  = document.createElement('tr');
+		edit_main_tr4.style.cssText = "display:none;";
 	var edit_main_tr5  = document.createElement('tr');
 	var edit_main_tr6  = document.createElement('tr');
 
@@ -21602,7 +21583,7 @@ function change_total(value,id)
 	document.getElementById(id+"_total_elementform_id_temp").innerHTML = value;
 }
 
-function type_matrix(i, w_field_label, w_field_label_size, w_field_label_pos, w_field_input_type, w_rows, w_columns, w_required, w_class, w_attr_name, w_attr_value) {
+function type_matrix(i, w_field_label, w_field_label_size, w_field_label_pos, w_field_input_type, w_rows, w_columns, w_required, w_class, w_attr_name, w_attr_value, w_textbox_size) {
 
 	document.getElementById("element_type").value="type_matrix";
 
@@ -21617,33 +21598,19 @@ function type_matrix(i, w_field_label, w_field_label_size, w_field_label_pos, w_
 		edit_main_table.setAttribute("cellpadding", "0");
 		edit_main_table.setAttribute("cellspacing", "0");
 		
-	var edit_main_tr1  = document.createElement('tr');
-      		edit_main_tr1.setAttribute("valing", "top");
-		
-	var edit_main_tr2  = document.createElement('tr');
-      		edit_main_tr2.setAttribute("valing", "top");
-		
+	var edit_main_tr1  = document.createElement('tr');	
+	var edit_main_tr2  = document.createElement('tr');	
 	var edit_main_tr3  = document.createElement('tr');
-      		edit_main_tr3.setAttribute("valing", "top");
-		
 	var edit_main_tr4  = document.createElement('tr');
-      		edit_main_tr4.setAttribute("valing", "top");
-		
 	var edit_main_tr5  = document.createElement('tr');
-      		edit_main_tr5.setAttribute("valing", "top");
-			
 	var edit_main_tr6  = document.createElement('tr');
-      		edit_main_tr6.setAttribute("valing", "top");
 	var edit_main_tr7  = document.createElement('tr');
-      		edit_main_tr7.setAttribute("valing", "top");
-
 	var edit_main_tr8  = document.createElement('tr');
-      		edit_main_tr8.setAttribute("valing", "top");
-			
 	var edit_main_tr9  = document.createElement('tr');
-      		edit_main_tr9.setAttribute("valing", "top");		
-
-	
+	var edit_main_tr10  = document.createElement('tr');
+		edit_main_tr10.setAttribute("id", "el_textbox");
+	if(w_field_input_type!="text")
+        edit_main_tr10.style.cssText = "display:none;";		
 
 	var edit_main_td1 = document.createElement('td');
 		edit_main_td1.style.cssText = "padding-top:10px";	
@@ -21660,7 +21627,6 @@ function type_matrix(i, w_field_label, w_field_label_size, w_field_label_pos, w_
 	var edit_main_td3_1 = document.createElement('td');
 		edit_main_td3_1.style.cssText = "padding-top:10px ";
 
-		
 	var edit_main_td4 = document.createElement('td');
 		edit_main_td4.style.cssText = "padding-top:10px" ; 	
 		edit_main_td4.setAttribute("id", "rows");
@@ -21692,17 +21658,19 @@ function type_matrix(i, w_field_label, w_field_label_size, w_field_label_pos, w_
 	var edit_main_td9_1 = document.createElement('td');
 		edit_main_td9_1.style.cssText = "padding-top:10px";
 
-		
+	var edit_main_td10 = document.createElement('td');
+	var edit_main_td10_1 = document.createElement('td');
+
 	var el_label_label = document.createElement('label');
-			        el_label_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
-			el_label_label.innerHTML = "Field label";
+		el_label_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_label_label.innerHTML = "Field label";
 	
 	var el_label_textarea = document.createElement('textarea');
-                el_label_textarea.setAttribute("id", "edit_for_label");
-                el_label_textarea.setAttribute("rows", "4");
-                el_label_textarea.style.cssText = "width:200px;";
-                el_label_textarea.setAttribute("onKeyUp", "change_label('"+i+"_element_labelform_id_temp', this.value)");
-				el_label_textarea.innerHTML = w_field_label;
+		el_label_textarea.setAttribute("id", "edit_for_label");
+		el_label_textarea.setAttribute("rows", "4");
+		el_label_textarea.style.cssText = "width:200px;";
+		el_label_textarea.setAttribute("onKeyUp", "change_label('"+i+"_element_labelform_id_temp', this.value)");
+		el_label_textarea.innerHTML = w_field_label;
 				
 	var el_label_size_label = document.createElement('label');
 	    el_label_size_label.setAttribute("for", "edit_for_label_size");
@@ -21716,86 +21684,87 @@ function type_matrix(i, w_field_label, w_field_label_size, w_field_label_pos, w_
         el_label_size.setAttribute("onKeyUp", "change_w_style('"+i+"_label_sectionform_id_temp', this.value)");					
 		
 	var el_label_position_label = document.createElement('label');
-			        el_label_position_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_label_position_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
 		el_label_position_label.innerHTML = "Field label position";
 	
 	var el_label_position1 = document.createElement('input');
-                el_label_position1.setAttribute("id", "edit_for_label_position_top");
-                el_label_position1.setAttribute("type", "radio");
-                el_label_position1.setAttribute("value", "left");
-                
-                el_label_position1.setAttribute("name", "edit_for_label_position");
-                el_label_position1.setAttribute("onchange", "label_left("+i+")");
+		el_label_position1.setAttribute("id", "edit_for_label_position_top");
+		el_label_position1.setAttribute("type", "radio");
+		el_label_position1.setAttribute("value", "left");
+		el_label_position1.setAttribute("name", "edit_for_label_position");
+		el_label_position1.setAttribute("onchange", "label_left("+i+")");
 		Left = document.createTextNode("Left");
 		
 	var el_label_position2 = document.createElement('input');
-                el_label_position2.setAttribute("id", "edit_for_label_position_left");
-                el_label_position2.setAttribute("type", "radio");
-                el_label_position2.setAttribute("value", "top");
-			
-                el_label_position2.setAttribute("name", "edit_for_label_position");
-                el_label_position2.setAttribute("onchange", "label_top("+i+")");
+		el_label_position2.setAttribute("id", "edit_for_label_position_left");
+		el_label_position2.setAttribute("type", "radio");
+		el_label_position2.setAttribute("value", "top");
+		el_label_position2.setAttribute("name", "edit_for_label_position");
+		el_label_position2.setAttribute("onchange", "label_top("+i+")");
 		Top = document.createTextNode("Top");
 		
 	if(w_field_label_pos=="top")
-	
-				el_label_position2.setAttribute("checked", "checked");
+		el_label_position2.setAttribute("checked", "checked");
 	else
-				el_label_position1.setAttribute("checked", "checked");
+		el_label_position1.setAttribute("checked", "checked");
 				
-	
 
-
-var el_input_type_label = document.createElement('label');
-	        el_input_type_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+	var el_input_type_label = document.createElement('label');
+		el_input_type_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
 		el_input_type_label.innerHTML = "Input Type";
 	
 	var el_input_type = document.createElement('select');
-                el_input_type.setAttribute("id", "edit_for_select_input_type");
-                el_input_type.setAttribute("name", "edit_for_select_input_type");
-               el_input_type.setAttribute("onchange", "change_input_type("+i+",this.value); refresh_matrix("+i+")");
+		el_input_type.setAttribute("id", "edit_for_select_input_type");
+		el_input_type.setAttribute("name", "edit_for_select_input_type");
+		el_input_type.setAttribute("onchange", "change_input_type("+i+",this.value); refresh_matrix("+i+")");
                 
 	var el_input_type1 = document.createElement('option');
-                el_input_type1.setAttribute("id", "edit_for_input_type_radio");
-                el_input_type1.setAttribute("value", "radio");
-Radio_Button = document.createTextNode("Radio Button");
+		el_input_type1.setAttribute("id", "edit_for_input_type_radio");
+		el_input_type1.setAttribute("value", "radio");
+	Radio_Button = document.createTextNode("Radio Button");
 
     var el_input_type2 = document.createElement('option');
-                el_input_type2.setAttribute("id", "edit_for_input_type_checkbox");
-                el_input_type2.setAttribute("value", "checkbox");
-Check_Box = document.createTextNode("Check Box");
+		el_input_type2.setAttribute("id", "edit_for_input_type_checkbox");
+		el_input_type2.setAttribute("value", "checkbox");
+	Check_Box = document.createTextNode("Check Box");
 
     var el_input_type3 = document.createElement('option');
-                el_input_type3.setAttribute("id", "edit_for_input_type_text");
-                el_input_type3.setAttribute("value", "text");
-Text_Box= document.createTextNode("Text Box");
+		el_input_type3.setAttribute("id", "edit_for_input_type_text");
+		el_input_type3.setAttribute("value", "text");
+	Text_Box= document.createTextNode("Text Box");
 
     var el_input_type4 = document.createElement('option');
-                el_input_type4.setAttribute("id", "edit_for_input_type_select");
-                el_input_type4.setAttribute("value", "select");				
-Drop_Down = document.createTextNode("Drop Down");              
+		el_input_type4.setAttribute("id", "edit_for_input_type_select");
+		el_input_type4.setAttribute("value", "select");				
+	Drop_Down = document.createTextNode("Drop Down");              
 	
-	
-	
+	var el_textbox_size_label = document.createElement('label');
+	    el_textbox_size_label.setAttribute("for", "edit_for_textbox_size_label");
+		el_textbox_size_label.innerHTML = "Text Box size(px) ";
+		
+	var el_textbox_size = document.createElement('input');
+	    el_textbox_size.setAttribute("id", "edit_for_label_textbox_size");
+	    el_textbox_size.setAttribute("type", "text");
+	    el_textbox_size.setAttribute("value", w_textbox_size);
+		el_textbox_size.setAttribute("onKeyPress", "return check_isnum(event)");
+        el_textbox_size.setAttribute("onKeyUp", "refresh_matrix("+i+")");
 
-		if(w_field_input_type=="radio")
-				el_input_type1.setAttribute("selected", "selected");
+	if(w_field_input_type=="radio")
+		el_input_type1.setAttribute("selected", "selected");
 	else
 	{
 	if(w_field_input_type=="checkbox")
-				el_input_type2.setAttribute("selected", "selected");
-				else{
-				   if(w_field_input_type=="text")
-				    el_input_type3.setAttribute("selected", "selected");
-				else{
-				if(w_field_input_type=="select")
-				    el_input_type4.setAttribute("selected", "selected");
-				
-				}
-				}
-}
-
-
+		el_input_type2.setAttribute("selected", "selected");
+		else{
+		   if(w_field_input_type=="text")
+			el_input_type3.setAttribute("selected", "selected");
+		else{
+		if(w_field_input_type=="select")
+			el_input_type4.setAttribute("selected", "selected");
+		
+		}
+		}
+	}
 		
 	var el_style_label = document.createElement('label');
 	        el_style_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
@@ -21820,10 +21789,7 @@ Drop_Down = document.createTextNode("Drop Down");
                 el_required.setAttribute("value", "yes");
                 el_required.setAttribute("onclick", "set_required('"+i+"_required')");
 	if(w_required=="yes")
-			
-                el_required.setAttribute("checked", "checked");
-		
-
+        el_required.setAttribute("checked", "checked");
 		
 	
 	var el_attr_label = document.createElement('label');
@@ -21908,24 +21874,24 @@ Drop_Down = document.createTextNode("Drop Down");
 	}
 
 	var el_rows_label = document.createElement('label');
-			        el_rows_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_rows_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
 		el_rows_label.innerHTML = "Rows ";
 	var el_rows_add = document.createElement('img');
-                el_rows_add.setAttribute("id", "el_rows_add");
-           		el_rows_add.setAttribute("src", plugin_url + '/images/add.png');
-            	el_rows_add.style.cssText = 'cursor:pointer;';
-            	el_rows_add.setAttribute("title", 'add');
-                el_rows_add.setAttribute("onClick", "add_to_matrix('rows',  "+i+")");
+		el_rows_add.setAttribute("id", "el_rows_add");
+		el_rows_add.setAttribute("src", plugin_url + '/images/add.png');
+		el_rows_add.style.cssText = 'cursor:pointer;';
+		el_rows_add.setAttribute("title", 'add');
+		el_rows_add.setAttribute("onClick", "add_to_matrix('rows',  "+i+")");
 				
 	var el_columns_label = document.createElement('label');
-			        el_columns_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_columns_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
 		el_columns_label.innerHTML = "Columns ";
 	var el_columns_add = document.createElement('img');
-                el_columns_add.setAttribute("id", "el_columns_add");
-           		el_columns_add.setAttribute("src", plugin_url + '/images/add.png');
-            	el_columns_add.style.cssText = 'cursor:pointer;';
-            	el_columns_add.setAttribute("title", 'add');
-                el_columns_add.setAttribute("onClick", "add_to_matrix('columns',  "+i+")");			
+		el_columns_add.setAttribute("id", "el_columns_add");
+		el_columns_add.setAttribute("src", plugin_url + '/images/add.png');
+		el_columns_add.style.cssText = 'cursor:pointer;';
+		el_columns_add.setAttribute("title", 'add');
+		el_columns_add.setAttribute("onClick", "add_to_matrix('columns',  "+i+")");			
 	
 	var t  = document.getElementById('edit_table');
 	
@@ -21949,8 +21915,6 @@ Drop_Down = document.createTextNode("Drop Down");
 	edit_main_td2_1.appendChild(br2);
 	edit_main_td2_1.appendChild(el_label_position2);
 	edit_main_td2_1.appendChild(Top);
-
-
 	
     edit_main_td3.appendChild(el_input_type_label);
 	
@@ -21966,6 +21930,8 @@ Drop_Down = document.createTextNode("Drop Down");
 	
 	edit_main_td3_1.appendChild(el_input_type);
 	
+	edit_main_td10.appendChild(el_textbox_size_label);
+	edit_main_td10_1.appendChild(el_textbox_size);
 	
 	edit_main_td4.appendChild(el_rows_label);
 	edit_main_td4_1.appendChild(el_rows_add);
@@ -21985,8 +21951,6 @@ Drop_Down = document.createTextNode("Drop Down");
 	edit_main_td8.appendChild(br6);
 	edit_main_td8.appendChild(el_attr_table);
 	edit_main_td8.setAttribute("colspan", "2");
-	
-
 	
 	n=w_rows.length;
 	for(k=1; k<n; k++)
@@ -22013,7 +21977,6 @@ Drop_Down = document.createTextNode("Drop Down");
 		edit_main_td4.appendChild(el_rows_remove);
 	
 	}
-	
 	
 	m=w_columns.length;
 	for(k=1; k<m; k++)
@@ -22049,6 +22012,8 @@ Drop_Down = document.createTextNode("Drop Down");
 	edit_main_tr2.appendChild(edit_main_td2_1);
 	edit_main_tr3.appendChild(edit_main_td3);
     edit_main_tr3.appendChild(edit_main_td3_1);
+	edit_main_tr10.appendChild(edit_main_td10);
+    edit_main_tr10.appendChild(edit_main_td10_1);
 	edit_main_tr4.appendChild(edit_main_td4);
 	edit_main_tr4.appendChild(edit_main_td4_1);
 	edit_main_tr5.appendChild(edit_main_td5);
@@ -22059,11 +22024,11 @@ Drop_Down = document.createTextNode("Drop Down");
 	edit_main_tr7.appendChild(edit_main_td7_1);
 	edit_main_tr8.appendChild(edit_main_td8);
 	
-	
 	edit_main_table.appendChild(edit_main_tr1);
 	edit_main_table.appendChild(edit_main_tr9);
 	edit_main_table.appendChild(edit_main_tr2);
 	edit_main_table.appendChild(edit_main_tr3);
+	edit_main_table.appendChild(edit_main_tr10);
 	edit_main_table.appendChild(edit_main_tr4);
 	edit_main_table.appendChild(edit_main_tr5);
 	edit_main_table.appendChild(edit_main_tr6);
@@ -22071,12 +22036,9 @@ Drop_Down = document.createTextNode("Drop Down");
 	edit_main_table.appendChild(edit_main_tr8);
 	
 	edit_div.appendChild(edit_main_table);
-	
 	t.appendChild(edit_div);
-	
-//show table
-
-	element='input';	type='matrix'; 
+	element='input';	
+	type='matrix'; 
 	var adding_type = document.createElement("input");
             adding_type.setAttribute("type", "hidden");
             adding_type.setAttribute("value", "type_matrix");
@@ -22093,65 +22055,68 @@ Drop_Down = document.createTextNode("Drop Down");
             adding_input_type.setAttribute("value", w_field_input_type);
             adding_input_type.setAttribute("name", i+"_input_typeform_id_temp");
             adding_input_type.setAttribute("id", i+"_input_typeform_id_temp");
-	    
+	
+	var adding_textbox_size = document.createElement("input");
+		adding_textbox_size.setAttribute("type", "hidden");
+		adding_textbox_size.setAttribute("value", w_textbox_size);
+		adding_textbox_size.setAttribute("name", i+"_textbox_sizeform_id_temp");
+		adding_textbox_size.setAttribute("id", i+"_textbox_sizeform_id_temp");
+		
    var div = document.createElement('div');
        	div.setAttribute("id", "main_div");
-//tbody sarqac
 		
+	var div_field = document.createElement('div');
+		div_field.setAttribute("id", i+"_elemet_tableform_id_temp");
+					
+	var div_label = document.createElement('div');
+		div_label.setAttribute("align", 'left');
+		div_label.style.display="table-cell";
+		div_label.style.width= w_field_label_size+'px';
+		div_label.setAttribute("id", i+"_label_sectionform_id_temp");
 		
-		var div_field = document.createElement('div');
-           	div_field.setAttribute("id", i+"_elemet_tableform_id_temp");
-						
-      	var div_label = document.createElement('div');
-         	div_label.setAttribute("align", 'left');
-         	div_label.style.display="table-cell";
-			div_label.style.width= w_field_label_size+'px';
-           	div_label.setAttribute("id", i+"_label_sectionform_id_temp");
-			
-      	var div_element = document.createElement('div');
-         	div_element.setAttribute("align", 'left');
-          	div_element.style.display="table-cell";
-          	div_element.setAttribute("id", i+"_element_sectionform_id_temp");
+	var div_element = document.createElement('div');
+		div_element.setAttribute("align", 'left');
+		div_element.style.display="table-cell";
+		div_element.setAttribute("id", i+"_element_sectionform_id_temp");
 
-      	var br1 = document.createElement('br');
-      	var br2 = document.createElement('br');
-     	var br3 = document.createElement('br');
-      	var br4 = document.createElement('br');
-	
+	var br1 = document.createElement('br');
+	var br2 = document.createElement('br');
+	var br3 = document.createElement('br');
+	var br4 = document.createElement('br');
+
 	var table_little_t = document.createElement('div');
 	    table_little_t.setAttribute("id", i+"_elementform_id_temp");
 		table_little_t.style.display="table";
-	 	
 		
 	var table_little = document.createElement('div');
-           	table_little.setAttribute("id", i+"_table_little");
-			table_little.style.display="table-row-group";
-	
+		table_little.setAttribute("id", i+"_table_little");
+		table_little.style.display="table-row-group";
 	
 	table_little_t.appendChild(table_little);
+
+
 	
+	var label = document.createElement('span');
+		label.setAttribute("id", i+"_element_labelform_id_temp");
+		label.innerHTML = w_field_label;
+		label.setAttribute("class", "label");
 
-	    
-      	var label = document.createElement('span');
-			label.setAttribute("id", i+"_element_labelform_id_temp");
-			label.innerHTML = w_field_label;
-			label.setAttribute("class", "label");
-
-	    
-      	var required = document.createElement('span');
-			required.setAttribute("id", i+"_required_elementform_id_temp");
-			required.innerHTML = "";
-			required.setAttribute("class", "required");
-	if(w_required=="yes")
+	
+	var required = document.createElement('span');
+		required.setAttribute("id", i+"_required_elementform_id_temp");
+		required.innerHTML = "";
+		required.setAttribute("class", "required");
+		if(w_required=="yes")
 			required.innerHTML = " *";
 	
-      	var main_td  = document.getElementById('show_table');
+	var main_td  = document.getElementById('show_table');
 	
 		div_label.appendChild(label);
       	div_label.appendChild(required);
       	div_element.appendChild(adding_type);
       	div_element.appendChild(adding_required);
       	div_element.appendChild(adding_input_type);
+		div_element.appendChild(adding_textbox_size);
       	div_element.appendChild(table_little_t);
       	div_field.appendChild(div_label);
       	div_field.appendChild(div_element);
@@ -25713,7 +25678,7 @@ function go_to_type_matrix(new_id)
 	
 	w_rows = ['','row1','row2'];
 	w_columns = ['','column1','column2'];
-type_matrix(new_id,'Matrix:', '100', 'left', 'radio', w_rows, w_columns, 'no','wdform_matrix',w_attr_name, w_attr_value);				
+type_matrix(new_id,'Matrix:', '100', 'left', 'radio', w_rows, w_columns, 'no','wdform_matrix',w_attr_name, w_attr_value, '100');				
 }
 
 function go_to_type_paypal_price(new_id)
@@ -29411,16 +29376,15 @@ function edit(id)
 					}
 					
 			w_field_input_type = document.getElementById(id+"_input_typeform_id_temp").value;		
-					
+			w_textbox_size = document.getElementById(id+"_textbox_sizeform_id_temp") ? document.getElementById(id+"_textbox_sizeform_id_temp").value : '100';			
 			atrs=return_attributes(id+'_elementform_id_temp');
-				w_attr_name=atrs[0];
-				w_attr_value=atrs[1];
-			type_matrix(id, w_field_label, w_field_label_size, w_field_label_pos, w_field_input_type, w_rows, w_columns, w_required, w_class, w_attr_name, w_attr_value); refresh_matrix(id); break; 
+			w_attr_name=atrs[0];
+			w_attr_value=atrs[1];
+			type_matrix(id, w_field_label, w_field_label_size, w_field_label_pos, w_field_input_type, w_rows, w_columns, w_required, w_class, w_attr_name, w_attr_value, w_textbox_size); refresh_matrix(id); break; 
 			
 			
 			}
 		
-			
 			case 'type_time':
 			{	
 				atrs=return_attributes(id+'_hhform_id_temp');
@@ -30519,15 +30483,16 @@ function dublicate(id) {
 					}
 					
 			w_field_input_type = document.getElementById(id+"_input_typeform_id_temp").value;		
-					
+			w_textbox_size = document.getElementById(id+"_textbox_sizeform_id_temp") ? document.getElementById(id+"_textbox_sizeform_id_temp").value : '100';		
 			atrs=return_attributes(id+'_elementform_id_temp');
-				w_attr_name=atrs[0];
-				w_attr_value=atrs[1];
-			type_matrix(gen, w_field_label, w_field_label_size, w_field_label_pos, w_field_input_type, w_rows, w_columns, w_required, w_class, w_attr_name, w_attr_value); refresh_matrix(id); break; 
+			w_attr_name=atrs[0];
+			w_attr_value=atrs[1];
+			type_matrix(gen, w_field_label, w_field_label_size, w_field_label_pos, w_field_input_type, w_rows, w_columns, w_required, w_class, w_attr_name, w_attr_value, w_textbox_size); refresh_matrix(id); break; 
 			
 			
 			}
 		
+			
 			
 			case 'type_time':
 			{	
@@ -31968,7 +31933,7 @@ function gen_form_fields()
 					}
 					
 				w_field_input_type = document.getElementById(id+"_input_typeform_id_temp").value;		
-					
+				w_textbox_size = document.getElementById(id+"_textbox_sizeform_id_temp") ? document.getElementById(id+"_textbox_sizeform_id_temp").value : '100';	
 				atrs=return_attributes(id+'_elementform_id_temp');
 				w_attr_name=atrs[0];
 				w_attr_value=atrs[1];
@@ -31987,7 +31952,7 @@ function gen_form_fields()
 				{
 				form_fields+=w_attr_name[j]+"="+w_attr_value[j]+"*:*w_attr_name*:*";
 				}
-				
+				form_fields+=w_textbox_size+"*:*w_textbox_size*:*";
 				form_fields+="*:*new_field*:*";	
 				break;
 		}

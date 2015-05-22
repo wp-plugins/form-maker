@@ -1941,8 +1941,8 @@ ngdom</option><option value="United States">United States</option><option value=
 											
 					break;
             }
-            case 'type_matrix': {
-              $params_names=array('w_field_label_size','w_field_label_pos', 'w_field_input_type', 'w_rows', 'w_columns', 'w_required','w_class');
+             case 'type_matrix': {
+              $params_names=array('w_field_label_size','w_field_label_pos', 'w_field_input_type', 'w_rows', 'w_columns', 'w_required','w_class','w_textbox_size');
               $temp = $params;
               foreach ($params_names as $params_name) {
                 $temp = explode('*:*'.$params_name.'*:*',$temp);
@@ -1958,6 +1958,7 @@ ngdom</option><option value="United States">United States</option><option value=
               }
               $param['w_field_label_pos'] = ($param['w_field_label_pos']=="left" ? "table-cell" : "block");	
               $required_sym = ($param['w_required']=="yes" ? " *" : "");
+			  $param['w_textbox_size'] = isset($param['w_textbox_size']) ? $param['w_textbox_size'] : '100';
               $w_rows = explode('***',$param['w_rows']);
               $w_columns = explode('***',$param['w_columns']);
               $column_labels = '';
@@ -1980,7 +1981,7 @@ ngdom</option><option value="United States">United States</option><option value=
 									$rows_columns .= '<div id="'.$id.'_element_td'.$i.'_'.$k.'" style="text-align: center; display: table-cell;  padding: 5px 0 0 5px;"><input id="'.$id.'_input_elementform_id_temp'.$i.'_'.$k.'" align="center" size="14" type="checkbox" name="'.$id.'_input_elementform_id_temp'.$i.'_'.$k.'" value="1" disabled/></div>';
 								else
 									if($param['w_field_input_type']=='text')
-										$rows_columns .= '<div id="'.$id.'_element_td'.$i.'_'.$k.'" style="text-align: center; display: table-cell; padding: 5px 0 0 5px;"><input id="'.$id.'_input_elementform_id_temp'.$i.'_'.$k.'" align="center" size="14" type="text" name="'.$id.'_input_elementform_id_temp'.$i.'_'.$k.'" value="" disabled/></div>';
+										$rows_columns .= '<div id="'.$id.'_element_td'.$i.'_'.$k.'" style="text-align: center; display: table-cell; padding: 5px 0 0 5px;"><input id="'.$id.'_input_elementform_id_temp'.$i.'_'.$k.'" align="center" type="text" name="'.$id.'_input_elementform_id_temp'.$i.'_'.$k.'" value="" style="width:'.$param['w_textbox_size'].'px" disabled/></div>';
 									else
 										if($param['w_field_input_type']=='select')
 											$rows_columns .= '<div id="'.$id.'_element_td'.$i.'_'.$k.'" style="text-align: center; display: table-cell; padding: 5px 0 0 5px;"><select id="'.$id.'_select_yes_noform_id_temp'.$i.'_'.$k.'" name="'.$id.'_select_yes_noform_id_temp'.$i.'_'.$k.'" disabled><option value=""> </option><option value="yes">Yes</option><option value="no">No</option></select></div>';
@@ -1992,11 +1993,11 @@ ngdom</option><option value="United States">United States</option><option value=
 						
 					
 						
-					$rep ='<div id="wdform_field'.$id.'" type="type_matrix" class="wdform_field" style="display: table-cell;">'.$arrows.'<div align="left" id="'.$id.'_label_sectionform_id_temp" class="'.$param['w_class'].'" style="display: '.$param['w_field_label_pos'].'; width: '.$param['w_field_label_size'].'px;"><span id="'.$id.'_element_labelform_id_temp" class="label">'.$label.'</span><span id="'.$id.'_required_elementform_id_temp" class="required">'.$required_sym.'</span></div><div align="left" id="'.$id.'_element_sectionform_id_temp" class="'.$param['w_class'].'" style="display: '.$param['w_field_label_pos'].';"><input type="hidden" value="type_matrix" name="'.$id.'_typeform_id_temp" id="'.$id.'_typeform_id_temp"><input type="hidden" value="'.$param['w_required'].'" name="'.$id.'_requiredform_id_temp" id="'.$id.'_requiredform_id_temp"><input type="hidden" value="'.$param['w_field_input_type'].'" name="'.$id.'_input_typeform_id_temp" id="'.$id.'_input_typeform_id_temp"><div id="'.$id.'_elementform_id_temp" style="display: table;" '.$param['attributes'].'><div id="'.$id.'_table_little" style="display: table-row-group;"><div id="'.$id.'_element_tr0" style="display: table-row;"><div id="'.$id.'_element_td0_0" style="display: table-cell;"></div>'.$column_labels.'</div>'.$rows_columns.'</div></div></div></div>';
+					$rep ='<div id="wdform_field'.$id.'" type="type_matrix" class="wdform_field" style="display: table-cell;">'.$arrows.'<div align="left" id="'.$id.'_label_sectionform_id_temp" class="'.$param['w_class'].'" style="display: '.$param['w_field_label_pos'].'; width: '.$param['w_field_label_size'].'px;"><span id="'.$id.'_element_labelform_id_temp" class="label">'.$label.'</span><span id="'.$id.'_required_elementform_id_temp" class="required">'.$required_sym.'</span></div><div align="left" id="'.$id.'_element_sectionform_id_temp" class="'.$param['w_class'].'" style="display: '.$param['w_field_label_pos'].';"><input type="hidden" value="type_matrix" name="'.$id.'_typeform_id_temp" id="'.$id.'_typeform_id_temp"><input type="hidden" value="'.$param['w_required'].'" name="'.$id.'_requiredform_id_temp" id="'.$id.'_requiredform_id_temp"><input type="hidden" value="'.$param['w_field_input_type'].'" name="'.$id.'_input_typeform_id_temp" id="'.$id.'_input_typeform_id_temp"><input type="hidden" value="'.$param['w_textbox_size'].'" name="'.$id.'_textbox_sizeform_id_temp" id="'.$id.'_textbox_sizeform_id_temp"><div id="'.$id.'_elementform_id_temp" style="display: table;" '.$param['attributes'].'><div id="'.$id.'_table_little" style="display: table-row-group;"><div id="'.$id.'_element_tr0" style="display: table-row;"><div id="'.$id.'_element_td0_0" style="display: table-cell;"></div>'.$column_labels.'</div>'.$rows_columns.'</div></div></div></div>';
 											
 					break;
             }
-            case 'type_submit_reset': {
+           case 'type_submit_reset': {
               $params_names=array('w_submit_title','w_reset_title','w_class','w_act');
               $temp=$params;
               foreach ($params_names as $params_name) {

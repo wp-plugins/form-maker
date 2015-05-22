@@ -23,9 +23,7 @@ class FMViewForm_maker {
   // Public Methods                                                                     //
   ////////////////////////////////////////////////////////////////////////////////////////
   public function display($id) {
-  
     $current_url=htmlentities($_SERVER['REQUEST_URI']);
-	
     $form_maker_front_end = "";
     $result = $this->model->showform($id);
     if (!$result) {
@@ -1004,9 +1002,9 @@ class FMViewForm_maker {
                 }
               }              
               $input_active = ($param['w_first_val']=='true' ? "checked='checked'" : "");	
-              $post_value = isset($_POST["counter".$form_id]) ? $_POST["counter".$form_id] : NULL;
+              $post_value = isset($_POST["counter".$form_id]) ? esc_html($_POST["counter".$form_id]) : NULL;
               if(isset($post_value)) {
-                $post_temp = isset($_POST['wdform_'.$id1.'_element'.$form_id]) ? $_POST['wdform_'.$id1.'_element'.$form_id] : "";
+                $post_temp = isset($_POST['wdform_'.$id1.'_element'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element'.$form_id])) : "";
                 $input_active = (isset($post_temp) ? "checked='checked'" : "");	
               }              
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
@@ -1044,7 +1042,7 @@ class FMViewForm_maker {
               }
               break;
             }
-            case 'type_text': {
+           case 'type_text': {
               $params_names=array('w_field_label_size','w_field_label_pos','w_size','w_first_val','w_title','w_required','w_unique');
               $temp=$params;
 			  if(strpos($temp, 'w_regExp_status') > -1)
@@ -1061,7 +1059,7 @@ class FMViewForm_maker {
                   $param['attributes'] = $param['attributes'].' '.$attr;
               }
 
-              $param['w_first_val'] = (isset($_POST['wdform_'.$id1.'_element'.$form_id]) ? $_POST['wdform_'.$id1.'_element'.$form_id] : $param['w_first_val']);
+              $param['w_first_val'] = (isset($_POST['wdform_'.$id1.'_element'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element'.$form_id])) : $param['w_first_val']);
           
               $wdformfieldsize = ($param['w_field_label_pos']=="left" ? $param['w_field_label_size']+$param['w_size'] + 10 : max($param['w_field_label_size'],$param['w_size']));	
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
@@ -1116,7 +1114,7 @@ class FMViewForm_maker {
 					}';
 			   }
 					
-			  break;            
+			  break;              
             }
 
             case 'type_number': {
@@ -1135,7 +1133,7 @@ class FMViewForm_maker {
                 }
               }
               
-              $param['w_first_val']=(isset($_POST['wdform_'.$id1.'_element'.$form_id]) ? $_POST['wdform_'.$id1.'_element'.$form_id] : $param['w_first_val']);
+              $param['w_first_val']=(isset($_POST['wdform_'.$id1.'_element'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element'.$form_id])) : $param['w_first_val']);
 
               $wdformfieldsize = ($param['w_field_label_pos']=="left" ? $param['w_field_label_size']+$param['w_size'] + 10 : max($param['w_field_label_size'],$param['w_size']));	
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
@@ -1231,7 +1229,7 @@ class FMViewForm_maker {
                   $param['attributes'] = $param['attributes'].' '.$attr;
               }
             
-              $param['w_first_val']=(isset($_POST['wdform_'.$id1.'_element'.$form_id]) ? $_POST['wdform_'.$id1.'_element'.$form_id] : $param['w_first_val']);			
+              $param['w_first_val']=(isset($_POST['wdform_'.$id1.'_element'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element'.$form_id])) : $param['w_first_val']);			
                 
               $wdformfieldsize = ($param['w_field_label_pos']=="left" ? $param['w_field_label_size']+$param['w_size_w'] + 10 : max($param['w_field_label_size'],$param['w_size_w']));	
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
@@ -1338,7 +1336,7 @@ class FMViewForm_maker {
               $w_first_val = explode('***',$param['w_first_val']);
               $w_title = explode('***',$param['w_title']);
               
-              $param['w_first_val']=(isset($_POST['wdform_'.$id1.'_element_first'.$form_id]) ? $_POST['wdform_'.$id1.'_element_first'.$form_id] : $w_first_val[0]).'***'.(isset($_POST['wdform_'.$id1.'_element_last'.$form_id]) ? $_POST['wdform_'.$id1.'_element_last'.$form_id] : $w_first_val[1]);
+              $param['w_first_val']=(isset($_POST['wdform_'.$id1.'_element_first'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_first'.$form_id])) : $w_first_val[0]).'***'.(isset($_POST['wdform_'.$id1.'_element_last'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_last'.$form_id])) : $w_first_val[1]);
               
               $wdformfieldsize = ($param['w_field_label_pos']=="left" ? ($param['w_field_label_size']+$param['w_size']+65) : max($param['w_field_label_size'],($param['w_size']+65)));	
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
@@ -1411,14 +1409,14 @@ class FMViewForm_maker {
               $w_title = explode('***',$param['w_title']);
               $w_mini_labels = explode('***',$param['w_mini_labels']);
               
-              $element_title = isset($_POST['wdform_'.$id1.'_element_title'.$form_id]) ? $_POST['wdform_'.$id1.'_element_title'.$form_id] : NULL;
-              $element_first = isset($_POST['wdform_'.$id1.'_element_first'.$form_id]) ? $_POST['wdform_'.$id1.'_element_first'.$form_id] : NULL;
+              $element_title = isset($_POST['wdform_'.$id1.'_element_title'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_title'.$form_id])) : NULL;
+              $element_first = isset($_POST['wdform_'.$id1.'_element_first'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_first'.$form_id])) : NULL;
               if(isset($element_title)) {
-                $param['w_first_val']=(isset($_POST['wdform_'.$id1.'_element_title'.$form_id]) ? $_POST['wdform_'.$id1.'_element_title'.$form_id] : $w_first_val[0]).'***'.(isset($_POST['wdform_'.$id1.'_element_first'.$form_id]) ? $_POST['wdform_'.$id1.'_element_first'.$form_id] : $w_first_val[1]).'***'.(isset($_POST['wdform_'.$id1.'_element_last'.$form_id]) ? $_POST['wdform_'.$id1.'_element_last'.$form_id] : $w_first_val[2]).'***'.(isset($_POST['wdform_'.$id1.'_element_middle'.$form_id]) ? $_POST['wdform_'.$id1.'_element_middle'.$form_id] : $w_first_val[3]);
+                $param['w_first_val']=(isset($_POST['wdform_'.$id1.'_element_title'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_title'.$form_id])) : $w_first_val[0]).'***'.(isset($_POST['wdform_'.$id1.'_element_first'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_first'.$form_id])) : $w_first_val[1]).'***'.(isset($_POST['wdform_'.$id1.'_element_last'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_last'.$form_id])) : $w_first_val[2]).'***'.(isset($_POST['wdform_'.$id1.'_element_middle'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_middle'.$form_id])) : $w_first_val[3]);
               }
               else {
                 if(isset($element_first)) {
-                  $param['w_first_val']=(isset($_POST['wdform_'.$id1.'_element_first'.$form_id]) ? $_POST['wdform_'.$id1.'_element_first'.$form_id] : $w_first_val[0]).'***'.(isset($_POST['wdform_'.$id1.'_element_last'.$form_id]) ? $_POST['wdform_'.$id1.'_element_last'.$form_id] : $w_first_val[1]);
+                  $param['w_first_val']=(isset($_POST['wdform_'.$id1.'_element_first'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_first'.$form_id])) : $w_first_val[0]).'***'.(isset($_POST['wdform_'.$id1.'_element_last'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_last'.$form_id])) : $w_first_val[1]);
                 }
               }
               $input_active = ($param['w_first_val']==$param['w_title'] ? "input_deactive" : "input_active");	
@@ -1540,21 +1538,21 @@ class FMViewForm_maker {
               $g = 0;
               if (isset($w_disabled_fields[0]) && $w_disabled_fields[0] == 'no') {
                 $g+=2;
-                $address_fields .= '<span style="float: left; width: 100%; padding-bottom: 8px; display: block;"><input type="text" id="wdform_'.$id1.'_street1'.$form_id.'" name="wdform_'.$id1.'_street1'.$form_id.'" value="'.(isset($_POST['wdform_'.$id1.'_street1'.$form_id]) ? $_POST['wdform_'.$id1.'_street1'.$form_id] : "").'" style="width: 100%;" '.$param['attributes'].'><label class="mini_label" >'.$w_mini_labels[0].'</label></span>';
+                $address_fields .= '<span style="float: left; width: 100%; padding-bottom: 8px; display: block;"><input type="text" id="wdform_'.$id1.'_street1'.$form_id.'" name="wdform_'.$id1.'_street1'.$form_id.'" value="'.(isset($_POST['wdform_'.$id1.'_street1'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_street1'.$form_id])) : "").'" style="width: 100%;" '.$param['attributes'].'><label class="mini_label" >'.$w_mini_labels[0].'</label></span>';
               }
               if (isset($w_disabled_fields[1]) && $w_disabled_fields[1]=='no') {
                 $g+=2;
-                $address_fields .= '<span style="float: left; width: 100%; padding-bottom: 8px; display: block;"><input type="text" id="wdform_'.$id1.'_street2'.$form_id.'" name="wdform_'.($id1+1).'_street2'.$form_id.'" value="'.(isset($_POST['wdform_'.($id1+1).'_street2'.$form_id]) ? $_POST['wdform_'.($id1+1).'_street2'.$form_id] : "").'" style="width: 100%;" '.$param['attributes'].'><label class="mini_label" >'.$w_mini_labels[1].'</label></span>';
+                $address_fields .= '<span style="float: left; width: 100%; padding-bottom: 8px; display: block;"><input type="text" id="wdform_'.$id1.'_street2'.$form_id.'" name="wdform_'.($id1+1).'_street2'.$form_id.'" value="'.(isset($_POST['wdform_'.($id1+1).'_street2'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.($id1+1).'_street2'.$form_id])) : "").'" style="width: 100%;" '.$param['attributes'].'><label class="mini_label" >'.$w_mini_labels[1].'</label></span>';
               }
               if (isset($w_disabled_fields[2]) && $w_disabled_fields[2]=='no') {
                 $g++;
-                $address_fields .= '<span style="float: left; width: 48%; padding-bottom: 8px;"><input type="text" id="wdform_'.$id1.'_city'.$form_id.'" name="wdform_'.($id1+2).'_city'.$form_id.'" value="'.(isset($_POST['wdform_'.($id1+2).'_city'.$form_id]) ? $_POST['wdform_'.($id1+2).'_city'.$form_id] : "").'" style="width: 100%;" '.$param['attributes'].'><label class="mini_label" >'.$w_mini_labels[2].'</label></span>';
+                $address_fields .= '<span style="float: left; width: 48%; padding-bottom: 8px;"><input type="text" id="wdform_'.$id1.'_city'.$form_id.'" name="wdform_'.($id1+2).'_city'.$form_id.'" value="'.(isset($_POST['wdform_'.($id1+2).'_city'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.($id1+2).'_city'.$form_id])) : "").'" style="width: 100%;" '.$param['attributes'].'><label class="mini_label" >'.$w_mini_labels[2].'</label></span>';
               }
               if (isset($w_disabled_fields[3]) && $w_disabled_fields[3]=='no') {
                 $g++;
                 $w_states = array("","Alabama","Alaska", "Arizona","Arkansas","California","Colorado","Connecticut","Delaware","District Of Columbia","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming");	
                 $w_state_options = '';
-                $post_state = isset($_POST['wdform_'.($id1+3).'_state'.$form_id]) ? $_POST['wdform_'.($id1+3).'_state'.$form_id] : "";
+                $post_state = isset($_POST['wdform_'.($id1+3).'_state'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.($id1+3).'_state'.$form_id])) : "";
                 foreach($w_states as $w_state) {
                   if($w_state == $post_state) {
                     $selected = 'selected="selected"';
@@ -1568,16 +1566,16 @@ class FMViewForm_maker {
                   $address_fields .= '<span style="float: '.(($g%2==0) ? 'right' : 'left').'; width: 48%; padding-bottom: 8px;"><select type="text" id="wdform_'.$id1.'_state'.$form_id.'" name="wdform_'.($id1+3).'_state'.$form_id.'" style="width: 100%;" '.$param['attributes'].'>'.$w_state_options.'</select><label class="mini_label" style="display: block;" id="'.$id1.'_mini_label_state">'.$w_mini_labels[3].'</label></span>';
                 }
                 else {
-                  $address_fields .= '<span style="float: '.(($g%2==0) ? 'right' : 'left').'; width: 48%; padding-bottom: 8px;"><input type="text" id="wdform_'.$id1.'_state'.$form_id.'" name="wdform_'.($id1+3).'_state'.$form_id.'" value="'.(isset($_POST['wdform_'.($id1+3).'_state'.$form_id]) ? $_POST['wdform_'.($id1+3).'_state'.$form_id] : "").'" style="width: 100%;" '.$param['attributes'].'><label class="mini_label">'.$w_mini_labels[3].'</label></span>';
+                  $address_fields .= '<span style="float: '.(($g%2==0) ? 'right' : 'left').'; width: 48%; padding-bottom: 8px;"><input type="text" id="wdform_'.$id1.'_state'.$form_id.'" name="wdform_'.($id1+3).'_state'.$form_id.'" value="'.(isset($_POST['wdform_'.($id1+3).'_state'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.($id1+3).'_state'.$form_id])) : "").'" style="width: 100%;" '.$param['attributes'].'><label class="mini_label">'.$w_mini_labels[3].'</label></span>';
                 }
               }
               if (isset($w_disabled_fields[4]) && $w_disabled_fields[4]=='no') {
                 $g++;
-                $address_fields .= '<span style="float: '.(($g%2==0) ? 'right' : 'left').'; width: 48%; padding-bottom: 8px;"><input type="text" id="wdform_'.$id1.'_postal'.$form_id.'" name="wdform_'.($id1+4).'_postal'.$form_id.'" value="'.(isset($_POST['wdform_'.($id1+4).'_postal'.$form_id]) ? $_POST['wdform_'.($id1+4).'_postal'.$form_id] : "").'" style="width: 100%;" '.$param['attributes'].'><label class="mini_label">'.$w_mini_labels[4].'</label></span>';
+                $address_fields .= '<span style="float: '.(($g%2==0) ? 'right' : 'left').'; width: 48%; padding-bottom: 8px;"><input type="text" id="wdform_'.$id1.'_postal'.$form_id.'" name="wdform_'.($id1+4).'_postal'.$form_id.'" value="'.(isset($_POST['wdform_'.($id1+4).'_postal'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.($id1+4).'_postal'.$form_id])) : "").'" style="width: 100%;" '.$param['attributes'].'><label class="mini_label">'.$w_mini_labels[4].'</label></span>';
               }
               $w_countries = array("","Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Central African Republic","Chad","Chile","China","Colombia","Comoros","Congo (Brazzaville)","Congo","Costa Rica","Cote d'Ivoire","Croatia","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","East Timor (Timor Timur)","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Fiji","Finland","France","Gabon","Gambia, The","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea","Guinea-Bissau","Guyana","Haiti","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati","Korea, North","Korea, South","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Morocco","Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands","New Zealand","Nicaragua","Niger","Nigeria","Norway","Oman","Pakistan","Palau","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Qatar","Romania","Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia","Saint Vincent","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia and Montenegro","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","Spain","Sri Lanka","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Togo","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe");	
               $w_options = '';
-              $post_country = isset($_POST['wdform_'.($id1+5).'_country'.$form_id]) ? $_POST['wdform_'.($id1+5).'_country'.$form_id] : "";
+              $post_country = isset($_POST['wdform_'.($id1+5).'_country'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.($id1+5).'_country'.$form_id])) : "";
               foreach($w_countries as $w_country) {              
                 if($w_country == $post_country) {
                   $selected = 'selected="selected"';
@@ -1610,9 +1608,9 @@ class FMViewForm_maker {
                 }
                 ';
               }
-              $post = isset($_POST['wdform_'.($id1+5).'_country'.$form_id]) ? $_POST['wdform_'.($id1+5).'_country'.$form_id] : NULL;
+              $post = isset($_POST['wdform_'.($id1+5).'_country'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.($id1+5).'_country'.$form_id])) : NULL;
               if(isset($post)) {
-                $onload_js .=' jQuery("#wdform_'.$id1.'_country'.$form_id.'").val("'.(isset($_POST['wdform_'.($id1+5)."_country".$form_id]) ? $_POST['wdform_'.($id1+5)."_country".$form_id] : '').'");';
+                $onload_js .=' jQuery("#wdform_'.$id1.'_country'.$form_id.'").val("'.(isset($_POST['wdform_'.($id1+5)."_country".$form_id]) ? esc_html(stripslashes($_POST['wdform_'.($id1+5)."_country".$form_id])) : '').'");';
               }
               if (isset($w_disabled_fields[6]) && $w_disabled_fields[6]=='yes') {
                 $onload_js .=' jQuery("#wdform_'.$id1.'_country'.$form_id.'").change(function() { 
@@ -1626,7 +1624,7 @@ class FMViewForm_maker {
                   if(jQuery("#wdform_'.$id1.'_state'.$form_id.'").attr("tagName")=="SELECT")
                   {
               
-                    jQuery("#wdform_'.$id1.'_state'.$form_id.'").parent().append("<input type=\"text\" id=\"wdform_'.$id1.'_state'.$form_id.'\" name=\"wdform_'.($id1+3).'_state'.$form_id.'\" value=\"'.(isset($_POST['wdform_'.($id1+3).'_state'.$form_id]) ? $_POST['wdform_'.($id1+3).'_state'.$form_id] : "").'\" style=\"width: 100%;\" '.$param['attributes'].'><label class=\"mini_label\">'.$w_mini_labels[3].'</label>");
+                    jQuery("#wdform_'.$id1.'_state'.$form_id.'").parent().append("<input type=\"text\" id=\"wdform_'.$id1.'_state'.$form_id.'\" name=\"wdform_'.($id1+3).'_state'.$form_id.'\" value=\"'.(isset($_POST['wdform_'.($id1+3).'_state'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.($id1+3).'_state'.$form_id])) : "").'\" style=\"width: 100%;\" '.$param['attributes'].'><label class=\"mini_label\">'.$w_mini_labels[3].'</label>");
                     jQuery("#wdform_'.$id1.'_state'.$form_id.'").parent().children("select:first, label:first").remove();	
                   }
                 }
@@ -1652,7 +1650,7 @@ class FMViewForm_maker {
                 }
               }
               
-              $param['w_first_val']=(isset($_POST['wdform_'.$id1.'_element'.$form_id]) ? $_POST['wdform_'.$id1.'_element'.$form_id] : $param['w_first_val']);
+              $param['w_first_val']=(isset($_POST['wdform_'.$id1.'_element'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element'.$form_id])) : $param['w_first_val']);
                 
               $wdformfieldsize = ($param['w_field_label_pos']=="left" ? ($param['w_field_label_size']+$param['w_size']) : max($param['w_field_label_size'], $param['w_size']));	
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
@@ -1742,13 +1740,13 @@ class FMViewForm_maker {
 				   $param['w_choices_value'] = explode('***',$param['w_choices_value']);
 				   $param['w_choices_params'] = explode('***',$param['w_choices_params']);	
 				}
-              $post_value = isset($_POST["counter".$form_id]) ? $_POST["counter".$form_id] : NULL;
+              $post_value = isset($_POST["counter".$form_id]) ? esc_html($_POST["counter".$form_id]) : NULL;
               $is_other=false;
 
               if (isset($post_value)) {
                 if($param['w_allow_other']=="yes") {
                   $is_other = FALSE;
-                  $other_element = isset($_POST['wdform_'.$id1."_other_input".$form_id]) ? $_POST['wdform_'.$id1."_other_input".$form_id] : NULL;
+                  $other_element = isset($_POST['wdform_'.$id1."_other_input".$form_id]) ? esc_html($_POST['wdform_'.$id1."_other_input".$form_id]) : NULL;
                   if (isset($other_element)) {
                     $is_other = TRUE;
                   }
@@ -1834,7 +1832,7 @@ class FMViewForm_maker {
                   $param['w_choices_checked'][$key]=($param['w_choices_checked'][$key]=='true' ? 'checked="checked"' : '');
                 }
                 else {
-                  $post_valuetemp = isset($_POST['wdform_'.$id1."_element".$form_id.$key]) ? $_POST['wdform_'.$id1."_element".$form_id.$key] : NULL;
+                  $post_valuetemp = isset($_POST['wdform_'.$id1."_element".$form_id.$key]) ? esc_html(stripslashes($_POST['wdform_'.$id1."_element".$form_id.$key])) : NULL;
                   $param['w_choices_checked'][$key]=(isset($post_valuetemp) ? 'checked="checked"' : '');
                 }
                 $choice_value = isset($param['w_choices_value']) ? $param['w_choices_value'][$key] : $choice;
@@ -1864,7 +1862,7 @@ class FMViewForm_maker {
                 ';
               }
               if($is_other) {
-                $onload_js .='show_other_input("wdform_'.$id1.'","'.$form_id.'"); jQuery("#wdform_'.$id1.'_other_input'.$form_id.'").val("'.(isset($_POST['wdform_'.$id1."_other_input".$form_id]) ? $_POST['wdform_'.$id1."_other_input".$form_id] : '').'");';
+                $onload_js .='show_other_input("wdform_'.$id1.'","'.$form_id.'"); jQuery("#wdform_'.$id1.'_other_input'.$form_id.'").val("'.(isset($_POST['wdform_'.$id1."_other_input".$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1."_other_input".$form_id])) : '').'");';
               }
               if($param['w_randomize']=='yes')
               {
@@ -1915,13 +1913,13 @@ class FMViewForm_maker {
 				$param['w_choices_value'] = explode('***',$param['w_choices_value']);
 				$param['w_choices_params'] = explode('***',$param['w_choices_params']);	
 			  }
-              $post_value = isset($_POST["counter".$form_id]) ? $_POST["counter".$form_id] : NULL;
+              $post_value = isset($_POST["counter".$form_id]) ? esc_html($_POST["counter".$form_id]) : NULL;
               $is_other=false;
 
               if(isset($post_value)) {
                 if($param['w_allow_other']=="yes") {
                   $is_other=false;
-                  $other_element = isset($_POST['wdform_'.$id1."_other_input".$form_id]) ? $_POST['wdform_'.$id1."_other_input".$form_id] : "";
+                  $other_element = isset($_POST['wdform_'.$id1."_other_input".$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1."_other_input".$form_id])) : "";
                   if(isset($other_element)) {
                     $is_other=true;
                   }
@@ -2006,7 +2004,7 @@ class FMViewForm_maker {
                   $param['w_choices_checked'][$key]=($param['w_choices_checked'][$key]=='true' ? 'checked="checked"' : '');
                 }
                 else {
-                  $param['w_choices_checked'][$key] = (htmlspecialchars($choice) == htmlspecialchars(isset($_POST['wdform_'.$id1."_element".$form_id]) ? $_POST['wdform_'.$id1."_element".$form_id] : "") ? 'checked="checked"' : '');
+                  $param['w_choices_checked'][$key] = (htmlspecialchars($choice) == htmlspecialchars(isset($_POST['wdform_'.$id1."_element".$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1."_element".$form_id])) : "") ? 'checked="checked"' : '');
                 }
 				$choice_value = isset($param['w_choices_value']) ? $param['w_choices_value'][$key] : $choice;
                 $rep.='<div style="display: '.($param['w_flow']!='hor' ? 'table-cell' : 'table-row' ).';"><label class="wdform-ch-rad-label" for="wdform_'.$id1.'_element'.$form_id.''.$key1.'" '.$param['w_field_option_pos1'].'>'.$choice.'</label><div class="radio-div forlabs" '.$param['w_field_option_pos2'].'><input type="radio" '.(($param['w_allow_other']=="yes" && $param['w_allow_other_num']==$key) ? 'other="1"' : ''	).' id="wdform_'.$id1.'_element'.$form_id.''.$key1.'" name="wdform_'.$id1.'_element'.$form_id.'" value="'.htmlspecialchars($choice_value).'" onclick="set_default(&quot;wdform_'.$id1.'&quot;,&quot;'.$key1.'&quot;,&quot;'.$form_id.'&quot;); '.(($param['w_allow_other']=="yes" && $param['w_allow_other_num']==$key) ? 'show_other_input(&quot;wdform_'.$id1.'&quot;,&quot;'.$form_id.'&quot;);' : '').'" '.$param['w_choices_checked'][$key].' '.$param['attributes'].'><label for="wdform_'.$id1.'_element'.$form_id.''.$key1.'"></label></div></div>';
@@ -2030,7 +2028,7 @@ class FMViewForm_maker {
                 }';
               }
               if($is_other) {
-                $onload_js .='show_other_input("wdform_'.$id1.'","'.$form_id.'"); jQuery("#wdform_'.$id1.'_other_input'.$form_id.'").val("'.(isset($_POST['wdform_'.$id1."_other_input".$form_id]) ? $_POST['wdform_'.$id1."_other_input".$form_id] : '').'");';
+                $onload_js .='show_other_input("wdform_'.$id1.'","'.$form_id.'"); jQuery("#wdform_'.$id1.'_other_input'.$form_id.'").val("'.(isset($_POST['wdform_'.$id1."_other_input".$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1."_other_input".$form_id])) : '').'");';
               }
               if($param['w_randomize']=='yes')
               {
@@ -2080,7 +2078,7 @@ class FMViewForm_maker {
 			  if(!isset($param['w_value_disabled']))
 				   $param['w_value_disabled'] = 'no';
 					
-              $post_value = isset($_POST["counter".$form_id]) ? $_POST["counter".$form_id] : NULL;
+              $post_value = isset($_POST["counter".$form_id]) ? esc_html($_POST["counter".$form_id]) : NULL;
               
               $rep='<div type="type_own_select" class="wdform-field"  style="width:'.$wdformfieldsize.'px"><div class="wdform-label-section" style="'.$param['w_field_label_pos1'].'; width: '.$param['w_field_label_size'].'px;"><span class="wdform-label">'.$label.'</span>';
               if($required) {
@@ -2190,7 +2188,7 @@ class FMViewForm_maker {
               $required = ($param['w_required']=="yes" ? true : false);	
               $param['w_countries']	= explode('***',$param['w_countries']);
               
-              $post_value = isset($_POST["counter".$form_id]) ? $_POST["counter".$form_id] : NULL;
+              $post_value = isset($_POST["counter".$form_id]) ? esc_html($_POST["counter".$form_id]) : NULL;
               $selected='';
      
               $rep='<div type="type_country" class="wdform-field"  style="width:'.$wdformfieldsize.'px"><div class="wdform-label-section" style="'.$param['w_field_label_pos1'].'; width: '.$param['w_field_label_size'].'px;"><span class="wdform-label">'.$label.'</span>';
@@ -2200,7 +2198,7 @@ class FMViewForm_maker {
               $rep.='</div><div class="wdform-element-section '.$param['w_class'].'" style="'.$param['w_field_label_pos2'].' width: '.$param['w_size'].'px;"><select id="wdform_'.$id1.'_element'.$form_id.'" name="wdform_'.$id1.'_element'.$form_id.'" style="width: 100%;"  '.$param['attributes'].'>';
               foreach($param['w_countries'] as $key => $choice) {
                 if(isset($post_value)) {
-                  $selected = (htmlspecialchars($choice) == htmlspecialchars(isset($_POST['wdform_'.$id1."_element".$form_id]) ? $_POST['wdform_'.$id1."_element".$form_id] : "") ? 'selected="selected"' : '');
+                  $selected = (htmlspecialchars($choice) == htmlspecialchars(isset($_POST['wdform_'.$id1."_element".$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1."_element".$form_id])) : "") ? 'selected="selected"' : '');
                 }
                 $choice_value=$choice;
                 $rep.='<option value="'.$choice_value.'" '.$selected.'>'.$choice.'</option>';
@@ -2254,13 +2252,13 @@ class FMViewForm_maker {
               $w_sec_label='';
             
               if($param['w_sec']=='1') {
-                $w_sec = '<div align="center" style="display: table-cell;"><span class="wdform_colon" style="vertical-align: middle;">&nbsp;:&nbsp;</span></div><div style="display: table-cell;"><input type="text" value="'.(isset($_POST['wdform_'.$id1."_ss".$form_id]) ? $_POST['wdform_'.$id1."_ss".$form_id] : $param['w_ss']).'" class="time_box" id="wdform_'.$id1.'_ss'.$form_id.'" name="wdform_'.$id1.'_ss'.$form_id.'" onkeypress="return check_second(event, &quot;wdform_'.$id1.'_ss'.$form_id.'&quot;)" '.$param['attributes'].'></div>';
+                $w_sec = '<div align="center" style="display: table-cell;"><span class="wdform_colon" style="vertical-align: middle;">&nbsp;:&nbsp;</span></div><div style="display: table-cell;"><input type="text" value="'.(isset($_POST['wdform_'.$id1."_ss".$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1."_ss".$form_id])) : $param['w_ss']).'" class="time_box" id="wdform_'.$id1.'_ss'.$form_id.'" name="wdform_'.$id1.'_ss'.$form_id.'" onkeypress="return check_second(event, &quot;wdform_'.$id1.'_ss'.$form_id.'&quot;)" '.$param['attributes'].'></div>';
                 
                 $w_sec_label='<div style="display: table-cell;"></div><div style="display: table-cell;"><label class="mini_label">'.$w_mini_labels[2].'</label></div>';
               }
 
               if($param['w_time_type']=='12') {
-                if((isset($_POST['wdform_'.$id1."_am_pm".$form_id]) ? $_POST['wdform_'.$id1."_am_pm".$form_id] : $param['w_am_pm'])=='am') {
+                if((isset($_POST['wdform_'.$id1."_am_pm".$form_id]) ? esc_html($_POST['wdform_'.$id1."_am_pm".$form_id]) : $param['w_am_pm'])=='am') {
                   $am_ = "selected=\"selected\"";
                   $pm_ = "";
                 }	
@@ -2281,7 +2279,7 @@ class FMViewForm_maker {
               if($required) {
                 $rep.='<span class="wdform-required">'.$required_sym.'</span>';
               }
-              $rep.='</div><div class="wdform-element-section '.$param['w_class'].'" style="'.$param['w_field_label_pos2'].';"><div style="display: table;"><div style="display: table-row;"><div style="display: table-cell;"><input type="text" value="'.(isset($_POST['wdform_'.$id1."_hh".$form_id]) ? $_POST['wdform_'.$id1."_hh".$form_id] : $param['w_hh']).'" class="time_box" id="wdform_'.$id1.'_hh'.$form_id.'" name="wdform_'.$id1.'_hh'.$form_id.'" onkeypress="return check_hour(event, &quot;wdform_'.$id1.'_hh'.$form_id.'&quot;, &quot;23&quot;)" '.$param['attributes'].'></div><div align="center" style="display: table-cell;"><span class="wdform_colon" style="vertical-align: middle;">&nbsp;:&nbsp;</span></div><div style="display: table-cell;"><input type="text" value="'.(isset($_POST['wdform_'.$id1."_mm".$form_id]) ? $_POST['wdform_'.$id1."_mm".$form_id] : $param['w_mm']).'" class="time_box" id="wdform_'.$id1.'_mm'.$form_id.'" name="wdform_'.$id1.'_mm'.$form_id.'" onkeypress="return check_minute(event, &quot;wdform_'.$id1.'_mm'.$form_id.'&quot;)" '.$param['attributes'].'></div>'.$w_sec.$w_time_type.'</div><div style="display: table-row;"><div style="display: table-cell;"><label class="mini_label">'.$w_mini_labels[0].'</label></div><div style="display: table-cell;"></div><div style="display: table-cell;"><label class="mini_label">'.$w_mini_labels[1].'</label></div>'.$w_sec_label.$w_time_type_label.'</div></div></div></div>';
+              $rep.='</div><div class="wdform-element-section '.$param['w_class'].'" style="'.$param['w_field_label_pos2'].';"><div style="display: table;"><div style="display: table-row;"><div style="display: table-cell;"><input type="text" value="'.(isset($_POST['wdform_'.$id1."_hh".$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1."_hh".$form_id])) : $param['w_hh']).'" class="time_box" id="wdform_'.$id1.'_hh'.$form_id.'" name="wdform_'.$id1.'_hh'.$form_id.'" onkeypress="return check_hour(event, &quot;wdform_'.$id1.'_hh'.$form_id.'&quot;, &quot;23&quot;)" '.$param['attributes'].'></div><div align="center" style="display: table-cell;"><span class="wdform_colon" style="vertical-align: middle;">&nbsp;:&nbsp;</span></div><div style="display: table-cell;"><input type="text" value="'.(isset($_POST['wdform_'.$id1."_mm".$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1."_mm".$form_id])) : $param['w_mm']).'" class="time_box" id="wdform_'.$id1.'_mm'.$form_id.'" name="wdform_'.$id1.'_mm'.$form_id.'" onkeypress="return check_minute(event, &quot;wdform_'.$id1.'_mm'.$form_id.'&quot;)" '.$param['attributes'].'></div>'.$w_sec.$w_time_type.'</div><div style="display: table-row;"><div style="display: table-cell;"><label class="mini_label">'.$w_mini_labels[0].'</label></div><div style="display: table-cell;"></div><div style="display: table-cell;"><label class="mini_label">'.$w_mini_labels[1].'</label></div>'.$w_sec_label.$w_time_type_label.'</div></div></div></div>';
               
               if($required) {
                 $check_js.='
@@ -2322,7 +2320,7 @@ class FMViewForm_maker {
               $param['w_field_label_pos2'] = ($param['w_field_label_pos']=="left" ? "" : "display:block;");
               $required = ($param['w_required']=="yes" ? true : false);	
             
-              $param['w_date']=(isset($_POST['wdform_'.$id1."_element".$form_id]) ? $_POST['wdform_'.$id1."_element".$form_id] : $param['w_date']);
+              $param['w_date']=(isset($_POST['wdform_'.$id1."_element".$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1."_element".$form_id])) : $param['w_date']);
 
               $rep ='<div type="type_date" class="wdform-field"><div class="wdform-label-section" style="'.$param['w_field_label_pos1'].'; width: '.$param['w_field_label_size'].'px;"><span class="wdform-label">'.$label.'</span>';
               if($required) {
@@ -2367,9 +2365,9 @@ class FMViewForm_maker {
                 }
               }
               
-              $param['w_day']=(isset($_POST['wdform_'.$id1."_day".$form_id]) ? $_POST['wdform_'.$id1."_day".$form_id] : $param['w_day']);
-              $param['w_month']=(isset($_POST['wdform_'.$id1."_month".$form_id]) ? $_POST['wdform_'.$id1."_month".$form_id] : $param['w_month']);
-              $param['w_year']=(isset($_POST['wdform_'.$id1."_year".$form_id]) ? $_POST['wdform_'.$id1."_year".$form_id] : $param['w_year']);
+              $param['w_day']=(isset($_POST['wdform_'.$id1."_day".$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1."_day".$form_id])) : $param['w_day']);
+              $param['w_month']=(isset($_POST['wdform_'.$id1."_month".$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1."_month".$form_id])) : $param['w_month']);
+              $param['w_year']=(isset($_POST['wdform_'.$id1."_year".$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1."_year".$form_id])) : $param['w_year']);
                 
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
               $param['w_field_label_pos2'] = ($param['w_field_label_pos']=="left" ? "" : "display:block;");
@@ -2687,7 +2685,7 @@ class FMViewForm_maker {
               $w_first_val = explode('***',$param['w_first_val']);
               $w_title = explode('***',$param['w_title']);
       
-              $param['w_first_val']=(isset($_POST['wdform_'.$id1.'_element_dollars'.$form_id]) ? $_POST['wdform_'.$id1.'_element_dollars'.$form_id] : $w_first_val[0]).'***'.(isset($_POST['wdform_'.$id1.'_element_cents'.$form_id]) ? $_POST['wdform_'.$id1.'_element_cents'.$form_id] : $w_first_val[1]);
+              $param['w_first_val']=(isset($_POST['wdform_'.$id1.'_element_dollars'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_dollars'.$form_id])) : $w_first_val[0]).'***'.(isset($_POST['wdform_'.$id1.'_element_cents'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_cents'.$form_id])) : $w_first_val[1]);
 
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
               $param['w_field_label_pos2'] = ($param['w_field_label_pos']=="left" ? "" : "display:block;");
@@ -2798,7 +2796,7 @@ class FMViewForm_maker {
               if(isset($param['w_choices_params']))
 				$param['w_choices_params'] = explode('***',$param['w_choices_params']);	
 				
-              $post_value = isset($_POST['wdform_'.$id1."_element".$form_id]) ? $_POST['wdform_'.$id1."_element".$form_id] : NULL;
+              $post_value = isset($_POST['wdform_'.$id1."_element".$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1."_element".$form_id])) : NULL;
              $rep='<div type="type_paypal_select" class="wdform-field" style="width:'.$wdformfieldsize.'px"><div class="wdform-label-section" style="'.$param['w_field_label_pos1'].'; width: '.$param['w_field_label_size'].'px;"><span class="wdform-label">'.$label.'</span>';
 					if($required)
 						$rep.='<span class="wdform-required">'.$required_sym.'</span>';
@@ -2879,7 +2877,7 @@ class FMViewForm_maker {
 					}
               $rep.='</select><div id="wdform_'.$id1.'_div'.$form_id.'">';
               if($param['w_quantity']=="yes") {
-                $rep.='<div class="paypal-property"><label class="mini_label" style="margin: 0px 5px;">'.(__("Quantity", 'form_maker')).'</label><input type="text" value="'.(isset($_POST['wdform_'.$id1."_element_quantity".$form_id]) ? $_POST['wdform_'.$id1."_element_quantity".$form_id] : $param['w_quantity_value']).'" id="wdform_'.$id1.'_element_quantity'.$form_id.'" name="wdform_'.$id1.'_element_quantity'.$form_id.'" class="wdform-quantity"></div>';
+                $rep.='<div class="paypal-property"><label class="mini_label" style="margin: 0px 5px;">'.(__("Quantity", 'form_maker')).'</label><input type="text" value="'.(isset($_POST['wdform_'.$id1."_element_quantity".$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1."_element_quantity".$form_id])) : $param['w_quantity_value']).'" id="wdform_'.$id1.'_element_quantity'.$form_id.'" name="wdform_'.$id1.'_element_quantity'.$form_id.'" class="wdform-quantity"></div>';
               }
               if($param['w_property'][0]) {
                 foreach($param['w_property'] as $key => $property) {
@@ -2891,7 +2889,7 @@ class FMViewForm_maker {
                   $param['w_property_values'][$key]	= explode('###',$param['w_property_values'][$key]);
                   $param['w_property_values'][$key]	= array_slice($param['w_property_values'][$key],1, count($param['w_property_values'][$key]));   
                   foreach($param['w_property_values'][$key] as $subkey => $property_value) {
-                    $rep.='<option id="wdform_'.$id1.'_'.$key.'_option'.$subkey.'" value="'.$property_value.'" '.(isset($_POST['wdform_'.$id1.'_property'.$form_id.''.$key]) && $_POST['wdform_'.$id1.'_property'.$form_id.''.$key] == $property_value ? 'selected="selected"' : "").'>'.$property_value.'</option>';
+                    $rep.='<option id="wdform_'.$id1.'_'.$key.'_option'.$subkey.'" value="'.$property_value.'" '.(isset($_POST['wdform_'.$id1.'_property'.$form_id.''.$key]) && esc_html(stripslashes($_POST['wdform_'.$id1.'_property'.$form_id.''.$key])) == $property_value ? 'selected="selected"' : "").'>'.$property_value.'</option>';
                   }
                   $rep.='</select></div></div>';
                 }
@@ -3050,7 +3048,7 @@ class FMViewForm_maker {
           
               $rep.='<div id="wdform_'.$id1.'_div'.$form_id.'">';
               if($param['w_quantity']=="yes") {
-                $rep.='<div class="paypal-property"><label class="mini_label" style="margin: 0px 5px;">'.(__("Quantity", 'form_maker')).'</label><input type="text" value="'.(isset($_POST['wdform_'.$id1."_element_quantity".$form_id]) ? $_POST['wdform_'.$id1."_element_quantity".$form_id] : $param['w_quantity_value']).'" id="wdform_'.$id1.'_element_quantity'.$form_id.'" name="wdform_'.$id1.'_element_quantity'.$form_id.'" class="wdform-quantity"></div>';
+                $rep.='<div class="paypal-property"><label class="mini_label" style="margin: 0px 5px;">'.(__("Quantity", 'form_maker')).'</label><input type="text" value="'.(isset($_POST['wdform_'.$id1."_element_quantity".$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1."_element_quantity".$form_id])) : $param['w_quantity_value']).'" id="wdform_'.$id1.'_element_quantity'.$form_id.'" name="wdform_'.$id1.'_element_quantity'.$form_id.'" class="wdform-quantity"></div>';
               }
               if($param['w_property'][0]) {
                 foreach($param['w_property'] as $key => $property) {
@@ -3062,7 +3060,7 @@ class FMViewForm_maker {
                   $param['w_property_values'][$key]	= explode('###',$param['w_property_values'][$key]);
                   $param['w_property_values'][$key]	= array_slice($param['w_property_values'][$key],1, count($param['w_property_values'][$key]));   
                   foreach($param['w_property_values'][$key] as $subkey => $property_value) {
-                    $rep.='<option id="wdform_'.$id1.'_'.$key.'_option'.$subkey.'" value="'.$property_value.'" '.(isset($_POST['wdform_'.$id1.'_property'.$form_id.''.$key]) && $_POST['wdform_'.$id1.'_property'.$form_id.''.$key] == $property_value ? 'selected="selected"' : "").'>'.$property_value.'</option>';
+                    $rep.='<option id="wdform_'.$id1.'_'.$key.'_option'.$subkey.'" value="'.$property_value.'" '.(isset($_POST['wdform_'.$id1.'_property'.$form_id.''.$key]) && esc_html(stripslashes($_POST['wdform_'.$id1.'_property'.$form_id.''.$key])) == $property_value ? 'selected="selected"' : "").'>'.$property_value.'</option>';
                   }
                   $rep.='</select></div></div>';
                 }
@@ -3206,7 +3204,7 @@ class FMViewForm_maker {
 					}
 			   $rep.='<div id="wdform_'.$id1.'_div'.$form_id.'">';
               if($param['w_quantity']=="yes") {
-                $rep.='<div class="paypal-property"><label class="mini_label" style="margin: 0px 5px;">'.(__("Quantity", 'form_maker')).'</label><input type="text" value="'.(isset($_POST['wdform_'.$id1."_element_quantity".$form_id]) ? $_POST['wdform_'.$id1."_element_quantity".$form_id] : $param['w_quantity_value']).'" id="wdform_'.$id1.'_element_quantity'.$form_id.'" name="wdform_'.$id1.'_element_quantity'.$form_id.'" class="wdform-quantity"></div>';
+                $rep.='<div class="paypal-property"><label class="mini_label" style="margin: 0px 5px;">'.(__("Quantity", 'form_maker')).'</label><input type="text" value="'.(isset($_POST['wdform_'.$id1."_element_quantity".$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1."_element_quantity".$form_id])) : $param['w_quantity_value']).'" id="wdform_'.$id1.'_element_quantity'.$form_id.'" name="wdform_'.$id1.'_element_quantity'.$form_id.'" class="wdform-quantity"></div>';
               }
               if($param['w_property'][0])	{				
                 foreach($param['w_property'] as $key => $property) {
@@ -3218,7 +3216,7 @@ class FMViewForm_maker {
                   $param['w_property_values'][$key]	= explode('###',$param['w_property_values'][$key]);
                   $param['w_property_values'][$key]	= array_slice($param['w_property_values'][$key],1, count($param['w_property_values'][$key]));   
                   foreach($param['w_property_values'][$key] as $subkey => $property_value) {
-                    $rep.='<option id="wdform_'.$id1.'_'.$key.'_option'.$subkey.'" value="'.$property_value.'" '.(isset($_POST['wdform_'.$id1.'_property'.$form_id.''.$key]) && $_POST['wdform_'.$id1.'_property'.$form_id.''.$key] == $property_value ? 'selected="selected"' : "").'>'.$property_value.'</option>';
+                    $rep.='<option id="wdform_'.$id1.'_'.$key.'_option'.$subkey.'" value="'.$property_value.'" '.(isset($_POST['wdform_'.$id1.'_property'.$form_id.''.$key]) && esc_html(stripslashes($_POST['wdform_'.$id1.'_property'.$form_id.''.$key])) == $property_value ? 'selected="selected"' : "").'>'.$property_value.'</option>';
                   }
                   $rep.='</select></div></div>';
                 }
@@ -3481,7 +3479,7 @@ class FMViewForm_maker {
                 }
                 ';
               }
-              $post = isset($_POST['wdform_'.$id1.'_selected_star_amount'.$form_id]) ? $_POST['wdform_'.$id1.'_selected_star_amount'.$form_id] : NULL;
+              $post = isset($_POST['wdform_'.$id1.'_selected_star_amount'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_selected_star_amount'.$form_id])) : NULL;
               if(isset($post)) {
                 $onload_js .=' select_star_rating('.($post-1).',"wdform_'.$id1.'", '.$form_id.',"'.$param['w_field_label_col'].'", "'.$param['w_star_amount'].'");';
               }
@@ -3512,7 +3510,7 @@ class FMViewForm_maker {
               $numbers = '';	
               $radio_buttons = '';	
               $to_check=0;
-              $post_value = isset($_POST['wdform_'.$id1.'_scale_radio'.$form_id]) ? $_POST['wdform_'.$id1.'_scale_radio'.$form_id] : NULL;
+              $post_value = isset($_POST['wdform_'.$id1.'_scale_radio'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_scale_radio'.$form_id])) : NULL;
               if(isset($post_value)) {
                 $to_check=$post_value;
               }
@@ -3565,7 +3563,7 @@ class FMViewForm_maker {
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
               $param['w_field_label_pos2'] = ($param['w_field_label_pos']=="left" ? "" : "display:block;");
               $required = ($param['w_required']=="yes" ? true : false);	
-              $param['w_field_value']=(isset($_POST['wdform_'.$id1.'_element'.$form_id]) ? $_POST['wdform_'.$id1.'_element'.$form_id] : $param['w_field_value']);
+              $param['w_field_value']=(isset($_POST['wdform_'.$id1.'_element'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element'.$form_id])) : $param['w_field_value']);
 
               $rep ='<div type="type_spinner" class="wdform-field"><div class="wdform-label-section '.$param['w_class'].'" style="'.$param['w_field_label_pos1'].' width: '.$param['w_field_label_size'].'px;"><span class="wdform-label">'.$label.'</span>';
               if($required) {
@@ -3619,7 +3617,7 @@ class FMViewForm_maker {
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
               $param['w_field_label_pos2'] = ($param['w_field_label_pos']=="left" ? "" : "display:block;");
               $required = ($param['w_required']=="yes" ? true : false);	
-              $param['w_field_value']=(isset($_POST['wdform_'.$id1.'_slider_value'.$form_id]) ? $_POST['wdform_'.$id1.'_slider_value'.$form_id] : $param['w_field_value']);
+              $param['w_field_value']=(isset($_POST['wdform_'.$id1.'_slider_value'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_slider_value'.$form_id])) : $param['w_field_value']);
 
               $rep ='<div type="type_slider" class="wdform-field"><div class="wdform-label-section '.$param['w_class'].'" style="'.$param['w_field_label_pos1'].' width: '.$param['w_field_label_size'].'px;"><span class="wdform-label">'.$label.'</span>';
               if($required) {
@@ -3676,8 +3674,8 @@ class FMViewForm_maker {
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
               $param['w_field_label_pos2'] = ($param['w_field_label_pos']=="left" ? "" : "display:block;");
               $required = ($param['w_required']=="yes" ? true : false);	
-              $param['w_field_value1']=(isset($_POST['wdform_'.$id1.'_element'.$form_id.'0']) ? $_POST['wdform_'.$id1.'_element'.$form_id.'0'] : $param['w_field_value1']);
-              $param['w_field_value2']=(isset($_POST['wdform_'.$id1.'_element'.$form_id.'1']) ? $_POST['wdform_'.$id1.'_element'.$form_id.'1'] : $param['w_field_value2']);
+              $param['w_field_value1']=(isset($_POST['wdform_'.$id1.'_element'.$form_id.'0']) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element'.$form_id.'0'])) : $param['w_field_value1']);
+              $param['w_field_value2']=(isset($_POST['wdform_'.$id1.'_element'.$form_id.'1']) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element'.$form_id.'1'])) : $param['w_field_value2']);
 
               $w_mini_labels = explode('***',$param['w_mini_labels']);              
               $rep ='<div type="type_range" class="wdform-field"><div class="wdform-label-section '.$param['w_class'].'" style="'.$param['w_field_label_pos1'].' width: '.$param['w_field_label_size'].'px;"><span class="wdform-label">'.$label.'</span>';
@@ -3741,7 +3739,7 @@ class FMViewForm_maker {
               $grading_items ='';
             
               for($i=0; $i<count($w_items); $i++) {
-                $value=(isset($_POST['wdform_'.$id1.'_element'.$form_id.'_'.$i]) ? $_POST['wdform_'.$id1.'_element'.$form_id.'_'.$i] : '');
+                $value=(isset($_POST['wdform_'.$id1.'_element'.$form_id.'_'.$i]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element'.$form_id.'_'.$i])) : '');
                 $grading_items .= '<div class="wdform_grading"><input type="text" id="wdform_'.$id1.'_element'.$form_id.'_'.$i.'" name="wdform_'.$id1.'_element'.$form_id.'_'.$i.'"  value="'.$value.'" '.$param['attributes'].'><label class="wdform-ch-rad-label" for="wdform_'.$id1.'_element'.$form_id.'_'.$i.'">'.$w_items[$i].'</label></div>';
                 $required_check.=' && jQuery("#wdform_'.$id1.'_element'.$form_id.'_'.$i.'").val()==""';
               }                
@@ -3790,7 +3788,7 @@ class FMViewForm_maker {
               break;
             }
             case 'type_matrix': {
-              $params_names=array('w_field_label_size','w_field_label_pos', 'w_field_input_type', 'w_rows', 'w_columns', 'w_required','w_class');
+              $params_names=array('w_field_label_size','w_field_label_pos', 'w_field_input_type', 'w_rows', 'w_columns', 'w_required','w_class','w_textbox_size');
               $temp=$params;
               foreach($params_names as $params_name ) {
                 $temp=explode('*:*'.$params_name.'*:*',$temp);
@@ -3807,7 +3805,7 @@ class FMViewForm_maker {
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
               $param['w_field_label_pos2'] = ($param['w_field_label_pos']=="left" ? "" : "display:block;");
               $required = ($param['w_required']=="yes" ? true : false);	
-                            
+              $param['w_textbox_size'] = isset($param['w_textbox_size']) ? $param['w_textbox_size'] : '120';            
               $w_rows = explode('***',$param['w_rows']);
               $w_columns = explode('***',$param['w_columns']);
               $column_labels ='';
@@ -3822,7 +3820,7 @@ class FMViewForm_maker {
                   $rows_columns .= '<div class="wdform-matrix-cell">';
                   if($param['w_field_input_type']=='radio') {
                     $to_check=0;
-                    $post_value = isset($_POST['wdform_'.$id1.'_input_element'.$form_id.''.$i]) ? $_POST['wdform_'.$id1.'_input_element'.$form_id.''.$i] : NULL;
+                    $post_value = isset($_POST['wdform_'.$id1.'_input_element'.$form_id.''.$i]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_input_element'.$form_id.''.$i])) : NULL;
                     if(isset($post_value)) {
                       $to_check=$post_value;	
                     }
@@ -3831,7 +3829,7 @@ class FMViewForm_maker {
                   else {
                     if($param['w_field_input_type']=='checkbox') {
                       $to_check=0;
-                      $post_value = isset($_POST['wdform_'.$id1.'_input_element'.$form_id.''.$i.'_'.$k]) ? $_POST['wdform_'.$id1.'_input_element'.$form_id.''.$i.'_'.$k] : NULL;
+                      $post_value = isset($_POST['wdform_'.$id1.'_input_element'.$form_id.''.$i.'_'.$k]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_input_element'.$form_id.''.$i.'_'.$k])) : NULL;
                       if(isset($post_value)) {
                         $to_check=$post_value;	
                       }
@@ -3839,11 +3837,11 @@ class FMViewForm_maker {
                     }
                     else {
                       if($param['w_field_input_type']=='text') {
-                        $rows_columns .= '<input id="wdform_'.$id1.'_input_element'.$form_id.''.$i.'_'.$k.'" type="text" name="wdform_'.$id1.'_input_element'.$form_id.''.$i.'_'.$k.'" value="'.(isset($_POST['wdform_'.$id1.'_input_element'.$form_id.''.$i.'_'.$k]) ? $_POST['wdform_'.$id1.'_input_element'.$form_id.''.$i.'_'.$k] : "").'">';
+                        $rows_columns .= '<input id="wdform_'.$id1.'_input_element'.$form_id.''.$i.'_'.$k.'" type="text" name="wdform_'.$id1.'_input_element'.$form_id.''.$i.'_'.$k.'" value="'.(isset($_POST['wdform_'.$id1.'_input_element'.$form_id.''.$i.'_'.$k]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_input_element'.$form_id.''.$i.'_'.$k])) : "").'" style="width:'.$param['w_textbox_size'].'px">';
                       }
                       else {
                         if($param['w_field_input_type']=='select') {
-                          $rows_columns .= '<select id="wdform_'.$id1.'_select_yes_no'.$form_id.''.$i.'_'.$k.'" name="wdform_'.$id1.'_select_yes_no'.$form_id.''.$i.'_'.$k.'" ><option value="" '.(isset($_POST['wdform_'.$id1.'_select_yes_no'.$form_id.''.$i.'_'.$k]) && $_POST['wdform_'.$id1.'_select_yes_no'.$form_id.''.$i.'_'.$k] == "" ? "selected=\"selected\"": "").'> </option><option value="yes" '.(isset($_POST['wdform_'.$id1.'_select_yes_no'.$form_id.''.$i.'_'.$k]) && $_POST['wdform_'.$id1.'_select_yes_no'.$form_id.''.$i.'_'.$k] == "yes" ? "selected=\"selected\"": "").'>Yes</option><option value="no" '.(isset($_POST['wdform_'.$id1.'_select_yes_no'.$form_id.''.$i.'_'.$k]) && $_POST['wdform_'.$id1.'_select_yes_no'.$form_id.''.$i.'_'.$k] == "no" ? "selected=\"selected\"": "").'>No</option></select>';
+                          $rows_columns .= '<select id="wdform_'.$id1.'_select_yes_no'.$form_id.''.$i.'_'.$k.'" name="wdform_'.$id1.'_select_yes_no'.$form_id.''.$i.'_'.$k.'" ><option value="" '.(isset($_POST['wdform_'.$id1.'_select_yes_no'.$form_id.''.$i.'_'.$k]) && esc_html($_POST['wdform_'.$id1.'_select_yes_no'.$form_id.''.$i.'_'.$k]) == "" ? "selected=\"selected\"": "").'> </option><option value="yes" '.(isset($_POST['wdform_'.$id1.'_select_yes_no'.$form_id.''.$i.'_'.$k]) && esc_html($_POST['wdform_'.$id1.'_select_yes_no'.$form_id.''.$i.'_'.$k]) == "yes" ? "selected=\"selected\"": "").'>Yes</option><option value="no" '.(isset($_POST['wdform_'.$id1.'_select_yes_no'.$form_id.''.$i.'_'.$k]) && esc_html($_POST['wdform_'.$id1.'_select_yes_no'.$form_id.''.$i.'_'.$k]) == "no" ? "selected=\"selected\"": "").'>No</option></select>';
                         }
                       }
                     }
@@ -4416,8 +4414,8 @@ class FMViewForm_maker {
             case "type_submitter_mail":
               {
               $form_maker_front_end .= "if(document.getElementById('" . $label_id[$key] . "_element" . $id . "'))
-      if(document.getElementById('" . $label_id[$key] . "_element" . $id . "').title!='" . addslashes((isset($_POST[$label_id[$key] . "_element" . $id]) ? $_POST[$label_id[$key] . "_element" . $id] : "")) . "')
-      {	document.getElementById('" . $label_id[$key] . "_element" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key] . "_element" . $id]) ? $_POST[$label_id[$key] . "_element" . $id] : "") . "';
+      if(document.getElementById('" . $label_id[$key] . "_element" . $id . "').title!='" . addslashes((isset($_POST[$label_id[$key] . "_element" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_element" . $id])) : "")) . "')
+      {	document.getElementById('" . $label_id[$key] . "_element" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key] . "_element" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_element" . $id])) : "") . "';
         document.getElementById('" . $label_id[$key] . "_element" . $id . "').className='input_active';
       }
     ";
@@ -4431,8 +4429,8 @@ class FMViewForm_maker {
                 "\r"
               );
               $form_maker_front_end .= "if(document.getElementById('" . $label_id[$key] . "_element" . $id . "'))
-      if(document.getElementById('" . $label_id[$key] . "_element" . $id . "').title!='" . str_replace($order, '\n', addslashes(isset($_POST[$label_id[$key] . "_element" . $id]) ? $_POST[$label_id[$key] . "_element" . $id] : "")) . "')
-      {	document.getElementById('" . $label_id[$key] . "_element" . $id . "').innerHTML='" . str_replace($order, '\n', addslashes(isset($_POST[$label_id[$key] . "_element" . $id]) ? $_POST[$label_id[$key] . "_element" . $id] : "")) . "';
+      if(document.getElementById('" . $label_id[$key] . "_element" . $id . "').title!='" . str_replace($order, '\n', addslashes(isset($_POST[$label_id[$key] . "_element" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_element" . $id])) : "")) . "')
+      {	document.getElementById('" . $label_id[$key] . "_element" . $id . "').innerHTML='" . str_replace($order, '\n', addslashes(isset($_POST[$label_id[$key] . "_element" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_element" . $id])) : "")) . "';
         document.getElementById('" . $label_id[$key] . "_element" . $id . "').className='input_active';
       }
     ";
@@ -4440,27 +4438,27 @@ class FMViewForm_maker {
               }
             case "type_name":
               {
-              $element_title = isset($_POST[$label_id[$key] . "_element_title" . $id]) ? $_POST[$label_id[$key] . "_element_title" . $id] : "";
+              $element_title = isset($_POST[$label_id[$key] . "_element_title" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_element_title" . $id])) : "";
               if (isset($_POST[$label_id[$key] . "_element_title" . $id])) {
                 $form_maker_front_end .= "if(document.getElementById('" . $label_id[$key] . "_element_first" . $id . "'))
     {
-      if(document.getElementById('" . $label_id[$key] . "_element_title" . $id . "').title!='" . addslashes(isset($_POST[$label_id[$key] . "_element_title" . $id]) ? $_POST[$label_id[$key] . "_element_title" . $id] : "") . "')
-      {	document.getElementById('" . $label_id[$key] . "_element_title" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key] . "_element_title" . $id]) ? $_POST[$label_id[$key] . "_element_title" . $id] : "") . "';
+      if(document.getElementById('" . $label_id[$key] . "_element_title" . $id . "').title!='" . addslashes(isset($_POST[$label_id[$key] . "_element_title" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_element_title" . $id])) : "") . "')
+      {	document.getElementById('" . $label_id[$key] . "_element_title" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key] . "_element_title" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_element_title" . $id])) : "") . "';
         document.getElementById('" . $label_id[$key] . "_element_title" . $id . "').className='input_active';
       }
       
-      if(document.getElementById('" . $label_id[$key] . "_element_first" . $id . "').title!='" . addslashes(isset($_POST[$label_id[$key] . "_element_first" . $id]) ? $_POST[$label_id[$key] . "_element_first" . $id] : "") . "')
-      {	document.getElementById('" . $label_id[$key] . "_element_first" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key] . "_element_first" . $id]) ? $_POST[$label_id[$key] . "_element_first" . $id] : "") . "';
+      if(document.getElementById('" . $label_id[$key] . "_element_first" . $id . "').title!='" . addslashes(isset($_POST[$label_id[$key] . "_element_first" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_element_first" . $id])) : "") . "')
+      {	document.getElementById('" . $label_id[$key] . "_element_first" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key] . "_element_first" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_element_first" . $id])) : "") . "';
         document.getElementById('" . $label_id[$key] . "_element_first" . $id . "').className='input_active';
       }
       
-      if(document.getElementById('" . $label_id[$key] . "_element_last" . $id . "').title!='" . addslashes(isset($_POST[$label_id[$key] . "_element_last" . $id]) ? $_POST[$label_id[$key] . "_element_last" . $id] : "") . "')
-      {	document.getElementById('" . $label_id[$key] . "_element_last" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key] . "_element_last" . $id]) ? $_POST[$label_id[$key] . "_element_last" . $id] : "") . "';
+      if(document.getElementById('" . $label_id[$key] . "_element_last" . $id . "').title!='" . addslashes(isset($_POST[$label_id[$key] . "_element_last" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_element_last" . $id])) : "") . "')
+      {	document.getElementById('" . $label_id[$key] . "_element_last" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key] . "_element_last" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_element_last" . $id])) : "") . "';
         document.getElementById('" . $label_id[$key] . "_element_last" . $id . "').className='input_active';
       }
       
-      if(document.getElementById('" . $label_id[$key] . "_element_middle" . $id . "').title!='" . addslashes(isset($_POST[$label_id[$key] . "_element_middle" . $id]) ? $_POST[$label_id[$key] . "_element_middle" . $id] : "") . "')
-      {	document.getElementById('" . $label_id[$key] . "_element_middle" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key] . "_element_middle" . $id]) ? $_POST[$label_id[$key] . "_element_middle" . $id] : "") . "';
+      if(document.getElementById('" . $label_id[$key] . "_element_middle" . $id . "').title!='" . addslashes(isset($_POST[$label_id[$key] . "_element_middle" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_element_middle" . $id])) : "") . "')
+      {	document.getElementById('" . $label_id[$key] . "_element_middle" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key] . "_element_middle" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_element_middle" . $id])) : "") . "';
         document.getElementById('" . $label_id[$key] . "_element_middle" . $id . "').className='input_active';
       }
       
@@ -4470,13 +4468,13 @@ class FMViewForm_maker {
                 $form_maker_front_end .= "if(document.getElementById('" . $label_id[$key] . "_element_first" . $id . "'))
     {
       
-      if(document.getElementById('" . $label_id[$key] . "_element_first" . $id . "').title!='" . addslashes(isset($_POST[$label_id[$key] . "_element_first" . $id]) ? $_POST[$label_id[$key] . "_element_first" . $id] : "") . "')
-      {	document.getElementById('" . $label_id[$key] . "_element_first" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key] . "_element_first" . $id]) ? $_POST[$label_id[$key] . "_element_first" . $id] : "") . "';
+      if(document.getElementById('" . $label_id[$key] . "_element_first" . $id . "').title!='" . addslashes(isset($_POST[$label_id[$key] . "_element_first" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_element_first" . $id])) : "") . "')
+      {	document.getElementById('" . $label_id[$key] . "_element_first" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key] . "_element_first" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_element_first" . $id])) : "") . "';
         document.getElementById('" . $label_id[$key] . "_element_first" . $id . "').className='input_active';
       }
       
-      if(document.getElementById('" . $label_id[$key] . "_element_last" . $id . "').title!='" . addslashes(isset($_POST[$label_id[$key] . "_element_last" . $id]) ? $_POST[$label_id[$key] . "_element_last" . $id] : "") . "')
-      {	document.getElementById('" . $label_id[$key] . "_element_last" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key] . "_element_last" . $id]) ? $_POST[$label_id[$key] . "_element_last" . $id] : "") . "';
+      if(document.getElementById('" . $label_id[$key] . "_element_last" . $id . "').title!='" . addslashes(isset($_POST[$label_id[$key] . "_element_last" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_element_last" . $id])) : "") . "')
+      {	document.getElementById('" . $label_id[$key] . "_element_last" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key] . "_element_last" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_element_last" . $id])) : "") . "';
         document.getElementById('" . $label_id[$key] . "_element_last" . $id . "').className='input_active';
       }
       
@@ -4488,13 +4486,13 @@ class FMViewForm_maker {
               {
               $form_maker_front_end .= "if(document.getElementById('" . $label_id[$key] . "_element_first" . $id . "'))
     {
-      if(document.getElementById('" . $label_id[$key] . "_element_first" . $id . "').title!='" . addslashes(isset($_POST[$label_id[$key] . "_element_first" . $id]) ? $_POST[$label_id[$key] . "_element_first" . $id] : "") . "')
-      {	document.getElementById('" . $label_id[$key] . "_element_first" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key] . "_element_first" . $id]) ? $_POST[$label_id[$key] . "_element_first" . $id] : "") . "';
+      if(document.getElementById('" . $label_id[$key] . "_element_first" . $id . "').title!='" . addslashes(isset($_POST[$label_id[$key] . "_element_first" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_element_first" . $id])) : "") . "')
+      {	document.getElementById('" . $label_id[$key] . "_element_first" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key] . "_element_first" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_element_first" . $id])) : "") . "';
         document.getElementById('" . $label_id[$key] . "_element_first" . $id . "').className='input_active';
       }
       
-      if(document.getElementById('" . $label_id[$key] . "_element_last" . $id . "').title!='" . addslashes(isset($_POST[$label_id[$key] . "_element_last" . $id]) ? $_POST[$label_id[$key] . "_element_last" . $id] : "") . "')
-      {	document.getElementById('" . $label_id[$key] . "_element_last" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key] . "_element_last" . $id]) ? $_POST[$label_id[$key] . "_element_last" . $id] : "") . "';
+      if(document.getElementById('" . $label_id[$key] . "_element_last" . $id . "').title!='" . addslashes(isset($_POST[$label_id[$key] . "_element_last" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_element_last" . $id])) : "") . "')
+      {	document.getElementById('" . $label_id[$key] . "_element_last" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key] . "_element_last" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_element_last" . $id])) : "") . "';
         document.getElementById('" . $label_id[$key] . "_element_last" . $id . "').className='input_active';
       }
     }";
@@ -4504,13 +4502,13 @@ class FMViewForm_maker {
             case "type_paypal_price": {
               $form_maker_front_end .= "if(document.getElementById('".$label_id[$key]."_element_dollars".$id."'))
     {
-      if(document.getElementById('".$label_id[$key]."_element_dollars".$id."').title!='".addslashes(isset($_POST[$label_id[$key]."_element_dollars".$id]) ? $_POST[$label_id[$key]."_element_dollars".$id] : "")."')
-      {	document.getElementById('".$label_id[$key]."_element_dollars".$id."').value='".addslashes(isset($_POST[$label_id[$key]."_element_dollars".$id]) ? $_POST[$label_id[$key]."_element_dollars".$id] : "")."';
+      if(document.getElementById('".$label_id[$key]."_element_dollars".$id."').title!='".addslashes(isset($_POST[$label_id[$key]."_element_dollars".$id]) ? esc_html(stripslashes($_POST[$label_id[$key]."_element_dollars".$id])) : "")."')
+      {	document.getElementById('".$label_id[$key]."_element_dollars".$id."').value='".addslashes(isset($_POST[$label_id[$key]."_element_dollars".$id]) ? esc_html(stripslashes($_POST[$label_id[$key]."_element_dollars".$id])) : "")."';
         document.getElementById('".$label_id[$key]."_element_dollars".$id."').className='input_active';
       }
       
-      if(document.getElementById('".$label_id[$key]."_element_cents".$id."').title!='".addslashes(isset($_POST[$label_id[$key]."_element_cents".$id]) ? $_POST[$label_id[$key]."_element_cents".$id] : "")."')
-      {	document.getElementById('".$label_id[$key]."_element_cents".$id."').value='".addslashes(isset($_POST[$label_id[$key]."_element_cents".$id]) ? $_POST[$label_id[$key]."_element_cents".$id] : "")."';
+      if(document.getElementById('".$label_id[$key]."_element_cents".$id."').title!='".addslashes(isset($_POST[$label_id[$key]."_element_cents".$id]) ? esc_html(stripslashes($_POST[$label_id[$key]."_element_cents".$id])) : "")."')
+      {	document.getElementById('".$label_id[$key]."_element_cents".$id."').value='".addslashes(isset($_POST[$label_id[$key]."_element_cents".$id]) ? esc_html(stripslashes($_POST[$label_id[$key]."_element_cents".$id])) : "")."';
         document.getElementById('".$label_id[$key]."_element_cents".$id."').className='input_active';
       }
     }";
@@ -4522,14 +4520,14 @@ class FMViewForm_maker {
     
                   $form_maker_front_end .= 
     "if(document.getElementById('".$label_id[$key]."_element".$id."')){
-      document.getElementById('".$label_id[$key]."_element".$id."').value='".addslashes(isset($_POST[$label_id[$key]."_element".$id]) ? $_POST[$label_id[$key]."_element".$id] : "")."';
+      document.getElementById('".$label_id[$key]."_element".$id."').value='".addslashes(isset($_POST[$label_id[$key]."_element".$id]) ? esc_html(stripslashes($_POST[$label_id[$key]."_element".$id])) : "")."';
     
     if(document.getElementById('".$label_id[$key]."_element_quantity".$id."'))
       document.getElementById('".$label_id[$key]."_element_quantity".$id."').value='".((isset($_POST[$label_id[$key]."_element_quantity".$id]) && ((int) $_POST[$label_id[$key]."_element_quantity".$id] >= 1)) ? addslashes($_POST[$label_id[$key]."_element_quantity".$id]) : 1)."';
       ";
       for($j=0; $j<100; $j++)
                   {
-                      $element = isset($_POST[$label_id[$key]."_property".$id.$j]) ? $_POST[$label_id[$key]."_property".$id.$j] : NULL;
+                      $element = isset($_POST[$label_id[$key]."_property".$id.$j]) ? esc_html(stripslashes($_POST[$label_id[$key]."_property".$id.$j])) : NULL;
                       if(isset($element))
                           {
                           $form_maker_front_end .= 
@@ -4554,7 +4552,7 @@ class FMViewForm_maker {
     ";
                   for($j=0; $j<100; $j++)
                   {
-                      $element = isset($_POST[$label_id[$key]."_element".$id.$j]) ? $_POST[$label_id[$key]."_element".$id.$j] : NULL;
+                      $element = isset($_POST[$label_id[$key]."_element".$id.$j]) ? esc_html(stripslashes($_POST[$label_id[$key]."_element".$id.$j])) : NULL;
                       if(isset($element))
                           {
                           $form_maker_front_end .= 
@@ -4570,7 +4568,7 @@ class FMViewForm_maker {
       ";
       for($j=0; $j<100; $j++)
                   {
-                      $element = isset($_POST[$label_id[$key]."_property".$id.$j]) ? $_POST[$label_id[$key]."_property".$id.$j] : NULL;
+                      $element = isset($_POST[$label_id[$key]."_property".$id.$j]) ? esc_html(stripslashes($_POST[$label_id[$key]."_property".$id.$j])) : NULL;
                       if(isset($element))
                           {
                           $form_maker_front_end .= 
@@ -4588,7 +4586,7 @@ class FMViewForm_maker {
       if(document.getElementById('".$label_id[$key]."_element".$id."'+k))
       {
         document.getElementById('".$label_id[$key]."_element".$id."'+k).removeAttribute('checked');
-        if(document.getElementById('".$label_id[$key]."_element".$id."'+k).value=='".addslashes(isset($_POST[$label_id[$key]."_element".$id]) ? $_POST[$label_id[$key]."_element".$id] : "")."')
+        if(document.getElementById('".$label_id[$key]."_element".$id."'+k).value=='".addslashes(isset($_POST[$label_id[$key]."_element".$id]) ? esc_html(stripslashes($_POST[$label_id[$key]."_element".$id])) : "")."')
         {
           document.getElementById('".$label_id[$key]."_element".$id."'+k).setAttribute('checked', 'checked');
                   
@@ -4597,11 +4595,11 @@ class FMViewForm_maker {
       
 
     if(document.getElementById('".$label_id[$key]."_element_quantity".$id."'))
-      document.getElementById('".$label_id[$key]."_element_quantity".$id."').value='".((isset($_POST[$label_id[$key]."_element_quantity".$id])) ? $_POST[$label_id[$key]."_element_quantity".$id] : 1)."';
+      document.getElementById('".$label_id[$key]."_element_quantity".$id."').value='".((isset($_POST[$label_id[$key]."_element_quantity".$id])) ? esc_html(stripslashes($_POST[$label_id[$key]."_element_quantity".$id])) : 1)."';
       ";
       for($j=0; $j<100; $j++)
                   {
-                      $element = isset($_POST[$label_id[$key]."_property".$id.$j]) ? $_POST[$label_id[$key]."_property".$id.$j] : NULL;
+                      $element = isset($_POST[$label_id[$key]."_property".$id.$j]) ? esc_html(stripslashes($_POST[$label_id[$key]."_property".$id.$j])) : NULL;
                       if(isset($element))
                           {
                           $form_maker_front_end .= 
@@ -4623,7 +4621,7 @@ class FMViewForm_maker {
       if(document.getElementById('".$label_id[$key]."_element".$id."'+k))
       {
         document.getElementById('".$label_id[$key]."_element".$id."'+k).removeAttribute('checked');
-        if(document.getElementById('".$label_id[$key]."_element".$id."'+k).value=='".addslashes(isset($_POST[$label_id[$key]."_element".$id]) ? $_POST[$label_id[$key]."_element".$id] : "")."')
+        if(document.getElementById('".$label_id[$key]."_element".$id."'+k).value=='".addslashes(isset($_POST[$label_id[$key]."_element".$id]) ? esc_html(stripslashes($_POST[$label_id[$key]."_element".$id])) : "")."')
         {
           document.getElementById('".$label_id[$key]."_element".$id."'+k).setAttribute('checked', 'checked');
                   
@@ -4637,7 +4635,7 @@ class FMViewForm_maker {
             case "type_star_rating": {
               $form_maker_front_end .=
             "if(document.getElementById('".$label_id[$key]."_element".$id."')) {
-              document.getElementById('".$label_id[$key]."_selected_star_amount".$id."').value='".addslashes(isset($_POST[$label_id[$key]."_selected_star_amount".$id]) ? $_POST[$label_id[$key]."_selected_star_amount".$id] : "")."';	
+              document.getElementById('".$label_id[$key]."_selected_star_amount".$id."').value='".addslashes(isset($_POST[$label_id[$key]."_selected_star_amount".$id]) ? esc_html(stripslashes($_POST[$label_id[$key]."_selected_star_amount".$id])) : "")."';	
               if (document.getElementById('".$label_id[$key]."_selected_star_amount".$id."').value)	
                 select_star_rating((document.getElementById('".$label_id[$key]."_selected_star_amount".$id."').value-1),".$label_id[$key].",".$id.");	
             }";
@@ -4650,7 +4648,7 @@ class FMViewForm_maker {
             "for (k=0; k<100; k++) {
               if (document.getElementById('".$label_id[$key]."_scale_radio".$id."_'+k)) {
                 document.getElementById('".$label_id[$key]."_scale_radio".$id."_'+k).removeAttribute('checked');
-                if (document.getElementById('".$label_id[$key]."_scale_radio".$id."_'+k).value=='".(isset($_POST[$label_id[$key]."_scale_radio".$id]) ? $_POST[$label_id[$key]."_scale_radio".$id] : "")."')
+                if (document.getElementById('".$label_id[$key]."_scale_radio".$id."_'+k).value=='".(isset($_POST[$label_id[$key]."_scale_radio".$id]) ? esc_html(stripslashes($_POST[$label_id[$key]."_scale_radio".$id])) : "")."')
                   document.getElementById('".$label_id[$key]."_scale_radio".$id."_'+k).setAttribute('checked', 'checked');
               }
             }";
@@ -4660,7 +4658,7 @@ class FMViewForm_maker {
           case "type_spinner": {
             $form_maker_front_end .=
             "if (document.getElementById('".$label_id[$key]."_element".$id."')) {
-              document.getElementById('".$label_id[$key]."_element".$id."').setAttribute('aria-valuenow','".(isset($_POST[$label_id[$key]."_element".$id]) ? $_POST[$label_id[$key]."_element".$id] : "")."');
+              document.getElementById('".$label_id[$key]."_element".$id."').setAttribute('aria-valuenow','".(isset($_POST[$label_id[$key]."_element".$id]) ? esc_html(stripslashes($_POST[$label_id[$key]."_element".$id])) : "")."');
             }";
             break;
 
@@ -4668,27 +4666,27 @@ class FMViewForm_maker {
           case "type_slider": {
             $form_maker_front_end .=
             "if (document.getElementById('".$label_id[$key]."_element".$id."'))
-              document.getElementById('".$label_id[$key]."_element".$id."').setAttribute('aria-valuenow','".(isset($_POST[$label_id[$key]."_slider_value".$id]) ? $_POST[$label_id[$key]."_slider_value".$id] : "")."');
+              document.getElementById('".$label_id[$key]."_element".$id."').setAttribute('aria-valuenow','".(isset($_POST[$label_id[$key]."_slider_value".$id]) ? esc_html(stripslashes($_POST[$label_id[$key]."_slider_value".$id])) : "")."');
             if (document.getElementById('".$label_id[$key]."_slider_value".$id."'))
-              document.getElementById('".$label_id[$key]."_slider_value".$id."').value='".(isset($_POST[$label_id[$key]."_slider_value".$id]) ? $_POST[$label_id[$key]."_slider_value".$id] : "")."';
+              document.getElementById('".$label_id[$key]."_slider_value".$id."').value='".(isset($_POST[$label_id[$key]."_slider_value".$id]) ? esc_html(stripslashes($_POST[$label_id[$key]."_slider_value".$id])) : "")."';
             if (document.getElementById('".$label_id[$key]."_element_value".$id."'))
-              document.getElementById('".$label_id[$key]."_element_value".$id."').innerHTML='".(isset($_POST[$label_id[$key]."_slider_value".$id]) ? $_POST[$label_id[$key]."_slider_value".$id] : "")."';";
+              document.getElementById('".$label_id[$key]."_element_value".$id."').innerHTML='".(isset($_POST[$label_id[$key]."_slider_value".$id]) ? esc_html(stripslashes($_POST[$label_id[$key]."_slider_value".$id])) : "")."';";
             break;
 
           }
           case "type_range": {
             $form_maker_front_end .=
               "if (document.getElementById('".$label_id[$key]."_element".$id."0'))
-                document.getElementById('".$label_id[$key]."_element".$id."0').setAttribute('aria-valuenow','".(isset($_POST[$label_id[$key]."_element".$id."0"]) ? $_POST[$label_id[$key]."_element".$id."0"] : "")."');
+                document.getElementById('".$label_id[$key]."_element".$id."0').setAttribute('aria-valuenow','".(isset($_POST[$label_id[$key]."_element".$id."0"]) ? esc_html(stripslashes($_POST[$label_id[$key]."_element".$id."0"])) : "")."');
               if (document.getElementById('".$label_id[$key]."_element".$id."1'))
-                document.getElementById('".$label_id[$key]."_element".$id."1').setAttribute('aria-valuenow','".(isset($_POST[$label_id[$key]."_element".$id."1"]) ? $_POST[$label_id[$key]."_element".$id."1"] : "")."');";
+                document.getElementById('".$label_id[$key]."_element".$id."1').setAttribute('aria-valuenow','".(isset($_POST[$label_id[$key]."_element".$id."1"]) ? esc_html(stripslashes($_POST[$label_id[$key]."_element".$id."1"])) : "")."');";
             break;
 
           }
           case "type_grading": {
             for ($k = 0; $k < 100; $k++) {
               $form_maker_front_end .= "if (document.getElementById('".$label_id[$key]."_element".$id.$k."')) {		
-                document.getElementById('".$label_id[$key]."_element".$id.$k."').value='".(isset($_POST[$label_id[$key]."_element".$id.$k]) ? $_POST[$label_id[$key]."_element".$id.$k] : "")."';}";
+                document.getElementById('".$label_id[$key]."_element".$id.$k."').value='".(isset($_POST[$label_id[$key]."_element".$id.$k]) ? esc_html(stripslashes($_POST[$label_id[$key]."_element".$id.$k])) : "")."';}";
             }
             $form_maker_front_end .= "sum_grading_values(".$label_id[$key].",".$id.");";
             break;
@@ -4702,7 +4700,7 @@ class FMViewForm_maker {
                   $form_maker_front_end .= 
                     "if (document.getElementById('".$label_id[$key]."_input_element".$id.$k."_".$l."')) {
                       document.getElementById('".$label_id[$key]."_input_element".$id.$k."_".$l."').removeAttribute('checked');
-                      if (document.getElementById('".$label_id[$key]."_input_element".$id.$k."_".$l."').value=='".(isset($_POST[$label_id[$key]."_input_element".$id.$k]) ? $_POST[$label_id[$key]."_input_element".$id.$k] : "")."')
+                      if (document.getElementById('".$label_id[$key]."_input_element".$id.$k."_".$l."').value=='".(isset($_POST[$label_id[$key]."_input_element".$id.$k]) ? esc_html(stripslashes($_POST[$label_id[$key]."_input_element".$id.$k])) : "")."')
                         document.getElementById('".$label_id[$key]."_input_element".$id.$k."_".$l."').setAttribute('checked', 'checked');
                     }";
                 }
@@ -4716,7 +4714,7 @@ class FMViewForm_maker {
                   $form_maker_front_end .= 
                   "if (document.getElementById('".$label_id[$key]."_input_element".$id.$k."_".$l."')) {
                     document.getElementById('".$label_id[$key]."_input_element".$id.$k."_".$l."').removeAttribute('checked');
-                    if (document.getElementById('".$label_id[$key]."_input_element".$id.$k."_".$l."').value=='".(isset($_POST[$label_id[$key]."_input_element".$id.$k."_".$l]) ? $_POST[$label_id[$key]."_input_element".$id.$k."_".$l] : "")."')		
+                    if (document.getElementById('".$label_id[$key]."_input_element".$id.$k."_".$l."').value=='".(isset($_POST[$label_id[$key]."_input_element".$id.$k."_".$l]) ? esc_html(stripslashes($_POST[$label_id[$key]."_input_element".$id.$k."_".$l])) : "")."')		
                       document.getElementById('".$label_id[$key]."_input_element".$id.$k."_".$l."').setAttribute('checked', 'checked');
                   }";	
                 }
@@ -4729,7 +4727,7 @@ class FMViewForm_maker {
                 for ($l = 1; $l < 40; $l++) {
                   $form_maker_front_end .= 
                   "if (document.getElementById('".$label_id[$key]."_input_element".$id.$k."_".$l."'))
-                    document.getElementById('".$label_id[$key]."_input_element".$id.$k."_".$l."').value='".(isset($_POST[$label_id[$key]."_input_element".$id.$k."_".$l]) ? $_POST[$label_id[$key]."_input_element".$id.$k."_".$l] : "")."';";
+                    document.getElementById('".$label_id[$key]."_input_element".$id.$k."_".$l."').value='".(isset($_POST[$label_id[$key]."_input_element".$id.$k."_".$l]) ? esc_html(stripslashes($_POST[$label_id[$key]."_input_element".$id.$k."_".$l])) : "")."';";
                 }
               }
               $form_maker_front_end .= "
@@ -4740,7 +4738,7 @@ class FMViewForm_maker {
                   for ($l = 1; $l < 40; $l++) {
                     $form_maker_front_end .= 
                     "if (document.getElementById('".$label_id[$key]."_select_yes_no".$id.$k."_".$l."'))
-                      document.getElementById('".$label_id[$key]."_select_yes_no".$id.$k."_".$l."').value='".(isset($_POST[$label_id[$key]."_select_yes_no".$id.$k."_".$l]) ? $_POST[$label_id[$key]."_select_yes_no".$id.$k."_".$l] : "")."';";
+                      document.getElementById('".$label_id[$key]."_select_yes_no".$id.$k."_".$l."').value='".(isset($_POST[$label_id[$key]."_select_yes_no".$id.$k."_".$l]) ? esc_html(stripslashes($_POST[$label_id[$key]."_select_yes_no".$id.$k."_".$l])) : "")."';";
                   }
                 }
               $form_maker_front_end .= 
@@ -4753,12 +4751,12 @@ class FMViewForm_maker {
               if ($key > $old_key) {
                 $form_maker_front_end .= "if(document.getElementById('" . $label_id[$key] . "_street1" . $id . "'))
     {
-        document.getElementById('" . $label_id[$key] . "_street1" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key] . "_street1" . $id]) ? $_POST[$label_id[$key] . "_street1" . $id] : "") . "';
-        document.getElementById('" . $label_id[$key] . "_street2" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key + 1] . "_street2" . $id]) ? $_POST[$label_id[$key + 1] . "_street2" . $id] : "") . "';
-        document.getElementById('" . $label_id[$key] . "_city" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key + 2] . "_city" . $id]) ? $_POST[$label_id[$key + 2] . "_city" . $id] : "") . "';
-        document.getElementById('" . $label_id[$key] . "_state" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key + 3] . "_state" . $id]) ? $_POST[$label_id[$key + 3] . "_state" . $id] : "") . "';
-        document.getElementById('" . $label_id[$key] . "_postal" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key + 4] . "_postal" . $id]) ? $_POST[$label_id[$key + 4] . "_postal" . $id] : "") . "';
-        document.getElementById('" . $label_id[$key] . "_country" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key + 5] . "_country" . $id]) ? $_POST[$label_id[$key + 5] . "_country" . $id] : "") . "';
+        document.getElementById('" . $label_id[$key] . "_street1" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key] . "_street1" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_street1" . $id])) : "") . "';
+        document.getElementById('" . $label_id[$key] . "_street2" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key + 1] . "_street2" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key + 1] . "_street2" . $id])) : "") . "';
+        document.getElementById('" . $label_id[$key] . "_city" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key + 2] . "_city" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key + 2] . "_city" . $id])) : "") . "';
+        document.getElementById('" . $label_id[$key] . "_state" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key + 3] . "_state" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key + 3] . "_state" . $id])) : "") . "';
+        document.getElementById('" . $label_id[$key] . "_postal" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key + 4] . "_postal" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key + 4] . "_postal" . $id])) : "") . "';
+        document.getElementById('" . $label_id[$key] . "_country" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key + 5] . "_country" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key + 5] . "_country" . $id])) : "") . "';
       
     }";
                 $old_key = $key + 5;
@@ -4768,9 +4766,9 @@ class FMViewForm_maker {
             case "type_checkbox":
               {
               $is_other = FALSE;
-              if (isset($_POST[$label_id[$key] . "_allow_other" . $id]) && $_POST[$label_id[$key] . "_allow_other" . $id] == "yes") {
-                $other_element = isset($_POST[$label_id[$key] . "_other_input" . $id]) ? $_POST[$label_id[$key] . "_other_input" . $id] : "";
-                $other_element_id = isset($_POST[$label_id[$key] . "_allow_other_num" . $id]) ? $_POST[$label_id[$key] . "_allow_other_num" . $id] : NULL;
+              if (isset($_POST[$label_id[$key] . "_allow_other" . $id]) && esc_html(stripslashes($_POST[$label_id[$key] . "_allow_other" . $id])) == "yes") {
+                $other_element = isset($_POST[$label_id[$key] . "_other_input" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_other_input" . $id])) : "";
+                $other_element_id = isset($_POST[$label_id[$key] . "_allow_other_num" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_allow_other_num" . $id])) : NULL;
                 if (isset($_POST[$label_id[$key] . "_allow_other_num" . $id]))
                   $is_other = TRUE;
               }
@@ -4786,7 +4784,7 @@ class FMViewForm_maker {
       else break;
     ";
               for ($j = 0; $j < 100; $j++) {
-                $element = isset($_POST[$label_id[$key] . "_element" . $id . $j]) ? $_POST[$label_id[$key] . "_element" . $id . $j] : NULL;
+                $element = isset($_POST[$label_id[$key] . "_element" . $id . $j]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_element" . $id . $j])) : NULL;
                 if (isset($_POST[$label_id[$key] . "_element" . $id . $j])) {
                   $form_maker_front_end .= "document.getElementById('" . $label_id[$key] . "_element" . $id . $j . "').setAttribute('checked', 'checked');
     ";
@@ -4795,15 +4793,15 @@ class FMViewForm_maker {
               if ($is_other)
                 $form_maker_front_end .= "
       show_other_input('" . $label_id[$key] . "','" . $id . "');
-      document.getElementById('" . $label_id[$key] . "_other_input" . $id . "').value='" . (isset($_POST[$label_id[$key] . "_other_input" . $id]) ? $_POST[$label_id[$key] . "_other_input" . $id] : "") . "';
+      document.getElementById('" . $label_id[$key] . "_other_input" . $id . "').value='" . (isset($_POST[$label_id[$key] . "_other_input" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_other_input" . $id])) : "") . "';
     ";
               break;
               }
             case "type_radio":
               {
               $is_other = FALSE;
-              if (isset($_POST[$label_id[$key] . "_allow_other" . $id]) && $_POST[$label_id[$key] . "_allow_other" . $id] == "yes") {
-                $other_element = isset($_POST[$label_id[$key] . "_other_input" . $id]) ? $_POST[$label_id[$key] . "_other_input" . $id] : "";
+              if (isset($_POST[$label_id[$key] . "_allow_other" . $id]) && esc_html(stripslashes($_POST[$label_id[$key] . "_allow_other" . $id])) == "yes") {
+                $other_element = isset($_POST[$label_id[$key] . "_other_input" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_other_input" . $id])) : "";
                 if (isset($_POST[$label_id[$key] . "_other_input" . $id]))
                   $is_other = TRUE;
               }
@@ -4818,7 +4816,7 @@ class FMViewForm_maker {
       if(document.getElementById('" . $label_id[$key] . "_element" . $id . "'+k))
       {
         document.getElementById('" . $label_id[$key] . "_element" . $id . "'+k).removeAttribute('checked');
-        if(document.getElementById('" . $label_id[$key] . "_element" . $id . "'+k).value=='" . addslashes(isset($_POST[$label_id[$key] . "_element" . $id]) ? $_POST[$label_id[$key] . "_element" . $id] : "") . "')
+        if(document.getElementById('" . $label_id[$key] . "_element" . $id . "'+k).value=='" . addslashes(isset($_POST[$label_id[$key] . "_element" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_element" . $id])) : "") . "')
         {
           document.getElementById('" . $label_id[$key] . "_element" . $id . "'+k).setAttribute('checked', 'checked');
                   
@@ -4829,29 +4827,29 @@ class FMViewForm_maker {
               if ($is_other)
                 $form_maker_front_end .= "
       show_other_input('" . $label_id[$key] . "','" . $id . "');
-      document.getElementById('" . $label_id[$key] . "_other_input" . $id . "').value='" . (isset($_POST[$label_id[$key] . "_other_input" . $id]) ? $_POST[$label_id[$key] . "_other_input" . $id] : "") . "';
+      document.getElementById('" . $label_id[$key] . "_other_input" . $id . "').value='" . (isset($_POST[$label_id[$key] . "_other_input" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_other_input" . $id])) : "") . "';
     ";
               break;
               }
             case "type_time":
               {
-              $ss = isset($_POST[$label_id[$key] . "_ss" . $id]) ? $_POST[$label_id[$key] . "_ss" . $id] : "";
+              $ss = isset($_POST[$label_id[$key] . "_ss" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_ss" . $id])) : "";
               if (isset($_POST[$label_id[$key] . "_ss" . $id])) {
                 $form_maker_front_end .= "if(document.getElementById('" . $label_id[$key] . "_hh" . $id . "'))
     {
-      document.getElementById('" . $label_id[$key] . "_hh" . $id . "').value='" . (isset($_POST[$label_id[$key] . "_hh" . $id]) ? $_POST[$label_id[$key] . "_hh" . $id] : "") . "';
-      document.getElementById('" . $label_id[$key] . "_mm" . $id . "').value='" . (isset($_POST[$label_id[$key] . "_mm" . $id]) ? $_POST[$label_id[$key] . "_mm" . $id] : "") . "';
-      document.getElementById('" . $label_id[$key] . "_ss" . $id . "').value='" . (isset($_POST[$label_id[$key] . "_ss" . $id]) ? $_POST[$label_id[$key] . "_ss" . $id] : "") . "';
+      document.getElementById('" . $label_id[$key] . "_hh" . $id . "').value='" . (isset($_POST[$label_id[$key] . "_hh" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_hh" . $id])) : "") . "';
+      document.getElementById('" . $label_id[$key] . "_mm" . $id . "').value='" . (isset($_POST[$label_id[$key] . "_mm" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_mm" . $id])) : "") . "';
+      document.getElementById('" . $label_id[$key] . "_ss" . $id . "').value='" . (isset($_POST[$label_id[$key] . "_ss" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_ss" . $id])) : "") . "';
     }";
               }
               else {
                 $form_maker_front_end .= "if(document.getElementById('" . $label_id[$key] . "_hh" . $id . "'))
     {
-      document.getElementById('" . $label_id[$key] . "_hh" . $id . "').value='" . (isset($_POST[$label_id[$key] . "_hh" . $id]) ? $_POST[$label_id[$key] . "_hh" . $id] : "") . "';
-      document.getElementById('" . $label_id[$key] . "_mm" . $id . "').value='" . (isset($_POST[$label_id[$key] . "_mm" . $id]) ? $_POST[$label_id[$key] . "_mm" . $id] : "") . "';
+      document.getElementById('" . $label_id[$key] . "_hh" . $id . "').value='" . (isset($_POST[$label_id[$key] . "_hh" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_hh" . $id])) : "") . "';
+      document.getElementById('" . $label_id[$key] . "_mm" . $id . "').value='" . (isset($_POST[$label_id[$key] . "_mm" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_mm" . $id])) : "") . "';
     }";
               }
-              $am_pm = isset($_POST[$label_id[$key] . "_am_pm" . $id]) ? $_POST[$label_id[$key] . "_am_pm" . $id] : NULL;
+              $am_pm = isset($_POST[$label_id[$key] . "_am_pm" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_am_pm" . $id])) : NULL;
               if (isset($am_pm))
                 $form_maker_front_end .= "if(document.getElementById('" . $label_id[$key] . "_am_pm" . $id . "'))
       document.getElementById('" . $label_id[$key] . "_am_pm" . $id . "').value='" . $am_pm . "';
@@ -4862,9 +4860,9 @@ class FMViewForm_maker {
               {
               $form_maker_front_end .= "if(document.getElementById('" . $label_id[$key] . "_day" . $id . "'))
     {
-      document.getElementById('" . $label_id[$key] . "_day" . $id . "').value='" . (isset($_POST[$label_id[$key] . "_day" . $id]) ? $_POST[$label_id[$key] . "_day" . $id] : "") . "';
-      document.getElementById('" . $label_id[$key] . "_month" . $id . "').value='" . (isset($_POST[$label_id[$key] . "_month" . $id]) ? $_POST[$label_id[$key] . "_month" . $id] : "") . "';
-      document.getElementById('" . $label_id[$key] . "_year" . $id . "').value='" . (isset($_POST[$label_id[$key] . "_year" . $id]) ? $_POST[$label_id[$key] . "_year" . $id] : "") . "';
+      document.getElementById('" . $label_id[$key] . "_day" . $id . "').value='" . (isset($_POST[$label_id[$key] . "_day" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_day" . $id])) : "") . "';
+      document.getElementById('" . $label_id[$key] . "_month" . $id . "').value='" . (isset($_POST[$label_id[$key] . "_month" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_month" . $id])) : "") . "';
+      document.getElementById('" . $label_id[$key] . "_year" . $id . "').value='" . (isset($_POST[$label_id[$key] . "_year" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_year" . $id])) : "") . "';
     }";
               break;
               }
@@ -4873,7 +4871,7 @@ class FMViewForm_maker {
             case "type_country":
               {
               $form_maker_front_end .= "if(document.getElementById('" . $label_id[$key] . "_element" . $id . "'))
-      document.getElementById('" . $label_id[$key] . "_element" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key] . "_element" . $id]) ? $_POST[$label_id[$key] . "_element" . $id] : "") . "';
+      document.getElementById('" . $label_id[$key] . "_element" . $id . "').value='" . addslashes(isset($_POST[$label_id[$key] . "_element" . $id]) ? esc_html(stripslashes($_POST[$label_id[$key] . "_element" . $id])) : "") . "';
     ";
               break;
               }
