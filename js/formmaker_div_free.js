@@ -1177,11 +1177,20 @@ function remove_button(j,i)
 	button.parentNode.removeChild(button);
 }
 
-function change_date_format(value, id)
+function change_date_format(value, id, element)
 {
-	input_p=document.getElementById(id+'_buttonform_id_temp');
-		input_p.setAttribute("onclick", "return showCalendar('"+id+"_elementform_id_temp' , '"+value+"')");
+	var input_p = document.getElementById(id+'_buttonform_id_temp');
+	if(element == 'format') {
+		var dis_past_days =  document.getElementById(id+'_dis_past_daysform_id_temp').value == 'yes' ? true : false;
 		input_p.setAttribute("format", value);
+	}
+	else {
+		document.getElementById(id+'_dis_past_daysform_id_temp').value = (value == true ? 'yes' : 'no');
+		var dis_past_days = value == true ? true : false;
+		var value = document.getElementById('date_format').value;
+	}
+	input_p.setAttribute("onclick", "return showCalendar('"+id+"_elementform_id_temp' , '"+value+"', "+dis_past_days+")");
+		
 }
 
 function set_send(id)
@@ -12599,7 +12608,7 @@ jQuery(document).ready(function() {
 
 }
 
-function type_date(i, w_field_label, w_field_label_size, w_field_label_pos, w_date, w_required, w_class, w_format, w_but_val, w_attr_name, w_attr_value) { 
+function type_date(i, w_field_label, w_field_label_size, w_field_label_pos, w_date, w_required, w_class, w_format, w_but_val, w_attr_name, w_attr_value,w_disable_past_days) { 
 
 	document.getElementById("element_type").value="type_date";
 
@@ -12621,12 +12630,10 @@ function type_date(i, w_field_label, w_field_label_size, w_field_label_pos, w_da
 		edit_main_tr4.style.cssText = "display:none;";
 	var edit_main_tr5  = document.createElement('tr');
 	var edit_main_tr6  = document.createElement('tr');
-
 	var edit_main_tr7  = document.createElement('tr');
-			
 	var edit_main_tr8  = document.createElement('tr');
+	var edit_main_tr9  = document.createElement('tr');
       				
-
 	var edit_main_td1 = document.createElement('td');
 	var edit_main_td1_1 = document.createElement('td');
 	var edit_main_td2 = document.createElement('td');
@@ -12641,20 +12648,21 @@ function type_date(i, w_field_label, w_field_label_size, w_field_label_pos, w_da
 	var edit_main_td6_1 = document.createElement('td');
 	var edit_main_td7 = document.createElement('td');
 	var edit_main_td7_1 = document.createElement('td');
-	
 	var edit_main_td8 = document.createElement('td');
 	var edit_main_td8_1 = document.createElement('td');
-		  
+	var edit_main_td9 = document.createElement('td');
+	var edit_main_td9_1 = document.createElement('td');
+	
 	var el_label_label = document.createElement('label');
-			        el_label_label.setAttribute("for", "edit_for_label");
-			el_label_label.innerHTML = "Field label";
+		el_label_label.setAttribute("for", "edit_for_label");
+		el_label_label.innerHTML = "Field label";
 	
 	var el_label_textarea = document.createElement('textarea');
-                el_label_textarea.setAttribute("id", "edit_for_label");
-                el_label_textarea.setAttribute("rows", "4");
-                el_label_textarea.style.cssText = "width:200px;";
-                el_label_textarea.setAttribute("onKeyUp", "change_label('"+i+"_element_labelform_id_temp', this.value)");
-				el_label_textarea.innerHTML = w_field_label;
+		el_label_textarea.setAttribute("id", "edit_for_label");
+		el_label_textarea.setAttribute("rows", "4");
+		el_label_textarea.style.cssText = "width:200px;";
+		el_label_textarea.setAttribute("onKeyUp", "change_label('"+i+"_element_labelform_id_temp', this.value)");
+		el_label_textarea.innerHTML = w_field_label;
 	
 	var el_label_size_label = document.createElement('label');
 	    el_label_size_label.setAttribute("for", "edit_for_label_size");
@@ -12664,115 +12672,113 @@ function type_date(i, w_field_label, w_field_label_size, w_field_label_pos, w_da
 	    el_label_size.setAttribute("id", "edit_for_label_size");
 	    el_label_size.setAttribute("type", "text");
 	    el_label_size.setAttribute("value", w_field_label_size);
-		
 		el_label_size.setAttribute("onKeyPress", "return check_isnum(event)");
         el_label_size.setAttribute("onKeyUp", "change_w_style('"+i+"_label_sectionform_id_temp', this.value)");
 
-	
 	var el_label_position_label = document.createElement('label');
-			    		el_label_position_label.innerHTML = "Field label position";
+		el_label_position_label.innerHTML = "Field label position";
 	
 	var el_label_position1 = document.createElement('input');
-                el_label_position1.setAttribute("id", "edit_for_label_position_top");
-                el_label_position1.setAttribute("type", "radio");
-                
-
-				
-                el_label_position1.setAttribute("name", "edit_for_label_position");
-                el_label_position1.setAttribute("onchange", "label_left("+i+")");
-				el_label_position1.setAttribute("checked", "checked");
+		el_label_position1.setAttribute("id", "edit_for_label_position_top");
+		el_label_position1.setAttribute("type", "radio");
+		el_label_position1.setAttribute("name", "edit_for_label_position");
+		el_label_position1.setAttribute("onchange", "label_left("+i+")");
+		el_label_position1.setAttribute("checked", "checked");
 		Left = document.createTextNode("Left");
 		
 	var el_label_position2 = document.createElement('input');
-                el_label_position2.setAttribute("id", "edit_for_label_position_left");
-                el_label_position2.setAttribute("type", "radio");
-                
-	
-
-                el_label_position2.setAttribute("name", "edit_for_label_position");
-                el_label_position2.setAttribute("onchange", "label_top("+i+")");
+		el_label_position2.setAttribute("id", "edit_for_label_position_left");
+		el_label_position2.setAttribute("type", "radio");
+		el_label_position2.setAttribute("name", "edit_for_label_position");
+		el_label_position2.setAttribute("onchange", "label_top("+i+")");
 		Top = document.createTextNode("Top");
 		
 	if(w_field_label_pos=="top")
-	
-				el_label_position2.setAttribute("checked", "checked");
+		el_label_position2.setAttribute("checked", "checked");
 	else
-				el_label_position1.setAttribute("checked", "checked");
+		el_label_position1.setAttribute("checked", "checked");
 
 	var el_format_label = document.createElement('label');
-	        el_format_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_format_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
 		el_format_label.innerHTML = "Date format";
 	
 	var el_format_textarea = document.createElement('input');
-                el_format_textarea.setAttribute("id", "date_format");
+		el_format_textarea.setAttribute("id", "date_format");
 		el_format_textarea.setAttribute("type", "text");
 		el_format_textarea.setAttribute("value", w_format);
-                el_format_textarea.style.cssText = "width:200px;";
-                el_format_textarea.setAttribute("onChange", "change_date_format(this.value,'"+i+"')");
+		el_format_textarea.style.cssText = "width:200px;";
+		el_format_textarea.setAttribute("onChange", "change_date_format(this.value,'"+i+"', 'format')");
 
 	var el_button_value_label = document.createElement('label');
-	        el_button_value_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_button_value_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
 		el_button_value_label.innerHTML = "Date Picker label";
 	
 	var el_button_value_textarea = document.createElement('input');
-                el_button_value_textarea.setAttribute("id", "button_value");
+		el_button_value_textarea.setAttribute("id", "button_value");
 		el_button_value_textarea.setAttribute("type", "text");
 		el_button_value_textarea.setAttribute("value", w_but_val);
-                el_button_value_textarea.style.cssText = "width:150px;";
-                el_button_value_textarea.setAttribute("onKeyUp", "change_file_value(this.value,'"+i+"_buttonform_id_temp')");
+		el_button_value_textarea.style.cssText = "width:150px;";
+		el_button_value_textarea.setAttribute("onKeyUp", "change_file_value(this.value,'"+i+"_buttonform_id_temp')");
 
+	var el_disable_past_days_label = document.createElement('label');
+		el_disable_past_days_label.setAttribute("for", "el_disable_past_days");
+		el_disable_past_days_label.innerHTML = "Allow selecting dates starting from current day";
+	
+	var el_disable_past_days = document.createElement('input');
+		el_disable_past_days.setAttribute("id", "el_disable_past_days");
+		el_disable_past_days.setAttribute("type", "checkbox");
+        el_disable_past_days.setAttribute("onclick", "change_date_format(this.checked, '"+i+"', 'dis_days')");
+		if(w_disable_past_days == "yes")
+            el_disable_past_days.setAttribute("checked", "checked");
+		
 	var el_style_label = document.createElement('label');
-	        el_style_label.setAttribute("for", "el_style_textarea");
+		el_style_label.setAttribute("for", "el_style_textarea");
 		el_style_label.innerHTML = "Class name";
 	
 	var el_style_textarea = document.createElement('input');
-                el_style_textarea.setAttribute("id", "el_style_textarea");
+		el_style_textarea.setAttribute("id", "el_style_textarea");
 		el_style_textarea.setAttribute("type", "text");
 		el_style_textarea.setAttribute("value", w_class);
-                el_style_textarea.style.cssText = "width:200px;";
-                el_style_textarea.setAttribute("onChange", "change_class(this.value,'"+i+"')");
+		el_style_textarea.style.cssText = "width:200px;";
+		el_style_textarea.setAttribute("onChange", "change_class(this.value,'"+i+"')");
 
 	var el_required_label = document.createElement('label');
-	        el_required_label.setAttribute("for", "el_required");
+		el_required_label.setAttribute("for", "el_required");
 		el_required_label.innerHTML = "Required";
 	
 	var el_required = document.createElement('input');
-                el_required.setAttribute("id", "el_required");
-                el_required.setAttribute("type", "checkbox");
-                
-                el_required.setAttribute("onclick", "set_required('"+i+"_required')");
-	if(w_required=="yes")
-			
-                el_required.setAttribute("checked", "checked");
+		el_required.setAttribute("id", "el_required");
+		el_required.setAttribute("type", "checkbox");
+		el_required.setAttribute("onclick", "set_required('"+i+"_required')");
+		if(w_required == "yes")
+			el_required.setAttribute("checked", "checked");
 		
 	var el_attr_label = document.createElement('label');
-	                
-			el_attr_label.innerHTML = "Additional Attributes";
+		el_attr_label.innerHTML = "Additional Attributes";
 	var el_attr_add = document.createElement('img');
-                
-           	el_attr_add.setAttribute("src", plugin_url + '/images/add.png');
-            	el_attr_add.style.cssText = 'cursor:pointer; margin-left:68px';
-            	el_attr_add.setAttribute("title", 'add');
-                el_attr_add.setAttribute("onClick", "add_attr("+i+", 'type_date')");
+		el_attr_add.setAttribute("src", plugin_url + '/images/add.png');
+		el_attr_add.style.cssText = 'cursor:pointer; margin-left:68px';
+		el_attr_add.setAttribute("title", 'add');
+		el_attr_add.setAttribute("onClick", "add_attr("+i+", 'type_date')");
 	var el_attr_table = document.createElement('table');
-                el_attr_table.setAttribute("id", 'attributes');
-                el_attr_table.setAttribute("border", '0');
-        	el_attr_table.style.cssText = 'margin-left:0px';
+		el_attr_table.setAttribute("id", 'attributes');
+		el_attr_table.setAttribute("border", '0');
+		el_attr_table.style.cssText = 'margin-left:0px';
 	var el_attr_tr_label = document.createElement('tr');
-                el_attr_tr_label.setAttribute("idi", '0');
+		el_attr_tr_label.setAttribute("idi", '0');
 	var el_attr_td_name_label = document.createElement('th');
-            	el_attr_td_name_label.style.cssText = 'width:100px';
+		el_attr_td_name_label.style.cssText = 'width:100px';
 	var el_attr_td_value_label = document.createElement('th');
-            	el_attr_td_value_label.style.cssText = 'width:100px';
+		el_attr_td_value_label.style.cssText = 'width:100px';
 	var el_attr_td_X_label = document.createElement('th');
-            	el_attr_td_X_label.style.cssText = 'width:10px';
+		el_attr_td_X_label.style.cssText = 'width:10px';
 	var el_attr_name_label = document.createElement('label');
-	                el_attr_name_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px";
-			el_attr_name_label.innerHTML = "Name";
+		el_attr_name_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px";
+		el_attr_name_label.innerHTML = "Name";
 			
 	var el_attr_value_label = document.createElement('label');
-	                el_attr_value_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px";
-			el_attr_value_label.innerHTML = "Value";
+		el_attr_value_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px";
+		el_attr_value_label.innerHTML = "Value";
 			
 	el_attr_table.appendChild(el_attr_tr_label);
 	el_attr_tr_label.appendChild(el_attr_td_name_label);
@@ -12794,18 +12800,14 @@ function type_date(i, w_field_label, w_field_label_size, w_field_label_pos, w_da
 		
 		var el_attr_td_X = document.createElement('td');
 		var el_attr_name = document.createElement('input');
-	
 			el_attr_name.setAttribute("type", "text");
-	
 			el_attr_name.style.cssText = "width:100px";
 			el_attr_name.setAttribute("value", w_attr_name[j-1]);
 			el_attr_name.setAttribute("id", "attr_name"+j);
 			el_attr_name.setAttribute("onChange", "change_attribute_name("+i+", this, 'type_date')");
 			
 		var el_attr_value = document.createElement('input');
-	
 			el_attr_value.setAttribute("type", "text");
-	
 			el_attr_value.style.cssText = "width:100px";
 			el_attr_value.setAttribute("value", w_attr_value[j-1]);
 			el_attr_value.setAttribute("id", "attr_value"+j);
@@ -12816,7 +12818,7 @@ function type_date(i, w_field_label, w_field_label_size, w_field_label_pos, w_da
 			el_attr_remove.setAttribute("src", plugin_url + '/images/delete.png');
 			el_attr_remove.style.cssText = 'cursor:pointer; vertical-align:middle; margin:3px';
 			
-			el_attr_remove.setAttribute("onClick", "remove_attr("+j+", "+i+", 'type_date')");
+		el_attr_remove.setAttribute("onClick", "remove_attr("+j+", "+i+", 'type_date')");
 		el_attr_table.appendChild(el_attr_tr);
 		el_attr_tr.appendChild(el_attr_td_name);
 		el_attr_tr.appendChild(el_attr_td_value);
@@ -12824,18 +12826,11 @@ function type_date(i, w_field_label, w_field_label_size, w_field_label_pos, w_da
 		el_attr_td_name.appendChild(el_attr_name);
 		el_attr_td_value.appendChild(el_attr_value);
 		el_attr_td_X.appendChild(el_attr_remove);
-		
 	}
 
 	var t  = document.getElementById('edit_table');
-	
 	var br = document.createElement('br');
 	var br1 = document.createElement('br');
-	var br2 = document.createElement('br');
-	var br3 = document.createElement('br');
-	var br4 = document.createElement('br');
-	var br5 = document.createElement('br');
-	var br6 = document.createElement('br');
 	
 	edit_main_td1.appendChild(el_label_label);
 	edit_main_td1_1.appendChild(el_label_textarea);
@@ -12845,7 +12840,7 @@ function type_date(i, w_field_label, w_field_label_size, w_field_label_pos, w_da
 	edit_main_td2.appendChild(el_label_position_label);
 	edit_main_td2_1.appendChild(el_label_position1);
 	edit_main_td2_1.appendChild(Left);
-	edit_main_td2_1.appendChild(br2);
+	edit_main_td2_1.appendChild(br);
 	edit_main_td2_1.appendChild(el_label_position2);
 	edit_main_td2_1.appendChild(Top);
 
@@ -12855,6 +12850,9 @@ function type_date(i, w_field_label, w_field_label_size, w_field_label_pos, w_da
 	edit_main_td4.appendChild(el_button_value_label);
 	edit_main_td4_1.appendChild(el_button_value_textarea);
 	
+	edit_main_td9.appendChild(el_disable_past_days_label);
+	edit_main_td9_1.appendChild(el_disable_past_days);
+	
 	edit_main_td5.appendChild(el_style_label);
 	edit_main_td5_1.appendChild(el_style_textarea);
 	
@@ -12863,7 +12861,7 @@ function type_date(i, w_field_label, w_field_label_size, w_field_label_pos, w_da
 
 	edit_main_td7.appendChild(el_attr_label);
 	edit_main_td7.appendChild(el_attr_add);
-	edit_main_td7.appendChild(br3);
+	edit_main_td7.appendChild(br1);
 	edit_main_td7.appendChild(el_attr_table);
 	edit_main_td7.setAttribute("colspan", "2");
 	
@@ -12877,6 +12875,8 @@ function type_date(i, w_field_label, w_field_label_size, w_field_label_pos, w_da
 	edit_main_tr3.appendChild(edit_main_td3_1);
 	edit_main_tr4.appendChild(edit_main_td4);
 	edit_main_tr4.appendChild(edit_main_td4_1);
+	edit_main_tr9.appendChild(edit_main_td9);
+	edit_main_tr9.appendChild(edit_main_td9_1);
 	edit_main_tr5.appendChild(edit_main_td5);
 	edit_main_tr5.appendChild(edit_main_td5_1);
 	edit_main_tr6.appendChild(edit_main_td6);
@@ -12888,6 +12888,7 @@ function type_date(i, w_field_label, w_field_label_size, w_field_label_pos, w_da
 	edit_main_table.appendChild(edit_main_tr2);
 	edit_main_table.appendChild(edit_main_tr3);
 	edit_main_table.appendChild(edit_main_tr4);
+	edit_main_table.appendChild(edit_main_tr9);
 	edit_main_table.appendChild(edit_main_tr5);
 	edit_main_table.appendChild(edit_main_tr6);
 	edit_main_table.appendChild(edit_main_tr7);
@@ -12896,144 +12897,133 @@ function type_date(i, w_field_label, w_field_label_size, w_field_label_pos, w_da
 	t.appendChild(edit_div);
 	add_id_and_name(i, 'type_text');
 	
-//show table
 	var adding_type = document.createElement("input");
-            adding_type.setAttribute("type", "hidden");
-            adding_type.setAttribute("value", "type_date");
-            adding_type.setAttribute("name", i+"_typeform_id_temp");
-            adding_type.setAttribute("id", i+"_typeform_id_temp");
+		adding_type.setAttribute("type", "hidden");
+		adding_type.setAttribute("value", "type_date");
+		adding_type.setAttribute("name", i+"_typeform_id_temp");
+		adding_type.setAttribute("id", i+"_typeform_id_temp");
 	var adding_required = document.createElement("input");
-            adding_required.setAttribute("type", "hidden");
-            adding_required.setAttribute("value", w_required);
-            adding_required.setAttribute("name", i+"_requiredform_id_temp");
+		adding_required.setAttribute("type", "hidden");
+		adding_required.setAttribute("value", w_required);
+		adding_required.setAttribute("name", i+"_requiredform_id_temp");
+		adding_required.setAttribute("id", i+"_requiredform_id_temp");
+	var adding_dis_past_days = document.createElement('input');
+		adding_dis_past_days.setAttribute("type", 'hidden');
+		adding_dis_past_days.setAttribute("value", w_disable_past_days);
+		adding_dis_past_days.setAttribute("id", i+"_dis_past_daysform_id_temp");
+		adding_dis_past_days.setAttribute("name", i+"_dis_past_daysform_id_temp");
 			
-            adding_required.setAttribute("id", i+"_requiredform_id_temp");
-			
-     	var div = document.createElement('div');
-      	    div.setAttribute("id", "main_div");
+	var div = document.createElement('div');
+		div.setAttribute("id", "main_div");
+				
+	var div_field = document.createElement('div');
+		div_field.setAttribute("id", i+"_elemet_tableform_id_temp");
 					
-      	var div_field = document.createElement('div');
-           	div_field.setAttribute("id", i+"_elemet_tableform_id_temp");
-						
-      	var div_label = document.createElement('div');
-         	div_label.setAttribute("align", 'left');
-         	div_label.style.display="table-cell";
-			div_label.style.width=w_field_label_size+"px";
-           	div_label.setAttribute("id", i+"_label_sectionform_id_temp");
+	var div_label = document.createElement('div');
+		div_label.setAttribute("align", 'left');
+		div_label.style.display="table-cell";
+		div_label.style.width=w_field_label_size+"px";
+		div_label.setAttribute("id", i+"_label_sectionform_id_temp");
+		
+	var div_element = document.createElement('div');
+		div_element.setAttribute("align", 'left');
+		div_element.style.display="table-cell";
+		div_element.setAttribute("id", i+"_element_sectionform_id_temp");
+		
+	var table_date = document.createElement('div');
+		table_date.setAttribute("id", i+"_table_date");
+		table_date.style.display="table";
+		
+	var tr_date1 = document.createElement('div');
+		tr_date1.setAttribute("id", i+"_tr_date1");
+		tr_date1.style.display="table-row";
+		
+	var tr_date2 = document.createElement('div');
+		tr_date2.setAttribute("id", i+"_tr_date2");
+		tr_date2.style.display="table-row";
+		
+	var td_date_input1 = document.createElement('div');
+		td_date_input1.setAttribute("id", i+"_td_date_input1");
+		td_date_input1.style.display="table-cell";
 			
-      	var div_element = document.createElement('div');
-         	div_element.setAttribute("align", 'left');
-          	div_element.style.display="table-cell";
-          	div_element.setAttribute("id", i+"_element_sectionform_id_temp");
-			
-      	var table_date = document.createElement('div');
-           	table_date.setAttribute("id", i+"_table_date");
-           	table_date.style.display="table";
-			
-      	var tr_date1 = document.createElement('div');
-           	tr_date1.setAttribute("id", i+"_tr_date1");
-			tr_date1.style.display="table-row";
-			
-      	var tr_date2 = document.createElement('div');
-           	tr_date2.setAttribute("id", i+"_tr_date2");
-			tr_date2.style.display="table-row";
-			
-      	var td_date_input1 = document.createElement('div');
-           	td_date_input1.setAttribute("id", i+"_td_date_input1");
-			td_date_input1.style.display="table-cell";
-			
-      	var td_date_input2 = document.createElement('div');
-           	td_date_input2.setAttribute("id", i+"_td_date_input2");
-			td_date_input2.style.display="table-cell";
-			
-      	var td_date_input3 = document.createElement('div');
-           	td_date_input3.setAttribute("id", i+"_td_date_input3");
-			td_date_input3.style.display="table-cell";
+	var td_date_input2 = document.createElement('div');
+		td_date_input2.setAttribute("id", i+"_td_date_input2");
+		td_date_input2.style.display="table-cell";
+		
+	var td_date_input3 = document.createElement('div');
+		td_date_input3.setAttribute("id", i+"_td_date_input3");
+		td_date_input3.style.display="table-cell";
 
-      	var td_date_label1 = document.createElement('div');
-           	td_date_label1.setAttribute("id", i+"_td_date_label1");
-			td_date_label1.style.display="table-cell";
+	var td_date_label1 = document.createElement('div');
+		td_date_label1.setAttribute("id", i+"_td_date_label1");
+		td_date_label1.style.display="table-cell";
 			
-      	var td_date_label2 = document.createElement('div');
-           	td_date_label2.setAttribute("id", i+"_td_date_label2");
-			td_date_label2.style.display="table-cell";
-			
-      	var td_date_label3 = document.createElement('div');
-           	td_date_label3.setAttribute("id", i+"_td_date_label3");
-			td_date_label3.style.display="table-cell";
-			
-      	var br1 = document.createElement('br');
-      	var br2 = document.createElement('br');
-     	var br3 = document.createElement('br');
-      	var br4 = document.createElement('br');
+	var td_date_label2 = document.createElement('div');
+		td_date_label2.setAttribute("id", i+"_td_date_label2");
+		td_date_label2.style.display="table-cell";
+		
+	var td_date_label3 = document.createElement('div');
+		td_date_label3.setAttribute("id", i+"_td_date_label3");
+		td_date_label3.style.display="table-cell";
+		
+	var br3 = document.createElement('br');
+	var br4 = document.createElement('br');
       
 
-      	var label = document.createElement('span');
+    var label = document.createElement('span');
 		label.setAttribute("id", i+"_element_labelform_id_temp");
 		label.innerHTML = w_field_label;
 		label.setAttribute("class", "label");
 		label.style.verticalAlign="top";
 		
-      	var required = document.createElement('span');
-			required.setAttribute("id", i+"_required_elementform_id_temp");
-			required.innerHTML = "";
-			required.setAttribute("class", "required");
-			required.style.verticalAlign="top";
-	if(w_required=="yes")
+	var required = document.createElement('span');
+		required.setAttribute("id", i+"_required_elementform_id_temp");
+		required.innerHTML = "";
+		required.setAttribute("class", "required");
+		required.style.verticalAlign="top";
+		if(w_required=="yes")
 			required.innerHTML = " *";
 			
 	var adding = document.createElement('input');
-            adding.setAttribute("type", 'text');
-            adding.setAttribute("value", w_date);
-            adding.setAttribute("class", 'wdform-date');
-			adding.setAttribute("id", i+"_elementform_id_temp");
-			adding.setAttribute("name", i+"_elementform_id_temp");
-			adding.setAttribute("maxlength", "10");
-			adding.setAttribute("size", "10");
-			adding.setAttribute("onChange", "change_value('"+i+"_elementform_id_temp')");
-		
-	var adding_button = document.createElement('input');
-			adding_button.setAttribute("id", i+"_buttonform_id_temp");
-  	   		adding_button.setAttribute("class", "button");
-            adding_button.setAttribute("type", 'reset');
-            adding_button.setAttribute("value", w_but_val);
-            adding_button.setAttribute("format", w_format);
-        adding_button.setAttribute("onclick", "return showCalendar('"+i+"_elementform_id_temp' ,'"+w_format+"')");
-			
-	    
-      	var main_td  = document.getElementById('show_table');
-      
-      	div_label.appendChild(label);
-      	div_label.appendChild(required);
-		
-      	div_element.appendChild(adding_type);
+		adding.setAttribute("type", 'text');
+		adding.setAttribute("value", w_date);
+		adding.setAttribute("class", 'wdform-date');
+		adding.setAttribute("id", i+"_elementform_id_temp");
+		adding.setAttribute("name", i+"_elementform_id_temp");
+		adding.setAttribute("maxlength", "10");
+		adding.setAttribute("size", "10");
+		adding.setAttribute("onChange", "change_value('"+i+"_elementform_id_temp')");
 	
-      	div_element.appendChild(adding_required);
-		div_element.appendChild(adding);
-		div_element.appendChild(adding_button);
-      	div_field.appendChild(div_label);
-      	div_field.appendChild(div_element);
-  
+	var dis_past_days = w_disable_past_days == 'yes' ? true : false;
+	
+	var adding_button = document.createElement('input');
+		adding_button.setAttribute("id", i+"_buttonform_id_temp");
+		adding_button.setAttribute("class", "button");
+		adding_button.setAttribute("type", 'reset');
+		adding_button.setAttribute("value", w_but_val);
+		adding_button.setAttribute("format", w_format);
+        adding_button.setAttribute("onclick", "return showCalendar('"+i+"_elementform_id_temp' ,'"+w_format+"', "+dis_past_days+")");
+			
+	var main_td  = document.getElementById('show_table');
       
-      	div.appendChild(div_field);
-      	div.appendChild(br3);
-      	main_td.appendChild(div);
+	div_label.appendChild(label);
+	div_label.appendChild(required);
+	div_element.appendChild(adding_type);
+	div_element.appendChild(adding_required);
+	div_element.appendChild(adding_dis_past_days);
+	div_element.appendChild(adding);
+	div_element.appendChild(adding_button);
+	div_field.appendChild(div_label);
+	div_field.appendChild(div_element);
+	div.appendChild(div_field);
+	div.appendChild(br3);
+	main_td.appendChild(div);
 
 	if(w_field_label_pos=="top")
-				label_top(i);
-change_class(w_class, i);
-refresh_attr(i, 'type_date');
-
-// Calendar.setup({
-				// inputField: i+"_elementform_id_temp",
-				// ifFormat: w_format,
-				// button: i+"_buttonform_id_temp",
-				// align: "Tl",
-				// singleClick: true,
-				// firstDay: 0
-				// });
+		label_top(i);
+	change_class(w_class, i);
+	refresh_attr(i, 'type_date');
 }
-
 
 
 function field_to_select(id, type)
@@ -26232,7 +26222,7 @@ function go_to_type_date(new_id)
  	w_attr_name=[];
  	w_attr_value=[];
 	
-	type_date(new_id, 'Date:', '100', 'left', '', 'no', '', '%Y-%m-%d', '...',w_attr_name, w_attr_value);
+	type_date(new_id, 'Date:', '100', 'left', '', 'no', '', '%Y-%m-%d', '...',w_attr_name, w_attr_value, 'no');
 }
 
 function go_to_type_date_fields(new_id)
@@ -29428,7 +29418,8 @@ function edit(id)
 				w_date=document.getElementById(id+'_elementform_id_temp').value;
 				w_format=document.getElementById(id+'_buttonform_id_temp').getAttribute("format");
 				w_but_val=document.getElementById(id+'_buttonform_id_temp').value;
-				type_date(id, w_field_label, w_field_label_size, w_field_label_pos, w_date, w_required, w_class, w_format, w_but_val, w_attr_name, w_attr_value); break;
+				w_disable_past_days = document.getElementById(id+'_dis_past_daysform_id_temp') ? document.getElementById(id+'_dis_past_daysform_id_temp').value : 'no';
+				type_date(id, w_field_label, w_field_label_size, w_field_label_pos, w_date, w_required, w_class, w_format, w_but_val, w_attr_name, w_attr_value,w_disable_past_days); break;
 			}
 			case 'type_date_fields':
 			{	
@@ -30537,7 +30528,8 @@ function dublicate(id) {
 				w_date=document.getElementById(id+'_elementform_id_temp').value;
 				w_format=document.getElementById(id+'_buttonform_id_temp').getAttribute("format");
 				w_but_val=document.getElementById(id+'_buttonform_id_temp').value;
-				type_date(gen, w_field_label, w_field_label_size, w_field_label_pos, w_date, w_required, w_class, w_format, w_but_val, w_attr_name, w_attr_value); break;
+				w_disable_past_days = document.getElementById(id+'_dis_past_daysform_id_temp') ? document.getElementById(id+'_dis_past_daysform_id_temp').value : 'no';
+				type_date(gen, w_field_label, w_field_label_size, w_field_label_pos, w_date, w_required, w_class, w_format, w_but_val, w_attr_name, w_attr_value, w_disable_past_days); break;
 			}
 			case 'type_date_fields':
 			{	
@@ -32019,6 +32011,7 @@ function gen_form_fields()
 			w_date=document.getElementById(id+'_elementform_id_temp').value;
 			w_format=document.getElementById(id+'_buttonform_id_temp').getAttribute("format");
 			w_but_val=document.getElementById(id+'_buttonform_id_temp').value;
+			w_disable_past_days = document.getElementById(id+'_dis_past_daysform_id_temp') ? document.getElementById(id+'_dis_past_daysform_id_temp').value : 'no';
 			
 				form_fields+=w_field_label+"*:*w_field_label*:*";
 				form_fields+=w_field_label_size+"*:*w_field_label_size*:*";
@@ -32033,6 +32026,7 @@ function gen_form_fields()
 				{
 				form_fields+=w_attr_name[j]+"="+w_attr_value[j]+"*:*w_attr_name*:*";
 				}
+				form_fields+=w_disable_past_days+"*:*w_disable_past_days*:*";
 				form_fields+="*:*new_field*:*";	
 			 break;
 		}

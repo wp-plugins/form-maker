@@ -1493,6 +1493,7 @@ class FMModelForm_maker {
 		if(strpos($submit_text, "%".$key."%")>-1)
 			$submit_text = str_replace("%".$key."%", $custom_field, $submit_text);
 	}
+	$submit_text = str_replace(array("***map***", "*@@url@@*", "@@@@@@@@@", "@@@", "***grading***", "***br***", "***star_rating***"), array(" ", "", " ", " ", " ", ", ", " "), $submit_text);
 	
     return $submit_text;
   }

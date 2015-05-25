@@ -1016,9 +1016,9 @@ ngdom</option><option value="United States">United States</option><option value=
               
               break;
             }
-            case 'type_date':
+             case 'type_date':
             {
-              $params_names=array('w_field_label_size','w_field_label_pos','w_date','w_required','w_class','w_format','w_but_val');
+              $params_names=array('w_field_label_size','w_field_label_pos','w_date','w_required','w_class','w_format','w_but_val', 'w_disable_past_days');
               $temp=$params;
               foreach($params_names as $params_name )
               {	
@@ -1037,10 +1037,10 @@ ngdom</option><option value="United States">United States</option><option value=
 
               $param['w_field_label_pos'] = ($param['w_field_label_pos']=="left" ? "table-cell" : "block");	
               $required_sym = ($param['w_required']=="yes" ? " *" : "");	
-            
-      
+              $param['w_disable_past_days'] = isset($param['w_disable_past_days']) ? $param['w_disable_past_days'] : 'no';
+			  $disable_past_days = $param['w_disable_past_days'] == 'yes' ? 'true' : 'false';
 
-              $rep ='<div id="wdform_field'.$id.'" type="type_date" class="wdform_field" style="display: table-cell;">'.$arrows.'<div align="left" id="'.$id.'_label_sectionform_id_temp" class="'.$param['w_class'].'" style="display: '.$param['w_field_label_pos'].'; width: '.$param['w_field_label_size'].'px;"><span id="'.$id.'_element_labelform_id_temp" class="label" style="vertical-align: top;">'.$label.'</span><span id="'.$id.'_required_elementform_id_temp" class="required" style="vertical-align: top;">'.$required_sym.'</span></div><div align="left" id="'.$id.'_element_sectionform_id_temp" class="'.$param['w_class'].'" style="display: '.$param['w_field_label_pos'].';"><input type="hidden" value="type_date" name="'.$id.'_typeform_id_temp" id="'.$id.'_typeform_id_temp"><input type="hidden" value="'.$param['w_required'].'" name="'.$id.'_requiredform_id_temp" id="'.$id.'_requiredform_id_temp"><input type="text" value="'.$param['w_date'].'" class="wdform-date" id="'.$id.'_elementform_id_temp" name="'.$id.'_elementform_id_temp" maxlength="10" size="10" onchange="change_value(&quot;'.$id.'_elementform_id_temp&quot;)" '.$param['attributes'].' disabled/><input id="'.$id.'_buttonform_id_temp" class="button" type="reset" value="'.$param['w_but_val'].'" format="'.$param['w_format'].'" src="templates/bluestork/images/system/calendar.png" alt="calendario" '.$param['attributes'].' onclick="return showCalendar(&quot;'.$id.'_elementform_id_temp&quot; , &quot;'.$param['w_format'].'&quot;)"></div></div>';
+              $rep ='<div id="wdform_field'.$id.'" type="type_date" class="wdform_field" style="display: table-cell;">'.$arrows.'<div align="left" id="'.$id.'_label_sectionform_id_temp" class="'.$param['w_class'].'" style="display: '.$param['w_field_label_pos'].'; width: '.$param['w_field_label_size'].'px;"><span id="'.$id.'_element_labelform_id_temp" class="label" style="vertical-align: top;">'.$label.'</span><span id="'.$id.'_required_elementform_id_temp" class="required" style="vertical-align: top;">'.$required_sym.'</span></div><div align="left" id="'.$id.'_element_sectionform_id_temp" class="'.$param['w_class'].'" style="display: '.$param['w_field_label_pos'].';"><input type="hidden" value="type_date" name="'.$id.'_typeform_id_temp" id="'.$id.'_typeform_id_temp"><input type="hidden" value="'.$param['w_required'].'" name="'.$id.'_requiredform_id_temp" id="'.$id.'_requiredform_id_temp"><input type="hidden" value="'.$param['w_disable_past_days'].'" name="'.$id.'_dis_past_daysform_id_temp" id="'.$id.'_dis_past_daysform_id_temp"><input type="text" value="'.$param['w_date'].'" class="wdform-date" id="'.$id.'_elementform_id_temp" name="'.$id.'_elementform_id_temp" maxlength="10" size="10" onchange="change_value(&quot;'.$id.'_elementform_id_temp&quot;)" '.$param['attributes'].' disabled/><input id="'.$id.'_buttonform_id_temp" class="button" type="reset" value="'.$param['w_but_val'].'" format="'.$param['w_format'].'" src="templates/bluestork/images/system/calendar.png" alt="calendario" '.$param['attributes'].' onclick="return showCalendar(&quot;'.$id.'_elementform_id_temp&quot; , &quot;'.$param['w_format'].'&quot;, '.$disable_past_days.')"></div></div>';
               
               break;
             }

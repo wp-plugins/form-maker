@@ -367,12 +367,17 @@ function checkCalendar(ev) {
 // This function shows the calendar under the element having the given id.
 // It takes care of catching "mousedown" signals on document and hiding the
 // calendar if the click was outside.
-function showCalendar(id, dateFormat) {
+function showCalendar(id, dateFormat, dis_past_days) {
 	var el = document.getElementById(id);
 	if (calendar != null) {
 		// we already have one created, so just update it.
 		calendar.hide();		// hide the existing calendar
 		calendar.parseDate(el.value); // set it to a new date
+		if(dis_past_days)
+			calendar.getDateStatus = getDisabledDates; // disable past days
+		else
+			calendar.getDateStatus = null; // disable past days
+		calendar.refresh();
 	} else {
 		// first-time call, create the calendar
 		var cal = new Calendar(true, null, selected, closeHandler);
@@ -383,7 +388,8 @@ function showCalendar(id, dateFormat) {
 		{
 			cal.setDateFormat(dateFormat);
 		}
-
+		if(dis_past_days)
+			cal.getDateStatus = getDisabledDates; // disable past days
 		calendar.create();		// create a popup calendar
 		calendar.parseDate(el.value); // set it to a new date
 	}
@@ -395,7 +401,23 @@ function showCalendar(id, dateFormat) {
 	return false;
 }
 
-/**
+function getDisabledDates(date) {
+	var currentDate = new Date();
+	if( date.getDate() == currentDate.getDate() && date.getMonth() == currentDate.getMonth() && date.getFullYear() == currentDate.getFullYear() )
+		return 'today';
+	
+	if( date.getTime() < currentDate.getTime() )
+		return true;
+}
+
+function getDisabledDates(date) {
+	var currentDate = new Date();
+	if( date.getDate() == currentDate.getDate() && date.getMonth() == currentDate.getMonth() && date.getFullYear() == currentDate.getFullYear() )
+		return 'today';
+	
+	if( date.getTime() < currentDate.getTime() )
+		return true;
+}/**
 * Pops up a new window in the middle of the screen
 */
 function popupWindow(mypage, myname, w, h, scroll) {

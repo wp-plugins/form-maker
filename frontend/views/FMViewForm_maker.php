@@ -2300,7 +2300,7 @@ class FMViewForm_maker {
             }
 
             case 'type_date': {
-              $params_names=array('w_field_label_size','w_field_label_pos','w_date','w_required','w_class','w_format','w_but_val');
+              $params_names=array('w_field_label_size','w_field_label_pos','w_date','w_required','w_class','w_format','w_but_val','w_disable_past_days');
               $temp=$params;
 
               foreach($params_names as $params_name ) {
@@ -2320,13 +2320,15 @@ class FMViewForm_maker {
               $param['w_field_label_pos2'] = ($param['w_field_label_pos']=="left" ? "" : "display:block;");
               $required = ($param['w_required']=="yes" ? true : false);	
             
+			  $param['w_disable_past_days'] = isset($param['w_disable_past_days']) ? $param['w_disable_past_days'] : 'no';
+			  $disable_past_days = $param['w_disable_past_days'] == 'yes' ? 'true' : 'false';
               $param['w_date']=(isset($_POST['wdform_'.$id1."_element".$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1."_element".$form_id])) : $param['w_date']);
 
               $rep ='<div type="type_date" class="wdform-field"><div class="wdform-label-section" style="'.$param['w_field_label_pos1'].'; width: '.$param['w_field_label_size'].'px;"><span class="wdform-label">'.$label.'</span>';
               if($required) {
                 $rep.='<span class="wdform-required">'.$required_sym.'</span>';
               }
-              $rep.='</div><div class="wdform-element-section '.$param['w_class'].'" style="'.$param['w_field_label_pos2'].';"><input type="text" value="'.$param['w_date'].'" class="wdform-date" id="wdform_'.$id1.'_element'.$form_id.'" name="wdform_'.$id1.'_element'.$form_id.'" maxlength="10" '.$param['attributes'].'><input id="wdform_'.$id1.'_button'.$form_id.'" class="wdform-calendar-button" type="reset" value="'.$param['w_but_val'].'" format="'.$param['w_format'].'" onclick="return showCalendar(\'wdform_'.$id1.'_element'.$form_id.'\' , \''.$param['w_format'].'\')" '.$param['attributes'].' ></div></div>';
+              $rep.='</div><div class="wdform-element-section '.$param['w_class'].'" style="'.$param['w_field_label_pos2'].';"><input type="text" value="'.$param['w_date'].'" class="wdform-date" id="wdform_'.$id1.'_element'.$form_id.'" name="wdform_'.$id1.'_element'.$form_id.'" maxlength="10" '.$param['attributes'].'><input id="wdform_'.$id1.'_button'.$form_id.'" class="wdform-calendar-button" type="reset" value="'.$param['w_but_val'].'" format="'.$param['w_format'].'" onclick="return showCalendar(\'wdform_'.$id1.'_element'.$form_id.'\' , \''.$param['w_format'].'\', '.$disable_past_days.')" '.$param['attributes'].' ></div></div>';
               
               if($required) {
                 $check_js.='
@@ -2344,6 +2346,16 @@ class FMViewForm_maker {
                   }
                 }
                 ';		
+              }
+			  
+			  if($disable_past_days == 'true') {
+                $check_js.='
+                var currentDate = new Date();
+				if( Date.parse(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val() + " 23:59:59") < currentDate.getTime() ) {
+					alert("'.__('You cannot select former dates. Choose a date starting from the current one.', 'form_maker').'");
+					return false;
+				}
+				';		
               }
               // $onload_js.= 'Calendar.setup({inputField: "wdform_'.$id1.'_element'.$form_id.'",	ifFormat: "'.$param['w_format'].'",button: "wdform_'.$id1.'_button'.$form_id.'",align: "Tl",singleClick: true,firstDay: 0});';
               break;
