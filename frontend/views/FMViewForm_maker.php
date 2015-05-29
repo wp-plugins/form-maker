@@ -246,26 +246,27 @@ class FMViewForm_maker {
 									$click .= '#wdform_'.$params_value[0].'_element'.$form_id.' ~ a, ';
 							break;
 							
+							
 							case "type_name":	
-					if($params_value[1] == "%" || $params_value[1] == "!%")
-						{	
-								$extended0 = '';
-								$extended1 = '';
-								$extended2 = '';
-								$extended3 = '';
-								$normal0 = '';
-								$normal1 = '';
-								$normal2 = '';
-								$normal3 = '';
-								
-								$like_or_not = ($params_value[1] == "%" ? ">" : "==");
-								$name_fields = explode(' ',$params_value[2]);
-								if($name_fields[0]!='')
+								if($params_value[1] == "%" || $params_value[1] == "!%")
+								{	
+									$extended0 = '';
+									$extended1 = '';
+									$extended2 = '';
+									$extended3 = '';
+									$normal0 = '';
+									$normal1 = '';
+									$normal2 = '';
+									$normal3 = '';
+									
+									$like_or_not = ($params_value[1] == "%" ? ">" : "==");
+									$name_fields = explode(' ',$params_value[2]);
+									if($name_fields[0]!='')
 									{
 										$extended0 = 'jQuery("#wdform_'.$params_value[0].'_element_title'.$form_id.'").val().indexOf("'.$name_fields[0].'")'.$like_or_not.'-1 ';
 										$normal0 = 'jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val().indexOf("'.$name_fields[0].'")'.$like_or_not.'-1 ';
 									}
-									
+										
 									if(isset($name_fields[1]) && $name_fields[1]!='')
 									{
 										$extended1 = 'jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val().indexOf("'.$name_fields[1].'")'.$like_or_not.'-1 ';
@@ -277,165 +278,165 @@ class FMViewForm_maker {
 										$extended2 = 'jQuery("#wdform_'.$params_value[0].'_element_last'.$form_id.'").val().indexOf("'.$name_fields[2].'")'.$like_or_not.'-1 ';
 										$normal2 = '';
 									}
-									
+										
 									if(isset($name_fields[3]) && $name_fields[3]!='')
 									{
 										$extended3 = 'jQuery("#wdform_'.$params_value[0].'_element_middle'.$form_id.'").val().indexOf("'.$name_fields[3].'")'.$like_or_not.'-1 ';
 										$normal3 = '';
 									}
-								
-								
-								if(isset($name_fields[3]))
-								{
-									$extended ='';
-									$normal ='';
-									if($extended0)
-									{	
-										$extended = $extended0;
-										if($extended1)
-										{
-											$extended .= ' && '.$extended1;
-											if($extended2)
-												$extended .=' && '.$extended2;	
-												
-											if($extended3)
-												$extended .=' && '.$extended3;
-										}
-										else
-										{
-											if($extended2)
-												$extended .= ' && '.$extended2;
-											if($extended3)
-												$extended .= ' && '.$extended3;	
-										}
-									}
-									else
+									
+									
+									if(isset($name_fields[3]))
 									{
-										if($extended1)
-										{	
-											$extended = $extended1;
-											if($extended2)
-												$extended .=' && '.$extended2;
-												
-											if($extended3)
-												$extended .=' && '.$extended3;
-										}
-										else
-										{
-											if($extended2)
-											{
-												$extended = $extended2;
-												if($extended3)
-													$extended .= ' && '.$extended3;
-											}
-											else
-												if($extended3)
-													$extended = $extended3;
-										}		
-									}
-								
-									if($normal0)
-									{	
-										$normal = $normal0;
-										if($normal1)
-											$normal .= ' && '.$normal1;
-									}
-									else
-									{
-										if($normal1)
-											$normal = $normal1;			
-									}
-								}
-								else
-								{
-									if(isset($name_fields[2]))
-									{
-										$extended ="";
-										$normal ="";
+										$extended ='';
+										$normal ='';
 										if($extended0)
 										{	
-											$extended = $extended0;	
+											$extended = $extended0;
 											if($extended1)
+											{
 												$extended .= ' && '.$extended1;
-
-											if($extended2)
-													$extended .=' && '.$extended2;
-
+												if($extended2)
+													$extended .=' && '.$extended2;	
+													
+												if($extended3)
+													$extended .=' && '.$extended3;
+											}
+											else
+											{
+												if($extended2)
+													$extended .= ' && '.$extended2;
+												if($extended3)
+													$extended .= ' && '.$extended3;	
+											}
 										}
 										else
 										{
 											if($extended1)
-											{
+											{	
 												$extended = $extended1;
 												if($extended2)
-													$extended .= ' && '.$extended2;	
-											}		
+													$extended .=' && '.$extended2;
+													
+												if($extended3)
+													$extended .=' && '.$extended3;
+											}
 											else
+											{
 												if($extended2)
-													$extended = $extended2;	
+												{
+													$extended = $extended2;
+													if($extended3)
+														$extended .= ' && '.$extended3;
+												}
+												else
+													if($extended3)
+														$extended = $extended3;
+											}		
 										}
-										
-										
+									
 										if($normal0)
 										{	
-											$normal = $normal0;	
+											$normal = $normal0;
 											if($normal1)
 												$normal .= ' && '.$normal1;
 										}
 										else
 										{
 											if($normal1)
-												$normal = $normal1;
+												$normal = $normal1;			
 										}
-										
 									}
 									else
 									{
-										if(isset($name_fields[1]))
+										if(isset($name_fields[2]))
 										{
-											$extended ='';
-											$normal ='';
+											$extended ="";
+											$normal ="";
 											if($extended0)
 											{	
+												$extended = $extended0;	
 												if($extended1)
-													$extended = $extended0.' && '.$extended1;
-												else
-													$extended = $extended0;
+													$extended .= ' && '.$extended1;
+
+												if($extended2)
+														$extended .=' && '.$extended2;
+
 											}
 											else
 											{
 												if($extended1)
+												{
 													$extended = $extended1;
+													if($extended2)
+														$extended .= ' && '.$extended2;	
+												}		
+												else
+													if($extended2)
+														$extended = $extended2;	
 											}
 											
 											
 											if($normal0)
 											{	
+												$normal = $normal0;	
 												if($normal1)
-													$normal = $normal0.' && '.$normal1;
-												else
-													$normal = $normal0;
+													$normal .= ' && '.$normal1;
 											}
 											else
 											{
 												if($normal1)
 													$normal = $normal1;
 											}
+											
 										}
 										else
 										{
-											$extended = $extended0;
-											$normal = $normal0;
-										}
-									}	
+											if(isset($name_fields[1]))
+											{
+												$extended ='';
+												$normal ='';
+												if($extended0)
+												{	
+													if($extended1)
+														$extended = $extended0.' && '.$extended1;
+													else
+														$extended = $extended0;
+												}
+												else
+												{
+													if($extended1)
+														$extended = $extended1;
+												}
+												
+												
+												if($normal0)
+												{	
+													if($normal1)
+														$normal = $normal0.' && '.$normal1;
+													else
+														$normal = $normal0;
+												}
+												else
+												{
+													if($normal1)
+														$normal = $normal1;
+												}
+											}
+											else
+											{
+												$extended = $extended0;
+												$normal = $normal0;
+											}
+										}	
+									}
+									
+									if($extended!="" && $normal!="")			
+										$if .= ' ((jQuery("#wdform_'.$params_value[0].'_element_title'.$form_id.'").length != 0 || jQuery("#wdform_'.$params_value[0].'_element_middle'.$form_id.'").length != 0) ?  '.$extended.' : '.$normal.') ';
+									else
+										$if .= ' true';
 								}
-								
-								if($extended!="" && $normal!="")			
-									$if .= ' ((jQuery("#wdform_'.$params_value[0].'_element_title'.$form_id.'").length != 0) ?  '.$extended.' : '.$normal.') ';
 								else
-									$if .= ' true';
-						}
-						else
 								{
 									if($params_value[1] == "=" || $params_value[1] == "!")
 									{
@@ -444,7 +445,7 @@ class FMViewForm_maker {
 										$extended = ' (jQuery("#wdform_'.$params_value[0].'_element_title'.$form_id.'").val()'.$name_empty_or_not.'"" '.$name_and_or.' jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val()'.$name_empty_or_not.'"" '.$name_and_or.' jQuery("#wdform_'.$params_value[0].'_element_last'.$form_id.'").val()'.$name_empty_or_not.'"" '.$name_and_or.' jQuery("#wdform_'.$params_value[0].'_element_middle'.$form_id.'").val()'.$name_empty_or_not.'"") ';		
 										$normal = ' (jQuery("#wdform_'.$params_value[0].'_element_first'.$form_id.'").val()'.$name_empty_or_not.'"" '.$name_and_or.' jQuery("#wdform_'.$params_value[0].'_element_last'.$form_id.'").val()'.$name_empty_or_not.'"") ';
 										
-										$if .= ' ((jQuery("#wdform_'.$params_value[0].'_element_title'.$form_id.'").length != 0) ?  '.$extended.' : '.$normal.') ';
+										$if .= ' ((jQuery("#wdform_'.$params_value[0].'_element_title'.$form_id.'").length != 0 || jQuery("#wdform_'.$params_value[0].'_element_middle'.$form_id.'").length != 0) ?  '.$extended.' : '.$normal.') ';
 									}
 									else
 									{
@@ -630,14 +631,13 @@ class FMViewForm_maker {
 										}
 
 										if($extended!="" && $normal!="")			
-											$if .= ' ((jQuery("#wdform_'.$params_value[0].'_element_title'.$form_id.'").length != 0) ?  '.$extended.' : '.$normal.') ';
+											$if .= ' ((jQuery("#wdform_'.$params_value[0].'_element_title'.$form_id.'").length != 0 || jQuery("#wdform_'.$params_value[0].'_element_middle'.$form_id.'").length != 0) ?  '.$extended.' : '.$normal.') ';
 										else
 											$if .= ' true';
 									}	
 								}
 								$keyup .= '#wdform_'.$params_value[0].'_element_title'.$form_id.', #wdform_'.$params_value[0].'_element_first'.$form_id.', #wdform_'.$params_value[0].'_element_last'.$form_id.', #wdform_'.$params_value[0].'_element_middle'.$form_id.', ';		
 							break;
-							
 							case "type_phone":
 								if($params_value[1] == "==" || $params_value[1] == "!=")
 								{
@@ -1389,8 +1389,8 @@ class FMViewForm_maker {
               break;
             }
 
-            case 'type_name': {
-              $params_names=array('w_field_label_size','w_field_label_pos','w_first_val','w_title', 'w_mini_labels','w_size','w_name_format','w_required','w_unique', 'w_class');
+             case 'type_name': {
+              $params_names=array('w_field_label_size','w_field_label_pos','w_first_val','w_title', 'w_mini_labels','w_size','w_name_format','w_required','w_unique', 'w_class', 'w_name_fields');
               $temp=$params;
               foreach($params_names as $params_name ) {
                 $temp=explode('*:*'.$params_name.'*:*',$temp);
@@ -1407,60 +1407,73 @@ class FMViewForm_maker {
               
               $w_first_val = explode('***',$param['w_first_val']);
               $w_title = explode('***',$param['w_title']);
+
               $w_mini_labels = explode('***',$param['w_mini_labels']);
-              
+              $param['w_name_fields'] =  $param['w_name_fields']!='' ? $param['w_name_fields'] : ($param['w_name_format'] == 'normal' ? 'no***no' : 'yes***yes');
+			  $w_name_fields = explode('***', $param['w_name_fields']);
+			  
               $element_title = isset($_POST['wdform_'.$id1.'_element_title'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_title'.$form_id])) : NULL;
+			  $element_middle = isset($_POST['wdform_'.$id1.'_element_middle'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_middle'.$form_id])) : NULL;
               $element_first = isset($_POST['wdform_'.$id1.'_element_first'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_first'.$form_id])) : NULL;
-              if(isset($element_title)) {
-                $param['w_first_val']=(isset($_POST['wdform_'.$id1.'_element_title'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_title'.$form_id])) : $w_first_val[0]).'***'.(isset($_POST['wdform_'.$id1.'_element_first'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_first'.$form_id])) : $w_first_val[1]).'***'.(isset($_POST['wdform_'.$id1.'_element_last'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_last'.$form_id])) : $w_first_val[2]).'***'.(isset($_POST['wdform_'.$id1.'_element_middle'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_middle'.$form_id])) : $w_first_val[3]);
+              if(isset($element_title) || isset($element_middle)) {
+                $param['w_first_val']=(isset($_POST['wdform_'.$id1.'_element_first'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_first'.$form_id])) : $w_first_val[0]).'***'.(isset($_POST['wdform_'.$id1.'_element_last'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_last'.$form_id])) : $w_first_val[1]).'***'.(isset($_POST['wdform_'.$id1.'_element_title'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_title'.$form_id])) : $w_first_val[2]).'***'.(isset($_POST['wdform_'.$id1.'_element_middle'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_middle'.$form_id])) : $w_first_val[3]);
               }
               else {
                 if(isset($element_first)) {
                   $param['w_first_val']=(isset($_POST['wdform_'.$id1.'_element_first'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_first'.$form_id])) : $w_first_val[0]).'***'.(isset($_POST['wdform_'.$id1.'_element_last'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_last'.$form_id])) : $w_first_val[1]);
                 }
               }
-              $input_active = ($param['w_first_val']==$param['w_title'] ? "input_deactive" : "input_active");	
+
               $required = ($param['w_required']=="yes" ? true : false);	
-            
               $w_first_val = explode('***',$param['w_first_val']);
-              $w_title = explode('***',$param['w_title']);
-              if($param['w_name_format']=='normal') {
-                $w_name_format = '
-                <div style="display: table-cell; width:50%">
-                  <div><input type="text" class="'.$input_active.'" id="wdform_'.$id1.'_element_first'.$form_id.'" name="wdform_'.$id1.'_element_first'.$form_id.'" value="'.$w_first_val[0].'" title="'.$w_title[0].'"  style="width: 100%;"'.$param['attributes'].'></div>
-                  <div><label class="mini_label">'.$w_mini_labels[1].'</label></div>
-                </div>
-                <div style="display:table-cell;"><div style="margin: 0px 8px; padding: 0px;"></div></div>
-                <div  style="display: table-cell; width:50%">
-                  <div><input type="text" class="'.$input_active.'" id="wdform_'.$id1.'_element_last'.$form_id.'" name="wdform_'.$id1.'_element_last'.$form_id.'" value="'.$w_first_val[1].'" title="'.$w_title[1].'" style="width: 100%;" '.$param['attributes'].'></div>
-                  <div><label class="mini_label">'.$w_mini_labels[2].'</label></div>
-                </div>
-                ';
-                $w_size=2*$param['w_size'];
-              }
+
+			  if($w_name_fields[0]== 'no' && $w_name_fields[1]== 'no' ) {
+				$w_name_format = '
+					<div style="display: table-cell; width:50%">
+					  <div><input type="text" class="'.($w_first_val[0] == $w_title[0] ? "input_deactive" : "input_active").'" id="wdform_'.$id1.'_element_first'.$form_id.'" name="wdform_'.$id1.'_element_first'.$form_id.'" value="'.$w_first_val[0].'" title="'.$w_title[0].'"  style="width: 100%;"'.$param['attributes'].'></div>
+					  <div><label class="mini_label">'.$w_mini_labels[1].'</label></div>
+					</div>
+					<div style="display:table-cell;"><div style="margin: 0px 8px; padding: 0px;"></div></div>
+					<div  style="display: table-cell; width:50%">
+					  <div><input type="text" class="'.($w_first_val[1] == $w_title[1] ? "input_deactive" : "input_active").'" id="wdform_'.$id1.'_element_last'.$form_id.'" name="wdform_'.$id1.'_element_last'.$form_id.'" value="'.$w_first_val[1].'" title="'.$w_title[1].'" style="width: 100%;" '.$param['attributes'].'></div>
+					  <div><label class="mini_label">'.$w_mini_labels[2].'</label></div>
+					</div>
+					';
+				$w_size=2*$param['w_size'];
+			  }
               else {
-                $w_name_format = '
-                <div style="display: table-cell;">
-                  <div><input type="text" class="'.$input_active.'" id="wdform_'.$id1.'_element_title'.$form_id.'" name="wdform_'.$id1.'_element_title'.$form_id.'" value="'.$w_first_val[0].'" title="'.$w_title[0].'" style="width: 40px;"></div>
-                  <div><label class="mini_label">'.$w_mini_labels[0].'</label></div>
-                </div>
-                <div style="display:table-cell;"><div style="margin: 0px 1px; padding: 0px;"></div></div>
-                <div style="display: table-cell; width:30%">
-                  <div><input type="text" class="'.$input_active.'" id="wdform_'.$id1.'_element_first'.$form_id.'" name="wdform_'.$id1.'_element_first'.$form_id.'" value="'.$w_first_val[1].'" title="'.$w_title[1].'" style="width:100%;"></div>
-                  <div><label class="mini_label">'.$w_mini_labels[1].'</label></div>
-                </div>
-                <div style="display:table-cell;"><div style="margin: 0px 4px; padding: 0px;"></div></div>
-                <div style="display: table-cell; width:30%">
-                  <div><input type="text" class="'.$input_active.'" id="wdform_'.$id1.'_element_last'.$form_id.'" name="wdform_'.$id1.'_element_last'.$form_id.'" value="'.$w_first_val[2].'" title="'.$w_title[2].'" style="width:  100%;"></div>
-                  <div><label class="mini_label">'.$w_mini_labels[2].'</label></div>
-                </div>
-                <div style="display:table-cell;"><div style="margin: 0px 4px; padding: 0px;"></div></div>
-                <div style="display: table-cell; width:30%">
-                  <div><input type="text" class="'.$input_active.'" id="wdform_'.$id1.'_element_middle'.$form_id.'" name="wdform_'.$id1.'_element_middle'.$form_id.'" value="'.$w_first_val[3].'" title="'.$w_title[3].'" style="width: 100%;"></div>
-                  <div><label class="mini_label">'.$w_mini_labels[3].'</label></div>
-                </div>						
-                ';
-                $w_size=3*$param['w_size']+80;
+				$first_last_size = $w_name_fields[0] == 'yes' && $w_name_fields[1] == 'no' ? 45 : 30;
+				$w_name_format = '
+					<div style="display: table-cell; width:'.$first_last_size.'%">
+					  <div><input type="text" class="'.($w_first_val[0] == $w_title[0] ? "input_deactive" : "input_active").'" id="wdform_'.$id1.'_element_first'.$form_id.'" name="wdform_'.$id1.'_element_first'.$form_id.'" value="'.$w_first_val[0].'" title="'.$w_title[0].'" style="width:100%;"></div>
+					  <div><label class="mini_label">'.$w_mini_labels[1].'</label></div>
+					</div>
+					<div style="display:table-cell;"><div style="margin: 0px 4px; padding: 0px;"></div></div>
+					<div style="display: table-cell; width:'.$first_last_size.'%">
+					  <div><input type="text" class="'.($w_first_val[1] == $w_title[1] ? "input_deactive" : "input_active").'" id="wdform_'.$id1.'_element_last'.$form_id.'" name="wdform_'.$id1.'_element_last'.$form_id.'" value="'.$w_first_val[1].'" title="'.$w_title[1].'" style="width:  100%;"></div>
+					  <div><label class="mini_label">'.$w_mini_labels[2].'</label></div>
+					</div>';
+					
+				$w_size = 2*$param['w_size'];
+				if($w_name_fields[0] == 'yes') {
+					$w_name_format = '
+						<div style="display: table-cell;">
+						  <div><input type="text" class="'.($w_first_val[2] == $w_title[2] ? "input_deactive" : "input_active").'" id="wdform_'.$id1.'_element_title'.$form_id.'" name="wdform_'.$id1.'_element_title'.$form_id.'" value="'.$w_first_val[2].'" title="'.$w_title[2].'" style="width: 40px;"></div>
+						  <div><label class="mini_label">'.$w_mini_labels[0].'</label></div>
+						</div>
+						<div style="display:table-cell;"><div style="margin: 0px 1px; padding: 0px;"></div></div>'.$w_name_format;
+					$w_size	+= 80;
+                }
+				if($w_name_fields[1] == 'yes') {
+					$w_name_format = $w_name_format.'
+						<div style="display:table-cell;"><div style="margin: 0px 4px; padding: 0px;"></div></div>
+						<div style="display: table-cell; width:30%">
+						  <div><input type="text" class="'.($w_first_val[3] == $w_title[3] ? "input_deactive" : "input_active").'" id="wdform_'.$id1.'_element_middle'.$form_id.'" name="wdform_'.$id1.'_element_middle'.$form_id.'" value="'.$w_first_val[3].'" title="'.$w_title[3].'" style="width: 100%;"></div>
+						  <div><label class="mini_label">'.$w_mini_labels[3].'</label></div>
+						</div>						
+						';
+					$w_size	+= $param['w_size'];	
+				}		
               }
         
               $wdformfieldsize = ($param['w_field_label_pos']=="left" ? ($param['w_field_label_size']+$w_size) : max($param['w_field_label_size'],$w_size));	
@@ -1475,38 +1488,21 @@ class FMViewForm_maker {
               <div class="wdform-element-section '.$param['w_class'].'" style="'.$param['w_field_label_pos2'].' width: '.$w_size.'px;">'.$w_name_format.'</div></div>';
 
               if($required) {
-                if($param['w_name_format']=='normal') {
                   $check_js.='
                   if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                   {
-                    if(jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").val()=="'.$w_title[0].'" || jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_element_last'.$form_id.'").val()=="'.$w_title[1].'" || jQuery("#wdform_'.$id1.'_element_last'.$form_id.'").val()=="")
+                    if(jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").val()=="'.$w_title[0].'" || jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_element_last'.$form_id.'").val()=="'.$w_title[1].'" || jQuery("#wdform_'.$id1.'_element_last'.$form_id.'").val()=="" || (jQuery("#wdform_'.$id1.'_element_title'.$form_id.'").length != 0 && (jQuery("#wdform_'.$id1.'_element_title'.$form_id.'").val()=="'.$w_title[2].'" || jQuery("#wdform_'.$id1.'_element_title'.$form_id.'").val()=="")) || (jQuery("#wdform_'.$id1.'_element_middle'.$form_id.'").length != 0 && (jQuery("#wdform_'.$id1.'_element_middle'.$form_id.'").val()=="'.$w_title[3].'" || jQuery("#wdform_'.$id1.'_element_middle'.$form_id.'").val()=="")))
                     {
-                      alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
-                      old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
-                      x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
-                      jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").focus();
-                      return false;
+						alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
+						old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
+						x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
+						jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").focus();
+						return false;
                     }
                   }
                   ';	
-                }
-                else {
-                  $check_js.='
-                  if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
-                  {
-                    if(jQuery("#wdform_'.$id1.'_element_title'.$form_id.'").val()=="'.$w_title[0].'" || jQuery("#wdform_'.$id1.'_element_title'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").val()=="'.$w_title[1].'" || jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_element_last'.$form_id.'").val()=="'.$w_title[2].'" || jQuery("#wdform_'.$id1.'_element_last'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_element_middle'.$form_id.'").val()=="'.$w_title[3].'" || jQuery("#wdform_'.$id1.'_element_middle'.$form_id.'").val()=="")
-                    {
-                      alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
-                      old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
-                      x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
-                      jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").focus();
-                      return false;
-                    }
-                  }
-                  ';		
-                }
               }
-              break;
+			  break;
             }
             
             case 'type_address': {

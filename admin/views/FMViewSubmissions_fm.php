@@ -1411,13 +1411,12 @@ class  FMViewSubmissions_fm {
 
               break;
             }
-
-            case 'type_name': {
+case 'type_name': {
             
               if($element_value =='')
                 $element_value = '@@@';
               
-                $params_names=array('w_field_label_size','w_field_label_pos','w_first_val','w_title', 'w_mini_labels','w_size','w_name_format','w_required','w_unique', 'w_class');
+                $params_names=array('w_field_label_size','w_field_label_pos','w_first_val','w_title', 'w_mini_labels','w_size','w_name_format','w_required','w_unique', 'w_class', 'w_name_fields');
                 $temp=$params;
 
                 foreach($params_names as $params_name ) {	
@@ -1428,56 +1427,66 @@ class  FMViewSubmissions_fm {
                 
                 
                 if($temp) {	
-                  $temp	=explode('*:*w_attr_name*:*',$temp);
-                  $attrs	= array_slice($temp,0, count($temp)-1);   
+                  $temp	= explode('*:*w_attr_name*:*',$temp);
+                  $attrs = array_slice($temp,0, count($temp)-1);   
                   foreach($attrs as $attr)
                     $param['attributes'] = $param['attributes'].' '.$attr;
                 }
                 
                 $w_mini_labels = explode('***',$param['w_mini_labels']);
-
-                $element_value = explode('@@@',$element_value);
-                
-                if($param['w_name_format']=='normal') {
-                  $w_name_format = '
-                  <div style="display: table-cell; width:50%">
-                    <div><input type="text" class="" id="wdform_'.$id1.'_element_first'.$form_id.'" name="wdform_'.$id1.'_element_first'.$form_id.'" value="'.(count($element_value)==2 ? $element_value[0] : $element_value[1]).'" style="width: 100%;"'.$param['attributes'].'></div>
-                    <div><label class="mini_label">'.$w_mini_labels[1].'</label></div>
-                  </div>
-                  <div style="display:table-cell;"><div style="margin: 0px 8px; padding: 0px;"></div></div>
-                  <div  style="display: table-cell; width:50%">
-                    <div><input type="text" class="" id="wdform_'.$id1.'_element_last'.$form_id.'" name="wdform_'.$id1.'_element_last'.$form_id.'" value="'.(count($element_value)==2 ? $element_value[1] : $element_value[2]).'" style="width: 100%;" '.$param['attributes'].'></div>
-                    <div><label class="mini_label">'.$w_mini_labels[2].'</label></div>
-                  </div>
-                  ';
-                  $w_size=2*$param['w_size'];
-
-                }
-                else {
-                  $w_name_format = '
-                  <div style="display: table-cell;">
-                    <div><input type="text" class="" id="wdform_'.$id1.'_element_title'.$form_id.'" name="wdform_'.$id1.'_element_title'.$form_id.'" value="'.(count($element_value)==2 ? "" : $element_value[0]).'" style="width: 40px;"></div>
-                    <div><label class="mini_label">'.$w_mini_labels[0].'</label></div>
-                  </div>
-                  <div style="display:table-cell;"><div style="margin: 0px 1px; padding: 0px;"></div></div>
-                  <div style="display: table-cell; width:30%">
-                    <div><input type="text" class="" id="wdform_'.$id1.'_element_first'.$form_id.'" name="wdform_'.$id1.'_element_first'.$form_id.'" value="'.(count($element_value)==2 ? $element_value[0] : $element_value[1]).'" style="width:100%;"></div>
-                    <div><label class="mini_label">'.$w_mini_labels[1].'</label></div>
-                  </div>
-                  <div style="display:table-cell;"><div style="margin: 0px 4px; padding: 0px;"></div></div>
-                  <div style="display: table-cell; width:30%">
-                    <div><input type="text" class="" id="wdform_'.$id1.'_element_last'.$form_id.'" name="wdform_'.$id1.'_element_last'.$form_id.'" value="'.(count($element_value)==2 ? $element_value[1] : $element_value[2]).'" style="width:  100%;"></div>
-                    <div><label class="mini_label">'.$w_mini_labels[2].'</label></div>
-                  </div>
-                  <div style="display:table-cell;"><div style="margin: 0px 4px; padding: 0px;"></div></div>
-                  <div style="display: table-cell; width:30%">
-                    <div><input type="text" class="" id="wdform_'.$id1.'_element_middle'.$form_id.'" name="wdform_'.$id1.'_element_middle'.$form_id.'" value="'.(count($element_value)==2 ? "" : $element_value[3]).'" style="width: 100%;"></div>
-                    <div><label class="mini_label">'.$w_mini_labels[3].'</label></div>
-                  </div>						
-                  ';
-                  $w_size=3*$param['w_size']+80;
-                }
-          
+			    $param['w_name_fields'] = $param['w_name_fields']!='' ? $param['w_name_fields'] : ($param['w_name_format'] == 'normal' ? 'no***no' : 'yes***yes');
+			    $w_name_fields = explode('***', $param['w_name_fields']);
+                $element_value = explode('@@@', $element_value);
+				
+				if($w_name_fields[0]== 'no' && $w_name_fields[1]== 'no' ) {
+					$w_name_format = '
+						<div style="display: table-cell; width:50%">
+						  <div><input type="text" class="" id="wdform_'.$id1.'_element_first'.$form_id.'" name="wdform_'.$id1.'_element_first'.$form_id.'" value="'.(count($element_value)==2 ? $element_value[0] : $element_value[1]).'" style="width: 100%;"'.$param['attributes'].'></div>
+						  <div><label class="mini_label">'.$w_mini_labels[1].'</label></div>
+						</div>
+						<div style="display:table-cell;"><div style="margin: 0px 8px; padding: 0px;"></div></div>
+						<div  style="display: table-cell; width:50%">
+						  <div><input type="text" class="" id="wdform_'.$id1.'_element_last'.$form_id.'" name="wdform_'.$id1.'_element_last'.$form_id.'" value="'.(count($element_value)==2 ? $element_value[1] : $element_value[2]).'" style="width: 100%;" '.$param['attributes'].'></div>
+						  <div><label class="mini_label">'.$w_mini_labels[2].'</label></div>
+						</div>
+						';
+					$w_size=2*$param['w_size'];
+				 }
+				else {
+					$first_last_size = $w_name_fields[0] == 'yes' && $w_name_fields[1] == 'no' ? 45 : 30;
+					$w_name_format = '
+						<div style="display: table-cell; width:30%">
+						  <div><input type="text" class="" id="wdform_'.$id1.'_element_first'.$form_id.'" name="wdform_'.$id1.'_element_first'.$form_id.'" value="'.(count($element_value)==2 ? $element_value[0] : $element_value[1]).'" style="width:100%;"></div>
+						  <div><label class="mini_label">'.$w_mini_labels[1].'</label></div>
+						</div>
+						<div style="display:table-cell;"><div style="margin: 0px 4px; padding: 0px;"></div></div>
+						<div style="display: table-cell; width:30%">
+						  <div><input type="text" class="" id="wdform_'.$id1.'_element_last'.$form_id.'" name="wdform_'.$id1.'_element_last'.$form_id.'" value="'.(count($element_value)==2 ? $element_value[1] : $element_value[2]).'" style="width:  100%;"></div>
+						  <div><label class="mini_label">'.$w_mini_labels[2].'</label></div>
+						</div>';
+					$w_size = 2*$param['w_size'];
+					
+					if($w_name_fields[0] == 'yes') {
+						$w_name_format = '
+							<div style="display: table-cell;">
+							  <div><input type="text" class="" id="wdform_'.$id1.'_element_title'.$form_id.'" name="wdform_'.$id1.'_element_title'.$form_id.'" value="'.(count($element_value)==2 ? "" : $element_value[0]).'" style="width: 40px;"></div>
+							  <div><label class="mini_label">'.$w_mini_labels[0].'</label></div>
+							</div>
+							<div style="display:table-cell;"><div style="margin: 0px 1px; padding: 0px;"></div></div>'.$w_name_format;
+						$w_size	+= 80;
+					}
+					if($w_name_fields[1] == 'yes') {
+						$w_name_format = $w_name_format.'
+							<div style="display:table-cell;"><div style="margin: 0px 4px; padding: 0px;"></div></div>
+							<div style="display: table-cell; width:30%">
+							  <div><input type="text" class="" id="wdform_'.$id1.'_element_middle'.$form_id.'" name="wdform_'.$id1.'_element_middle'.$form_id.'" value="'.(count($element_value)==2 ? "" : $element_value[3]).'"style="width: 100%;"></div>
+							  <div><label class="mini_label">'.$w_mini_labels[3].'</label></div>
+							</div>						
+							';
+						$w_size	+= $param['w_size'];		
+					}		
+				}
+				
                 $wdformfieldsize = ($param['w_field_label_pos']=="left" ? ($param['w_field_label_size']+$w_size) : max($param['w_field_label_size'],$w_size));	
                 $param['w_field_label_pos'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "display:block;");	
 

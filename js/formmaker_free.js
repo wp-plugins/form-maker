@@ -3,7 +3,7 @@ j = 2;
 var c;
 var need_enable = true;
 var a = new Array();
-var count_of_fields_form = 7;
+var count_of_fields_form = 9;
 if (ajaxurl.indexOf("://") != -1) {
   var url_for_ajax = ajaxurl;
 }
@@ -24923,12 +24923,12 @@ function add(key) {
         page_nav_is = 0;
       }
       if (fields_count > (count_of_fields_form + page_nav_is)) {
-        alert("The free version is limited up to 7 fields to add. If you need this functionality, you need to buy the commercial version.");
+        alert("The free version is limited up to 9 fields to add. If you need this functionality, you need to buy the commercial version.");
         return;
       }
       else {
-        if (count_of_fields_form > 7) {
-          alert("The free version is limited up to 7 fields to add. If you need this functionality, you need to buy the commercial version.");
+        if (count_of_fields_form > 9) {
+          alert("The free version is limited up to 9 fields to add. If you need this functionality, you need to buy the commercial version.");
           return;
         }
       }
