@@ -174,7 +174,7 @@ class FMModelManage_fm {
                 $param[$params_name] = $temp[0];
                 $temp = $temp[1];
               }
-              $rep ='<div id="wdform_field'.$id.'" type="type_section_break" class="wdform_field_section_break">'.$arrows.'<span id="'.$id.'_element_labelform_id_temp" style="display: none;">custom_'.$id.'</span><div id="'.$id.'_element_sectionform_id_temp" align="left" class="wdform_section_break">'.$param['w_editor'].'</div></div>';
+              $rep ='<div id="wdform_field'.$id.'" type="type_section_break" class="wdform_field_section_break">'.$arrows.'<span id="'.$id.'_element_labelform_id_temp" style="display: none;">custom_'.$id.'</span><div id="'.$id.'_element_sectionform_id_temp" align="left" class="wdform_section_break">'.$param['w_editor'].'</div></div><div id="'.$id.'_element_labelform_id_temp" style="color:red;">custom_'.$id.'</div>';
               break;
             }
             case 'type_editor': {
@@ -185,7 +185,7 @@ class FMModelManage_fm {
                 $param[$params_name] = $temp[0];
                 $temp = $temp[1];
               }
-              $rep =$arrows.'<div id="wdform_field'.$id.'" type="type_editor" class="wdform_field" >'.$param['w_editor'].'</div><span id="'.$id.'_element_labelform_id_temp" style="display: none;">custom_'.$id.'</span>';
+              $rep =$arrows.'<div id="wdform_field'.$id.'" type="type_editor" class="wdform_field" >'.$param['w_editor'].'</div><div id="'.$id.'_element_labelform_id_temp" style="color: red;">custom_'.$id.'</div>';
               break;
             }
             case 'type_send_copy': {
