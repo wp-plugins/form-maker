@@ -1390,8 +1390,10 @@ class FMViewForm_maker {
             }
 
              case 'type_name': {
-              $params_names=array('w_field_label_size','w_field_label_pos','w_first_val','w_title', 'w_mini_labels','w_size','w_name_format','w_required','w_unique', 'w_class', 'w_name_fields');
-              $temp=$params;
+              $params_names = array('w_field_label_size', 'w_field_label_pos', 'w_first_val', 'w_title', 'w_mini_labels', 'w_size', 'w_name_format', 'w_required', 'w_unique', 'w_class');
+              $temp = $params;
+			  if(strpos($temp, 'w_name_fields') > -1)
+				$params_names = array('w_field_label_size', 'w_field_label_pos', 'w_first_val', 'w_title', 'w_mini_labels', 'w_size', 'w_name_format', 'w_required', 'w_unique', 'w_class', 'w_name_fields');
               foreach($params_names as $params_name ) {
                 $temp=explode('*:*'.$params_name.'*:*',$temp);
                 $param[$params_name] = $temp[0];
@@ -1409,7 +1411,7 @@ class FMViewForm_maker {
               $w_title = explode('***',$param['w_title']);
 
               $w_mini_labels = explode('***',$param['w_mini_labels']);
-              $param['w_name_fields'] =  $param['w_name_fields']!='' ? $param['w_name_fields'] : ($param['w_name_format'] == 'normal' ? 'no***no' : 'yes***yes');
+              $param['w_name_fields'] =  isset($param['w_name_fields']) ? $param['w_name_fields'] : ($param['w_name_format'] == 'normal' ? 'no***no' : 'yes***yes');
 			  $w_name_fields = explode('***', $param['w_name_fields']);
 			  
               $element_title = isset($_POST['wdform_'.$id1.'_element_title'.$form_id]) ? esc_html(stripslashes($_POST['wdform_'.$id1.'_element_title'.$form_id])) : NULL;

@@ -3,7 +3,7 @@ var c;
 var need_enable=true;;
 var a = new Array();
 //var plugin_url = "";
-var count_of_fields_form = 9;
+var count_of_fields_form = 7;
 
 if (ajaxurl.indexOf("://") != -1) {
   var url_for_ajax = ajaxurl;
@@ -27529,12 +27529,12 @@ function vorchjogen() {
 				is7++;
       }
     }
-		if (is7 >= 9) {
+		if (is7 >= 7) {
 			break;
     }
   }
-	if (is7 >= 9) {
-		alert("The free version is limited up to 9 fields to add. If you need this functionality, you need to buy the commercial version.");
+	if (is7 >= 7) {
+		alert("The free version is limited up to 7 fields to add. If you need this functionality, you need to buy the commercial version.");
 		return true;
 	}
 	return false;
