@@ -1029,8 +1029,10 @@ ngdom</option><option value="United States">United States</option><option value=
             }
              case 'type_date':
             {
-              $params_names=array('w_field_label_size','w_field_label_pos','w_date','w_required','w_class','w_format','w_but_val', 'w_disable_past_days');
-              $temp=$params;
+              $params_names=array('w_field_label_size','w_field_label_pos','w_date','w_required','w_class','w_format','w_but_val');
+              $temp = $params;
+			  if(strpos($temp, 'w_disable_past_days') > -1)
+				$params_names = array('w_field_label_size','w_field_label_pos','w_date','w_required','w_class','w_format','w_but_val', 'w_disable_past_days');
               foreach($params_names as $params_name )
               {	
                 $temp=explode('*:*'.$params_name.'*:*',$temp);

@@ -1493,7 +1493,7 @@ class FMViewForm_maker {
                   $check_js.='
                   if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
                   {
-                    if(jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").val()=="'.$w_title[0].'" || jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_element_last'.$form_id.'").val()=="'.$w_title[1].'" || jQuery("#wdform_'.$id1.'_element_last'.$form_id.'").val()=="" || (jQuery("#wdform_'.$id1.'_element_title'.$form_id.'").length != 0 && (jQuery("#wdform_'.$id1.'_element_title'.$form_id.'").val()=="'.$w_title[2].'" || jQuery("#wdform_'.$id1.'_element_title'.$form_id.'").val()=="")) || (jQuery("#wdform_'.$id1.'_element_middle'.$form_id.'").length != 0 && (jQuery("#wdform_'.$id1.'_element_middle'.$form_id.'").val()=="'.$w_title[3].'" || jQuery("#wdform_'.$id1.'_element_middle'.$form_id.'").val()=="")))
+                    if(jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").val()=="'.$w_title[0].'" || jQuery("#wdform_'.$id1.'_element_first'.$form_id.'").val()=="" || jQuery("#wdform_'.$id1.'_element_last'.$form_id.'").val()=="'.$w_title[1].'" || jQuery("#wdform_'.$id1.'_element_last'.$form_id.'").val()=="" || (jQuery("#wdform_'.$id1.'_element_title'.$form_id.'").length != 0 && (jQuery("#wdform_'.$id1.'_element_title'.$form_id.'").val()=="'.(isset($w_title[2]) ? $w_title[2] : '').'" || jQuery("#wdform_'.$id1.'_element_title'.$form_id.'").val()=="")) || (jQuery("#wdform_'.$id1.'_element_middle'.$form_id.'").length != 0 && (jQuery("#wdform_'.$id1.'_element_middle'.$form_id.'").val()=="'.(isset($w_title[3]) ? $w_title[3] : '').'" || jQuery("#wdform_'.$id1.'_element_middle'.$form_id.'").val()=="")))
                     {
 						alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
 						old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
@@ -2298,8 +2298,10 @@ class FMViewForm_maker {
             }
 
             case 'type_date': {
-              $params_names=array('w_field_label_size','w_field_label_pos','w_date','w_required','w_class','w_format','w_but_val','w_disable_past_days');
-              $temp=$params;
+              $params_names=array('w_field_label_size','w_field_label_pos','w_date','w_required','w_class','w_format','w_but_val');
+				$temp = $params;
+				if(strpos($temp, 'w_disable_past_days') > -1)
+					$params_names = array('w_field_label_size','w_field_label_pos','w_date','w_required','w_class','w_format','w_but_val', 'w_disable_past_days');
 
               foreach($params_names as $params_name ) {
                 $temp=explode('*:*'.$params_name.'*:*',$temp);
