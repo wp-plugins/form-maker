@@ -3,7 +3,7 @@
  * Plugin Name: Form Maker
  * Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
  * Description: This plugin is a modern and advanced tool for easy and fast creating of a WordPress Form. The backend interface is intuitive and user friendly which allows users far from scripting and programming to create WordPress Forms.
- * Version: 1.7.50
+ * Version: 1.7.51
  * Author: WebDorado
  * Author URI: http://web-dorado.com/
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -34,7 +34,7 @@ function form_maker_options_panel() {
   $licensing_plugins_page = add_submenu_page('manage_fm', 'Licensing/Donation', 'Licensing/Donation', 'manage_options', 'licensing_fm', 'form_maker');
 
   add_submenu_page('manage_fm', 'Featured Plugins', 'Featured Plugins', 'manage_options', 'featured_plugins_fm', 'fm_featured');
-
+  add_submenu_page('manage_fm', 'Featured Themes', 'Featured Themes', 'manage_options', 'featured_themes_fm', 'fm_featured_themes');
   add_submenu_page('manage_fm', 'Form Maker plugins', 'Form Maker plugins', 'manage_options', 'extensions_fm', 'fm_extensions');
   
   $uninstall_page = add_submenu_page('manage_fm', 'Uninstall', 'Uninstall', 'manage_options', 'uninstall_fm', 'form_maker');
@@ -75,6 +75,21 @@ function fm_featured() {
   wp_register_style('fm_featured', WD_FM_URL . '/featured/style.css', array(), get_option("wd_form_maker_version"));
   wp_print_styles('fm_featured');
   spider_featured('form-maker');
+}
+
+function fm_featured_themes() {
+  if (function_exists('current_user_can')) {
+    if (!current_user_can('manage_options')) {
+      die('Access Denied');
+    }
+  }
+  else {
+    die('Access Denied');
+  }
+  require_once(WD_FM_DIR . '/featured/featured_themes.php');
+  wp_register_style('fm_featured_themes', WD_FM_URL . '/featured/featured_themes.css', array(), get_option("wd_form_maker_version"));
+  wp_print_styles('fm_featured_themes');
+  spider_featured_themes('form-maker');
 }
 
 function fm_extensions() {
@@ -216,7 +231,7 @@ if (class_exists('WP_Widget')) {
 // Activate plugin.
 function form_maker_activate() {
   $version = get_option("wd_form_maker_version");
-  $new_version = '1.7.50';
+  $new_version = '1.7.51';
   if (!$version) {
     add_option("wd_form_maker_version", $new_version, '', 'no');
     global $wpdb;
