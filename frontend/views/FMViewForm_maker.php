@@ -2176,7 +2176,7 @@ class FMViewForm_maker {
                 $temp	=explode('*:*w_attr_name*:*',$temp);
                 $attrs	= array_slice($temp,0, count($temp)-1);   
                 foreach($attrs as $attr) {
-                  $param['attributes'] = $param['attributes'].' add_'.$attr;
+                  $param['attributes'] = $param['attributes'].' '.$attr;
                 }
               }
 
@@ -3457,7 +3457,7 @@ class FMViewForm_maker {
                 $temp	=explode('*:*w_attr_name*:*',$temp);
                 $attrs	= array_slice($temp,0, count($temp)-1);   
                 foreach($attrs as $attr) {
-                  $param['attributes'] = $param['attributes'].' add_'.$attr;
+                  $param['attributes'] = $param['attributes'].' '.$attr;
                 }
               }
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
@@ -3512,7 +3512,7 @@ class FMViewForm_maker {
                 $temp	=explode('*:*w_attr_name*:*',$temp);
                 $attrs	= array_slice($temp,0, count($temp)-1);   
                 foreach($attrs as $attr) {
-                  $param['attributes'] = $param['attributes'].' add_'.$attr;
+                  $param['attributes'] = $param['attributes'].' '.$attr;
                 }
               }
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
@@ -3569,7 +3569,7 @@ class FMViewForm_maker {
                 $temp	=explode('*:*w_attr_name*:*',$temp);
                 $attrs	= array_slice($temp,0, count($temp)-1);   
                 foreach($attrs as $attr) {
-                  $param['attributes'] = $param['attributes'].' add_'.$attr;
+                  $param['attributes'] = $param['attributes'].' '.$attr;
                 }
               }
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
@@ -3623,7 +3623,7 @@ class FMViewForm_maker {
                 $temp	=explode('*:*w_attr_name*:*',$temp);
                 $attrs	= array_slice($temp,0, count($temp)-1);   
                 foreach($attrs as $attr) {
-                  $param['attributes'] = $param['attributes'].' add_'.$attr;
+                  $param['attributes'] = $param['attributes'].' '.$attr;
                 }
               }
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
@@ -3680,7 +3680,7 @@ class FMViewForm_maker {
                 $temp	=explode('*:*w_attr_name*:*',$temp);
                 $attrs	= array_slice($temp,0, count($temp)-1);   
                 foreach($attrs as $attr) {
-                  $param['attributes'] = $param['attributes'].' add_'.$attr;
+                  $param['attributes'] = $param['attributes'].' '.$attr;
                 }
               }
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
@@ -3738,7 +3738,7 @@ class FMViewForm_maker {
                 $temp	=explode('*:*w_attr_name*:*',$temp);
                 $attrs	= array_slice($temp,0, count($temp)-1);   
                 foreach($attrs as $attr) {
-                  $param['attributes'] = $param['attributes'].' add_'.$attr;
+                  $param['attributes'] = $param['attributes'].' '.$attr;
                 }
               }
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
@@ -3811,7 +3811,7 @@ class FMViewForm_maker {
                 $temp	=explode('*:*w_attr_name*:*',$temp);
                 $attrs	= array_slice($temp,0, count($temp)-1);   
                 foreach($attrs as $attr) {
-                  $param['attributes'] = $param['attributes'].' add_'.$attr;
+                  $param['attributes'] = $param['attributes'].' '.$attr;
                 }
               }              
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
@@ -3957,7 +3957,7 @@ class FMViewForm_maker {
                 $temp	=explode('*:*w_attr_name*:*',$temp);
                 $attrs	= array_slice($temp,0, count($temp)-1);   
                 foreach($attrs as $attr) {
-                  $param['attributes'] = $param['attributes'].' add_'.$attr;
+                  $param['attributes'] = $param['attributes'].' '.$attr;
                 }
               }              
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
