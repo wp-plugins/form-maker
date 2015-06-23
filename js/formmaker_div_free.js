@@ -1,8 +1,8 @@
-j = 2;//choices id
+j = 2;
 var c;
 var need_enable=true;;
 var a = new Array();
-//var plugin_url = "";
+
 var count_of_fields_form = 7;
 
 if (ajaxurl.indexOf("://") != -1) {
@@ -2798,9 +2798,32 @@ function change_label_name(num, id, label, type)
 	}
 }
 
+function change_label_name_on_paste(num, id, label, type)
+{
+	setTimeout(function(){
+		label = elem.value;
+		jQuery('#'+id).html(label);
+		if(!jQuery('#el_disable_value').prop('checked'))
+		{
+			if(!jQuery('#el_choices'+num).attr('other'))
+				jQuery('#el_option_value'+num).val(label);		
+			if(type=='select')
+				jQuery('#'+id).val(label);	
+		}  
+    }, 100);
+}
+
 function change_label_value(id, label)
 {
 	document.getElementById(id).value=label;	
+}
+
+function change_label_value_on_paste(id, elem)
+{
+	setTimeout(function(){
+		label = elem.value;
+		document.getElementById(id).value=label;	
+    }, 100);
 }
 
 function change_label_1(id, label) {
@@ -3065,6 +3088,7 @@ function add_choise(type, num)
 			el_choices.setAttribute("value", "");
 			el_choices.style.cssText =   "width:100px; margin:1px; padding:3px 0; border-width: 1px";
 			el_choices.setAttribute("onKeyUp", "change_label_name('"+max_value+"', '"+num+"_label_element"+max_value+"', this.value, '"+type+"'); change_label_value('"+num+"_elementform_id_temp"+max_value+"', jQuery('#el_option_value"+max_value+"').val())");
+			el_choices.setAttribute("onpaste", "elem = this; change_label_name_on_paste('"+max_value+"', '"+num+"_label_element"+max_value+"', '"+type+"'); change_label_value_on_paste('"+num+"_elementform_id_temp"+max_value+"', this)");
 	
 		var el_choices_value = document.createElement('input');
 			el_choices_value.setAttribute("id", "el_option_value"+max_value);
@@ -3075,6 +3099,7 @@ function add_choise(type, num)
 			if(!jQuery('#el_disable_value').prop('checked'))
 				el_choices_value.setAttribute("disabled", "disabled");
 			el_choices_value.setAttribute("onKeyUp", "change_label_value('"+num+"_elementform_id_temp"+max_value+"', this.value)");
+			el_choices_value.setAttribute("onpaste", "change_label_value_on_paste('"+num+"_elementform_id_temp"+max_value+"', this)");
 	
 		var el_choices_remove = document.createElement('img');
 			el_choices_remove.setAttribute("id", "el_choices"+max_value+"_remove");
@@ -3132,6 +3157,7 @@ function add_choise(type, num)
 			el_choices.setAttribute("value", "");
 			el_choices.style.cssText =   "width:100px; margin:1px; padding:3px 0; border-width: 1px";
 			el_choices.setAttribute("onKeyUp", "change_label_name('"+max_value+"', '"+num+"_option"+max_value+"', this.value, 'select')");
+			el_choices.setAttribute("onpaste", "elem = this; change_label_name_on_paste('"+max_value+"', '"+num+"_option"+max_value+"', 'select')");
 			
 		var el_choices_remove = document.createElement('img');
 			el_choices_remove.setAttribute("id", "el_option"+max_value+"_remove");
@@ -3149,6 +3175,7 @@ function add_choise(type, num)
 			if(!jQuery('#el_disable_value').prop('checked'))
 				el_choices_value.setAttribute("disabled", "disabled");
 			el_choices_value.setAttribute("onKeyUp", "change_label_value('"+num+"_option"+max_value+"', this.value)");
+			el_choices_value.setAttribute("onpaste", "change_label_value_on_paste('"+num+"_option"+max_value+"', this)");
 			
 		var el_choices_dis = document.createElement('input');
 			el_choices_dis.setAttribute("type", 'checkbox');
@@ -11241,6 +11268,7 @@ function type_checkbox(i, w_field_label, w_field_label_size, w_field_label_pos, 
 			el_choices.setAttribute("checked", w_choices_checked[j]);
 			el_choices.style.cssText =   "width:100px; margin:1px; padding:3px 0; border-width: 1px";
 			el_choices.setAttribute("onKeyUp", "change_label_name("+j+", '"+i+"_label_element"+j+"', this.value, 'checkbox'); change_label_value('"+i+"_elementform_id_temp"+j+"', jQuery('#el_option_value"+j+"').val());");
+			el_choices.setAttribute("onpaste", "elem = this; change_label_name_on_paste('"+j+"', '"+i+"_label_element"+j+"', 'checkbox'); change_label_value_on_paste('"+i+"_elementform_id_temp"+j+"', this)");
 			if(w_choices_params[j])
 				el_choices.setAttribute("disabled", 'disabled');	
 	
@@ -11252,6 +11280,7 @@ function type_checkbox(i, w_field_label, w_field_label_size, w_field_label_pos, 
 			el_choices_value.setAttribute("value", w_choices_value[j]);
 			el_choices_value.style.cssText =   "width:100px; margin:1px; padding:3px 0; border-width: 1px";
 			el_choices_value.setAttribute("onKeyUp", "change_label_value('"+i+"_elementform_id_temp"+j+"', this.value)");
+			el_choices_value.setAttribute("onpaste", "change_label_value_on_paste('"+i+"_elementform_id_temp"+j+"', this)");
 			if(w_value_disabled=='no' || w_choices_params[j] || (w_allow_other=="yes" && j==w_allow_other_num))
 				el_choices_value.setAttribute("disabled", 'disabled');
 	
@@ -11946,6 +11975,7 @@ function type_radio(i, w_field_label, w_field_label_size, w_field_label_pos, w_f
 			el_choices.setAttribute("checked", w_choices_checked[j]);
 			el_choices.style.cssText =   "width:100px; margin:1px; padding:3px 0; border-width: 1px";
 			el_choices.setAttribute("onKeyUp", "change_label('"+i+"_label_element"+j+"', this.value)");
+			el_choices.setAttribute("onpaste", "elem = this; change_label_name_on_paste('"+j+"', '"+i+"_label_element"+j+"', 'radio'); change_label_value_on_paste('"+i+"_elementform_id_temp"+j+"', this)");	
 			if(w_choices_params[j])
 				el_choices.setAttribute("disabled", 'disabled');
 	
@@ -11957,6 +11987,7 @@ function type_radio(i, w_field_label, w_field_label_size, w_field_label_pos, w_f
 			el_choices_value.setAttribute("value", w_choices_value[j]);
 			el_choices_value.style.cssText =   "width:100px; margin:1px; padding:3px 0; border-width: 1px";
 			el_choices_value.setAttribute("onKeyUp", "change_label_value('"+i+"_elementform_id_temp"+j+"', this.value)");
+			el_choices_value.setAttribute("onpaste", "change_label_value_on_paste('"+i+"_elementform_id_temp"+j+"', this)");
 			if(w_value_disabled=='no' || w_choices_params[j] || (w_allow_other=="yes" && j==w_allow_other_num))
 				el_choices_value.setAttribute("disabled", 'disabled');
 	
@@ -14635,6 +14666,7 @@ function type_own_select(i, w_field_label, w_field_label_size, w_field_label_pos
 			el_choices.setAttribute("value", w_choices[j]);
 			el_choices.style.cssText =   "width:100px; margin:1px; padding:3px 0; border-width: 1px";
 			el_choices.setAttribute("onKeyUp", "change_label_name('"+j+"', '"+i+"_option"+j+"',  this.value, 'select')");
+			el_choices.setAttribute("onpaste", "elem = this; change_label_name_on_paste('"+j+"', '"+i+"_option"+j+"', 'select')");
 			if(w_choices_params[j])
 				el_choices.setAttribute("disabled", 'disabled');
 	
@@ -14666,6 +14698,7 @@ function type_own_select(i, w_field_label, w_field_label_size, w_field_label_pos
 			el_choices_value.setAttribute("value", w_choices_value[j]);
 			el_choices_value.style.cssText =   "width:100px; margin:1px; padding:3px 0; border-width: 1px";
 			el_choices_value.setAttribute("onKeyUp", "change_label_value('"+i+"_option"+j+"', this.value)");
+			el_choices_value.setAttribute("onpaste", "change_label_value_on_paste('"+i+"_option"+j+"', this)");
 			if(w_value_disabled=='no' || w_choices_params[j])
 				el_choices_value.setAttribute("disabled", 'disabled');
 		
