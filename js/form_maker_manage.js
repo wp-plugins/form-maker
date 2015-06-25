@@ -663,30 +663,20 @@ function change_choices(value, ids, types, params) {
 		break;
 		
 		case "type_own_select":
-		case "type_paypal_select":	
 		case "type_radio":
 		case "type_checkbox":
-		case "type_paypal_radio":
-		case "type_paypal_checkbox":
-		case "type_paypal_shipping":
-		
-			if(types_array[id]=="type_own_select" || types_array[id]=="type_paypal_select")
+			if(types_array[id]=="type_paypal_select")
 				w_size = params_array[id].split('*:*w_size*:*');
 			else
 				w_size = params_array[id].split('*:*w_flow*:*');
 		
 			w_choices = w_size[1].split('*:*w_choices*:*');
 			w_choices_array = w_choices[0].split('***');
-			
-			if(types_array[id]== "type_paypal_checkbox") {
-				w_choices_price = w_choices[1].split('*:*w_choices_price*:*');
-				w_choices_price_array = w_choices_price[0].split('***');
-			}
 
 			var choise_select = document.createElement('select');
 				choise_select.setAttribute("id", "field_value"+global_index+'_'+index);
 				choise_select.style.cssText = "vertical-align: top; width:200px;";
-				if(types_array[id]== "type_checkbox" || types_array[id]== "type_paypal_checkbox") {
+				if(types_array[id]== "type_checkbox") {
 					choise_select.setAttribute('multiple', 'multiple');
 					choise_select.setAttribute('class', 'multiple_select');
 				}
@@ -694,9 +684,6 @@ function change_choices(value, ids, types, params) {
 			for(k=0; k<w_choices_array.length; k++) {
 				var choise_option = document.createElement('option');
 					choise_option.setAttribute("id", "choise_"+global_index+'_'+k);
-					if(types_array[id]== "type_paypal_checkbox")
-					choise_option.setAttribute("value", w_choices_array[k]+'*:*value*:*'+w_choices_price_array[k]);
-					else
 					choise_option.setAttribute("value", w_choices_array[k]);
 					choise_option.innerHTML = w_choices_array[k];	
 					if(w_choices_array[k].indexOf('[') === -1 && w_choices_array[k].indexOf(']') === -1 && w_choices_array[k].indexOf(':') === -1) {
@@ -709,7 +696,45 @@ function change_choices(value, ids, types, params) {
 			document.getElementById("condition_div"+global_index+"_"+index).insertBefore(document.createTextNode(' '),document.getElementById("delete_condition"+global_index+"_"+index));
 		
 		break;	
+		
+		case "type_paypal_select":	
+		case "type_paypal_radio":
+		case "type_paypal_checkbox":
+		case "type_paypal_shipping":
+		
+			if(types_array[id]=="type_paypal_select")
+				w_size = params_array[id].split('*:*w_size*:*');
+			else
+				w_size = params_array[id].split('*:*w_flow*:*');
+		
+			w_choices = w_size[1].split('*:*w_choices*:*');
+			w_choices_array = w_choices[0].split('***');
+
+			w_choices_price = w_choices[1].split('*:*w_choices_price*:*');
+			w_choices_price_array = w_choices_price[0].split('***');
 			
+			var choise_select = document.createElement('select');
+				choise_select.setAttribute("id", "field_value"+global_index+'_'+index);
+				choise_select.style.cssText = "vertical-align: top; width:200px;";
+				if(types_array[id]== "type_paypal_checkbox") {
+					choise_select.setAttribute('multiple', 'multiple');
+					choise_select.setAttribute('class', 'multiple_select');
+				}
+
+			for(k=0; k<w_choices_array.length; k++) {
+				var choise_option = document.createElement('option');
+					choise_option.setAttribute("id", "choise_"+global_index+'_'+k);
+					choise_option.setAttribute("value", w_choices_array[k]+'*:*value*:*'+w_choices_price_array[k]);
+					choise_option.innerHTML = w_choices_array[k];	
+					if(w_choices_array[k].indexOf('[') === -1 && w_choices_array[k].indexOf(']') === -1 && w_choices_array[k].indexOf(':') === -1) {
+						choise_select.appendChild(choise_option);
+					}
+			}
+			
+			document.getElementById("condition_div"+global_index+"_"+index).removeChild(document.getElementById("field_value"+global_index+"_"+index));
+			document.getElementById("condition_div"+global_index+"_"+index).insertBefore(choise_select,document.getElementById("delete_condition"+global_index+"_"+index));
+			document.getElementById("condition_div"+global_index+"_"+index).insertBefore(document.createTextNode(' '),document.getElementById("delete_condition"+global_index+"_"+index));
+		break;	
 		case "type_address":
 
 			coutries=["Afghanistan","Albania",	"Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Central African Republic","Chad","Chile","China","Colombi","Comoros","Congo (Brazzaville)","Congo","Costa Rica","Cote d'Ivoire","Croatia","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","East Timor (Timor Timur)","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Fiji","Finland","France","Gabon","Gambia, The","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea","Guinea-Bissau","Guyana","Haiti","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati","Korea, North","Korea, South","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Morocco","Mozambique","Myanmar","Namibia","Nauru","Nepa","Netherlands","New Zealand","Nicaragua","Niger","Nigeria","Norway","Oman","Pakistan","Palau","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Qatar","Romania","Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia","Saint Vincent","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia and Montenegro","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","Spain","Sri Lanka","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Togo","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"];	
@@ -855,49 +880,71 @@ function add_condition_fields(num, ids1, labels1, types1, params1) {
 		case "type_checkbox":
 		case "type_radio":
 		case "type_own_select":
-		case "type_paypal_select":
-		case "type_paypal_checkbox":
-		case "type_paypal_radio":
-		case "type_paypal_shipping":
-	
-		if(types[index_of_field]=="type_own_select" || types[index_of_field]=="type_paypal_select")
-			w_size = params[index_of_field].split('*:*w_size*:*');
-		else
-			w_size = params[index_of_field].split('*:*w_flow*:*');
-			
-		w_choices = w_size[1].split('*:*w_choices*:*');
-		w_choices_array = w_choices[0].split('***');
-		
-		if(types[index_of_field]== "type_paypal_checkbox") {
-			w_choices_price = w_choices[1].split('*:*w_choices_price*:*');
-			w_choices_price_array = w_choices_price[0].split('***');
-		}
-		
-		var choise_select = document.createElement('select');
-			choise_select.setAttribute("id", "field_value"+num+'_'+m);
-			choise_select.style.cssText = "vertical-align: top; width:200px;";
-			if(types[index_of_field]== "type_checkbox" || types[index_of_field]== "type_paypal_checkbox") {
-				choise_select.setAttribute('multiple', 'multiple');
-				choise_select.setAttribute('class', 'multiple_select');
-			}
+			if(types[index_of_field]=="type_own_select")
+				w_size = params[index_of_field].split('*:*w_size*:*');
+			else
+				w_size = params[index_of_field].split('*:*w_flow*:*');
 				
+			w_choices = w_size[1].split('*:*w_choices*:*');
+			w_choices_array = w_choices[0].split('***');
+			
+			var choise_select = document.createElement('select');
+				choise_select.setAttribute("id", "field_value"+num+'_'+m);
+				choise_select.style.cssText = "vertical-align: top; width:200px;";
+				if(types[index_of_field]== "type_checkbox") {
+					choise_select.setAttribute('multiple', 'multiple');
+					choise_select.setAttribute('class', 'multiple_select');
+				}
+					
 			for(k=0; k<w_choices_array.length; k++)	 {
 				var choise_option = document.createElement('option');
 					choise_option.setAttribute("id", "choise_"+num+'_'+k);
-					if(types[index_of_field]== "type_paypal_checkbox")
-					choise_option.setAttribute("value", w_choices_array[k]+'*:*value*:*'+w_choices_price_array[k]);
-					else
 					choise_option.setAttribute("value", w_choices_array[k]);
 					choise_option.innerHTML = w_choices_array[k];	
 					
 				if(w_choices_array[k].indexOf('[') === -1 && w_choices_array[k].indexOf(']') === -1 && w_choices_array[k].indexOf(':') === -1) {
-            choise_select.appendChild(choise_option);
-          }
+					choise_select.appendChild(choise_option);
+				}
 			}
 			condition_div.appendChild(choise_select);	
 			
 		break;
 		
+		case "type_paypal_select":
+		case "type_paypal_checkbox":
+		case "type_paypal_radio":
+		case "type_paypal_shipping":
+			if(types[index_of_field]=="type_paypal_select")
+				w_size = params[index_of_field].split('*:*w_size*:*');
+			else
+				w_size = params[index_of_field].split('*:*w_flow*:*');
+				
+			w_choices = w_size[1].split('*:*w_choices*:*');
+			w_choices_array = w_choices[0].split('***');
+			
+			w_choices_price = w_choices[1].split('*:*w_choices_price*:*');
+			w_choices_price_array = w_choices_price[0].split('***');
+			
+			var choise_select = document.createElement('select');
+				choise_select.setAttribute("id", "field_value"+num+'_'+m);
+				choise_select.style.cssText = "vertical-align: top; width:200px;";
+				if(types[index_of_field]== "type_paypal_checkbox") {
+					choise_select.setAttribute('multiple', 'multiple');
+					choise_select.setAttribute('class', 'multiple_select');
+				}
+					
+			for(k=0; k<w_choices_array.length; k++)	 {
+				var choise_option = document.createElement('option');
+					choise_option.setAttribute("id", "choise_"+num+'_'+k);
+					choise_option.setAttribute("value", w_choices_array[k]+'*:*value*:*'+w_choices_price_array[k]);
+					choise_option.innerHTML = w_choices_array[k];	
+					
+				if(w_choices_array[k].indexOf('[') === -1 && w_choices_array[k].indexOf(']') === -1 && w_choices_array[k].indexOf(':') === -1) {
+					choise_select.appendChild(choise_option);
+				}
+			}
+			condition_div.appendChild(choise_select);	
+		break;
 		case "type_address":
 			coutries=["Afghanistan","Albania",	"Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Central African Republic","Chad","Chile","China","Colombi","Comoros","Congo (Brazzaville)","Congo","Costa Rica","Cote d'Ivoire","Croatia","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","East Timor (Timor Timur)","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Fiji","Finland","France","Gabon","Gambia, The","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea","Guinea-Bissau","Guyana","Haiti","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati","Korea, North","Korea, South","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Morocco","Mozambique","Myanmar","Namibia","Nauru","Nepa","Netherlands","New Zealand","Nicaragua","Niger","Nigeria","Norway","Oman","Pakistan","Palau","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Qatar","Romania","Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia","Saint Vincent","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia and Montenegro","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","Spain","Sri Lanka","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Togo","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"];	
 		
