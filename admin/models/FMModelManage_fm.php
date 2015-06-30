@@ -95,7 +95,7 @@ class FMModelManage_fm {
   public function get_row_data_new($id) {
     global $wpdb;
     if ($id != 0) {
-      $row = $wpdb->get_row($wpdb->prepare('SELECT * FROM ' . $wpdb->prefix . 'formmaker WHERE id="%d"', $id));
+      $row = $wpdb->get_row($wpdb->prepare('SELECT * FROM ' . $wpdb->prefix . 'formmaker_backup WHERE backup_id="%d"', $id));
       $labels2 = array();
       $label_id = array();
       $label_order_original = array(); 
@@ -2064,6 +2064,7 @@ ngdom</option><option value="United States">United States</option><option value=
     else {
       $row = new stdClass();
       $row->id = 0;
+      $row->backup_id ='';
       $row->title = '';
       $row->mail = '';
       $row->form = '';

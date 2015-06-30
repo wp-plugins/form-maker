@@ -31,6 +31,42 @@ class FMControllerManage_fm {
       $this->display();
     }
   }
+public function undo()
+{
+    require_once WD_FM_DIR . "/admin/models/FMModelManage_fm.php";
+    $model = new FMModelManage_fm();
+
+    require_once WD_FM_DIR . "/admin/views/FMViewManage_fm.php";
+
+    global $wpdb;	
+    $backup_id = WDW_FM_Library::get('backup_id');
+    $id = WDW_FM_Library::get('id');
+	
+	$query = "SELECT backup_id FROM ".$wpdb->prefix."formmaker_backup WHERE backup_id < $backup_id AND id = $id ORDER BY backup_id DESC LIMIT 0 , 1 ";
+    $backup_id = $wpdb->get_var($query);
+	
+    $view = new FMViewManage_fm($model);
+    $view->edit($backup_id);
+
+}
+public function redo()
+{
+    require_once WD_FM_DIR . "/admin/models/FMModelManage_fm.php";
+    $model = new FMModelManage_fm();
+
+    require_once WD_FM_DIR . "/admin/views/FMViewManage_fm.php";
+    global $wpdb;	
+    $backup_id = WDW_FM_Library::get('backup_id');
+    $id = WDW_FM_Library::get('id');
+	
+	$query = "SELECT backup_id FROM ".$wpdb->prefix."formmaker_backup WHERE backup_id > $backup_id AND id = $id ORDER BY backup_id ASC LIMIT 0 , 1 ";
+    $backup_id = $wpdb->get_var($query);
+ 
+	$view = new FMViewManage_fm($model);
+	$view->edit($backup_id);
+
+}
+
 
   public function display() {
     require_once WD_FM_DIR . "/admin/models/FMModelManage_fm.php";
@@ -57,7 +93,25 @@ class FMControllerManage_fm {
     require_once WD_FM_DIR . "/admin/views/FMViewManage_fm.php";
     $view = new FMViewManage_fm($model);
     $id = WDW_FM_Library::get('current_id', 0);
-    $view->edit($id);
+	
+    global $wpdb;	
+	$query = "SELECT backup_id FROM ".$wpdb->prefix."formmaker_backup WHERE cur=1 and id=".$id;
+    $backup_id = $wpdb->get_var($query);
+	
+	if(!$backup_id)
+	{
+		$query = "SELECT max(backup_id) FROM ".$wpdb->prefix."formmaker_backup";
+		$backup_id = $wpdb->get_var($query);
+		if($backup_id)
+			$backup_id++;
+		else
+			$backup_id=1;
+		$query = "INSERT INTO ".$wpdb->prefix."formmaker_backup SELECT ".$backup_id." AS backup_id, 1 AS cur, ".$wpdb->prefix."formmaker.* FROM ".$wpdb->prefix."formmaker WHERE id=".$id;
+
+		$wpdb->query($query);
+	}		
+
+    $view->edit($backup_id);
   }
 
   public function edit_old() {
@@ -822,6 +876,176 @@ function before_reset() {
           '%d'
       ));
     }
+	
+    $backup_id = (isset($_POST['backup_id']) ? esc_html(stripslashes($_POST['backup_id'])) : '');
+	
+	if($backup_id)
+	{
+		$query = "SELECT backup_id FROM ".$wpdb->prefix."formmaker_backup WHERE backup_id > ".$backup_id." AND id = ".$id." ORDER BY backup_id ASC LIMIT 0 , 1 ";
+
+		if($wpdb->get_var($query))
+		{
+			$query = "DELETE FROM ".$wpdb->prefix."formmaker_backup WHERE backup_id > ".$backup_id." AND id = ".$id;
+			$wpdb->query($query);
+		}
+
+		$row = $wpdb->get_row($wpdb->prepare("SELECT form_fields, form_front FROM ".$wpdb->prefix."formmaker_backup WHERE backup_id = '%d'", $backup_id));
+
+		if($row->form_fields==$form_fields and $row->form_front==$form_front)
+		{
+			  $save = $wpdb->update($wpdb->prefix . 'formmaker_backup', array(
+				'cur' => 1,
+				'title' => $title,
+				'form_front' => $form_front,
+				'sortable' => $sortable,
+				'counter' => $counter,
+				'label_order' => $label_order,
+				'label_order_current' => $label_order_current,
+				'pagination' => $pagination,
+				'show_title' => $show_title,
+				'show_numbers' => $show_numbers,
+				'public_key' => $public_key,
+				'private_key' => $private_key,
+				'recaptcha_theme' => $recaptcha_theme,
+				'form_fields' => $form_fields,
+			  ), array('backup_id' => $backup_id));
+			
+		
+			if ($save !== FALSE) {
+			  return 1;
+			}
+			else {
+			  return 2;
+			}
+		}
+	}
+	
+	$wpdb->query("UPDATE ".$wpdb->prefix."formmaker_backup SET cur=0 WHERE id=".$id ); 
+
+	$save = $wpdb->insert($wpdb->prefix . 'formmaker_backup', array(
+        'cur' => 1,
+        'id' => $id,
+        'title' => $title,
+        'mail' => '',
+        'form_front' => $form_front,
+        'theme' => $wpdb->get_var("SELECT id FROM " . $wpdb->prefix . "formmaker_themes WHERE css LIKE '%.wdform_section%'"),
+        'counter' => $counter,
+        'label_order' => $label_order,
+        'pagination' => $pagination,
+        'show_title' => $show_title,
+        'show_numbers' => $show_numbers,
+        'public_key' => $public_key,
+        'private_key' => $private_key,
+        'recaptcha_theme' => $recaptcha_theme,
+        'javascript' => $javascript,
+        'submit_text' => '',
+        'url' => '',
+        'article_id' => 0,
+        'submit_text_type' => 0,
+        'script_mail' => '%all%',
+        'script_mail_user' => '%all%',
+        'label_order_current' => $label_order_current,
+        'tax' => 0,
+        'payment_currency' => '',
+        'paypal_email' => '',
+        'checkout_mode' => 'testmode',
+        'paypal_mode' => 0,
+        'published' => 1,
+        'form_fields' => $form_fields,
+        'savedb' => 1,
+        'sendemail' => 1,
+        'requiredmark' => '*',
+        'from_mail' => '',
+        'from_name' => '',
+        'reply_to' => '',
+        'send_to' => '',
+        'autogen_layout' => 1,
+        'custom_front' => '',
+        'mail_from_user' => '',
+        'mail_from_name_user' => '',
+        'reply_to_user' => '',
+        'condition' => '',
+        'mail_cc' => '',
+        'mail_cc_user' => '',
+        'mail_bcc' => '',
+        'mail_bcc_user' => '',
+        'mail_subject' => '',
+        'mail_subject_user' => '',
+        'mail_mode' => 1,
+        'mail_mode_user' => 1,
+        'mail_attachment' => 1,
+        'mail_attachment_user' => 1,
+        'sortable' => $sortable,
+        'user_id_wd' => 'administrator,',
+        'frontend_submit_fields' => '',
+        'frontend_submit_stat_fields' => '',
+      ), array(
+        '%d',
+        '%d',
+		'%s',
+        '%s',
+        '%s',
+        '%d',
+        '%d',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%d',
+        '%d',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%d',
+        '%d',
+        '%s',
+        '%d',
+        '%d',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%d',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%d',
+        '%d',
+        '%d',
+        '%d',
+        '%d',
+        '%s',
+        '%s',
+        '%s',
+     ))	;
+  
+	$query = "SELECT count(backup_id) FROM ".$wpdb->prefix."formmaker_backup WHERE id = ".$id;
+	$wpdb->get_var($query);
+	if($wpdb->get_var($query)>10)
+	{
+		$query = "DELETE FROM ".$wpdb->prefix."formmaker_backup WHERE id = ".$id." ORDER BY backup_id ASC LIMIT 1 ";
+		$wpdb->query($query);
+	}
+
     if ($save !== FALSE) {
       return 1;
     }

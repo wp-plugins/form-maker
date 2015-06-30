@@ -34,7 +34,8 @@ class FMModelUninstall_fm {
       $wpdb->query("DROP TABLE IF EXISTS " . $wpdb->prefix . "formmaker_sessions");
       $wpdb->query("DROP TABLE IF EXISTS " . $wpdb->prefix . "formmaker_blocked");
       $wpdb->query("DROP TABLE IF EXISTS " . $wpdb->prefix . "formmaker_query");
-      delete_option('contact_form_forms');
+      $wpdb->query("DROP TABLE IF EXISTS " . $wpdb->prefix . "formmaker_backup");
+	  delete_option('contact_form_forms');
       delete_option("wd_form_maker_version");
       delete_option('formmaker_cureent_version');
       delete_option('form_maker_pro_active');

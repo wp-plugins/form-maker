@@ -51,6 +51,7 @@ class FMViewUninstall_fm {
             <td valign="top">
               <ol>
                   <li><?php echo $prefix; ?>formmaker</li>
+                  <li><?php echo $prefix; ?>formmaker_backup</li>
                   <li><?php echo $prefix; ?>formmaker_blocked</li>
                   <li><?php echo $prefix; ?>formmaker_submits</li>
                   <li><?php echo $prefix; ?>formmaker_views</li>
@@ -95,6 +96,7 @@ class FMViewUninstall_fm {
     <div id="message" class="updated fade">
       <p>The following Database Tables succesfully deleted:</p>
       <p><?php echo $prefix; ?>formmaker,</p>
+      <p><?php echo $prefix; ?>formmaker_backup,</p>
       <p><?php echo $prefix; ?>formmaker_blocked,</p>
       <p><?php echo $prefix; ?>formmaker_sessions,</p>
       <p><?php echo $prefix; ?>formmaker_submits,</p>

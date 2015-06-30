@@ -28207,7 +28207,7 @@ function add(key, after_edit, wdid)
 
 			var wdform_row = document.createElement('div');
 				wdform_row.setAttribute("wdid", i);
-				wdform_row.setAttribute("class", "wdform_row");
+				wdform_row.setAttribute("class", "wdform_row ui-sortable-handle");
 		
 			var wdform_field = document.createElement('div');
 				wdform_field.setAttribute("id", "wdform_field"+i);
@@ -28522,7 +28522,7 @@ function add(key, after_edit, wdid)
 					
 			var wdform_row = document.createElement('div');
 				wdform_row.setAttribute("wdid", i);
-				wdform_row.setAttribute("class", "wdform_row");
+				wdform_row.setAttribute("class", "wdform_row ui-sortable-handle");
 		
 			var wdform_field = document.createElement('div');
 				wdform_field.setAttribute("id", "wdform_field"+i);
