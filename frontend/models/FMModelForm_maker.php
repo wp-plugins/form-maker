@@ -69,7 +69,19 @@ class FMModelForm_maker {
       if (isset($_POST["captcha_input"])) {
         $captcha_input = esc_html($_POST["captcha_input"]);
         $session_wd_captcha_code = isset($_SESSION[$id . '_wd_captcha_code']) ? $_SESSION[$id . '_wd_captcha_code'] : '-';
-        if ($captcha_input == $session_wd_captcha_code) {
+        if (md5($captcha_input) == $session_wd_captcha_code) {
+          $correct = TRUE;
+        }
+        else {
+          ?>
+          <script>alert("<?php echo addslashes(__('Error, incorrect Security code.', 'form_maker')); ?>");</script>
+          <?php
+        }
+      }
+	   elseif (isset($_POST["arithmetic_captcha_input"])) {
+        $arithmetic_captcha_input = esc_html($_POST["arithmetic_captcha_input"]);
+        $session_wd_arithmetic_captcha_code = isset($_SESSION[$id . '_wd_arithmetic_captcha_code']) ? $_SESSION[$id . '_wd_arithmetic_captcha_code'] : '-';
+        if (md5($arithmetic_captcha_input) == $session_wd_arithmetic_captcha_code) {
           $correct = TRUE;
         }
         else {
@@ -93,6 +105,18 @@ class FMModelForm_maker {
           <?php
         }
       }
+	 elseif (isset($_POST["g-recaptcha-response"])){
+		$privatekey = $form->private_key;
+		$response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$privatekey."&response=".$_POST['g-recaptcha-response']);
+		$response = json_decode($response, true);
+		if($response["success"] === true)
+			$correct = TRUE;
+		else
+		  ?>
+          <script>alert("<?php echo addslashes(__('Error, incorrect Security code.', 'form_maker')); ?>");</script>
+          <?php
+	  
+	  }
       else {
         $correct = TRUE;
       }

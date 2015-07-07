@@ -235,7 +235,14 @@ function refresh_attr(x,type)
 			id_array[2]='_element_refreshform_id_temp';
 			break;
 		}
-		
+		case "type_arithmetic_captcha":
+		{
+			id_array=Array();
+			id_array[0]='_wd_arithmetic_captchaform_id_temp';
+			id_array[1]='_wd_arithmetic_captcha_inputform_id_temp';
+			id_array[2]='_element_refreshform_id_temp';
+			break;
+		}
 		case "type_recaptcha":
 			
 		{
@@ -1842,6 +1849,23 @@ function change_captcha_digit(digit) {
 		document.getElementById('_wd_captcha_inputform_id_temp').style.width=(6*10+15)+"px";
 	}
 }
+
+function change_arithmetic_captcha(value, field) {
+	arithmetic_captcha = document.getElementById('_wd_arithmetic_captchaform_id_temp');
+	if (field == 'oper_count') {
+		oper_count = value ? value : 1;
+		operations = document.getElementById('el_operations') ? document.getElementById('el_operations').value : '+, -, *, /';
+	} else {
+		operations = value ? value : '+, -, *, /';
+		oper_count = document.getElementById('el_oper_count') ? document.getElementById('el_oper_count').value : 1;
+	}	
+
+	arithmetic_captcha.setAttribute("operations_count", oper_count);
+	arithmetic_captcha.setAttribute("operations", operations);
+	arithmetic_captcha.setAttribute("src", url_for_ajax + "?action=formmakerwdmathcaptcha&operations_count="+oper_count+"&operations="+operations.replace('+','@')+"&i=form_id_temp");
+}
+
+
 
 function second_no(id)
 {	
@@ -23557,6 +23581,387 @@ change_class(w_class, i);
 refresh_attr(i, 'type_captcha');
 }
 
+function type_arithmetic_captcha(i,w_field_label, w_field_label_size, w_field_label_pos, w_count, w_operations, w_class, w_input_size, w_attr_name, w_attr_value){
+    document.getElementById("element_type").value="type_arithmetic_captcha";
+
+	delete_last_child();
+// edit table	
+	var edit_div  = document.createElement('div');
+		edit_div.setAttribute("id", "edit_div");
+		edit_div.setAttribute("style", "border-top:1px dotted black;padding:10px;  padding-top:0px; padding-bottom:0px; margin-top:10px;");
+		
+	var edit_main_table  = document.createElement('table');
+		edit_main_table.setAttribute("id", "edit_main_table");
+		edit_main_table.setAttribute("cellpadding", "0");
+		edit_main_table.setAttribute("cellspacing", "0");
+		
+	var edit_main_tr1  = document.createElement('tr');		
+	var edit_main_tr2  = document.createElement('tr');
+	var edit_main_tr3  = document.createElement('tr');
+	var edit_main_tr4  = document.createElement('tr');
+	var edit_main_tr5  = document.createElement('tr');
+	var edit_main_tr6  = document.createElement('tr');
+	var edit_main_tr7  = document.createElement('tr');
+	var edit_main_tr8  = document.createElement('tr');
+
+	var edit_main_td1 = document.createElement('td');
+	var edit_main_td1_1 = document.createElement('td');
+	var edit_main_td2 = document.createElement('td');
+	var edit_main_td2_1 = document.createElement('td');
+	var edit_main_td3 = document.createElement('td');
+	var edit_main_td3_1 = document.createElement('td');
+	var edit_main_td4 = document.createElement('td');
+	var edit_main_td4_1 = document.createElement('td');
+	var edit_main_td5 = document.createElement('td');
+	var edit_main_td5_1 = document.createElement('td');
+	var edit_main_td6 = document.createElement('td');
+	var edit_main_td6_1 = document.createElement('td');
+	var edit_main_td7 = document.createElement('td');
+	var edit_main_td7_1 = document.createElement('td');
+	var edit_main_td8 = document.createElement('td');
+	var edit_main_td8_1 = document.createElement('td');
+		  
+	var el_label_label = document.createElement('label');
+	    el_label_label.setAttribute("for", "edit_for_label");
+		el_label_label.innerHTML = "Field label";
+	
+	var el_label_textarea = document.createElement('textarea');
+        el_label_textarea.setAttribute("id", "edit_for_label");
+        el_label_textarea.setAttribute("rows", "4");
+        el_label_textarea.style.cssText = "width:200px";
+        el_label_textarea.setAttribute("onKeyUp", "change_label('"+i+"_element_labelform_id_temp', this.value)");
+		el_label_textarea.innerHTML = w_field_label;
+	
+	var el_label_size_label = document.createElement('label');
+	    el_label_size_label.setAttribute("for", "edit_for_label_size");
+		el_label_size_label.innerHTML = "Field label size(px) ";
+		
+	var el_label_size = document.createElement('input');
+	    el_label_size.setAttribute("id", "edit_for_label_size");
+	    el_label_size.setAttribute("type", "text");
+	    el_label_size.setAttribute("value", w_field_label_size);
+		el_label_size.setAttribute("onKeyPress", "return check_isnum(event)");
+        el_label_size.setAttribute("onKeyUp", "change_w_style('"+i+"_label_sectionform_id_temp', this.value)");
+	
+	var el_label_position_label = document.createElement('label');
+		el_label_position_label.innerHTML = "Field label position";
+	
+	var el_label_position1 = document.createElement('input');
+        el_label_position1.setAttribute("id", "edit_for_label_position_top");
+        el_label_position1.setAttribute("type", "radio");
+		el_label_position1.setAttribute("name", "edit_for_label_position");
+        el_label_position1.setAttribute("onchange", "label_left("+i+")");
+		
+	Left = document.createTextNode("Left");
+		
+	var el_label_position2 = document.createElement('input');
+        el_label_position2.setAttribute("id", "edit_for_label_position_left");
+        el_label_position2.setAttribute("type", "radio");
+		el_label_position2.setAttribute("name", "edit_for_label_position");
+        el_label_position2.setAttribute("onchange", "label_top("+i+")");
+	Top = document.createTextNode("Top");
+		
+	if(w_field_label_pos=="top")
+		el_label_position2.setAttribute("checked", "checked");
+	else
+		el_label_position1.setAttribute("checked", "checked");
+
+	var el_operations_label = document.createElement('label');
+	    el_operations_label.setAttribute("for", "el_style_textarea");
+		el_operations_label.innerHTML = "Arithmetic operations";
+	
+	var el_operations = document.createElement('input');
+        el_operations.setAttribute("id", "el_operations");
+		el_operations.setAttribute("type", "text");
+		el_operations.setAttribute("value", w_operations);
+        el_operations.setAttribute("onChange", "change_arithmetic_captcha(this.value, 'operations')");
+	
+	var el_size_label = document.createElement('label');
+	    el_size_label.setAttribute("for", "el_oper_count");
+		el_size_label.innerHTML = "Operations count";
+	
+	var el_oper_count = document.createElement('input');
+        el_oper_count.setAttribute("id", "el_oper_count");
+        el_oper_count.setAttribute("type", "text");
+        el_oper_count.setAttribute("value", w_count);
+		el_oper_count.setAttribute("name", "el_oper_count");
+ 		el_oper_count.setAttribute("onKeyPress", "return check_isnum(event)");
+        el_oper_count.setAttribute("onKeyUp", "change_arithmetic_captcha(this.value, 'oper_count')");
+
+	var el_size_captcha_label = document.createElement('label');
+	    el_size_captcha_label.setAttribute("for", "el_captcha_input_size");
+		el_size_captcha_label.innerHTML = "Captcha input size";
+	
+	var el_size_captcha_input = document.createElement('input');
+        el_size_captcha_input.setAttribute("id", "el_captcha_input_size");
+        el_size_captcha_input.setAttribute("type", "text");
+        el_size_captcha_input.setAttribute("value", w_input_size);
+		el_size_captcha_input.setAttribute("name", "el_captcha_input_size");
+ 		el_size_captcha_input.setAttribute("onKeyPress", "return check_isnum(event)");
+		el_size_captcha_input.setAttribute("onKeyUp", "change_w_style('_wd_arithmetic_captcha_inputform_id_temp', this.value)");
+	
+	var el_style_label = document.createElement('label');
+	    el_style_label.setAttribute("for", "el_style_textarea");
+		el_style_label.innerHTML = "Class name";
+	
+	var el_style_textarea = document.createElement('input');
+        el_style_textarea.setAttribute("id", "el_style_textarea");
+		el_style_textarea.setAttribute("type", "text");
+		el_style_textarea.setAttribute("value", w_class);
+        el_style_textarea.style.cssText = "width:200px;";
+        el_style_textarea.setAttribute("onChange", "change_class(this.value,'"+i+"')");
+
+	var el_attr_label = document.createElement('label');
+		el_attr_label.innerHTML = "Additional Attributes";
+		
+	var el_attr_add = document.createElement('img');
+        el_attr_add.setAttribute("src", plugin_url + '/images/add.png');
+        el_attr_add.style.cssText = 'cursor:pointer; margin-left:68px';
+        el_attr_add.setAttribute("title", 'add');
+        el_attr_add.setAttribute("onClick", "add_attr("+i+", 'type_arithmetic_captcha')");
+		
+	var el_attr_table = document.createElement('table');
+        el_attr_table.setAttribute("id", 'attributes');
+        el_attr_table.setAttribute("border", '0');
+        el_attr_table.style.cssText = 'margin-left:0px';
+		
+	var el_attr_tr_label = document.createElement('tr');
+        el_attr_tr_label.setAttribute("idi", '0');
+		
+	var el_attr_td_name_label = document.createElement('th');
+        el_attr_td_name_label.style.cssText = 'width:100px';
+		
+	var el_attr_td_value_label = document.createElement('th');
+        el_attr_td_value_label.style.cssText = 'width:100px';
+		
+	var el_attr_td_X_label = document.createElement('th');
+        el_attr_td_X_label.style.cssText = 'width:10px';
+		
+	var el_attr_name_label = document.createElement('label');
+	    el_attr_name_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px";
+		el_attr_name_label.innerHTML = "Name";
+			
+	var el_attr_value_label = document.createElement('label');
+	    el_attr_value_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 11px";
+		el_attr_value_label.innerHTML = "Value";
+			
+	el_attr_table.appendChild(el_attr_tr_label);
+	el_attr_tr_label.appendChild(el_attr_td_name_label);
+	el_attr_tr_label.appendChild(el_attr_td_value_label);
+	el_attr_tr_label.appendChild(el_attr_td_X_label);
+	el_attr_td_name_label.appendChild(el_attr_name_label);
+	el_attr_td_value_label.appendChild(el_attr_value_label);
+	
+	n=w_attr_name.length;
+	for(j=1; j<=n; j++)
+	{	
+		var el_attr_tr = document.createElement('tr');
+			el_attr_tr.setAttribute("id", "attr_row_"+j);
+			el_attr_tr.setAttribute("idi", j);
+		var el_attr_td_name = document.createElement('td');
+			el_attr_td_name.style.cssText = 'width:100px';
+		var el_attr_td_value = document.createElement('td');
+			el_attr_td_value.style.cssText = 'width:100px';
+		
+		var el_attr_td_X = document.createElement('td');
+		var el_attr_name = document.createElement('input');
+			el_attr_name.setAttribute("type", "text");
+			el_attr_name.style.cssText = "width:100px";
+			el_attr_name.setAttribute("value", w_attr_name[j-1]);
+			el_attr_name.setAttribute("id", "attr_name"+j);
+			el_attr_name.setAttribute("onChange", "change_attribute_name("+i+", this, 'type_arithmetic_captcha')");
+			
+		var el_attr_value = document.createElement('input');
+			el_attr_value.setAttribute("type", "text");
+			el_attr_value.style.cssText = "width:100px";
+			el_attr_value.setAttribute("value", w_attr_value[j-1]);
+			el_attr_value.setAttribute("id", "attr_value"+j);
+			el_attr_value.setAttribute("onChange", "change_attribute_value("+i+", "+j+", 'type_arithmetic_captcha')");
+	
+		var el_attr_remove = document.createElement('img');
+			el_attr_remove.setAttribute("id", "el_choices"+j+"_remove");
+			el_attr_remove.setAttribute("src", plugin_url + '/images/delete.png');
+			el_attr_remove.style.cssText = 'cursor:pointer; vertical-align:middle; margin:3px';
+			el_attr_remove.setAttribute("onClick", "remove_attr("+j+", "+i+", 'type_arithmetic_captcha')");
+		el_attr_table.appendChild(el_attr_tr);
+		el_attr_tr.appendChild(el_attr_td_name);
+		el_attr_tr.appendChild(el_attr_td_value);
+		el_attr_tr.appendChild(el_attr_td_X);
+		el_attr_td_name.appendChild(el_attr_name);
+		el_attr_td_value.appendChild(el_attr_value);
+		el_attr_td_X.appendChild(el_attr_remove);
+	}
+		
+	var t  = document.getElementById('edit_table');
+	var br = document.createElement('br');
+	var br1 = document.createElement('br');
+	var br2 = document.createElement('br');
+	var br3 = document.createElement('br');
+	var br4 = document.createElement('br');
+	var br5 = document.createElement('br');
+	var br6 = document.createElement('br');
+	
+	edit_main_td1.appendChild(el_label_label);
+	edit_main_td1_1.appendChild(el_label_textarea);
+	
+	edit_main_td7.appendChild(el_label_size_label);
+	edit_main_td7_1.appendChild(el_label_size);
+
+	edit_main_td2.appendChild(el_label_position_label);
+	edit_main_td2_1.appendChild(el_label_position1);
+	edit_main_td2_1.appendChild(Left);
+	edit_main_td2_1.appendChild(br2);
+	edit_main_td2_1.appendChild(el_label_position2);
+	edit_main_td2_1.appendChild(Top);
+	
+	edit_main_td3.appendChild(el_size_label);
+	edit_main_td3_1.appendChild(el_oper_count);
+	
+	edit_main_td8.appendChild(el_size_captcha_label);
+	edit_main_td8_1.appendChild(el_size_captcha_input);
+	
+	edit_main_td6.appendChild(el_operations_label);
+	edit_main_td6_1.appendChild(el_operations);
+	
+	edit_main_td4.appendChild(el_style_label);
+	edit_main_td4_1.appendChild(el_style_textarea);
+	
+	edit_main_td5.appendChild(el_attr_label);
+	edit_main_td5.appendChild(el_attr_add);
+	edit_main_td5.appendChild(br3);
+	edit_main_td5.appendChild(el_attr_table);
+	edit_main_td5.setAttribute("colspan", "2");
+	
+	edit_main_tr1.appendChild(edit_main_td1);
+	edit_main_tr1.appendChild(edit_main_td1_1);
+	edit_main_tr7.appendChild(edit_main_td7);
+	edit_main_tr7.appendChild(edit_main_td7_1);
+	edit_main_tr2.appendChild(edit_main_td2);
+	edit_main_tr2.appendChild(edit_main_td2_1);
+	edit_main_tr6.appendChild(edit_main_td6);
+	edit_main_tr6.appendChild(edit_main_td6_1);
+	edit_main_tr3.appendChild(edit_main_td3);
+	edit_main_tr3.appendChild(edit_main_td3_1);
+	edit_main_tr8.appendChild(edit_main_td8);
+	edit_main_tr8.appendChild(edit_main_td8_1);
+	edit_main_tr4.appendChild(edit_main_td4);
+	edit_main_tr4.appendChild(edit_main_td4_1);
+	edit_main_tr5.appendChild(edit_main_td5);
+	edit_main_tr5.appendChild(edit_main_td5_1);
+	edit_main_table.appendChild(edit_main_tr1);
+	edit_main_table.appendChild(edit_main_tr7);
+	edit_main_table.appendChild(edit_main_tr2);
+	edit_main_table.appendChild(edit_main_tr6);
+	edit_main_table.appendChild(edit_main_tr3);
+	edit_main_table.appendChild(edit_main_tr8);
+	edit_main_table.appendChild(edit_main_tr4);
+	edit_main_table.appendChild(edit_main_tr5);
+	edit_div.appendChild(edit_main_table);
+	
+	t.appendChild(edit_div);
+	add_id_and_name(i, 'type_arithmetic_captcha');
+
+	var adding_type = document.createElement("input");
+		adding_type.setAttribute("type", "hidden");
+		adding_type.setAttribute("value", "type_arithmetic_captcha");
+		adding_type.setAttribute("name", i+"_typeform_id_temp");
+		adding_type.setAttribute("id", i+"_typeform_id_temp");
+		
+	var adding = document.createElement('img');
+		adding.setAttribute("type", type);
+		adding.setAttribute("operations_count", w_count);
+		adding.setAttribute("operations", w_operations);
+		adding.setAttribute("input_size", w_input_size);
+		adding.setAttribute("src", url_for_ajax + "?action=formmakerwdmathcaptcha&operations_count="+w_count+"&operations="+w_operations.replace("+", "@")+"&i=form_id_temp");
+		adding.setAttribute("id", "_wd_arithmetic_captchaform_id_temp");
+		adding.setAttribute("class", "arithmetic_captcha_img");
+		adding.setAttribute("onClick", "captcha_refresh('_wd_arithmetic_captcha','form_id_temp')");
+			
+	var refresh_captcha = document.createElement("div");
+		refresh_captcha.setAttribute("class", "captcha_refresh");
+		refresh_captcha.setAttribute("id", "_element_refreshform_id_temp");
+		refresh_captcha.setAttribute("onClick", "captcha_refresh('_wd_arithmetic_captcha','form_id_temp')");
+
+	var input_captcha = document.createElement("input");
+		input_captcha.setAttribute("type", "text");
+		input_captcha.style.cssText = "width:"+w_input_size+"px;";
+		input_captcha.setAttribute("class", "arithmetic_captcha_input");
+		input_captcha.setAttribute("id", "_wd_arithmetic_captcha_inputform_id_temp");
+		input_captcha.setAttribute("name", "arithmetic_captcha_input");
+		input_captcha.setAttribute("onKeyPress", "return check_isnum(event)");
+
+	var div = document.createElement('div');
+		div.setAttribute("id", "main_div");
+				
+	var div_field = document.createElement('div');
+		div_field.setAttribute("id", i+"_elemet_tableform_id_temp");
+					
+	var div_label = document.createElement('div');
+		div_label.setAttribute("align", 'left');
+		div_label.style.display="table-cell";
+		div_label.style.width=w_field_label_size+"px";
+		div_label.setAttribute("id", i+"_label_sectionform_id_temp");
+			
+	var div_element = document.createElement('div');
+		div_element.setAttribute("align", 'left');
+		div_element.style.display="table-cell";
+		div_element.setAttribute("id", i+"_element_sectionform_id_temp");
+			
+	var captcha_table = document.createElement('div');
+		captcha_table.style.display="table";
+	
+	var captcha_tr1 = document.createElement('div');
+		captcha_tr1.style.display="table-row";
+	var captcha_tr2 = document.createElement('div');
+		captcha_tr2.style.display="table-row";
+
+	var captcha_td1 = document.createElement('div');
+		captcha_td1.style.display="table-cell";
+
+	var captcha_td2 = document.createElement('div');
+		captcha_td2.style.cssText = "display:table-cell; vertical-align:middle;";
+	var captcha_td3 = document.createElement('div');
+		captcha_td3.style.display="table-cell";
+	
+	captcha_table.appendChild(captcha_tr1);
+	captcha_table.appendChild(captcha_tr2);
+	captcha_tr1.appendChild(captcha_td1);
+	captcha_tr1.appendChild(captcha_td3);
+	captcha_tr1.appendChild(captcha_td2);
+//	captcha_tr2.appendChild(captcha_td3);
+	captcha_td1.appendChild(adding);
+	captcha_td2.appendChild(refresh_captcha);
+	captcha_td3.appendChild(input_captcha);
+	
+	var br1 = document.createElement('br');
+	var br2 = document.createElement('br');
+	var br3 = document.createElement('br');
+	var br4 = document.createElement('br');
+      
+	var label = document.createElement('span');
+		label.setAttribute("id", i+"_element_labelform_id_temp");
+		label.innerHTML = w_field_label;
+		label.setAttribute("class", "label");
+		label.style.verticalAlign="top";
+	    
+	var main_td  = document.getElementById('show_table');
+      
+	div_label.appendChild(label);
+	div_element.appendChild(adding_type);
+	div_element.appendChild(captcha_table);
+	div_field.appendChild(div_label);
+	div_field.appendChild(div_element);
+	div.appendChild(div_field);
+	div.appendChild(br3);
+	main_td.appendChild(div);
+	
+	if(w_field_label_pos=="top")
+		label_top(i);
+	change_class(w_class, i);
+	refresh_attr(i, 'type_arithmetic_captcha');
+}
+
+
 function type_map(i, w_center_x, w_center_y, w_long, w_lat, w_zoom, w_width, w_height, w_class, w_info, w_attr_name, w_attr_value){
     document.getElementById("element_type").value="type_map";
 	delete_last_child();
@@ -26698,13 +27103,19 @@ else
 
 function el_captcha()
 {
-//edit table
-if(document.getElementById("editing_id").value)
-	new_id=document.getElementById("editing_id").value;
-else
-	new_id=gen;
-	
+	//edit table
+	if(document.getElementById("editing_id").value)
+		new_id=document.getElementById("editing_id").value;
+	else
+		new_id=gen;
+		
 	if(document.getElementById('_wd_captchaform_id_temp'))
+	{
+		alert("The captcha already has been created.");
+		return;
+	}
+	
+	if(document.getElementById('_wd_arithmetic_captchaform_id_temp'))
 	{
 		alert("The captcha already has been created.");
 		return;
@@ -26717,30 +27128,42 @@ else
 	}
 	
 	var el_type_label = document.createElement('label');
-                el_type_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
+		el_type_label.style.cssText ="color:#00aeef; font-weight:bold; font-size: 13px";
 		el_type_label.innerHTML = "<br />&nbsp;&nbsp;Field type";
 	
 	var el_type_radio_captcha = document.createElement('input');
-                el_type_radio_captcha.setAttribute("id", "el_type_captcha");
-                el_type_radio_captcha.setAttribute("type", "radio");
-                el_type_radio_captcha.setAttribute("value", "captcha");
-                el_type_radio_captcha.style.cssText = "margin-left:15px";
-                el_type_radio_captcha.setAttribute("name", "el_type_captcha");
-                el_type_radio_captcha.setAttribute("onclick", "go_to_type_captcha('"+new_id+"')");
+		el_type_radio_captcha.setAttribute("id", "el_type_captcha");
+		el_type_radio_captcha.setAttribute("type", "radio");
+		el_type_radio_captcha.setAttribute("value", "captcha");
+		el_type_radio_captcha.style.cssText = "margin-left:15px";
+		el_type_radio_captcha.setAttribute("name", "el_type_captcha");
+		el_type_radio_captcha.setAttribute("onclick", "go_to_type_captcha('"+new_id+"')");
 		el_type_radio_captcha.setAttribute("checked", "checked");
 		
 	var el_type_label_captcha = document.createElement('label');	
 		el_type_label_captcha.setAttribute("for", "el_type_captcha");
 		el_type_label_captcha.innerHTML = 'Simple Captcha';		
 		
-			
+	var el_type_radio_arithmetic_captcha = document.createElement('input');
+		el_type_radio_arithmetic_captcha.setAttribute("id", "el_type_arithmetic_captcha");
+		el_type_radio_arithmetic_captcha.setAttribute("type", "radio");
+		el_type_radio_arithmetic_captcha.setAttribute("value", "arithmetic_captcha");
+		el_type_radio_arithmetic_captcha.style.cssText = "margin-left:15px";
+		el_type_radio_arithmetic_captcha.setAttribute("name", "el_type_captcha");
+		el_type_radio_arithmetic_captcha.setAttribute("onclick", "go_to_type_arithmetic_captcha('"+new_id+"')");
+		
+	var el_type_label_arithmetic_captcha = document.createElement('label');	
+		el_type_label_arithmetic_captcha.setAttribute("for", "el_type_arithmetic_captcha");
+		el_type_label_arithmetic_captcha.innerHTML = 'Arithmetic Captcha';	
+
+	
 	var el_type_radio_recaptcha = document.createElement('input');
-                el_type_radio_recaptcha.setAttribute("id", "el_type_radio_recaptcha");
-                el_type_radio_recaptcha.setAttribute("type", "radio");
-                el_type_radio_recaptcha.setAttribute("value", "recaptcha");
-                el_type_radio_recaptcha.style.cssText = "margin-left:15px";
-                el_type_radio_recaptcha.setAttribute("name", "el_type_captcha");
-                el_type_radio_recaptcha.setAttribute("onclick", "go_to_type_recaptcha('"+new_id+"')");
+		el_type_radio_recaptcha.setAttribute("id", "el_type_radio_recaptcha");
+		el_type_radio_recaptcha.setAttribute("type", "radio");
+		el_type_radio_recaptcha.setAttribute("value", "recaptcha");
+		el_type_radio_recaptcha.style.cssText = "margin-left:15px";
+		el_type_radio_recaptcha.setAttribute("name", "el_type_captcha");
+		el_type_radio_recaptcha.setAttribute("onclick", "go_to_type_recaptcha('"+new_id+"')");
 				
 	var el_type_label_recaptcha = document.createElement('label');	
 		el_type_label_recaptcha.setAttribute("for", "el_type_radio_recaptcha");
@@ -26758,9 +27181,11 @@ else
 	td.appendChild(el_type_radio_captcha);
 	td.appendChild(el_type_label_captcha);
 	td.appendChild(br2);
+	td.appendChild(el_type_radio_arithmetic_captcha);
+	td.appendChild(el_type_label_arithmetic_captcha);
+	td.appendChild(br3);
 	td.appendChild(el_type_radio_recaptcha);
 	td.appendChild(el_type_label_recaptcha);
-	
 	
 	var pos=document.getElementsByName("el_pos");
 		pos[0].removeAttribute("disabled");
@@ -26780,6 +27205,13 @@ function go_to_type_captcha(new_id)
  	w_attr_name=[];
  	w_attr_value=[];
 	type_captcha(new_id,'Word Verification:', '100', 'left', '6','',w_attr_name, w_attr_value);
+}
+
+function go_to_type_arithmetic_captcha(new_id)
+{
+ 	w_attr_name=[];
+ 	w_attr_value=[];
+	type_arithmetic_captcha(new_id, 'Word Verification:', '100', 'left', '1', '+, -, *, /', '', '60', w_attr_name, w_attr_value);
 }
 
 function go_to_type_recaptcha(new_id)
@@ -28678,7 +29110,7 @@ function add(key, after_edit, wdid)
 			wdform_arrows.appendChild(td_RIGHT);
 			wdform_arrows.appendChild(td_EDIT);
 			
-			if(type!="type_captcha" && type!="type_recaptcha" && type!="type_send_copy")
+			if(type!="type_captcha"  && type!="type_arithmetic_captcha" && type!="type_recaptcha" && type!="type_send_copy")
 			{
 				wdform_arrows.appendChild(td_DUBLICATE);
 			}
@@ -29792,6 +30224,17 @@ function edit(id)
 				w_attr_value=atrs[1];
 				
 				type_captcha(id, w_field_label, w_field_label_size, w_field_label_pos, w_digit, w_class,  w_attr_name, w_attr_value); break;
+			}
+			case 'type_arithmetic_captcha':
+			{
+				w_count = document.getElementById("_wd_arithmetic_captchaform_id_temp").getAttribute("operations_count");
+				w_operations = document.getElementById("_wd_arithmetic_captchaform_id_temp").getAttribute("operations");
+				w_input_size = document.getElementById("_wd_arithmetic_captchaform_id_temp").getAttribute("input_size");
+				atrs=return_attributes('_wd_captchaform_id_temp');
+				w_attr_name=atrs[0];
+				w_attr_value=atrs[1];
+				
+				type_arithmetic_captcha(id, w_field_label, w_field_label_size, w_field_label_pos, w_count, w_operations, w_class, w_input_size,  w_attr_name, w_attr_value); break;
 			}
 			case 'type_recaptcha':
 			{
@@ -32540,6 +32983,32 @@ function gen_form_fields()
 				break;
 
 		}
+		case 'type_arithmetic_captcha':
+		{
+			w_count = document.getElementById("_wd_arithmetic_captchaform_id_temp").getAttribute("operations_count");
+			w_operations = document.getElementById("_wd_arithmetic_captchaform_id_temp").getAttribute("operations");
+			w_input_size = document.getElementById("_wd_arithmetic_captchaform_id_temp").getAttribute("input_size");
+			atrs=return_attributes('_wd_captchaform_id_temp');
+			w_attr_name=atrs[0];
+			w_attr_value=atrs[1];
+			
+			form_fields+=w_field_label+"*:*w_field_label*:*";
+			form_fields+=w_field_label_size+"*:*w_field_label_size*:*";
+			form_fields+=w_field_label_pos+"*:*w_field_label_pos*:*";
+			form_fields+=w_count+"*:*w_count*:*";
+			form_fields+=w_operations+"*:*w_operations*:*";
+			form_fields+=w_class+"*:*w_class*:*";
+			form_fields+=w_input_size+"*:*w_input_size*:*";
+			
+			for(j=0; j<w_attr_name.length; j++)
+			{
+			form_fields+=w_attr_name[j]+"="+w_attr_value[j]+"*:*w_attr_name*:*";
+			}
+			form_fields+="*:*new_field*:*";	
+			break;
+
+		}
+		
 		case 'type_recaptcha':
 		{
 			w_public  = document.getElementById("wd_recaptchaform_id_temp").getAttribute("public_key");

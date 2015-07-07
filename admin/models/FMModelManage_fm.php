@@ -152,6 +152,7 @@ class FMModelManage_fm {
             
             case 'type_send_copy':
             case 'type_captcha':
+			case 'type_arithmetic_captcha':
             case 'type_recaptcha':
             {
               $arrows =$arrows.'<div id="wdform_arrows'.$id.'" class="wdform_arrows"><div id="X_'.$id.'" valign="middle" align="right" class="element_toolbar"><img src="' . WD_FM_URL . '/images/delete_el.png" title="Remove the field" onclick="remove_row(&quot;'.$id.'&quot;)"></div><div id="left_'.$id.'" valign="middle" class="element_toolbar"><img src="' . WD_FM_URL . '/images/left.png" title="Move the field to the left" onclick="left_row(&quot;'.$id.'&quot;)"></div><div id="up_'.$id.'" valign="middle" class="element_toolbar"><img src="' . WD_FM_URL . '/images/up.png" title="Move the field up" onclick="up_row(&quot;'.$id.'&quot;)"></div><div id="down_'.$id.'" valign="middle" class="element_toolbar"><img src="' . WD_FM_URL . '/images/down.png" title="Move the field down" onclick="down_row(&quot;'.$id.'&quot;)"></div><div id="right_'.$id.'" valign="middle" class="element_toolbar"><img src="' . WD_FM_URL . '/images/right.png" title="Move the field to the right" onclick="right_row(&quot;'.$id.'&quot;)"></div><div id="edit_'.$id.'" valign="middle" class="element_toolbar"><img src="' . WD_FM_URL . '/images/edit.png" title="Edit the field" onclick="edit(&quot;'.$id.'&quot;)"></div><div id="dublicate_'.$id.'" valign="middle" class="element_toolbar"></div><div id="page_up_'.$id.'" valign="middle" class="element_toolbar"><img src="' . WD_FM_URL . '/images/page_up.png" title="Move the field to the upper page" onclick="page_up(&quot;'.$id.'&quot;)"></div><div id="page_down_'.$id.'" valign="middle" class="element_toolbar"><img src="' . WD_FM_URL . '/images/page_down.png" title="Move the field to the lower page" onclick="page_down(&quot;'.$id.'&quot;)"></div></div>';
@@ -1214,7 +1215,37 @@ ngdom</option><option value="United States">United States</option><option value=
               
               break;
             }
-            case 'type_recaptcha':
+            case 'type_arithmetic_captcha':
+            {
+              $params_names=array('w_field_label_size','w_field_label_pos', 'w_count', 'w_operations','w_class', 'w_input_size');
+              $temp=$params;
+              foreach($params_names as $params_name )
+              {	
+                $temp=explode('*:*'.$params_name.'*:*',$temp);
+                $param[$params_name] = $temp[0];
+                $temp=$temp[1];
+              }
+
+              if($temp)
+              {	
+                $temp	=explode('*:*w_attr_name*:*',$temp);
+                $attrs	= array_slice($temp,0, count($temp)-1);   
+                foreach($attrs as $attr)
+                  $param['attributes'] = $param['attributes'].' add_'.$attr;
+              }
+			 
+              $param['w_field_label_pos'] = ($param['w_field_label_pos']=="left" ? "table-cell" : "block");	
+			  $param['w_count'] = $param['w_count'] ? $param['w_count'] : 1;
+              $param['w_operations'] = $param['w_operations'] ? $param['w_operations'] : '+, -, *, /';
+              $param['w_input_size'] = $param['w_input_size'] ? $param['w_input_size'] : 60;
+              
+              $rep ='<div id="wdform_field'.$id.'" type="type_arithmetic_captcha" class="wdform_field" style="display: table-cell;">'.$arrows.'<div align="left" id="'.$id.'_label_sectionform_id_temp" class="'.$param['w_class'].'" style="display:'.$param['w_field_label_pos'].'; width: '.$param['w_field_label_size'].'px;"><span id="'.$id.'_element_labelform_id_temp" class="label" style="vertical-align: top;">'.$label.'</span></div><div align="left" id="'.$id.'_element_sectionform_id_temp" class="'.$param['w_class'].'" style="display: '.$param['w_field_label_pos'].';"><input type="hidden" value="type_captcha" name="'.$id.'_typeform_id_temp" id="'.$id.'_typeform_id_temp"><div style="display: table;"><div style="display: table-row;"><div style="display: table-cell;"><img type="captcha" operations_count="'.$param['w_count'].'" operations="'.$param['w_operations'].'" input_size="'.$param['w_input_size'].'" src="' . add_query_arg(array('action' => 'formmakerwdmathcaptcha', 'operations_count' => $param['w_count'], 'operations' => $param['w_operations'], 'i' => 'form_id_temp'), admin_url('admin-ajax.php')) . '" id="_wd_arithmetic_captchaform_id_temp" class="arithmetic_captcha_img" onclick="captcha_refresh(&quot;_wd_arithmetic_captcha&quot;,&quot;form_id_temp&quot;)" '.$param['attributes'].'></div><div style="display: table-cell;"><input type="text" class="arithmetic_captcha_input" id="_wd_arithmetic_captcha_inputform_id_temp" name="arithmetic_captcha_input" onkeypress="return check_isnum(event)" style="width: '.$param['w_input_size'].'px;" '.$param['attributes'].' disabled/></div><div style="display: table-cell; vertical-align: middle;"><div class="captcha_refresh" id="_element_refreshform_id_temp" onclick="captcha_refresh(&quot;_wd_arithmetic_captcha&quot;,&quot;form_id_temp&quot;)" '.$param['attributes'].'></div></div></div></div></div></div>';
+              
+              break;
+            }
+
+
+			case 'type_recaptcha':
             {
               $params_names=array('w_field_label_size','w_field_label_pos','w_public','w_private','w_theme','w_class');
               $temp=$params;

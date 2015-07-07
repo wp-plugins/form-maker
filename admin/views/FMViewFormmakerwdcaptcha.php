@@ -55,7 +55,7 @@ class FMViewFormmakerwdcaptcha {
       if (session_id() == '' || (function_exists('session_status') && (session_status() == PHP_SESSION_NONE))) {
         @session_start();
       }
-      $_SESSION[$i . '_wd_captcha_code'] = $code;
+      $_SESSION[$i . '_wd_captcha_code'] = md5($code);
       $canvas = imagecreatetruecolor($cap_width, $cap_height);
       $c = imagecolorallocate($canvas, rand(150, 255), rand(150, 255), rand(150, 255));
       imagefilledrectangle($canvas, 0, 0, $cap_width, $cap_height, $c);

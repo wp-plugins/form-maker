@@ -2568,7 +2568,56 @@ class FMViewForm_maker {
               break;
             }
 
-            case 'type_recaptcha': {
+			case 'type_arithmetic_captcha':
+            {
+              $params_names=array('w_field_label_size','w_field_label_pos', 'w_count', 'w_operations','w_class', 'w_input_size');
+              $temp=$params;
+              foreach($params_names as $params_name )
+              {	
+                $temp=explode('*:*'.$params_name.'*:*',$temp);
+                $param[$params_name] = $temp[0];
+                $temp=$temp[1];
+              }
+
+              if($temp)
+              {	
+                $temp	=explode('*:*w_attr_name*:*',$temp);
+                $attrs	= array_slice($temp,0, count($temp)-1);   
+                foreach($attrs as $attr)
+                  $param['attributes'] = $param['attributes'].' add_'.$attr;
+              }
+			 
+              $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
+              $param['w_field_label_pos2'] = ($param['w_field_label_pos']=="left" ? "" : "display:block;");
+			  $param['w_count'] = $param['w_count'] ? $param['w_count'] : 1;
+              $param['w_operations'] = $param['w_operations'] ? $param['w_operations'] : '+, -, *, /';
+              $param['w_input_size'] = $param['w_input_size'] ? $param['w_input_size'] : 60;
+   
+              $rep ='<div type="type_arithmetic_captcha" class="wdform-field">
+			  <div align="left" class="wdform-label-section" style="display:'.$param['w_field_label_pos1'].'; width: '.$param['w_field_label_size'].'px;"><span class="wdform-label" style="vertical-align: top;">'.$label.'</span></div><div class="wdform-element-section '.$param['w_class'].'" style="display: '.$param['w_field_label_pos2'].';"><div style="display: table;"><div style="display: table-row;"><div style="display: table-cell; vertical-align: middle;"><img type="captcha" operations_count="'.$param['w_count'].'" operations="'.$param['w_operations'].'" src="' . add_query_arg(array('action' => 'formmakerwdmathcaptcha', 'operations_count' => $param['w_count'], 'operations' => $param['w_operations'], 'i' => $form_id), admin_url('admin-ajax.php')) . '" id="wd_arithmetic_captcha'.$form_id.'" class="arithmetic_captcha_img" '.$param['attributes'].'></div><div style="display: table-cell;"><input type="text" class="arithmetic_captcha_input" id="wd_arithmetic_captcha_input'.$form_id.'" name="arithmetic_captcha_input" onkeypress="return check_isnum(event)" style="width: '.$param['w_input_size'].'px;" '.$param['attributes'].'/></div><div style="display: table-cell; vertical-align: middle;"><div class="captcha_refresh" id="_element_refresh'.$form_id.'" '.$param['attributes'].'></div></div></div></div></div></div>';
+              
+			  $onload_js .='jQuery("#wd_arithmetic_captcha'.$form_id.'").click(function() { captcha_refresh("wd_arithmetic_captcha","'.$form_id.'") });';
+              $onload_js .='jQuery("#_element_refresh'.$form_id.'").click(function() {captcha_refresh("wd_arithmetic_captcha","'.$form_id.'")});';
+              
+              $check_js.='
+              if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none")
+              {
+                if(jQuery("#wd_arithmetic_captcha_input'.$form_id.'").val()=="")
+                {
+                  alert("' .addslashes($label. ' ' . __('field is required.', 'form_maker')) . '");
+                  old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
+                  x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
+                  jQuery("#wd_arithmetic_captcha_input'.$form_id.'").focus();
+                  return false;
+                }
+              }
+              ';
+              $onload_js.= 'captcha_refresh("wd_arithmetic_captcha", "'.$form_id.'");';
+              break;
+            }
+
+
+            case 'type_recaptcha_old': {
               $params_names=array('w_field_label_size','w_field_label_pos','w_public','w_private','w_theme','w_class');
               $temp=$params;
               foreach($params_names as $params_name ) {
@@ -2592,6 +2641,33 @@ class FMViewForm_maker {
 			  $secure_server = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? recaptcha_get_html($publickey, $error, true) : recaptcha_get_html($publickey, $error);
               $rep ='<script>var RecaptchaOptions = {theme: "'.$param['w_theme'].'"};</script><div type="type_recaptcha" class="wdform-field"><div class="wdform-label-section" style="'.$param['w_field_label_pos1'].'; width: '.$param['w_field_label_size'].'px;"><span class="wdform-label">'.$label.'</span></div><div class="wdform-element-section '.$param['w_class'].'" style="'.$param['w_field_label_pos2'].';">
               <div id="wd_recaptcha'.$form_id.'" '.$param['attributes'].'>'.$secure_server.'</div></div></div>';
+              break;
+            }
+            
+			case 'type_recaptcha': {
+              $params_names=array('w_field_label_size','w_field_label_pos','w_public','w_private','w_class');
+              $temp=$params;
+              foreach($params_names as $params_name ) {
+                $temp=explode('*:*'.$params_name.'*:*',$temp);
+                $param[$params_name] = $temp[0];
+                $temp=$temp[1];
+              }
+              if($temp) {	
+                $temp	=explode('*:*w_attr_name*:*',$temp);
+                $attrs	= array_slice($temp,0, count($temp)-1);   
+                foreach($attrs as $attr) {
+                  $param['attributes'] = $param['attributes'].' '.$attr;
+                }
+              }
+              $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
+              $param['w_field_label_pos2'] = ($param['w_field_label_pos']=="left" ? "" : "display:block;");
+            
+			//<div id="wd_recaptcha'.$form_id.'" '.$param['attributes'].'>'.$secure_server.'</div>
+              $publickey=($row->public_key ? $row->public_key : '0');
+              $error = null;
+			  require_once(WD_FM_DIR . '/recaptchalib.php');
+			  $secure_server = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? recaptcha_get_html($publickey, $error, true) : recaptcha_get_html($publickey, $error);
+              $rep =' <script src="https://www.google.com/recaptcha/api.js"></script><div type="type_recaptcha" class="wdform-field"><div class="wdform-label-section" style="'.$param['w_field_label_pos1'].'; width: '.$param['w_field_label_size'].'px;"><span class="wdform-label">'.$label.'</span></div><div class="wdform-element-section '.$param['w_class'].'" style="'.$param['w_field_label_pos2'].';"><div class="g-recaptcha" data-sitekey="'.$publickey.'"></div></div></div>';
               break;
             }
             

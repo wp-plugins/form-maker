@@ -113,6 +113,22 @@
   vertical-align: middle;
 }
 
+.arithmetic_captcha_img {
+  border-width: 0px;
+  cursor: pointer;
+  margin: 0px;
+  padding: 0px;
+  vertical-align: middle;
+}
+
+.arithmetic_captcha_input {
+  border-width: 1px;
+  height: 25px;
+  margin-left: 3px;
+  padding: 0px;
+  vertical-align: middle;
+}
+
 .file_upload {
   border-width: 1px;
   margin: 0px;

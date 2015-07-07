@@ -3,7 +3,7 @@
  * Plugin Name: Form Maker
  * Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
  * Description: This plugin is a modern and advanced tool for easy and fast creating of a WordPress Form. The backend interface is intuitive and user friendly which allows users far from scripting and programming to create WordPress Forms.
- * Version: 1.7.55
+ * Version: 1.7.56
  * Author: WebDorado
  * Author URI: http://web-dorado.com/
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -113,6 +113,8 @@ add_action('wp_ajax_generete_xml', 'form_maker_ajax'); // Export xml.
 add_action('wp_ajax_FormMakerPreview', 'form_maker_ajax');
 add_action('wp_ajax_formmakerwdcaptcha', 'form_maker_ajax'); // Generete captcha image and save it code in session.
 add_action('wp_ajax_nopriv_formmakerwdcaptcha', 'form_maker_ajax'); // Generete captcha image and save it code in session for all users.
+add_action('wp_ajax_formmakerwdmathcaptcha', 'form_maker_ajax'); // Generete math captcha image and save it code in session.
+add_action('wp_ajax_nopriv_formmakerwdmathcaptcha', 'form_maker_ajax'); // Generete math captcha image and save it code in session for all users.
 add_action('wp_ajax_fromeditcountryinpopup', 'form_maker_ajax'); // Open country list.
 add_action('wp_ajax_product_option', 'form_maker_ajax'); // Open product options on add paypal field.
 add_action('wp_ajax_frommapeditinpopup', 'form_maker_ajax'); // Open map in submissions.
@@ -231,7 +233,7 @@ if (class_exists('WP_Widget')) {
 // Activate plugin.
 function form_maker_activate() {
   $version = get_option("wd_form_maker_version");
-  $new_version = '1.7.55';
+  $new_version = '1.7.56';
   if (!$version) {
     add_option("wd_form_maker_version", $new_version, '', 'no');
     global $wpdb;
