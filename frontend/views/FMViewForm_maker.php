@@ -111,7 +111,7 @@ class FMViewForm_maker {
       $form_theme = implode('{', $body_or_classes_implode);
       $form_maker_front_end .= '<style>' . str_replace('[SITE_ROOT]', WD_FM_URL, $form_theme) . '</style>';
       wp_print_scripts('main' . (($old == false || ($old == true && $row->form=='')) ? '_div' : '') . '_front_end', WD_FM_URL . '/js/main' . (($old == false || ($old == true && $row->form=='')) ? '_div' : '') . '_front_end.js?ver='. get_option("wd_form_maker_version"));
-      // $form_maker_front_end .= '<script src="' . WD_FM_URL . '/js/main' . (($old == false || ($old == true && $row->form=='')) ? '_div' : '') . '_front_end.js"></script>';
+
       $form_currency = '$';
       $check_js = '';
       $onload_js = '';
@@ -2357,7 +2357,7 @@ class FMViewForm_maker {
 				}
 				';		
               }
-              // $onload_js.= 'Calendar.setup({inputField: "wdform_'.$id1.'_element'.$form_id.'",	ifFormat: "'.$param['w_format'].'",button: "wdform_'.$id1.'_button'.$form_id.'",align: "Tl",singleClick: true,firstDay: 0});';
+
               break;
             }
 
@@ -2662,7 +2662,6 @@ class FMViewForm_maker {
               $param['w_field_label_pos1'] = ($param['w_field_label_pos']=="left" ? "float: left;" : "");	
               $param['w_field_label_pos2'] = ($param['w_field_label_pos']=="left" ? "" : "display:block;");
             
-			//<div id="wd_recaptcha'.$form_id.'" '.$param['attributes'].'>'.$secure_server.'</div>
               $publickey=($row->public_key ? $row->public_key : '0');
               $error = null;
 			  require_once(WD_FM_DIR . '/recaptchalib.php');
@@ -4182,7 +4181,7 @@ class FMViewForm_maker {
           }
           generate_page_nav(first_form_view<?php echo $id ?>, '<?php echo $id ?>', form_view_count<?php echo $id ?>, form_view_max<?php echo $id ?>);
         }
-        // jQuery('.wdform-element-section select').each(function() { reselect(this,''); });/////why?????????????
+
       });
       function check_required<?php echo $form_id ?>(but_type) {
         if (but_type == 'reset') {

@@ -20,7 +20,7 @@ class FMControllerBlocked_ips_fm {
   ////////////////////////////////////////////////////////////////////////////////////////
   public function execute() {
     $task = WDW_FM_Library::get('task');
-    $id = WDW_FM_Library::get('current_id', 0);
+    $id = (int)WDW_FM_Library::get('current_id', 0);
     $message = WDW_FM_Library::get('message');
     echo WDW_FM_Library::message_id($message);
     if (method_exists($this, $task)) {

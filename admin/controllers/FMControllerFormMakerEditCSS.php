@@ -20,7 +20,7 @@ class FMControllerFormMakerEditCSS {
   ////////////////////////////////////////////////////////////////////////////////////////
   public function execute() {
     $task = ((isset($_POST['task'])) ? esc_html($_POST['task']) : '');
-    $id = ((isset($_POST['current_id'])) ? esc_html($_POST['current_id']) : 0);
+    $id = ((isset($_POST['current_id'])) ? (int)esc_html($_POST['current_id']) : 0);
     if (method_exists($this, $task)) {
       $this->$task($id);
     }

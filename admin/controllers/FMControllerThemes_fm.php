@@ -20,7 +20,7 @@ class FMControllerThemes_fm {
   ////////////////////////////////////////////////////////////////////////////////////////
   public function execute() {
     $task = WDW_FM_Library::get('task');
-    $id = WDW_FM_Library::get('current_id', 0);
+    $id = (int)WDW_FM_Library::get('current_id', 0);
     $message = WDW_FM_Library::get('message');
     echo WDW_FM_Library::message_id($message);
     if (method_exists($this, $task)) {
@@ -57,7 +57,7 @@ class FMControllerThemes_fm {
     require_once WD_FM_DIR . "/admin/views/FMViewThemes_fm.php";
     $view = new FMViewThemes_fm($model);
     // $id = ((isset($_POST['current_id']) && esc_html($_POST['current_id']) != '') ? esc_html($_POST['current_id']) : 0);
-    $id = WDW_FM_Library::get('current_id', 0);
+    $id = (int)WDW_FM_Library::get('current_id', 0);
     $view->edit($id, FALSE);
   }
 
@@ -75,7 +75,7 @@ class FMControllerThemes_fm {
       
     // }
     $id = (int) $wpdb->get_var('SELECT MAX(`id`) FROM ' . $wpdb->prefix . 'formmaker_themes');
-    $current_id = WDW_FM_Library::get('current_id', $id);
+    $current_id = (int)WDW_FM_Library::get('current_id', $id);
     $page = WDW_FM_Library::get('page');
     WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'edit', 'current_id' => $current_id, 'message' => $message), admin_url('admin.php')));
     // $this->edit();

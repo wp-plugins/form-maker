@@ -3,7 +3,7 @@
  * Plugin Name: Form Maker
  * Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
  * Description: This plugin is a modern and advanced tool for easy and fast creating of a WordPress Form. The backend interface is intuitive and user friendly which allows users far from scripting and programming to create WordPress Forms.
- * Version: 1.7.56
+ * Version: 1.7.57
  * Author: WebDorado
  * Author URI: http://web-dorado.com/
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -176,12 +176,25 @@ function fm_output_buffer() {
 add_shortcode('Form', 'fm_shortcode');
 
 function fm_shortcode($attrs) {
-  $new_shortcode = '[Form';
-  foreach ($attrs as $key=>$value) {
-    $new_shortcode .= ' ' . $key . '="' . $value . '"';
-  }
-  $new_shortcode .= ']';
-  return $new_shortcode;
+	/*  $new_shortcode = '[Form';
+	foreach ($attrs as $key=>$value) {
+		$new_shortcode .= ' ' . $key . '="' . $value . '"';
+	}
+	$new_shortcode .= ']'; 
+	return $new_shortcode;
+	*/
+	ob_start();
+	FM_front_end_main($attrs);
+	return str_replace(array("\r\n", "\n", "\r"), '', ob_get_clean());
+}
+
+function FM_front_end_main($params) {
+	if(!isset($params['type'])){
+		$form_id =  isset($params['id']) ? (int)$params['id'] : '';
+		if($form_id)
+			wd_form_maker($form_id);
+	}
+	return;
 }
 
 add_shortcode('email_verification', 'fm_email_verification_shortcode');
@@ -217,7 +230,7 @@ function Form_maker_fornt_end_main($content) {
   }
   return $content;
 }
-add_filter('the_content', 'Form_maker_fornt_end_main', 5000);
+//add_filter('the_content', 'Form_maker_fornt_end_main', 5000);
 
 // Add the Form Maker button to editor.
 add_action('wp_ajax_formmakerwindow', 'form_maker_ajax');
@@ -233,7 +246,7 @@ if (class_exists('WP_Widget')) {
 // Activate plugin.
 function form_maker_activate() {
   $version = get_option("wd_form_maker_version");
-  $new_version = '1.7.56';
+  $new_version = '1.7.57';
   if (!$version) {
     add_option("wd_form_maker_version", $new_version, '', 'no');
     global $wpdb;

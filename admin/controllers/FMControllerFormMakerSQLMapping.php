@@ -59,7 +59,7 @@ class FMControllerFormMakerSQLMapping {
 
     require_once WD_FM_DIR . "/admin/views/FMViewFormMakerSQLMapping.php";
     $view = new FMViewFormMakerSQLMapping($model);
-    $view->db_tables($form_id);
+    $view->db_tables((int)$form_id);
   }
   
   public function db_table_struct($form_id) {
@@ -68,7 +68,7 @@ class FMControllerFormMakerSQLMapping {
 
     require_once WD_FM_DIR . "/admin/views/FMViewFormMakerSQLMapping.php";
     $view = new FMViewFormMakerSQLMapping($model);
-    $view->db_table_struct($form_id);
+    $view->db_table_struct((int)$form_id);
   }
 
   public function save_query() {

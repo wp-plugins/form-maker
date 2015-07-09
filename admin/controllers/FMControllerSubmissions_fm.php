@@ -20,8 +20,8 @@ class FMControllerSubmissions_fm {
   ////////////////////////////////////////////////////////////////////////////////////////
   public function execute() {
     $task = ((isset($_POST['task'])) ? esc_html($_POST['task']) : ''); 
-    $id = ((isset($_POST['current_id'])) ? esc_html($_POST['current_id']) : 0);
-    $form_id = ((isset($_POST['form_id']) && esc_html($_POST['form_id']) != '') ? esc_html($_POST['form_id']) : 0);	
+    $id = ((isset($_POST['current_id'])) ? (int)esc_html($_POST['current_id']) : 0);
+    $form_id = ((isset($_POST['form_id']) && esc_html($_POST['form_id']) != '') ? (int)esc_html($_POST['form_id']) : 0);	
     if (method_exists($this, $task)) {
 		if($task != 'show_stats')
 			check_admin_referer('nonce_fm', 'nonce_fm');
@@ -35,7 +35,7 @@ class FMControllerSubmissions_fm {
   }
   
   public function display($form_id) {
-    $form_id = ((isset($_POST['form_id']) && esc_html($_POST['form_id']) != '') ? esc_html($_POST['form_id']) : 0);
+    $form_id = ((isset($_POST['form_id']) && esc_html($_POST['form_id']) != '') ? (int)esc_html($_POST['form_id']) : 0);
     require_once WD_FM_DIR . "/admin/models/FMModelSubmissions_fm.php";
     $model = new FMModelSubmissions_fm();
 
@@ -45,7 +45,7 @@ class FMControllerSubmissions_fm {
   }
 
   public function show_stats() {
-    $form_id = ((isset($_POST['form_id']) && esc_html($_POST['form_id']) != '') ? esc_html($_POST['form_id']) : 0);
+    $form_id = ((isset($_POST['form_id']) && esc_html($_POST['form_id']) != '') ? (int)esc_html($_POST['form_id']) : 0);
     require_once WD_FM_DIR . "/admin/models/FMModelSubmissions_fm.php";
     $model = new FMModelSubmissions_fm();
 
@@ -63,7 +63,7 @@ class FMControllerSubmissions_fm {
     $view = new FMViewSubmissions_fm($model);
     $id = ((isset($_POST['current_id']) && esc_html($_POST['current_id']) != '') ? (int) $_POST['current_id'] : 0);
 			
-    $form_id = $wpdb->get_var("SELECT form_id FROM " . $wpdb->prefix . "formmaker_submits WHERE group_id='" . $id . "'");	
+    $form_id = (int)$wpdb->get_var("SELECT form_id FROM " . $wpdb->prefix . "formmaker_submits WHERE group_id='" . $id . "'");	
     $form = $wpdb->get_row("SELECT * FROM " . $wpdb->prefix . "formmaker WHERE id='" . $form_id . "'");
 
     if (isset($form->form)) {
@@ -82,7 +82,7 @@ class FMControllerSubmissions_fm {
   }
   
   public function save() {
-    $form_id = ((isset($_POST['form_id']) && esc_html($_POST['form_id']) != '') ? esc_html($_POST['form_id']) : 0);
+    $form_id = ((isset($_POST['form_id']) && esc_html($_POST['form_id']) != '') ? (int)esc_html($_POST['form_id']) : 0);
     $this->save_db();
     $this->display($form_id);
   }
@@ -98,7 +98,7 @@ class FMControllerSubmissions_fm {
 	$group_id = $id;
     $date = esc_html($_POST['date']);
     $ip = esc_html($_POST['ip']);
-    $form_id = $wpdb->get_var("SELECT form_id FROM " . $wpdb->prefix . "formmaker_submits WHERE group_id='" . $id . "'");
+    $form_id = (int)$wpdb->get_var("SELECT form_id FROM " . $wpdb->prefix . "formmaker_submits WHERE group_id='" . $id . "'");
     $form = $wpdb->get_row("SELECT * FROM " . $wpdb->prefix . "formmaker WHERE id='" . $form_id . "'");
     $label_id = array();
     $label_order_original = array();
@@ -668,7 +668,7 @@ class FMControllerSubmissions_fm {
   
   public function delete($id) {
     global $wpdb;
-    $form_id = ((isset($_POST['form_id']) && esc_html($_POST['form_id']) != '') ? esc_html($_POST['form_id']) : 0);	    
+    $form_id = ((isset($_POST['form_id']) && esc_html($_POST['form_id']) != '') ? (int)esc_html($_POST['form_id']) : 0);	    
     $query = $wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'formmaker_submits WHERE group_id="%d"', $id);
     // $elements_col = $wpdb->get_col($wpdb->prepare('SELECT element_value FROM ' . $wpdb->prefix . 'formmaker_submits WHERE group_id="%d"', $id));
     if ($wpdb->query($query)) {
@@ -692,9 +692,10 @@ class FMControllerSubmissions_fm {
   
   public function delete_all() {
     global $wpdb;
-    $form_id = ((isset($_POST['form_id']) && esc_html($_POST['form_id']) != '') ? esc_html($_POST['form_id']) : 0);	
+    $form_id = ((isset($_POST['form_id']) && esc_html($_POST['form_id']) != '') ? (int)esc_html($_POST['form_id']) : 0);	
     $cid = ((isset($_POST['post']) && $_POST['post'] != '') ? $_POST['post'] : NULL); 
     if (count($cid)) {
+		array_walk($cid, create_function('&$value', '$value = (int)$value;')); 
       $cids = implode(',', $cid);
       $query = 'DELETE FROM ' . $wpdb->prefix . 'formmaker_submits WHERE group_id IN ( ' . $cids . ' )';
       // $elements_col = $wpdb->get_col('SELECT element_value FROM ' . $wpdb->prefix . 'formmaker_submits WHERE group_id IN ( ' . $cids . ' )');
@@ -724,9 +725,10 @@ class FMControllerSubmissions_fm {
   public function block_ip() {
     global $wpdb;
     $flag = FALSE;
-    $form_id = ((isset($_POST['form_id']) && esc_html($_POST['form_id']) != '') ? esc_html($_POST['form_id']) : 0);	
+    $form_id = ((isset($_POST['form_id']) && esc_html($_POST['form_id']) != '') ? (int)esc_html($_POST['form_id']) : 0);	
     $cid = ((isset($_POST['post']) && $_POST['post'] != '') ? $_POST['post'] : NULL); 
     if (count($cid)) {
+	  array_walk($cid, create_function('&$value', '$value = (int)$value;')); 
       $cids = implode(',', $cid);
       $query = 'SELECT * FROM ' . $wpdb->prefix . 'formmaker_submits WHERE group_id IN ( '. $cids .' )';
       $rows = $wpdb->get_results($query);
@@ -754,9 +756,10 @@ class FMControllerSubmissions_fm {
   public function unblock_ip() {
     global $wpdb;
     $flag = FALSE;
-    $form_id = ((isset($_POST['form_id']) && esc_html($_POST['form_id']) != '') ? esc_html($_POST['form_id']) : 0);	
+    $form_id = ((isset($_POST['form_id']) && esc_html($_POST['form_id']) != '') ? (int)esc_html($_POST['form_id']) : 0);	
     $cid = ((isset($_POST['post']) && $_POST['post'] != '') ? $_POST['post'] : NULL); 
     if (count($cid)) {
+	 array_walk($cid, create_function('&$value', '$value = (int)$value;')); 
       $cids = implode(',', $cid);
       $query = 'SELECT * FROM ' . $wpdb->prefix . 'formmaker_submits WHERE group_id IN ( '. $cids .' )';
       $rows = $wpdb->get_results($query);
