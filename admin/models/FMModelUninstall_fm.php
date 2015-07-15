@@ -38,6 +38,7 @@ class FMModelUninstall_fm {
 	  delete_option('contact_form_forms');
       delete_option("wd_form_maker_version");
       delete_option('formmaker_cureent_version');
+      delete_option('fm_emailverification');
       delete_option('form_maker_pro_active');
     }
   }

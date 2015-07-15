@@ -3,7 +3,7 @@
  * Plugin Name: Form Maker
  * Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
  * Description: This plugin is a modern and advanced tool for easy and fast creating of a WordPress Form. The backend interface is intuitive and user friendly which allows users far from scripting and programming to create WordPress Forms.
- * Version: 1.7.57
+ * Version: 1.7.58
  * Author: WebDorado
  * Author URI: http://web-dorado.com/
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -243,13 +243,28 @@ if (class_exists('WP_Widget')) {
   add_action('widgets_init', create_function('', 'return register_widget("FMControllerWidget");'));
 }
 
+// Register fmemailverification post type
+add_action('init', 'register_fmemailverification_cpt');
+function register_fmemailverification_cpt(){
+	$args = array(
+	  'public' => true,
+	  'label'  => 'FM Email Verification'
+	);
+	
+	register_post_type( 'fmemailverification', $args );
+	if(!get_option('fm_emailverification')) {	
+		flush_rewrite_rules();
+		add_option('fm_emailverification', true);
+	}
+}
+
 // Activate plugin.
 function form_maker_activate() {
   $version = get_option("wd_form_maker_version");
-  $new_version = '1.7.57';
+  $new_version = '1.7.58';
+  global $wpdb;
   if (!$version) {
     add_option("wd_form_maker_version", $new_version, '', 'no');
-    global $wpdb;
     if ($wpdb->get_var("SHOW TABLES LIKE '" . $wpdb->prefix . "formmaker'") == $wpdb->prefix . "formmaker") {
       require_once WD_FM_DIR . "/form_maker_update.php";
       form_maker_update_until_mvc();
@@ -264,8 +279,10 @@ function form_maker_activate() {
 		  'post_content'  => '[email_verification]',
 		  'post_status'   => 'publish',
 		  'post_author'   => 1,
+		  'post_type'   => 'fmemailverification',
 		);
 	  $mail_verification_post_id = wp_insert_post( $email_verification_post );
+		
 	  $wpdb->update($wpdb->prefix . "formmaker", array(
         'mail_verification_post_id' => $mail_verification_post_id,
       ), array('id' => 1), array(
@@ -275,6 +292,16 @@ function form_maker_activate() {
   }
   elseif (version_compare($version, $new_version, '<')) {
     require_once WD_FM_DIR . "/form_maker_update.php";
+	$mail_verification_post_ids = $wpdb->get_results($wpdb->prepare('SELECT mail_verification_post_id FROM ' . $wpdb->prefix . 'formmaker WHERE mail_verification_post_id!=0'));
+	if($mail_verification_post_ids)
+		foreach($mail_verification_post_ids as $mail_verification_post_id) {
+			 $update_email_ver_post_type = array(
+			  'ID'           => (int)$mail_verification_post_id->mail_verification_post_id,
+			  'post_type'   => 'fmemailverification',
+			);
+
+			wp_update_post( $update_email_ver_post_type ); 
+		}
     form_maker_update($version);
     update_option("wd_form_maker_version", $new_version);
   }

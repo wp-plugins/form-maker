@@ -436,17 +436,18 @@ function before_reset() {
       $article_id = 0;
     }
 	
-	$mail_verification_post_id = (int)$wpdb->get_var($wpdb->prepare('SELECT mail_verification_post_id FROM ' . $wpdb->prefix . 'formmaker WHERE id="%d"', $id));
+	$mail_verification_post_id = (int)$wpdb->get_var('SELECT mail_verification_post_id FROM ' . $wpdb->prefix . 'formmaker WHERE mail_verification_post_id!=0');
 	if($mail_verify) {
 		$email_verification_post = array(
 		  'post_title'    => 'Email Verification',
 		  'post_content'  => '[email_verification]',
 		  'post_status'   => 'publish',
 		  'post_author'   => 1,
+		  'post_type'   => 'fmemailverification',
 		);
 
 		if(!$mail_verification_post_id || get_post( $mail_verification_post_id )===NULL)
-			$mail_verification_post_id = wp_insert_post( $email_verification_post, $wp_error );
+			$mail_verification_post_id = wp_insert_post( $email_verification_post );
 	}
 	
     $save = $wpdb->update($wpdb->prefix . 'formmaker', array(

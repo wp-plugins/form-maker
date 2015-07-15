@@ -28,7 +28,7 @@ class FMViewFormmakerwdmathcaptcha {
 			$r2 = (isset($_GET["r2"]) ? (int) $_GET["r2"] : 0);
 			$rrr = (isset($_GET["rrr"]) ? (int) $_GET["rrr"] : 0);
 			$randNum = 0 + $r2 + $rrr;
-			$operations_count = (isset($_GET["operations_count"]) ? (int) $_GET["operations_count"] : 2);
+			$operations_count = ((isset($_GET["operations_count"]) && (int)$_GET["operations_count"]) ? ((int)$_GET["operations_count"] > 5 ? 5 : (int)$_GET["operations_count"]) : 1);
 			$operations = (isset($_GET["operations"]) ? str_replace('@', '+', $_GET["operations"]) : '+,-');
 			$operations = preg_replace('/\s+/', '', $operations);
 			$cap_width = 2*($operations_count+1) * 20 + 10;
@@ -71,7 +71,13 @@ class FMViewFormmakerwdmathcaptcha {
 	private function code_generic($_length, $_operations) {
 		$cap = '';
         $dig = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+		$valid_oprations = array('+', '-', '*', '/');
 		$operations_array = array_filter(explode(',', $_operations));
+		foreach($operations_array as $key => $operation) {
+			if(!in_array($operation, $valid_oprations))
+				unset($operations_array[$key]);
+		}
+		
 		for($k=0; $k <= $_length; $k++) {
 			if(substr($cap, -1) == '/' ) {
 				$operations_array = array_diff($operations_array, array('/'));

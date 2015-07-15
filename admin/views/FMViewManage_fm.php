@@ -27,8 +27,9 @@ class FMViewManage_fm {
     $page_nav = $this->model->page_nav();
     $search_value = ((isset($_POST['search_value'])) ? esc_html($_POST['search_value']) : '');
     $search_select_value = ((isset($_POST['search_select_value'])) ? (int) $_POST['search_select_value'] : 0);
-    $asc_or_desc = ((isset($_POST['asc_or_desc'])) ? esc_html($_POST['asc_or_desc']) : 'asc');
-    $order_by = (isset($_POST['order_by']) ? esc_html($_POST['order_by']) : 'id');
+    $asc_or_desc = ((isset($_POST['asc_or_desc']) && $_POST['asc_or_desc'] == 'desc') ? 'desc' : 'asc');
+	$order_by_array = array('id', 'title', 'mail');
+    $order_by = isset($_POST['order_by']) && in_array(esc_html(stripslashes($_POST['order_by'])), $order_by_array) ? esc_html(stripslashes($_POST['order_by'])) :  'id';
     $order_class = 'manage-column column-title sorted ' . $asc_or_desc;
     $ids_string = '';
 
@@ -64,21 +65,21 @@ class FMViewManage_fm {
           <th class="table_small_col <?php if ($order_by == 'id') { echo $order_class; } ?>">
             <a onclick="spider_set_input_value('task', '');
               spider_set_input_value('order_by', 'id');
-              spider_set_input_value('asc_or_desc', '<?php echo ((isset($_POST['asc_or_desc']) && isset($_POST['order_by']) && (esc_html($_POST['order_by']) == 'id') && esc_html($_POST['asc_or_desc']) == 'asc') ? 'desc' : 'asc'); ?>');
+              spider_set_input_value('asc_or_desc', '<?php echo (($order_by == 'id' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
               spider_form_submit(event, 'manage_form')" href="">
               <span>ID</span><span class="sorting-indicator"></span></a>
           </th>
           <th class="<?php if ($order_by == 'title') { echo $order_class; } ?>">
             <a onclick="spider_set_input_value('task', '');
               spider_set_input_value('order_by', 'title');
-              spider_set_input_value('asc_or_desc', '<?php echo ((isset($_POST['asc_or_desc']) && isset($_POST['order_by']) && (esc_html($_POST['order_by']) == 'title') && esc_html($_POST['asc_or_desc']) == 'asc') ? 'desc' : 'asc'); ?>');
+              spider_set_input_value('asc_or_desc', '<?php echo (($order_by == 'title' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
               spider_form_submit(event, 'manage_form')" href="">
               <span>Title</span><span class="sorting-indicator"></span></a>
           </th>
           <th class="<?php if ($order_by == 'mail') { echo $order_class; } ?>">
             <a onclick="spider_set_input_value('task', '');
               spider_set_input_value('order_by', 'mail');
-              spider_set_input_value('asc_or_desc', '<?php echo ((isset($_POST['asc_or_desc']) && isset($_POST['order_by']) && (esc_html($_POST['order_by']) == 'mail') && esc_html($_POST['asc_or_desc']) == 'asc') ? 'desc' : 'asc'); ?>');
+              spider_set_input_value('asc_or_desc', '<?php echo (($order_by == 'mail' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
               spider_form_submit(event, 'manage_form')" href="">
               <span>Email to send submissions to</span><span class="sorting-indicator"></span></a>
           </th>

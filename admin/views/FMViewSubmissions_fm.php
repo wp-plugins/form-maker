@@ -35,8 +35,8 @@ class  FMViewSubmissions_fm {
     $rows = ((isset($labels_parameters[5])) ? $labels_parameters[5] : NULL);
     $group_ids = ((isset($labels_parameters[6])) ? $labels_parameters[6] : NULL);
     $where_choices = $labels_parameters[7];	
-    $order_by = (isset($_POST['order_by']) ? esc_html(stripslashes($_POST['order_by'])) : 'group_id');
-    $asc_or_desc = ((isset($_POST['asc_or_desc'])) ? esc_html(stripslashes($_POST['asc_or_desc'])) : 'desc');
+     $order_by = (isset($_POST['order_by']) ? esc_html(stripslashes($_POST['order_by'])) : 'group_id');
+    $asc_or_desc = ((isset($_POST['asc_or_desc']) && $_POST['asc_or_desc'] == 'desc') ? 'desc' : 'asc');
     $style_id = $this->model->hide_or_not($lists['hide_label_list'], '@submitid@'); 
     $style_date = $this->model->hide_or_not($lists['hide_label_list'], '@submitdate@');
     $style_ip = $this->model->hide_or_not($lists['hide_label_list'], '@submitterip@');
@@ -293,7 +293,7 @@ class  FMViewSubmissions_fm {
               <th scope="col" id="cb" class="manage-column column-cb check-column table_small_col sub-align form_check"><input id="check_all" type="checkbox"></th>
               <th scope="col" id="submitid_fc" class="table_small_col sub-align submitid_fc <?php if ($order_by == "group_id") echo $oder_class; else echo $oder_class_default; ?>" <?php echo $style_id;?>>
                 <a href="" class="sub_id" onclick="spider_set_input_value('order_by', 'group_id');
-                                                   spider_set_input_value('asc_or_desc', '<?php echo ((isset($_POST['asc_or_desc']) && isset($_POST['order_by']) && (esc_html(stripslashes($_POST['order_by'])) == 'group_id') && esc_html(stripslashes($_POST['asc_or_desc'])) == 'asc') ? 'desc' : 'asc'); ?>');
+                                                   spider_set_input_value('asc_or_desc', '<?php echo (($order_by == 'group_id' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
                                                    spider_form_submit(event, 'admin_form')">
                   <span>ID</span>
                   <span class="sorting-indicator" style="margin-top: 8px;"></span>
@@ -303,7 +303,7 @@ class  FMViewSubmissions_fm {
               <th class="table_small_col sub-align">Delete</th>
               <th scope="col" id="submitdate_fc" class="table_large_col submitdate_fc <?php if ($order_by == "date") echo $oder_class; else echo $oder_class_default; ?>" <?php echo $style_date;?>>
                 <a href="" onclick="spider_set_input_value('order_by', 'date');
-                                    spider_set_input_value('asc_or_desc', '<?php echo ((isset($_POST['asc_or_desc']) && isset($_POST['order_by']) && (esc_html(stripslashes($_POST['order_by'])) == 'date') && esc_html(stripslashes($_POST['asc_or_desc'])) == 'asc') ? 'desc' : 'asc'); ?>');
+                                    spider_set_input_value('asc_or_desc', '<?php echo (($order_by == 'date' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
                                     spider_form_submit(event, 'admin_form')">
                   <span>Submit date</span>
                   <span class="sorting-indicator"></span>
@@ -311,7 +311,7 @@ class  FMViewSubmissions_fm {
               </th>
               <th scope="col" id="submitterip_fc" class="table_medium_col_uncenter submitterip_fc <?php if ($order_by == "ip")echo $oder_class; else echo $oder_class_default;  ?>" <?php echo $style_ip;?>>
                 <a href="" onclick="spider_set_input_value('order_by', 'ip');
-                                    spider_set_input_value('asc_or_desc', '<?php echo ((isset($_POST['asc_or_desc']) && isset($_POST['order_by']) && (esc_html(stripslashes($_POST['order_by'])) == 'ip') && esc_html(stripslashes($_POST['asc_or_desc'])) == 'asc') ? 'desc' : 'asc'); ?>');
+                                    spider_set_input_value('asc_or_desc', '<?php echo (($order_by == 'ip' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
                                     spider_form_submit(event, 'admin_form')">
                   <span>Submitter's IP</span>
                   <span class="sorting-indicator"></span>
@@ -320,7 +320,7 @@ class  FMViewSubmissions_fm {
 			  
 			   <th scope="col" id="submitterusername_fc" class="table_medium_col_uncenter submitterusername_fc <?php if ($order_by == "display_name")echo $oder_class; else echo $oder_class_default;  ?>" <?php echo $style_username;?>>
                 <a href="" onclick="spider_set_input_value('order_by', 'display_name');
-                                    spider_set_input_value('asc_or_desc', '<?php echo ((isset($_POST['asc_or_desc']) && isset($_POST['order_by']) && (esc_html(stripslashes($_POST['order_by'])) == 'display_name') && esc_html(stripslashes($_POST['asc_or_desc'])) == 'asc') ? 'desc' : 'asc'); ?>');
+                                    spider_set_input_value('asc_or_desc', '<?php echo (($order_by == 'display_name' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
                                     spider_form_submit(event, 'admin_form')">
                   <span>Submitter's Username</span>
                   <span class="sorting-indicator"></span>
@@ -329,7 +329,7 @@ class  FMViewSubmissions_fm {
 			  
 			  <th scope="col" id="submitteremail_fc" class="table_medium_col_uncenter submitteremail_fc <?php if ($order_by == "user_email")echo $oder_class; else echo $oder_class_default;  ?>" <?php echo $style_useremail ;?>>
                 <a href="" onclick="spider_set_input_value('order_by', 'user_email');
-                                    spider_set_input_value('asc_or_desc', '<?php echo ((isset($_POST['asc_or_desc']) && isset($_POST['order_by']) && (esc_html(stripslashes($_POST['order_by'])) == 'user_email') && esc_html(stripslashes($_POST['asc_or_desc'])) == 'asc') ? 'desc' : 'asc'); ?>');
+                                    spider_set_input_value('asc_or_desc', '<?php echo (($order_by == 'user_email' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
                                     spider_form_submit(event, 'admin_form')">
                   <span>Submitter's Email Address</span>
                   <span class="sorting-indicator"></span>
@@ -347,7 +347,7 @@ class  FMViewSubmissions_fm {
                   ?>
               <th <?php echo $styleStr; ?> id="<?php echo $sorted_labels_id[$i] . '_fc'; ?>" class="table_large_col <?php echo $sorted_labels_id[$i] . '_fc'; if ($order_by == $sorted_labels_id[$i] . "_field") echo $oder_class . '"';else echo $oder_class_default . '"'; ?>">
                 <a href="" onclick="spider_set_input_value('order_by', '<?php echo $sorted_labels_id[$i] . '_field'; ?>');
-                                    spider_set_input_value('asc_or_desc', '<?php echo ((isset($_POST['asc_or_desc']) && isset($_POST['order_by']) && (esc_html(stripslashes($_POST['order_by'])) == $sorted_labels_id[$i] . '_field') && esc_html(stripslashes($_POST['asc_or_desc'])) == 'asc') ? 'desc' : 'asc'); ?>');
+                                    spider_set_input_value('asc_or_desc', '<?php echo (($order_by == $sorted_labels_id[$i] . '_field' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
                                     spider_form_submit(event, 'admin_form')">	
                   <span><?php echo $field_title; ?></span>
                   <span class="sorting-indicator"></span>
@@ -360,7 +360,7 @@ class  FMViewSubmissions_fm {
                   ?>
               <th <?php echo $styleStr; ?> id="<?php  echo $sorted_labels_id[$i] . '_fc';?>" class="<?php echo ($sorted_label_types[$i] == 'type_mark_map' || $sorted_label_types[$i] == 'type_matrix') ? 'table_large_col ' : ''; echo $sorted_labels_id[$i] . '_fc'; if ($order_by == $sorted_labels_id[$i] . "_field") echo $oder_class . '"';else echo $oder_class_default . '"'; ?>">
                 <a href="" onclick="spider_set_input_value('order_by', '<?php echo $sorted_labels_id[$i] . '_field'; ?>');
-                                    spider_set_input_value('asc_or_desc', '<?php echo ((isset($_POST['asc_or_desc']) && isset($_POST['order_by']) && (esc_html(stripslashes($_POST['order_by'])) == $sorted_labels_id[$i] . '_field') && esc_html(stripslashes($_POST['asc_or_desc'])) == 'asc') ? 'desc' : 'asc'); ?>');
+                                    spider_set_input_value('asc_or_desc', '<?php echo (($order_by == $sorted_labels_id[$i] . '_field' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
                                     spider_form_submit(event, 'admin_form')">
                   <span><?php echo $field_title; ?></span>
                   <span class="sorting-indicator"></span>

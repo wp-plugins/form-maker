@@ -1820,7 +1820,24 @@ function check_isnum_3_10(e)
         return false;
 	return true;
 }
+function check_isnum_less_then_5(e)
+{
+	var chCode1 = e.which || e.keyCode;
+	if (chCode1 > 31 && (chCode1 < 49 || chCode1 > 57))
+		return false;
+	else if((document.getElementById('el_oper_count').value+(chCode1-48))>5)
+        return false;
+	return true;
+}
 
+function check_is_operation_valid(e)
+{
+	var chCode1 = e.which || e.keyCode;
+	if (chCode1 == 46 || chCode1 < 42 || chCode1 > 47)
+		return false;
+	
+	return true;
+}
 function set_sel_am_pm(select_)
 {
 	if(select_.options[0].selected) 
@@ -23674,6 +23691,7 @@ function type_arithmetic_captcha(i,w_field_label, w_field_label_size, w_field_la
         el_operations.setAttribute("id", "el_operations");
 		el_operations.setAttribute("type", "text");
 		el_operations.setAttribute("value", w_operations);
+		el_operations.setAttribute("onKeyPress", "return check_is_operation_valid(event)");
         el_operations.setAttribute("onChange", "change_arithmetic_captcha(this.value, 'operations')");
 	
 	var el_size_label = document.createElement('label');
@@ -23685,9 +23703,11 @@ function type_arithmetic_captcha(i,w_field_label, w_field_label_size, w_field_la
         el_oper_count.setAttribute("type", "text");
         el_oper_count.setAttribute("value", w_count);
 		el_oper_count.setAttribute("name", "el_oper_count");
- 		el_oper_count.setAttribute("onKeyPress", "return check_isnum(event)");
+ 		el_oper_count.setAttribute("onKeyPress", "return check_isnum_less_then_5(event)");
         el_oper_count.setAttribute("onKeyUp", "change_arithmetic_captcha(this.value, 'oper_count')");
 
+	Digits = document.createTextNode("Digits (1 - 5)");
+	
 	var el_size_captcha_label = document.createElement('label');
 	    el_size_captcha_label.setAttribute("for", "el_captcha_input_size");
 		el_size_captcha_label.innerHTML = "Captcha input size";
@@ -23816,6 +23836,7 @@ function type_arithmetic_captcha(i,w_field_label, w_field_label_size, w_field_la
 	
 	edit_main_td3.appendChild(el_size_label);
 	edit_main_td3_1.appendChild(el_oper_count);
+	edit_main_td3_1.appendChild(Digits);
 	
 	edit_main_td8.appendChild(el_size_captcha_label);
 	edit_main_td8_1.appendChild(el_size_captcha_input);
@@ -23960,7 +23981,6 @@ function type_arithmetic_captcha(i,w_field_label, w_field_label_size, w_field_la
 	change_class(w_class, i);
 	refresh_attr(i, 'type_arithmetic_captcha');
 }
-
 
 function type_map(i, w_center_x, w_center_y, w_long, w_lat, w_zoom, w_width, w_height, w_class, w_info, w_attr_name, w_attr_value){
     document.getElementById("element_type").value="type_map";

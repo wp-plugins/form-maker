@@ -25,6 +25,7 @@ class FMViewForm_maker {
   public function display($id) {
     $current_url=htmlentities($_SERVER['REQUEST_URI']);
     $form_maker_front_end = "";
+	$pattern = '/\/\/(.+)(\r\n|\r|\n)/';
     $result = $this->model->showform($id);
     if (!$result) {
       return;
@@ -91,7 +92,7 @@ class FMViewForm_maker {
     }
     $article = $row->article_id;
       
-      $form_maker_front_end .= '<script type="text/javascript">' . $row->javascript . '</script>';
+      $form_maker_front_end .= '<script type="text/javascript">' . preg_replace($pattern, ' ', $row->javascript) . '</script>';
       $new_form_theme = explode('{', $form_theme);
       $count_after_explod_theme = count($new_form_theme);
       for ($i = 0; $i < $count_after_explod_theme; $i++) {
@@ -109,6 +110,7 @@ class FMViewForm_maker {
         $body_or_classes_implode[$i] = implode('}', $body_or_classes[$i]);
       }
       $form_theme = implode('{', $body_or_classes_implode);
+	  $form_theme = preg_replace($pattern, ' ', $form_theme);
       $form_maker_front_end .= '<style>' . str_replace('[SITE_ROOT]', WD_FM_URL, $form_theme) . '</style>';
       wp_print_scripts('main' . (($old == false || ($old == true && $row->form=='')) ? '_div' : '') . '_front_end', WD_FM_URL . '/js/main' . (($old == false || ($old == true && $row->form=='')) ? '_div' : '') . '_front_end.js?ver='. get_option("wd_form_maker_version"));
 
