@@ -280,8 +280,8 @@ The Form Maker (Pro version) has simple PayPal integration. This allows the user
 == Changelog ==
 
 = 1.7.58 =
-Fixed: Minor bugs
-Added: Email verification custom post
+Fixed: Minor bugs   
+Added: Email verification custom post   
 
 = 1.7.57 =
 Fixed: Security issue
