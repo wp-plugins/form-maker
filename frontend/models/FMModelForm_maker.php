@@ -266,7 +266,7 @@ class FMModelForm_maker {
     if ($old == FALSE || ($old == TRUE && $form->form == '')) {
 			foreach ($label_type as $key => $type) {
 				$value = '';
-				if ($type == "type_submit_reset" or $type == "type_map" or $type == "type_editor" or  $type == "type_captcha" or  $type == "type_recaptcha" or  $type == "type_button" or $type == "type_paypal_total" or $type == "type_send_copy") {
+				if ($type == "type_submit_reset" or $type == "type_map" or $type == "type_editor" or  $type == "type_captcha" or $type == "type_arithmetic_captcha" or $type == "type_recaptcha" or  $type == "type_button" or $type == "type_paypal_total" or $type == "type_send_copy") {
 					continue;
         }
 				$i = $label_id[$key];
@@ -797,7 +797,7 @@ class FMModelForm_maker {
     else {
       foreach ($label_type as $key => $type) {
         $value = '';
-        if ($type == "type_submit_reset" or $type == "type_map" or $type == "type_editor" or  $type == "type_captcha" or  $type == "type_recaptcha" or  $type == "type_button" or $type=="type_paypal_total")
+        if ($type == "type_submit_reset" or $type == "type_map" or $type == "type_editor" or  $type == "type_captcha" or  $type == "type_arithmetic_captcha" or $type == "type_recaptcha" or  $type == "type_button" or $type=="type_paypal_total")
           continue;
         $i = $label_id[$key];
         if ($type != "type_address") {
@@ -1617,7 +1617,7 @@ class FMModelForm_maker {
 				$i = $label_order_id;
 				$type = $label_type[$i];
 
-				if($type != "type_map" and  $type != "type_submit_reset" and  $type != "type_editor" and  $type != "type_captcha" and  $type != "type_recaptcha" and  $type != "type_button") {	
+				if($type != "type_map" and  $type != "type_submit_reset" and  $type != "type_editor" and  $type != "type_captcha" and $type != "type_arithmetic_captcha" and $type != "type_recaptcha" and  $type != "type_button") {	
 					$element_label=$label_order_original[$i];
 					if(!in_array($i,$disabled_fields)) {
 						switch ($type) {
@@ -2380,7 +2380,7 @@ class FMModelForm_maker {
 				$i = $label_order_id;
 				$type = $_POST[$i . "_type" . $id];
 				if (isset($_POST[$i . "_type" . $id]))
-					if ($type != "type_map" and  $type != "type_submit_reset" and  $type != "type_editor" and  $type != "type_captcha" and  $type != "type_recaptcha" and  $type != "type_button") {
+					if ($type != "type_map" and  $type != "type_submit_reset" and  $type != "type_editor" and  $type != "type_captcha" and $type != "type_arithmetic_captcha" and $type != "type_recaptcha" and  $type != "type_button") {
 						$element_label = $label_order_original[$i];
 						switch ($type) {
 							case 'type_text':
@@ -2768,7 +2768,7 @@ class FMModelForm_maker {
 						foreach ($label_order_original as $key => $label_each) {
 							if (strpos($row->script_mail_user, "%" . $label_each . "%") !== FALSE) {
 								$type = $label_type[$key];
-								if ($type != "type_submit_reset" or $type != "type_map" or $type != "type_editor" or  $type != "type_captcha" or  $type != "type_recaptcha" or  $type != "type_button") {
+								if ($type != "type_submit_reset" or $type != "type_map" or $type != "type_editor" or  $type != "type_captcha" or $type != "type_arithmetic_captcha" or $type != "type_recaptcha" or  $type != "type_button") {
 									$new_value = "";
 								switch ($type) {
 									case 'type_text':
@@ -3211,7 +3211,7 @@ class FMModelForm_maker {
 				  foreach($label_order_original as $key => $label_each) {	
 					if (strpos($row->script_mail, "%" . $label_each . "%") !== FALSE) {
 					  $type = $label_type[$key];
-					  if ($type != "type_submit_reset" or $type!="type_map" or $type!="type_editor" or  $type!="type_captcha" or  $type!="type_recaptcha" or  $type!="type_button") {
+					  if ($type != "type_submit_reset" or $type!="type_map" or $type!="type_editor" or  $type!="type_captcha" or $type != "type_arithmetic_captcha" or $type!="type_recaptcha" or  $type!="type_button") {
 						$new_value ="";
 						switch ($type) {
 						  case 'type_text':
@@ -3625,7 +3625,7 @@ class FMModelForm_maker {
 			  foreach($label_order_original as $key => $label_each) {
 				if (strpos($row->script_mail, "%" . $label_each . "%") !== FALSE) {
 				  $type = $label_type[$key];
-				  if ($type != "type_submit_reset" or $type != "type_map" or $type != "type_editor" or  $type!="type_captcha" or  $type!="type_recaptcha" or  $type!="type_button") {
+				  if ($type != "type_submit_reset" or $type != "type_map" or $type != "type_editor" or  $type!="type_captcha" or $type != "type_arithmetic_captcha" or $type!="type_recaptcha" or  $type!="type_button") {
 					$new_value = "";
 					switch ($type) {
 					  case 'type_text':
@@ -4130,7 +4130,7 @@ class FMModelForm_maker {
 		$disabled_fields	= explode(',', isset($_REQUEST["disabled_fields".$id]) ? $_REQUEST["disabled_fields".$id] : "");
 		$disabled_fields 	= array_slice($disabled_fields,0, count($disabled_fields)-1);
     
-    if($type!="type_submit_reset" or $type!="type_map" or $type!="type_editor" or  $type!="type_captcha" or  $type!="type_recaptcha" or  $type!="type_button") {
+    if($type!="type_submit_reset" or $type!="type_map" or $type!="type_editor" or  $type!="type_captcha" or $type != "type_arithmetic_captcha" or $type!="type_recaptcha" or  $type!="type_button") {
       switch ($type) {
         case 'type_text':
         case 'type_password':

@@ -34,6 +34,21 @@ class FMViewGenerete_csv {
       if (strstr($str, '"'))
         $str = '"' . str_replace('"', '""', $str) . '"';
     }
+	
+	$all_keys = array();
+	foreach ($data as $key =>$row) {
+		$all_keys = array_merge($all_keys, $row);
+	}
+
+	$keys_array = array_keys($all_keys);
+	foreach ($data as $key => $row) {
+		foreach ($keys_array as $key1 => $value) {
+			if(!array_key_exists ( $value , $row ))
+				array_splice($row, $key1, 0, '');
+		}
+		$data[$key] = $row;
+    }
+
     // File name for download.
     $filename = $title . "_" . date('Ymd') . ".csv";
     header('Content-Encoding: Windows-1252');
@@ -44,7 +59,7 @@ class FMViewGenerete_csv {
       if (!$flag) {
         # display field/column names as first row
         // echo "sep=,\r\n";
-        echo '"' . implode('","', str_replace('PAYPAL_', '', array_keys($row)));
+        echo '"' . implode('","', str_replace('PAYPAL_', '', $keys_array));
         
         echo "\"\r\n";
         $flag = TRUE;
