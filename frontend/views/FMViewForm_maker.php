@@ -4142,7 +4142,7 @@ class FMViewForm_maker {
               },
               shuffled = jQuery.map(allElems, function(){
                 var random = getRandom(allElems.length),
-                  randEl = jQuery(allElems[random]).clone(true)[0];
+                  randEl = jQuery(allElems[parseInt(random)]).clone(true)[0];
                 allElems.splice(random, 1);
                 return randEl;
                });
