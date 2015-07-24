@@ -179,21 +179,85 @@ function spider_featured($current_plugin = '') {
 }
 
 function spider_extensions($current_plugin = '') {
+
+		$addons = array(
+			'Attention: Add-ons are supported by premium version of Form Maker' => array(
+				'imp_exp'   => array(
+					'name'        => 'Import/Export',
+					'url'         => 'https://web-dorado.com/products/wordpress-form/add-ons/export-import.html',
+					'description' => 'Form Maker Export/Import WordPress plugin allows exporting and importing forms with/without submissions.',
+					'icon'        => '',
+					'image'       => plugins_url( '../assets/import_export.png', __FILE__ ),
+				),
+				'mailchimp' => array(
+					'name'        => 'MailChimp',
+					'url'         => 'https://web-dorado.com/products/wordpress-form/add-ons/mailchimp.html',
+					'description' => 'This add-on is an integration of the Form Maker with MailChimp which allows to add contacts to your subscription lists just from submitted forms.',
+					'icon'        => '',
+					'image'       => plugins_url( '../assets/mailchimp.png', __FILE__ ),
+				)
+			)
+		);
+
+
+
 ?>
-  <div id="main_featured_plugins_page">
-    <h3>Form Maker Plugins</h3>
-    <ul id="featured-plugins-list">
-		<li class="form-maker-import">
-			<div class="product"></div>
-			<div class="title">
-				<strong class="heading">Form Maker Export/Import</strong>
-			</div>
-			<div class="description">
-				<p>Form Maker Export/Import WordPress plugin allows exporting and importing forms with/without submissions.</p>		 
-			</div>
-			<a target="_blank" href="https://web-dorado.com/products/wordpress-form/export-import.html" class="download">Download</a>
-		</li>
-    </ul>
-  </div>
+<link href="<?php echo plugins_url( 'admin.css', __FILE__ )?>" rel="stylesheet"/>
+<div class="wrap">
+	<?php settings_errors(); ?>
+	<div id="fm-settings">
+		<div id="fm-settings-content" >
+			<h2 id="add_on_title"><?php echo esc_html(get_admin_page_title()); ?></h2>
+			<?php
+			if($addons){
+				foreach ($addons as $name=>$cat) {
+					?>
+
+					<div style="clear: both; margin-top: 15px; "> <h3 class="fm-addon-subtitle" style="color:red"><?php echo $name?> </h3></div>
+					<?php
+					foreach ( $cat as $addon ) {
+						?>
+						<div class="fm-add-on">
+							<h2><?php echo $addon['name'] ?></h2>
+							<figure class="fm-figure">
+								<div  class="fm-figure-img">
+									<a href="<?php echo $addon['url'] ?>" target="_blank">
+										<?php if ( $addon['image'] ) { ?>
+											<img src="<?php echo $addon['image'] ?>"/>
+										<?php } ?>
+									</a>
+								</div>
+
+								<figcaption class="fm-addon-descr fm-figcaption">
+
+									<?php if ( $addon['icon'] ) { ?>
+										<img src="<?php echo $addon['icon'] ?>"/>
+									<?php } ?>
+									<?php echo $addon['description'] ?>
+								</figcaption>
+							</figure>
+							<?php if ( $addon['url'] !== '#' ) { ?>
+								<a href="<?php echo $addon['url'] ?>"
+								   target="_blank" class="fm-addon"><span>GET THIS ADD ON</span></a>
+
+							<?php } else { ?>
+								<div class="fm_coming_soon">
+									<img
+										src="<?php echo plugins_url( '../../assets/coming_soon.png', __FILE__ ); ?>"/>
+								</div>
+							<?php }  ?>
+						</div>
+					<?php
+					}
+				}
+			}
+			?>
+
+		</div>
+		<!-- #fm-settings-content -->
+	</div>
+	<!-- #fm-settings -->
+</div><!-- .wrap -->
+
 <?php
 }

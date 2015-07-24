@@ -3,7 +3,7 @@
  * Plugin Name: Form Maker
  * Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
  * Description: This plugin is a modern and advanced tool for easy and fast creating of a WordPress Form. The backend interface is intuitive and user friendly which allows users far from scripting and programming to create WordPress Forms.
- * Version: 1.7.60
+ * Version: 1.7.61
  * Author: WebDorado
  * Author URI: http://web-dorado.com/
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -35,7 +35,7 @@ function form_maker_options_panel() {
 
   add_submenu_page('manage_fm', 'Featured Plugins', 'Featured Plugins', 'manage_options', 'featured_plugins_fm', 'fm_featured');
   add_submenu_page('manage_fm', 'Featured Themes', 'Featured Themes', 'manage_options', 'featured_themes_fm', 'fm_featured_themes');
-  add_submenu_page('manage_fm', 'Form Maker plugins', 'Form Maker plugins', 'manage_options', 'extensions_fm', 'fm_extensions');
+  add_submenu_page('manage_fm', 'Form Maker Add-ons', 'Form Maker Add-ons', 'manage_options', 'extensions_fm', 'fm_extensions');
   
   $uninstall_page = add_submenu_page('manage_fm', 'Uninstall', 'Uninstall', 'manage_options', 'uninstall_fm', 'form_maker');
   add_action('admin_print_styles-' . $uninstall_page, 'form_maker_styles');
@@ -261,7 +261,7 @@ function register_fmemailverification_cpt(){
 // Activate plugin.
 function form_maker_activate() {
   $version = get_option("wd_form_maker_version");
-  $new_version = '1.7.60';
+  $new_version = '1.7.61';
   global $wpdb;
   if (!$version) {
     add_option("wd_form_maker_version", $new_version, '', 'no');
