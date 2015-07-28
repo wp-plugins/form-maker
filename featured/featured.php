@@ -195,6 +195,13 @@ function spider_extensions($current_plugin = '') {
 					'description' => 'This add-on is an integration of the Form Maker with MailChimp which allows to add contacts to your subscription lists just from submitted forms.',
 					'icon'        => '',
 					'image'       => plugins_url( '../assets/mailchimp.png', __FILE__ ),
+				),				
+				'reg' => array(
+					'name'        => 'Registration',
+					'url'         => 'https://web-dorado.com/products/wordpress-form/add-ons/registration.html',
+					'description' => 'User Registration add-on integrates with Form maker forms allowing users to create accounts at your website.',
+					'icon'        => '',
+					'image'       => plugins_url( '../assets/reg.png', __FILE__ ),
 				)
 			)
 		);

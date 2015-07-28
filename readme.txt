@@ -1,10 +1,10 @@
 === Form Maker ===
 Contributors: webdorado
-Donate link: http://web-dorado.com/products/wordpress-form.html
+Donate link: https://web-dorado.com/products/wordpress-form.html
 Tags:  form, forms, form builder, form maker, form manager, form plugin, form with recaptcha,  forms plugin, multiple forms, paypal form, survey form, feedback form, feedback forms, contact form,contact form plugin, contact form builder, form creator, email form, secure form, web form, form to email, contact forms, custom forms, form widget, captcha form, wordpress contact form ,recaptcha contact form, form creation, contact form with auto reply, widget contact form, builder, feedback, contacts form plugin , custom contact form, contact us form,  formular, formulario, admin, captcha, contact, database, email, javascript, jquery, page, plugin, survey, widget, custom form, forms creator, input, validation, send copy, form with captcha 
 Requires at least: 3.4
 Tested up to: 4.2
-Stable tag: 1.7.61
+Stable tag: 1.7.62
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,11 +16,11 @@ Form Maker is a FREE and user-friendly plugin to create highly customizable and 
 
 https://www.youtube.com/watch?v=QelKxyW7M98
 
-[WordPress Form Maker](http://web-dorado.com/products/wordpress-form.html)  
+[WordPress Form Maker](https://web-dorado.com/products/wordpress-form.html)  
 [Demo](http://wpdemo.web-dorado.com/)  
 [Demo Admin](http://wpdemo.web-dorado.com/wp-admin/admin.php?page=Form_maker)  
-[User Manual](http://web-dorado.com/wordpress-form-maker-guide-1.html)  
-[Frequently Asked Questions](http://web-dorado.com/forum/form-maker/316-form-maker-faq.html)  
+[User Manual](https://web-dorado.com/wordpress-form-maker-guide-1.html)  
+[Frequently Asked Questions](https://web-dorado.com/forum/form-maker/316-form-maker-faq.html)  
 
 The Form Maker is one of the best responsive form builders in WordPress Plugin Directory. WordPress Form Builder allows you to set all the parameters such as colors, fonts and dimensions to best fit all form standards. If you want to make minimalistic forms, you can build forms with pre-filled texts, avoiding long form field labels. If want to build simple contact forms with unlimited number of fields, then you can use  [WordPress Contact Form](http://wordpress.org/extend/plugins/contact-form-maker/).  
 
@@ -47,7 +47,7 @@ Possibility of sending submitted form to various emails, providing them in Email
 
 Survey tools are also very convenient for adding rating systems for the posts, e.g. for contests. 
 
-###IMPORTANT: If you think you found a bug in Form Maker or have any problem/question concerning the plugin, please check out [Support Forum](http://web-dorado.com/forum/26-form-maker.html) in our website. If you do not find a solution here, do not hesitate to contact us at [info@web-dorado.com](mailto:info@web-dorado.com).
+###IMPORTANT: If you think you found a bug in Form Maker or have any problem/question concerning the plugin, please check out [Support Forum](https://web-dorado.com/forum/26-form-maker.html) in our website. If you do not find a solution here, do not hesitate to contact us at [info@web-dorado.com](mailto:info@web-dorado.com).
 
 
 
@@ -123,7 +123,7 @@ Survey tools are also very convenient for adding rating systems for the posts, e
 *   Conditional fields, which can be used for hiding/displaying a list of questions based on the selection of specific answers.   
 *   Option of displaying form pages using tabs or percentage.   
 
-Upgrade to [WordPress Form Maker Pro](http://web-dorado.com/products/wordpress-form.html) to add features: 
+Upgrade to [WordPress Form Maker Pro](https://web-dorado.com/products/wordpress-form.html) to add features: 
    
 *   unlimited number of form fields       
 *   PayPal form field with currency change possibility   
@@ -278,6 +278,9 @@ The Form Maker (Pro version) has simple PayPal integration. This allows the user
 
 
 == Changelog ==
+
+= 1.7.62 =
+New Add-on: User Registration
 
 = 1.7.61 =
 New: Form Maker Add-ons page

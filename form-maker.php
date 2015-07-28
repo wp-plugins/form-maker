@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Form Maker
- * Plugin URI: http://web-dorado.com/products/form-maker-wordpress.html
+ * Plugin URI: https://web-dorado.com/products/form-maker-wordpress.html
  * Description: This plugin is a modern and advanced tool for easy and fast creating of a WordPress Form. The backend interface is intuitive and user friendly which allows users far from scripting and programming to create WordPress Forms.
- * Version: 1.7.61
+ * Version: 1.7.62
  * Author: WebDorado
- * Author URI: http://web-dorado.com/
+ * Author URI: https://web-dorado.com/
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 define('WD_FM_DIR', WP_PLUGIN_DIR . "/" . plugin_basename(dirname(__FILE__)));
@@ -14,6 +14,7 @@ define('WD_FM_URL', plugins_url(plugin_basename(dirname(__FILE__))));
 // Plugin menu.
 function form_maker_options_panel() {
   add_menu_page('Form Maker', 'Form Maker', 'manage_options', 'manage_fm', 'form_maker', WD_FM_URL . '/images/FormMakerLogo-16.png');
+  add_menu_page('Form Maker Add-ons', 'Form Maker Add-ons', 'manage_options', 'extensions_fm', 'fm_extensions');
 
   $manage_page = add_submenu_page('manage_fm', 'Manager', 'Manager', 'manage_options', 'manage_fm', 'form_maker');
   add_action('admin_print_styles-' . $manage_page, 'form_maker_manage_styles');
@@ -35,7 +36,6 @@ function form_maker_options_panel() {
 
   add_submenu_page('manage_fm', 'Featured Plugins', 'Featured Plugins', 'manage_options', 'featured_plugins_fm', 'fm_featured');
   add_submenu_page('manage_fm', 'Featured Themes', 'Featured Themes', 'manage_options', 'featured_themes_fm', 'fm_featured_themes');
-  add_submenu_page('manage_fm', 'Form Maker Add-ons', 'Form Maker Add-ons', 'manage_options', 'extensions_fm', 'fm_extensions');
   
   $uninstall_page = add_submenu_page('manage_fm', 'Uninstall', 'Uninstall', 'manage_options', 'uninstall_fm', 'form_maker');
   add_action('admin_print_styles-' . $uninstall_page, 'form_maker_styles');
