@@ -14,13 +14,20 @@ WordPress Form Maker is a fresh and innovative form builder. This form builder i
 
 Form Maker is a FREE and user-friendly plugin to create highly customizable and responsive forms in a few minutes with simple drag and drop interface.
 
-https://www.youtube.com/watch?v=QelKxyW7M98
+
 
 [WordPress Form Maker](https://web-dorado.com/products/wordpress-form.html)  
 [Demo](http://wpdemo.web-dorado.com/)  
 [Demo Admin](http://wpdemo.web-dorado.com/wp-admin/admin.php?page=Form_maker)  
 [User Manual](https://web-dorado.com/wordpress-form-maker-guide-1.html)  
 [Frequently Asked Questions](https://web-dorado.com/forum/form-maker/316-form-maker-faq.html)  
+
+= Form Maker Add-ons: =  
+[Import/Export Add-on](https://web-dorado.com/products/wordpress-form/add-ons/export-import.html)  
+[Mailchimp Integration Add-on](https://web-dorado.com/products/wordpress-form/add-ons/mailchimp.html)  
+[User Registration Add-on](https://web-dorado.com/products/wordpress-form/add-ons/registration.html)  
+
+https://www.youtube.com/watch?v=QelKxyW7M98
 
 The Form Maker is one of the best responsive form builders in WordPress Plugin Directory. WordPress Form Builder allows you to set all the parameters such as colors, fonts and dimensions to best fit all form standards. If you want to make minimalistic forms, you can build forms with pre-filled texts, avoiding long form field labels. If want to build simple contact forms with unlimited number of fields, then you can use  [WordPress Contact Form](http://wordpress.org/extend/plugins/contact-form-maker/).  
 
@@ -46,6 +53,11 @@ To make larger forms fit and look great on your pages and posts, you can use pag
 Possibility of sending submitted form to various emails, providing them in Email to Field and separating by comma.
 
 Survey tools are also very convenient for adding rating systems for the posts, e.g. for contests. 
+
+
+
+
+
 
 ###IMPORTANT: If you think you found a bug in Form Maker or have any problem/question concerning the plugin, please check out [Support Forum](https://web-dorado.com/forum/26-form-maker.html) in our website. If you do not find a solution here, do not hesitate to contact us at [info@web-dorado.com](mailto:info@web-dorado.com).
 
