@@ -757,7 +757,9 @@ class FMModelForm_maker {
             $untilupload = $untilupload[1];
             $untilupload = explode('*:*w_unique*:*', $untilupload);
             $unique_element = $untilupload[0];
-        
+			if(strlen($unique_element)>3)
+			$unique_element = substr($unique_element, -3);
+
             if($unique_element == 'yes') {						
               $unique = $wpdb->get_col($wpdb->prepare("SELECT id FROM " . $wpdb->prefix . "formmaker_submits WHERE form_id= %d  and element_label= %s and element_value= %s", $id, $i, addslashes($value)));
               if ($unique) {
