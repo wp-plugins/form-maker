@@ -202,6 +202,13 @@ function spider_extensions($current_plugin = '') {
 					'description' => 'User Registration add-on integrates with Form maker forms allowing users to create accounts at your website.',
 					'icon'        => '',
 					'image'       => plugins_url( '../assets/reg.png', __FILE__ ),
+				),
+				'post_generation' => array(
+					'name'        => 'Post Generation',
+					'url'         => 'https://web-dorado.com/products/wordpress-form/add-ons/post-generation.html',
+					'description' => 'Post Generation add-on allows creating a post, page or custom post based on the submitted data.',
+					'icon'        => '',
+					'image'       => plugins_url( '../assets/post-generation-update.png', __FILE__ ),
 				)
 			)
 		);
