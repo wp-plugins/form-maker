@@ -1102,16 +1102,18 @@ class FMViewForm_maker {
 					var rules = unescape("'.$param["w_regExp_value"].'"); 
 					("'.$param["w_regExp_arg"].'".length <= 0) ?  RegExpression = new RegExp(rules) : RegExpression = new RegExp(rules'.', "'.$param["w_regExp_arg"].'" );
 
-					if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val().length > 0){
-						if (RegExpression.test(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()) != true)
-						{
-							alert( " '.$param["w_regExp_alert"].' ");
-							old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
-							x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
-							jQuery("#wdform_'.$id1.'_element'.$form_id.'").addClass( "form-error" );
-							jQuery("#wdform_'.$id1.'_element'.$form_id.'").focus();
-							jQuery("#wdform_'.$id1.'_element'.$form_id.'").change(function() { if( jQuery(this).val()!="" ) jQuery(this).removeClass("form-error"); else jQuery(this).addClass("form-error");});
-							return false;
+					if(x.find(jQuery("div[wdid='.$id1.']")).length != 0 && x.find(jQuery("div[wdid='.$id1.']")).css("display") != "none") {
+						if(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val().length > 0){
+							if (RegExpression.test(jQuery("#wdform_'.$id1.'_element'.$form_id.'").val()) != true)
+							{
+								alert( " '.$param["w_regExp_alert"].' ");
+								old_bg=x.find(jQuery("div[wdid='.$id1.']")).css("background-color");
+								x.find(jQuery("div[wdid='.$id1.']")).effect( "shake", {}, 500 ).css("background-color","#FF8F8B").animate({backgroundColor: old_bg}, {duration: 500, queue: false });
+								jQuery("#wdform_'.$id1.'_element'.$form_id.'").addClass( "form-error" );
+								jQuery("#wdform_'.$id1.'_element'.$form_id.'").focus();
+								jQuery("#wdform_'.$id1.'_element'.$form_id.'").change(function() { if( jQuery(this).val()!="" ) jQuery(this).removeClass("form-error"); else jQuery(this).addClass("form-error");});
+								return false;
+							}
 						}
 					}';
 			   }
@@ -3721,10 +3723,8 @@ class FMViewForm_maker {
                   min: eval('.$param['w_field_min_value'].'),
                   max: eval('.$param['w_field_max_value'].'),
                   slide: function( event, ui ) {	
-                  
-                    jQuery("#wdform_'.$id1.'_element_value'.$form_id.'").html("" + ui.value)
-                    jQuery("#wdform_'.$id1.'_slider_value'.$form_id.'").val("" + ui.value)
-
+                    jQuery("#wdform_'.$id1.'_element_value'.$form_id.'").html("" + ui.value);
+                    jQuery("#wdform_'.$id1.'_slider_value'.$form_id.'").val("" + ui.value);
                   }
                   });
               ';

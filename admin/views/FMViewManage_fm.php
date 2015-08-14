@@ -233,33 +233,18 @@ class FMViewManage_fm {
                       l_label = document.getElementById(wdid + '_element_labelform_id_temp').innerHTML;
                       l_label = l_label.replace(/(\r\n|\n|\r)/gm," ");
                       wdtype = wdform_row.firstChild.getAttribute('type');
-                      for (z = 0; z < l_id_array.length; z++) {
-                        if (l_id_array[z] == wdid) {
-                          if (l_type_array[z] == "type_address") {
-                            if (document.getElementById(l_id + "_mini_label_street1")) {
-                              l_id_removed[l_id_array[z]] = false;
-                            }
-                            if (document.getElementById(l_id + "_mini_label_street2")) {
-                              l_id_removed[parseInt(l_id_array[z]) + 1] = false;
-                            }
-                            if (document.getElementById(l_id + "_mini_label_city")) {
-                              l_id_removed[parseInt(l_id_array[z]) + 2] = false;	
-                            }
-                            if (document.getElementById(l_id + "_mini_label_state")) {
-                              l_id_removed[parseInt(l_id_array[z]) + 3] = false;
-                            }
-                            if (document.getElementById(l_id+"_mini_label_postal")) {
-                              l_id_removed[parseInt(l_id_array[z]) + 4] = false;
-                            }
-                            if (document.getElementById(l_id+"_mini_label_country")) {
-                              l_id_removed[parseInt(l_id_array[z]) + 5] = false;
-                            }
-                            z = z + 5;
-                          }
-                          else {
-                            l_id_removed[l_id] = false;
-                          }
+                      for (var z = 0; z < l_id_array.length; z++) {
+						if (l_type_array[z] == "type_address") {
+							if (document.getElementById(l_id + "_mini_label_street1") || document.getElementById(l_id + "_mini_label_street2") || document.getElementById(l_id + "_mini_label_city") || document.getElementById(l_id + "_mini_label_state") || document.getElementById(l_id+"_mini_label_postal") || document.getElementById(l_id+"_mini_label_country")) {
+							  l_id_removed[l_id_array[z]] = false;
+							}
                         }
+						else {
+							if (l_id_array[z] == wdid) {
+								l_id_removed[l_id] = false;
+							}
+                        }
+						
                       }
                       if (wdtype == "type_address") {
                         addr_id = parseInt(wdid);
