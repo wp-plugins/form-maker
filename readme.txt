@@ -294,7 +294,7 @@ The Form Maker (Pro version) has simple PayPal integration. This allows the user
 
 = 1.7.67 =
 Fixed: Bug in slider field  
-Fixed: Bug in address fiels  
+Fixed: Bug in address field  
 Fixed: Bug in mysql mapping
 
 = 1.7.66 =
