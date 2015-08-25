@@ -3,7 +3,7 @@
  * Plugin Name: Form Maker
  * Plugin URI: https://web-dorado.com/products/form-maker-wordpress.html
  * Description: This plugin is a modern and advanced tool for easy and fast creating of a WordPress Form. The backend interface is intuitive and user friendly which allows users far from scripting and programming to create WordPress Forms.
- * Version: 1.7.70
+ * Version: 1.7.71
  * Author: WebDorado
  * Author URI: https://web-dorado.com/
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -261,19 +261,20 @@ function register_fmemailverification_cpt(){
 // Activate plugin.
 function form_maker_activate() {
   $version = get_option("wd_form_maker_version");
-  $new_version = '1.7.70';
+  $new_version = '1.7.71';
   global $wpdb;
   if (!$version) {
-    add_option("wd_form_maker_version", $new_version, '', 'no');
-    if ($wpdb->get_var("SHOW TABLES LIKE '" . $wpdb->prefix . "formmaker'") == $wpdb->prefix . "formmaker") {
+	add_option("wd_form_maker_version", $new_version, '', 'no');
+	if ($wpdb->get_var("SHOW TABLES LIKE '" . $wpdb->prefix . "formmaker'") == $wpdb->prefix . "formmaker") {
       require_once WD_FM_DIR . "/form_maker_update.php";
       form_maker_update_until_mvc();
       form_maker_update_contact();
       form_maker_update('');
     }
     else {
-      require_once WD_FM_DIR . "/form_maker_insert.php";
-      from_maker_insert();
+		require_once WD_FM_DIR . "/form_maker_insert.php";
+		from_maker_insert();
+
 	  $email_verification_post = array(
 		  'post_title'    => 'Email Verification',
 		  'post_content'  => '[email_verification]',
@@ -305,8 +306,9 @@ function form_maker_activate() {
     form_maker_update($version);
     update_option("wd_form_maker_version", $new_version);
   }
-  require_once WD_FM_DIR . "/form_maker_insert.php";
-  install_demo_forms();
+	
+	require_once WD_FM_DIR . "/form_maker_insert.php";
+	install_demo_forms();
 }
 register_activation_hook(__FILE__, 'form_maker_activate');
 

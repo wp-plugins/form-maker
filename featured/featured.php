@@ -209,6 +209,13 @@ function spider_extensions($current_plugin = '') {
 					'description' => 'Post Generation add-on allows creating a post, page or custom post based on the submitted data.',
 					'icon'        => '',
 					'image'       => plugins_url( '../assets/post-generation-update.png', __FILE__ ),
+				),
+				'conditional_emails' => array(
+					'name'        => 'Conditional Emails',
+					'url'         => 'https://web-dorado.com/products/wordpress-form/add-ons/conditional-emails.html',
+					'description' => 'Conditional Emails add-on allows to send emails to different recipients depending on the submitted data .',
+					'icon'        => '',
+					'image'       => plugins_url( '../assets/conditional-emalis-update.png', __FILE__ ),
 				)
 			)
 		);
