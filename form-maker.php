@@ -3,7 +3,7 @@
  * Plugin Name: Form Maker
  * Plugin URI: https://web-dorado.com/products/form-maker-wordpress.html
  * Description: This plugin is a modern and advanced tool for easy and fast creating of a WordPress Form. The backend interface is intuitive and user friendly which allows users far from scripting and programming to create WordPress Forms.
- * Version: 1.7.71
+ * Version: 1.7.73
  * Author: WebDorado
  * Author URI: https://web-dorado.com/
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -124,6 +124,14 @@ add_action('wp_ajax_FormMakerEditCSS', 'form_maker_ajax'); // Edit css from form
 add_action('wp_ajax_FormMakerSQLMapping', 'form_maker_ajax'); // Add/Edit SQLMaping from form options.
 
 add_action('wp_ajax_select_data_from_db', 'form_maker_ajax'); // select data from db.
+
+if ( is_admin() && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
+	require_once( 'fm_admin_class.php' );
+	include_once('form_maker_notices_class.php');
+	require_once('notices.php');
+	add_action( 'plugins_loaded', array( 'FM_Admin', 'get_instance' ) );
+}
+
 function form_maker_ajax() {
   require_once(WD_FM_DIR . '/framework/WDW_FM_Library.php');
   $page = WDW_FM_Library::get('action');
@@ -261,7 +269,7 @@ function register_fmemailverification_cpt(){
 // Activate plugin.
 function form_maker_activate() {
   $version = get_option("wd_form_maker_version");
-  $new_version = '1.7.71';
+  $new_version = '1.7.73';
   global $wpdb;
   if (!$version) {
 	add_option("wd_form_maker_version", $new_version, '', 'no');
