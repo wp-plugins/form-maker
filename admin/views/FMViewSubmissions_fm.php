@@ -35,8 +35,8 @@ class  FMViewSubmissions_fm {
     $rows = ((isset($labels_parameters[5])) ? $labels_parameters[5] : NULL);
     $group_ids = ((isset($labels_parameters[6])) ? $labels_parameters[6] : NULL);
     $where_choices = $labels_parameters[7];	
-     $order_by = (isset($_POST['order_by']) ? esc_html(stripslashes($_POST['order_by'])) : 'group_id');
-    $asc_or_desc = ((isset($_POST['asc_or_desc']) && $_POST['asc_or_desc'] == 'desc') ? 'desc' : 'asc');
+    $order_by = (isset($_POST['order_by']) ? esc_html(stripslashes($_POST['order_by'])) : 'group_id');
+    $asc_or_desc = ((isset($_POST['asc_or_desc']) && $_POST['asc_or_desc'] == 'asc') ? 'asc' : 'desc');
     $style_id = $this->model->hide_or_not($lists['hide_label_list'], '@submitid@'); 
     $style_date = $this->model->hide_or_not($lists['hide_label_list'], '@submitdate@');
     $style_ip = $this->model->hide_or_not($lists['hide_label_list'], '@submitterip@');

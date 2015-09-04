@@ -42,6 +42,16 @@ function spider_featured($current_plugin = '') {
 				</div>
 				<a target="_blank" href="https://web-dorado.com/products/wordpress-calendar.html" class="download">Download</a>
 			</li>
+			<li class="faq_wd">
+				<div class="product"></div>
+				<div class="title">
+					<strong class="heading">FAQ WD</strong>
+				</div>
+				<div class="description">
+					<p> Organize and publish your FAQs in an easy and elegant way using FAQ WD. </p>	
+				</div>
+				<a target="_blank" href="https://web-dorado.com/products/wordpress-faq-wd.html" class="download">Download</a>
+			</li>
 			 <li class="catalog">
 				<div class="product"></div>
 				<div class="title">

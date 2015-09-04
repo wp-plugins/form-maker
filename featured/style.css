@@ -50,6 +50,7 @@
 #main_featured_plugins_page #featured-plugins-list  li.random_post  .product {background:url(images/random.post.png) left center no-repeat;}
 #main_featured_plugins_page #featured-plugins-list  li.slider_wd  .product {background:url(images/slider.png) left center no-repeat;   background-size: 50%;}
 #main_featured_plugins_page #featured-plugins-list  li.folder_menu  .product {background:url(images/folder.menu.png) left center no-repeat;}
+#main_featured_plugins_page #featured-plugins-list  li.faq_wd  .product {background:url(images/faq_wd.png) left center no-repeat;}
 
 #main_featured_plugins_page #featured-plugins-list  li.zoom .product {background:url(images/zoom.png) left center no-repeat;   background-size: 85%;}
 #main_featured_plugins_page #featured-plugins-list  li.photo-gallery  .product {background:url(images/photo-gallery.png) left center no-repeat #CACACA;
