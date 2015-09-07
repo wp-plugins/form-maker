@@ -23,10 +23,44 @@ class FMViewLicensing_fm {
   // Public Methods                                                                     //
   ////////////////////////////////////////////////////////////////////////////////////////
   public function display() {
+	wp_register_style('fm_license', WD_FM_URL . '/css/license.css', array(), get_option("wd_form_maker_version"));
+	wp_print_styles('fm_license');
     ?>
     <div style="width:99%">
-      <p>This is the non-commercial version of the Form Maker. If you want to expand the functionality of the plugin you are required to purchase a license. The commercial version will allow to add unlimited amount of fields (currently limited to 7), as well as use File Upload field, Google Map and PayPal integration and Front-End Submissions.</p>
-      <br/>
+      <div id="featurs_tables">
+		  <div id="featurs_table1">
+			<span>Unlimited Fields</span>
+			<span>File Upload Field</span>
+			<span>Google Map</span>
+			<span>PayPal Integration</span>
+			<span>Front-End Submissions</span>
+			<span>Add-ons support</span>
+		  </div>
+		  <div id="featurs_table2">
+			<span>Free</span>
+			<span class="no"></span>
+			<span class="no"></span>
+			<span class="no"></span>
+			<span class="no"></span>
+			<span class="no"></span>
+			<span class="no"></span>
+		  </div>
+		  <div id="featurs_table3">
+			<span>Pro Version</span>
+			<span class="yes"></span>
+			<span class="yes"></span>
+			<span class="yes"></span>
+			<span class="yes"></span>
+			<span class="yes"></span>
+			<span class="yes"></span>
+		  </div>
+		</div>
+	<div style="float: right; text-align: right;">
+        <a style="text-decoration: none;" target="_blank" href="https://web-dorado.com/files/fromFormMaker.php">
+          <img width="215" border="0" alt="web-dorado.com" src="<?php echo WD_FM_URL . '/images/wd_logo.png'; ?>" />
+        </a>
+      </div>
+	<div style="float: left; clear: both;">
       <a href="https://web-dorado.com/files/fromFormMaker.php" class="button-primary" target="_blank">Purchase a License</a>
       <br/><br/>
       <p>After purchasing the commercial version follow these steps:</p>
