@@ -226,6 +226,13 @@ function spider_extensions($current_plugin = '') {
 					'description' => 'Conditional Emails add-on allows to send emails to different recipients depending on the submitted data .',
 					'icon'        => '',
 					'image'       => plugins_url( '../assets/conditional-emalis-update.png', __FILE__ ),
+				),
+				'dropbox_integration' => array(
+					'name'        => 'Dropbox Integration',
+					'url'         => 'https://web-dorado.com/products/wordpress-form/add-ons/dropbox.html',
+					'description' => 'The Form Maker Dropbox Integration addon is extending the Form Maker capabilities allowing to store the form attachments straight to your Dropbox account.',
+					'icon'        => '',
+					'image'       => plugins_url( '../assets/dropbox-integration-update.png', __FILE__ ),
 				)
 			)
 		);

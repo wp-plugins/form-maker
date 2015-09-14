@@ -4,7 +4,7 @@ Donate link: https://web-dorado.com/products/wordpress-form.html
 Tags:  form, forms, form builder, form maker, form manager, form plugin, form with recaptcha,  forms plugin, multiple forms, paypal form, survey form, feedback form, feedback forms, contact form,contact form plugin, contact form builder, form creator, email form, secure form, web form, form to email, contact forms, custom forms, form widget, captcha form, wordpress contact form ,recaptcha contact form, form creation, contact form with auto reply, widget contact form, builder, feedback, contacts form plugin , custom contact form, contact us form,  formular, formulario, admin, captcha, contact, database, email, javascript, jquery, page, plugin, survey, widget, custom form, forms creator, input, validation, send copy, form with captcha 
 Requires at least: 3.4
 Tested up to: 4.3
-Stable tag: 1.7.76
+Stable tag: 1.7.78
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,8 +26,9 @@ Form Maker is a FREE and user-friendly plugin to create highly customizable and 
 [Import/Export Add-on](https://web-dorado.com/products/wordpress-form/add-ons/export-import.html)  
 [Mailchimp Integration Add-on](https://web-dorado.com/products/wordpress-form/add-ons/mailchimp.html)  
 [User Registration Add-on](https://web-dorado.com/products/wordpress-form/add-ons/registration.html)  
-[Post Generation Add-on](https://web-dorado.com/products/wordpress-form/add-ons/post-generation.html)   
-[Conditional Emails Add-on](https://web-dorado.com/products/wordpress-form/add-ons/conditional-emails.html) 
+[Post Generation Add-on](https://web-dorado.com/products/wordpress-form/add-ons/post-generation.html)      
+[Conditional Emails Add-on](https://web-dorado.com/products/wordpress-form/add-ons/conditional-emails.html)      
+[Dropbox Integration Add-on](https://web-dorado.com/products/wordpress-form/add-ons/dropbox.html)     
 
 https://www.youtube.com/watch?v=QelKxyW7M98
 
@@ -293,12 +294,18 @@ The Form Maker (Pro version) has simple PayPal integration. This allows the user
 
 == Changelog ==
 
+= 1.7.78 =
+Changed: Themes  
+
+= 1.7.77 =
+New: Dropbox Integration Add-on 
+
 = 1.7.76 =
-Changed: Licensing/Donation page
-Chenged: Notices
+Changed: Licensing/Donation page   
+Changed: Notices   
 
 = 1.7.75 =
-Changed: Submissions default ordering
+Changed: Submissions default ordering   
 Changed: Featured Plugins page
 
 = 1.7.74 =
