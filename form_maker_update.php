@@ -174,6 +174,9 @@ function form_maker_update($version) {
 	) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
     $wpdb->query($formmaker_backup);
   }
+  if (version_compare($version, '1.7.79') == -1) {
+    $wpdb->query("ALTER TABLE `" . $wpdb->prefix . "formmaker` ADD `save_uploads` tinyint(4) NOT NULL DEFAULT 1");
+  }
   return;
 }
 
