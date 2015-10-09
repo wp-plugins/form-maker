@@ -245,6 +245,7 @@ function from_maker_insert() {
 	  `mail_verify` tinyint(4) NOT NULL DEFAULT '0',
 	  `mail_verify_expiretime` float NOT NULL,
 	  `mail_verification_post_id` int(11) NOT NULL,
+	  `save_uploads` tinyint(4) NOT NULL DEFAULT '1',
 	  PRIMARY KEY (`backup_id`)
 	) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
     $wpdb->query($formmaker_backup);

@@ -30,7 +30,7 @@ class FM_Notices {
 
 		// Runs the admin notice temp ignore function incase a temp dismiss link has been clicked
 		add_action( 'admin_init', array( $this, 'admin_notice_temp_ignore' ) );
-
+		add_action('admin_notices', array($this, 'wd_admin_notices'));
 	}
 
 	// Checks to ensure notices aren't disabled and the user has the correct permissions.
@@ -100,8 +100,9 @@ class FM_Notices {
 				// Ensure the notice hasn't been hidden and that the current date is after the start date
 				if ($admin_display_check == 0 && strtotime( $admin_display_start ) <= strtotime( $current_date )) {
 
-					// Get remaining query string
-					$query_str = esc_url( add_query_arg( 'fm_admin_notice_ignore', $slug ) );
+				// Get remaining query string
+				$query_str = (isset($admin_notices[$slug]['later_link']) ? $admin_notices[$slug]['later_link'] : esc_url(add_query_arg('fm_admin_notice_ignore', $slug)));
+
 
 					// Admin notice display output
 					echo '<div class="update-nag fm-admin-notice">';
@@ -215,6 +216,30 @@ class FM_Notices {
 	// Special parameters function that is to be used in any extension of this class
 	public function special_parameters( $admin_notices ) {
 		// Intentionally left blank
+	}
+	public function wd_admin_notices() {
+		$two_week_review_ignore = add_query_arg(array('fm_admin_notice_ignore' => 'two_week_review'));
+		$two_week_review_temp = add_query_arg(array('fm_admin_notice_temp_ignore' => 'two_week_review', 'int' => 14));
+		$notices['two_week_review'] = array(
+		  'title' => __('Leave A Review?', 'fm'),
+		  'msg' => sprintf(__('We hope you\'ve enjoyed using WordPress %s! Would you consider leaving us a review on WordPress.org?', 'fm'), 'Form Maker'),
+		  'link' => '<li><span class="dashicons dashicons-external"></span><a href="https://wordpress.org/support/view/plugin-reviews/form-maker?filter=5" target="_blank">' . __('Sure! I\'d love to!', 'fm') . '</a></li>
+					 <li><span class="dashicons dashicons-smiley"></span><a href="' . $two_week_review_ignore . '"> ' . __('I\'ve already left a review', 'fm') . '</a></li>
+					 <li><span class="dashicons dashicons-calendar-alt"></span><a href="' . $two_week_review_temp . '">' . __('Maybe Later', 'fm') . '</a></li>
+					 <li><span class="dashicons dashicons-dismiss"></span><a href="' . $two_week_review_ignore . '">' . __('Never show again', 'fm') . '</a></li>',
+		  'later_link' => $two_week_review_temp,
+		  'int' => 14
+		);
+		$one_week_support = add_query_arg(array('fm_admin_notice_ignore' => 'one_week_support'));
+		$notices['one_week_support'] = array(
+		  'title' => __('Hey! How\'s It Going?', 'fm'),
+		  'msg' => sprintf(__('Thank you for using WordPress %s! We hope that you\'ve found everything you need, but if you have any questions:', 'fm'), 'Form Maker'),
+		  'link' => '<li><span class="dashicons dashicons-media-text"></span><a target="_blank" href="https://web-dorado.com/forum/26-form-maker.html">' . __('Check out User Guide', 'fm') . '</a></li>
+					<li><span class="dashicons dashicons-sos"></span><a target="_blank" href="https://web-dorado.com/wordpress-form-maker/creating-form.html">' . __('Get Some Help', 'fm') . '</a></li>
+					<li><span class="dashicons dashicons-dismiss"></span><a href="' . $one_week_support . '">' . __('Never show again', 'fm') . '</a></li>',
+		  'int' => 7
+		);
+		$this->admin_notice($notices);
 	}
 
 }
