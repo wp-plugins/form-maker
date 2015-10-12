@@ -661,11 +661,11 @@ function change_choices(value, ids, types, params) {
 				document.getElementById("field_value"+global_index+'_'+index).setAttribute("onKeyPress", keypress_function);
 			}
 		break;
-		
+		 
 		case "type_own_select":
 		case "type_radio":
 		case "type_checkbox":
-			if(types_array[id]=="type_paypal_select")
+			if(types_array[id]=="type_own_select")
 				w_size = params_array[id].split('*:*w_size*:*');
 			else
 				w_size = params_array[id].split('*:*w_flow*:*');
