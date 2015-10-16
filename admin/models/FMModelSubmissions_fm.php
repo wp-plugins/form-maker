@@ -654,6 +654,12 @@ class FMModelSubmissions_fm {
     }
     return $choices_values; 
   }
+   public function get_subs_count($form_id) { 
+    global $wpdb;
+	$query = $wpdb->prepare("SELECT distinct group_id FROM " . $wpdb->prefix . "formmaker_submits where form_id=%d", $form_id);		
+	$group_id_s = $wpdb->get_col($query);	
+    return count($group_id_s);
+  }
 }
 
 ?>

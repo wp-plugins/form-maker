@@ -55,8 +55,29 @@ class  FMViewSubmissions_fm {
     $ka_fielderov_search = (($lists['ip_search'] || $lists['startdate'] || $lists['enddate'] || $lists['username_search'] || $lists['useremail_search'] || $lists['id_search']) ? TRUE : FALSE);
     $is_stats = false;
     $blocked_ips = $this->model->blocked_ips();
+	$subs_count = $this->model->get_subs_count($form_id);
     ?>
     <script type="text/javascript">
+		function export_submissions(type, limit) {
+			body = jQuery('body');
+			jQuery.ajax({
+			    type: "POST",  
+				url:"<?php echo add_query_arg(array('form_id' => $form_id, 'send_header' => 0), admin_url('admin-ajax.php')); ?>&action=generete_"+type+"&limitstart="+limit,
+				beforeSend: function() {
+					body.addClass("fm_loading"); 
+			    },
+			    success: function(data) {
+					if(limit < <?php echo $subs_count; ?>) {
+						limit += 3000;
+						export_submissions(type, limit);
+					}
+					else{
+						body.removeClass("fm_loading");
+						window.location = "<?php echo add_query_arg(array('form_id' => $form_id, 'send_header' => 1), admin_url('admin-ajax.php')); ?>&action=generete_"+type+"&limitstart="+limit;
+					}
+			    }
+			});
+		}
       function clickLabChBAll(ChBAll) {
         <?php
         if (isset($sorted_label_names)) {
@@ -155,6 +176,7 @@ class  FMViewSubmissions_fm {
         });
       });
     </script>
+	<div class="fm_modal"></div>
     <div id="sbox-overlay" onclick="toggleChBDiv(false)"
        style="z-index: 65555; position: fixed; top: 0px; left: 0px; visibility: visible; zoom: 1; background-color: #000000; opacity: 0.7; filter: alpha(opacity=70); display: none;">
     </div>
@@ -242,8 +264,8 @@ class  FMViewSubmissions_fm {
           </td>
           <td style="text-align: right;" width="300">
             <span class="exp_but_span">Export to</span>
-            <input type="button" class="button-secondary" value="CSV" onclick="window.location='<?php echo add_query_arg(array('action' => 'generete_csv', 'form_id' => $form_id), admin_url('admin-ajax.php')); ?>'" />&nbsp;
-            <input type="button" class="button-secondary" value="XML" onclick="window.location='<?php echo add_query_arg(array('action' => 'generete_xml', 'form_id' => $form_id), admin_url('admin-ajax.php')); ?>'" />
+            <input type="button" class="button-secondary" value="CSV" onclick="export_submissions('csv', 0)" />&nbsp;
+            <input type="button" class="button-secondary" value="XML" onclick="export_submissions('xml', 0)" />
           </td>			
         </tr>       
         <tr>
@@ -700,7 +722,24 @@ class  FMViewSubmissions_fm {
           </td>
 		    </tr>
 		  </table>
-		  <div id="div_stats"></div>	
+		  <div id="div_stats"></div>
+		<script>
+		function show_stats() { 
+			jQuery('#div_stats').html('<div id="saving"><div id="saving_text">Loading</div><div id="fadingBarsG"><div id="fadingBarsG_1" class="fadingBarsG"></div><div id="fadingBarsG_2" class="fadingBarsG"></div><div id="fadingBarsG_3" class="fadingBarsG"></div><div id="fadingBarsG_4" class="fadingBarsG"></div><div id="fadingBarsG_5" class="fadingBarsG"></div><div id="fadingBarsG_6" class="fadingBarsG"></div><div id="fadingBarsG_7" class="fadingBarsG"></div><div id="fadingBarsG_8" class="fadingBarsG"></div></div></div>');
+			if(jQuery('#sorted_label_key').val()!="") {	 	  
+				jQuery('#div_stats').load('<?php echo add_query_arg(array('action' => 'get_stats', 'page' => 'submissions_fm'), admin_url('admin-ajax.php')); ?>', { 
+					'task': 'show_stats',
+					'form_id' : '<?php echo $form_id; ?>',
+					'sorted_label_key' : jQuery('#sorted_label_key').val(),
+					'startdate' : jQuery('#startstats').val(), 
+					'enddate' : jQuery('#endstats').val(),
+					'nonce_fm_ajax': '<?php echo $ajax_nonce; ?>'
+				});
+			}		
+			else
+				jQuery('#div_stats').html("Please select the field!")
+		}
+		 </script>
         <?php	
         }
       }
@@ -710,21 +749,6 @@ class  FMViewSubmissions_fm {
       jQuery(window).load(function() {
         spider_popup();
       });
-	  function show_stats() { 
-		jQuery('#div_stats').html('<div id="saving"><div id="saving_text">Loading</div><div id="fadingBarsG"><div id="fadingBarsG_1" class="fadingBarsG"></div><div id="fadingBarsG_2" class="fadingBarsG"></div><div id="fadingBarsG_3" class="fadingBarsG"></div><div id="fadingBarsG_4" class="fadingBarsG"></div><div id="fadingBarsG_5" class="fadingBarsG"></div><div id="fadingBarsG_6" class="fadingBarsG"></div><div id="fadingBarsG_7" class="fadingBarsG"></div><div id="fadingBarsG_8" class="fadingBarsG"></div></div></div>');
-		if(jQuery('#sorted_label_key').val()!="") {	 	  
-		  jQuery('#div_stats').load('<?php echo add_query_arg(array('action' => 'get_stats', 'page' => 'submissions_fm'), admin_url('admin-ajax.php')); ?>', { 
-		    'task': 'show_stats',
-		    'form_id' : '<?php echo $form_id; ?>',
-		    'sorted_label_key' : jQuery('#sorted_label_key').val(),
-			'startdate' : jQuery('#startstats').val(), 
-			'enddate' : jQuery('#endstats').val(),
-			'nonce_fm_ajax': '<?php echo $ajax_nonce; ?>'
-		    });
-	    }		
-		else
-		  jQuery('#div_stats').html("Please select the field!")
-	  }
       <?php
       if ($ka_fielderov_search) {
         ?> 
