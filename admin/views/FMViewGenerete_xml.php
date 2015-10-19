@@ -23,21 +23,16 @@ class FMViewGenerete_xml {
   // Public Methods                                                                     //
   ////////////////////////////////////////////////////////////////////////////////////////
   public function display() {
+	$form_id = (int)$_REQUEST['form_id'];
 	$params = $this->model->get_data();
 	$limitstart = (int)$_REQUEST['limitstart'];
 	$send_header = (int)$_REQUEST['send_header'];
 	$data = $params[0];
 	$title = $params[1]; 
-	
-	if(!file_exists(WD_FM_DIR . '/export'))
-		mkdir(WD_FM_DIR . '/export' , 0777);
-	
-	if(file_exists(WD_FM_DIR . '/export/export.txt') && $limitstart == 0){
-		unlink(WD_FM_DIR . '/export/export.txt');
-	}
-	
 	define('PHP_TAB', "\t");
-	$output = fopen(WD_FM_DIR . '/export/export.txt', "a");
+	
+	$tempfile = WD_FM_DIR . '/export'.$form_id.'.txt';
+	$output = fopen($tempfile, "a");
 	if($limitstart == 0) {
 		fwrite($output, '<?xml version="1.0" encoding="utf-8" ?>'.PHP_EOL);
 		fwrite($output, '<form title="'.$title.'">'.PHP_EOL);
@@ -56,12 +51,17 @@ class FMViewGenerete_xml {
 	if($send_header == 1){
 		fwrite($output, '</form>');
 		fclose($output);
+		
+		$txtfile = fopen($tempfile, "r");
+		$txtfilecontent = fread($txtfile, filesize($tempfile));
+		fclose($txtfile);
 		$filename = $title . "_" . date('Ymd') . ".xml";
 		header('Content-Encoding: Windows-1252');
 		header('Content-type: text/xml; charset=utf-8');
 		header("Content-Disposition: attachment; filename=\"$filename\"");
 		
-		$exported = copy(WD_FM_DIR . '/export/export.txt', "php://output");
+		echo $txtfilecontent;
+		unlink($tempfile);
 		die(); 
 	} 
 	

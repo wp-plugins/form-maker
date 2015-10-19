@@ -23,6 +23,7 @@ class FMViewGenerete_csv {
   // Public Methods                                                                     //
   ////////////////////////////////////////////////////////////////////////////////////////
 	public function display() {
+		$form_id = (int)$_REQUEST['form_id'];
 		$params = $this->model->get_data();
 		$limitstart = (int)$_REQUEST['limitstart'];
 		$send_header = (int)$_REQUEST['send_header'];
@@ -44,17 +45,11 @@ class FMViewGenerete_csv {
 			$data[$key] = $row;
 		}
 
-		if(!file_exists(WD_FM_DIR . '/export'))
-			mkdir(WD_FM_DIR . '/export' , 0777);
-		
-		if(file_exists(WD_FM_DIR . '/export/export.txt') && $limitstart == 0){
-			unlink(WD_FM_DIR . '/export/export.txt');
-		}
-		
-		$output = fopen(WD_FM_DIR . '/export/export.txt', "a");
+		$tempfile = WD_FM_DIR . '/export'.$form_id.'.txt';
+		$output = fopen($tempfile, "a");
 		if($limitstart == 0) {
 			fputcsv($output, str_replace('PAYPAL_', '', $keys_array));
-		}	
+		}
 		
 		foreach ($data as $record) {
 			fputcsv($output, $record);
@@ -62,12 +57,17 @@ class FMViewGenerete_csv {
 		fclose($output);
 		
 		if($send_header == 1){
+			$txtfile = fopen($tempfile, "r");
+			$txtfilecontent = fread($txtfile, filesize($tempfile));
+			fclose($txtfile);
+
 			$filename = $title . "_" . date('Ymd') . ".csv";
 			header('Content-Encoding: Windows-1252');
 			header('Content-type: text/csv; charset=Windows-1252');
 			header("Content-Disposition: attachment; filename=\"$filename\"");
 			
-			$exported = copy(WD_FM_DIR . '/export/export.txt', "php://output");
+			echo $txtfilecontent;
+			unlink($tempfile);
 			die(); 
 		}
 
