@@ -135,9 +135,9 @@ class FMViewThemes_fm {
                               spider_form_submit(event, 'themes_form')" href="">Edit</a>
                 </td>
                 <td class="table_big_col">
-                  <a onclick="spider_set_input_value('task', 'delete');
+                  <a onclick="if (confirm('Do you want to delete selected item(s)?')) { spider_set_input_value('task', 'delete');
                               spider_set_input_value('current_id', '<?php echo $row_data->id; ?>');
-                              spider_form_submit(event, 'themes_form')" href="">Delete</a>
+                              spider_form_submit(event, 'themes_form'); } else { return false; }" href="">Delete</a>
                 </td>
               </tr>
               <?php

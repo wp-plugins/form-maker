@@ -117,9 +117,9 @@ class FMViewBlocked_ips_fm {
                   <a onclick="spider_edit_ip(<?php echo $row_data->id; ?>)">Edit</a>
                 </td>
                 <td class="table_big_col" id="td_delete_<?php echo $row_data->id; ?>">
-                  <a onclick="spider_set_input_value('task', 'delete');
+                  <a onclick="if (confirm('Do you want to delete selected item(s)?')) { spider_set_input_value('task', 'delete');
                               spider_set_input_value('current_id', <?php echo $row_data->id; ?>);
-                              spider_form_submit(event, 'blocked_ips')" href="">Delete</a>
+                              spider_form_submit(event, 'blocked_ips'); } else { return false;}" href="">Delete</a>
                 </td>
               </tr>
               <?php

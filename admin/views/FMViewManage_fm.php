@@ -126,9 +126,8 @@ class FMViewManage_fm {
                               spider_form_submit(event, 'manage_form')" href="">Edit</a>
                 </td>
                 <td class="table_big_col">
-                  <a onclick="spider_set_input_value('task', 'delete');
-                              spider_set_input_value('current_id', '<?php echo $row_data->id; ?>');
-                              spider_form_submit(event, 'manage_form')" href="">Delete</a>
+                  <a onclick="if (confirm('Do you want to delete selected item(s)?')) { spider_set_input_value('task', 'delete');
+                    spider_set_input_value('current_id', '<?php echo $row_data->id; ?>'); spider_form_submit(event, 'manage_form'); } else { return false; }" href="">Delete</a>
                 </td>
               </tr>
               <?php

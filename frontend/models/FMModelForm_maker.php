@@ -794,7 +794,9 @@ class FMModelForm_maker {
           }
           $chgnac = FALSE;
         }
-      }
+		else
+			$fvals['{'.$i.'}'] = '';
+	  }
     }
     else {
       foreach ($label_type as $key => $type) {

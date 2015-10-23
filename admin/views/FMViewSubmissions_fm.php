@@ -307,7 +307,7 @@ class  FMViewSubmissions_fm {
       <div class="tablenav top" style="width: 99%;">
         <?php WDW_FM_Library::html_page_nav($lists['total'], $lists['limit'], 'admin_form'); ?>
       </div>    
-      <div class="submit_content" style="width: 99%;">
+      <div class="submit_content" id="fm-scroll" style="width: 99%;">
         <table class="wp-list-table widefat fixed posts table_content">
           <thead>
             <tr>
@@ -525,9 +525,7 @@ class  FMViewSubmissions_fm {
                 </a>
               </td>
               <td class="table_small_col sub-align">
-                <a href="" onclick="spider_set_input_value('task', 'delete');						  
-                                    spider_set_input_value('current_id',<?php echo $data->group_id; ?>);
-                                    spider_form_submit(event, 'admin_form');">Delete
+                <a href="" onclick="if (confirm('Do you want to delete selected item(s)?')) { spider_set_input_value('task', 'delete'); spider_set_input_value('current_id',<?php echo $data->group_id; ?>); spider_form_submit(event, 'admin_form'); } else { return false; }">Delete
                 </a>
               </td>		 
               <td  class="table_large_col submitdate_fc sub-align" id="submitdate_fc" <?php echo $style_date; ?>>
@@ -745,9 +743,26 @@ class  FMViewSubmissions_fm {
       }
       ?>
     </form>	
-    <script> 
+    <script>
+		function fm_scroll(element) {
+			var scrollbar= document.createElement('div');
+			scrollbar.appendChild(document.createElement('div'));
+			scrollbar.style.overflow= 'auto';
+			scrollbar.style.overflowY= 'hidden';
+			scrollbar.firstChild.style.width= element.scrollWidth+'px';
+			scrollbar.firstChild.style.paddingTop= '1px';
+			scrollbar.firstChild.appendChild(document.createTextNode('\xA0'));
+			scrollbar.onscroll= function() {
+				element.scrollLeft= scrollbar.scrollLeft;
+			};
+			element.onscroll= function() {
+				scrollbar.scrollLeft= element.scrollLeft;
+			};
+			element.parentNode.insertBefore(scrollbar, element);
+		}	
       jQuery(window).load(function() {
         spider_popup();
+		fm_scroll(document.getElementById('fm-scroll'));
       });
       <?php
       if ($ka_fielderov_search) {
