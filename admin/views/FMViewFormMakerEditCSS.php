@@ -54,15 +54,15 @@ class FMViewFormMakerEditCSS {
 
     <form id="fm_theme" class="wrap wp-core-ui" method="post" action="#" style="width: 99%; margin: 5px 0 0 5px;">
       <div style="float: right; margin: 0 5px 0 0;">
-        <input class="button-secondary" type="submit" onclick="if (spider_check_required('title', 'Theme title')) {return false;};
-                                                               spider_set_input_value('task', 'save');
+        <input class="button-secondary" type="submit" onclick="if (fm_check_required('title', 'Theme title')) {return false;};
+                                                               fm_set_input_value('task', 'save');
                                                                window.parent.jQuery('#theme option[value=<?php echo $theme_id; ?>]').html(jQuery('#title').val());
                                                                window.parent.tb_remove();" value="Save"/>
-        <input class="button-secondary" type="submit" onclick="if (spider_check_required('title', 'Theme title')) {return false;};
-                                                               spider_set_input_value('task', 'apply');
+        <input class="button-secondary" type="submit" onclick="if (fm_check_required('title', 'Theme title')) {return false;};
+                                                               fm_set_input_value('task', 'apply');
                                                                window.parent.jQuery('#theme option[value=<?php echo $theme_id; ?>]').html(jQuery('#title').val());" value="Apply"/>
-        <input class="button-secondary" type="submit" onclick="if (spider_check_required('title', 'Theme title')) {return false;};
-                                                               spider_set_input_value('task', 'save_as_new');
+        <input class="button-secondary" type="submit" onclick="if (fm_check_required('title', 'Theme title')) {return false;};
+                                                               fm_set_input_value('task', 'save_as_new');
                                                                window.parent.jQuery('#theme').append('<option value=0>' + jQuery('#title').val() + '</option>');
                                                                window.parent.tb_remove();" value="Save as New"/>
         <input class="button-primary" type="button" onclick="jQuery('#css').val(jQuery('#main_theme').html());" value="Reset"/>
@@ -71,11 +71,11 @@ class FMViewFormMakerEditCSS {
       <table style="clear: both;">
         <tbody>
           <tr>
-            <td class="spider_label"><label for="title">Theme title: <span style="color:#FF0000;"> * </span> </label></td>
-            <td><input type="text" id="title" name="title" value="<?php echo $row->title; ?>" class="spider_text_input" /></td>
+            <td class="fm_label"><label for="title">Theme title: <span style="color:#FF0000;"> * </span> </label></td>
+            <td><input type="text" id="title" name="title" value="<?php echo $row->title; ?>" class="fm_text_input" /></td>
           </tr>
           <tr>
-            <td class="spider_label"><label for="css">Css: </label></td>
+            <td class="fm_label"><label for="css">Css: </label></td>
             <td style="width: 90%;"><textarea id="css" name="css" rows="25" style="width: 100%;"><?php echo htmlspecialchars($row->css); ?></textarea></td>
           </tr>
         </tbody>

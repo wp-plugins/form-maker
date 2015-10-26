@@ -45,13 +45,13 @@ class FMViewManage_fm {
         </a>
       </div>
     </div>
-    <form onkeypress="spider_doNothing(event)" class="wrap" id="manage_form" method="post" action="admin.php?page=manage_fm" style="float: left; width: 99%;">
+    <form onkeypress="fm_doNothing(event)" class="wrap" id="manage_form" method="post" action="admin.php?page=manage_fm" style="float: left; width: 99%;">
       <?php wp_nonce_field('nonce_fm', 'nonce_fm'); ?>
       <span class="form_maker_icon"></span>
       <h2>
         Form Maker
-        <a href="" class="add-new-h2" onclick="spider_set_input_value('task', 'add');
-                                               spider_form_submit(event, 'manage_form')">Add new</a>
+        <a href="" class="add-new-h2" onclick="fm_set_input_value('task', 'add');
+                                               fm_form_submit(event, 'manage_form')">Add new</a>
       </h2>
       <div class="tablenav top">
         <?php
@@ -63,32 +63,32 @@ class FMViewManage_fm {
         <thead>
           <th class="manage-column column-cb check-column table_small_col"><input id="check_all" type="checkbox" style="margin:0;"/></th>
           <th class="table_small_col <?php if ($order_by == 'id') { echo $order_class; } ?>">
-            <a onclick="spider_set_input_value('task', '');
-              spider_set_input_value('order_by', 'id');
-              spider_set_input_value('asc_or_desc', '<?php echo (($order_by == 'id' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
-              spider_form_submit(event, 'manage_form')" href="">
+            <a onclick="fm_set_input_value('task', '');
+              fm_set_input_value('order_by', 'id');
+              fm_set_input_value('asc_or_desc', '<?php echo (($order_by == 'id' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
+              fm_form_submit(event, 'manage_form')" href="">
               <span>ID</span><span class="sorting-indicator"></span></a>
           </th>
           <th class="<?php if ($order_by == 'title') { echo $order_class; } ?>">
-            <a onclick="spider_set_input_value('task', '');
-              spider_set_input_value('order_by', 'title');
-              spider_set_input_value('asc_or_desc', '<?php echo (($order_by == 'title' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
-              spider_form_submit(event, 'manage_form')" href="">
+            <a onclick="fm_set_input_value('task', '');
+              fm_set_input_value('order_by', 'title');
+              fm_set_input_value('asc_or_desc', '<?php echo (($order_by == 'title' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
+              fm_form_submit(event, 'manage_form')" href="">
               <span>Title</span><span class="sorting-indicator"></span></a>
           </th>
           <th class="<?php if ($order_by == 'mail') { echo $order_class; } ?>">
-            <a onclick="spider_set_input_value('task', '');
-              spider_set_input_value('order_by', 'mail');
-              spider_set_input_value('asc_or_desc', '<?php echo (($order_by == 'mail' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
-              spider_form_submit(event, 'manage_form')" href="">
+            <a onclick="fm_set_input_value('task', '');
+              fm_set_input_value('order_by', 'mail');
+              fm_set_input_value('asc_or_desc', '<?php echo (($order_by == 'mail' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
+              fm_form_submit(event, 'manage_form')" href="">
               <span>Email to send submissions to</span><span class="sorting-indicator"></span></a>
           </th>
           <th class="table_big_col">Shortcode</th>
           <th class="table_large_col">PHP function</th>
           <th class="table_big_col">Edit</th>
           <th class="table_big_col"><a title="Delete selected items" href="" onclick="if (confirm('Do you want to delete selected items?')) {
-                                                       spider_set_input_value('task', 'delete_all');
-                                                       spider_form_submit(event, 'manage_form');
+                                                       fm_set_input_value('task', 'delete_all');
+                                                       fm_form_submit(event, 'manage_form');
                                                      } else {
                                                        return false;
                                                      }">Delete</a></th>
@@ -109,25 +109,25 @@ class FMViewManage_fm {
                 </td>
                 <td class="table_small_col"><?php echo $row_data->id; ?></td>
                 <td>
-                  <a onclick="spider_set_input_value('task', 'edit<?php echo $old; ?>');
-                              spider_set_input_value('current_id', '<?php echo $row_data->id; ?>');
-                              spider_form_submit(event, 'manage_form')" href="" title="Edit"><?php echo $row_data->title; ?></a>
+                  <a onclick="fm_set_input_value('task', 'edit<?php echo $old; ?>');
+                              fm_set_input_value('current_id', '<?php echo $row_data->id; ?>');
+                              fm_form_submit(event, 'manage_form')" href="" title="Edit"><?php echo $row_data->title; ?></a>
                 </td>
                 <td><?php echo $row_data->mail; ?></td>
                 <td class="table_big_col" style="padding-left: 0; padding-right: 0;">
-                  <input type="text" value='[Form id="<?php echo $row_data->id; ?>"]' onclick="spider_select_value(this)" size="12" readonly="readonly" style="padding-left: 1px; padding-right: 1px;"/>
+                  <input type="text" value='[Form id="<?php echo $row_data->id; ?>"]' onclick="fm_select_value(this)" size="12" readonly="readonly" style="padding-left: 1px; padding-right: 1px;"/>
                 </td>
                 <td class="table_large_col" style="padding-left: 0; padding-right: 0;">
-                  <input type="text" value='&#60;?php wd_form_maker(<?php echo $row_data->id; ?>); ?&#62;' onclick="spider_select_value(this)"  readonly="readonly" style="padding-left: 1px; padding-right: 1px;"/>
+                  <input type="text" value='&#60;?php wd_form_maker(<?php echo $row_data->id; ?>); ?&#62;' onclick="fm_select_value(this)"  readonly="readonly" style="padding-left: 1px; padding-right: 1px;"/>
                 </td>
                 <td class="table_big_col">
-                  <a onclick="spider_set_input_value('task', 'edit<?php echo $old; ?>');
-                              spider_set_input_value('current_id', '<?php echo $row_data->id; ?>');
-                              spider_form_submit(event, 'manage_form')" href="">Edit</a>
+                  <a onclick="fm_set_input_value('task', 'edit<?php echo $old; ?>');
+                              fm_set_input_value('current_id', '<?php echo $row_data->id; ?>');
+                              fm_form_submit(event, 'manage_form')" href="">Edit</a>
                 </td>
                 <td class="table_big_col">
-                  <a onclick="if (confirm('Do you want to delete selected item(s)?')) { spider_set_input_value('task', 'delete');
-                    spider_set_input_value('current_id', '<?php echo $row_data->id; ?>'); spider_form_submit(event, 'manage_form'); } else { return false; }" href="">Delete</a>
+                  <a onclick="if (confirm('Do you want to delete selected item(s)?')) { fm_set_input_value('task', 'delete');
+                    fm_set_input_value('current_id', '<?php echo $row_data->id; ?>'); fm_form_submit(event, 'manage_form'); } else { return false; }" href="">Delete</a>
                 </td>
               </tr>
               <?php
@@ -433,7 +433,7 @@ class FMViewManage_fm {
 
 		if($backup_id)
 		{?>
-		<input class="button-primary" type="submit" onclick="if (spider_check_required('title', 'Form title') || !submitbutton()) {return false;}; jQuery('#saving_text').html('Redo');spider_set_input_value('task', 'redo');" value="Redo"/>
+		<input class="button-primary" type="submit" onclick="if (fm_check_required('title', 'Form title') || !submitbutton()) {return false;}; jQuery('#saving_text').html('Redo');fm_set_input_value('task', 'redo');" value="Redo"/>
 
 		<?php
 		}
@@ -443,24 +443,24 @@ class FMViewManage_fm {
 
 		if($backup_id)
 		{?>
-		<input class="button-secondary" type="submit" onclick="if (spider_check_required('title', 'Form title') || !submitbutton()) {return false;}; jQuery('#saving_text').html('Undo');spider_set_input_value('task', 'undo');" value="Undo"/>
+		<input class="button-secondary" type="submit" onclick="if (fm_check_required('title', 'Form title') || !submitbutton()) {return false;}; jQuery('#saving_text').html('Undo');fm_set_input_value('task', 'undo');" value="Undo"/>
 
 		<?php
 		}
 }
 		 ?>
-        <input class="button-primary" type="submit" onclick="if (spider_check_required('title', 'Form title') || !submitbutton()) {return false;}; spider_set_input_value('task', 'form_options');" value="Form Options"/>
-        <input class="button-primary" type="submit" onclick="if (spider_check_required('title', 'Form title') || !submitbutton()) {return false;}; spider_set_input_value('task', 'form_layout');" value="Form Layout"/>
+        <input class="button-primary" type="submit" onclick="if (fm_check_required('title', 'Form title') || !submitbutton()) {return false;}; fm_set_input_value('task', 'form_options');" value="Form Options"/>
+        <input class="button-primary" type="submit" onclick="if (fm_check_required('title', 'Form title') || !submitbutton()) {return false;}; fm_set_input_value('task', 'form_layout');" value="Form Layout"/>
         <?php
         if ($id) {
           ?>
-          <input class="button-secondary" type="submit" onclick="if (spider_check_required('title', 'Form title') || !submitbutton()) {return false;}; spider_set_input_value('task', 'save_as_copy')" value="Save as Copy"/>
+          <input class="button-secondary" type="submit" onclick="if (fm_check_required('title', 'Form title') || !submitbutton()) {return false;}; fm_set_input_value('task', 'save_as_copy')" value="Save as Copy"/>
           <?php
         }
         ?>
-        <input class="button-secondary" type="submit" onclick="if (spider_check_required('title', 'Form title') || !submitbutton()) {return false;}; spider_set_input_value('task', 'save')" value="Save"/>
-        <input class="button-secondary" type="submit" onclick="if (spider_check_required('title', 'Form title') || !submitbutton()) {return false;}; spider_set_input_value('task', 'apply');" value="Apply"/>
-        <input class="button-secondary" type="submit" onclick="spider_set_input_value('task', 'cancel')" value="Cancel"/>
+        <input class="button-secondary" type="submit" onclick="if (fm_check_required('title', 'Form title') || !submitbutton()) {return false;}; fm_set_input_value('task', 'save')" value="Save"/>
+        <input class="button-secondary" type="submit" onclick="if (fm_check_required('title', 'Form title') || !submitbutton()) {return false;}; fm_set_input_value('task', 'apply');" value="Apply"/>
+        <input class="button-secondary" type="submit" onclick="fm_set_input_value('task', 'cancel')" value="Cancel"/>
       </div>
 
       <div class="formmaker_table" width="100%">
@@ -472,7 +472,7 @@ class FMViewManage_fm {
           <span style="font-size: 16.76pt; font-family: tahoma; color: #FFFFFF; vertical-align: middle;">Form title:&nbsp;&nbsp;</span>
           <input id="title" name="title" class="form_maker_title" value="<?php echo $row->title; ?>"/>
           <br />
-          <img src="<?php echo WD_FM_URL . '/images/formoptions.png'; ?>" onclick="if (spider_check_required('title', 'Form title') || !submitbutton()) {return false;}; spider_set_input_value('task', 'form_options'); spider_form_submit(event, 'manage_form');" style="cursor: pointer; margin: 10px 0 10px 10px; float: right;"/>
+          <img src="<?php echo WD_FM_URL . '/images/formoptions.png'; ?>" onclick="if (fm_check_required('title', 'Form title') || !submitbutton()) {return false;}; fm_set_input_value('task', 'form_options'); fm_form_submit(event, 'manage_form');" style="cursor: pointer; margin: 10px 0 10px 10px; float: right;"/>
           <br /><br /><br />
           <img src="<?php echo WD_FM_URL . '/images/addanewfield.png'; ?>" onclick="enable(); Enable();" style="cursor: pointer; margin:10px 0 10px 10px; float: right;"/>
         </div>
@@ -1418,17 +1418,17 @@ class FMViewManage_fm {
         <a href="<?php echo add_query_arg(array('action' => 'FormMakerPreview', 'id' => $row->theme, 'width' => '1000', 'height' => '500', 'TB_iframe' => '1'), admin_url('admin-ajax.php')); ?>" class="button-primary thickbox thickbox-preview" id="preview_form" title="Form Preview" onclick="return false;">
           Preview
         </a>
-        <input class="button-primary" type="submit" onclick="if (spider_check_required('title', 'Form title') || !submitbutton()) {return false;}; spider_set_input_value('task', 'form_options_old');" value="Form options"/>
+        <input class="button-primary" type="submit" onclick="if (fm_check_required('title', 'Form title') || !submitbutton()) {return false;}; fm_set_input_value('task', 'form_options_old');" value="Form options"/>
         <?php
         if ($id) {
           ?>
-          <input class="button-secondary" type="submit" onclick="if (spider_check_required('title', 'Form title') || !submitbutton()) {return false;}; spider_set_input_value('task', 'save_as_copy_old')" value="Save as Copy"/>
+          <input class="button-secondary" type="submit" onclick="if (fm_check_required('title', 'Form title') || !submitbutton()) {return false;}; fm_set_input_value('task', 'save_as_copy_old')" value="Save as Copy"/>
           <?php
         }
         ?>
-        <input class="button-secondary" type="submit" onclick="if (spider_check_required('title', 'Form title') || !submitbutton()) {return false;}; spider_set_input_value('task', 'save_old')" value="Save"/>
-        <input class="button-secondary" type="submit" onclick="if (spider_check_required('title', 'Form title') || !submitbutton()) {return false;}; spider_set_input_value('task', 'apply_old')" value="Apply"/>
-        <input class="button-secondary" type="submit" onclick="spider_set_input_value('task', 'cancel')" value="Cancel"/>
+        <input class="button-secondary" type="submit" onclick="if (fm_check_required('title', 'Form title') || !submitbutton()) {return false;}; fm_set_input_value('task', 'save_old')" value="Save"/>
+        <input class="button-secondary" type="submit" onclick="if (fm_check_required('title', 'Form title') || !submitbutton()) {return false;}; fm_set_input_value('task', 'apply_old')" value="Apply"/>
+        <input class="button-secondary" type="submit" onclick="fm_set_input_value('task', 'cancel')" value="Cancel"/>
       </div>
 
       <div class="formmaker_table" width="100%">
@@ -1440,7 +1440,7 @@ class FMViewManage_fm {
           <span style="font-size: 16.76pt; font-family: tahoma; color: #FFFFFF; vertical-align: middle;">Form title:&nbsp;&nbsp;</span>
           <input id="title" name="title" class="form_maker_title" value="<?php echo $row->title; ?>"/>
           <br />
-          <img src="<?php echo WD_FM_URL . '/images/formoptions.png'; ?>" onclick="if (spider_check_required('title', 'Form title')) {return false;}; submitbutton(); spider_set_input_value('task', 'form_options_old'); spider_form_submit(event, 'manage_form');" style="cursor: pointer; margin: 10px 0 10px 10px; float: right;"/>
+          <img src="<?php echo WD_FM_URL . '/images/formoptions.png'; ?>" onclick="if (fm_check_required('title', 'Form title')) {return false;}; submitbutton(); fm_set_input_value('task', 'form_options_old'); fm_form_submit(event, 'manage_form');" style="cursor: pointer; margin: 10px 0 10px 10px; float: right;"/>
           <br /><br /><br />
           <img src="<?php echo WD_FM_URL . '/images/addanewfield.png'; ?>" onclick="enable(); Enable();" style="cursor: pointer; margin:10px 0 10px 10px; float: right;"/>
         </div>
@@ -2248,7 +2248,7 @@ class FMViewManage_fm {
     </form>
     <script>
       jQuery(window).load(function() {
-        spider_popup();
+        fm_popup();
       });
     </script>
     <?php
@@ -2293,13 +2293,13 @@ class FMViewManage_fm {
       <?php wp_nonce_field('nonce_fm', 'nonce_fm'); ?>
       <h2><?php echo $page_title; ?></h2>
       <div style="float: right; margin: 0 5px 0 0;">
-        <input class="button-secondary" type="submit" onclick="if (spider_check_email('mail') ||
-                                                                   spider_check_email('from_mail') ||
-                                                                   spider_check_email('paypal_email')) {return false;}; spider_set_input_value('task', 'save_options_old')" value="Save"/>
-        <input class="button-secondary" type="submit" onclick="if (spider_check_email('mail') ||
-                                                                   spider_check_email('from_mail') ||
-                                                                   spider_check_email('paypal_email')) {return false;}; spider_set_input_value('task', 'apply_options_old')" value="Apply"/>
-        <input class="button-secondary" type="submit" onclick="spider_set_input_value('task', 'cancel_options_old')" value="Cancel"/>
+        <input class="button-secondary" type="submit" onclick="if (fm_check_email('mail') ||
+                                                                   fm_check_email('from_mail') ||
+                                                                   fm_check_email('paypal_email')) {return false;}; fm_set_input_value('task', 'save_options_old')" value="Save"/>
+        <input class="button-secondary" type="submit" onclick="if (fm_check_email('mail') ||
+                                                                   fm_check_email('from_mail') ||
+                                                                   fm_check_email('paypal_email')) {return false;}; fm_set_input_value('task', 'apply_options_old')" value="Apply"/>
+        <input class="button-secondary" type="submit" onclick="fm_set_input_value('task', 'cancel_options_old')" value="Cancel"/>
       </div>
       <input type="hidden" name="take" id="take" value="<?php $row->form ?>">
       <div class="submenu-box" style="width: 99%; float: left; margin: 15px 0 0 0;">
@@ -2637,7 +2637,7 @@ class FMViewManage_fm {
     <script>
       jQuery(window).load(function () {
         form_maker_options_tabs(jQuery("#fieldset_id").val());
-        spider_popup();
+        fm_popup();
       });
     </script>
     <?php
@@ -2743,23 +2743,23 @@ class FMViewManage_fm {
       <?php wp_nonce_field('nonce_fm', 'nonce_fm'); ?>
       <h2><?php echo $page_title; ?></h2>
       <div style="float: right; margin: 0 5px 0 0;">
-        <input class="button-secondary" type="submit" onclick="if (spider_check_email('mailToAdd') ||
-                                                                   spider_check_email('from_mail') ||
-                                                                   spider_check_email('reply_to') ||
-                                                                   spider_check_email('mail_from_user') ||
-                                                                   spider_check_email('reply_to_user') ||
-                                                                   spider_check_email('mail_from_other') ||
-                                                                   spider_check_email('reply_to_other') ||
-                                                                   spider_check_email('paypal_email')) {return false;}; set_condition(); spider_set_input_value('task', 'save_options')" value="Save"/>
-        <input class="button-secondary" type="submit" onclick="if (spider_check_email('mailToAdd') ||
-                                                                   spider_check_email('from_mail') ||
-                                                                   spider_check_email('reply_to') ||
-                                                                   spider_check_email('mail_from_user') ||
-                                                                   spider_check_email('reply_to_user') ||
-                                                                   spider_check_email('mail_from_other') ||
-                                                                   spider_check_email('reply_to_other') ||
-                                                                   spider_check_email('paypal_email')) {return false;}; set_condition(); spider_set_input_value('task', 'apply_options')" value="Apply"/>
-        <input class="button-secondary" type="submit" onclick="spider_set_input_value('task', 'cancel_options')" value="Cancel"/>
+        <input class="button-secondary" type="submit" onclick="if (fm_check_email('mailToAdd') ||
+                                                                   fm_check_email('from_mail') ||
+                                                                   fm_check_email('reply_to') ||
+                                                                   fm_check_email('mail_from_user') ||
+                                                                   fm_check_email('reply_to_user') ||
+                                                                   fm_check_email('mail_from_other') ||
+                                                                   fm_check_email('reply_to_other') ||
+                                                                   fm_check_email('paypal_email')) {return false;}; set_condition(); fm_set_input_value('task', 'save_options')" value="Save"/>
+        <input class="button-secondary" type="submit" onclick="if (fm_check_email('mailToAdd') ||
+                                                                   fm_check_email('from_mail') ||
+                                                                   fm_check_email('reply_to') ||
+                                                                   fm_check_email('mail_from_user') ||
+                                                                   fm_check_email('reply_to_user') ||
+                                                                   fm_check_email('mail_from_other') ||
+                                                                   fm_check_email('reply_to_other') ||
+                                                                   fm_check_email('paypal_email')) {return false;}; set_condition(); fm_set_input_value('task', 'apply_options')" value="Apply"/>
+        <input class="button-secondary" type="submit" onclick="fm_set_input_value('task', 'cancel_options')" value="Cancel"/>
       </div>
       <div class="submenu-box" style="width: 99%; float: left; margin: 15px 0 0 0;">
         <div class="submenu-pad">
@@ -3080,7 +3080,7 @@ class FMViewManage_fm {
                 <img src="<?php echo WD_FM_URL . '/images/add.png'; ?>"
                      style="vertical-align: middle; cursor: pointer;"
                      title="Add more emails"
-                     onclick="if (spider_check_email('mailToAdd')) {return false;};cfm_create_input('mail', 'mailToAdd', 'cfm_mail_div', '<?php echo WD_FM_URL; ?>')" />
+                     onclick="if (fm_check_email('mailToAdd')) {return false;};cfm_create_input('mail', 'mailToAdd', 'cfm_mail_div', '<?php echo WD_FM_URL; ?>')" />
                 <div id="cfm_mail_div">
                   <?php
                   $mail_array = explode(',', $row->mail);
@@ -4017,14 +4017,14 @@ class FMViewManage_fm {
           <a href="<?php echo add_query_arg(array('action' => 'FormMakerSQLMapping', 'id' => 0, 'form_id' => $row->id, 'width' => '1000', 'height' => '500', 'TB_iframe' => '1'), admin_url('admin-ajax.php')); ?>" class="button-secondary thickbox thickbox-preview" id="add_query" title="Add Query" onclick="return false;">
             Add Query
           </a>
-          <button class="button-primary thickbox thickbox-preview" onclick="if (spider_check_email('mailToAdd') ||
-                           spider_check_email('from_mail') ||
-                           spider_check_email('reply_to') ||
-                           spider_check_email('mail_from_user') ||
-                           spider_check_email('reply_to_user') ||
-                           spider_check_email('mail_from_other') ||
-                           spider_check_email('reply_to_other') ||
-                           spider_check_email('paypal_email')) {return false;}; set_condition(); spider_set_input_value('task', 'remove_query')">Delete</button>
+          <button class="button-primary thickbox thickbox-preview" onclick="if (fm_check_email('mailToAdd') ||
+                           fm_check_email('from_mail') ||
+                           fm_check_email('reply_to') ||
+                           fm_check_email('mail_from_user') ||
+                           fm_check_email('reply_to_user') ||
+                           fm_check_email('mail_from_other') ||
+                           fm_check_email('reply_to_other') ||
+                           fm_check_email('paypal_email')) {return false;}; set_condition(); fm_set_input_value('task', 'remove_query')">Delete</button>
         </div>
 				<?php 
 				if ($queries)
@@ -4072,7 +4072,7 @@ class FMViewManage_fm {
     <script>
       jQuery(window).load(function () {
         form_maker_options_tabs(jQuery("#fieldset_id").val());
-        spider_popup();
+        fm_popup();
         function hide_email_labels(event) {
           var e = event.toElement || event.relatedTarget;
           if (e.parentNode == this || e == this) {
@@ -4095,7 +4095,7 @@ class FMViewManage_fm {
       });
       function wd_fm_apply_options() {
         set_condition();
-        spider_set_input_value('task', 'apply_options');
+        fm_set_input_value('task', 'apply_options');
         document.getElementById('adminForm').submit();
       }
     </script>
@@ -4171,9 +4171,9 @@ class FMViewManage_fm {
       <form action="admin.php?page=manage_fm" method="post" name="adminForm" enctype="multipart/form-data">
         <?php wp_nonce_field('nonce_fm', 'nonce_fm'); ?>
         <div class="buttons_div">
-          <input class="button-secondary" type="submit" onclick="submitbutton(); spider_set_input_value('task', 'save_layout')" value="Save"/>
-          <input class="button-secondary" type="submit" onclick="submitbutton(); spider_set_input_value('task', 'apply_layout')" value="Apply"/>
-          <input class="button-secondary" type="submit" onclick="spider_set_input_value('task', 'cancel_options')" value="Cancel"/>
+          <input class="button-secondary" type="submit" onclick="submitbutton(); fm_set_input_value('task', 'save_layout')" value="Save"/>
+          <input class="button-secondary" type="submit" onclick="submitbutton(); fm_set_input_value('task', 'apply_layout')" value="Apply"/>
+          <input class="button-secondary" type="submit" onclick="fm_set_input_value('task', 'cancel_options')" value="Cancel"/>
         </div>
         <h2 style="clear: both;">Description</h2>
         <p>To customize the layout of the form fields uncheck the Auto-Generate Layout box and edit the HTML.</p>

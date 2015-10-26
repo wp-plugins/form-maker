@@ -45,7 +45,7 @@ class FMControllerBlocked_ips_fm {
     $message = $this->save_db();
     // $this->display();
     $page = WDW_FM_Library::get('page');
-    WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
+    WDW_FM_Library::fm_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
   }
 
   public function save_db() {
@@ -98,7 +98,7 @@ class FMControllerBlocked_ips_fm {
     }
     // $this->display();
     $page = WDW_FM_Library::get('page');
-    WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
+    WDW_FM_Library::fm_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
   }
 
   public function delete($id) {
@@ -112,7 +112,7 @@ class FMControllerBlocked_ips_fm {
     }
     // $this->display();
     $page = WDW_FM_Library::get('page');
-    WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
+    WDW_FM_Library::fm_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
   }
   
   public function delete_all() {
@@ -133,7 +133,7 @@ class FMControllerBlocked_ips_fm {
     }
     // $this->display();
     $page = WDW_FM_Library::get('page');
-    WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
+    WDW_FM_Library::fm_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////

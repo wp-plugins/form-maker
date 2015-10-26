@@ -44,14 +44,14 @@ class FMViewBlocked_ips_fm {
         </a>
       </div>
     </div>
-    <form onkeypress="spider_doNothing(event)" class="wrap" id="blocked_ips" method="post" action="admin.php?page=blocked_ips_fm" style="float: left; width: 99%;">
+    <form onkeypress="fm_doNothing(event)" class="wrap" id="blocked_ips" method="post" action="admin.php?page=blocked_ips_fm" style="float: left; width: 99%;">
       <?php wp_nonce_field('nonce_fm', 'nonce_fm'); ?>
       <span class="block_icon"></span>
       <h2>Blocked IPs</h2>
       <div class="buttons_div">
-        <input class="button-primary" type="submit" value="Save" onclick="spider_set_input_value('task', 'save_all');" />
+        <input class="button-primary" type="submit" value="Save" onclick="fm_set_input_value('task', 'save_all');" />
         <input class="button-secondary" type="submit" value="Delete" onclick="if (confirm('Do you want to unblock selected IPs?')) {
-                                                                      spider_set_input_value('task', 'delete_all');
+                                                                      fm_set_input_value('task', 'delete_all');
                                                                     } else {
                                                                       return false;
                                                                     }" />
@@ -67,17 +67,17 @@ class FMViewBlocked_ips_fm {
           <tr>
             <th class="manage-column column-cb check-column table_small_col"><input id="check_all" type="checkbox" style="margin: 0;" /></th>
             <th class="table_small_col <?php if ($order_by == 'id') {echo $order_class;} ?>">
-              <a onclick="spider_set_input_value('task', '');
-                          spider_set_input_value('order_by', 'id');
-                          spider_set_input_value('asc_or_desc', '<?php echo (($order_by == 'id' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
-                          spider_form_submit(event, 'blocked_ips')" href="">
+              <a onclick="fm_set_input_value('task', '');
+                          fm_set_input_value('order_by', 'id');
+                          fm_set_input_value('asc_or_desc', '<?php echo (($order_by == 'id' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
+                          fm_form_submit(event, 'blocked_ips')" href="">
                 <span>ID</span><span class="sorting-indicator"></span></th>
               </a>
             <th class="<?php if ($order_by == 'ip') {echo $order_class;} ?>">
-              <a onclick="spider_set_input_value('task', '');
-                          spider_set_input_value('order_by', 'ip');
-                          spider_set_input_value('asc_or_desc', '<?php echo (($order_by == 'ip' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
-                          spider_form_submit(event, 'blocked_ips')" href="">
+              <a onclick="fm_set_input_value('task', '');
+                          fm_set_input_value('order_by', 'ip');
+                          fm_set_input_value('asc_or_desc', '<?php echo (($order_by == 'ip' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
+                          fm_form_submit(event, 'blocked_ips')" href="">
                 <span>IP</span><span class="sorting-indicator"></span>
               </a>
             </th>
@@ -87,12 +87,12 @@ class FMViewBlocked_ips_fm {
           <tr id="tr">
             <th></th>
             <th></th>
-            <th class="edit_input"><input type="text" class="input_th" id="ip" name="ip" onkeypress="return spider_check_isnum(event)"></th>
+            <th class="edit_input"><input type="text" class="input_th" id="ip" name="ip" onkeypress="return fm_check_isnum(event)"></th>
             <th class="table_big_col">
-              <a class="add_tag_th button-primary button button-small" onclick="if (spider_check_required('ip', 'IP')) {return false;}
-                                                                                spider_set_input_value('task', 'save');
-                                                                                spider_set_input_value('current_id', '');
-                                                                                spider_form_submit(event, 'blocked_ips')" href="">Add IP</a>
+              <a class="add_tag_th button-primary button button-small" onclick="if (fm_check_required('ip', 'IP')) {return false;}
+                                                                                fm_set_input_value('task', 'save');
+                                                                                fm_set_input_value('current_id', '');
+                                                                                fm_form_submit(event, 'blocked_ips')" href="">Add IP</a>
             </th>
             <th></th>
           </tr>
@@ -110,16 +110,16 @@ class FMViewBlocked_ips_fm {
                 <td class="table_small_col" id="td_id_<?php echo $row_data->id; ?>" ><?php echo $row_data->id; ?></td>
                 <td id="td_ip_<?php echo $row_data->id; ?>" >
                   <a class="pointer" id="ip<?php echo $row_data->id; ?>"
-                     onclick="spider_edit_ip(<?php echo $row_data->id; ?>)" 
+                     onclick="fm_edit_ip(<?php echo $row_data->id; ?>)" 
                      title="Edit"><?php echo $row_data->ip; ?></a>
                 </td>
                 <td class="table_big_col" id="td_edit_<?php echo $row_data->id; ?>">
-                  <a onclick="spider_edit_ip(<?php echo $row_data->id; ?>)">Edit</a>
+                  <a onclick="fm_edit_ip(<?php echo $row_data->id; ?>)">Edit</a>
                 </td>
                 <td class="table_big_col" id="td_delete_<?php echo $row_data->id; ?>">
-                  <a onclick="if (confirm('Do you want to delete selected item(s)?')) { spider_set_input_value('task', 'delete');
-                              spider_set_input_value('current_id', <?php echo $row_data->id; ?>);
-                              spider_form_submit(event, 'blocked_ips'); } else { return false;}" href="">Delete</a>
+                  <a onclick="if (confirm('Do you want to delete selected item(s)?')) { fm_set_input_value('task', 'delete');
+                              fm_set_input_value('current_id', <?php echo $row_data->id; ?>);
+                              fm_form_submit(event, 'blocked_ips'); } else { return false;}" href="">Delete</a>
                 </td>
               </tr>
               <?php

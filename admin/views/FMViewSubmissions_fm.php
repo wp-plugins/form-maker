@@ -272,8 +272,8 @@ class  FMViewSubmissions_fm {
           <td align="left" colspan="4">
             <input type="hidden" name="hide_label_list" value="<?php echo $lists['hide_label_list']; ?>" />
             <img src="<?php echo WD_FM_URL . '/images/filter_show.png'; ?>" width="40" style="vertical-align: bottom; cursor: pointer;" onclick="show_hide_filter()" title="Search by fields" id="filter_img" />
-            <input type="button" class="button-secondary" onclick="spider_form_submit(event, 'admin_form')" value="Go" />
-            <input type="button" class="button-secondary" onclick="remove_all(); spider_form_submit(event, 'admin_form')" value="Reset" />
+            <input type="button" class="button-secondary" onclick="fm_form_submit(event, 'admin_form')" value="Go" />
+            <input type="button" class="button-secondary" onclick="remove_all(); fm_form_submit(event, 'admin_form')" value="Reset" />
           </td>
           <td align="right" colspan="2">
             <br />
@@ -284,11 +284,11 @@ class  FMViewSubmissions_fm {
               <?php
             }
             ?>
-            <input class="button-secondary" type="button" onclick="spider_set_input_value('task', 'block_ip'); spider_form_submit(event, 'admin_form')" value="Block IP" />
-            <input class="button-secondary" type="button" onclick="spider_set_input_value('task', 'unblock_ip'); spider_form_submit(event, 'admin_form')" value="Unblock IP" />
+            <input class="button-secondary" type="button" onclick="fm_set_input_value('task', 'block_ip'); fm_form_submit(event, 'admin_form')" value="Block IP" />
+            <input class="button-secondary" type="button" onclick="fm_set_input_value('task', 'unblock_ip'); fm_form_submit(event, 'admin_form')" value="Unblock IP" />
             <input class="button-secondary" type="button" onclick="if (confirm('Do you want to delete selected items?')) {
-                                                                     spider_set_input_value('task', 'delete_all');
-                                                                     spider_form_submit(event, 'admin_form')
+                                                                     fm_set_input_value('task', 'delete_all');
+                                                                     fm_form_submit(event, 'admin_form')
                                                                    } else {
                                                                      return false;
                                                                    }" value="Delete"/>
@@ -314,9 +314,9 @@ class  FMViewSubmissions_fm {
               <th class="table_small_col count_col sub-align">#</th>
               <th scope="col" id="cb" class="manage-column column-cb check-column table_small_col sub-align form_check"><input id="check_all" type="checkbox"></th>
               <th scope="col" id="submitid_fc" class="table_small_col sub-align submitid_fc <?php if ($order_by == "group_id") echo $oder_class; else echo $oder_class_default; ?>" <?php echo $style_id;?>>
-                <a href="" class="sub_id" onclick="spider_set_input_value('order_by', 'group_id');
-                                                   spider_set_input_value('asc_or_desc', '<?php echo (($order_by == 'group_id' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
-                                                   spider_form_submit(event, 'admin_form')">
+                <a href="" class="sub_id" onclick="fm_set_input_value('order_by', 'group_id');
+                                                   fm_set_input_value('asc_or_desc', '<?php echo (($order_by == 'group_id' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
+                                                   fm_form_submit(event, 'admin_form')">
                   <span>ID</span>
                   <span class="sorting-indicator" style="margin-top: 8px;"></span>
                 </a>
@@ -324,35 +324,35 @@ class  FMViewSubmissions_fm {
               <th class="table_small_col sub-align">Edit</th>
               <th class="table_small_col sub-align">Delete</th>
               <th scope="col" id="submitdate_fc" class="table_large_col submitdate_fc <?php if ($order_by == "date") echo $oder_class; else echo $oder_class_default; ?>" <?php echo $style_date;?>>
-                <a href="" onclick="spider_set_input_value('order_by', 'date');
-                                    spider_set_input_value('asc_or_desc', '<?php echo (($order_by == 'date' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
-                                    spider_form_submit(event, 'admin_form')">
+                <a href="" onclick="fm_set_input_value('order_by', 'date');
+                                    fm_set_input_value('asc_or_desc', '<?php echo (($order_by == 'date' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
+                                    fm_form_submit(event, 'admin_form')">
                   <span>Submit date</span>
                   <span class="sorting-indicator"></span>
                 </a>
               </th>
               <th scope="col" id="submitterip_fc" class="table_medium_col_uncenter submitterip_fc <?php if ($order_by == "ip")echo $oder_class; else echo $oder_class_default;  ?>" <?php echo $style_ip;?>>
-                <a href="" onclick="spider_set_input_value('order_by', 'ip');
-                                    spider_set_input_value('asc_or_desc', '<?php echo (($order_by == 'ip' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
-                                    spider_form_submit(event, 'admin_form')">
+                <a href="" onclick="fm_set_input_value('order_by', 'ip');
+                                    fm_set_input_value('asc_or_desc', '<?php echo (($order_by == 'ip' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
+                                    fm_form_submit(event, 'admin_form')">
                   <span>Submitter's IP</span>
                   <span class="sorting-indicator"></span>
                 </a>
               </th>	
 			  
 			   <th scope="col" id="submitterusername_fc" class="table_medium_col_uncenter submitterusername_fc <?php if ($order_by == "display_name")echo $oder_class; else echo $oder_class_default;  ?>" <?php echo $style_username;?>>
-                <a href="" onclick="spider_set_input_value('order_by', 'display_name');
-                                    spider_set_input_value('asc_or_desc', '<?php echo (($order_by == 'display_name' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
-                                    spider_form_submit(event, 'admin_form')">
+                <a href="" onclick="fm_set_input_value('order_by', 'display_name');
+                                    fm_set_input_value('asc_or_desc', '<?php echo (($order_by == 'display_name' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
+                                    fm_form_submit(event, 'admin_form')">
                   <span>Submitter's Username</span>
                   <span class="sorting-indicator"></span>
                 </a>
               </th>	
 			  
 			  <th scope="col" id="submitteremail_fc" class="table_medium_col_uncenter submitteremail_fc <?php if ($order_by == "user_email")echo $oder_class; else echo $oder_class_default;  ?>" <?php echo $style_useremail ;?>>
-                <a href="" onclick="spider_set_input_value('order_by', 'user_email');
-                                    spider_set_input_value('asc_or_desc', '<?php echo (($order_by == 'user_email' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
-                                    spider_form_submit(event, 'admin_form')">
+                <a href="" onclick="fm_set_input_value('order_by', 'user_email');
+                                    fm_set_input_value('asc_or_desc', '<?php echo (($order_by == 'user_email' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
+                                    fm_form_submit(event, 'admin_form')">
                   <span>Submitter's Email Address</span>
                   <span class="sorting-indicator"></span>
                 </a>
@@ -368,9 +368,9 @@ class  FMViewSubmissions_fm {
                   $ispaypal = TRUE;
                   ?>
               <th <?php echo $styleStr; ?> id="<?php echo $sorted_labels_id[$i] . '_fc'; ?>" class="table_large_col <?php echo $sorted_labels_id[$i] . '_fc'; if ($order_by == $sorted_labels_id[$i] . "_field") echo $oder_class . '"';else echo $oder_class_default . '"'; ?>">
-                <a href="" onclick="spider_set_input_value('order_by', '<?php echo $sorted_labels_id[$i] . '_field'; ?>');
-                                    spider_set_input_value('asc_or_desc', '<?php echo (($order_by == $sorted_labels_id[$i] . '_field' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
-                                    spider_form_submit(event, 'admin_form')">	
+                <a href="" onclick="fm_set_input_value('order_by', '<?php echo $sorted_labels_id[$i] . '_field'; ?>');
+                                    fm_set_input_value('asc_or_desc', '<?php echo (($order_by == $sorted_labels_id[$i] . '_field' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
+                                    fm_form_submit(event, 'admin_form')">	
                   <span><?php echo $field_title; ?></span>
                   <span class="sorting-indicator"></span>
                 </a>
@@ -381,9 +381,9 @@ class  FMViewSubmissions_fm {
                 else {
                   ?>
               <th <?php echo $styleStr; ?> id="<?php  echo $sorted_labels_id[$i] . '_fc';?>" class="<?php echo ($sorted_label_types[$i] == 'type_mark_map' || $sorted_label_types[$i] == 'type_matrix') ? 'table_large_col ' : ''; echo $sorted_labels_id[$i] . '_fc'; if ($order_by == $sorted_labels_id[$i] . "_field") echo $oder_class . '"';else echo $oder_class_default . '"'; ?>">
-                <a href="" onclick="spider_set_input_value('order_by', '<?php echo $sorted_labels_id[$i] . '_field'; ?>');
-                                    spider_set_input_value('asc_or_desc', '<?php echo (($order_by == $sorted_labels_id[$i] . '_field' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
-                                    spider_form_submit(event, 'admin_form')">
+                <a href="" onclick="fm_set_input_value('order_by', '<?php echo $sorted_labels_id[$i] . '_field'; ?>');
+                                    fm_set_input_value('asc_or_desc', '<?php echo (($order_by == $sorted_labels_id[$i] . '_field' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
+                                    fm_form_submit(event, 'admin_form')">
                   <span><?php echo $field_title; ?></span>
                   <span class="sorting-indicator"></span>
                 </a>
@@ -513,25 +513,25 @@ class  FMViewSubmissions_fm {
                 <input type="checkbox" name="post[]" value="<?php echo $data->group_id; ?>">
               </th>   
               <td class="table_small_col sub-align submitid_fc" id="submitid_fc" <?php echo $style_id; ?>>
-                <a href="" onclick="spider_set_input_value('task', 'edit');						  
-                                    spider_set_input_value('current_id',<?php echo $data->group_id; ?>);
-                                    spider_form_submit(event, 'admin_form');" ><?php echo $data->group_id; ?>
+                <a href="" onclick="fm_set_input_value('task', 'edit');						  
+                                    fm_set_input_value('current_id',<?php echo $data->group_id; ?>);
+                                    fm_form_submit(event, 'admin_form');" ><?php echo $data->group_id; ?>
                 </a>
               </td> 
               <td class="table_small_col sub-align">
-                <a href="" onclick="spider_set_input_value('task', 'edit');						  
-                                    spider_set_input_value('current_id',<?php echo $data->group_id; ?>);
-                                    spider_form_submit(event, 'admin_form');">Edit
+                <a href="" onclick="fm_set_input_value('task', 'edit');						  
+                                    fm_set_input_value('current_id',<?php echo $data->group_id; ?>);
+                                    fm_form_submit(event, 'admin_form');">Edit
                 </a>
               </td>
               <td class="table_small_col sub-align">
-                <a href="" onclick="if (confirm('Do you want to delete selected item(s)?')) { spider_set_input_value('task', 'delete'); spider_set_input_value('current_id',<?php echo $data->group_id; ?>); spider_form_submit(event, 'admin_form'); } else { return false; }">Delete
+                <a href="" onclick="if (confirm('Do you want to delete selected item(s)?')) { fm_set_input_value('task', 'delete'); fm_set_input_value('current_id',<?php echo $data->group_id; ?>); fm_form_submit(event, 'admin_form'); } else { return false; }">Delete
                 </a>
               </td>		 
               <td  class="table_large_col submitdate_fc sub-align" id="submitdate_fc" <?php echo $style_date; ?>>
-                <a href="" onclick="spider_set_input_value('task', 'edit');						  
-                                    spider_set_input_value('current_id',<?php echo $data->group_id; ?>);
-                                    spider_form_submit(event, 'admin_form');" ><?php echo $data->date ;?>
+                <a href="" onclick="fm_set_input_value('task', 'edit');						  
+                                    fm_set_input_value('current_id',<?php echo $data->group_id; ?>);
+                                    fm_form_submit(event, 'admin_form');" ><?php echo $data->date ;?>
                 </a>
               </td>
               <td class="table_medium_col_uncenter submitterip_fc sub-align" id="submitterip_fc" <?php echo $style_ip; ?>>
@@ -761,7 +761,7 @@ class  FMViewSubmissions_fm {
 			element.parentNode.insertBefore(scrollbar, element);
 		}	
       jQuery(window).load(function() {
-        spider_popup();
+        fm_popup();
 		fm_scroll(document.getElementById('fm-scroll'));
       });
       <?php
@@ -866,17 +866,17 @@ class  FMViewSubmissions_fm {
           <tr>
             <td width="100%"><h2>Edit Submission</h2></td>
             <td align="right">
-              <input type="button" onclick="spider_set_input_value('task', 'save');						  
-                                            spider_set_input_value('current_id', <?php echo $current_id; ?>);
-                                            spider_form_submit(event, 'adminForm');" value="Save" class="button-secondary action">
+              <input type="button" onclick="fm_set_input_value('task', 'save');						  
+                                            fm_set_input_value('current_id', <?php echo $current_id; ?>);
+                                            fm_form_submit(event, 'adminForm');" value="Save" class="button-secondary action">
             </td>
             <td align="right">
-              <input type="button" onclick="spider_set_input_value('task', 'apply');						  
-                                            spider_set_input_value('current_id', <?php echo $current_id ;?>);
-                                            spider_form_submit(event, 'adminForm');" value="Apply" class="button-secondary action">
+              <input type="button" onclick="fm_set_input_value('task', 'apply');						  
+                                            fm_set_input_value('current_id', <?php echo $current_id ;?>);
+                                            fm_form_submit(event, 'adminForm');" value="Apply" class="button-secondary action">
             </td>
             <td align="right">
-              <input type="button" onclick="spider_set_input_value('task', '');spider_form_submit(event, 'adminForm');" value="Cancel" class="button-secondary action">
+              <input type="button" onclick="fm_set_input_value('task', '');fm_form_submit(event, 'adminForm');" value="Cancel" class="button-secondary action">
             </td>
           </tr>
         </tbody>
@@ -1124,42 +1124,42 @@ class  FMViewSubmissions_fm {
             <td width="100%"><h2>Edit Submission</h2></td>
             <td align="right">
               <input type="button" class="button-secondary" onclick="pressbutton();
-                                                                     spider_set_input_value('task', 'save');						  
-                                                                     spider_set_input_value('current_id', <?php echo $current_id ;?>);
-                                                                     spider_form_submit(event, 'formform_id_temp');" value="Save" class="button-secondary action">
+                                                                     fm_set_input_value('task', 'save');						  
+                                                                     fm_set_input_value('current_id', <?php echo $current_id ;?>);
+                                                                     fm_form_submit(event, 'formform_id_temp');" value="Save" class="button-secondary action">
             </td>
             <td align="right">
               <input type="button" class="button-secondary" onclick="pressbutton();
-                                                                     spider_set_input_value('task', 'apply');						  
-                                                                     spider_set_input_value('current_id', <?php echo $current_id ;?>);
-                                                                     spider_form_submit(event, 'formform_id_temp');" value="Apply" class="button-secondary action">
+                                                                     fm_set_input_value('task', 'apply');						  
+                                                                     fm_set_input_value('current_id', <?php echo $current_id ;?>);
+                                                                     fm_form_submit(event, 'formform_id_temp');" value="Apply" class="button-secondary action">
             </td>
             <td align="right">
-              <input class="button-secondary" type="button" onclick="spider_set_input_value('task', '');spider_form_submit(event, 'formform_id_temp');" value="Cancel" class="button-secondary action">
+              <input class="button-secondary" type="button" onclick="fm_set_input_value('task', '');fm_form_submit(event, 'formform_id_temp');" value="Cancel" class="button-secondary action">
             </td>
           </tr>
         </tbody>
       </table>
       <table class="admintable">
         <tr>
-          <td class="spider_label"><label for="ID">ID: </label></td>
+          <td class="fm_label"><label for="ID">ID: </label></td>
           <td><?php echo $rows[0]->group_id; ?></td>
         </tr>	
         <tr>
-          <td class="spider_label"><label for="Date">Date: </label></td>
+          <td class="fm_label"><label for="Date">Date: </label></td>
           <td><?php echo $rows[0]->date; ?></td>
         </tr>
         <tr>
-          <td class="spider_label"><label for="IP">IP: </label></td>
+          <td class="fm_label"><label for="IP">IP: </label></td>
           <td><?php echo $rows[0]->ip; ?></td>
         </tr>
 		
 		 <tr>
-          <td class="spider_label"><label for="Submitter's Username">Submitter's Username: </label></td>
+          <td class="fm_label"><label for="Submitter's Username">Submitter's Username: </label></td>
           <td><?php echo $username; ?></td>
         </tr>
 		 <tr>
-          <td class="spider_label"><label for="Submitter's Email Address">Submitter's Email Address: </label></td>
+          <td class="fm_label"><label for="Submitter's Email Address">Submitter's Email Address: </label></td>
           <td><?php echo $useremail; ?></td>
         </tr>
 

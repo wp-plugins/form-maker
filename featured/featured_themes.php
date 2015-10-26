@@ -1,5 +1,5 @@
 <?php
-function spider_featured_themes() { ?>
+function fm_featured_themes_page() { ?>
 	<div id="main_featured_themes_page">
 		<table align="center" width="90%" style="margin-top: 0px;border-bottom: rgb(111, 111, 111) solid 1px;">
 			<tr>

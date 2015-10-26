@@ -15711,7 +15711,7 @@ change_class(w_class, i);
 refresh_attr(i, 'type_text');
 add_properties(i, w_property, w_property_values);
 // form_maker_open_in_popup(11);
-spider_popup();
+fm_popup();
 jQuery(function() {
 	jQuery( "#choices" ).sortable({ 
 		items: ".change_pos" ,
@@ -16595,7 +16595,7 @@ if(aaa)
 	
 add_properties(i, w_property, w_property_values);
 // form_maker_open_in_popup(11);
-spider_popup();
+fm_popup();
 jQuery(function() {
 	jQuery( "#choices" ).sortable({ 
 		items: ".change_pos" ,
@@ -17497,7 +17497,7 @@ if(aaa)
 
 add_properties(i, w_property, w_property_values);
 // form_maker_open_in_popup(11);
-spider_popup();
+fm_popup();
 jQuery(function() {
 	jQuery( "#choices" ).sortable({ 
 		items: ".change_pos" ,
@@ -18264,7 +18264,7 @@ if(aaa)
 
 add_properties(i, w_property, w_property_values);
 // form_maker_open_in_popup(11);
-spider_popup();
+fm_popup();
 jQuery(function() {
 	jQuery( "#choices" ).sortable({ 
 		items: ".change_pos" ,
@@ -22800,7 +22800,7 @@ function type_country(i, w_field_label, w_field_label_size, w_countries, w_field
 change_class(w_class, i);
 refresh_attr(i, 'type_text');
 // form_maker_open_in_popup(11);
-spider_popup();
+fm_popup();
 }
 
 function set_multiple(i, status)

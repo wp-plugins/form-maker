@@ -65,7 +65,7 @@ class FMControllerThemes_fm {
     $message = $this->save_db();
     // $this->display();
     $page = WDW_FM_Library::get('page');
-    WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
+    WDW_FM_Library::fm_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
   }
 
   public function apply() {
@@ -77,7 +77,7 @@ class FMControllerThemes_fm {
     $id = (int) $wpdb->get_var('SELECT MAX(`id`) FROM ' . $wpdb->prefix . 'formmaker_themes');
     $current_id = (int)WDW_FM_Library::get('current_id', $id);
     $page = WDW_FM_Library::get('page');
-    WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'edit', 'current_id' => $current_id, 'message' => $message), admin_url('admin.php')));
+    WDW_FM_Library::fm_redirect(add_query_arg(array('page' => $page, 'task' => 'edit', 'current_id' => $current_id, 'message' => $message), admin_url('admin.php')));
     // $this->edit();
   }
   
@@ -131,7 +131,7 @@ class FMControllerThemes_fm {
     }
     // $this->display();
     $page = WDW_FM_Library::get('page');
-    WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
+    WDW_FM_Library::fm_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
   }
   
   public function delete_all() {
@@ -159,7 +159,7 @@ class FMControllerThemes_fm {
     }
     // $this->display();
     $page = WDW_FM_Library::get('page');
-    WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
+    WDW_FM_Library::fm_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
   }
 
   public function setdefault($id) {
@@ -174,7 +174,7 @@ class FMControllerThemes_fm {
     }
     // $this->display();
     $page = WDW_FM_Library::get('page');
-    WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
+    WDW_FM_Library::fm_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////

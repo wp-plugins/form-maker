@@ -1,5 +1,5 @@
 <?php
-function spider_featured($current_plugin = '') {
+function fm_featured_page($current_plugin = '') {
 ?>
   <div id="main_featured_plugins_page">
 	<table align="center" width="90%" style="margin-top: 0px;border-bottom: rgb(111, 111, 111) solid 1px;">
@@ -188,7 +188,7 @@ function spider_featured($current_plugin = '') {
 <?php
 }
 
-function spider_extensions($current_plugin = '') {
+function fm_extensions_page($current_plugin = '') {
 
 		$addons = array(
 			'Attention: Add-ons are supported by premium version of Form Maker' => array(

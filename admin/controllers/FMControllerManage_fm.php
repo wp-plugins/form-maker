@@ -143,7 +143,7 @@ public function redo()
     // $this->edit_old();
     $page = WDW_FM_Library::get('page');
     $current_id = (int)WDW_FM_Library::get('current_id', 0);
-    WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'edit_old', 'current_id' => $current_id, 'message' => $message), admin_url('admin.php')));
+    WDW_FM_Library::fm_redirect(add_query_arg(array('page' => $page, 'task' => 'edit_old', 'current_id' => $current_id, 'message' => $message), admin_url('admin.php')));
   }
 
   public function apply_options_old() {
@@ -158,7 +158,7 @@ public function redo()
     $page = WDW_FM_Library::get('page');
     $current_id = (int)WDW_FM_Library::get('current_id', 0);
     $fieldset_id = WDW_FM_Library::get('fieldset_id', 'general');
-    WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'form_options_old', 'current_id' => $current_id, 'message' => $message, 'fieldset_id' => $fieldset_id), admin_url('admin.php')));
+    WDW_FM_Library::fm_redirect(add_query_arg(array('page' => $page, 'task' => 'form_options_old', 'current_id' => $current_id, 'message' => $message, 'fieldset_id' => $fieldset_id), admin_url('admin.php')));
   }
 
   public function save_db_options_old() {
@@ -257,7 +257,7 @@ function before_reset() {
     // $this->edit();
     $page = WDW_FM_Library::get('page');
     $current_id = (int)WDW_FM_Library::get('current_id', 0);
-    WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'edit', 'current_id' => $current_id, 'message' => $message), admin_url('admin.php')));
+    WDW_FM_Library::fm_redirect(add_query_arg(array('page' => $page, 'task' => 'edit', 'current_id' => $current_id, 'message' => $message), admin_url('admin.php')));
   }
 
   public function apply_layout() {
@@ -269,7 +269,7 @@ function before_reset() {
     $view = new FMViewManage_fm($model);
     $page = WDW_FM_Library::get('page');
     $current_id = (int)WDW_FM_Library::get('current_id', 0);
-    WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'form_layout', 'current_id' => $current_id, 'message' => $message), admin_url('admin.php')));
+    WDW_FM_Library::fm_redirect(add_query_arg(array('page' => $page, 'task' => 'form_layout', 'current_id' => $current_id, 'message' => $message), admin_url('admin.php')));
     // $view->form_layout($id);
   }
 
@@ -310,7 +310,7 @@ function before_reset() {
     // $this->edit();
     $page = WDW_FM_Library::get('page');
     $current_id = (int)WDW_FM_Library::get('current_id', 0);
-    WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'edit', 'current_id' => $current_id, 'message' => $message), admin_url('admin.php')));
+    WDW_FM_Library::fm_redirect(add_query_arg(array('page' => $page, 'task' => 'edit', 'current_id' => $current_id, 'message' => $message), admin_url('admin.php')));
   }
 
   public function apply_options() {
@@ -325,7 +325,7 @@ function before_reset() {
     $page = WDW_FM_Library::get('page');
     $current_id =(int) WDW_FM_Library::get('current_id', 0);
     $fieldset_id = WDW_FM_Library::get('fieldset_id', 'general');
-    WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'form_options', 'current_id' => $current_id, 'message' => $message, 'fieldset_id' => $fieldset_id), admin_url('admin.php')));
+    WDW_FM_Library::fm_redirect(add_query_arg(array('page' => $page, 'task' => 'form_options', 'current_id' => $current_id, 'message' => $message, 'fieldset_id' => $fieldset_id), admin_url('admin.php')));
   }
 
   public function remove_query() {
@@ -507,14 +507,14 @@ function before_reset() {
     $message = $this->save_db_as_copy_old();
     // $this->display();
     $page = WDW_FM_Library::get('page');
-    WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
+    WDW_FM_Library::fm_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
   }
 
   public function save_old() {
     $message = $this->save_db_old();
     // $this->display();
     $page = WDW_FM_Library::get('page');
-    WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
+    WDW_FM_Library::fm_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
   }
 
   public function apply_old() {
@@ -524,7 +524,7 @@ function before_reset() {
     $id = (int) $wpdb->get_var("SELECT MAX(id) FROM " . $wpdb->prefix . "formmaker");
     $current_id =(int) WDW_FM_Library::get('current_id', $id);
     $page = WDW_FM_Library::get('page');
-    WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'edit_old', 'current_id' => $current_id, 'message' => $message), admin_url('admin.php')));
+    WDW_FM_Library::fm_redirect(add_query_arg(array('page' => $page, 'task' => 'edit_old', 'current_id' => $current_id, 'message' => $message), admin_url('admin.php')));
   }
 
   public function save_db_old() {
@@ -694,14 +694,14 @@ function before_reset() {
     $message = $this->save_db_as_copy();
     // $this->display();
     $page = WDW_FM_Library::get('page');
-    WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
+    WDW_FM_Library::fm_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
   }
 
   public function save() {
     $message = $this->save_db();
     // $this->display();
     $page = WDW_FM_Library::get('page');
-    WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
+    WDW_FM_Library::fm_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
   }
 
   public function apply() {
@@ -711,7 +711,7 @@ function before_reset() {
     $id = (int) $wpdb->get_var("SELECT MAX(id) FROM " . $wpdb->prefix . "formmaker");
     $current_id = (int)WDW_FM_Library::get('current_id', $id);
     $page = WDW_FM_Library::get('page');
-    WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'edit', 'current_id' => $current_id, 'message' => $message), admin_url('admin.php')));
+    WDW_FM_Library::fm_redirect(add_query_arg(array('page' => $page, 'task' => 'edit', 'current_id' => $current_id, 'message' => $message), admin_url('admin.php')));
   }
 
   public function save_db() {
@@ -1215,7 +1215,7 @@ function before_reset() {
     }
     // $this->display();
     $page = WDW_FM_Library::get('page');
-    WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
+    WDW_FM_Library::fm_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
   }
   
   public function delete_all() {
@@ -1239,7 +1239,7 @@ function before_reset() {
     }
     // $this->display();
     $page = WDW_FM_Library::get('page');
-    WDW_FM_Library::spider_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
+    WDW_FM_Library::fm_redirect(add_query_arg(array('page' => $page, 'task' => 'display', 'message' => $message), admin_url('admin.php')));
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////

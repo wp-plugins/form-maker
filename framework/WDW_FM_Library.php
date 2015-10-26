@@ -103,12 +103,12 @@ class WDW_FM_Library {
     ?>
     <div class="alignleft actions" style="clear:both;">
       <script>
-        function spider_search() {
+        function fm_search() {
           document.getElementById("page_number").value = "1";
           document.getElementById("search_or_not").value = "search";
           document.getElementById("<?php echo $form_id; ?>").submit();
         }
-        function spider_reset() {
+        function fm_reset() {
           if (document.getElementById("search_value")) {
             document.getElementById("search_value").value = "";
           }
@@ -120,11 +120,11 @@ class WDW_FM_Library {
       </script>
       <div class="alignleft actions" style="">
         <label for="search_value" style="font-size:14px; width:50px; display:inline-block;"><?php echo $search_by; ?>:</label>
-        <input type="text" id="search_value" name="search_value" class="spider_search_value" value="<?php echo esc_html($search_value); ?>" style="width: 150px;<?php echo (get_bloginfo('version') > '3.7') ? ' height: 28px;' : ''; ?>" />
+        <input type="text" id="search_value" name="search_value" class="fm_search_value" value="<?php echo esc_html($search_value); ?>" style="width: 150px;<?php echo (get_bloginfo('version') > '3.7') ? ' height: 28px;' : ''; ?>" />
       </div>
       <div class="alignleft actions">
-        <input type="button" value="Search" onclick="spider_search()" class="button-secondary action">
-        <input type="button" value="Reset" onclick="spider_reset()" class="button-secondary action">
+        <input type="button" value="Search" onclick="fm_search()" class="button-secondary action">
+        <input type="button" value="Reset" onclick="fm_reset()" class="button-secondary action">
       </div>
     </div>
     <?php
@@ -134,7 +134,7 @@ class WDW_FM_Library {
     ?>
     <div class="alignleft actions" style="clear:both;">
       <script>
-        function spider_search_select() {
+        function fm_search_select() {
           document.getElementById("page_number").value = "1";
           document.getElementById("search_or_not").value = "search";
           document.getElementById("<?php echo $form_id; ?>").submit();
@@ -142,7 +142,7 @@ class WDW_FM_Library {
       </script>
       <div class="alignleft actions" >
         <label for="search_select_value" style="font-size:14px; width:50px; display:inline-block;"><?php echo $search_by; ?>:</label>
-        <select id="search_select_value" name="search_select_value" onchange="spider_search_select();" style="float: none; width: 150px;">
+        <select id="search_select_value" name="search_select_value" onchange="fm_search_select();" style="float: none; width: 150px;">
         <?php
           foreach ($playlists as $id => $playlist) {
             ?>
@@ -172,7 +172,7 @@ class WDW_FM_Library {
     ?>
     <script type="text/javascript">
       var items_county = <?php echo $items_county; ?>;
-      function spider_page(x, y) {       
+      function fm_page(x, y) {       
         switch (y) {
           case 1:
             if (x >= items_county) {
@@ -243,8 +243,8 @@ class WDW_FM_Library {
         }
       ?>
       <span class="pagination-links">
-        <a class="<?php echo $first_page; ?>" title="Go to the first page" href="javascript:spider_page(<?php echo $page_number; ?>,-2);">«</a>
-        <a class="<?php echo $prev_page; ?>" title="Go to the previous page" href="javascript:spider_page(<?php echo $page_number; ?>,-1);">‹</a>
+        <a class="<?php echo $first_page; ?>" title="Go to the first page" href="javascript:fm_page(<?php echo $page_number; ?>,-2);">«</a>
+        <a class="<?php echo $prev_page; ?>" title="Go to the previous page" href="javascript:fm_page(<?php echo $page_number; ?>,-1);">‹</a>
         <span class="paging-input">
           <span class="total-pages">
           <input class="current_page" id="current_page" name="current_page" value="<?php echo $page_number; ?>" onkeypress="return check_enter_key(event)" title="Go to the page" type="text" size="1" />
@@ -253,8 +253,8 @@ class WDW_FM_Library {
             <?php echo $items_county; ?>
           </span>
         </span>
-        <a class="<?php echo $next_page ?>" title="Go to the next page" href="javascript:spider_page(<?php echo $page_number; ?>,1);">›</a>
-        <a class="<?php echo $last_page ?>" title="Go to the last page" href="javascript:spider_page(<?php echo $page_number; ?>,2);">»</a>
+        <a class="<?php echo $next_page ?>" title="Go to the next page" href="javascript:fm_page(<?php echo $page_number; ?>,1);">›</a>
+        <a class="<?php echo $last_page ?>" title="Go to the last page" href="javascript:fm_page(<?php echo $page_number; ?>,2);">»</a>
         <?php
       }
       ?>
@@ -269,25 +269,25 @@ class WDW_FM_Library {
     ?>
     <div class="alignleft actions" style="clear:both;">
       <script>
-        function spider_search() {
+        function fm_search() {
           document.getElementById("page_number").value = "1";
           document.getElementById("search_or_not").value = "search";
-          spider_ajax_save('<?php echo $form_id; ?>');
+          fm_ajax_save('<?php echo $form_id; ?>');
         }
-        function spider_reset() {
+        function fm_reset() {
           if (document.getElementById("search_value")) {
             document.getElementById("search_value").value = "";
           }
-          spider_ajax_save('<?php echo $form_id; ?>');
+          fm_ajax_save('<?php echo $form_id; ?>');
         }
       </script>
       <div class="alignleft actions" style="">
         <label for="search_value" style="font-size:14px; width:60px; display:inline-block;"><?php echo $search_by; ?>:</label>
-        <input type="text" id="search_value" name="search_value" class="spider_search_value" value="<?php echo esc_html($search_value); ?>" style="width: 150px;<?php echo (get_bloginfo('version') > '3.7') ? ' height: 28px;' : ''; ?>" />
+        <input type="text" id="search_value" name="search_value" class="fm_search_value" value="<?php echo esc_html($search_value); ?>" style="width: 150px;<?php echo (get_bloginfo('version') > '3.7') ? ' height: 28px;' : ''; ?>" />
       </div>
       <div class="alignleft actions">
-        <input type="button" value="Search" onclick="spider_search()" class="button-secondary action">
-        <input type="button" value="Reset" onclick="spider_reset()" class="button-secondary action">
+        <input type="button" value="Search" onclick="fm_search()" class="button-secondary action">
+        <input type="button" value="Reset" onclick="fm_reset()" class="button-secondary action">
       </div>
     </div>
     <?php
@@ -309,7 +309,7 @@ class WDW_FM_Library {
     ?>
     <script type="text/javascript">
       var items_county = <?php echo $items_county; ?>;
-      function spider_page(x, y) {
+      function fm_page(x, y) {
         switch (y) {
           case 1:
             if (x >= items_county) {
@@ -336,7 +336,7 @@ class WDW_FM_Library {
           default:
             document.getElementById('page_number').value = 1;
         }
-        spider_ajax_save('<?php echo $form_id; ?>');
+        fm_ajax_save('<?php echo $form_id; ?>');
       }
       function check_enter_key(e) { 	  
         var key_code = (e.keyCode ? e.keyCode : e.which);
@@ -347,7 +347,7 @@ class WDW_FM_Library {
           else {
            document.getElementById('page_number').value = jQuery('#current_page').val();
           }
-          spider_ajax_save('<?php echo $form_id; ?>');
+          fm_ajax_save('<?php echo $form_id; ?>');
           return false;
         }
        return true;		 
@@ -381,8 +381,8 @@ class WDW_FM_Library {
         }
       ?>
       <span class="pagination-links">
-        <a class="<?php echo $first_page; ?>" title="Go to the first page" onclick="spider_page(<?php echo $page_number; ?>,-2)">«</a>
-        <a class="<?php echo $prev_page; ?>" title="Go to the previous page" onclick="spider_page(<?php echo $page_number; ?>,-1)">‹</a>
+        <a class="<?php echo $first_page; ?>" title="Go to the first page" onclick="fm_page(<?php echo $page_number; ?>,-2)">«</a>
+        <a class="<?php echo $prev_page; ?>" title="Go to the previous page" onclick="fm_page(<?php echo $page_number; ?>,-1)">‹</a>
         <span class="paging-input">
           <span class="total-pages">
           <input class="current_page" id="current_page" name="current_page" value="<?php echo $page_number; ?>" onkeypress="return check_enter_key(event)" title="Go to the page" type="text" size="1" />
@@ -391,8 +391,8 @@ class WDW_FM_Library {
             <?php echo $items_county; ?>
           </span>
         </span>
-        <a class="<?php echo $next_page ?>" title="Go to the next page" onclick="spider_page(<?php echo $page_number; ?>,1)">›</a>
-        <a class="<?php echo $last_page ?>" title="Go to the last page" onclick="spider_page(<?php echo $page_number; ?>,2)">»</a>
+        <a class="<?php echo $next_page ?>" title="Go to the next page" onclick="fm_page(<?php echo $page_number; ?>,1)">›</a>
+        <a class="<?php echo $last_page ?>" title="Go to the last page" onclick="fm_page(<?php echo $page_number; ?>,2)">»</a>
         <?php
       }
       ?>
@@ -403,7 +403,7 @@ class WDW_FM_Library {
     <?php
   }
 
-  public static function spider_redirect($url) {
+  public static function fm_redirect($url) {
     $url = html_entity_decode(wp_nonce_url($url, 'nonce_fm', 'nonce_fm'));
     ?>
     <script>

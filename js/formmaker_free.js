@@ -13726,7 +13726,7 @@ change_class(w_class, i);
 refresh_attr(i, 'type_text');
 // enable_modals();
 add_properties(i, w_property, w_property_values, w_property_type);
-spider_popup();
+fm_popup();
 }
 
 function remove_property(id, i) {
@@ -13792,7 +13792,7 @@ function add_properties(id, w_property, w_property_values, w_property_type) {
     ul_.appendChild(li_);
   }
   // enable_modals();
-  spider_popup();
+  fm_popup();
 }
 
 function dis_option(id, value) {
@@ -14506,7 +14506,7 @@ if(aaa)
 	// enable_modals();
 	
 add_properties(i, w_property, w_property_values, w_property_type);
-spider_popup();
+fm_popup();
 }
 
 function type_paypal_radio(i, w_field_label, w_field_label_pos, w_flow, w_choices, w_choices_price, w_choices_checked, w_required, w_randomize, w_allow_other, w_allow_other_num, w_class, w_attr_name, w_attr_value,  w_property, w_property_type, w_property_values, w_quantity ){
@@ -15202,7 +15202,7 @@ if(aaa)
 }
 
 add_properties(i, w_property, w_property_values, w_property_type);
-spider_popup();
+fm_popup();
 }
 
 
@@ -19816,7 +19816,7 @@ if(aaa)
 }
 
 add_properties(i, w_property, w_property_values, w_property_type);
-spider_popup();
+fm_popup();
 }
 
 function type_country(i, w_field_label, w_countries, w_field_label_pos, w_size, w_required, w_class, w_attr_name, w_attr_value) {
@@ -20218,7 +20218,7 @@ function type_country(i, w_field_label, w_countries, w_field_label_pos, w_size, 
   }
   change_class(w_class, i);
   refresh_attr(i, 'type_text');
-  spider_popup();
+  fm_popup();
 }
 
 function type_recaptcha(i,w_field_label, w_field_label_pos, w_public, w_private, w_theme, w_class, w_attr_name, w_attr_value){

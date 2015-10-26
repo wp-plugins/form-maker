@@ -71,7 +71,7 @@ class FMViewUninstall_fm {
         <p style="text-align: center;">
           <input type="submit" value="UNINSTALL" class="button-primary" onclick="if (check_yes.checked) { 
                                                                                     if (confirm('You are About to Uninstall Form Maker from WordPress.\nThis Action Is Not Reversible.')) {
-                                                                                        spider_set_input_value('task', 'uninstall');
+                                                                                        fm_set_input_value('task', 'uninstall');
                                                                                     } else {
                                                                                         return false;
                                                                                     }

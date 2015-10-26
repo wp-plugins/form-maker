@@ -1,9 +1,9 @@
-function spider_select_value(obj) {
+function fm_select_value(obj) {
   obj.focus();
   obj.select();
 }
 
-function spider_doNothing(event) {
+function fm_doNothing(event) {
   var keyCode = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
   if (keyCode == 13) {
     if (event.preventDefault) {
@@ -15,7 +15,7 @@ function spider_doNothing(event) {
   }
 }
 
-function spider_ajax_save(form_id) {
+function fm_ajax_save(form_id) {
   var search_value = jQuery("#search_value").val();
   var current_id = jQuery("#current_id").val();
   var page_number = jQuery("#page_number").val();
@@ -48,15 +48,15 @@ function spider_ajax_save(form_id) {
       var str = jQuery(data).find('#tablenav-pages').html();
       jQuery('#tablenav-pages').html(str);
       jQuery("#show_hide_weights").val("Hide order column");
-      spider_show_hide_weights();
-      spider_run_checkbox();
+      fm_show_hide_weights();
+      fm_run_checkbox();
     }
   ).success(function (jqXHR, textStatus, errorThrown) {
   });
   return false;
 }
 
-function spider_run_checkbox() {
+function fm_run_checkbox() {
   jQuery("tbody").children().children(".check-column").find(":checkbox").click(function (l) {
     if ("undefined" == l.shiftKey) {
       return true
@@ -114,14 +114,14 @@ function spider_run_checkbox() {
 }
 
 // Set value by id.
-function spider_set_input_value(input_id, input_value) {
+function fm_set_input_value(input_id, input_value) {
   if (document.getElementById(input_id)) {
     document.getElementById(input_id).value = input_value;
   }
 }
 
 // Submit form by id.
-function spider_form_submit(event, form_id, task, id) {
+function fm_form_submit(event, form_id, task, id) {
   if (document.getElementById(form_id)) {
     document.getElementById(form_id).submit();
   }
@@ -134,7 +134,7 @@ function spider_form_submit(event, form_id, task, id) {
 }
 
 // Check if required field is empty.
-function spider_check_required(id, name) {
+function fm_check_required(id, name) {
   if (jQuery('#' + id).val() == '') {
     alert(name + '* field is required.');
     jQuery('#' + id).attr('style', 'border-color: #FF0000; border-style: solid; border-width: 1px;');
@@ -150,12 +150,12 @@ function spider_check_required(id, name) {
 }
 
 // Show/hide order column and drag and drop column.
-function spider_show_hide_weights() {
+function fm_show_hide_weights() {
   if (jQuery("#show_hide_weights").val() == 'Show order column') {
     jQuery(".connectedSortable").css("cursor", "default");
     jQuery("#tbody_arr").find(".handle").hide(0);
     jQuery("#th_order").show(0);
-    jQuery("#tbody_arr").find(".spider_order").show(0);
+    jQuery("#tbody_arr").find(".fm_order").show(0);
     jQuery("#show_hide_weights").val("Hide order column");
     if (jQuery("#tbody_arr").sortable()) {
       jQuery("#tbody_arr").sortable("disable");
@@ -177,7 +177,7 @@ function spider_show_hide_weights() {
         jQuery("#draganddrop").attr("style", "");
         jQuery("#draganddrop").html("<strong><p>Changes made in this table should be saved.</p></strong>");
         var i = page_number;
-        jQuery('.spider_order').each(function (e) {
+        jQuery('.fm_order').each(function (e) {
           if (jQuery(this).find('input').val()) {
             jQuery(this).find('input').val(i++);
           }
@@ -188,12 +188,12 @@ function spider_show_hide_weights() {
     jQuery("#tbody_arr").find(".handle").show(0);
     jQuery("#tbody_arr").find(".handle").attr('class', 'handle connectedSortable');
     jQuery("#th_order").hide(0);
-    jQuery("#tbody_arr").find(".spider_order").hide(0);
+    jQuery("#tbody_arr").find(".fm_order").hide(0);
     jQuery("#show_hide_weights").val("Show order column");
   }
 }
 
-function spider_popup(id) {
+function fm_popup(id) {
   if (typeof id === 'undefined') {
     var id = '';
   }
@@ -253,7 +253,7 @@ function spider_popup(id) {
 }
 
 function bwg_inputs() {
-  jQuery(".spider_int_input").keypress(function (event) {
+  jQuery(".fm_int_input").keypress(function (event) {
     var chCode1 = event.which || event.paramlist_keyCode;
     if (chCode1 > 31 && (chCode1 < 48 || chCode1 > 57) && (chCode1 != 46) && (chCode1 != 45)) {
       return false;
@@ -263,7 +263,7 @@ function bwg_inputs() {
 }
 
 
-function spider_check_isnum(e) {
+function fm_check_isnum(e) {
   var chCode1 = e.which || e.paramlist_keyCode;
   if (chCode1 > 31 && (chCode1 < 48 || chCode1 > 57) && (chCode1 != 46) && (chCode1 != 45)) {
     return false;

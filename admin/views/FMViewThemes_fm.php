@@ -49,12 +49,12 @@ class FMViewThemes_fm {
       <span class="theme_icon"></span>
       <h2>
         Themes
-        <a href="" class="add-new-h2" onclick="spider_set_input_value('task', 'add');
-                                               spider_form_submit(event, 'themes_form')">Add new</a>
+        <a href="" class="add-new-h2" onclick="fm_set_input_value('task', 'add');
+                                               fm_form_submit(event, 'themes_form')">Add new</a>
       </h2>
       <div class="buttons_div">
         <input class="button-secondary" type="submit" onclick="if (confirm('Do you want to delete selected items?')) {
-                                                       spider_set_input_value('task', 'delete_all');
+                                                       fm_set_input_value('task', 'delete_all');
                                                      } else {
                                                        return false;
                                                      }" value="Delete" />
@@ -69,24 +69,24 @@ class FMViewThemes_fm {
         <thead>
           <th class="manage-column column-cb check-column table_small_col"><input id="check_all" type="checkbox" style="margin:0;"/></th>
           <th class="table_small_col <?php if ($order_by == 'id') { echo $order_class; } ?>">
-            <a onclick="spider_set_input_value('task', '');
-              spider_set_input_value('order_by', 'id');
-              spider_set_input_value('asc_or_desc', '<?php echo (($order_by == 'id' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
-              spider_form_submit(event, 'themes_form')" href="">
+            <a onclick="fm_set_input_value('task', '');
+              fm_set_input_value('order_by', 'id');
+              fm_set_input_value('asc_or_desc', '<?php echo (($order_by == 'id' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
+              fm_form_submit(event, 'themes_form')" href="">
               <span>ID</span><span class="sorting-indicator"></span></a>
           </th>
           <th class="<?php if ($order_by == 'title') { echo $order_class; } ?>">
-            <a onclick="spider_set_input_value('task', '');
-              spider_set_input_value('order_by', 'title');
-              spider_set_input_value('asc_or_desc', '<?php echo (($order_by == 'title' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
-              spider_form_submit(event, 'themes_form')" href="">
+            <a onclick="fm_set_input_value('task', '');
+              fm_set_input_value('order_by', 'title');
+              fm_set_input_value('asc_or_desc', '<?php echo (($order_by == 'title' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
+              fm_form_submit(event, 'themes_form')" href="">
               <span>Title</span><span class="sorting-indicator"></span></a>
           </th>
           <th class="table_big_col <?php if ($order_by == 'default') { echo $order_class; } ?>">
-            <a onclick="spider_set_input_value('task', '');
-              spider_set_input_value('order_by', 'default');
-              spider_set_input_value('asc_or_desc', '<?php echo (($order_by == 'default' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
-              spider_form_submit(event, 'themes_form')" href="">
+            <a onclick="fm_set_input_value('task', '');
+              fm_set_input_value('order_by', 'default');
+              fm_set_input_value('asc_or_desc', '<?php echo (($order_by == 'default' && $asc_or_desc == 'asc') ? 'desc' : 'asc'); ?>');
+              fm_form_submit(event, 'themes_form')" href="">
               <span>Default</span><span class="sorting-indicator"></span></a>
           </th>
           <th class="table_big_col">Edit</th>
@@ -106,17 +106,17 @@ class FMViewThemes_fm {
                 </td>
                 <td class="table_small_col"><?php echo $row_data->id; ?></td>
                 <td>
-                  <a onclick="spider_set_input_value('task', 'edit');
-                              spider_set_input_value('current_id', '<?php echo $row_data->id; ?>');
-                              spider_form_submit(event, 'themes_form')" href="" title="Edit"><?php echo $row_data->title; ?></a>
+                  <a onclick="fm_set_input_value('task', 'edit');
+                              fm_set_input_value('current_id', '<?php echo $row_data->id; ?>');
+                              fm_form_submit(event, 'themes_form')" href="" title="Edit"><?php echo $row_data->title; ?></a>
                 </td>
                 <td class="table_big_col">
                   <?php
                   if ($default != '') {
                     ?>
-                    <a onclick="spider_set_input_value('task', '<?php echo $default; ?>');
-                                spider_set_input_value('current_id', '<?php echo $row_data->id; ?>');
-                                spider_form_submit(event, 'themes_form')" href="">
+                    <a onclick="fm_set_input_value('task', '<?php echo $default; ?>');
+                                fm_set_input_value('current_id', '<?php echo $row_data->id; ?>');
+                                fm_form_submit(event, 'themes_form')" href="">
                     <?php
                   }
                   ?>
@@ -130,14 +130,14 @@ class FMViewThemes_fm {
                   ?>
                 </td>
                 <td class="table_big_col">
-                  <a onclick="spider_set_input_value('task', 'edit');
-                              spider_set_input_value('current_id', '<?php echo $row_data->id; ?>');
-                              spider_form_submit(event, 'themes_form')" href="">Edit</a>
+                  <a onclick="fm_set_input_value('task', 'edit');
+                              fm_set_input_value('current_id', '<?php echo $row_data->id; ?>');
+                              fm_form_submit(event, 'themes_form')" href="">Edit</a>
                 </td>
                 <td class="table_big_col">
-                  <a onclick="if (confirm('Do you want to delete selected item(s)?')) { spider_set_input_value('task', 'delete');
-                              spider_set_input_value('current_id', '<?php echo $row_data->id; ?>');
-                              spider_form_submit(event, 'themes_form'); } else { return false; }" href="">Delete</a>
+                  <a onclick="if (confirm('Do you want to delete selected item(s)?')) { fm_set_input_value('task', 'delete');
+                              fm_set_input_value('current_id', '<?php echo $row_data->id; ?>');
+                              fm_form_submit(event, 'themes_form'); } else { return false; }" href="">Delete</a>
                 </td>
               </tr>
               <?php
@@ -184,18 +184,18 @@ class FMViewThemes_fm {
       <span class="theme_icon"></span>
       <h2><?php echo $page_title; ?></h2>
       <div style="float: right; margin: 0 5px 0 0;">
-        <input class="button-secondary" type="submit" onclick="if (spider_check_required('title', 'Title')) {return false;}; spider_set_input_value('task', 'save')" value="Save"/>
-        <input class="button-secondary" type="submit" onclick="if (spider_check_required('title', 'Title')) {return false;}; spider_set_input_value('task', 'apply')" value="Apply"/>
-        <input class="button-secondary" type="submit" onclick="spider_set_input_value('task', 'cancel')" value="Cancel"/>
+        <input class="button-secondary" type="submit" onclick="if (fm_check_required('title', 'Title')) {return false;}; fm_set_input_value('task', 'save')" value="Save"/>
+        <input class="button-secondary" type="submit" onclick="if (fm_check_required('title', 'Title')) {return false;}; fm_set_input_value('task', 'apply')" value="Apply"/>
+        <input class="button-secondary" type="submit" onclick="fm_set_input_value('task', 'cancel')" value="Cancel"/>
       </div>
       <table style="clear:both;">
         <tbody>
           <tr>
-            <td class="spider_label"><label for="title">Title: <span style="color:#FF0000;"> * </span> </label></td>
-            <td><input type="text" id="title" name="title" value="<?php echo $row->title; ?>" class="spider_text_input" /></td>
+            <td class="fm_label"><label for="title">Title: <span style="color:#FF0000;"> * </span> </label></td>
+            <td><input type="text" id="title" name="title" value="<?php echo $row->title; ?>" class="fm_text_input" /></td>
           </tr>
           <tr>
-            <td class="spider_label"><label for="css">Css: </label></td>
+            <td class="fm_label"><label for="css">Css: </label></td>
             <td style="width: 90%;"><textarea id="css" name="css" rows="30" style="width: 100%;"><?php echo htmlspecialchars($row->css) ?></textarea></td>
           </tr>
         </tbody>

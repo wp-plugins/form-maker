@@ -265,11 +265,11 @@ div.wd_preview a {
   cursor: pointer;
 }
 
-.spider_word_wrap {
+.fm_word_wrap {
   word-wrap: normal;
 }
 
-.spider_description {
+.fm_description {
   color: #666666;
   font-size: 0.923em;
   line-height: 1.231em;
@@ -329,44 +329,44 @@ div.wd_preview a {
   cursor: move;
 }
 
-.spider_label {
+.fm_label {
   font-weight: bold;
   width: 100px;
 }
 
-.spider_fieldset .spider_label {
+.fm_fieldset .fm_label {
   font-weight: bold;
   vertical-align: top;
   width: 150px;
 }
 
-.spider_label_options {
+.fm_label_options {
   font-weight: bold;
   vertical-align: top;
   width: 150px;
 }
 
-.spider_int_input {
+.fm_int_input {
   width: 80px;
 }
 
-.spider_char_input {
+.fm_char_input {
   width: 115px;
 }
 
-.spider_text_input {
+.fm_text_input {
   width: 190px;
 }
 
-.spider_slider_div {
+.fm_slider_div {
   display: inline-block;
   vertical-align: middle;
   width: 140px;
 }
 
-.spider_slider_percentage,
-.spider_slider_percentage input,
-.spider_slider_percentage input :focus {
+.fm_slider_percentage,
+.fm_slider_percentage input,
+.fm_slider_percentage input :focus {
   background: transparent;
   border: none;
   color: #00AEEF;
@@ -401,7 +401,7 @@ div.error_fm {
   margin: 5px 0;
 }
 
-.spider_delete_img {
+.fm_delete_img {
   background-image: url("../images/delete.png");
   border: none;
   cursor: pointer;
@@ -411,7 +411,7 @@ div.error_fm {
   width: 14px;
 }
 
-.spider_delete_img_small {
+.fm_delete_img_small {
     background-image: url("../images/delete.png");
     background-size: 10px auto;
     border: medium none;
@@ -423,7 +423,7 @@ div.error_fm {
     width: 10px;
 }
 
-.spider_fieldset {
+.fm_fieldset {
   background: none repeat scroll 0 0 #F4F4F4;
   border: 1px solid #8F8D8D;
   border-radius: 8px 8px 8px 8px;
@@ -434,7 +434,7 @@ div.error_fm {
   width: 97%;
 }
 
-.spider_type_fieldset {
+.fm_type_fieldset {
   background: none repeat scroll 0 0 #F4F4F4;
   border-radius: 8px 8px 8px 8px;
   display: none;
@@ -442,7 +442,7 @@ div.error_fm {
   width: 100%;
 }
 
-.spider_child_fieldset {
+.fm_child_fieldset {
   background: none repeat scroll 0 0 #F4F4F4;
   border: 1px solid #8F8D8D;
   border-radius: 8px 8px 8px 8px;
@@ -453,12 +453,12 @@ div.error_fm {
   display: block;
 }
 
-.spider_table td {
+.fm_table td {
   padding: 0;
   vertical-align: middle;
 }
 
-.spider_ctrls {
+.fm_ctrls {
   padding: 4px;
   text-align: center;
   width: 40px;
@@ -483,7 +483,7 @@ div.error_fm {
   cursor: pointer !important;
 }
 
-.spider_search_value {
+.fm_search_value {
   height: 2em;
   margin: 0 0 4px;
 }

@@ -467,7 +467,7 @@ function fm_delete_mail(img, value) {
 }
 
 function form_maker_options_tabs(id) {
-  if (spider_check_email('mailToAdd') || spider_check_email('from_mail') || spider_check_email('reply_to') || spider_check_email('mail_from_user') || spider_check_email('reply_to_user') || spider_check_email('mail_from_other') || spider_check_email('reply_to_other') || spider_check_email('paypal_email')) {
+  if (fm_check_email('mailToAdd') || fm_check_email('from_mail') || fm_check_email('reply_to') || fm_check_email('mail_from_user') || fm_check_email('reply_to_user') || fm_check_email('mail_from_other') || fm_check_email('reply_to_other') || fm_check_email('paypal_email')) {
     return false;
   }
   jQuery("#fieldset_id").val(id);
@@ -561,7 +561,7 @@ function check_isnum(e) {
 }
 
 // Check Email.
-function spider_check_email(id) {
+function fm_check_email(id) {
   if (document.getElementById(id) && jQuery('#' + id).val() != '') {
     var email_array = jQuery('#' + id).val().split(',');
     for (var email_id = 0; email_id < email_array.length; email_id++) {
@@ -580,13 +580,13 @@ function spider_check_email(id) {
   return false;
 }
 
-function spider_edit_ip(id) {
+function fm_edit_ip(id) {
   var ip = jQuery("#ip" + id).html();
-  jQuery("#td_ip_" + id).html('<input id="ip' + id + '" class="input_th' + id + '" type="text" onkeypress="return spider_check_isnum(event)" value="' + ip + '" name="ip' + id + '" />');
-  jQuery("#td_edit_" + id).html('<a class="button-primary button button-small" onclick="if (spider_check_required(\'ip' + id + '\', \'IP\')) {return false;} spider_set_input_value(\'task\', \'save\'); spider_set_input_value(\'current_id\', ' + id + '); spider_save_ip(' + id + ')">Save IP</a>');
+  jQuery("#td_ip_" + id).html('<input id="ip' + id + '" class="input_th' + id + '" type="text" onkeypress="return fm_check_isnum(event)" value="' + ip + '" name="ip' + id + '" />');
+  jQuery("#td_edit_" + id).html('<a class="button-primary button button-small" onclick="if (fm_check_required(\'ip' + id + '\', \'IP\')) {return false;} fm_set_input_value(\'task\', \'save\'); fm_set_input_value(\'current_id\', ' + id + '); fm_save_ip(' + id + ')">Save IP</a>');
 }
 
-function spider_save_ip(id) {
+function fm_save_ip(id) {
   var ip = jQuery("#ip" + id).val();
   var post_data = {};
   post_data["ip"] = ip;
@@ -596,8 +596,8 @@ function spider_save_ip(id) {
     jQuery("#blocked_ips").attr("action"),
     post_data,
     function (data) {
-      jQuery("#td_ip_" + id).html('<a id="ip' + id + '" class="pointer" title="Edit" onclick="spider_edit_ip(' + id + ')">' + ip + '</a>');
-      jQuery("#td_edit_" + id).html('<a onclick="spider_edit_ip(' + id + ')">Edit</a>');
+      jQuery("#td_ip_" + id).html('<a id="ip' + id + '" class="pointer" title="Edit" onclick="fm_edit_ip(' + id + ')">' + ip + '</a>');
+      jQuery("#td_edit_" + id).html('<a onclick="fm_edit_ip(' + id + ')">Edit</a>');
     }
   ).success(function (data, textStatus, errorThrown) {
     jQuery(".update, .error").hide();
