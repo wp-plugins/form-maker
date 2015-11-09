@@ -2191,7 +2191,7 @@ class FMModelForm_maker {
 						$from = '';
 					}
 					
-					$headers = "MIME-Version: 1.0\n" . $from . " Content-Type: " . $content_type . "; charset=\"" . get_option('blog_charset') . "\"\n";
+					$headers =  $from . " Content-Type: " . $content_type . "; charset=\"" . get_option('blog_charset') . "\"\n";
 					if ($replyto) {
 						$headers .= "Reply-To: <" . $replyto . ">\r\n";
 					}
@@ -2325,7 +2325,7 @@ class FMModelForm_maker {
 						$from = "";
 					}
 					
-					$headers = "MIME-Version: 1.0\n" . $from . " Content-Type: " . $content_type . "; charset=\"" . get_option('blog_charset') . "\"\n";
+					$headers =  $from . " Content-Type: " . $content_type . "; charset=\"" . get_option('blog_charset') . "\"\n";
 					if ($replyto) {
 						$headers .= "Reply-To: <" . $replyto . ">\r\n";
 					}
@@ -2758,7 +2758,7 @@ class FMModelForm_maker {
 			else {
 				$from_mail = '';
 			}
-			$headers = "MIME-Version: 1.0\n" . $from_mail . " Content-Type: text/html; charset=\"" . get_option('blog_charset') . "\"\n";
+			$headers =$from_mail . " Content-Type: text/html; charset=\"" . get_option('blog_charset') . "\"\n";
 			for ($k = 0; $k < count($all_files); $k++) {
 				// $attachment[$k] = dirname(__FILE__) . '/uploads/' . $all_files[$k]['name'];
 				$attachment[$k]= $all_files[$k]['name'];
@@ -3203,7 +3203,7 @@ class FMModelForm_maker {
 			  if ($row->mail) {
 				if ($c) {
 				  // $headers_form_mail = "From: " . $c . " <" . $c . ">" . "\r\n";
-				  $headers = "MIME-Version: 1.0\n" . "From: '" . $c . "' <" . $c . ">" . "\r\n" . "Content-Type: text/html; charset=\"" . get_option('blog_charset') . "\"\n";
+				  $headers =  "From: '" . $c . "' <" . $c . ">" . "\r\n" . "Content-Type: text/html; charset=\"" . get_option('blog_charset') . "\"\n";
 				}
 				// else {
 				  // $headers_form_mail = "";

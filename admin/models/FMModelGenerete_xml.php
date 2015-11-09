@@ -213,6 +213,8 @@ class FMModelGenerete_xml {
 							$data_temp[stripslashes($label_titles[$h])] = ($element_value ? $val : '');
 						}
 					}
+					else					
+						$data_temp[stripslashes($label_titles[$h])] = '';
 				}
 			
 				$item_total = $wpdb->get_var($wpdb->prepare("SELECT `element_value` FROM " . $wpdb->prefix . "formmaker_submits where group_id=%d AND element_label=%s",$i,'item_total'));

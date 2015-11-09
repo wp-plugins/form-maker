@@ -4,7 +4,7 @@ Donate link: https://web-dorado.com/products/wordpress-form.html
 Tags:  form, forms, form builder, form maker, form manager, form plugin, form with recaptcha,  forms plugin, multiple forms, paypal form, survey form, feedback form, feedback forms, contact form,contact form plugin, contact form builder, form creator, email form, secure form, web form, form to email, contact forms, custom forms, form widget, captcha form, wordpress contact form ,recaptcha contact form, form creation, contact form with auto reply, widget contact form, builder, feedback, contacts form plugin , custom contact form, contact us form,  formular, formulario, admin, captcha, contact, database, email, javascript, jquery, page, plugin, survey, widget, custom form, forms creator, input, validation, send copy, form with captcha , pdf
 Requires at least: 3.4
 Tested up to: 4.3
-Stable tag: 1.7.89
+Stable tag: 1.7.92
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -143,14 +143,15 @@ Survey tools are also very convenient for adding rating systems for the posts, e
 
 Upgrade to [WordPress Form Maker Pro](https://web-dorado.com/products/wordpress-form.html) to add features: 
    
-*   Unlimited number of form fields.          
+*   Unlimited number of form fields.   
+*   Add ons support.           
 *   PayPal form field with currency change possibility.   
 *   Upload file field.    
 *   Possibility to choose the desired file extension types for the file upload form field.        
 *   Fully integrated with PayPal: two checkout modes (Test Mode and Production) and five form field types (Amount, Select, Checkbox, Radio, and Shipping)(commercial version of the Form Maker), possibility to use the form as a payment/donation form .    
 *   Google Maps API Integration, possibility to use the maps in two different form fields of the Form Maker.     
 *   Possibility to include tax percentage within PayPal options for the localization of the payment.     
-*   Add ons support.    
+   
 	
 ### Supported languages Of Form Maker  
 
@@ -298,9 +299,19 @@ The Form Maker (Pro version) has simple PayPal integration. This allows the user
 
 == Changelog ==
 
+= 1.7.92 =
+Fixed: Bug in mailing      
+
+= 1.7.91 =
+Changed: Themes        
+Fixed: Bug in block ip     
+
+= 1.7.90 =
+Fixed: Bug in CSV/XML export       
+
 = 1.7.89 =
-Fixed: Conflict with some plugins    
-Changed: Styles     
+Fixed: Conflict with some plugins      
+Changed: Styles        
 
 = 1.7.88 =
 New: Doublescroll in submissions page      
@@ -308,7 +319,7 @@ New: Delete confirmation
 Fixed: Bug in mysql mapping for conditional fields     
 
 = 1.7.87 =
-Changed:Bug in CSV/XML export
+Fixed: Bug in CSV/XML export   
 
 = 1.7.86 =
 Changed: CSV/XML export

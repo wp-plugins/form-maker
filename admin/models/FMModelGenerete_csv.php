@@ -212,6 +212,8 @@ class FMModelGenerete_csv {
 							$data_temp[stripslashes($label_titles[$h])] = ($element_value ? $val : '');
 						}
 					}
+					else					
+						$data_temp[stripslashes($label_titles[$h])] = '';
 				}
 			
 				$query = $wpdb->prepare("SELECT id FROM " . $wpdb->prefix . "formmaker_submits where element_label=%s AND form_id = %d AND group_id=%d",'item_total', $form_id, $i);	
