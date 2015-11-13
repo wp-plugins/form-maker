@@ -2202,7 +2202,7 @@ class FMModelForm_maker {
 						$headers .= "Bcc: <" . $bcc . ">\r\n";          
 					}
 
-					$custom_fields_value = array( $ip, $useremail, $username, $subid, $list );	
+					$custom_fields_value = array( $ip, $useremail, $username, $subid, $list_user );	
 					foreach($custom_fields as $key=>$custom_field)
 					{
 						if(strpos($new_script, "%".$custom_field."%")>-1)
@@ -2281,8 +2281,7 @@ class FMModelForm_maker {
 					else {
 						$content_type = "text/plain";
 						$mode = 0; 
-						$list = $list_text_mode;
-						$list = wordwrap($list, 1000, "\n", true);
+						$list = wordwrap($list_text_mode, 1000, "\n", true);
 						$new_script = str_replace(array('<p>','</p>'),'',$row->script_mail);
 					}
 					

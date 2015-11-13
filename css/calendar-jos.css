@@ -6,9 +6,9 @@
 }
 
 div.calendar {
-  position: relative;
-  z-index: 100;
-  width: 226px;
+ position: relative;
+ z-index: 100;
+ width: 326px;
 }
 
 .calendar,
