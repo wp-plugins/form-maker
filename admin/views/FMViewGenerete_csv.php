@@ -46,6 +46,8 @@ class FMViewGenerete_csv {
 		}
 
 		$tempfile = WD_FM_DIR . '/export'.$form_id.'.txt';
+		if($limitstart == 0 && file_exists ($tempfile))
+			unlink($tempfile);
 		$output = fopen($tempfile, "a");
 		if($limitstart == 0) {
 			fputcsv($output, str_replace('PAYPAL_', '', $keys_array));
@@ -73,12 +75,6 @@ class FMViewGenerete_csv {
 
 	}
 
-	public function cleanData(&$str) {
-		$str = preg_replace("/\t/", "\\t", $str);
-		$str = preg_replace("/\r?\n/", "\\n", $str);
-		if (strstr($str, '"'))
-			$str = '"' . str_replace('"', '""', $str) . '"';
-	}
   ////////////////////////////////////////////////////////////////////////////////////////
   // Getters & Setters                                                                  //
   ////////////////////////////////////////////////////////////////////////////////////////

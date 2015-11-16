@@ -72,11 +72,11 @@ class FMModelGenerete_xml {
 
 		$m = count($sorted_labels);
 		
-		$query = $wpdb->prepare("SELECT group_id, ip, date, user_id_wd, GROUP_CONCAT( element_label SEPARATOR ',') as element_label, GROUP_CONCAT( element_value SEPARATOR '*:*el_value*:*') as element_value FROM " . $wpdb->prefix . "formmaker_submits where form_id= %d GROUP BY group_id ORDER BY date ASC limit %d, %d", $form_id, $limitstart, 3000);
+		$query = $wpdb->prepare("SELECT group_id, ip, date, user_id_wd, GROUP_CONCAT( element_label SEPARATOR ',') as element_label, GROUP_CONCAT( element_value SEPARATOR '*:*el_value*:*') as element_value FROM " . $wpdb->prefix . "formmaker_submits where form_id= %d GROUP BY group_id ORDER BY date ASC limit %d, %d", $form_id, $limitstart, 1000);
 		$rows = $wpdb->get_results($query, OBJECT_K);
 
 		$data = array();
-		$group_id_s_count = $limitstart + 3000 < count($group_id_s) ? $limitstart + 3000 : count($group_id_s);
+		$group_id_s_count = $limitstart + 1000 < count($group_id_s) ? $limitstart + 1000 : count($group_id_s);
 
 		for ($www = $limitstart; $www < $group_id_s_count; $www++) {
 			$i = $group_id_s[$www];

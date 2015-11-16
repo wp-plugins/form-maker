@@ -384,16 +384,34 @@ display:inline-block
 	left:       0;
 	height:     100%;
 	width:      100%;
-	background: rgba( 255, 255, 255, .8 ) 
-				url('http://i.stack.imgur.com/FhHRx.gif') 
-				50% 50% 
-				no-repeat;
+	background: rgba( 255, 255, 255, .8 );
 }
 
-.fm_loading {
-	overflow: hidden;   
+
+.ui-progressbar {
+	position: relative;
 }
 
-.fm_loading .fm_modal {
-	display: block;
+#fm-progressbar {
+	position: fixed;
+	z-index: 1003;
+	width: 35%;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	margin: auto;
+	font-size: 14px;
+	color: #444;
+}
+
+#fm-progressbar .ui-progressbar-value {
+	background: #3CB9F5;
+	border-right: #3CB9F5;
+}
+
+.fm-progress-label {
+	position: absolute;
+	left: 46%;
+	top: 4px;
 }

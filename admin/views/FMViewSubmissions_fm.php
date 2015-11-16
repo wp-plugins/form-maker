@@ -59,20 +59,46 @@ class  FMViewSubmissions_fm {
     ?>
     <script type="text/javascript">
 		function export_submissions(type, limit) {
-			body = jQuery('body');
+			var progressbar = jQuery( "#fm-progressbar" );
+			var progressLabel = jQuery( ".fm-progress-label" );
+		 
+			progressbar.progressbar({
+				max: <?php echo $subs_count; ?>
+			});
+			
 			jQuery.ajax({
 			    type: "POST",  
 				url:"<?php echo add_query_arg(array('form_id' => $form_id, 'send_header' => 0), admin_url('admin-ajax.php')); ?>&action=generete_"+type+"&limitstart="+limit,
 				beforeSend: function() {
-					body.addClass("fm_loading"); 
+					if(<?php echo $subs_count; ?> >= 1000 )
+						jQuery('.fm_modal').show();
 			    },
 			    success: function(data) {
 					if(limit < <?php echo $subs_count; ?>) {
-						limit += 3000;
+						limit += 1000;
 						export_submissions(type, limit);
+						progressbar.progressbar( "value",  limit);
+						loaded_percent = Math.round((progressbar.progressbar( "value" ) * 100)/ parseInt(<?php echo $subs_count; ?>));
+						progressLabel.text( loaded_percent + ' %');
+						progressbarValue = progressbar.find( ".fm-progress-label" );
+						if( loaded_percent >= 46 ) {
+							progressbarValue.css({
+								"color": '#fff',
+							});
+						}
+						else {
+							progressbarValue.css({
+								"color": '#444',
+							});
+						}
 					}
 					else{
-						body.removeClass("fm_loading");
+						jQuery('.fm_modal').hide();
+						progressbar.progressbar( "value",  0);
+						progressLabel.text( 'Loading ...' );
+						progressbarValue.css({
+							"color": '#444',
+						});
 						window.location = "<?php echo add_query_arg(array('form_id' => $form_id, 'send_header' => 1), admin_url('admin-ajax.php')); ?>&action=generete_"+type+"&limitstart="+limit;
 					}
 			    }
@@ -176,7 +202,10 @@ class  FMViewSubmissions_fm {
         });
       });
     </script>
-	<div class="fm_modal"></div>
+	<div class="fm_modal">
+	<div id="fm-progressbar" ><div class="fm-progress-label">Loading...</div></div>
+	</div>
+	<div class="export_progress" style="position: fixed; z-index: 1003; height: 100%;width: 100%;top: 56%; left: 45%; font-size:15px; color:#000; display:none;"><span class="exp_count"><?php echo $subs_count; ?></span> left from <?php echo $subs_count; ?></div>
     <div id="sbox-overlay" onclick="toggleChBDiv(false)"
        style="z-index: 65555; position: fixed; top: 0px; left: 0px; visibility: visible; zoom: 1; background-color: #000000; opacity: 0.7; filter: alpha(opacity=70); display: none;">
     </div>

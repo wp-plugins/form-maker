@@ -32,6 +32,8 @@ class FMViewGenerete_xml {
 	define('PHP_TAB', "\t");
 	
 	$tempfile = WD_FM_DIR . '/export'.$form_id.'.txt';
+	if($limitstart == 0 && file_exists ($tempfile))
+		unlink($tempfile);
 	$output = fopen($tempfile, "a");
 	if($limitstart == 0) {
 		fwrite($output, '<?xml version="1.0" encoding="utf-8" ?>'.PHP_EOL);
