@@ -767,7 +767,7 @@ function add_condition_fields(num, ids1, labels1, types1, params1) {
 	types = types1.split("@@**@@");
 	params = params1.split("@@**@@");
 	
-	for(i=100; i>=0; i--) {
+	for(i=500; i>=0; i--) {
 		if(document.getElementById('condition_div'+num+'_'+i))
 			break;
 	}
@@ -976,7 +976,7 @@ function add_condition_fields(num, ids1, labels1, types1, params1) {
 }
 
 function add_condition(ids1, labels1, types1, params1, all_ids, all_labels) {
-	for(i=100; i>=0; i--) {
+	for(i=500; i>=0; i--) {
 		if(document.getElementById('condition'+i))
 			break;
 	}

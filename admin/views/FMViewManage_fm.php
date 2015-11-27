@@ -449,6 +449,9 @@ class FMViewManage_fm {
 		}
 }
 		 ?>
+		 <a href="<?php echo add_query_arg(array('action' => 'FormMakerPreview', 'form_id' => $row->id, 'test_theme' => $row->theme, 'width' => '1000', 'height' => '500', 'TB_iframe' => '1'), admin_url('admin-ajax.php')); ?>" class="button-primary thickbox thickbox-preview" id="preview_form" title="Form Preview" onclick="return false;">
+                Preview
+              </a>
         <input class="button-primary" type="submit" onclick="if (fm_check_required('title', 'Form title') || !submitbutton()) {return false;}; fm_set_input_value('task', 'form_options');" value="Form Options"/>
         <input class="button-primary" type="submit" onclick="if (fm_check_required('title', 'Form title') || !submitbutton()) {return false;}; fm_set_input_value('task', 'form_layout');" value="Form Layout"/>
         <?php
@@ -2673,13 +2676,13 @@ class FMViewManage_fm {
       }
 		function set_condition() {
 			field_condition = '';
-			for(i=0;i<100;i++) {
+			for(i=0;i<500;i++) {
 				conditions = '';
 				if(document.getElementById("condition"+i)) {
 					field_condition+=document.getElementById("show_hide"+i).value+"*:*show_hide*:*";
 					field_condition+=document.getElementById("fields"+i).value+"*:*field_label*:*";
 					field_condition+=document.getElementById("all_any"+i).value+"*:*all_any*:*";
-					for(k=0;k<100;k++) {
+					for(k=0;k<500;k++) {
 						if(document.getElementById("condition_div"+i+"_"+k)) {
 							conditions+=document.getElementById("field_labels"+i+"_"+k).value+"***";
 							conditions+=document.getElementById("is_select"+i+"_"+k).value+"***";
@@ -2823,9 +2826,7 @@ class FMViewManage_fm {
                 }
                 ?>
               </select>
-              <a href="<?php echo add_query_arg(array('action' => 'FormMakerPreview', 'form_id' => $row->id, 'test_theme' => $row->theme, 'width' => '1000', 'height' => '500', 'TB_iframe' => '1'), admin_url('admin-ajax.php')); ?>" class="button-primary thickbox thickbox-preview" id="preview_form" title="Form Preview" onclick="return false;">
-                Preview
-              </a>
+              
               <a href="<?php echo add_query_arg(array('action' => 'FormMakerEditCSS', 'id' => $row->theme, 'form_id' => $row->id, 'width' => '1000', 'height' => '500', 'TB_iframe' => '1'), admin_url('admin-ajax.php')); ?>" class="button-secondary thickbox thickbox-preview" id="edit_css" title="Edit CSS" onclick="return false;">
                 Edit CSS
               </a>

@@ -4,7 +4,7 @@ Donate link: https://web-dorado.com/products/wordpress-form.html
 Tags:  form, forms, form builder, form maker, form manager, form plugin, form with recaptcha,  forms plugin, multiple forms, paypal form, survey form, feedback form, feedback forms, contact form,contact form plugin, contact form builder, form creator, email form, secure form, web form, form to email, contact forms, custom forms, form widget, captcha form, wordpress contact form ,recaptcha contact form, form creation, contact form with auto reply, widget contact form, builder, feedback, contacts form plugin , custom contact form, contact us form,  formular, formulario, admin, captcha, contact, database, email, javascript, jquery, page, plugin, survey, widget, custom form, forms creator, input, validation, send copy, form with captcha , pdf
 Requires at least: 3.4
 Tested up to: 4.3
-Stable tag: 1.7.94
+Stable tag: 1.7.97
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,7 +65,8 @@ Survey tools are also very convenient for adding rating systems for the posts, e
 
 
 
-###IMPORTANT: If you think you found a bug in Form Maker or have any problem/question concerning the plugin, please check out [Support Forum](https://web-dorado.com/forum/26-form-maker.html) in our website. If you do not find a solution here, do not hesitate to contact us at [info@web-dorado.com](mailto:info@web-dorado.com).
+###IMPORTANT:    
+If you think you found a bug in Form Maker or have any problem/question concerning the plugin, please check out [Support Forum](https://web-dorado.com/forum/26-form-maker.html) in our website. If you do not find a solution here, do not hesitate to [click here to contact us](https://web-dorado.com/support/contact-us.html).
 
 
 
@@ -225,7 +226,7 @@ After downloading the ZIP file,
 *Go to your Downloads folder and locate the folder with the plugin. Right-click on the folder and select Compress. Now you have a newly created .zip file which can be installed as described here.*  
 4. Click “Install Now” button.  
 5. Click “Activate Plugin” button for activating the plugin.  
-6.If the installation does not succeed, please contact us at info@web-dorado.com.
+6.If the installation does not succeed, please [click here to contact us](https://web-dorado.com/support/contact-us.html).
 
 ### Updating Form Maker.  
 
@@ -298,6 +299,16 @@ The Form Maker (Pro version) has simple PayPal integration. This allows the user
 
 
 == Changelog ==
+
+= 1.7.97 =
+Fixed: Bug in CSV/XML export     
+
+= 1.7.96 =
+Added: Preview button      
+Changed: Conditional fields limitation     
+
+= 1.7.95 =
+Changed: csv/xml export file directory
 
 = 1.7.94 =
 Add: Progress bar for csv/xml export 
@@ -648,7 +659,7 @@ Click “Choose file” (“Browse”) and select the Form Maker zip file.
 Click “Install Now” button.  
 If the installation succeeded you will see the message in the picture.   
 Click “Activate Plugin” button for activating the plugin.  
-If any problem occurs, please contact us at info@web-dorado.com.
+If any problem occurs, please [click here to contact us](https://web-dorado.com/support/contact-us.html).
  
 
 1.3 Updating the form.  

@@ -45,7 +45,12 @@ class FMViewGenerete_csv {
 			$data[$key] = $row;
 		}
 
-		$tempfile = WD_FM_DIR . '/export'.$form_id.'.txt';
+		$upload_dir = wp_upload_dir();
+		$file_path = $upload_dir['basedir'] . '/form-maker'; 
+		if (!is_dir($file_path)) { 
+			mkdir($file_path, 0777); 
+		} 
+		$tempfile = $file_path.'/export'.$form_id.'.txt';
 		if($limitstart == 0 && file_exists ($tempfile))
 			unlink($tempfile);
 		$output = fopen($tempfile, "a");

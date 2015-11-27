@@ -96,6 +96,7 @@ class  FMViewSubmissions_fm {
 						jQuery('.fm_modal').hide();
 						progressbar.progressbar( "value",  0);
 						progressLabel.text( 'Loading ...' );
+						progressbarValue = progressbar.find( ".fm-progress-label" );
 						progressbarValue.css({
 							"color": '#444',
 						});
